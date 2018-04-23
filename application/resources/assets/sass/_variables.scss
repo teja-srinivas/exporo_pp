@@ -3,8 +3,9 @@ $enable-shadows: true;
 $enable-rounded: false;
 
 // Brand
-$primary: #5774bb;
-$primary-dark: #1e73be;
+$primary: #1e73be;
+$primary-dark: #274a7f;
+$primary-lighter: #5774bb;
 $primary-light: #d2e6f9;
 $black: #000;
 
@@ -16,7 +17,11 @@ $warning: #e3b526;
 
 // Body
 $body-bg: $light;
+$body-color: $secondary;
 
 // Typography
+$font-family-sans-serif: 'Open Sans', sans-serif;
+$headings-font-family: 'Oswald', sans-serif;
+$headings-color: $primary-dark;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
