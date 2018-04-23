@@ -22,11 +22,22 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="d-flex flex-column wrapper">
+        <div class="p-2 bg-white border-bottom">
+            <div class="container px-0 px-md-4 text-right small">
+                <img class="mr-3 hidden-xs" src="{{ asset('images/MAM-Partner-logo.svg') }}" height="20">
+                <span class="d-none d-sm-inline">Unsere</span>
+                Service-Hotline:&nbsp;&nbsp;
+                <strong>
+                    <a class="bold text-dark" href="tel:040210917300">040 / 210 91 73 - 00</a>&nbsp;&nbsp;
+                </strong>
+                Mo - Fr, 9 bis 20 Uhr
+            </div>
+        </div>
         <nav class="navbar navbar-expand-md navbar-light navbar-exporo">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    <img src="{{ asset('images/logo_exporo_blue.svg') }}" alt="{{ config('app.name', 'Laravel') }}">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -68,9 +79,19 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="flex-fill">
             @yield('content')
         </main>
+
+        <footer class="py-5">
+            <div class="container text-center text-white">
+                <h5 class="text-uppercase text-white">Copyright &copy; Exporo AG {{ now()->format('Y') }}</h5>
+                <ul class="list-inline mb-0 small">
+                    <li class="list-inline-item"><a href="#" class="text-white">Impressum</a></li>
+                    <li class="list-inline-item"><a href="#" class="text-white">Datenschutz</a></li>
+                </ul>
+            </div>
+        </footer>
     </div>
 </body>
 </html>

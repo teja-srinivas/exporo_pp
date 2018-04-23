@@ -1,0 +1,20 @@
+//
+// The classes in this file are NOT being used
+// and will be stripped out in the build process.
+//
+// They are just used to compile and optimize the image assets
+// Whenever an image has been added, remember to run 'yarn dev'.
+//
+
+@each $name, $url in (
+  exporo-logo-blue: 'logo_exporo_blue.svg',
+  miles-and-more: 'MAM-Partner-logo.svg',
+  user-engagement: 'user_engagement.png',
+  werbemittel-einbinden: 'werbemittel_einbinden.png',
+  registrierung: 'registrierung.png',
+  provision: 'provision.png',
+) {
+  .image-#{$name} {
+    background-image: url('../../images/#{$url}');
+  }
+}

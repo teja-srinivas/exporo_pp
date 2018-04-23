@@ -1,0 +1,12 @@
+body, .wrapper {
+  min-height: 100vh;
+}
+
+footer {
+  background-color: $primary-dark;
+
+}
+
+.bg-white footer:before {
+  border-top-color: $white;
+}

@@ -1,0 +1,33 @@
+$arrow-size: 20px;
+
+%base-arrow {
+  content: '';
+  position: absolute;
+  left: 50%;
+  margin-left: -$arrow-size;
+  border: $arrow-size solid transparent;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.has-arrow {
+  &-down {
+    position: relative;
+
+    &:after {
+      @extend %base-arrow;
+      bottom: -$arrow-size * 2;
+      border-top-color: $white;
+    }
+  }
+}
+
+@each $type, $color in (
+  light: $light,
+  dark: $dark,
+  primary: $primary
+) {
+  .bg-#{$type}.has-arrow-down:after {
+    border-top-color: $color;
+  }
+}

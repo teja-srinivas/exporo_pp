@@ -1,0 +1,23 @@
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2,
+.h1, .h2 {
+  text-transform: uppercase;
+
+  &:after {
+    border-bottom: 1px solid $primary;
+    content: '';
+    width: 65px;
+    display: block;
+    margin: 15px auto;
+  }
+}
+
+.btn {
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  text-transform: uppercase;
+}
