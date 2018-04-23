@@ -1,8 +1,22 @@
+// Configuration
+$enable-shadows: true;
+$enable-rounded: false;
+
+// Brand
+$primary: #5774bb;
+$primary-dark: #1e73be;
+$primary-light: #d2e6f9;
+$black: #000;
+
+$secondary: #565656;
+$light: #f4f3f7;
+
+$success: #82bc24;
+$warning: #e3b526;
 
 // Body
-$body-bg: #f5f8fa;
+$body-bg: $light;
 
 // Typography
-$font-family-sans-serif: "Raleway", sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
