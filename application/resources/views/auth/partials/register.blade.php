@@ -95,22 +95,22 @@
                 <label for="birth_day" class="col-sm-4 col-form-label font-weight-bold">{{ __('Birthday') }}*</label>
 
                 <div class="col-sm-8">
-                    <div class="input-group">
-                        <select class="custom-select" id="birthDay" name="birth_day"
+                    <div>
+                        <select class="custom-select w-auto" id="birthDay" name="birth_day"
                                 value="{{ old('birth_day') }}" required>
                             <option selected disabled hidden>{{ __('Day') }}</option>
                             @foreach(range(1, 31) as $day)
                                 <option value="{{ $day }}">{{ $day }}.</option>
                             @endforeach
                         </select>
-                        <select class="custom-select ml-1" id="birthMonth" name="birth_month"
+                        <select class="custom-select w-auto ml-1" id="birthMonth" name="birth_month"
                                 value="{{ old('birth_month') }}" required style="flex-basis: 33%">
                             <option selected disabled hidden>{{ __('Month') }}</option>
                             @foreach(range(1, 12) as $month)
                                 <option value="{{ $month }}">{{ \Date::now()->setDate(2018, $month, 1)->format('F') }}</option>
                             @endforeach
                         </select>
-                        <select class="custom-select ml-1" id="birthYear" name="birth_year"
+                        <select class="custom-select w-auto ml-1" id="birthYear" name="birth_year"
                                 value="{{ old('birth_year') }}" required>
                             <option selected disabled hidden>{{ __('Year') }}</option>
                             @foreach(range(now()->year - 17, now()->year - 120) as $year)
