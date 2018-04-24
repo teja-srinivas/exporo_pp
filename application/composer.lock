@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9416b4647430c5fef6cb943ad52af949",
+    "content-hash": "c67ebe4210500f11349f36329702457e",
     "packages": [
         {
             "name": "caouecs/laravel-lang",
@@ -47,6 +47,49 @@
                 "lpm"
             ],
             "time": "2018-03-29T11:49:02+00:00"
+        },
+        {
+            "name": "dannyvankooten/laravel-vat",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dannyvankooten/laravel-vat.git",
+                "reference": "07c84854b69c3fbcc097cc79ac5c9accc9150dfe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dannyvankooten/laravel-vat/zipball/07c84854b69c3fbcc097cc79ac5c9accc9150dfe",
+                "reference": "07c84854b69c3fbcc097cc79ac5c9accc9150dfe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DvK\\Laravel\\Vat\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Danny van Kooten",
+                    "email": "hi@dvk.co"
+                }
+            ],
+            "description": "VAT library for Laravel",
+            "keywords": [
+                "laravel",
+                "vat"
+            ],
+            "time": "2017-01-26T09:02:48+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -4170,7 +4213,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "dannyvankooten/laravel-vat": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
