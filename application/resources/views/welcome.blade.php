@@ -150,6 +150,14 @@
                     </p>
                 </div>
             </div>
+
+            @guest
+                <div class="card mt-4">
+                    <div class="card-body">
+                        @include('auth.partials.register')
+                    </div>
+                </div>
+            @endguest
         </div>
     </div>
 @endsection
