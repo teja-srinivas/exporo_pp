@@ -138,17 +138,17 @@
             </div>
 
             <div class="form-group row">
-                <label for="address_street" class="col-sm-4 col-form-label font-weight-bold">{{ __('Address') }}*</label>
+                <label for="address_street" class="col-sm-4 col-form-label">{{ __('Address') }}</label>
 
                 <div class="col-sm-8">
                     <div class="row">
                         <div class="col-8">
                             <input id="address_street" type="text" class="form-control{{ $errors->has('address_street') ? ' is-invalid' : '' }}" name="address_street"
-                                   value="{{ old('address_street') }}" placeholder="Musterstraße" required>
+                                   value="{{ old('address_street') }}" placeholder="Musterstraße">
                         </div>
                         <div class="col-4">
                             <input id="address_number" type="text" class="form-control{{ $errors->has('address_number') ? ' is-invalid' : '' }}" name="address_number"
-                                   value="{{ old('address_number') }}" placeholder="1" required>
+                                   value="{{ old('address_number') }}" placeholder="1">
                         </div>
                     </div>
 
@@ -166,11 +166,11 @@
             </div>
 
             <div class="form-group row">
-                <label for="address_addition" class="col-sm-4 col-form-label font-weight-bold">{{ __('Address Addition') }}*</label>
+                <label for="address_addition" class="col-sm-4 col-form-label">{{ __('Address Addition') }}</label>
 
                 <div class="col-sm-8">
                     <input id="address_addition" type="text" class="form-control{{ $errors->has('address_addition') ? ' is-invalid' : '' }}" name="address_addition"
-                           value="{{ old('address_addition') }}" placeholder="Haus 1 (optional)" required>
+                           value="{{ old('address_addition') }}" placeholder="Haus 1 (optional)">
 
                     @if ($errors->has('address_addition'))
                         <span class="invalid-feedback">
