@@ -12,6 +12,14 @@ require('laravel-mix-purgecss');
  |
  */
 
+mix.webpackConfig({
+    resolve: {
+        alias: {
+            jquery$: 'jquery/dist/jquery.slim.js',
+        },
+    },
+});
+
 mix.js('resources/assets/js/app.js', 'public/js')
 mix.sass('resources/assets/sass/app.scss', 'public/css')
 mix.purgeCss();
