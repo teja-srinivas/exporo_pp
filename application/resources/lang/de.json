@@ -20,5 +20,11 @@
   "Tax Office": "Finanzamt",
   "Password": "Passwort",
   "Confirm Password": "Passwort bestätigen",
-  "Register": "Registrieren"
+  "Login": "Anmelden",
+  "Logout": "Abmelden",
+  "Register": "Registrieren",
+  "Remember Me": "Eingeloggt bleiben",
+  "Forgot Your Password?": "Passwort vergessen?",
+  "Reset Password": "Passwort zurücksetzen",
+  "Send Password Reset Link": "Zurücksetzen-Link zusenden"
 }
