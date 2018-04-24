@@ -146,7 +146,7 @@
                 <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
                     <h2>Zum Exporo Partnerprogramm</h2>
                     <p class="lead">
-                        Werde jetzt Partner beim Exporo Partnerprogramm und sichere Dir eine attraktive Provisionen!
+                        Werde jetzt Partner beim Exporo Partnerprogramm und sichere Dir attraktive Provisionen!
                     </p>
                 </div>
             </div>
