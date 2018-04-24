@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,6 +10,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+
+    /**
+     * Possible user titles
+     */
+    const TITLES = [
+        'Dr.',
+        'Dr. med.',
+        'Prof. Dr.',
+        'Prof.',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -35,5 +46,13 @@ class User extends Authenticatable
     public function details(): HasOne
     {
         return $this->hasOne(UserDetails::class)->withDefault();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function agbs(): HasMany
+    {
+        return $this->hasMany(AGB::class);
     }
 }

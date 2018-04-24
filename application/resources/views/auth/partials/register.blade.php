@@ -8,7 +8,7 @@
 
                 <div class="col-sm-8">
                     <input id="company" type="text" class="form-control{{ $errors->has('company') ? ' is-invalid' : '' }}" name="company"
-                           value="{{ old('company') }}" autofocus>
+                           value="{{ old('company') }}">
 
                     @if ($errors->has('company'))
                         <span class="invalid-feedback">
@@ -22,12 +22,12 @@
                 <label for="title" class="col-sm-4 col-form-label">{{ __('Title') }}</label>
 
                 <div class="col-sm-8">
-                    <select class="custom-select{{ $errors->has('title') ? ' is-invalid' : '' }} w-auto" id="title" name="title" >
-                        <option selected>--</option>
-                        <option>Dr.</option>
-                        <option>Dr. med.</option>
-                        <option>Prof. Dr.</option>
-                        <option>Prof.</option>
+                    <select class="custom-select{{ $errors->has('title') ? ' is-invalid' : '' }} w-auto"
+                            id="title" name="title" value="{{ old('title') }}">
+                        <option value="" selected>--</option>
+                        @foreach(\App\User::TITLES as $title)
+                            <option>{{ $title }}</option>
+                        @endforeach
                     </select>
 
                     @if ($errors->has('title'))
@@ -43,12 +43,14 @@
 
                 <div class="col-sm-8 pt-1">
                     <div class="custom-control custom-control-inline custom-radio{{ $errors->has('salutation') ? ' is-invalid' : '' }}">
-                        <input type="radio" id="salutation2" name="saluation" class="custom-control-input">
-                        <label class="custom-control-label" for="salutation2">Frau</label>
+                        <input type="radio" id="salutation1" name="salutation" value="female" class="custom-control-input"
+                               {{ old('salutation') === 'female' ? 'checked' : '' }}>
+                        <label class="custom-control-label" for="salutation1">Frau</label>
                     </div>
                     <div class="custom-control custom-control-inline custom-radio{{ $errors->has('salutation') ? ' is-invalid' : '' }}">
-                        <input type="radio" id="salutation1" name="saluation" class="custom-control-input">
-                        <label class="custom-control-label" for="salutation1">Herr</label>
+                        <input type="radio" id="salutation2" name="salutation" value="male" class="custom-control-input"
+                               {{ old('salutation') === 'male' ? 'checked' : '' }}>
+                        <label class="custom-control-label" for="salutation2">Herr</label>
                     </div>
 
                     @if ($errors->has('salutation'))
@@ -94,29 +96,32 @@
 
                 <div class="col-sm-8">
                     <div class="input-group">
-                        <select class="custom-select" id="birthDay" required>
+                        <select class="custom-select" id="birthDay" name="birth_day"
+                                value="{{ old('birth_day') }}" required>
                             <option selected disabled hidden>{{ __('Day') }}</option>
                             @foreach(range(1, 31) as $day)
                                 <option value="{{ $day }}">{{ $day }}.</option>
                             @endforeach
                         </select>
-                        <select class="custom-select ml-1" id="birthMonth" required style="flex-basis: 33%">
+                        <select class="custom-select ml-1" id="birthMonth" name="birth_month"
+                                value="{{ old('birth_month') }}" required style="flex-basis: 33%">
                             <option selected disabled hidden>{{ __('Month') }}</option>
                             @foreach(range(1, 12) as $month)
                                 <option value="{{ $month }}">{{ \Date::now()->setDate(2018, $month, 1)->format('F') }}</option>
                             @endforeach
                         </select>
-                        <select class="custom-select ml-1" id="birthYear" required>
+                        <select class="custom-select ml-1" id="birthYear" name="birth_year"
+                                value="{{ old('birth_year') }}" required>
                             <option selected disabled hidden>{{ __('Year') }}</option>
-                            @foreach(range(now()->year, now()->year - 120) as $year)
+                            @foreach(range(now()->year - 17, now()->year - 120) as $year)
                                 <option value="{{ $year }}">{{ $year }}</option>
                             @endforeach
                         </select>
                     </div>
 
-                    @if ($errors->has('birth_day'))
+                    @if ($errors->has('birth_date'))
                         <span class="invalid-feedback">
-                            <strong>{{ $errors->first('birth_day') }}</strong>
+                            <strong>{{ $errors->first('birth_date') }}</strong>
                         </span>
                     @endif
                 </div>
@@ -319,28 +324,49 @@
                 <p>Sie erklären sich mit den</p>
 
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="legal_exporo_ag" required>
+                    <input type="checkbox" class="custom-control-input" id="legal_exporo_ag" name="legal_exporo_ag"
+                           {{ old('legal_exporo_ag') !== null ? 'checked' : '' }} required>
                     <label class="custom-control-label" for="legal_exporo_ag">
                         AGB & Datenschutzerklärung der Exporo AG
                     </label>
                 </div>
 
+                @if ($errors->has('legal_exporo_ag'))
+                    <span class="invalid-feedback">
+                        <strong>{{ $errors->first('llegal_exporo_ag') }}</strong>
+                    </span>
+                @endif
+
                 <div class="custom-control custom-checkbox mt-2">
-                    <input type="checkbox" class="custom-control-input" id="legal_exporo_gmbh" required>
+                    <input type="checkbox" class="custom-control-input" id="legal_exporo_gmbh" name="legal_exporo_gmbh"
+                           {{ old('legal_exporo_gmbh') !== null ? 'checked' : '' }} required>
                     <label class="custom-control-label" for="legal_exporo_gmbh">
                         den AGB & Datenschutzerklärung der Exporo Investment GmbH
                         sowie den Bestimmungen zu Cookies & Internet-Werbung einverstanden.
                     </label>
                 </div>
 
+                @if ($errors->has('legal_exporo_gmbh'))
+                    <span class="invalid-feedback">
+                        <strong>{{ $errors->first('laslegal_exporo_gmbh') }}</strong>
+                    </span>
+                @endif
+
                 <div class="custom-control custom-checkbox mt-4">
-                    <input type="checkbox" class="custom-control-input" id="legal_transfer" required>
+                    <input type="checkbox" class="custom-control-input" id="legal_transfer" name="legal_transfer"
+                           {{ old('legal_transfer') !== null ? 'checked' : '' }} required>
                     <label class="custom-control-label" for="legal_transfer">
                         Sie sind bin mit der Weitergabe Ihrer personenbezogenen Daten von der
                         Exporo Investment GmbH an die Exporo AG zum Zwecke der Verwaltung Ihrer
                         personenbezogenen Daten und der Abrechnung Ihrer Vergütung einverstanden.
                     </label>
                 </div>
+
+                @if ($errors->has('legal_transfer'))
+                    <span class="invalid-feedback">
+                        <strong>{{ $errors->first('legal_transfer') }}</strong>
+                    </span>
+                @endif
             </div>
 
             <div class="form-group row">

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Rules\VatId;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -48,10 +50,30 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $data['birth_date'] = $this->makeBirthDate($data);
+
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'company' => 'nullable|string|max:100',
+            'title' => ['nullable', Rule::in(User::TITLES)],
+            'salutation' => 'required|in:male,female',
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'birth_date' => 'required|date|before_or_equal:' . now()->subYears(18), // needs to be an adult
+            'birth_place' => 'required|string|max:100',
+            'address_street' => 'nullable|string|max:100',
+            'address_number' => 'nullable|string|max:20',
+            'address_addition' => 'nullable|string|max:100',
+            'address_zipcode' => 'nullable|string|max:20',
+            'address_city' => 'nullable|string|max:100',
             'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|string|max:100',
+            'website' => 'nullable|string|max:100',
+            'vat_id' => ['nullable', 'string', new VatId()],
+            'tax_office' => 'nullable|string|max:100',
             'password' => 'required|string|min:6|confirmed',
+            'legal_exporo_ag' => 'accepted',
+            'legal_exporo_gmbh' => 'accepted',
+            'legal_transfer' => 'accepted',
         ]);
     }
 
@@ -63,10 +85,44 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $user = User::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $user->details()->make([
+            'company' => $data['company'],
+            'title' => $data['title'],
+            'salutation' => $data['salutation'],
+            'birth_date' => $this->makeBirthDate($data),
+            'birth_place' => $data['birth_place'],
+            'address_street' => $data['address_street'],
+            'address_number' => $data['address_number'],
+            'address_addition' => $data['address_addition'],
+            'address_zipcode' => $data['address_zipcode'],
+            'address_city' => $data['address_city'],
+            'phone' => $data['phone'],
+            'website' => $data['website'],
+            'vat_id' => $data['vat_id'],
+            'tax_office' => $data['tax_office'],
+        ]);
+
+        return $user;
+    }
+
+    /**
+     * @param array $data
+     * @return string
+     */
+    protected function makeBirthDate(array $data): string
+    {
+        return sprintf(
+            '%s.%s.%s',
+            $data['birth_day'] ?? '',
+            $data['birth_month'] ?? '',
+            $data['birth_year'] ?? ''
+        );
     }
 }
