@@ -12,9 +12,12 @@
                     mit Beträgen ab 500€ an interessanten Immobilienprojekten beteilligen und
                     von einer attraktiven Verzinsung mit kurzer Laufzeit profitieren.
                 </p>
-                <p>
+
+                @guest
                     <a href="#" class="btn btn-lg btn-primary">Jetzt Partner werden</a>
-                </p>
+                @else
+                    <a href="{{ route('home') }}" class="btn btn-lg btn-primary mx-auto">Zum Dashboard</a>
+                @endguest
             </div>
         </div>
     </div>
@@ -145,9 +148,13 @@
             <div class="row text-center">
                 <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
                     <h2>Zum Exporo Partnerprogramm</h2>
-                    <p class="lead">
-                        Werde jetzt Partner beim Exporo Partnerprogramm und sichere Dir attraktive Provisionen!
-                    </p>
+                    @guest
+                        <p class="lead">
+                            Werde jetzt Partner beim Exporo Partnerprogramm und sichere Dir attraktive Provisionen!
+                        </p>
+                    @else
+                        <a href="{{ route('home') }}" class="btn btn-lg btn-primary mx-auto">Zum Dashboard</a>
+                    @endguest
                 </div>
             </div>
 
