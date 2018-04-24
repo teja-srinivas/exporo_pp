@@ -103,7 +103,7 @@
                         <select class="custom-select ml-1" id="birthMonth" required style="flex-basis: 33%">
                             <option selected disabled hidden>{{ __('Month') }}</option>
                             @foreach(range(1, 12) as $month)
-                                <option value="{{ $month }}">{{ now()->setDate(2018, $month, 1)->format('F') }}</option>
+                                <option value="{{ $month }}">{{ \Date::now()->setDate(2018, $month, 1)->format('F') }}</option>
                             @endforeach
                         </select>
                         <select class="custom-select ml-1" id="birthYear" required>
