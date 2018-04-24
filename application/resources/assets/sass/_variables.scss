@@ -1,16 +1,25 @@
 // Configuration
 $enable-shadows: true;
-$enable-rounded: false;
+
+// Radii
+$input-border-radius: 0;
+$input-border-radius-lg: 0;
+$input-border-radius-sm: 0;
+
+$btn-border-radius: 0;
+$btn-border-radius-lg: 0;
+$btn-border-radius-sm: 0;
+
+$card-border-radius: 0;
 
 // Brand
 $primary: #1e73be;
 $primary-dark: #274a7f;
 $primary-lighter: #5774bb;
 $primary-light: #d2e6f9;
-$black: #000;
-
 $secondary: #565656;
 $light: #f4f3f7;
+$black: #000;
 
 $success: #82bc24;
 $warning: #e3b526;
@@ -25,3 +34,19 @@ $headings-font-family: 'Oswald', sans-serif;
 $headings-color: $primary-dark;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
+
+// Cards
+$card-border-width: 2px;
+$card-border-color: rgba(black, 0.075);
+
+// Input
+$custom-select-bg: $primary;
+$custom-select-color: white;
+$custom-select-border-color: $custom-select-bg;
+$custom-select-indicator-color: $custom-select-color;
+
+$input-padding-y: 0.25rem;
+$input-padding-x: 0.5rem;
+$input-height-inner: 2rem;
+$custom-select-line-height: 1.4;
+$custom-select-padding-y: 0.25rem;

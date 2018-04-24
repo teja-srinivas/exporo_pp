@@ -4,9 +4,12 @@ body, .wrapper {
 
 footer {
   background-color: $primary-dark;
-
 }
 
 .bg-white footer:before {
   border-top-color: $white;
+}
+
+.jumbotron {
+  border-radius: 0;
 }
