@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('content-class', '')
+
 @section('content')
     <div class="jumbotron text-center welcome-bg-unsharp mb-0">
         <div class="container">

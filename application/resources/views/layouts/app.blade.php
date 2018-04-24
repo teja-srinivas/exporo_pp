@@ -79,7 +79,7 @@
             </div>
         </nav>
 
-        <main class="flex-fill">
+        <main class="flex-fill @yield('content-class', 'py-4')">
             @yield('content')
         </main>
 
