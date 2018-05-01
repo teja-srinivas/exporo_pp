@@ -105,5 +105,8 @@
             </div>
         </footer>
     </div>
+
+    <!-- Transition flickering fix (https://github.com/twbs/bootstrap/issues/22014) -->
+    <script>var __flickerFix = true;</script>
 </body>
 </html>
