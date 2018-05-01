@@ -12,6 +12,7 @@
 */
 
 Route::view('/', 'welcome');
+Route::resource('users', 'UserController');
 
 Auth::routes();
 

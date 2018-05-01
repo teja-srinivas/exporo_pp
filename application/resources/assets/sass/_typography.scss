@@ -3,11 +3,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2,
-.h1, .h2 {
+h1, h2, .h1 {
   text-transform: uppercase;
 
-  &:after {
+  &::after {
     border-bottom: 1px solid $primary;
     content: '';
     width: 65px;
@@ -20,6 +19,10 @@ h1, h2,
   font-family: $headings-font-family;
   font-weight: $headings-font-weight;
   text-transform: uppercase;
+}
+
+.tracking-wide {
+  letter-spacing: 0.05rem;
 }
 
 ::selection {

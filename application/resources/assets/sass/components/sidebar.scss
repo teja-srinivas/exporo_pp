@@ -1,0 +1,37 @@
+.sidebar-item {
+  display: block;
+  padding: map_get($spacers, 1) map_get($spacers, 2);
+  margin-top: 3px;
+  color: $text-muted;
+  border-radius: $border-radius-sm;
+
+  &:hover {
+    background-color: rgba($white, 0.75);
+    text-decoration: none;
+  }
+
+  &.active {
+    background-color: $component-active-color;
+    color: $link-hover-color;
+    font-weight: 700;
+  }
+}
+
+.sidebar-header {
+  position: relative;
+
+  > span {
+    background-color: $body-bg;
+    padding-right: map_get($spacers, 3);
+  }
+
+  &::after {
+    content: '';
+    border-bottom: 1px solid $gray-300;
+    position: absolute;
+    top: 0.55rem;
+    right: 0;
+    left: 0;
+    z-index: -1;
+  }
+}
