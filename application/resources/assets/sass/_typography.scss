@@ -21,3 +21,8 @@ h1, h2,
   font-weight: $headings-font-weight;
   text-transform: uppercase;
 }
+
+::selection {
+  background: $primary;
+  color: $white;
+}
