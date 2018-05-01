@@ -32,7 +32,8 @@
         @slot('title', 'Vermitteltes Kapital')
         @slot('subtitle', 'freigegebener Provisionen')
 
-        <!-- TODO -->
-        <div class="p-5" style="height: 420px"></div>
+        <div class="pb-5 d-flex align-items-center justify-content-center" style="height: 420px">
+            <span class="lead text-muted">Es wurden noch keine Provisionen freigegeben/ausgezahlt</span>
+        </div>
     @endcard
 @endsection
