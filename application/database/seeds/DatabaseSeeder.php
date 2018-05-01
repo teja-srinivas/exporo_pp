@@ -12,5 +12,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(RolesAndPermissionsSeeder::class);
+
+        if (app()->isLocal()) {
+            $this->call(DummyDataSeeder::class);
+        }
     }
 }
