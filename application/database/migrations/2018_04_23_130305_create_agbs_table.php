@@ -34,6 +34,8 @@ class CreateAGBsTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+
+            $table->primary(['agb_id', 'user_id']);
         });
     }
 
