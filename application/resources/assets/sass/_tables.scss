@@ -1,0 +1,6 @@
+.table-sticky thead th {
+  position: sticky;
+  top: 66px;
+  box-shadow: 0 2px 1px -1px rgba(black, 0.1);
+  background: $white;
+}

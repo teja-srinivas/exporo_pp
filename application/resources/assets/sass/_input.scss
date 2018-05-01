@@ -3,6 +3,16 @@
   color: $white;
 }
 
+.btn.btn-xs {
+  $btn-padding-x-xs:  .3rem !default;
+  $btn-padding-y-xs:  .25rem !default;
+  $input-btn-line-height-xs: 1.1 !default;
+
+  @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $font-size-sm, $input-btn-line-height-xs, $btn-border-radius-sm);
+
+  vertical-align: top;
+}
+
 .custom-select {
   border-radius: $custom-select-border-radius;
 }

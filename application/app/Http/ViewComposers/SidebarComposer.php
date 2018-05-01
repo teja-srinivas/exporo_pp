@@ -3,66 +3,134 @@
 namespace App\Http\ViewComposers;
 
 use App\Role;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class SidebarComposer
 {
+    /**
+     * @var \App\User|null
+     */
+    private $user;
+
+    /**
+     * @var array|\Illuminate\Http\Request|string
+     */
+    private $request;
+
+
+    public function __construct()
+    {
+        $this->user = auth()->user();
+        $this->request = request();
+    }
+
     public function compose(View $view)
     {
         $view->with('menu', array_merge(
             $this->getInternal(),
-            $this->getUser()
+            $this->getPartner()
         ));
     }
 
-    protected function getUser()
+    protected function getPartner()
     {
-        return auth()->user()->hasRole(Role::PARTNER) ? [
+        if (!$this->user->hasRole(Role::PARTNER)) {
+            return [];
+        }
+
+        return [
             [
                 'title' => 'Meine Provisionen',
                 'help' => '#',
                 'links' => [
-                    'home' => 'Übersicht',
-                    url('#1') => 'Abrechnungen',
-                    url('#2') => 'Provisionen',
+                    [
+                        'title' => 'Übersicht',
+                        'url' => route('home'),
+                        'isActive' => $this->request->routeIs('home'),
+                    ],
+                    [
+                        'title' => 'Abrechnungen',
+                        'url' => '#',
+                    ],
+                    [
+                        'title' => 'Provisionen',
+                        'url' => '#',
+                    ],
                 ],
             ],
             [
                 'title' => 'Meine Kunden',
                 'links' => [
-                    url('#1') => 'Kunden werben',
-                    url('#2') => 'Meine Kunden',
-                    url('#3') => 'Investments',
-                    url('#4') => 'Auszahlungen',
+                    [
+                        'title' => 'Kunden werben',
+                        'url' => '#1'
+                    ],
+                    [
+                        'title' => 'Meine Kunden',
+                        'url' => '#2',
+                    ],
+                    [
+                        'title' => 'Investments',
+                        'url' => '#3',
+                    ],
+                    [
+                        'title' => 'Auszahlungen',
+                        'url' => '#4',
+                    ],
                 ],
             ],
             [
                 'title' => 'Meine Partner',
                 'links' => [
-                    url('#1') => 'Partner werben',
-                    url('#2') => 'Meine Partner',
+                    [
+                        'title' => 'Partner werben',
+                        'url' => '#1',
+                    ],
+                    [
+                        'title' => 'Meine Partner',
+                        'url' => '#2',
+                    ],
                 ],
             ],
             [
                 'title' => 'Werbemittel',
                 'links' => [
-                    url('#1') => 'Banner',
-                    url('#2') => 'Iframes',
-                    url('#3') => 'Mailings',
-                    url('#4') => 'Links',
-                    url('#5') => 'Social Media Content',
+                    [
+                        'title' => 'Banner',
+                        'url' => '#1',
+                    ],
+                    [
+                        'title' => 'Iframes',
+                        'url' => '#2',
+                    ],
+                    [
+                        'title' => 'Mailings',
+                        'url' => '#3',
+                    ],
+                    [
+                        'title' => 'Links',
+                        'url' => '#4',
+                    ],
+                    [
+                        'title' => 'Social Media Content',
+                        'url' => '#5',
+                    ],
                 ],
             ],
-        ] : [];
+        ];
     }
 
     protected function getInternal()
     {
         $links = [];
-        $user = auth()->user();
 
-        if ($user->can('create agbs') || $user->can('edit agbs') || $user->can('delete agbs')) {
-            $links['#agbs'] = 'AGBs';
+        if ($this->userCan('create agbs', 'edit agbs', 'delete agbs')) {
+            $links[] = [
+                'title' => 'AGBs',
+                'url' => route('agbs.index'),
+                'isActive' => $this->request->routeIs('agbs.*'),
+            ];
         }
 
         return empty($links) ? [] : [
@@ -71,5 +139,10 @@ class SidebarComposer
                 'links' => $links,
             ],
         ];
+    }
+
+    protected function userCan(...$permissions)
+    {
+        return Gate::forUser($this->user)->any($permissions);
     }
 }
