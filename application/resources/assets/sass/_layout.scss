@@ -13,3 +13,11 @@ footer {
 .jumbotron {
   border-radius: 0;
 }
+
+@include media-breakpoint-down(sm) {
+  .navbar .dropdown-menu {
+    border-width: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+}
