@@ -8,7 +8,7 @@
 
                 <div class="col-sm-8">
                     <input id="company" type="text" class="form-control{{ $errors->has('company') ? ' is-invalid' : '' }}" name="company"
-                           value="{{ old('company') }}">
+                           value="{{ old('company') }}" autocomplete="organization">
 
                     @if ($errors->has('company'))
                         <span class="invalid-feedback">
@@ -66,7 +66,7 @@
 
                 <div class="col-sm-8">
                     <input id="first_name" type="text" class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}" name="first_name"
-                           value="{{ old('first_name') }}" required>
+                           value="{{ old('first_name') }}" autocomplete="given-name" required>
 
                     @if ($errors->has('first_name'))
                         <span class="invalid-feedback">
@@ -81,7 +81,7 @@
 
                 <div class="col-sm-8">
                     <input id="last_name" type="text" class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}" name="last_name"
-                           value="{{ old('last_name') }}" required>
+                           value="{{ old('last_name') }}" autocomplete="family-name" required>
 
                     @if ($errors->has('last_name'))
                         <span class="invalid-feedback">
@@ -97,21 +97,21 @@
                 <div class="col-sm-8">
                     <div>
                         <select class="custom-select w-auto" id="birthDay" name="birth_day"
-                                value="{{ old('birth_day') }}" required>
+                                value="{{ old('birth_day') }}" autocomplete="bday-day" required>
                             <option selected disabled hidden>{{ __('Day') }}</option>
                             @foreach(range(1, 31) as $day)
                                 <option value="{{ $day }}">{{ $day }}.</option>
                             @endforeach
                         </select>
                         <select class="custom-select w-auto ml-1" id="birthMonth" name="birth_month"
-                                value="{{ old('birth_month') }}" required style="flex-basis: 33%">
+                                value="{{ old('birth_month') }}" autocomplete="bday-month" required style="flex-basis: 33%">
                             <option selected disabled hidden>{{ __('Month') }}</option>
                             @foreach(range(1, 12) as $month)
                                 <option value="{{ $month }}">{{ \Date::now()->setDate(2018, $month, 1)->format('F') }}</option>
                             @endforeach
                         </select>
                         <select class="custom-select w-auto ml-1" id="birthYear" name="birth_year"
-                                value="{{ old('birth_year') }}" required>
+                                value="{{ old('birth_year') }}" autocomplete="bday-year" required>
                             <option selected disabled hidden>{{ __('Year') }}</option>
                             @foreach(range(now()->year - 17, now()->year - 120) as $year)
                                 <option value="{{ $year }}">{{ $year }}</option>
@@ -149,7 +149,7 @@
                     <div class="row">
                         <div class="col-8">
                             <input id="address_street" type="text" class="form-control{{ $errors->has('address_street') ? ' is-invalid' : '' }}" name="address_street"
-                                   value="{{ old('address_street') }}" placeholder="Musterstraße">
+                                   value="{{ old('address_street') }}" autocomplete="address-line1" placeholder="Musterstraße">
                         </div>
                         <div class="col-4">
                             <input id="address_number" type="text" class="form-control{{ $errors->has('address_number') ? ' is-invalid' : '' }}" name="address_number"
@@ -175,7 +175,7 @@
 
                 <div class="col-sm-8">
                     <input id="address_addition" type="text" class="form-control{{ $errors->has('address_addition') ? ' is-invalid' : '' }}" name="address_addition"
-                           value="{{ old('address_addition') }}" placeholder="Haus 1 (optional)">
+                           value="{{ old('address_addition') }}" autocomplete="address-line2" placeholder="Haus 1 (optional)">
 
                     @if ($errors->has('address_addition'))
                         <span class="invalid-feedback">
@@ -190,7 +190,7 @@
 
                 <div class="col-sm-8">
                     <input id="address_zipcode" type="text" class="form-control{{ $errors->has('address_zipcode') ? ' is-invalid' : '' }}" name="address_zipcode"
-                           value="{{ old('address_zipcode') }}" required>
+                           value="{{ old('address_zipcode') }}" autocomplete="postal-code" required>
 
                     @if ($errors->has('address_zipcode'))
                         <span class="invalid-feedback">
@@ -205,7 +205,7 @@
 
                 <div class="col-sm-8">
                     <input id="address_city" type="text" class="form-control{{ $errors->has('address_city') ? ' is-invalid' : '' }}" name="address_city"
-                           value="{{ old('address_city') }}" required>
+                           value="{{ old('address_city') }}" autocomplete="address-level2" required>
 
                     @if ($errors->has('address_city'))
                         <span class="invalid-feedback">
@@ -220,7 +220,7 @@
 
                 <div class="col-sm-8">
                     <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                           name="email" value="{{ old('email') }}" required>
+                           name="email" value="{{ old('email') }}" autocomplete="email" required>
 
                     @if ($errors->has('email'))
                         <span class="invalid-feedback">
@@ -235,7 +235,7 @@
 
                 <div class="col-sm-8">
                     <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}"
-                           name="phone" value="{{ old('phone') }}" required>
+                           name="phone" value="{{ old('phone') }}" autocomplete="tel-national" required>
 
                     @if ($errors->has('phone'))
                         <span class="invalid-feedback">
