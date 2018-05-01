@@ -9,6 +9,7 @@
         "dannyvankooten/laravel-vat": "dev-master",
         "fideloper/proxy": "^4.0",
         "funkjedi/composer-include-files": "^1.0",
+        "itsgoingd/clockwork": "^2.2",
         "jenssegers/date": "^3.3",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
