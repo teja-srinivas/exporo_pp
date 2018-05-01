@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Agb;
 use App\Role;
 use App\Rules\VatId;
 use App\User;
@@ -111,6 +112,7 @@ class RegisterController extends Controller
         ]);
 
         $user->assignRole(Role::PARTNER);
+        $user->agbs()->attach(Agb::current());
 
         return $user;
     }
