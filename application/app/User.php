@@ -53,6 +53,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return BelongsTo
+     */
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    /**
      * @return BelongsToMany
      */
     public function agbs(): BelongsToMany
