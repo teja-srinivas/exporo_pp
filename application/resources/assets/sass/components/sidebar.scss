@@ -1,3 +1,9 @@
+.sidebar {
+  position: sticky;
+  top: 90px; // main navigation + some offset
+  z-index: 2;
+}
+
 .sidebar-item {
   display: block;
   padding: map_get($spacers, 1) map_get($spacers, 2);
