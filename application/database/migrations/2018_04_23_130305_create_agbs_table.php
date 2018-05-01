@@ -13,21 +13,21 @@ class CreateAGBsTable extends Migration
      */
     public function up()
     {
-        Schema::create('a_g_bs', function (Blueprint $table) {
+        Schema::create('agbs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->boolean('is_default')->default(true);
             $table->timestamps();
         });
 
-        Schema::create('a_g_b_user', function (Blueprint $table) {
-            $table->unsignedInteger('a_g_b_id');
+        Schema::create('agb_user', function (Blueprint $table) {
+            $table->unsignedInteger('agb_id');
             $table->unsignedInteger('user_id');
             $table->timestamps();
 
-            $table->foreign('a_g_b_id')
+            $table->foreign('agb_id')
                 ->references('id')
-                ->on('a_g_bs')
+                ->on('agbs')
                 ->onDelete('cascade');
 
             $table->foreign('user_id')
@@ -44,7 +44,7 @@ class CreateAGBsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('a_g_bs');
-        Schema::dropIfExists('a_g_b_user');
+        Schema::dropIfExists('agbs');
+        Schema::dropIfExists('agb_user');
     }
 }

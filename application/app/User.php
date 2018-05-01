@@ -65,6 +65,6 @@ class User extends Authenticatable
      */
     public function agbs(): BelongsToMany
     {
-        return $this->belongsToMany(AGB::class)->withTimestamps();
+        return $this->belongsToMany(Agb::class)->withTimestamps();
     }
 }
