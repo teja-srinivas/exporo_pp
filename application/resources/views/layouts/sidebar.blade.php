@@ -25,6 +25,16 @@
                 </div>
             </div>
             <div class="col-md-9">
+                @hasSection('title')
+                    <h3 class="mb-3">@yield('title')</h3>
+                @endif
+
+                @if(session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
                 @yield('main-content')
             </div>
         </div>
