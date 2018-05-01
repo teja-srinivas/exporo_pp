@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewComposers;
 
+use App\Role;
 use Illuminate\View\View;
 
 class SidebarComposer
@@ -10,13 +11,13 @@ class SidebarComposer
     {
         $view->with('menu', array_merge(
             $this->getInternal(),
-            $this->getDefault()
+            $this->getUser()
         ));
     }
 
-    protected function getDefault()
+    protected function getUser()
     {
-        return [
+        return auth()->user()->hasRole(Role::PARTNER) ? [
             [
                 'title' => 'Meine Provisionen',
                 'help' => '#',
@@ -52,7 +53,7 @@ class SidebarComposer
                     url('#5') => 'Social Media Content',
                 ],
             ],
-        ];
+        ] : [];
     }
 
     protected function getInternal()

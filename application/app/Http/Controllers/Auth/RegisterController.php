@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Role;
 use App\Rules\VatId;
 use App\User;
 use App\Http\Controllers\Controller;
@@ -108,6 +109,8 @@ class RegisterController extends Controller
             'vat_id' => $data['vat_id'],
             'tax_office' => $data['tax_office'],
         ]);
+
+        $user->assignRole(Role::PARTNER);
 
         return $user;
     }

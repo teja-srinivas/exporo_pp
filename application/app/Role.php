@@ -12,6 +12,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Role extends \Spatie\Permission\Models\Role
 {
+    const PARTNER = 'partner';
+    const INTERNAL = 'internal';
+    const ADMIN = 'admin';
+
     /**
      * @inheritdoc
      */

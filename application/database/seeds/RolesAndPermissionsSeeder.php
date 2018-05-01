@@ -22,12 +22,12 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'delete agbs']);
 
         // Create roles and assign created permissions
-        Role::create(['name' => 'user']);
+        Role::create(['name' => Role::PARTNER]);
 
-        $role = Role::create(['name' => 'internal']);
+        $role = Role::create(['name' => Role::INTERNAL]);
         $role->givePermissionTo(['create agbs', 'edit agbs', 'delete agbs']);
 
-        $role = Role::create(['name' => 'admin']);
+        $role = Role::create(['name' => Role::ADMIN]);
         $role->givePermissionTo(Permission::all());
     }
 }
