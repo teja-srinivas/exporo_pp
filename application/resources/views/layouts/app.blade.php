@@ -63,7 +63,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a href="#" class="dropdown-item">Investment-Cockpit</a>
-                                    <a href="{{ route('home') }}" class="dropdown-item">Partner-Cockpit</a>
+                                    <a href="{{ route('home') }}" class="dropdown-item @if(request()->routeIs('home'))active @endif">Partner-Cockpit</a>
 
                                     <div class="dropdown-divider"></div>
 
