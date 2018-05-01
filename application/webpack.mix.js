@@ -15,6 +15,7 @@ require('laravel-mix-purgecss');
 mix.webpackConfig({
     resolve: {
         alias: {
+            // Use slim build to exclude the ajax stuff (we use axios)
             jquery$: 'jquery/dist/jquery.slim.js',
         },
     },
@@ -22,8 +23,30 @@ mix.webpackConfig({
 
 mix.js('resources/assets/js/app.js', 'public/js')
 mix.sass('resources/assets/sass/app.scss', 'public/css')
-mix.purgeCss();
+mix.version();
+
+mix.purgeCss({
+    // Dropdowns and animated JS content
+    whitelist: ['show', 'fade', 'collapse', 'collapsing'],
+});
+
 mix.extract([
-    'axios',
+    'popper.js',
+    'bootstrap/js/src/dropdown',
+    'bootstrap/js/src/util',
     'jquery',
 ]);
+
+// Allow custom bootstrap builds by using their source files
+// This enables the babel-loader to properly compile them
+Mix.listen('configReady', ({ module }) => {
+    module.rules.find(rule => {
+        if (rule.test.test && rule.test.test('test.js')) {
+            delete rule.exclude;
+            rule.include = [
+                __dirname + '/resources/assets/js/',
+                __dirname + '/node_modules/bootstrap/js/',
+            ];
+        }
+    });
+});
