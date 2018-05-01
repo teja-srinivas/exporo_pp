@@ -1,4 +1,4 @@
-<div class="card shadow-sm border-0">
+<div class="card shadow-sm border-0 accent-primary">
     <div class="card-body">
         {{-- Card Header --}}
         @if(isset($title))

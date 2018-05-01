@@ -9,7 +9,7 @@
         </div>
     @endif
 
-    <div class="card shadow-sm border-0 mb-2">
+    <div class="card shadow-sm border-0 accent-primary mb-2">
         <div class="card-body py-3">
             <div class="row text-center">
                 <div class="col-sm border-sm-right mb-3 mb-sm-0">
