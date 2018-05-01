@@ -38,25 +38,6 @@
                     </form>
                     @endif
                 </td>
-            </tr><tr>
-                <td class="text-center">{!! $agb->is_default ? '★' : '' !!}</td>
-                <td><a href="{{ route('agbs.show', $agb) }}">{{ $agb->name }}</a></td>
-                <td class="text-right">
-                    @if($agb->users->isEmpty())
-                        <span class="text-muted">&mdash;</span>
-                    @else
-                        <strong>{{ $agb->users->count() }} <small>Benutzer</small></strong>
-                    @endif
-                </td>
-                <td class="text-right">
-                    @if($agb->users->isEmpty() && !($canDelete && $agb->is_default))
-                    <form action="{{ route('agbs.destroy', $agb) }}" method="POST">
-                        @method('DELETE')
-                        @csrf
-                        <button class="btn btn-link btn-xs">Löschen</button>
-                    </form>
-                    @endif
-                </td>
             </tr>
         @empty
             <tr class="text-center text-muted">
