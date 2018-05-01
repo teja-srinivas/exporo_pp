@@ -27,7 +27,7 @@ class CreateAGBsTable extends Migration
 
             $table->foreign('a_g_b_id')
                 ->references('id')
-                ->on('a_g_b_s')
+                ->on('a_g_bs')
                 ->onDelete('cascade');
 
             $table->foreign('user_id')
