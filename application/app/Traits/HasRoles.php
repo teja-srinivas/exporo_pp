@@ -13,14 +13,17 @@ use Spatie\Permission\Traits\HasRoles as SpatieRoles;
  */
 trait HasRoles
 {
-    use SpatieRoles;
+    use SpatieRoles {
+        roles as parentRoles;
+        permissions as parentPermissions;
+    }
 
     /**
      * @inheritdoc
      */
     public function roles(): MorphToMany
     {
-        return SpatieRoles::roles()->withTimestamps();
+        return $this->parentRoles()->withTimestamps();
     }
 
     /**
@@ -28,6 +31,6 @@ trait HasRoles
      */
     public function permissions(): MorphToMany
     {
-        return SpatieRoles::permissions()->withTimestamps();
+        return $this->parentPermissions()->withTimestamps();
     }
 }
