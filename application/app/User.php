@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
@@ -43,7 +45,7 @@ class User extends Authenticatable
 
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function details(): HasOne
     {
@@ -51,10 +53,10 @@ class User extends Authenticatable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return BelongsToMany
      */
-    public function agbs(): HasMany
+    public function agbs(): BelongsToMany
     {
-        return $this->hasMany(AGB::class);
+        return $this->belongsToMany(AGB::class)->withTimestamps();
     }
 }
