@@ -19,8 +19,6 @@ class CreateUserDetailsTable extends Migration
             $table->string('company')->nullable();
             $table->enum('title', User::TITLES)->nullable();
             $table->enum('salutation', ['male', 'female']);
-            $table->string('first_name');
-            $table->string('last_name');
             $table->string('birth_date');
             $table->string('birth_place');
             $table->string('address_street')->nullable();
@@ -28,7 +26,6 @@ class CreateUserDetailsTable extends Migration
             $table->string('address_addition')->nullable();
             $table->string('address_zipcode')->nullable();
             $table->string('address_city')->nullable();
-            $table->string('email');
             $table->string('phone');
             $table->string('website')->nullable();
             $table->text('vat_id')->nullable();
