@@ -26,6 +26,10 @@ class UserDetails extends Model
         'tax_office',
     ];
 
+    protected $dates = [
+        'birth_date',
+    ];
+
     protected $encryptable = [
         'vat_id',
     ];

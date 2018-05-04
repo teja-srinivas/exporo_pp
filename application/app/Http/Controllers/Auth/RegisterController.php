@@ -124,10 +124,10 @@ class RegisterController extends Controller
     protected function makeBirthDate(array $data): string
     {
         return sprintf(
-            '%s.%s.%s',
-            $data['birth_day'] ?? '',
+            '%s-%s-%s',
+            $data['birth_year'] ?? '',
             $data['birth_month'] ?? '',
-            $data['birth_year'] ?? ''
+            $data['birth_day'] ?? ''
         );
     }
 }
