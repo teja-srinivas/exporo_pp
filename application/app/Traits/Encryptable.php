@@ -93,7 +93,7 @@ trait Encryptable
      */
     public function setAttribute($key, $value)
     {
-        if ($this->encryptable($key)) {
+        if ($this->encryptable($key) && !empty($value)) {
             $value = $this->encryptAttribute($value);
         }
 

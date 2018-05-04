@@ -70,7 +70,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|string|max:100',
             'website' => 'nullable|string|max:100',
-            'vat_id' => ['nullable', 'string', new VatId()],
+            'vat_id' => ['nullable', new VatId()],
             'tax_office' => 'nullable|string|max:100',
             'password' => 'required|string|min:6|confirmed',
             'legal_exporo_ag' => 'accepted',
