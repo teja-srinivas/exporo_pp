@@ -105,6 +105,6 @@ class AgbController extends Controller
 
         $agb->delete();
 
-        return back();
+        return redirect()->route('agbs.index');
     }
 }
