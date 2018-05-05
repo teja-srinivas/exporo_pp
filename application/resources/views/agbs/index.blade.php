@@ -14,6 +14,7 @@
             <th width="90">Standard</th>
             <th>Name</th>
             <th class="text-right">Akzeptiert</th>
+            <th width="100" class="text-right">Aktionen</th>
         </tr>
         </thead>
         <tbody>
@@ -27,6 +28,9 @@
                     @else
                         <strong>{{ $agb->users->count() }} <small>Benutzer</small></strong>
                     @endif
+                </td>
+                <td class="text-right">
+                    <a href="{{ route('agbs.download', $agb) }}" class="btn btn-link btn-xs">PDF Anzeigen</a>
                 </td>
             </tr>
         @empty
