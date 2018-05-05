@@ -13,4 +13,10 @@
         {{-- Card Contents --}}
         {{ $slot }}
     </div>
+
+    @if(isset($footer))
+    <div class="card-footer">
+        {{ $footer }}
+    </div>
+    @endif
 </div>

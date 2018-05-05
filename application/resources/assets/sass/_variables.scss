@@ -37,7 +37,8 @@ $line-height-base: 1.6;
 
 // Cards
 $card-border-width: 2px;
-$card-border-color: rgba(black, 0.075);
+$card-border-color: rgba($black, 0.075);
+$card-cap-bg: rgba($black, 0.015);
 
 // Input
 $custom-select-bg: $primary;
