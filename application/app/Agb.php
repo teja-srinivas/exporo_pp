@@ -7,7 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Agb extends Model
 {
+    const DIRECTORY = 'agbs';
+
     static $_numberOfDefaults = null;
+
+    protected $fillable = [
+        'name', 'is_default'
+    ];
 
     /**
      * Returns all the users that have signed this instance of the AGB.
@@ -36,6 +42,17 @@ class Agb extends Model
     }
 
     /**
+     * Creates a human readable filename for this model
+     * as the original filename is a random string.
+     *
+     * @return string
+     */
+    public function getReadableFilename(): string
+    {
+        return str_slug($this->name ?: env('APP_NAME', 'AGB'), '_', app()->getLocale()) . '.pdf';
+    }
+
+    /**
      * Indicates if this model can be deleted.
      *
      * It cannot be deleted if:
@@ -51,6 +68,6 @@ class Agb extends Model
 
     protected function numberOfAvailableDefaults()
     {
-        return self::$_numberOfDefaults ?? (self::$_numberOfDefaults = self::isDefault()->count());
+        return self::$_numberOfDefaults ?: (self::$_numberOfDefaults = self::isDefault()->count());
     }
 }

@@ -51,6 +51,12 @@ $input-padding-x: 0.5rem;
 $input-height-inner: 2rem;
 $custom-select-line-height: 1.4;
 $custom-select-padding-y: 0.25rem;
+$custom-file-padding-x: $input-padding-x;
+$custom-file-padding-y: $input-padding-y;
+$custom-file-text: (
+  en: "Browse",
+  de: "Auswählen"
+);
 
 // Dropdowns
 $dropdown-border-color: rgba($black, 0.05);
