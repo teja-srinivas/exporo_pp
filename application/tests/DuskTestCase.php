@@ -2,6 +2,9 @@
 
 namespace Tests;
 
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverDimension;
+use Laravel\Dusk\Browser;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
@@ -39,5 +42,26 @@ abstract class DuskTestCase extends BaseTestCase
                 ChromeOptions::CAPABILITY, $options
             )
         );
+    }
+
+    /**
+     * Makes full page screenshots after failed tests.
+     * https://github.com/laravel/dusk/issues/320#issuecomment-334429352
+     *
+     * @param \Illuminate\Support\Collection $browsers
+     */
+    protected function captureFailuresFor($browsers)
+    {
+        $browsers->each(function (Browser $browser, $key) {
+            $body = $browser->driver->findElement(WebDriverBy::tagName('body'));
+
+            if (!empty($body)) {
+                $currentSize = $body->getSize();
+                $size = new WebDriverDimension($currentSize->getWidth(), $currentSize->getHeight());
+                $browser->driver->manage()->window()->setSize($size);
+            }
+
+            $browser->screenshot('failure-'.$this->getName().'-'.$key);
+        });
     }
 }
