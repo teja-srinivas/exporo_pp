@@ -4,16 +4,23 @@ namespace Tests\Browser;
 
 use App\User;
 use App\UserDetails;
-use DummyDataSeeder;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\RegisterPage;
 use Tests\DuskTestCase;
 
 class RegisterTest extends DuskTestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations {
+        runDatabaseMigrations as runMigrations;
+    }
+
+
+    public function runDatabaseMigrations()
+    {
+        $this->runMigrations();
+        $this->seed();
+    }
 
     /**
      * Checks if users are able to register on the site.
@@ -23,8 +30,6 @@ class RegisterTest extends DuskTestCase
      */
     public function testUserRegistration()
     {
-        $this->seed();
-
         $this->browse(function (Browser $browser) {
             $user = factory(User::class)->make();
             $details = factory(UserDetails::class)->make();
@@ -33,6 +38,23 @@ class RegisterTest extends DuskTestCase
                     ->registerWith($user, $details)
                     ->press(strtoupper(__('Register')))
                     ->assertAuthenticated();
+        });
+    }
+
+    /**
+     * Checks if we're showing an error if values are missing.
+     *
+     * @throws \Throwable
+     */
+    public function testMissingDetails()
+    {
+        $this->browse(function (Browser $browser) {
+            $user = factory(User::class)->make();
+
+            $browser->visit(new RegisterPage())
+                ->registerWith($user, new UserDetails)
+                ->press(strtoupper(__('Register')))
+                ->assertUrlIs(route('register'));
         });
     }
 }

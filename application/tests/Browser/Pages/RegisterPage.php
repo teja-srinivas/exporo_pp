@@ -41,13 +41,14 @@ class RegisterPage extends BasePage
     public function registerWith(Browser $browser, User $user, UserDetails $details)
     {
         $salutationId = $details->salutation === 'female' ? 1 : 2;
+        $birth_date = optional($details->birth_date);
 
         $browser->type('first_name', $user->first_name);
         $browser->type('last_name', $user->last_name);
         $browser->click("label[for=salutation{$salutationId}]");
-        $browser->select('birth_day', $details->birth_date->day);
-        $browser->select('birth_month', $details->birth_date->month);
-        $browser->select('birth_year', $details->birth_date->year);
+        $browser->select('birth_day', $birth_date->day);
+        $browser->select('birth_month', $birth_date->month);
+        $browser->select('birth_year', $birth_date->year);
         $browser->type('birth_place', $details->birth_place);
         $browser->type('address_zipcode', $details->address_zipcode);
         $browser->type('address_city', $details->address_city);
