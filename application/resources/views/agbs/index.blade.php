@@ -14,7 +14,6 @@
             <th width="90">Standard</th>
             <th>Name</th>
             <th class="text-right">Akzeptiert</th>
-            <th width="100" class="text-right">Aktionen</th>
         </tr>
         </thead>
         <tbody>
@@ -27,15 +26,6 @@
                         <span class="text-muted">&mdash;</span>
                     @else
                         <strong>{{ $agb->users->count() }} <small>Benutzer</small></strong>
-                    @endif
-                </td>
-                <td class="text-right">
-                    @if($agb->canBeDeleted())
-                    <form action="{{ route('agbs.destroy', $agb) }}" method="POST">
-                        @method('DELETE')
-                        @csrf
-                        <button class="btn btn-link btn-xs">Löschen</button>
-                    </form>
                     @endif
                 </td>
             </tr>
