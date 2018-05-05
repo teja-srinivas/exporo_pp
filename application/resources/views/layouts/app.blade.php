@@ -34,7 +34,7 @@
                 Mo - Fr, 9 bis 20 Uhr
             </div>
         </div>
-        <nav class="navbar navbar-expand-md navbar-light navbar-exporo">
+        <nav class="navbar navbar-expand-md navbar-light navbar-exporo sticky-top">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="{{ asset('images/logo_exporo_blue.svg') }}" alt="{{ config('app.name', 'Laravel') }}">

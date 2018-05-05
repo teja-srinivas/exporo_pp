@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <div class="sidebar">
+                <div class="sidebar sticky-top mb-3">
                     @foreach($menu as $group)
                         <h6 class="text-muted text-uppercase tracking-wide sidebar-header @unless($loop->first) mt-4 @endif">
                             <span>
