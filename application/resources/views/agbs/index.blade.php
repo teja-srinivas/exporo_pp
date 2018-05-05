@@ -30,7 +30,7 @@
                     @endif
                 </td>
                 <td class="text-right">
-                    @if($agb->users->isEmpty() && !($canDelete && $agb->is_default))
+                    @if($agb->canBeDeleted())
                     <form action="{{ route('agbs.destroy', $agb) }}" method="POST">
                         @method('DELETE')
                         @csrf

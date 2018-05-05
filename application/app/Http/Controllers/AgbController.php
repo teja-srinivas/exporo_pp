@@ -20,10 +20,6 @@ class AgbController extends Controller
 
         $list = Agb::with('users')->latest()->get();
 
-        $canDelete = $list->sum(function ($agb) {
-            return $agb->is_default ? 1 : 0;
-        }) > 1;
-
         return view('agbs.index', compact('list', 'canDelete'));
     }
 
@@ -105,7 +101,7 @@ class AgbController extends Controller
     {
         $this->authorize('delete agbs');
 
-        abort_if($agb->users()->count() > 0, Response::HTTP_LOCKED, 'User(s) have already accepted these AGB');
+        abort_unless($agb->canBeDeleted(), Response::HTTP_LOCKED, 'Users may have already accepted these AGB');
 
         $agb->delete();
 
