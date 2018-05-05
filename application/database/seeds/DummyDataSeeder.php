@@ -3,6 +3,7 @@
 use App\Agb;
 use App\Role;
 use App\User;
+use App\UserDetails;
 use Illuminate\Database\Seeder;
 
 class DummyDataSeeder extends Seeder
@@ -32,6 +33,8 @@ class DummyDataSeeder extends Seeder
         factory(User::class, 50)->create()->each(function (User $user) use ($agbs) {
             $user->assignRole(Role::PARTNER);
             $user->agbs()->attach($agbs->random(2));
+
+            factory(UserDetails::class)->create(['id' => $user->id]);
         });
     }
 }
