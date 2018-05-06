@@ -4,9 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Agb extends Model
+class Agb extends Model implements AuditableContract
 {
+    use Auditable;
+
     const DIRECTORY = 'agbs';
 
     static $_numberOfDefaults = null;
