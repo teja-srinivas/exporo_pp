@@ -51,7 +51,7 @@ class User extends Authenticatable implements AuditableContract
      */
     public function details(): HasOne
     {
-        return $this->hasOne(UserDetails::class)->withDefault();
+        return $this->hasOne(UserDetails::class, 'id')->withDefault();
     }
 
     /**
