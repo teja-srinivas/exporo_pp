@@ -98,30 +98,30 @@
                     <div>
                         <select class="custom-select w-auto" id="birthDay" name="birth_day"
                                 value="{{ old('birth_day') }}" autocomplete="bday-day" required>
-                            <option selected disabled hidden>{{ __('Day') }}</option>
+                            <option {{ old('birth_day') ? '' : 'selected' }} disabled hidden>({{ __('Day') }})</option>
                             @foreach(range(1, 31) as $day)
                                 <option value="{{ $day }}">{{ $day }}.</option>
                             @endforeach
                         </select>
                         <select class="custom-select w-auto ml-1" id="birthMonth" name="birth_month"
                                 value="{{ old('birth_month') }}" autocomplete="bday-month" required style="flex-basis: 33%">
-                            <option selected disabled hidden>{{ __('Month') }}</option>
+                            <option {{ old('birth_month') ? '' : 'selected' }} disabled hidden>({{ __('Month') }})</option>
                             @foreach(range(1, 12) as $month)
                                 <option value="{{ $month }}">{{ \Date::now()->setDate(2018, $month, 1)->format('F') }}</option>
                             @endforeach
                         </select>
                         <select class="custom-select w-auto ml-1" id="birthYear" name="birth_year"
                                 value="{{ old('birth_year') }}" autocomplete="bday-year" required>
-                            <option selected disabled hidden>{{ __('Year') }}</option>
+                            <option {{ old('birth_year') ? '' : 'selected' }} disabled hidden>({{ __('Year') }})</option>
                             @foreach(range(now()->year - 17, now()->year - 120) as $year)
                                 <option value="{{ $year }}">{{ $year }}</option>
                             @endforeach
                         </select>
                     </div>
 
-                    @if ($errors->has('birth_date'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('birth_date') }}</strong>
+                    @if ($errors->has('birth_*'))
+                        <span class="invalid-feedback d-block">
+                            <strong>{{ $errors->first('birth_*') }}</strong>
                         </span>
                     @endif
                 </div>
