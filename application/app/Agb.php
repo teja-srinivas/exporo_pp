@@ -32,12 +32,11 @@ class Agb extends Model implements AuditableContract
     /**
      * Fetches the currently active Agb.
      *
-     * @param $query
      * @return mixed
      */
-    public function scopeCurrent($query)
+    public static function current()
     {
-        return $query->isDefault()->latest()->first();
+        return self::isDefault()->latest()->first();
     }
 
     public function scopeIsDefault($query, bool $value = true)
