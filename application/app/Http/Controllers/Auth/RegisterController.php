@@ -112,7 +112,12 @@ class RegisterController extends Controller
         ]);
 
         $user->assignRole(Role::PARTNER);
-        $user->agbs()->attach(Agb::current());
+
+        $agb = Agb::current();
+
+        if ($agb !== null) {
+            $user->agbs()->attach($agb);
+        }
 
         return $user;
     }
