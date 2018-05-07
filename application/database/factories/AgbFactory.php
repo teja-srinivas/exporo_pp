@@ -7,6 +7,7 @@ $factory->define(App\Agb::class, function (Faker $faker) {
 
     return [
         'name' => $created,
+        'filename' => '', // non-existent file
         'is_default' => false,
         'created_at' => $created,
         'updated_at' => $created,
