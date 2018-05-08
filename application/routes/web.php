@@ -16,6 +16,8 @@ Route::view('/', 'welcome');
 Route::get('agbs/{agb}/download', 'AgbController@download')->name('agbs.download');
 Route::resource('agbs', 'AgbController');
 
+Route::resource('documents', 'DocumentsController');
+
 Route::resource('users', 'UserController');
 
 Auth::routes();

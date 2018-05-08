@@ -69,7 +69,10 @@
 
                                     <h5 class="dropdown-header text-uppercase tracking-wide">Meine Daten</h5>
                                     <a href="{{ route('users.edit', Auth::user()) }}" class="dropdown-item">Einstellungen</a>
-                                    <a href="#" class="dropdown-item">Dokumente</a>
+
+                                    <a href="{{ route('documents.index') }}"
+                                       class="dropdown-item {{ request()->routeIs('documents.index') ? 'active' : '' }}">Dokumente</a>
+
                                     <a href="#" class="dropdown-item">Provisionsschema</a>
                                     <a href="#" class="dropdown-item">Buchhaltung</a>
 
