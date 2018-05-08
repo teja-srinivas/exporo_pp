@@ -68,4 +68,5 @@
         @endcard
     </form>
 
+    @include('components.audit.table', ['model' => $agb])
 @endsection
