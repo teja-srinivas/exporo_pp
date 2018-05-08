@@ -45,6 +45,10 @@ class User extends Authenticatable implements AuditableContract
         'password', 'remember_token',
     ];
 
+    protected $auditExclude = [
+        'remember_token',
+    ];
+
 
     /**
      * @return HasOne
