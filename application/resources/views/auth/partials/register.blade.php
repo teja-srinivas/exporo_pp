@@ -321,13 +321,17 @@
                     mit der Exporo AG und der Exporo Investment GmbH.
                 </p>
 
-                <p>Sie erklären sich mit den</p>
+                <p>Sie erklären sich mit</p>
 
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="legal_exporo_ag" name="legal_exporo_ag"
                            {{ old('legal_exporo_ag') !== null ? 'checked' : '' }} required>
                     <label class="custom-control-label" for="legal_exporo_ag">
-                        AGB & Datenschutzerklärung der Exporo AG
+                        <span>den</span>
+                        <a href="{{ route('agbs.download', $agb) }}">AGB</a>
+                        &
+                        <a href="#">Datenschutzerklärung</a>
+                        der Exporo AG,
                     </label>
                 </div>
 
@@ -341,7 +345,7 @@
                     <input type="checkbox" class="custom-control-input" id="legal_exporo_gmbh" name="legal_exporo_gmbh"
                            {{ old('legal_exporo_gmbh') !== null ? 'checked' : '' }} required>
                     <label class="custom-control-label" for="legal_exporo_gmbh">
-                        den AGB & Datenschutzerklärung der Exporo Investment GmbH
+                        <span>den</span> AGB & Datenschutzerklärung der Exporo Investment GmbH,
                         sowie den Bestimmungen zu Cookies & Internet-Werbung einverstanden.
                     </label>
                 </div>
@@ -356,7 +360,7 @@
                     <input type="checkbox" class="custom-control-input" id="legal_transfer" name="legal_transfer"
                            {{ old('legal_transfer') !== null ? 'checked' : '' }} required>
                     <label class="custom-control-label" for="legal_transfer">
-                        Sie sind bin mit der Weitergabe Ihrer personenbezogenen Daten von der
+                        <span>Sie</span> sind bin mit der Weitergabe Ihrer personenbezogenen Daten von der
                         Exporo Investment GmbH an die Exporo AG zum Zwecke der Verwaltung Ihrer
                         personenbezogenen Daten und der Abrechnung Ihrer Vergütung einverstanden.
                     </label>

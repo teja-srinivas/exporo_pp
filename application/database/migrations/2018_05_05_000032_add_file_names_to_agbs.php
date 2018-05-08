@@ -14,7 +14,7 @@ class AddFileNamesToAgbs extends Migration
     public function up()
     {
         Schema::table('agbs', function (Blueprint $table) {
-            $table->string('filename')->after('name');
+            $table->string('filename')->nullable()->after('name');
         });
     }
 

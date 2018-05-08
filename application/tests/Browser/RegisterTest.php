@@ -30,7 +30,8 @@ class RegisterTest extends DuskTestCase
             $browser->visit(new RegisterPage())
                     ->registerWith($user, $details)
                     ->press(strtoupper(__('Register')))
-                    ->assertAuthenticated();
+                    ->assertAuthenticated()
+                    ->logout();
         });
     }
 
