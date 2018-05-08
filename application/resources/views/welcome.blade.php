@@ -90,7 +90,7 @@
             </div>
 
             <div class="card-deck my-4">
-                <div class="card flex-row">
+                <div class="card flex-lg-row">
                     <img src="{{ asset('images/werbemittel_einbinden.png') }}"
                          class="m-2"
                          height="200"
@@ -103,7 +103,7 @@
                         setzen.
                     </div>
                 </div>
-                <div class="card flex-row">
+                <div class="card flex-lg-row">
                     <img src="{{ asset('images/user_engagement.png') }}"
                          class="m-2"
                          height="200"
@@ -116,7 +116,7 @@
                 </div>
             </div>
             <div class="card-deck">
-                <div class="card flex-row">
+                <div class="card flex-lg-row">
                     <img src="{{ asset('images/registrierung.png') }}"
                          class="m-2"
                          height="200"
@@ -128,7 +128,7 @@
                         eines unserer Immobilienprojekte.
                     </div>
                 </div>
-                <div class="card flex-row">
+                <div class="card flex-lg-row">
                     <img src="{{ asset('images/provision.png') }}"
                          class="m-2"
                          height="200"
