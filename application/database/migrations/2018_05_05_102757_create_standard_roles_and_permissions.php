@@ -2,16 +2,16 @@
 
 use App\Permission;
 use App\Role;
-use Illuminate\Database\Seeder;
+use Illuminate\Database\Migrations\Migration;
 
-class RolesAndPermissionsSeeder extends Seeder
+class CreateStandardRolesAndPermissions extends Migration
 {
     /**
-     * Run the database seeds.
+     * Run the migrations.
      *
      * @return void
      */
-    public function run()
+    public function up()
     {
         // Reset cached roles and permissions
         app('cache')->forget('spatie.permission.cache');
@@ -27,7 +27,18 @@ class RolesAndPermissionsSeeder extends Seeder
         $role = Role::create(['name' => Role::INTERNAL]);
         $role->givePermissionTo(['create agbs', 'edit agbs', 'delete agbs']);
 
-        $role = Role::create(['name' => Role::ADMIN]);
-        $role->givePermissionTo(Permission::all());
+        // Admins have the permission to do anything by design
+        Role::create(['name' => Role::ADMIN]);
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Permission::query()->delete();
+        Role::query()->delete();
     }
 }

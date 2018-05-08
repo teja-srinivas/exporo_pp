@@ -15,13 +15,6 @@ class RegisterTest extends DuskTestCase
         runDatabaseMigrations as runMigrations;
     }
 
-
-    public function runDatabaseMigrations()
-    {
-        $this->runMigrations();
-        $this->seed();
-    }
-
     /**
      * Checks if users are able to register on the site.
      *
