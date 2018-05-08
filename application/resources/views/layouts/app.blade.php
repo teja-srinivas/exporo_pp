@@ -63,12 +63,14 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a href="#" class="dropdown-item">Investment-Cockpit</a>
-                                    <a href="{{ route('home') }}" class="dropdown-item @if(request()->routeIs('home'))active @endif">Partner-Cockpit</a>
+                                    <a href="{{ route('home') }}"
+                                       class="dropdown-item {{ request()->routeIs('home') ? 'active' : '' }}">Partner-Cockpit</a>
 
                                     <div class="dropdown-divider"></div>
 
                                     <h5 class="dropdown-header text-uppercase tracking-wide">Meine Daten</h5>
-                                    <a href="{{ route('users.edit', Auth::user()) }}" class="dropdown-item">Einstellungen</a>
+                                    <a href="{{ route('users.edit', Auth::user()) }}"
+                                       class="dropdown-item {{ request()->is(substr(route('users.edit', Auth::user(), false), 1)) ? 'active' : '' }}">Einstellungen</a>
 
                                     <a href="{{ route('documents.index') }}"
                                        class="dropdown-item {{ request()->routeIs('documents.index') ? 'active' : '' }}">Dokumente</a>
