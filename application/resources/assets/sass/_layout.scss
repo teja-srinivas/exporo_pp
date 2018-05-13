@@ -1,3 +1,8 @@
+html, body {
+  // Fix sticky headers this way, in case an extension inserts some styling
+  overflow: visible !important;
+}
+
 body, .wrapper {
   min-height: 100vh;
 }
