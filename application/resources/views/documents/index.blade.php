@@ -5,7 +5,7 @@
 
     <table class="table bg-white table-borderless table-striped shadow-sm">
         <tbody>
-        @foreach($documents as $document)
+        @forelse($documents as $document)
             <tr>
                 <td>
                     <strong>{{ $document['type'] }}</strong>
@@ -17,7 +17,11 @@
                     </abbr>
                 </td>
             </tr>
-        @endforeach
+        @empty
+            <tr>
+                <td class="text-muted text-center">Keine Dokumente zum Anzeigen</td>
+            </tr>
+        @endforelse
         </tbody>
     </table>
 @endsection
