@@ -27,7 +27,7 @@
             <tr>
                 <th>Nachname</th>
                 <th>Vorname</th>
-                <th width="150">Datum</th>
+                <th width="160">Datum</th>
             </tr>
             </thead>
             <tbody>

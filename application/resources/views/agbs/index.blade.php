@@ -7,13 +7,13 @@
 @endsection
 
 @section('main-content')
-    <table class="bg-white shadow-sm accent-primary table table-borderless table-hover table-striped table-sticky">
+    <table class="bg-white shadow-sm accent-primary table table-borderless table-hover table-striped table-sticky table-sm">
         <thead>
         <tr>
-            <th width="90">Standard</th>
+            <th width="80">Standard</th>
             <th>Name</th>
             <th class="text-right">Akzeptiert</th>
-            <th width="100" class="text-right">Aktionen</th>
+            <th width="100" class="text-right pr-3">Aktionen</th>
         </tr>
         </thead>
         <tbody>
