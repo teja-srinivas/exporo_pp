@@ -1,21 +1,22 @@
 @extends('layouts.sidebar')
 
 @section('title')
-    <div class="d-flex align-items-center">
-        <div class="flex-fill mr-2">
-            <a href="{{ route('agbs.index') }}" class="text-muted">AGBs</a>
-            <span class="text-muted">/</span>
-            {{ $agb->name }}
-        </div>
-        @if($agb->canBeDeleted())
-            <form action="{{ route('agbs.destroy', $agb) }}" method="POST" class="d-inline-flex">
-                @method('DELETE')
-                @csrf
-                <button class="btn btn-outline-danger btn-sm mr-2">Löschen</button>
-            </form>
-        @endif
-        <a href="{{ route('agbs.edit', $agb) }}" class="btn btn-primary btn-sm">Bearbeiten</a>
-    </div>
+    @breadcrumps([
+        route('agbs.index') => 'AGBs',
+        $agb->name,
+    ])
+@endsection
+
+@section('actions')
+    @if($agb->canBeDeleted())
+        <form action="{{ route('agbs.destroy', $agb) }}" method="POST" class="d-inline-flex">
+            @method('DELETE')
+            @csrf
+            <button class="btn btn-outline-danger btn-sm mr-2">Löschen</button>
+        </form>
+    @endif
+
+    <a href="{{ route('agbs.edit', $agb) }}" class="btn btn-primary btn-sm">Bearbeiten</a>
 @endsection
 
 @section('main-content')

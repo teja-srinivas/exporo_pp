@@ -17,7 +17,13 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
+        // Accented card with its title and content in the body
         Blade::component('components.card', 'card');
+
+        // Custom breadcrumps instead of the bootstrap component
+        Blade::directive('breadcrumps', function ($exp) {
+            return "<?php echo render_breadcrumps($exp); ?>";
+        });
     }
 
     /**

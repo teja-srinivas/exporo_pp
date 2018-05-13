@@ -1,11 +1,11 @@
 @extends('layouts.sidebar')
 
 @section('title')
-    <a href="{{ route('agbs.index') }}" class="text-muted">AGBs</a>
-    <span class="text-muted">/</span>
-    <a href="{{ route('agbs.show', $agb) }}" class="text-muted">{{ $agb->name }}</a>
-    <span class="text-muted">/</span>
-    Bearbeiten
+    @breadcrumps([
+        route('agbs.index') => 'AGBs',
+        route('agbs.show', $agb) => $agb->name,
+        'Bearbeiten',
+    ])
 @endsection
 
 @section('main-content')

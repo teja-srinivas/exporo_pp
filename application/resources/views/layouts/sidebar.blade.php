@@ -3,6 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
+            {{-- Sidebar --}}
             <div class="col-md-3">
                 <div class="sidebar sticky-top mb-3">
                     @foreach($menu as $group)
@@ -24,10 +25,19 @@
                     @endforeach
                 </div>
             </div>
+
+            {{-- Main Content Area --}}
             <div class="col-md-9">
-                @hasSection('title')
-                    <h3 class="mb-3">@yield('title')</h3>
-                @endif
+                <div class="d-flex justify-content-between align-items-center
+                            @if($__env->hasSection('actions') || $__env->hasSection('title')) mb-3 @endif">
+                    <div class="flex-fill mr-2">
+                        @hasSection('title')
+                            <h3 class="mb-0">@yield('title')</h3>
+                        @endif
+                    </div>
+
+                    @yield('actions')
+                </div>
 
                 @if(session('status'))
                     <div class="alert alert-success">

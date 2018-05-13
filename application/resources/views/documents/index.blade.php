@@ -1,8 +1,8 @@
 @extends('layouts.sidebar')
 
-@section('main-content')
-    <h3>Dokumente</h3>
+@section('title', 'Dokumente')
 
+@section('main-content')
     <table class="table bg-white table-borderless table-striped shadow-sm">
         <tbody>
         @forelse($documents as $document)

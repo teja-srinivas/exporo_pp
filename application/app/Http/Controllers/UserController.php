@@ -54,10 +54,13 @@ class UserController extends Controller
      *
      * @param  User $user
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(User $user)
     {
-        return view('user.edit', compact('user'));
+        $this->authorize('edit users');
+
+        return view('users.edit', compact('user'));
     }
 
     /**

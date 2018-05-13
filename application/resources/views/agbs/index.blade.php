@@ -1,10 +1,9 @@
 @extends('layouts.sidebar')
 
-@section('title')
-    <div class="d-flex justify-content-between align-items-center">
-        <div>AGBs</div>
-        <a href="{{ route('agbs.create') }}" class="btn btn-primary btn-sm">Neu Anlegen</a>
-    </div>
+@section('title', 'AGBs')
+
+@section('actions')
+    <a href="{{ route('agbs.create') }}" class="btn btn-primary btn-sm">Neu Anlegen</a>
 @endsection
 
 @section('main-content')

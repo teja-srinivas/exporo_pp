@@ -27,3 +27,20 @@ if (!function_exists('format_money')) {
         return sprintf($pattern, number_format($amount, $decimals, ',', '.'));
     }
 }
+
+if (!function_exists('render_breadcrumps')) {
+    /**
+     * Renders a list of breadcrumps (link => display name).
+     *
+     * @param array $breadcrumps
+     * @return string
+     */
+    function render_breadcrumps(array $breadcrumps): string
+    {
+        static $divider = '<span class="text-muted"> / </span>';
+
+        return join($divider, array_map(function ($name, $link) {
+            return empty($link) ? $name : "<a href='$link' class='text-muted'>$name</a>";
+        }, $breadcrumps, array_keys($breadcrumps)));
+    }
+}
