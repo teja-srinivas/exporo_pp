@@ -24,14 +24,14 @@
 <body>
     <div id="app" class="d-flex flex-column wrapper">
         <div class="p-2 bg-white border-bottom">
-            <div class="container px-0 px-md-4 text-right small">
+            <div class="container px-0 px-md-4 d-flex align-items-center justify-content-end">
                 <img class="mr-3 hidden-xs" src="{{ asset('images/MAM-Partner-logo.svg') }}" height="20">
-                <span class="d-none d-sm-inline">Unsere</span>
-                Service-Hotline:&nbsp;&nbsp;
-                <strong>
-                    <a class="bold text-dark" href="tel:040210917300">040 / 210 91 73 - 00</a>&nbsp;&nbsp;
-                </strong>
-                Mo - Fr, 9 bis 20 Uhr
+                <div class="text-right small">
+                    <span class="d-none d-sm-inline">Unsere</span>
+                    Service-Hotline:
+                    <a class="bold text-dark font-weight-bold mx-1" href="tel:040210917300">040 / 210 91 73 - 00</a>
+                    Mo - Fr, 9 bis 20 Uhr
+                </div>
             </div>
         </div>
         <nav class="navbar navbar-expand-md navbar-light navbar-exporo sticky-top">
