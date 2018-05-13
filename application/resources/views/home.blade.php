@@ -8,15 +8,15 @@
             <div class="row text-center">
                 <div class="col-sm border-sm-right mb-3 mb-sm-0">
                     Ausstehend
-                    <div class="h2 mb-1">{{ formatMoney(0, 0) }}</div>
+                    <div class="h2 mb-1">{{ format_money(0, 0) }}</div>
                 </div>
                 <div class="col-sm border-sm-right mb-3 mb-sm-0">
                     Freigegeben
-                    <div class="h2 mb-1">{{ formatMoney(0, 0) }}</div>
+                    <div class="h2 mb-1">{{ format_money(0, 0) }}</div>
                 </div>
                 <div class="col-sm">
                     Ausgezahlt
-                    <div class="h2 mb-1">{{ formatMoney(0, 0) }}</div>
+                    <div class="h2 mb-1">{{ format_money(0, 0) }}</div>
                 </div>
             </div>
         </div>

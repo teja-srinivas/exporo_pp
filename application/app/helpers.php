@@ -13,7 +13,7 @@ if (! function_exists('now')) {
     }
 }
 
-if (!function_exists('number')) {
+if (!function_exists('format_money')) {
     /**
      * Get a formatted number.
      *
@@ -22,7 +22,7 @@ if (!function_exists('number')) {
      * @param string $pattern
      * @return string
      */
-    function formatMoney($amount, $decimals = 2, $pattern = '%s €')
+    function format_money($amount, $decimals = 2, $pattern = '%s €'): string
     {
         return sprintf($pattern, number_format($amount, $decimals, ',', '.'));
     }
