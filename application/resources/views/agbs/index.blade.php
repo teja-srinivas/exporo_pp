@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 
-@section('title', 'AGBs')
+@section('title', $list->count() . ' AGBs')
 
 @section('actions')
     <a href="{{ route('agbs.create') }}" class="btn btn-primary btn-sm">Neu Anlegen</a>
