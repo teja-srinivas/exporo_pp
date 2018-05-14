@@ -41,7 +41,8 @@
                     @endif
                 </div>
                 <div class="col-sm-2 d-flex align-items-center">
-                    <a href="{{ route('agbs.download', $agb) }}" class="btn btn-secondary btn-block btn-sm">
+                    <a href="{{ route('agbs.download', $agb) }}"
+                       class="btn btn-secondary btn-block btn-sm {{ empty($agb->filename) ? 'disabled' : '' }}">
                         PDF Anzeigen
                     </a>
                 </div>

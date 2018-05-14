@@ -29,7 +29,8 @@
                     @endif
                 </td>
                 <td class="text-right">
-                    <a href="{{ route('agbs.download', $agb) }}" class="btn btn-link btn-xs">PDF Anzeigen</a>
+                    <a href="{{ route('agbs.download', $agb) }}"
+                       class="btn btn-link btn-xs {{ empty($agb->filename) ? 'disabled' : '' }}">PDF Anzeigen</a>
                 </td>
             </tr>
         @empty
