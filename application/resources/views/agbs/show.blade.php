@@ -46,6 +46,6 @@
         </table>
     @endcard
 
-    @component('components.model.details', ['model' => $user])
+    @component('components.model.details', ['model' => $agb])
     @endcomponent
 @endsection
