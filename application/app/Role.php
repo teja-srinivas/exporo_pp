@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Dateable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Role extends \Spatie\Permission\Models\Role
 {
+    use Dateable;
+
     const PARTNER = 'partner';
     const INTERNAL = 'internal';
     const ADMIN = 'admin';

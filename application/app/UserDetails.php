@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Dateable;
 use App\Traits\Encryptable;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
@@ -11,6 +12,7 @@ class UserDetails extends Model implements AuditableContract
 {
     use Encryptable;
     use Auditable;
+    use Dateable;
 
     protected $fillable = [
         'company',

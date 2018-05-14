@@ -107,7 +107,7 @@
                                 value="{{ old('birth_month') }}" autocomplete="bday-month" required style="flex-basis: 33%">
                             <option {{ old('birth_month') ? '' : 'selected' }} disabled hidden>({{ __('Month') }})</option>
                             @foreach(range(1, 12) as $month)
-                                <option value="{{ $month }}">{{ \Date::now()->setDate(2018, $month, 1)->format('F') }}</option>
+                                <option value="{{ $month }}">{{ now()->setDate(2018, $month, 1)->format('F') }}</option>
                             @endforeach
                         </select>
                         <select class="custom-select w-auto ml-1" id="birthYear" name="birth_year"

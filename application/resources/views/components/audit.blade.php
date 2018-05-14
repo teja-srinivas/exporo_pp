@@ -17,7 +17,7 @@
                     </a>
                 </h6>
                 <abbr title="{{ $audit->created_at }}">
-                    {{ \Jenssegers\Date\Date::make($audit->created_at)->diffForHumans() }}
+                    {{ $audit->created_at->diffForHumans() }}
                 </abbr>
             </td>
             <td>

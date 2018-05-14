@@ -13,7 +13,7 @@
                 </td>
                 <td class="align-middle text-right" width="200">
                     <abbr title="{{ $document['created_at']}}">
-                        {{ \Jenssegers\Date\Date::make($document['created_at'])->diffForHumans() }}
+                        {{ $document['created_at']->diffForHumans() }}
                     </abbr>
                 </td>
             </tr>
