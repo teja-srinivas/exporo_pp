@@ -96,7 +96,7 @@ class AgbController extends Controller
         ]);
 
         // Replace the old file, if exists
-        if (isset($data['file'])) {
+        if ($request->has('file')) {
             $oldFilename = $agb->filename;
             $agb->filename = $request->file('file')->store(Agb::DIRECTORY);
 

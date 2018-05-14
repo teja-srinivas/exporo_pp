@@ -27,7 +27,7 @@
             <tr>
                 <th>Nachname</th>
                 <th>Vorname</th>
-                <th width="160">Datum</th>
+                <th width="140">Datum</th>
             </tr>
             </thead>
             <tbody>
@@ -35,7 +35,7 @@
                 <tr>
                     <td><a href="{{ route('users.show', $user) }}">{{ $user->last_name }}</a></td>
                     <td><a href="{{ route('users.show', $user) }}">{{ $user->first_name }}</a></td>
-                    <td>{{ $user->pivot->created_at->format('d.m.Y H:i:s') }}</td>
+                    <td>{{ $user->pivot->created_at->format('d.m.Y H:i') }}</td>
                 </tr>
             @empty
                 <tr class="text-center text-muted">

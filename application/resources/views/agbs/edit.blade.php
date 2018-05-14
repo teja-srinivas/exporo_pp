@@ -14,10 +14,9 @@
         @csrf
 
         @card
-            @slot('title', 'Angaben ändern')
             <div class="form-group row">
-                <label for="inputName" class="col-sm-2 col-form-label font-weight-bold">Anzeigename:</label>
-                <div class="col-sm-8">
+                <label for="inputName" class="col-sm-3 col-form-label font-weight-bold">Anzeigename:</label>
+                <div class="col-sm-7">
                     <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
                            id="inputName" value="{{ old('name', $agb->name) }}" name="name">
 
@@ -27,8 +26,8 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="inputFile" class="col-sm-2 col-form-label font-weight-bold">PDF-Datei:</label>
-                <div class="col-sm-8">
+                <label for="inputFile" class="col-sm-3 col-form-label font-weight-bold">PDF-Datei:</label>
+                <div class="col-sm-7">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input{{ $errors->has('file') ? ' is-invalid' : '' }}"
                                id="customFile" name="file">
@@ -48,8 +47,8 @@
                 </div>
             </div>
             <div class="form-group row mb-0">
-                <div class="col-sm-2 form-control-plaintext font-weight-bold">Anzeige:</div>
-                <div class="col-sm-10">
+                <div class="col-sm-3 form-control-plaintext font-weight-bold">Anzeige:</div>
+                <div class="col-sm-9">
                     <div class="custom-control custom-checkbox form-control-plaintext">
                         <input type="checkbox" class="custom-control-input" id="customCheck1"
                                name="is_default" {{ old('is_default', $agb->is_default) ? 'checked' :'' }}>
