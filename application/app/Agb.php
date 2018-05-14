@@ -17,6 +17,10 @@ class Agb extends Model implements AuditableContract
 
     static $_numberOfDefaults = null;
 
+    protected $casts = [
+        'is_default' => 'bool',
+    ];
+
     protected $fillable = [
         'name', 'is_default'
     ];
