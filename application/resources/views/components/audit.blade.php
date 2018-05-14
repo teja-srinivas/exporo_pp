@@ -1,5 +1,6 @@
 @can('view audits')
-<table class="table table-sm small table-borderless table-striped shadow-sm mb-0 bg-white mt-3">
+<div class="table-responsive shadow-sm mt-3">
+<table class="table table-sm small table-borderless table-striped mb-0 bg-white">
     <thead>
     <tr class="border-bottom">
         <th>Name</th>
@@ -23,9 +24,9 @@
             <td>
                 @foreach($audit->getModified() as $title => $row)
                     <div class="row">
-                        <div class="col-sm font-weight-bold">{{ $title }}</div>
-                        <div class="col-sm-5">{{ $row['old'] }}</div>
-                        <div class="col-sm-5">{{ $row['new'] }}</div>
+                        <div class="col-sm-4 col-lg-2 font-weight-bold">{{ $title }}</div>
+                        <div class="col-sm-4 col-lg-5">{{ $row['old'] }}</div>
+                        <div class="col-sm-4 col-lg-5">{{ $row['new'] }}</div>
                     </div>
                 @endforeach
             </td>
@@ -37,4 +38,5 @@
     @endforelse
     </tbody>
 </table>
+</div>
 @endcan
