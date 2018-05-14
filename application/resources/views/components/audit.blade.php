@@ -1,5 +1,5 @@
 @can('view audits')
-<div class="table-responsive shadow-sm mt-3">
+<div class="table-responsive-md shadow-sm mt-3">
 <table class="table table-sm small table-borderless table-striped mb-0 bg-white">
     <thead>
     <tr class="border-bottom">
@@ -8,7 +8,7 @@
     </tr>
     </thead>
     <tbody>
-    @forelse($model->audits->load('user') as $audit)
+    @forelse($model->audits->load('user')->sortByDesc('created_at') as $audit)
         <tr>
             <td width="130">
                 <h6 class="mb-0">
