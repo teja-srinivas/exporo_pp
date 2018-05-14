@@ -45,4 +45,7 @@
             </tbody>
         </table>
     @endcard
+
+    @component('components.model.details', ['model' => $user])
+    @endcomponent
 @endsection
