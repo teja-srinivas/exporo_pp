@@ -14,12 +14,13 @@
 Route::view('/', 'welcome');
 
 Route::get('agbs/{agb}/download', 'AgbController@download')->name('agbs.download');
-Route::resource('agbs', 'AgbController');
 
-Route::resource('documents', 'DocumentsController');
+Route::group(['before' => 'auth'], function () {
+    Route::resource('agbs', 'AgbController');
+    Route::resource('documents', 'DocumentsController');
+    Route::resource('users', 'UserController');
 
-Route::resource('users', 'UserController');
+    Route::get('/home', 'HomeController@index')->name('home');
+});
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
