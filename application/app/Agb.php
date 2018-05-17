@@ -15,7 +15,7 @@ class Agb extends Model implements AuditableContract
 
     const DIRECTORY = 'agbs';
 
-    static $_numberOfDefaults = null;
+    protected static $numberOfDefaults = null;
 
     protected $casts = [
         'is_default' => 'bool',
@@ -77,6 +77,6 @@ class Agb extends Model implements AuditableContract
 
     protected function numberOfAvailableDefaults()
     {
-        return self::$_numberOfDefaults ?: (self::$_numberOfDefaults = self::isDefault()->count());
+        return self::$numberOfDefaults ?: (self::$numberOfDefaults = self::isDefault()->count());
     }
 }
