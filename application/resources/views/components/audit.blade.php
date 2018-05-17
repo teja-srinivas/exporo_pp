@@ -52,7 +52,7 @@
             </tr>
         @empty
             <tr class="disabled">
-                <td colspan="2" class="text-center text-muted">Noch keine Änderungen vollzogen</td>
+                <td colspan="4" class="text-center text-muted">Noch keine Änderungen vollzogen</td>
             </tr>
         @endforelse
         </tbody>
