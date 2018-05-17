@@ -1,4 +1,4 @@
-<div class="my-3 p-2 border text-muted small d-flex flex-wrap">
+<div class="my-3 p-2 border text-muted small d-flex flex-wrap justify-content-between">
     {{ $slot }}
 
     @component('components.model.detail', ['title' => 'Erstellt'])
