@@ -22,9 +22,7 @@
                         </a>
                     </strong>
                     <br>
-                    <abbr title="{{ $audit->created_at }}">
-                        {{ $audit->created_at->diffForHumans() }}
-                    </abbr>
+                    @timeago($audit->created_at)
                 </td>
                 @foreach($audit->getModified() as $title => $row)
                     @unless($loop->first)

@@ -2,10 +2,10 @@
     {{ $slot }}
 
     @component('components.model.detail', ['title' => 'Erstellt'])
-        <abbr title="{{ $model->created_at }}">{{ $model->created_at->diffForHumans() }}</abbr>
+        @timeago($model->created_at)
     @endcomponent
 
     @component('components.model.detail', ['title' => 'Aktualisiert'])
-        <abbr title="{{ $model->updated_at }}">{{ $model->updated_at->diffForHumans() }}</abbr>
+        @timeago($model->updated_at)
     @endcomponent
 </div>

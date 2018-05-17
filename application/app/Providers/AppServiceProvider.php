@@ -20,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
         // Accented card with its title and content in the body
         Blade::component('components.card', 'card');
 
+        // Add @timeago as we use it very often to display relative timestamps
+        Blade::directive('timeago', function ($exp) {
+            return "<?php echo \$__env->make('components.timeago', ['dateTime' => $exp]) ?>";
+        });
+
         // Custom breadcrumps instead of the bootstrap component
         Blade::directive('breadcrumps', function ($exp) {
             return "<?php echo render_breadcrumps($exp); ?>";

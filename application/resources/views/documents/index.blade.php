@@ -12,9 +12,7 @@
                     <h5><a href="{{ $document['link'] }}">{{ $document['title'] }}</a></h5>
                 </td>
                 <td class="align-middle text-right" width="200">
-                    <abbr title="{{ $document['created_at']}}">
-                        {{ $document['created_at']->diffForHumans() }}
-                    </abbr>
+                    @timeago($document['created_at'])
                 </td>
             </tr>
         @empty
