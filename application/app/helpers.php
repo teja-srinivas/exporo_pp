@@ -44,3 +44,16 @@ if (!function_exists('render_breadcrumps')) {
         }, $breadcrumps, array_keys($breadcrumps)));
     }
 }
+
+if (!function_exists('flash_success')) {
+    /**
+     * Flashes a success message (usually after saving some data).
+     *
+     * @param string $message
+     * @return void
+     */
+    function flash_success(string $message = 'Eingaben wurden gespeichert'): void
+    {
+        session()->flash('status', $message);
+    }
+}

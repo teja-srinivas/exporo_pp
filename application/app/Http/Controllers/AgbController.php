@@ -110,6 +110,8 @@ class AgbController extends Controller
 
         $agb->saveOrFail();
 
+        flash_success();
+
         return redirect()->route('agbs.edit', $agb);
     }
 

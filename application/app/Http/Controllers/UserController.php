@@ -109,6 +109,8 @@ class UserController extends Controller
 
         $user->fill($data)->saveOrFail();
 
+        flash_success();
+
         return redirect()->route('users.edit', $user);
     }
 

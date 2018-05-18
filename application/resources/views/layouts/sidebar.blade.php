@@ -39,6 +39,14 @@
                     @yield('actions')
                 </div>
 
+                {{-- Validation Errors --}}
+                @if($errors->any())
+                    <div class="alert alert-warning">
+                        Es sind Fehler beim Speichern aufgetreten
+                    </div>
+                @endif
+
+                {{-- Other status messages --}}
                 @if(session('status'))
                     <div class="alert alert-success">
                         {{ session('status') }}
