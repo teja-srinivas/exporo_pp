@@ -1,5 +1,6 @@
 @can('view audits')
-<div class="table-responsive shadow-sm mt-3">
+<h5 class="mt-4 mb-3">Änderungsprotokoll</h5>
+<div class="table-responsive shadow-sm">
     <table class="table table-sm small table-striped mb-0 bg-white">
         <thead>
         <tr>
