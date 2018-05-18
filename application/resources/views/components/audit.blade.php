@@ -10,7 +10,21 @@
         </tr>
         </thead>
         <tbody>
-        @forelse($model->audits->load('user')->sortByDesc('created_at') as $audit)
+        {{-- We collect all models and convert their audits into pairs --}}
+        {{-- of model and audit to preserve their original relation --}}
+        {{-- as it is not preserved in the audit model itself. --}}
+        @php($models = is_a($model, Illuminate\Database\Eloquent\Model::class) ? [$model] : $model)
+        @php($audits = collect($models)->map(function ($model) {
+            return $model->audits->load('user')->map(function ($audit) use ($model) {
+                return [$model, $audit];
+            });
+        })->flatten(1))
+
+        {{-- We then display each entry ordered by creation date --}}
+        @forelse($audits->sortByDesc(function ($entry) {
+            [, $audit] = $entry;
+            return $audit->created_at;
+        }) as [$entity, $audit])
             @php($_modifications = $audit->getModified())
 
             <tr>
@@ -48,7 +62,7 @@
                     </td>
                     <td>
                     @isset($row['old'])
-                        @if(in_array($title, $model->getHidden()))
+                        @if(in_array($title, $entity->getHidden()))
                             <span class="text-muted">(versteckt)</span>
                         @elseif(is_bool($row['old']))
                             {!! $row['old'] ? '✔' : '-' !!}
@@ -59,7 +73,7 @@
                     </td>
                     <td>
                     @isset($row['new'])
-                        @if(in_array($title, $model->getHidden()))
+                        @if(in_array($title, $entity->getHidden()))
                             <span class="text-muted">(versteckt)</span>
                         @elseif(is_bool($row['new']))
                             {!! $row['new'] ? '✔' : '-' !!}
