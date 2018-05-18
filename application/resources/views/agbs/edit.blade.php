@@ -68,5 +68,7 @@
         @endcard
     </form>
 
+    @include('agbs.details')
+
     @include('components.audit', ['model' => $agb])
 @endsection

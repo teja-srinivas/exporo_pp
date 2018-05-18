@@ -46,6 +46,5 @@
         </table>
     @endcard
 
-    @component('components.model.details', ['model' => $agb])
-    @endcomponent
+    @include('agbs.details')
 @endsection
