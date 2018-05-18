@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Agb;
-use App\Role;
-use App\Rules\VatId;
-use App\User;
 use App\Http\Controllers\Controller;
+use App\Role;
+use App\User;
+use App\UserDetails;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -54,29 +53,16 @@ class RegisterController extends Controller
     {
         $data['birth_date'] = $this->makeBirthDate($data);
 
-        return Validator::make($data, [
-            'company' => 'nullable|string|max:100',
-            'title' => ['nullable', Rule::in(User::TITLES)],
-            'salutation' => 'required|in:male,female',
-            'first_name' => 'required|string|max:100',
-            'last_name' => 'required|string|max:100',
-            'birth_date' => 'required|date|before_or_equal:' . now()->subYears(18), // needs to be an adult
-            'birth_place' => 'required|string|max:100',
-            'address_street' => 'nullable|string|max:100',
-            'address_number' => 'nullable|string|max:20',
-            'address_addition' => 'nullable|string|max:100',
-            'address_zipcode' => 'nullable|string|max:20',
-            'address_city' => 'nullable|string|max:100',
-            'email' => 'required|string|email|max:255|unique:users',
-            'phone' => 'required|string|max:100',
-            'website' => 'nullable|string|max:100',
-            'vat_id' => ['nullable', new VatId()],
-            'tax_office' => 'nullable|string|max:100',
-            'password' => 'required|string|min:6|confirmed',
-            'legal_exporo_ag' => 'accepted',
-            'legal_exporo_gmbh' => 'accepted',
-            'legal_transfer' => 'accepted',
-        ]);
+        return Validator::make($data, array_merge(
+            User::getValidationRules(),
+            UserDetails::getValidationRules(),
+            [
+                'password' => 'required|string|min:6|confirmed',
+                'legal_exporo_ag' => 'accepted',
+                'legal_exporo_gmbh' => 'accepted',
+                'legal_transfer' => 'accepted',
+            ]
+        ));
     }
 
     /**
