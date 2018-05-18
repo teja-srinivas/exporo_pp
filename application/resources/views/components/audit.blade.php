@@ -33,14 +33,18 @@
                         <strong>{{ $title }}</strong>
                     </td>
                     <td>
-                        @if(is_bool($row['old']))
+                        @if(in_array($title, $model->getHidden()))
+                            <span class="text-muted">(versteckt)</span>
+                        @elseif(is_bool($row['old']))
                             {!! $row['old'] ? '✔' : '-' !!}
                         @else
                             {{ $row['old'] }}
                         @endif
                     </td>
                     <td>
-                        @if(is_bool($row['new']))
+                        @if(in_array($title, $model->getHidden()))
+                            <span class="text-muted">(versteckt)</span>
+                        @elseif(is_bool($row['new']))
                             {!! $row['new'] ? '✔' : '-' !!}
                         @else
                             {{ $row['new'] }}
