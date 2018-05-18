@@ -16,7 +16,9 @@
         {{-- as it is not preserved in the audit model itself. --}}
         @php($models = is_a($model, Illuminate\Database\Eloquent\Model::class) ? [$model] : $model)
         @php($audits = collect($models)->map(function ($model) {
-            return $model->audits->load('user')->map(function ($audit) use ($model) {
+            return $model->audits->load('user')->filter(function($audit) {
+                return !empty($audit->new_values) || !empty($audit->old_values);
+            })->map(function ($audit) use ($model) {
                 return [$model, $audit];
             });
         })->flatten(1))
