@@ -16,8 +16,8 @@ $card-border-radius: 0;
 // Brand
 $primary: #1e73be;
 $primary-dark: #274a7f;
-$primary-lighter: #5774bb;
-$primary-light: #d2e6f9;
+$primary-lighter: lighten($primary, 20%);
+$primary-light: lighten($primary, 45%);
 $secondary: #565656;
 $light: #f4f3f7;
 $black: #000;
