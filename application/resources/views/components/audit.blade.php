@@ -22,6 +22,10 @@
                         </a>
                     </strong>
                     <br>
+                    @unless($audit->event === 'updated')
+                        <strong>{{ $audit->event }}</strong>
+                        <br>
+                    @endunless
                     @timeago($audit->created_at)
                 </td>
                 @foreach($audit->getModified() as $title => $row)
