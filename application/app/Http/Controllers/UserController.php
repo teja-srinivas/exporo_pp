@@ -109,7 +109,7 @@ class UserController extends Controller
 
         $user->fill($data)->saveOrFail();
 
-        return view('users.edit', compact('user'));
+        return redirect()->route('users.edit', $user);
     }
 
     /**
