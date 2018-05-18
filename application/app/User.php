@@ -96,12 +96,10 @@ class User extends Authenticatable implements AuditableContract
 
     public static function getValidationRules(self $updating = null)
     {
-        $optionalMail = $updating !== null ? ",{$updating->id}" : '';
-
         return [
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
-            'email' => 'required|string|email|max:255|unique:users,email' . $optionalMail,
+            'email' => 'required|string|email|max:255|unique:users,email,' . optional($updating)->id,
         ];
     }
 }
