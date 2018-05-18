@@ -15,11 +15,21 @@
 
             <tr>
                 <td width="130" class="border-right" rowspan="{{ count($_modifications) }}">
-                    <strong class="mb-0">
+                    <strong>
+                        @empty($audit->user)
+                            <span class="text-muted">
+                                @if($audit->user_id === null)
+                                    System
+                                @else
+                                    Unbekannt (@json($audit->user))
+                                @endif
+                            </span>
+                        @else
                         <a href="{{ route('users.show', $audit->user) }}">
                             {{ $audit->user->first_name }}
                             {{ $audit->user->last_name }}
                         </a>
+                        @endempty
                     </strong>
                     <br>
                     @unless($audit->event === 'updated')
