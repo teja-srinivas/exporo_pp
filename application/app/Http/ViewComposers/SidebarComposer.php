@@ -125,11 +125,19 @@ class SidebarComposer
     {
         $links = [];
 
-        if ($this->userCan('create agbs', 'edit agbs', 'delete agbs')) {
+        if ($this->authorizeResource('agbs')) {
             $links[] = [
                 'title' => 'AGBs',
                 'url' => route('agbs.index'),
                 'isActive' => $this->request->routeIs('agbs.*'),
+            ];
+        }
+
+        if ($this->authorizeResource('users')) {
+            $links[] = [
+                'title' => 'Benutzer',
+                'url' => route('users.index'),
+                'isActive' => $this->request->routeIs('users.*'),
             ];
         }
 
@@ -141,8 +149,13 @@ class SidebarComposer
         ];
     }
 
-    protected function userCan(...$permissions)
+    protected function authorizeAny(string ...$permissions): bool
     {
         return Gate::forUser($this->user)->any($permissions);
+    }
+
+    protected function authorizeResource(string $resource): bool
+    {
+        return $this->authorizeAny("view $resource", "create $resource", "edit $resource", "delete $resource");
     }
 }

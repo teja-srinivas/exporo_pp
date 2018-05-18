@@ -4,6 +4,7 @@ namespace App;
 
 use App\Traits\Dateable;
 use App\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -74,6 +75,23 @@ class User extends Authenticatable implements AuditableContract
     public function agbs(): BelongsToMany
     {
         return $this->belongsToMany(Agb::class)->withTimestamps();
+    }
+
+    public function scopeOrdered(Builder $query)
+    {
+        $query->orderBy('last_name')->orderBy('first_name');
+    }
+
+    public static function getRoleColor(Role $role)
+    {
+        switch ($role->name ?? '') {
+            case Role::ADMIN:
+                return 'primary';
+            case Role::INTERNAL:
+                return 'success';
+            default:
+                return 'light';
+        }
     }
 
     public static function getValidationRules(self $updating = null)

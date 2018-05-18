@@ -1,17 +1,35 @@
-@extends('layouts.app')
+@extends('layouts.sidebar')
 
-@section('content')
-    <div class="container">
+@section('title')
+    @if($user->is(auth()->user()))
+        Benutzerinformationen
+    @else
+        @breadcrumps([
+            route('users.index') => 'Benutzer',
+            route('users.show', $user) => "{$user->first_name} {$user->last_name}",
+            'Bearbeiten'
+        ])
+    @endif
+@endsection
+
+@section('main-content')
+    <form action="{{ route('users.update', $user) }}" method="POST">
+        @method('PUT')
+        @csrf
+
         @card
-            @slot('title', 'Benutzerinformationen')
+            @slot('title', __('users.edit.required_information.title'))
+            @slot('info', __('users.edit.required_information.info'))
 
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-
-            @include('auth.partials.register')
+            @include('users.partials.forms.required_information')
         @endcard
-    </div>
+
+        <div class="text-right my-3">
+            <button class="btn btn-primary">Änderungen Speichern</button>
+        </div>
+    </form>
+
+    @include('users.details')
+
+    @include('components.audit', ['model' => [$user, $user->details]])
 @endsection

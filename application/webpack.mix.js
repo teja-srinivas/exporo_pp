@@ -28,6 +28,9 @@ mix.version();
 mix.purgeCss({
     // Dropdowns and animated JS content
     whitelist: ['show', 'fade', 'collapse', 'collapsing'],
+
+    // We use badges for user role colors
+    whitelistPatterns: [/^badge-/],
 });
 
 mix.extract([
