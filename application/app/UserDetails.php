@@ -14,7 +14,9 @@ class UserDetails extends Model implements AuditableContract
 {
     use Encryptable;
     use Auditable;
-    use Dateable;
+    use Dateable {
+        asDateTime as parentAsDateTime;
+    }
 
     protected $fillable = [
         'company',
@@ -60,5 +62,11 @@ class UserDetails extends Model implements AuditableContract
             'vat_id' => ['nullable', new VatId()],
             'tax_office' => 'nullable|string|max:100',
         ];
+    }
+
+    // Fix for the audit package not detecting this method (for some reason)
+    protected function asDateTime($value)
+    {
+        return $this->parentAsDateTime($value);
     }
 }
