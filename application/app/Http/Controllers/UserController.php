@@ -126,5 +126,7 @@ class UserController extends Controller
         $this->authorize('destroy users');
 
         $user->delete();
+
+        return redirect()->route('users.index');
     }
 }
