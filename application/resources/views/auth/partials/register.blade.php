@@ -4,43 +4,27 @@
     <div class="row">
         <div class="col-lg">
             <div class="form-group row">
-                <label for="company" class="col-sm-4 col-form-label">{{ __('Company') }}</label>
-
+                <label for="inputCompany" class="col-sm-4 col-form-label">{{ __('Company') }}</label>
                 <div class="col-sm-8">
-                    <input id="company" type="text" class="form-control{{ $errors->has('company') ? ' is-invalid' : '' }}" name="company"
-                           value="{{ old('company') }}" autocomplete="organization">
-
-                    @if ($errors->has('company'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('company') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.input', [
+                        'name' => 'company',
+                        'autocomplete' => 'organization',
+                    ])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="title" class="col-sm-4 col-form-label">{{ __('Title') }}</label>
-
+                <label for="inputTitle" class="col-sm-4 col-form-label">{{ __('Title') }}</label>
                 <div class="col-sm-8">
-                    <select class="custom-select{{ $errors->has('title') ? ' is-invalid' : '' }} w-auto"
-                            id="title" name="title" value="{{ old('title') }}">
-                        <option value="" selected>--</option>
-                        @foreach(\App\User::TITLES as $title)
-                            <option>{{ $title }}</option>
-                        @endforeach
-                    </select>
-
-                    @if ($errors->has('title'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('title') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.select', [
+                        'name' => 'title',
+                        'values' => \App\User::TITLES,
+                    ])
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="salutation1" class="col-sm-4 col-form-label font-weight-bold">{{ __('Salutation') }}*</label>
-
                 <div class="col-sm-8 pt-1">
                     <div class="custom-control custom-control-inline custom-radio{{ $errors->has('salutation') ? ' is-invalid' : '' }}">
                         <input type="radio" id="salutation1" name="salutation" value="female" class="custom-control-input"
@@ -53,265 +37,220 @@
                         <label class="custom-control-label" for="salutation2">Herr</label>
                     </div>
 
-                    @if ($errors->has('salutation'))
-                        <div class="invalid-feedback">
-                            <strong>{{ $errors->first('salutation') }}</strong>
-                        </div>
-                    @endif
+                    @include('components.form.error', ['name' => 'salutation'])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="first_name" class="col-sm-4 col-form-label font-weight-bold">{{ __('First Name') }}*</label>
-
+                <label for="inputFirstName" class="col-sm-4 col-form-label font-weight-bold">{{ __('First Name') }}*</label>
                 <div class="col-sm-8">
-                    <input id="first_name" type="text" class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}" name="first_name"
-                           value="{{ old('first_name') }}" autocomplete="given-name" required>
-
-                    @if ($errors->has('first_name'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('first_name') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.input', [
+                        'name' => 'first_name',
+                        'autocomplete' => 'given-name',
+                        'required' => true,
+                    ])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="last_name" class="col-sm-4 col-form-label font-weight-bold">{{ __('Last Name') }}*</label>
-
+                <label for="inputLastName" class="col-sm-4 col-form-label font-weight-bold">{{ __('Last Name') }}*</label>
                 <div class="col-sm-8">
-                    <input id="last_name" type="text" class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}" name="last_name"
-                           value="{{ old('last_name') }}" autocomplete="family-name" required>
-
-                    @if ($errors->has('last_name'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('last_name') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.input', [
+                        'name' => 'last_name',
+                        'autocomplete' => 'family-name',
+                        'required' => true,
+                    ])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="birth_day" class="col-sm-4 col-form-label font-weight-bold">{{ __('Birthday') }}*</label>
-
+                <label for="inputBirthDay" class="col-sm-4 col-form-label font-weight-bold">{{ __('Birthday') }}*</label>
                 <div class="col-sm-8">
                     <div>
-                        <select class="custom-select w-auto" id="birthDay" name="birth_day"
-                                value="{{ old('birth_day') }}" autocomplete="bday-day" required>
-                            <option {{ old('birth_day') ? '' : 'selected' }} disabled hidden>({{ __('Day') }})</option>
-                            @foreach(range(1, 31) as $day)
-                                <option value="{{ $day }}">{{ $day }}.</option>
-                            @endforeach
-                        </select>
-                        <select class="custom-select w-auto ml-1" id="birthMonth" name="birth_month"
-                                value="{{ old('birth_month') }}" autocomplete="bday-month" required style="flex-basis: 33%">
-                            <option {{ old('birth_month') ? '' : 'selected' }} disabled hidden>({{ __('Month') }})</option>
-                            @foreach(range(1, 12) as $month)
-                                <option value="{{ $month }}">{{ now()->setDate(2018, $month, 1)->format('F') }}</option>
-                            @endforeach
-                        </select>
-                        <select class="custom-select w-auto ml-1" id="birthYear" name="birth_year"
-                                value="{{ old('birth_year') }}" autocomplete="bday-year" required>
-                            <option {{ old('birth_year') ? '' : 'selected' }} disabled hidden>({{ __('Year') }})</option>
-                            @foreach(range(now()->year - 17, now()->year - 120) as $year)
-                                <option value="{{ $year }}">{{ $year }}</option>
-                            @endforeach
-                        </select>
+                        @include('components.form.select', [
+                            'name' => 'birth_day',
+                            'emptyText' => '(' . __('Day') . ')',
+                            'autocomplete' => 'bday-day',
+                            'required' => true,
+                            'error' => false,
+                            'values' => range(1, 31),
+                        ])
+                        @include('components.form.select', [
+                            'name' => 'birth_month',
+                            'assoc' => true,
+                            'emptyText' => '(' . __('Month') . ')',
+                            'autocomplete' => 'bday-month',
+                            'required' => true,
+                            'error' => false,
+                            'values' => collect(range(1, 12))->mapWithKeys(function ($month) {
+                                return [$month => now()->setDate(2018, $month, 1)->format('F')];
+                            }),
+                        ])
+                        @include('components.form.select', [
+                            'name' => 'birth_year',
+                            'emptyText' => '(' . __('Year') . ')',
+                            'autocomplete' => 'bday-year',
+                            'required' => true,
+                            'error' => false,
+                            'values' => range(now()->year - 17, now()->year - 120),
+                        ])
                     </div>
 
-                    @if ($errors->has('birth_*'))
-                        <span class="invalid-feedback d-block">
-                            <strong>{{ $errors->first('birth_*') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.error', [
+                        'name' => 'birth_*',
+                        'class' => 'd-block'
+                    ])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="birth_place" class="col-sm-4 col-form-label font-weight-bold">{{ __('Birthplace') }}*</label>
-
+                <label for="inputBirthPlace" class="col-sm-4 col-form-label font-weight-bold">{{ __('Birthplace') }}*</label>
                 <div class="col-sm-8">
-                    <input id="birth_place" type="text" class="form-control{{ $errors->has('birth_place') ? ' is-invalid' : '' }}" name="birth_place"
-                           value="{{ old('birth_place') }}" required>
-
-                    @if ($errors->has('birth_place'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('birth_place') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.input', [
+                        'name' => 'birth_place',
+                        'required' => true,
+                    ])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="address_street" class="col-sm-4 col-form-label">{{ __('Address') }}</label>
-
+                <label for="inputAddressStreet" class="col-sm-4 col-form-label">{{ __('Address') }}</label>
                 <div class="col-sm-8">
                     <div class="row">
                         <div class="col-8">
-                            <input id="address_street" type="text" class="form-control{{ $errors->has('address_street') ? ' is-invalid' : '' }}" name="address_street"
-                                   value="{{ old('address_street') }}" autocomplete="address-line1" placeholder="Musterstraße">
+                            @include('components.form.input', [
+                                'name' => 'address_street',
+                                'autocomplete' => 'address-line1',
+                                'placeholder' => 'Musterstraße',
+                                'error' => false,
+                            ])
                         </div>
                         <div class="col-4">
-                            <input id="address_number" type="text" class="form-control{{ $errors->has('address_number') ? ' is-invalid' : '' }}" name="address_number"
-                                   value="{{ old('address_number') }}" placeholder="1">
+                            @include('components.form.input', [
+                                'name' => 'address_number',
+                                'placeholder' => '12c',
+                                'error' => false,
+                            ])
                         </div>
                     </div>
 
-                    @if ($errors->has('address_street'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('address_street') }}</strong>
-                        </span>
-                    @endif
-                    @if ($errors->has('address_number'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('address_number') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.error', ['name' => 'address_street'])
+                    @include('components.form.error', ['name' => 'address_number'])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="address_addition" class="col-sm-4 col-form-label">{{ __('Address Addition') }}</label>
-
+                <label for="inputAddressAddition" class="col-sm-4 col-form-label">{{ __('Address Addition') }}</label>
                 <div class="col-sm-8">
-                    <input id="address_addition" type="text" class="form-control{{ $errors->has('address_addition') ? ' is-invalid' : '' }}" name="address_addition"
-                           value="{{ old('address_addition') }}" autocomplete="address-line2" placeholder="Haus 1 (optional)">
-
-                    @if ($errors->has('address_addition'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('address_addition') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.input', [
+                        'name' => 'address_addition',
+                        'autocomplete' => 'address-line2',
+                        'placeholder' => 'Haus 1 (optional)',
+                    ])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="address_zipcode" class="col-sm-4 col-form-label font-weight-bold">{{ __('ZIP Code') }}*</label>
-
+                <label for="inputAddressZipcode" class="col-sm-4 col-form-label font-weight-bold">{{ __('ZIP Code') }}*</label>
                 <div class="col-sm-8">
-                    <input id="address_zipcode" type="text" class="form-control{{ $errors->has('address_zipcode') ? ' is-invalid' : '' }}" name="address_zipcode"
-                           value="{{ old('address_zipcode') }}" autocomplete="postal-code" required>
-
-                    @if ($errors->has('address_zipcode'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('address_zipcode') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.input', [
+                        'name' => 'address_zipcode',
+                        'autocomplete' => 'postal-code',
+                        'required' => true,
+                    ])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="address_city" class="col-sm-4 col-form-label font-weight-bold">{{ __('City') }}*</label>
-
+                <label for="inputAddressCity" class="col-sm-4 col-form-label font-weight-bold">{{ __('City') }}*</label>
                 <div class="col-sm-8">
-                    <input id="address_city" type="text" class="form-control{{ $errors->has('address_city') ? ' is-invalid' : '' }}" name="address_city"
-                           value="{{ old('address_city') }}" autocomplete="address-level2" required>
-
-                    @if ($errors->has('address_city'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('address_city') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.input', [
+                        'name' => 'address_city',
+                        'autocomplete' => 'address-level2',
+                        'required' => true,
+                    ])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="email" class="col-sm-4 col-form-label font-weight-bold">{{ __('E-Mail Address') }}*</label>
-
+                <label for="inputEmail" class="col-sm-4 col-form-label font-weight-bold">{{ __('E-Mail Address') }}*</label>
                 <div class="col-sm-8">
-                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                           name="email" value="{{ old('email') }}" autocomplete="email" required>
-
-                    @if ($errors->has('email'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.input', [
+                        'type' => 'email',
+                        'name' => 'email',
+                        'autocomplete' => 'email',
+                        'required' => true,
+                    ])
                 </div>
             </div>
 
             <div class="form-group row mb-0">
-                <label for="phone" class="col-sm-4 col-form-label font-weight-bold">{{ __('Telephone') }}*</label>
-
+                <label for="inputPhone" class="col-sm-4 col-form-label font-weight-bold">{{ __('Telephone') }}*</label>
                 <div class="col-sm-8">
-                    <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}"
-                           name="phone" value="{{ old('phone') }}" autocomplete="tel-national" required>
-
-                    @if ($errors->has('phone'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('phone') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.input', [
+                        'type' => 'tel',
+                        'name' => 'phone',
+                        'autocomplete' => 'tel-national',
+                        'required' => true,
+                    ])
                 </div>
             </div>
         </div>
 
         <div class="col-lg">
             <div class="form-group row">
-                <label for="website" class="col-sm-4 col-form-label">{{ __('Your Website') }}</label>
-
+                <label for="inputWebsite" class="col-sm-4 col-form-label">{{ __('Your Website') }}</label>
                 <div class="col-sm-8">
-                    <input id="website" type="url" class="form-control{{ $errors->has('website') ? ' is-invalid' : '' }}" name="website"
-                           value="{{ old('website') }}">
-
-                    @if ($errors->has('website'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('website') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.input', [
+                        'type' => 'url',
+                        'name' => 'website',
+                        'autocomplete' => 'url',
+                    ])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="vat_id" class="col-sm-4 col-form-label">{{ __('VAT ID') }}</label>
-
+                <label for="inputVatId" class="col-sm-4 col-form-label">{{ __('VAT ID') }}</label>
                 <div class="col-sm-8">
-                    <input id="vat_id" type="text" class="form-control{{ $errors->has('vat_id') ? ' is-invalid' : '' }}" name="vat_id"
-                           value="{{ old('vat_id') }}">
-
-                    @if ($errors->has('vat_id'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('vat_id') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.input', [
+                        'type' => 'text',
+                        'name' => 'vat_id',
+                    ])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="tax_office" class="col-sm-4 col-form-label">{{ __('Tax Office') }}</label>
-
+                <label for="inputTaxOffice" class="col-sm-4 col-form-label">{{ __('Tax Office') }}</label>
                 <div class="col-sm-8">
-                    <input id="tax_office" type="text" class="form-control{{ $errors->has('tax_office') ? ' is-invalid' : '' }}" name="tax_office"
-                           value="{{ old('tax_office') }}">
-
-                    @if ($errors->has('tax_office'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('tax_office') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.input', [
+                        'type' => 'text',
+                        'name' => 'tax_office',
+                    ])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="password" class="col-sm-4 col-form-label font-weight-bold">{{ __('Password') }}*</label>
-
+                <label for="inputPassword" class="col-sm-4 col-form-label font-weight-bold">{{ __('Password') }}*</label>
                 <div class="col-sm-8">
-                    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                           name="password" required>
-
-                    @if ($errors->has('password'))
-                        <span class="invalid-feedback">
-                            <strong>{{ $errors->first('password') }}</strong>
-                        </span>
-                    @endif
+                    @include('components.form.input', [
+                        'type' => 'password',
+                        'name' => 'password',
+                        'autocomplete' => 'new-password',
+                        'required' => true,
+                    ])
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="password-confirm" class="col-sm-4 col-form-label font-weight-bold">{{ __('Confirm Password') }}*</label>
-
+                <label for="inputPasswordConfirmation" class="col-sm-4 col-form-label font-weight-bold">{{ __('Confirm Password') }}*</label>
                 <div class="col-sm-8">
-                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                    @include('components.form.input', [
+                        'type' => 'password',
+                        'name' => 'password_confirmation',
+                        'autocomplete' => 'new-password',
+                        'required' => true,
+                        'error' => false,
+                    ])
                 </div>
             </div>
 
@@ -335,11 +274,7 @@
                     </label>
                 </div>
 
-                @if ($errors->has('legal_exporo_ag'))
-                    <span class="invalid-feedback">
-                        <strong>{{ $errors->first('llegal_exporo_ag') }}</strong>
-                    </span>
-                @endif
+                @include('components.form.error', ['name' => 'llegal_exporo_ag'])
 
                 <div class="custom-control custom-checkbox mt-2">
                     <input type="checkbox" class="custom-control-input" id="legal_exporo_gmbh" name="legal_exporo_gmbh"
@@ -350,11 +285,7 @@
                     </label>
                 </div>
 
-                @if ($errors->has('legal_exporo_gmbh'))
-                    <span class="invalid-feedback">
-                        <strong>{{ $errors->first('laslegal_exporo_gmbh') }}</strong>
-                    </span>
-                @endif
+                @include('components.form.error', ['name' => 'legal_exporo_gmbh'])
 
                 <div class="custom-control custom-checkbox mt-4">
                     <input type="checkbox" class="custom-control-input" id="legal_transfer" name="legal_transfer"
@@ -366,11 +297,7 @@
                     </label>
                 </div>
 
-                @if ($errors->has('legal_transfer'))
-                    <span class="invalid-feedback">
-                        <strong>{{ $errors->first('legal_transfer') }}</strong>
-                    </span>
-                @endif
+                @include('components.form.error', ['name' => 'legal_transfer'])
             </div>
 
             <div class="form-group row">
