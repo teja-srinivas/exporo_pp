@@ -1,2 +1,1 @@
-@component('components.model.details', ['model' => $agb])
-@endcomponent
+@include('components.model.details', ['model' => $agb])

@@ -1,5 +1,6 @@
+{{-- TODO add permission to view this? --}}
 <div class="my-3 p-2 border text-muted small d-flex flex-wrap justify-content-between">
-    {{ $slot }}
+    {{ $slot ?? '' }}
 
     @component('components.model.detail', ['title' => 'Erstellt'])
         @timeago($model->created_at)
