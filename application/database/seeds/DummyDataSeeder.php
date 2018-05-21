@@ -34,7 +34,7 @@ class DummyDataSeeder extends Seeder
             $user->assignRole(Role::PARTNER);
             $user->agbs()->attach($agbs->random(2));
 
-            factory(UserDetails::class)->create(['id' => $user->id]);
+            $user->details()->create(factory(UserDetails::class)->raw());
         });
     }
 }

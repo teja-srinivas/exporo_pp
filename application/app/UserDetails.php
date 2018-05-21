@@ -18,6 +18,8 @@ class UserDetails extends Model implements AuditableContract
         asDateTime as parentAsDateTime;
     }
 
+    public $incrementing = false;
+
     protected $fillable = [
         'company',
         'title',
