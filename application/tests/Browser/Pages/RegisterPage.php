@@ -56,9 +56,9 @@ class RegisterPage extends BasePage
         $browser->type('phone', $details->phone);
         $browser->type('password', 'secret');
         $browser->type('password_confirmation', 'secret');
-        $browser->check('label[for=legal_exporo_ag]>span');
-        $browser->check('label[for=legal_exporo_gmbh]>span');
-        $browser->check('label[for=legal_transfer]>span');
+        $browser->check('label[for=inputLegalExporoAg]>span');
+        $browser->check('label[for=inputLegalExporoGmbh]>span');
+        $browser->check('label[for=inputLegalTransfer]>span');
     }
 
     /**

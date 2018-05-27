@@ -2,11 +2,14 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ExampleTest extends TestCase
+class HomeTest extends TestCase
 {
+    use DatabaseMigrations;
+
     /**
      * A basic test example.
      *
@@ -16,6 +19,7 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/');
 
+        $response->assertSee(__('Login'));
         $response->assertStatus(200);
     }
 }

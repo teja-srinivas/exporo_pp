@@ -11,9 +11,7 @@ use Tests\DuskTestCase;
 
 class RegisterTest extends DuskTestCase
 {
-    use DatabaseMigrations {
-        runDatabaseMigrations as runMigrations;
-    }
+    use DatabaseMigrations;
 
     /**
      * Checks if users are able to register on the site.
