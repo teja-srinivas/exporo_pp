@@ -15,7 +15,7 @@ Route::view('/', 'welcome');
 
 Route::get('agbs/{agb}/download', 'AgbController@download')->name('agbs.download');
 
-Route::group(['before' => 'auth'], function () {
+Route::middleware(['auth'])->group(function () {
     Route::resource('agbs', 'AgbController');
     Route::resource('documents', 'DocumentsController');
     Route::resource('users', 'UserController');
