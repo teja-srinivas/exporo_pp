@@ -11,7 +11,7 @@
         {{-- Card Contents --}}
         @isset($info)
             <div class="row">
-                <div class="col-lg-4 mb-3 mb-lg-0 small text-dark">
+                <div class="col-lg-4 mb-3 mb-lg-0 small">
                     @isset($title)
                         <h5 class="card-title">{{ $title }}</h5>
                     @endif
