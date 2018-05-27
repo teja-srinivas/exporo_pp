@@ -11,24 +11,15 @@
         </tr>
         </thead>
         <tbody>
-        {{-- We collect all models and convert their audits into pairs --}}
-        {{-- of model and audit to preserve their original relation --}}
-        {{-- as it is not preserved in the audit model itself. --}}
-        @php($models = is_a($model, Illuminate\Database\Eloquent\Model::class) ? [$model] : $model)
-        @php($audits = collect($models)->map(function ($model) {
-            return $model->audits->load('user')->filter(function($audit) {
-                return !empty($audit->new_values) || !empty($audit->old_values);
-            })->map(function ($audit) use ($model) {
-                return [$model, $audit];
-            });
-        })->flatten(1))
+        @php($models = collect(is_a($model, Illuminate\Database\Eloquent\Model::class) ? [$model] : $model))
+        @php($models->each->loadMissing('audits.auditable', 'audits.user'))
+        @php($audits = $models->pluck('audits')->flatten(1)->filter(function($audit) {
+            return !empty($audit->new_values) || !empty($audit->old_values);
+        }))
 
-        {{-- We then display each entry ordered by creation date --}}
-        @forelse($audits->sortByDesc(function ($entry) {
-            [, $audit] = $entry;
-            return $audit->created_at;
-        }) as [$entity, $audit])
+        @forelse($audits->sortByDesc('created_at') as $audit)
             @php($_modifications = $audit->getModified())
+            @php($entity = $audit->auditable)
 
             <tr>
                 <td width="130" class="border-right" rowspan="{{ count($_modifications) }}">
