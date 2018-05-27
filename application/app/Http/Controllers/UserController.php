@@ -22,7 +22,7 @@ class UserController extends Controller
 
         $users = User::ordered()->latest()->get();
 
-        return view('users.index', compact('users'));
+        return response()->view('users.index', compact('users'));
     }
 
     /**
@@ -35,7 +35,7 @@ class UserController extends Controller
     {
         $this->authorize('create users');
 
-        return view('users.create');
+        return response()->view('users.create');
     }
 
     /**
@@ -73,7 +73,7 @@ class UserController extends Controller
     {
         $this->authorize('view users');
 
-        return view('users.show', compact('user'));
+        return response()->view('users.show', compact('user'));
     }
 
     /**
@@ -89,7 +89,7 @@ class UserController extends Controller
             $this->authorize('edit users');
         }
 
-        return view('users.edit', compact('user'));
+        return response()->view('users.edit', compact('user'));
     }
 
     /**

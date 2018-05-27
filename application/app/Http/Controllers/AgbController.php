@@ -21,7 +21,7 @@ class AgbController extends Controller
 
         $list = Agb::with('users')->latest()->get();
 
-        return view('agbs.index', compact('list', 'canDelete'));
+        return response()->view('agbs.index', compact('list', 'canDelete'));
     }
 
     /**
@@ -61,7 +61,7 @@ class AgbController extends Controller
 
         $agb->load('users');
 
-        return view('agbs.show', compact('agb'));
+        return response()->view('agbs.show', compact('agb'));
     }
 
     /**
@@ -74,7 +74,7 @@ class AgbController extends Controller
     {
         $this->authorize('edit agbs');
 
-        return view('agbs.edit', compact('agb'));
+        return response()->view('agbs.edit', compact('agb'));
     }
 
     /**
