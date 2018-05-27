@@ -262,40 +262,36 @@
 
                 <p>Sie erklären sich mit</p>
 
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="legal_exporo_ag" name="legal_exporo_ag"
-                           {{ old('legal_exporo_ag') !== null ? 'checked' : '' }} required>
-                    <label class="custom-control-label" for="legal_exporo_ag">
-                        <span>den</span>
-                        <a href="{{ route('agbs.download', $agb) }}">AGB</a>
-                        &
-                        <a href="#">Datenschutzerklärung</a>
-                        der Exporo AG,
-                    </label>
-                </div>
+                @component('components.form.checkbox', ['name' => 'legal_exporo_ag'])
+                    <span>den</span>
+                    <a href="{{ route('agbs.download', $agb) }}">AGB</a>
+                    &
+                    <a href="#">Datenschutzerklärung</a>
+                    der Exporo AG,
+                @endcomponent
 
                 @include('components.form.error', ['name' => 'llegal_exporo_ag'])
 
-                <div class="custom-control custom-checkbox mt-2">
-                    <input type="checkbox" class="custom-control-input" id="legal_exporo_gmbh" name="legal_exporo_gmbh"
-                           {{ old('legal_exporo_gmbh') !== null ? 'checked' : '' }} required>
-                    <label class="custom-control-label" for="legal_exporo_gmbh">
-                        <span>den</span> AGB & Datenschutzerklärung der Exporo Investment GmbH,
-                        sowie den Bestimmungen zu Cookies & Internet-Werbung einverstanden.
-                    </label>
-                </div>
+                @component('components.form.checkbox', [
+                    'name' => 'legal_exporo_gmbh',
+                    'class' => 'mt-2',
+                    'required' => true,
+                ])
+                    <span>den</span> AGB & Datenschutzerklärung der Exporo Investment GmbH,
+                    sowie den Bestimmungen zu Cookies & Internet-Werbung einverstanden.
+                @endcomponent
 
                 @include('components.form.error', ['name' => 'legal_exporo_gmbh'])
 
-                <div class="custom-control custom-checkbox mt-4">
-                    <input type="checkbox" class="custom-control-input" id="legal_transfer" name="legal_transfer"
-                           {{ old('legal_transfer') !== null ? 'checked' : '' }} required>
-                    <label class="custom-control-label" for="legal_transfer">
-                        <span>Sie</span> sind bin mit der Weitergabe Ihrer personenbezogenen Daten von der
-                        Exporo Investment GmbH an die Exporo AG zum Zwecke der Verwaltung Ihrer
-                        personenbezogenen Daten und der Abrechnung Ihrer Vergütung einverstanden.
-                    </label>
-                </div>
+                @component('components.form.checkbox', [
+                    'name' => 'legal_transfer',
+                    'class' => 'mt-4',
+                    'required' => true,
+                ])
+                    <span>Sie</span> sind bin mit der Weitergabe Ihrer personenbezogenen Daten von der
+                    Exporo Investment GmbH an die Exporo AG zum Zwecke der Verwaltung Ihrer
+                    personenbezogenen Daten und der Abrechnung Ihrer Vergütung einverstanden.
+                @endcomponent
 
                 @include('components.form.error', ['name' => 'legal_transfer'])
             </div>
