@@ -9,7 +9,7 @@
     @if($required ?? false) required @endif
 >
     <option value="" {{ $oldValue ? '' : 'selected' }}>
-        {{ $emptyText ?? '--' }}
+        {{ $emptyText ?? '—' }}
     </option>
 
     @foreach($values as $key => $value)
