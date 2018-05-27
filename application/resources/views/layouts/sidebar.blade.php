@@ -47,11 +47,7 @@
                 @endif
 
                 {{-- Other status messages --}}
-                @if(session('status'))
-                    <div class="alert alert-success">
-                        {{ session('status') }}
-                    </div>
-                @endif
+                @include('components.status')
 
                 @yield('main-content')
             </div>
