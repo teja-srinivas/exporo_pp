@@ -17,12 +17,11 @@
             <div class="form-group row">
                 <label for="inputName" class="col-sm-3 col-form-label font-weight-bold">Anzeigename:</label>
                 <div class="col-sm-7">
-                    <input type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                           id="inputName" value="{{ old('name', $agb->name) }}" name="name">
-
-                    <span class="invalid-feedback">
-                        <strong>{{ $errors->first('name') }}</strong>
-                    </span>
+                    @include('components.form.input', [
+                        'type' => 'text',
+                        'name' => 'name',
+                        'default' => $agb->name,
+                    ])
                 </div>
             </div>
             <div class="form-group row">

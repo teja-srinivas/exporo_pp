@@ -13,17 +13,17 @@
                     @csrf
 
                     <div class="form-group row">
-                        <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
+                        <label for="inputEmail" class="col-md-4 col-form-label text-md-right">
+                            {{ __('E-Mail Address') }}
+                        </label>
                         <div class="col-md-6">
-                            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                   name="email" value="{{ old('email') }}" autocomplete="email" required>
-
-                            @if ($errors->has('email'))
-                                <span class="invalid-feedback">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                            @endif
+                            @include('components.form.input', [
+                                'type' => 'email',
+                                'name' => 'email',
+                                'autocomplete' => 'email',
+                                'autofocus' => true,
+                                'required' => true,
+                            ])
                         </div>
                     </div>
 
