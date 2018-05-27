@@ -3,6 +3,7 @@
 use App\Permission;
 use App\Role;
 use Illuminate\Database\Migrations\Migration;
+use Spatie\Permission\PermissionRegistrar;
 
 class CreateStandardRolesAndPermissions extends Migration
 {
@@ -14,7 +15,7 @@ class CreateStandardRolesAndPermissions extends Migration
     public function up()
     {
         // Reset cached roles and permissions
-        app('cache')->forget('spatie.permission.cache');
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         // Create permissions
         Permission::create(['name' => 'create agbs']);
