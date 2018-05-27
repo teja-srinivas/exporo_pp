@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
+use App\UserDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -105,9 +107,8 @@ class UserController extends Controller
             $this->authorize('edit users');
         }
 
-        $data = $request->validate(User::getValidationRules($user));
-
-        $user->fill($data)->saveOrFail();
+        $user->fill($request->validate(User::getValidationRules($user)))->saveOrFail();
+        $user->details->fill($request->validate(UserDetails::getValidationRules(false)))->saveOrFail();
 
         flash_success();
 

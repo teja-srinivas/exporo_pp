@@ -24,6 +24,13 @@
             @include('users.partials.forms.required_information')
         @endcard
 
+        @card
+            @slot('title', __('users.edit.user_details.title'))
+            @slot('info', __('users.edit.user_details.info'))
+
+            @include('users.partials.forms.user_details')
+        @endcard
+
         <div class="text-right my-3">
             <button class="btn btn-primary">Änderungen Speichern</button>
         </div>
