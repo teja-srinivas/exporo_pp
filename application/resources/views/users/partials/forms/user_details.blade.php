@@ -129,7 +129,7 @@
     [
         'type' => 'url',
         'name' => 'website',
-        'label' => __('Your Website'),
+        'label' => __('Website'),
         'autocomplete' => 'url',
     ],
 ])])
