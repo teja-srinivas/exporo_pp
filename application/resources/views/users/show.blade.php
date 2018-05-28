@@ -85,5 +85,29 @@
         @endslot
     @endcard
 
+    @card
+        @slot('title', 'Investoren')
+        @slot('info', '')
+
+        <table class="table table-sm table-hover table-striped mb-0 table-borderless">
+            <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            @forelse($user->investors as $investor)
+                <tr>
+                    <td>{{ $investor->last_name }}, {{ $investor->first_name }}</td>
+                </tr>
+            @empty
+                <tr class="text-center text-muted">
+                    <td colspan="4">Noch keine Investoren hinterlegt</td>
+                </tr>
+            @endforelse
+            </tbody>
+        </table>
+    @endcard
+
     @include('users.details')
 @endsection

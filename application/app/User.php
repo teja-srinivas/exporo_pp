@@ -86,6 +86,11 @@ class User extends Authenticatable implements AuditableContract
         return $this->hasMany(Document::class);
     }
 
+    public function investors()
+    {
+        return $this->hasMany(Investor::class, 'last_user_id');
+    }
+
     public function scopeOrdered(Builder $query)
     {
         $query->orderBy('last_name')->orderBy('first_name');
