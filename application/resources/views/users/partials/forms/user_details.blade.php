@@ -73,7 +73,6 @@
     [
         'name' => 'birth_place',
         'label' => __('Birthplace'),
-        'required' => true,
     ],
 ])])
 
@@ -117,14 +116,12 @@
         'name' => 'address_zipcode',
         'label' => __('ZIP Code'),
         'autocomplete' => 'postal-code',
-        'required' => true,
     ],
     [
         'type' => 'tel',
         'name' => 'phone',
         'label' => __('Telephone'),
         'autocomplete' => 'tel-national',
-        'required' => true,
     ],
     [
         'type' => 'url',
