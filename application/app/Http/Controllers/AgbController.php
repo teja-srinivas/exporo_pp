@@ -28,32 +28,50 @@ class AgbController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
         $this->authorize('create agbs');
 
-        //
+        return response()->view('agbs.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Throwable
      */
     public function store(Request $request)
     {
         $this->authorize('create agbs');
 
-        //
+        $data = $request->validate([
+            'name' => 'required|string',
+            'file' => 'required|mimes:pdf',
+        ]);
+
+        // Replace the old file, if exists
+        $agb = new Agb($data);
+        $agb->filename = $request->file('file')->store(Agb::DIRECTORY);
+        $agb->is_default = $request->has('is_default');
+
+        $agb->saveOrFail();
+
+        flash_success('AGB wurden angelegt');
+
+        return redirect()->route('agbs.edit', $agb);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Agb  $agb
+     * @param  \App\Agb $agb
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Agb $agb)
     {
@@ -67,8 +85,9 @@ class AgbController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Agb  $agb
+     * @param  \App\Agb $agb
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Agb $agb)
     {
