@@ -54,28 +54,22 @@
                     <td>
                         <strong>{{ $title }}</strong>
                     </td>
+
+                    @foreach(['old', 'new'] as $key)
                     <td>
-                    @isset($row['old'])
+                        @if(!isset($row[$key]))
+                            @continue;
+                        @endif
+
                         @if(in_array($title, $entity->getHidden()))
                             <span class="text-muted">(versteckt)</span>
-                        @elseif(is_bool($row['old']))
-                            {!! $row['old'] ? '✔' : '-' !!}
+                        @elseif(is_bool($row[$key]))
+                            {!! $row[$key] ? '✔' : '-' !!}
                         @else
-                            {{ $row['old'] }}
+                            {{ $row[$key] }}
                         @endif
-                    @endisset
                     </td>
-                    <td>
-                    @isset($row['new'])
-                        @if(in_array($title, $entity->getHidden()))
-                            <span class="text-muted">(versteckt)</span>
-                        @elseif(is_bool($row['new']))
-                            {!! $row['new'] ? '✔' : '-' !!}
-                        @else
-                            {{ $row['new'] }}
-                        @endif
-                    @endisset
-                    </td>
+                    @endforeach
                 @endforeach
             </tr>
         @empty
