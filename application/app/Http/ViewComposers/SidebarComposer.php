@@ -145,7 +145,7 @@ class SidebarComposer
             $links[] = [
                 'title' => 'Berechtigungen',
                 'url' => route('authorization.index'),
-                'isActive' => $this->request->routeIs('roles.*', 'permissions.*'),
+                'isActive' => $this->request->routeIs('authorization.*', 'roles.*', 'permissions.*'),
             ];
         }
 
