@@ -2,8 +2,8 @@
 
 @section('title')
     @breadcrumps([
-         route('users.index') => 'Benutzer',
-         'Neu Anlegen',
+        route('users.index') => 'Benutzer',
+        'Neu Anlegen',
     ])
 @endsection
 

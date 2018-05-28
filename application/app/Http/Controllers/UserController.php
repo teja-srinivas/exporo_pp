@@ -73,6 +73,10 @@ class UserController extends Controller
     {
         $this->authorize('view users');
 
+        $user->load(['documents', 'agbs' => function ($query) {
+            $query->latest();
+        }]);
+
         return response()->view('users.show', compact('user'));
     }
 

@@ -29,7 +29,7 @@
                 <div class="col-sm-7">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input{{ $errors->has('file') ? ' is-invalid' : '' }}"
-                               id="customFile" name="file">
+                               id="inputFile" name="file">
                         <label class="custom-file-label" for="customFile">Datei auswählen (.PDF)</label>
                     </div>
 

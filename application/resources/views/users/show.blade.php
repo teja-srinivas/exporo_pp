@@ -21,7 +21,9 @@
 
 @section('main-content')
     @card
-        @slot('title', 'AGBs, die dieser Nutzer akzeptiert hat')
+        @slot('title', 'AGBs')
+        @slot('info', 'die von diesem Nutzer akzeptiert wurden.')
+
         <table class="table table-sm table-hover table-striped mb-0 table-borderless">
             <thead>
             <tr>
@@ -30,7 +32,7 @@
             </tr>
             </thead>
             <tbody>
-            @forelse($user->agbs()->latest()->get() as $agb)
+            @forelse($user->agbs as $agb)
                 <tr>
                     <td><a href="{{ route('agbs.show', $agb) }}">{{ $agb->name }}</a></td>
                     <td>{{ $agb->pivot->created_at->format('d.m.Y H:i') }}</td>
