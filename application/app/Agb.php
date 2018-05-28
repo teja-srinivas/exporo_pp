@@ -5,6 +5,7 @@ namespace App;
 use App\Traits\Dateable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\URL;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
@@ -59,6 +60,16 @@ class Agb extends Model implements AuditableContract
     public function getReadableFilename(): string
     {
         return str_slug($this->name ?: env('APP_NAME', 'AGB'), '_', app()->getLocale()) . '.pdf';
+    }
+
+    /**
+     * Creates an URL to access/download the file.
+     *
+     * @return string
+     */
+    public function getDownloadUrl(): string
+    {
+        return URL::temporarySignedRoute('documents.download', now()->addHours(12), $this);
     }
 
     /**

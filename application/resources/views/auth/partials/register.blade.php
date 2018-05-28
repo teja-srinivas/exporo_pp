@@ -264,7 +264,7 @@
 
                 @component('components.form.checkbox', ['name' => 'legal_exporo_ag'])
                     <span>den</span>
-                    <a href="{{ route('agbs.download', $agb) }}">AGB</a>
+                    <a href="{!! $agb->getDownloadUrl() !!}">AGB</a>
                     &
                     <a href="#">Datenschutzerklärung</a>
                     der Exporo AG,

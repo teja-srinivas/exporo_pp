@@ -13,7 +13,9 @@
 
 Route::view('/', 'welcome');
 
-Route::get('agbs/{agb}/download', 'AgbController@download')->name('agbs.download');
+Route::get('agbs/{agb}/download', 'AgbController@download')
+    ->name('agbs.download')
+    ->middleware('signed');
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('agbs', 'AgbController');
