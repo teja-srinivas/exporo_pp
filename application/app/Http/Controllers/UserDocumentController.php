@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Agb;
 use App\Document;
 use App\User;
 use Illuminate\Http\Request;
@@ -22,16 +23,27 @@ class UserDocumentController extends Controller
 
         // TODO maybe extract this to a different route?
         if ($user->cannot('create documents')) {
-            $documents = $user->documents + $user->agbs()->latest()->get()->map(function (Agb $agb) {
-                return [
-                    'type' => __('AGB'),
-                    'title' => $agb->name,
-                    'link' => route('agbs.download', $agb),
-                    'created_at' => $agb->pivot->created_at,
-                ];
-            });
+            $agbs = $user->agbs()->latest()->get();
 
-            return response()->view('user.documents', compact('documents'));
+            $documents = collect($user->documents)
+                ->map(function (Document $document) {
+                    return [
+                        'type' => 'Dokument',
+                        'title' => $document->name,
+                        'link' => $document->getDownloadUrl(),
+                        'created_at' => $document->created_at,
+                    ];
+                })
+                ->merge($agbs->map(function (Agb $agb) {
+                    return [
+                        'type' => __('AGB'),
+                        'title' => $agb->name,
+                        'link' => $agb->getDownloadUrl(),
+                        'created_at' => $agb->pivot->created_at,
+                    ];
+                }));
+
+            return response()->view('users.documents', compact('documents'));
         }
 
         $this->authorize('create documents');
