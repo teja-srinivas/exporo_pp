@@ -18,8 +18,12 @@ Route::get('agbs/{agb}/download', 'AgbController@download')
     ->middleware('signed');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/documents/{document}/download', 'UserDocumentController@download')
+        ->name('documents.download')
+        ->middleware('signed');
+
     Route::resource('agbs', 'AgbController');
-    Route::resource('documents', 'DocumentsController');
+    Route::resource('documents', 'UserDocumentController');
     Route::resource('users', 'UserController');
 
     Route::get('/home', 'HomeController@index')->name('home');

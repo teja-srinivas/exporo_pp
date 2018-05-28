@@ -7,6 +7,7 @@ use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -75,6 +76,14 @@ class User extends Authenticatable implements AuditableContract
     public function agbs(): BelongsToMany
     {
         return $this->belongsToMany(Agb::class)->withTimestamps();
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function documents(): HasMany
+    {
+        return $this->hasMany(Document::class);
     }
 
     public function scopeOrdered(Builder $query)

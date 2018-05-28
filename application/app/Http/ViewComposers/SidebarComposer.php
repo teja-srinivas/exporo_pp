@@ -141,6 +141,14 @@ class SidebarComposer
             ];
         }
 
+        if ($this->authorizeResource('documents')) {
+            $links[] = [
+                'title' => 'Dokumente',
+                'url' => route('documents.index'),
+                'isActive' => $this->request->routeIs('documents.*'),
+            ];
+        }
+
         return empty($links) ? [] : [
             [
                 'title' => 'System-Verwaltung',

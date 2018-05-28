@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Interfaces\FileReference;
 use App\Traits\Dateable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\URL;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Agb extends Model implements AuditableContract
+class Agb extends Model implements AuditableContract, FileReference
 {
     use Auditable;
     use Dateable;

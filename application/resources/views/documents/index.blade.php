@@ -1,23 +1,35 @@
 @extends('layouts.sidebar')
 
-@section('title', 'Dokumente')
+@section('title', $documents->count() . ' Dokumente')
+
+@section('actions')
+    <a href="{{ route('documents.create') }}" class="btn btn-primary btn-sm">Neu Anlegen</a>
+@endsection
 
 @section('main-content')
-    <table class="table bg-white table-borderless table-striped shadow-sm">
+    <table class="bg-white shadow-sm accent-primary table table-borderless table-hover table-striped table-sticky table-sm">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Benutzer</th>
+            <th width="160">Datum</th>
+        </tr>
+        </thead>
         <tbody>
         @forelse($documents as $document)
             <tr>
+                <td><a href="{{ route('documents.show', $document) }}">{{ $document->name }}</a></td>
                 <td>
-                    <strong>{{ $document['type'] }}</strong>
-                    <h5><a href="{{ $document['link'] }}">{{ $document['title'] }}</a></h5>
+                    <a href="{{ route('users.show', $document->user) }}">
+                        {{ $document->user->first_name }}
+                        {{ $document->user->last_name }}
+                    </a>
                 </td>
-                <td class="align-middle text-right" width="200">
-                    @timeago($document['created_at'])
-                </td>
+                <td>{{ $document->created_at->format('d.m.Y H:i:s') }}</td>
             </tr>
         @empty
-            <tr>
-                <td class="text-muted text-center">Keine Dokumente zum Anzeigen</td>
+            <tr class="text-center text-muted">
+                <td colspan="4">Noch keine Dokumente hochgeladen</td>
             </tr>
         @endforelse
         </tbody>
