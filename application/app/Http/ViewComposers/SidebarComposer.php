@@ -141,6 +141,14 @@ class SidebarComposer
             ];
         }
 
+        if ($this->authorizeResource('roles') || $this->authorizeResource('permissions')) {
+            $links[] = [
+                'title' => 'Berechtigungen',
+                'url' => route('authorization.index'),
+                'isActive' => $this->request->routeIs('roles.*', 'permissions.*'),
+            ];
+        }
+
         if ($this->authorizeResource('documents')) {
             $links[] = [
                 'title' => 'Dokumente',
