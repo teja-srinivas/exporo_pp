@@ -1,6 +1,7 @@
 <?php
 
 use App\Agb;
+use App\Company;
 use App\Investor;
 use App\Role;
 use App\User;
@@ -19,6 +20,8 @@ class DummyDataSeeder extends Seeder
      */
     public function run()
     {
+        $company = factory(Company::class)->create();
+
         // AGBs
         $agbs = factory(Agb::class, 15)->create();
         $agbs->random()->fill(['is_default' => true])->save();
@@ -29,15 +32,17 @@ class DummyDataSeeder extends Seeder
         $investors = factory(Investor::class, 200)->create();
 
         // Create sets of users (per role)
-        factory(User::class, 2)->create()->each(function (User $user) {
+        $userExtras = ['company_id' => $company->id];
+
+        factory(User::class, 2)->create($userExtras)->each(function (User $user) {
             $user->assignRole(Role::ADMIN);
         });
 
-        factory(User::class, 10)->create()->each(function (User $user) {
+        factory(User::class, 10)->create($userExtras)->each(function (User $user) {
             $user->assignRole(Role::INTERNAL);
         });
 
-        factory(User::class, 50)->create()->each(function (User $user) use ($agbs, $investors) {
+        factory(User::class, 50)->create($userExtras)->each(function (User $user) use ($agbs, $investors) {
             $user->assignRole(Role::PARTNER);
             $user->agbs()->attach($agbs->random(2));
 
