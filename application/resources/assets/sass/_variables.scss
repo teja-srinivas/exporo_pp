@@ -87,7 +87,10 @@ $breadcrumb-padding-y: 0;
 // Tables
 $table-accent-bg: mix(white, $light);
 $table-hover-bg: $light;
-$table-cell-padding-sm: .3rem .5rem;
+$table-cell-padding-sm: 0.3rem 0.5rem;
 
 // Badges
 $badge-font-size: 85%;
+
+// Buttons
+$btn-box-shadow: 0.185rem 0.185rem 0 rgba($black, 0.1);
