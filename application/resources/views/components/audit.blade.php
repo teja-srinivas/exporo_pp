@@ -11,7 +11,7 @@
         </tr>
         </thead>
         <tbody>
-        @php($models = collect(is_a($model, Illuminate\Database\Eloquent\Model::class) ? [$model] : $model))
+        @php($models = collect(array_wrap($model)))
         @php($models->each->loadMissing('audits.auditable', 'audits.user'))
         @php($audits = $models->pluck('audits')->flatten(1)->filter(function($audit) {
             return !empty($audit->new_values) || !empty($audit->old_values);
