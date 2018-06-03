@@ -35,39 +35,8 @@
 <div class="form-group row">
     <label for="inputBirthDay" class="col-sm-4 col-form-label">{{ __('Birthday') }}</label>
     <div class="col-sm-8">
-        <div>
-            @include('components.form.select', [
-                'name' => 'birth_day',
-                'emptyText' => '(' . __('Day') . ')',
-                'autocomplete' => 'bday-day',
-                'error' => false,
-                'default' => optional($user->details->birth_date)->day,
-                'values' => range(1, 31),
-            ])
-            @include('components.form.select', [
-                'name' => 'birth_month',
-                'assoc' => true,
-                'emptyText' => '(' . __('Month') . ')',
-                'autocomplete' => 'bday-month',
-                'error' => false,
-                'default' => optional($user->details->birth_date)->month,
-                'values' => collect(range(1, 12))->mapWithKeys(function ($month) {
-                    return [$month => now()->setDate(2018, $month, 1)->format('F')];
-                }),
-            ])
-            @include('components.form.select', [
-                'name' => 'birth_year',
-                'emptyText' => '(' . __('Year') . ')',
-                'autocomplete' => 'bday-year',
-                'error' => false,
-                'default' => optional($user->details->birth_date)->year,
-                'values' => range(now()->year - 17, now()->year - 120),
-            ])
-        </div>
-
-        @include('components.form.error', [
-            'name' => 'birth_*',
-            'class' => 'd-block'
+        @include('components.form.birthday', [
+            'default' => $user->details->birth_date,
         ])
     </div>
 </div>
