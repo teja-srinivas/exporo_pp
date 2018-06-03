@@ -121,6 +121,11 @@
         'autocomplete' => 'postal-code',
     ],
     [
+        'name' => 'address_city',
+        'label' => __('City'),
+        'autocomplete' => 'address-level2',
+    ],
+    [
         'type' => 'tel',
         'name' => 'phone',
         'label' => __('Telephone'),
