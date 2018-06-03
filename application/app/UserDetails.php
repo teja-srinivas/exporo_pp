@@ -54,11 +54,16 @@ class UserDetails extends Model implements AuditableContract
     {
         $prefix = $required ? 'required' : 'nullable';
 
+        $adultYear = now()->subYears(18);
+
         return [
             'company' => 'nullable|string|max:100',
             'title' => ['nullable', Rule::in(User::TITLES)],
             'salutation' => "{$prefix}|in:male,female",
-            'birth_date' => "{$prefix}|date|before_or_equal:" . now()->subYears(18), // needs to be an adult
+            "birth_day" => "{$prefix}|numeric|min:1|max:31",
+            "birth_month" => "{$prefix}|numeric|min:1|max:12",
+            "birth_year" => "{$prefix}|numeric|min:". now()->subYears(120)->year . '|max:' . $adultYear->year,
+            'birth_date' => "{$prefix}|date|before_or_equal:" . $adultYear, // needs to be an adult
             'birth_place' => "{$prefix}|string|max:100",
             'address_street' => 'nullable|string|max:100',
             'address_number' => 'nullable|string|max:20',
