@@ -17,7 +17,7 @@ class AgbController extends Controller
      */
     public function index()
     {
-        $this->authorize('create agbs');
+        $this->authorize('list', Agb::class);
 
         $list = Agb::with('users')->latest()->get();
 
@@ -32,7 +32,7 @@ class AgbController extends Controller
      */
     public function create()
     {
-        $this->authorize('create agbs');
+        $this->authorize('create', Agb::class);
 
         return response()->view('agbs.create');
     }
@@ -47,7 +47,7 @@ class AgbController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('create agbs');
+        $this->authorize('create', Agb::class);
 
         $data = $request->validate([
             'name' => 'required|string',
@@ -75,7 +75,7 @@ class AgbController extends Controller
      */
     public function show(Agb $agb)
     {
-        $this->authorize('edit agbs');
+        $this->authorize('view', $agb);
 
         $agb->load('users');
 
@@ -91,7 +91,7 @@ class AgbController extends Controller
      */
     public function edit(Agb $agb)
     {
-        $this->authorize('edit agbs');
+        $this->authorize('update', $agb);
 
         return response()->view('agbs.edit', compact('agb'));
     }
@@ -107,7 +107,7 @@ class AgbController extends Controller
      */
     public function update(Request $request, Agb $agb)
     {
-        $this->authorize('edit agbs');
+        $this->authorize('update', $agb);
 
         $data = $request->validate([
             'name' => 'required|string',
@@ -143,7 +143,7 @@ class AgbController extends Controller
      */
     public function destroy(Agb $agb)
     {
-        $this->authorize('delete agbs');
+        $this->authorize('delete', $agb);
 
         abort_unless($agb->canBeDeleted(), Response::HTTP_LOCKED, 'Users may have already accepted these AGB');
 

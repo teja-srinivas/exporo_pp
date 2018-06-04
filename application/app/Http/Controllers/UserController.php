@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserStoreRequest;
 use App\Role;
 use App\User;
 use App\UserDetails;
@@ -18,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->authorize('view users');
+        $this->authorize('list', User::class);
 
         $users = User::ordered()->latest()->get();
 
@@ -33,7 +34,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $this->authorize('create users');
+        $this->authorize('create', User::class);
 
         return response()->view('users.create');
     }
@@ -47,7 +48,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('create users');
+        $this->authorize('create', User::class);
 
         $data = $request->validate([
             'first_name' => 'required|string',
@@ -71,7 +72,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $this->authorize('view users');
+        $this->authorize('view', $user);
 
         $user->load([
             'documents',
@@ -95,9 +96,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if ($user->isNot(auth()->user())) {
-            $this->authorize('edit users');
-        }
+        $this->authorize('update', $user);
 
         return response()->view('users.edit', compact('user'));
     }
@@ -105,20 +104,18 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param UserStoreRequest $request
      * @param User $user
      * @return void
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Throwable
      */
-    public function update(Request $request, User $user)
+    public function update(UserStoreRequest $request, User $user)
     {
-        if ($user->isNot(auth()->user())) {
-            $this->authorize('edit users');
-        }
+        $attributes = $request->validated();
 
-        $user->fill($request->validate(User::getValidationRules($user)))->saveOrFail();
-        $user->details->fill($request->validate(UserDetails::getValidationRules(false)))->saveOrFail();
+        $user->fill($attributes)->saveOrFail();
+        $user->details->fill($attributes)->saveOrFail();
 
         flash_success();
 
@@ -134,7 +131,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $this->authorize('destroy users');
+        $this->authorize('delete', $user);
 
         $user->delete();
 

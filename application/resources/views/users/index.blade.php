@@ -3,7 +3,9 @@
 @section('title', $users->count() . ' Benutzer')
 
 @section('actions')
-    <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">Neu Anlegen</a>
+    @can('create', App\User::class)
+        <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">Neu Anlegen</a>
+    @endcan
 @endsection
 
 @section('main-content')

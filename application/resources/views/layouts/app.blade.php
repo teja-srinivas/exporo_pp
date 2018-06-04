@@ -63,8 +63,10 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a href="#" class="dropdown-item">Investment-Cockpit</a>
+                                    @can('view partner dashboard')
                                     <a href="{{ route('home') }}"
                                        class="dropdown-item {{ request()->routeIs('home') ? 'active' : '' }}">Partner-Cockpit</a>
+                                    @endcan
 
                                     <div class="dropdown-divider"></div>
 

@@ -1,7 +1,7 @@
 <input
     id="input{{ studly_case($name) }}"
     type="{{ $type ?? 'text' }}"
-    class="form-control{{ $errors->has($name) ? ' is-invalid' : '' }}"
+    class="form-control{{ $errors->has($name) ? ' is-invalid' : '' }} {{ $class ?? '' }}"
     name="{{ $name }}"
     value="{{ old($name, $default ?? null) }}"
     @isset($autocomplete) autocomplete="{{ $autocomplete }}" @endif

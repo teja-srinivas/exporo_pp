@@ -8,7 +8,7 @@
 @endsection
 
 @section('actions')
-    @can('destroy user')
+    @can('delete', $user)
         <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline-flex">
             @method('DELETE')
             @csrf
@@ -16,7 +16,9 @@
         </form>
     @endcan
 
-    <a href="{{ route('users.edit', $user) }}" class="btn btn-primary btn-sm">Bearbeiten</a>
+    @can('update', $user)
+        <a href="{{ route('users.edit', $user) }}" class="btn btn-primary btn-sm">Bearbeiten</a>
+    @endcan
 @endsection
 
 @section('main-content')

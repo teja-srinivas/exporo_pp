@@ -3,7 +3,9 @@
 @section('title', $list->count() . ' AGBs')
 
 @section('actions')
-    <a href="{{ route('agbs.create') }}" class="btn btn-primary btn-sm">Neu Anlegen</a>
+    @can('create', App\Agb::class)
+        <a href="{{ route('agbs.create') }}" class="btn btn-primary btn-sm">Neu Anlegen</a>
+    @endcan
 @endsection
 
 @section('main-content')

@@ -2,7 +2,13 @@
 
 namespace App\Http\ViewComposers;
 
+use App\Agb;
+use App\Document;
+use App\Permission;
+use App\Policies\AgbPolicy;
 use App\Role;
+use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -14,20 +20,26 @@ class SidebarComposer
     private $user;
 
     /**
-     * @var array|\Illuminate\Http\Request|string
+     * @var \Illuminate\Contracts\Auth\Access\Gate
+     */
+    private $gate;
+
+    /**
+     * @var \Illuminate\Http\Request
      */
     private $request;
 
 
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->user = auth()->user();
-        $this->request = request();
+        $this->gate = Gate::forUser($this->user);
+        $this->request = $request;
     }
 
     public function compose(View $view)
     {
-        $view->with('menu', array_merge(
+        $view->with('menu', $this->user === null ? [] : array_merge(
             $this->getInternal(),
             $this->getPartner()
         ));
@@ -35,7 +47,7 @@ class SidebarComposer
 
     protected function getPartner()
     {
-        if (!$this->user->hasRole(Role::PARTNER)) {
+        if (!$this->user->can('view partner dashboard')) {
             return [];
         }
 
@@ -125,7 +137,7 @@ class SidebarComposer
     {
         $links = [];
 
-        if ($this->authorizeResource('agbs')) {
+        if ($this->canList(Agb::class)) {
             $links[] = [
                 'title' => 'AGBs',
                 'url' => route('agbs.index'),
@@ -133,7 +145,7 @@ class SidebarComposer
             ];
         }
 
-        if ($this->authorizeResource('users')) {
+        if ($this->canList(User::class)) {
             $links[] = [
                 'title' => 'Benutzer',
                 'url' => route('users.index'),
@@ -141,7 +153,7 @@ class SidebarComposer
             ];
         }
 
-        if ($this->authorizeResource('roles') || $this->authorizeResource('permissions')) {
+        if ($this->canList(Role::class)) {
             $links[] = [
                 'title' => 'Berechtigungen',
                 'url' => route('authorization.index'),
@@ -149,7 +161,7 @@ class SidebarComposer
             ];
         }
 
-        if ($this->authorizeResource('documents')) {
+        if ($this->canList(Document::class)) {
             $links[] = [
                 'title' => 'Dokumente',
                 'url' => route('documents.index'),
@@ -165,13 +177,8 @@ class SidebarComposer
         ];
     }
 
-    protected function authorizeAny(string ...$permissions): bool
+    protected function canList(string $resource): bool
     {
-        return Gate::forUser($this->user)->any($permissions);
-    }
-
-    protected function authorizeResource(string $resource): bool
-    {
-        return $this->authorizeAny("view $resource", "create $resource", "edit $resource", "delete $resource");
+        return $this->user->can('list', $resource);
     }
 }

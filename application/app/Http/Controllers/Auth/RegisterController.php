@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Agb;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserStoreRequest;
 use App\Role;
 use App\User;
 use App\UserDetails;
@@ -51,7 +52,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        $data['birth_date'] = $this->makeBirthDate($data);
+        $data['birth_date'] = UserStoreRequest::makeBirthDate($data);
 
         return Validator::make($data, array_merge(
             User::getValidationRules(),
@@ -84,7 +85,7 @@ class RegisterController extends Controller
             'company' => $data['company'],
             'title' => $data['title'],
             'salutation' => $data['salutation'],
-            'birth_date' => $this->makeBirthDate($data),
+            'birth_date' => UserStoreRequest::makeBirthDate($data),
             'birth_place' => $data['birth_place'],
             'address_street' => $data['address_street'],
             'address_number' => $data['address_number'],
@@ -106,19 +107,5 @@ class RegisterController extends Controller
         }
 
         return $user;
-    }
-
-    /**
-     * @param array $data
-     * @return string
-     */
-    protected function makeBirthDate(array $data): string
-    {
-        return sprintf(
-            '%s-%s-%s',
-            $data['birth_year'] ?? '',
-            $data['birth_month'] ?? '',
-            $data['birth_day'] ?? ''
-        );
     }
 }

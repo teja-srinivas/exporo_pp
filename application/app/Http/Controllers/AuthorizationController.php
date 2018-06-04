@@ -10,6 +10,8 @@ class AuthorizationController extends Controller
 {
     public function index()
     {
+        $this->authorize('list', Role::class);
+
         $roles = Role::all();
         $permissions = Permission::all();
 

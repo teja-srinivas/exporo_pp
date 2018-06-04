@@ -8,7 +8,7 @@
 @endsection
 
 @section('actions')
-    @if($agb->canBeDeleted())
+    @if($agb->canBeDeleted() && auth()->user()->can('delete', $agb))
         <form action="{{ route('agbs.destroy', $agb) }}" method="POST" class="d-inline-flex">
             @method('DELETE')
             @csrf
@@ -16,7 +16,9 @@
         </form>
     @endif
 
-    <a href="{{ route('agbs.edit', $agb) }}" class="btn btn-primary btn-sm">Bearbeiten</a>
+    @can('update', $agb)
+        <a href="{{ route('agbs.edit', $agb) }}" class="btn btn-primary btn-sm">Bearbeiten</a>
+    @endcan
 @endsection
 
 @section('main-content')

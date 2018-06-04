@@ -22,7 +22,7 @@ class UserDocumentController extends Controller
         $user = auth()->user();
 
         // TODO maybe extract this to a different route?
-        if ($user->cannot('create documents')) {
+        if ($user->cannot('list', Document::class)) {
             $agbs = $user->agbs()->latest()->get();
 
             $documents = collect($user->documents)
@@ -46,7 +46,7 @@ class UserDocumentController extends Controller
             return response()->view('users.documents', compact('documents'));
         }
 
-        $this->authorize('create documents');
+        $this->authorize('list', Document::class);
 
         $documents = Document::orderBy('name')->get();
 
@@ -58,9 +58,12 @@ class UserDocumentController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create(Request $request)
     {
+        $this->authorize('create', Document::class);
+
         $user = User::find($request->get('user_id'));
 
         $users = User::ordered()
@@ -82,7 +85,7 @@ class UserDocumentController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('create documents');
+        $this->authorize('create', Document::class);
 
         $request->validate([
             'user' => 'required|exists:users,id',
@@ -104,22 +107,28 @@ class UserDocumentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Document  $document
+     * @param  \App\Document $document
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Document $document)
     {
+        $this->authorize('view', $document);
+
         return response()->view('documents.show', compact('document'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Document  $document
+     * @param  \App\Document $document
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Document $document)
     {
+        $this->authorize('update', $document);
+
         return response()->view('documents.edit', compact('document'));
     }
 
@@ -133,6 +142,8 @@ class UserDocumentController extends Controller
      */
     public function update(Request $request, Document $document)
     {
+        $this->authorize('update', $document);
+
         $data = $request->validate([
             'name' => 'required|string',
             'file' => 'nullable|mimes:pdf',
@@ -161,11 +172,14 @@ class UserDocumentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Document  $document
+     * @param  \App\Document $document
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Document $document)
     {
+        $this->authorize('delete', $document);
+
         //
     }
 
