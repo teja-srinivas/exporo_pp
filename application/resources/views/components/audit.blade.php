@@ -17,7 +17,7 @@
             return !empty($audit->new_values) || !empty($audit->old_values);
         }))
 
-        @forelse($audits->sortByDesc('created_at') as $audit)
+        @forelse($audits->sortByDesc('event')->sortByDesc('created_at') as $audit)
             @php($_modifications = $audit->getModified())
             @php($entity = $audit->auditable)
 
