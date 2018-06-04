@@ -96,6 +96,21 @@ class User extends Authenticatable implements AuditableContract
         $query->orderBy('last_name')->orderBy('first_name');
     }
 
+    public function rejected()
+    {
+        return $this->hasRole(Role::PARTNER) && $this->rejected_at !== null;
+    }
+
+    public function accepted()
+    {
+        return $this->hasRole(Role::PARTNER) && $this->accepted_at !== null;
+    }
+
+    public function notYetAccepted()
+    {
+        return $this->hasRole(Role::PARTNER) && $this->accepted_at === null;
+    }
+
     public static function getRoleColor(Role $role)
     {
         switch ($role->name ?? '') {

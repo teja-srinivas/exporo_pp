@@ -1,3 +1,5 @@
+<?php /** @var App\User $user */ ?>
+
 @extends('layouts.sidebar')
 
 @section('title', $users->count() . ' Benutzer')
@@ -14,7 +16,7 @@
         <tr>
             <th>Nachname</th>
             <th>Vorname</th>
-            <th>Status</th>
+            <th class="text-right">Status</th>
             <th width="160">Datum</th>
         </tr>
         </thead>
@@ -23,9 +25,15 @@
             <tr>
                 <td><a href="{{ route('users.show', $user) }}">{{ $user->last_name }}</a></td>
                 <td><a href="{{ route('users.show', $user) }}">{{ $user->first_name }}</a></td>
-                <td>
+                <td class="text-right">
+                    @if($user->rejected())
+                        <div class="badge badge-danger">Abgelehnt</div>
+                    @elseif($user->notYetAccepted())
+                        <div class="badge badge-warning">Ausstehend</div>
+                    @endif
+
                     @foreach ($user->roles as $role)
-                        <a href="#" class="badge badge-pill badge-{{ App\User::getRoleColor($role) }}">
+                        <a href="#" class="badge badge-{{ App\User::getRoleColor($role) }}">
                             {{ studly_case($role->name) }}
                         </a>
                     @endforeach

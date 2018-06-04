@@ -17,7 +17,7 @@ Route::get('agbs/{agb}/download', 'AgbController@download')
     ->name('agbs.download')
     ->middleware('signed');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'accepted'])->group(function () {
     Route::get('/documents/{document}/download', 'UserDocumentController@download')
         ->name('documents.download')
         ->middleware('signed');

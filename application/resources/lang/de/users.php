@@ -11,4 +11,11 @@ return [
             'info' => 'Genauere Angaben, die für und von Partnernutzern ausgefüllt werden.',
         ],
     ],
+
+    'message' => [
+        'status' => [
+            'idle' => 'Sie wurden von uns noch nicht freigeschaltet. Dies kann i.d.R. einige Werktage dauern.',
+            'rejected' => 'Unser Team hat ihre Registrierung abgewiesen.',
+        ],
+    ],
 ];
