@@ -6,7 +6,7 @@
         @timeago($model->created_at)
     @endcomponent
 
-    @component('components.model.detail', ['title' => 'Aktualisiert'])
+    @component('components.model.detail', ['title' => 'Aktualisiert', 'class' => ''])
         @timeago($model->updated_at)
     @endcomponent
 </div>
