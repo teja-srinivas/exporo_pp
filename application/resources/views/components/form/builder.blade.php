@@ -3,7 +3,7 @@
     @php($colWidthLabel = $labelWidth ?? 4)
     @php($colWidthInput = $inputWidth ?? 12 - $colWidthLabel)
 
-    <div class="form-group row {{ $loop->last ? 'mb-0' : '' }}">
+    <div class="form-group row {{ ($contained ?? true) && $loop->last ? 'mb-0' : '' }}">
         <label
             for="input{{ studly_case($input['name']) }}"
             class="col-sm-{{ $colWidthLabel }} col-form-label"
