@@ -4,6 +4,7 @@ namespace App;
 
 use App\Interfaces\FileReference;
 use App\Traits\Dateable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\URL;
@@ -17,6 +18,11 @@ class Agb extends Model implements AuditableContract, FileReference
 
     const DIRECTORY = 'agbs';
 
+    const TYPE_AG = 'ag';
+    const TYPE_GMBH = 'gmbh';
+
+    const TYPES = [self::TYPE_AG, self::TYPE_GMBH];
+
     protected static $numberOfDefaults = null;
 
     protected $casts = [
@@ -24,7 +30,7 @@ class Agb extends Model implements AuditableContract, FileReference
     ];
 
     protected $fillable = [
-        'name', 'is_default'
+        'type', 'name', 'is_default'
     ];
 
     /**
@@ -40,14 +46,24 @@ class Agb extends Model implements AuditableContract, FileReference
     /**
      * Fetches the currently active Agb.
      *
-     * @return mixed
+     * @param string $type
+     * @return Agb|null
      */
-    public static function current()
+    public static function current(string $type): ?Agb
     {
-        return self::isDefault()->latest()->first();
+        return self::isDefault()->forType($type)->latest()->first();
     }
 
-    public function scopeIsDefault($query, bool $value = true)
+    public function scopeForType(Builder $query, string $type)
+    {
+        if (!in_array($type, self::TYPES)) {
+            throw new \Exception("$type needs to be one of ". implode(', ', self::TYPES));
+        }
+
+        $query->where('type', $type);
+    }
+
+    public function scopeIsDefault(Builder $query, bool $value = true)
     {
         $query->where('is_default', $value);
     }

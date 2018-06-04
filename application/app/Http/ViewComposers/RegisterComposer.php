@@ -10,16 +10,18 @@ class RegisterComposer
     /**
      * @var Agb
      */
-    private $agb;
+    private $agbs;
 
 
     public function __construct()
     {
-        $this->agb = Agb::current();
+        $this->agbs = collect(Agb::TYPES)->mapWithKeys(function (string $type) {
+            return [$type => Agb::current($type) ?: new Agb()];
+        });
     }
 
     public function compose(View $view)
     {
-        $view->with('agb', $this->agb ?: new Agb());
+        $view->with('agbs', $this->agbs);
     }
 }

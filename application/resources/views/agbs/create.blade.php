@@ -12,18 +12,33 @@
         @csrf
 
         @card
-            <div class="form-group row">
-                <label for="inputName" class="col-sm-3 col-form-label font-weight-bold">Anzeigename:</label>
-                <div class="col-sm-7">
-                    @include('components.form.input', [
+            @include('components.form.builder', [
+                'contained' => false,
+                'labelWidth' => 2,
+                'inputWidth' => 8,
+                'inputs' => [
+                    [
+                        'type' => 'select',
+                        'label' => 'Kategorie',
+                        'name' => 'type',
+                        'required' => true,
+                        'assoc' => true,
+                        'default' => App\Agb::TYPE_AG,
+                        'values' => collect(App\Agb::TYPES)->mapWithKeys(function (string $type) {
+                            return [$type => __("agbs.type.{$type}")];
+                        }),
+                    ],
+                    [
                         'type' => 'text',
+                        'label' => 'Anzeigename',
                         'name' => 'name',
-                    ])
-                </div>
-            </div>
+                        'required' => true,
+                    ],
+                ]
+            ])
             <div class="form-group row">
-                <label for="inputFile" class="col-sm-3 col-form-label font-weight-bold">PDF-Datei:</label>
-                <div class="col-sm-7">
+                <label for="inputFile" class="col-sm-2 col-form-label">PDF-Datei:</label>
+                <div class="col-sm-8">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input{{ $errors->has('file') ? ' is-invalid' : '' }}"
                                id="inputFile" name="file">
@@ -38,8 +53,8 @@
                 </div>
             </div>
             <div class="form-group row mb-0">
-                <div class="col-sm-3 form-control-plaintext font-weight-bold">Anzeige:</div>
-                <div class="col-sm-9 pt-1">
+                <div class="col-sm-2 form-control-plaintext">Anzeige:</div>
+                <div class="col-sm-10 pt-1">
                     @include('components.form.checkbox', [
                         'name' => 'is_default',
                         'label' => 'Wird neuen Registrierungen, sowie bisherigen Nutzern, zur Akzeptierung angezeigt',

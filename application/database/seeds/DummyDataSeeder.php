@@ -23,8 +23,11 @@ class DummyDataSeeder extends Seeder
         $company = factory(Company::class)->create();
 
         // AGBs
-        $agbs = factory(Agb::class, 15)->create();
-        $agbs->random()->fill(['is_default' => true])->save();
+        $agbs = factory(Agb::class, 15)->create()->sortByDesc('created_at');
+
+        collect(Agb::TYPES)->each(function (string $type) use ($agbs) {
+            $agbs->where('type', $type)->first()->fill(['is_default' => true])->save();
+        });
 
         $agbs = $agbs->random(10);
 

@@ -14,19 +14,34 @@
         @csrf
 
         @card
-            <div class="form-group row">
-                <label for="inputName" class="col-sm-3 col-form-label font-weight-bold">Anzeigename:</label>
-                <div class="col-sm-7">
-                    @include('components.form.input', [
+            @include('components.form.builder', [
+                'contained' => false,
+                'labelWidth' => 2,
+                'inputWidth' => 8,
+                'inputs' => [
+                    [
+                        'type' => 'select',
+                        'label' => 'Kategorie',
+                        'name' => 'type',
+                        'required' => true,
+                        'assoc' => true,
+                        'default' => $agb->type,
+                        'values' => collect(App\Agb::TYPES)->mapWithKeys(function (string $type) {
+                            return [$type => __("agbs.type.{$type}")];
+                        }),
+                    ],
+                    [
                         'type' => 'text',
+                        'label' => 'Anzeigename',
                         'name' => 'name',
+                        'required' => true,
                         'default' => $agb->name,
-                    ])
-                </div>
-            </div>
+                    ],
+                ]
+            ])
             <div class="form-group row">
-                <label for="inputFile" class="col-sm-3 col-form-label font-weight-bold">PDF-Datei:</label>
-                <div class="col-sm-7">
+                <label for="inputFile" class="col-sm-2 col-form-label font-weight-bold">PDF-Datei:</label>
+                <div class="col-sm-8">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input{{ $errors->has('file') ? ' is-invalid' : '' }}"
                                id="inputFile" name="file">
@@ -47,8 +62,8 @@
                 </div>
             </div>
             <div class="form-group row mb-0">
-                <div class="col-sm-3 form-control-plaintext font-weight-bold">Anzeige:</div>
-                <div class="col-sm-9">
+                <div class="col-sm-2 form-control-plaintext font-weight-bold">Anzeige:</div>
+                <div class="col-sm-10">
                     <div class="custom-control custom-checkbox form-control-plaintext">
                         <input type="checkbox" class="custom-control-input" id="customCheck1"
                                name="is_default" {{ old('is_default', $agb->is_default) ? 'checked' :'' }}>

@@ -102,11 +102,11 @@ class RegisterController extends Controller
 
         $user->assignRole(Role::PARTNER);
 
-        $agb = Agb::current();
-
-        if ($agb !== null) {
-            $user->agbs()->attach($agb);
-        }
+        $user->agbs()->attach(
+            collect(Agb::TYPES)->map(function (string $type) {
+                return Agb::current($type);
+            })->filter()->pluck('id')
+        );
 
         return $user;
     }

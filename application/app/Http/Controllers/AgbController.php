@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Agb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 class AgbController extends Controller
@@ -50,6 +51,7 @@ class AgbController extends Controller
         $this->authorize('create', Agb::class);
 
         $data = $request->validate([
+            'type' => ['required', Rule::in(Agb::TYPES)],
             'name' => 'required|string',
             'file' => 'required|mimes:pdf',
         ]);
@@ -110,6 +112,7 @@ class AgbController extends Controller
         $this->authorize('update', $agb);
 
         $data = $request->validate([
+            'type' => ['required', Rule::in(Agb::TYPES)],
             'name' => 'required|string',
             'file' => 'nullable|mimes:pdf',
         ]);

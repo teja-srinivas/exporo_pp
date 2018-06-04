@@ -12,16 +12,18 @@
     <table class="bg-white shadow-sm accent-primary table table-borderless table-hover table-striped table-sticky table-sm">
         <thead>
         <tr>
-            <th width="80">Standard</th>
+            <th width="50">Aktiv</th>
+            <th width="170">Kategorie</th>
             <th>Name</th>
-            <th class="text-right">Akzeptiert</th>
+            <th width="115" class="text-right">Akzeptiert</th>
             <th width="100" class="text-right pr-3">Aktionen</th>
         </tr>
         </thead>
         <tbody>
         @forelse($list as $agb)
             <tr>
-                <td class="text-center">{!! $agb->is_default ? '★' : '' !!}</td>
+                <td class="text-center" style="vertical-align: middle">{!! $agb->is_default ? '★' : '' !!}</td>
+                <td class="small" style="vertical-align: middle">{{ __("agbs.type.{$agb->type}") }}</td>
                 <td><a href="{{ route('agbs.show', $agb) }}">{{ $agb->name }}</a></td>
                 <td class="text-right">
                     @if($agb->users->isEmpty())
