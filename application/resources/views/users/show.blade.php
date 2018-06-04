@@ -100,7 +100,7 @@
             <tbody>
             @forelse($user->investors as $investor)
                 <tr>
-                    <td>{{ $investor->last_name }}, {{ $investor->first_name }}</td>
+                    <td>{{ $investor->first_name }} {{ mb_substr($investor->last_name, 0, 1) }}.</td>
                 </tr>
             @empty
                 <tr class="text-center text-muted">
