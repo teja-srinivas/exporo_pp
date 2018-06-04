@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Agb;
+use App\Company;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Role;
@@ -74,7 +75,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::create([
+        $user = User::forceCreate([
+            'company_id' => Company::first()->getKey(),
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],

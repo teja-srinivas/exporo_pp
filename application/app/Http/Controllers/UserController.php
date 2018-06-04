@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Http\Requests\UserStoreRequest;
 use App\Role;
 use App\User;
@@ -57,8 +58,9 @@ class UserController extends Controller
         ]);
 
         $data['password'] = Hash::make(str_random());
+        $data['company_id'] = Company::first()->getKey();
 
-        $user = User::create($data);
+        $user = User::forceCreate($data);
 
         return redirect()->route('users.show', $user);
     }
