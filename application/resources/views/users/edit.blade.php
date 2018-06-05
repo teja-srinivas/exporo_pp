@@ -36,7 +36,7 @@
         </div>
     </form>
 
-    @include('users.details')
+    @include('users.partials.details')
 
     @include('components.audit', ['model' => [$user, $user->details]])
 @endsection

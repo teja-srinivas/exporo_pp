@@ -64,7 +64,7 @@
         @endcard
     </form>
 
-    @include('documents.details')
+    @include('documents.partials.details')
 
     @include('components.audit', ['model' => $document])
 @endsection

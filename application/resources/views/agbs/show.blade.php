@@ -48,5 +48,5 @@
         </table>
     @endcard
 
-    @include('agbs.details')
+    @include('agbs.partials.details')
 @endsection

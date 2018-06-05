@@ -29,5 +29,5 @@
     <embed width="100%" height="1080px" src="{!! $document->getDownloadUrl() !!}" type="application/pdf"
            class="bg-dark shadow-sm">
 
-    @include('documents.details')
+    @include('documents.partials.details')
 @endsection

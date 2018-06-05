@@ -111,5 +111,5 @@
         </table>
     @endcard
 
-    @include('users.details')
+    @include('users.partials.details')
 @endsection
