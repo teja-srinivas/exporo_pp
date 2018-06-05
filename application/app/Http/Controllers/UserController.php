@@ -116,6 +116,11 @@ class UserController extends Controller
     {
         $attributes = $request->validated();
 
+        if (isset($attributes['accept'])) {
+            $field = $attributes['accept']? 'accepted_at' : 'rejected_at';
+            $user->setAttribute($field, now());
+        }
+
         $user->fill($attributes)->saveOrFail();
         $user->details->fill($attributes)->saveOrFail();
 

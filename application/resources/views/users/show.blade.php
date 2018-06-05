@@ -22,6 +22,8 @@
 @endsection
 
 @section('main-content')
+    @include('users.partials.application')
+
     @card
         @slot('title', 'AGBs')
         @slot('info', 'die von diesem Nutzer akzeptiert wurden.')

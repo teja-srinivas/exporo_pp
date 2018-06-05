@@ -48,7 +48,11 @@ class UserStoreRequest extends FormRequest
 
     protected function addCustomData($array)
     {
-        $array['birth_date'] = self::makeBirthDate($array);
+        $birthDate = self::makeBirthDate($array);
+
+        if ($birthDate !== null) {
+            $array['birth_date'] = $birthDate;
+        }
 
         return $array;
     }
@@ -87,6 +91,11 @@ class UserStoreRequest extends FormRequest
             'last_name' => $prefix . 'string|max:100',
             'email' => $prefix . 'string|email|max:255|unique:users,email,' . optional($updating)->id,
         ];
+
+        // Only allow acceptance status if it's a user already
+        if (auth()->user()->can('process', $updating)) {
+            $rules['accept'] = 'nullable|boolean';
+        }
 
         return $rules;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Role;
 use App\User;
 
 /**
@@ -22,6 +23,20 @@ class UserPolicy extends BasePolicy
     public function __construct()
     {
         parent::__construct(self::PERMISSION);
+    }
+
+    /**
+     * Checks if the given user can be "processed" (accepted/rejected).
+     *
+     * @param User $user
+     * @param User|null $model
+     * @return bool
+     */
+    public function process(User $user, ?User $model)
+    {
+        return $model !== null
+            && $model->hasRole(Role::PARTNER)
+            && $user->hasPermissionTo('process partners');
     }
 
     /**

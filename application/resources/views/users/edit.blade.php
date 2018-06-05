@@ -13,6 +13,8 @@
 @endsection
 
 @section('main-content')
+    @include('users.partials.application')
+
     <form action="{{ route('users.update', $user) }}" method="POST">
         @method('PUT')
         @csrf

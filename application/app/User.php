@@ -19,7 +19,9 @@ class User extends Authenticatable implements AuditableContract
     use Notifiable;
     use HasRoles;
     use Auditable;
-    use Dateable;
+    use Dateable {
+        asDateTime as parentAsDateTime;
+    }
 
     /**
      * Possible user titles
@@ -49,10 +51,21 @@ class User extends Authenticatable implements AuditableContract
         'password', 'remember_token',
     ];
 
+    protected $dates = [
+        'accepted_at',
+        'rejected_at',
+    ];
+
     protected $auditExclude = [
         'remember_token',
     ];
 
+
+    // Fix for the audit package not detecting this method (for some reason)
+    protected function asDateTime($value)
+    {
+        return $this->parentAsDateTime($value);
+    }
 
     /**
      * @return HasOne
@@ -96,19 +109,34 @@ class User extends Authenticatable implements AuditableContract
         $query->orderBy('last_name')->orderBy('first_name');
     }
 
+    public function canBeProcessed()
+    {
+        return $this->hasRole(Role::PARTNER);
+    }
+
+    public function hasBeenProcessed()
+    {
+        return $this->canBeProcessed() && ($this->rejected_at !== null || $this->accepted_at !== null);
+    }
+
+    public function hasNotBeenProcessed()
+    {
+        return $this->canBeProcessed() && ($this->rejected_at === null && $this->accepted_at === null);
+    }
+
     public function rejected()
     {
-        return $this->hasRole(Role::PARTNER) && $this->rejected_at !== null;
+        return $this->canBeProcessed() && $this->rejected_at !== null;
     }
 
     public function accepted()
     {
-        return $this->hasRole(Role::PARTNER) && $this->accepted_at !== null;
+        return $this->canBeProcessed() && $this->accepted_at !== null;
     }
 
     public function notYetAccepted()
     {
-        return $this->hasRole(Role::PARTNER) && $this->accepted_at === null;
+        return $this->canBeProcessed() && $this->accepted_at === null;
     }
 
     public static function getRoleColor(Role $role)
