@@ -122,13 +122,4 @@ class User extends Authenticatable implements AuditableContract
                 return 'light';
         }
     }
-
-    public static function getValidationRules(self $updating = null)
-    {
-        return [
-            'first_name' => 'required|string|max:100',
-            'last_name' => 'required|string|max:100',
-            'email' => 'required|string|email|max:255|unique:users,email,' . optional($updating)->id,
-        ];
-    }
 }

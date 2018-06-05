@@ -56,8 +56,8 @@ class RegisterController extends Controller
         $data['birth_date'] = UserStoreRequest::makeBirthDate($data);
 
         return Validator::make($data, array_merge(
-            User::getValidationRules(),
-            UserDetails::getValidationRules(),
+            UserStoreRequest::getUserValidationRules(),
+            UserStoreRequest::getDetailValidationRules(),
             [
                 'password' => 'required|string|min:6|confirmed',
                 'legal_exporo_ag' => 'accepted',
