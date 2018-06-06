@@ -39,8 +39,14 @@ if (!function_exists('render_breadcrumps')) {
     {
         static $divider = '<span class="text-muted"> / </span>';
 
-        return join($divider, array_map(function ($name, $link) {
-            return empty($link) ? $name : "<a href='$link' class='text-muted'>$name</a>";
+        $last = array_last($breadcrumps);
+
+        return join($divider, array_map(function ($name, $link) use ($last) {
+            $class = $name === $last ? '' : 'text-muted';
+
+            return empty($link) || is_numeric($link)
+                ? "<span class='$class'>$name</span>"
+                : "<a href='$link' class='$class'>$name</a>";
         }, $breadcrumps, array_keys($breadcrumps)));
     }
 }
