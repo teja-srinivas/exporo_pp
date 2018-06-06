@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\User;
+
 class RolePolicy extends BasePolicy
 {
     const PERMISSION = 'manage authorization';
@@ -12,5 +14,15 @@ class RolePolicy extends BasePolicy
     public function __construct()
     {
         parent::__construct(self::PERMISSION);
+    }
+
+    public function update(User $user, $model)
+    {
+        return $model->canBeDeleted() && parent::update($user, $model);
+    }
+
+    public function delete(User $user, $model)
+    {
+        return $model->canBeDeleted() && parent::delete($user, $model);
     }
 }

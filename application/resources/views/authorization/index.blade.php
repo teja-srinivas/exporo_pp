@@ -16,18 +16,19 @@
             </thead>
             <tbody>
             @forelse($roles as $role)
-                @php($isNative = in_array($role->name,App\Role::ROLES))
                 <tr>
                     <td>
                         <a href="{{ route('roles.show', $role) }}">{{ studly_case($role->name) }}</a>
 
-                        @if($isNative)
+                        @if(in_array($role->name,App\Role::ROLES))
                             <div class="badge badge-info">System</div>
                         @endif
                     </td>
                     <td class="text-right">
                         <a href="{{ route('roles.edit', $role) }}"
-                           class="btn btn-xs btn-link {{ $isNative ? 'disabled' : '' }}">Ändern</a>
+                           class="btn btn-xs btn-link {{ auth()->user()->can('update', $role) ? '' : 'disabled' }}">
+                            Ändern
+                        </a>
                     </td>
                 </tr>
             @empty

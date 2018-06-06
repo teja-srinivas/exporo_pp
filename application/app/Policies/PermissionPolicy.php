@@ -2,7 +2,14 @@
 
 namespace App\Policies;
 
-class PermissionPolicy extends RolePolicy
+class PermissionPolicy extends BasePolicy
 {
-    // We have the same permissions as roles
+    /**
+     * PermissionPolicy constructor.
+     */
+    public function __construct()
+    {
+        // We have the same permissions as roles
+        parent::__construct(RolePolicy::PERMISSION);
+    }
 }
