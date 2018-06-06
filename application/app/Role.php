@@ -19,11 +19,22 @@ class Role extends \Spatie\Permission\Models\Role
     const INTERNAL = 'internal';
     const ADMIN = 'admin';
 
+    const ROLES = [
+        self::PARTNER,
+        self::INTERNAL,
+        self::ADMIN,
+    ];
+
     /**
      * @inheritdoc
      */
     public function permissions(): BelongsToMany
     {
         return parent::permissions()->withTimestamps();
+    }
+
+    public function canBeDeleted()
+    {
+        return !in_array($this->name, self::ROLES);
     }
 }

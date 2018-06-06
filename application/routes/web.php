@@ -25,6 +25,7 @@ Route::middleware(['auth', 'accepted'])->group(function () {
     Route::resource('agbs', 'AgbController');
     Route::resource('documents', 'UserDocumentController');
     Route::resource('users', 'UserController');
+    Route::resource('roles', 'RoleController', ['except' => ['index']]);
 
     Route::get('/home', 'HomeController@index')->name('home');
 

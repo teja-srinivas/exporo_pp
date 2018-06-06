@@ -11,12 +11,24 @@
             <thead>
             <tr>
                 <th>Name</th>
+                <th width="100" class="text-right">Aktionen</th>
             </tr>
             </thead>
             <tbody>
             @forelse($roles as $role)
+                @php($isNative = in_array($role->name,App\Role::ROLES))
                 <tr>
-                    <td>{{ $role->name }}</td>
+                    <td>
+                        <a href="{{ route('roles.show', $role) }}">{{ studly_case($role->name) }}</a>
+
+                        @if($isNative)
+                            <div class="badge badge-info">System</div>
+                        @endif
+                    </td>
+                    <td class="text-right">
+                        <a href="{{ route('roles.edit', $role) }}"
+                           class="btn btn-xs btn-link {{ $isNative ? 'disabled' : '' }}">Ändern</a>
+                    </td>
                 </tr>
             @empty
                 <tr class="text-center text-muted">
@@ -25,6 +37,12 @@
             @endforelse
             </tbody>
         </table>
+
+        @slot('footer')
+            <div class="text-right">
+                <a href="{{ route('roles.create') }}" class="btn btn-sm btn-primary">Neu Anlegen</a>
+            </div>
+        @endslot
     @endcard
 
     @card
@@ -34,13 +52,21 @@
         <table class="table table-sm table-hover table-striped mb-0 table-borderless">
             <thead>
             <tr>
-                <th>Name</th>
+                <th width="50%">Name</th>
+                <th width="50%">Rollen</th>
             </tr>
             </thead>
             <tbody>
             @forelse($permissions as $permission)
                 <tr>
                     <td>{{ $permission->name }}</td>
+                    <td>
+                        @foreach($permission->roles as $role)
+                            <a href="{{ route('roles.show', $role) }}" class="badge badge-primary">{{
+                                studly_case($role->name)
+                            }}</a>
+                        @endforeach
+                    </td>
                 </tr>
             @empty
                 <tr class="text-center text-muted">
