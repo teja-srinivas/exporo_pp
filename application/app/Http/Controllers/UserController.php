@@ -22,7 +22,7 @@ class UserController extends Controller
     {
         $this->authorize('list', User::class);
 
-        $users = User::ordered()->latest()->get();
+        $users = User::ordered()->latest()->with('roles')->get();
 
         return response()->view('users.index', compact('users'));
     }
