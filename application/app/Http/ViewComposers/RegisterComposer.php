@@ -16,7 +16,7 @@ class RegisterComposer
     public function __construct()
     {
         $this->agbs = collect(Agb::TYPES)->mapWithKeys(function (string $type) {
-            return [$type => Agb::current($type) ?: new Agb()];
+            return [$type => route('agbs.latest', $type)];
         });
     }
 

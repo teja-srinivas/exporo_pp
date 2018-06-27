@@ -13,9 +13,13 @@
 
 Route::view('/', 'welcome');
 
-Route::get('agbs/{agb}/download', 'AgbController@download')
-    ->name('agbs.download')
-    ->middleware('signed');
+Route::prefix('agbs')->group(function () {
+    Route::get('{agb}/download', 'AgbController@download')
+        ->name('agbs.download')
+        ->middleware('signed');
+
+    Route::get('latest/{type}', 'AgbController@latest')->name('agbs.latest');
+});
 
 Route::middleware(['auth', 'accepted'])->group(function () {
     Route::get('/documents/{document}/download', 'UserDocumentController@download')

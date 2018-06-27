@@ -169,4 +169,19 @@ class AgbController extends Controller
 
         return Storage::download($agb->filename, $agb->getReadableFilename());
     }
+
+    /**
+     * Finds and redirects to the latest AGB of the given type.
+     *
+     * @param string $type
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function latest(string $type)
+    {
+        $agb = Agb::current($type);
+
+        abort_if($agb === null, 404);
+
+        return redirect($agb->getDownloadUrl());
+    }
 }

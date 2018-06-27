@@ -233,7 +233,7 @@
 
                 @component('components.form.checkbox', ['name' => 'legal_exporo_ag'])
                     <span>den</span>
-                    <a href="{!! $agbs[App\Agb::TYPE_AG]->getDownloadUrl() !!}">AGB</a>
+                    <a href="{!! $agbs[App\Agb::TYPE_AG] !!}">AGB</a>
                     &
                     <a href="#">Datenschutzerklärung</a>
                     der Exporo AG,
@@ -247,7 +247,7 @@
                     'required' => true,
                 ])
                     <span>den</span>
-                    <a href="{!! $agbs[App\Agb::TYPE_GMBH]->getDownloadUrl() !!}">AGB</a>
+                    <a href="{!! $agbs[App\Agb::TYPE_GMBH] !!}">AGB</a>
                     & Datenschutzerklärung der Exporo Investment GmbH,
                     sowie den Bestimmungen zu Cookies & Internet-Werbung einverstanden.
                 @endcomponent
