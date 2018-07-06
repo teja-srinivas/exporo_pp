@@ -16,7 +16,7 @@ class UpdateDatabaseSchema extends Migration
         Schema::table('user_details', function (Blueprint $table) {
             $table->decimal('vat_amount')->default(19);
             $table->boolean('vat_included')->default(true);
-            $table->unsignedInteger('parent_id')->default(0);
+            $table->unsignedInteger('parent_id')->index()->default(0);
             $table->decimal('registration_bonus')->default(0);
             $table->decimal('first_investment_bonus')->default(0);
             $table->decimal('further_investment_bonus')->default(0);
@@ -31,7 +31,7 @@ class UpdateDatabaseSchema extends Migration
             $table->date('payback_min_at')->nullable();
             $table->date('payback_max_at')->nullable();
             $table->dateTime('approved_at')->nullable();
-            $table->unsignedInteger('approved_by')->nullable();
+            $table->unsignedInteger('approved_by')->index()->nullable();
         });
 
         Schema::dropIfExists('investor_user');
