@@ -82,7 +82,7 @@ class UserController extends Controller
                 $query->latest();
             },
             'investors' => function ($query) {
-                $query->orderBy('last_name');
+                $query->orderBy('first_name');
             }
         ]);
 
