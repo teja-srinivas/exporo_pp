@@ -7,10 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
+/**
+ * @property string $name
+ * @property string $formula
+ */
 class Schema extends Model implements AuditableContract
 {
     use Auditable;
     use OptimusEncodedRouteKey;
+
+    protected $fillable = [
+        'name',
+        'formula',
+    ];
+
 
     public function projects()
     {

@@ -42,6 +42,10 @@ class Investment extends Model implements AuditableContract
         'paid_at',
     ];
 
+    protected $fillable = [
+        'paid_at',
+    ];
+
     public function investor(): BelongsTo
     {
         return $this->belongsTo(Investor::class, 'investor_id');

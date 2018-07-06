@@ -35,7 +35,7 @@ class Role extends \Spatie\Permission\Models\Role
         return parent::permissions()->withTimestamps();
     }
 
-    public function canBeDeleted()
+    public function canBeDeleted(): bool
     {
         return !in_array($this->name, self::ROLES);
     }
