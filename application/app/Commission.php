@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @property Investment $investment
  * @property bool $on_hold
  */
-class Commission extends Model
+class Commission extends Model implements AuditableContract
 {
+    use Auditable;
     use OptimusEncodedRouteKey;
 
     protected $casts = [

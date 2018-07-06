@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @property int $bonus
@@ -19,8 +21,9 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-class Investment extends Model
+class Investment extends Model implements AuditableContract
 {
+    use Auditable;
     use OptimusEncodedRouteKey;
 
     const MORPH_NAME = 'investment';

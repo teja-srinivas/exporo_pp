@@ -6,9 +6,12 @@ use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Investor extends Model
+class Investor extends Model implements AuditableContract
 {
+    use Auditable;
     use OptimusEncodedRouteKey;
 
     const MORPH_NAME = 'investor';
