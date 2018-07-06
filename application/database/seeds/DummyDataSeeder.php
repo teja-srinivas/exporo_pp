@@ -2,7 +2,9 @@
 
 use App\Agb;
 use App\Company;
+use App\Investment;
 use App\Investor;
+use App\Project;
 use App\Role;
 use App\User;
 use App\UserDetails;
@@ -32,7 +34,12 @@ class DummyDataSeeder extends Seeder
         $agbs = $agbs->random(10);
 
         // Investors
-        $investors = factory(Investor::class, 200)->create();
+        $investors = factory(Investor::class, 200)->create([
+            'project_id' => 0,
+            'client_id' => 0,
+            'partner_id' => 0,
+            'ext_user_id' => 0,
+        ]);
 
         // Create sets of users (per role)
         $userExtras = ['company_id' => $company->id];
@@ -72,5 +79,8 @@ class DummyDataSeeder extends Seeder
         });
 
         $investors->each->save();
+
+        factory(Project::class, 10)->create();
+        factory(Investment::class, 100)->create();
     }
 }
