@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": "^7.1.3",
+        "cybercog/laravel-optimus": "^3.0",
         "dannyvankooten/laravel-vat": "dev-master",
         "doctrine/dbal": "^2.7",
         "fideloper/proxy": "^4.0",

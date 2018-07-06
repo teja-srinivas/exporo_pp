@@ -2,12 +2,15 @@
 
 namespace App;
 
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Investor extends Model
 {
+    use OptimusEncodedRouteKey;
+
     const MORPH_NAME = 'investor';
 
     public $incrementing = false;

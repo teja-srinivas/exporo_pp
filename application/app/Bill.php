@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,6 +21,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Bill extends Model
 {
+    use OptimusEncodedRouteKey;
+
     protected $dates = [
         'released_at',
     ];
