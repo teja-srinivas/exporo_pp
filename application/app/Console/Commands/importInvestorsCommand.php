@@ -22,7 +22,7 @@ final class importInvestorsCommand extends Command
             $updated_at = Investor::getNewestUpdatedAtDate();
         }
 
-        $nextLink = 'exporo.dev/api/partnerprogram/user?api-token=12341&updated_at=' . $updated_at;
+        $nextLink = 'exporo.dev/api/partnerprogram/investor?api-token=12341&updated_at=' . $updated_at;
         while ($nextLink) {
             $response = GuzzleHttp\json_decode($client->get($nextLink)->getBody()->getContents(), true);
             $nextLink = $response['next'];
