@@ -44,7 +44,7 @@
 
             @slot('footer')
                 <div class="text-right">
-                    <button class="btn btn-primary">Rolle Anlegen</button>
+                    <button class="btn btn-primary">Änderungen Speichern</button>
                 </div>
             @endslot
         @endcard

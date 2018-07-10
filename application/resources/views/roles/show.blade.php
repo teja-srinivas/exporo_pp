@@ -25,7 +25,7 @@
 @section('main-content')
     @card
         @slot('title', 'Fähigkeiten')
-        @slot('info', 'die Benutzer mit dieser Rolle besitzten')
+        @slot('info', 'die Benutzer mit dieser Rolle besitzen')
 
         @forelse($role->permissions as $permission)
             <span class="badge badge-light">{{ $permission->name }}</span>

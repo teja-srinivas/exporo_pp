@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Interfaces\FileReference;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\URL;
@@ -12,6 +13,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 class Document extends Model implements FileReference, AuditableContract
 {
     use Auditable;
+    use OptimusEncodedRouteKey;
 
     const DIRECTORY = 'documents';
 

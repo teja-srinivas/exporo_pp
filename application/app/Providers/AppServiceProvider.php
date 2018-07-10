@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -15,7 +16,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Database setup
         Schema::defaultStringLength(191);
+
+        Relation::morphMap([
+            \App\Investment::MORPH_NAME => \App\Investment::class,
+            \App\Investor::MORPH_NAME => \App\Investor::class,
+        ]);
 
         // Accented card with its title and content in the body
         Blade::component('components.card', 'card');

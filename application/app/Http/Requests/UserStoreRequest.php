@@ -93,7 +93,7 @@ class UserStoreRequest extends FormRequest
         ];
 
         // Only allow acceptance status if it's a user already
-        if (auth()->user()->can('process', $updating)) {
+        if (auth()->check() && auth()->user()->can('process', $updating)) {
             $rules['accept'] = 'nullable|boolean';
         }
 

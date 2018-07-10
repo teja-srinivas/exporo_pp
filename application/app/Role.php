@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\Dateable;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Role extends \Spatie\Permission\Models\Role
 {
     use Dateable;
+    use OptimusEncodedRouteKey;
 
     const PARTNER = 'partner';
     const INTERNAL = 'internal';
@@ -33,7 +35,7 @@ class Role extends \Spatie\Permission\Models\Role
         return parent::permissions()->withTimestamps();
     }
 
-    public function canBeDeleted()
+    public function canBeDeleted(): bool
     {
         return !in_array($this->name, self::ROLES);
     }

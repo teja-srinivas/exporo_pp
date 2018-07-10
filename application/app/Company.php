@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\Dateable;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use OwenIt\Auditing\Auditable;
@@ -12,6 +13,7 @@ class Company extends Model implements AuditableContract
 {
     use Auditable;
     use Dateable;
+    use OptimusEncodedRouteKey;
 
     public function users(): BelongsToMany
     {

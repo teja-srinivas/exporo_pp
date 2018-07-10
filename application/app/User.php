@@ -4,6 +4,7 @@ namespace App;
 
 use App\Traits\Dateable;
 use App\Traits\HasRoles;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -19,6 +20,7 @@ class User extends Authenticatable implements AuditableContract
     use Notifiable;
     use HasRoles;
     use Auditable;
+    use OptimusEncodedRouteKey;
     use Dateable {
         asDateTime as parentAsDateTime;
     }
@@ -101,7 +103,7 @@ class User extends Authenticatable implements AuditableContract
 
     public function investors()
     {
-        return $this->hasMany(Investor::class, 'last_user_id');
+        return $this->hasMany(Investor::class, 'user_id');
     }
 
     public function scopeOrdered(Builder $query)

@@ -1,9 +1,13 @@
 <?php
 
 use App\Agb;
+use App\Bill;
 use App\Company;
+use App\Investment;
 use App\Investor;
+use App\Project;
 use App\Role;
+use App\Schema;
 use App\User;
 use App\UserDetails;
 use Faker\Provider\Address;
@@ -20,7 +24,9 @@ class DummyDataSeeder extends Seeder
      */
     public function run()
     {
-        $company = factory(Company::class)->create();
+        $company = factory(Company::class)->create([
+            'name' => 'Exporo AG',
+        ]);
 
         // AGBs
         $agbs = factory(Agb::class, 15)->create()->sortByDesc('created_at');
@@ -31,8 +37,12 @@ class DummyDataSeeder extends Seeder
 
         $agbs = $agbs->random(10);
 
-        // Investors
-        $investors = factory(Investor::class, 200)->create();
+        // Create some projects
+        $projects = factory(Schema::class, 3)->create()->flatMap(function (Schema $schema) {
+            return factory(Project::class, 30)->create([
+                'schema_id' => $schema->id,
+            ]);
+        });
 
         // Create sets of users (per role)
         $userExtras = ['company_id' => $company->id];
@@ -45,32 +55,24 @@ class DummyDataSeeder extends Seeder
             $user->assignRole(Role::INTERNAL);
         });
 
-        factory(User::class, 50)->create($userExtras)->each(function (User $user) use ($agbs, $investors) {
+        factory(User::class, 50)->create($userExtras)->each(function (User $user) use ($agbs, $projects) {
             $user->assignRole(Role::PARTNER);
             $user->agbs()->attach($agbs->random(2));
 
             $user->details()->create(factory(UserDetails::class)->raw());
 
-            $investors->random(25)->each(function (Investor $investor) use ($user) {
-                $created = \Faker\Provider\DateTime::date();
+            factory(Bill::class, 15)->create([
+                'user_id' => $user->id,
+            ]);
 
-                DB::table('investor_user')->insert([
-                    'user_id' => $user->id,
-                    'investor_id' => $investor->id,
-                    'editor_id' => rand(1, 1000),
-                    'note' => Lorem::sentence(),
-                    'created_at' => $created,
-                    'updated_at' => $created,
-                ]);
+            // Investors and their investments
+            factory(Investor::class, rand(0, 30))->create([
+                'user_id' => $user->id,
+            ])->each(function (Investor $investor) use ($projects) {
+                $investor->investments()->createMany(factory(Investment::class, rand(0, 30))->raw([
+                    'project_id' => $projects->random()->id,
+                ]));
             });
         });
-
-        $investorById = $investors->keyBy('id');
-
-        DB::table('investor_user')->oldest()->get()->each(function ($row) use ($investorById) {
-            $investorById[$row->investor_id]->last_user_id = $row->user_id;
-        });
-
-        $investors->each->save();
     }
 }
