@@ -4,7 +4,6 @@ namespace App;
 
 use App\Traits\Dateable;
 use App\Traits\HasRoles;
-use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -20,7 +19,6 @@ class User extends Authenticatable implements AuditableContract
     use Notifiable;
     use HasRoles;
     use Auditable;
-    use OptimusEncodedRouteKey;
     use Dateable {
         asDateTime as parentAsDateTime;
     }

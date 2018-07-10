@@ -25,7 +25,7 @@ class Investor extends Model implements AuditableContract
     public $incrementing = false;
 
     protected $fillable = [
-        'first_name', 'last_name'
+        'id', 'first_name', 'last_name', 'created_at', 'updated_at'
     ];
 
     public function user()
@@ -46,5 +46,12 @@ class Investor extends Model implements AuditableContract
     public function commissions(): MorphOne
     {
         return $this->morphOne(Commission::class, 'model');
+    }
+
+    public static function getNewestUpdatedAtDate()
+    {
+        return DB::table('investors')
+            ->orderBy('updated_at', 'desc')
+            ->get('updated_at');
     }
 }
