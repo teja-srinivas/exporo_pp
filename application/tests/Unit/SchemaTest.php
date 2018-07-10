@@ -12,10 +12,8 @@ class SchemaTest extends TestCase
     /** @test */
     public function it_properly_calculates_values()
     {
-        $schema = new Schema([
-            'formula' => '2x + 3(y - x)',
-        ]);
+        $schema = factory(Schema::class)->make();
 
-        $this->assertEquals(5, $schema->calculate(1, 2));
+        $this->assertEquals(4, $schema->calculate(1, 2));
     }
 }
