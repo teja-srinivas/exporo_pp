@@ -30,6 +30,13 @@ class UpdateProjectsAddDefaultValues extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('projects', function (Blueprint $table) {
+            $table->unsignedInteger('interest_rate')->default(NULL)->change();
+            $table->unsignedInteger('margin')->default(NULL)->change();
+            $table->string('image')->default(NULL)->change();
+            $table->text('description')->nullable()->change();
+            $table->unsignedInteger('schema_id')->default(NULL)->change();
+            $table->decimal('capital_cost')->default(NULL)->change();
+        });
     }
 }
