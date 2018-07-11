@@ -30,7 +30,7 @@ class Investor extends Model implements AuditableContract
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'last_user_id');
+        return $this->belongsTo(User::class, 'id');
     }
 
     public function investments(): HasMany

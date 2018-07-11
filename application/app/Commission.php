@@ -23,6 +23,9 @@ class Commission extends Model implements AuditableContract
         'on_hold' => 'bool',
     ];
 
+    protected $fillable = [
+        'bill_id', 'model_type', 'model_id', 'user_id', 'net', 'gross'
+    ];
 
     public function bill(): BelongsTo
     {

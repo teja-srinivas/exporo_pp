@@ -50,6 +50,11 @@ class Investment extends Model implements AuditableContract
         return $this->belongsTo(Investor::class, 'investor_id');
     }
 
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class, 'id');
+    }
+
     public function commissions(): MorphOne
     {
         return $this->morphOne(Commission::class, 'model');

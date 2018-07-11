@@ -4,6 +4,7 @@ namespace App;
 
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Project extends Model
@@ -19,6 +20,11 @@ class Project extends Model
     public function schema(): BelongsTo
     {
         return $this->belongsTo(Schema::class, 'schema_id');
+    }
+
+    public function investments(): hasMany
+    {
+        return $this->hasMany(Investment::class, 'project_id', 'id');
     }
 
     public static function getNewestUpdatedAtDate()
