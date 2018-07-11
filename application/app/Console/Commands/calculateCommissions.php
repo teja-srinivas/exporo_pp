@@ -48,12 +48,21 @@ final class calculateCommissions extends Command
     {
        $schema = $investment->project->schema->first();
        $runtime = $this->calcRuntimeInMonths($investment);
-       $sum = $schema->calculate($investment->investsum, $runtime);
+       if($this->checkIfIsFirstInvestment($investment)) {
+           $sum = $schema->calculate($investment->investsum, $runtime, $investment->investor->user->details->first_investment_bonus);
+       }
+       else{
+           $sum = $schema->calculate($investment->investsum, $runtime, $investment->investor->user->details->further_investment_bonus);
+       }
        $sums['net'] = $sum * 0.81;
        $sums['gross'] = $sum * 1.19;
        return $sums;
     }
 
+    private function checkIfIsFirstInvestment(Investment $investment): bool
+    {
+       return $investment->is_first_investment;
+    }
     private function getInvestmentsWithoutCommission(): Collection
     {
         return $this->investmentRepo->getInvestmentsWithoutCommission();

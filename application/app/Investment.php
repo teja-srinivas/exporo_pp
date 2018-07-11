@@ -52,7 +52,7 @@ class Investment extends Model implements AuditableContract
 
     public function project(): BelongsTo
     {
-        return $this->belongsTo(Project::class, 'id');
+        return $this->belongsTo(Project::class, 'project_id', 'id');
     }
 
     public function commissions(): MorphOne

@@ -6,6 +6,7 @@ use App\Traits\Dateable;
 use App\Traits\Encryptable;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class UserDetails extends Model implements AuditableContract
@@ -17,6 +18,11 @@ class UserDetails extends Model implements AuditableContract
     }
 
     public $incrementing = false;
+
+    protected $casts = [
+        'first_investment_bonus' => 'float',
+        'further_investment_bonus' => 'float',
+    ];
 
     protected $fillable = [
         'company',
@@ -52,5 +58,10 @@ class UserDetails extends Model implements AuditableContract
     protected function asDateTime($value)
     {
         return $this->parentAsDateTime($value);
+    }
+
+    public function User(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id');
     }
 }
