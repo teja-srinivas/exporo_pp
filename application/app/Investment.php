@@ -29,6 +29,13 @@ class Investment extends Model implements AuditableContract
 
     public $incrementing = false;
 
+    protected $touches = [
+        'investors',
+        'partners',
+        'projects',
+        'schemas'
+    ];
+
     protected $casts = [
         'is_first_investment' => 'bool',
         'interest_rate' => 'float',

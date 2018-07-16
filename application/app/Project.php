@@ -4,6 +4,7 @@ namespace App;
 
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -19,7 +20,7 @@ class Project extends Model
 
     public function schema(): BelongsTo
     {
-        return $this->belongsTo(Schema::class, 'schema_id');
+        return $this->belongsTo(Schema::class, 'schema_id', 'id');
     }
 
     public function investments(): hasMany
@@ -31,6 +32,6 @@ class Project extends Model
     {
         return DB::table('projects')
             ->orderBy('updated_at', 'desc')
-            ->get('updated_at');
+            ->first(['updated_at']);
     }
 }

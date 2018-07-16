@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use OwenIt\Auditing\Auditable;
+use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
@@ -30,7 +31,7 @@ class Investor extends Model implements AuditableContract
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function investments(): HasMany
