@@ -28,7 +28,6 @@ final class checkForUpdatedCalculationDataAndRecalculate extends Command
       $investments =  $this->investmentRepo->getInvestmentsWhereCalculationChanged();
      foreach ($investments as $investment)
      {
-        var_dump($investment);
        $sums = $this->calculationService->calculateCommission($investment);
        $commission = $investment->commissions;
        $commission->fill([
