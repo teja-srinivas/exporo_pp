@@ -29,10 +29,7 @@ final class CalculateCommissionsService
         return $investment->is_first_investment;
     }
 
-    private function getInvestmentsWithoutCommission(): Collection
-    {
-        return $this->investmentRepo->getInvestmentsWithoutCommission();
-    }
+
 
     private function calcRuntimeInMonths(Investment $investment)
     {

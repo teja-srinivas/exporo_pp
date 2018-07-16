@@ -7,7 +7,6 @@ namespace App\Repositorys;
 use App\Investment;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rules\In;
 
 final class InvestmentRepository
 {

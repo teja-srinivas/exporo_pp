@@ -7,7 +7,7 @@ namespace App\Console\Commands;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Console\Command;
 use App\Repositorys\InvestmentRepository;
-use App\Commission;
+use App\Investment;
 
 final class checkForUpdatedCalculationDataAndRecalculate extends Command
 {
@@ -26,16 +26,26 @@ final class checkForUpdatedCalculationDataAndRecalculate extends Command
     public function handle()
     {
       $investments =  $this->investmentRepo->getInvestmentsWhereCalculationChanged();
-     foreach ($investments as $investment)
-     {
-       $sums = $this->calculationService->calculateCommission($investment);
-       $commission = $investment->commissions;
-       $commission->fill([
-             'net' => $sums['net'],
-             'gross' => $sums['gross']
-         ]);
-       $commission->save();
-     }
+         foreach ($investments as $investment)
+         {
+           $sums = $this->calculationService->calculateCommission($investment);
+           $this->touchModels($investment);
+           $commission = $investment->commissions;
+           $commission->fill([
+                 'net' => $sums['net'],
+                 'gross' => $sums['gross']
+             ]);
+           $commission->save();
+         }
+    }
+
+    private function touchModels(Investment $investment): void
+    {
+        $investment->investor->touch();
+        $investment->project->touch();
+        $investment->project->schema->touch();
+        $investment->touch();
+        return;
     }
 
 }

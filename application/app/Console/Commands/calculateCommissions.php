@@ -43,4 +43,9 @@ final class calculateCommissions extends Command
             ]);
         }
     }
+
+    private function getInvestmentsWithoutCommission(): Collection
+    {
+        return $this->investmentRepo->getInvestmentsWithoutCommission();
+    }
 }
