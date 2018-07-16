@@ -20,7 +20,6 @@ final class importInvestmentsCommand extends Command
         $updated_at = $this->argument('updated_at', 0);
         if (!$updated_at) {
             $updated_at = Investment::getNewestUpdatedAtDate();
-            dd($updated_at);
         }
 
         $nextLink = 'exporo.dev/api/partnerprogram/investment?api-token=12341&updated_at=' . $updated_at;
