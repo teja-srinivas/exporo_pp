@@ -31,7 +31,7 @@ class Schema extends Model implements AuditableContract
     }
 
     // TODO change this signature to match the correct calculation
-    public function calculate(float $firstVar, float $secondVar, float $thirdVar): float
+    public function calculate(int $firstVar, float $secondVar, float $thirdVar): float
     {
         // We cache the AST for faster lookups
         $cacheKey = "schema.formulas.{$this->formula}";

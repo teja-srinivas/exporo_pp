@@ -228,6 +228,8 @@ class InitialMigration extends Migration
             $table->string('type')->nullable();
             $table->dateTime('paid_at')->nullable();
             $table->boolean('is_first_investment')->nullable();
+            $table->dateTime('acknowledged_at')->nullable();
+            $table->dateTime('cancelled_at')->nullable();
             $table->timestamps();
         });
 

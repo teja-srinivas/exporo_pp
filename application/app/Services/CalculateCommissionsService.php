@@ -14,9 +14,9 @@ final class CalculateCommissionsService
         $schema = $investment->project->schema->first();
         $runtime = $this->calcRuntimeInMonths($investment);
         if ($this->checkIfIsFirstInvestment($investment)) {
-            $sum = $schema->calculate($investment->investsum, $runtime, $investment->investor->user->details->first_investment_bonus);
+            $sum = $schema->calculate((int) $investment->investsum, $investment->investor->user->details->first_investment_bonus, $runtime );
         } else {
-            $sum = $schema->calculate($investment->investsum, $runtime, $investment->investor->user->details->further_investment_bonus);
+            $sum = $schema->calculate((int) $investment->investsum, $investment->investor->user->details->further_investment_bonus , $runtime );
         }
 
         if($investment->investor->user->vat_included){

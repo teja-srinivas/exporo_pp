@@ -9,6 +9,7 @@ use App\Investment;
 use App\Schema;
 use App\Investor;
 use App\Project;
+use App\Services\CalculateCommissionsService;
 use App\User;
 use App\UserDetails;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -42,6 +43,7 @@ final class CommissionCalculationTest extends TestCase
             factory(Investor::class)->create(
                 [
                     'id' => 1,
+                    'user_id' => 1
                 ]
             );
 
@@ -63,7 +65,7 @@ final class CommissionCalculationTest extends TestCase
                 [
                     'investor_id' => 1,
                     'project_id' => 1,
-                    'investment_sum' => 50000
+                    'investsum' => 50000
                 ]
             );
     }
@@ -71,10 +73,14 @@ final class CommissionCalculationTest extends TestCase
 
     public function testCommissionCalculation()
     {
-        $job = new calculateCommissions();
-        app('Illuminate\Contracts\Bus\Dispatcher')->dispatch($job);
-        dd('hallo');
-
+        /**
+         * @var CalculateCommissionsService
+         */
+        $job = $this->app->make(CalculateCommissionsService::class);
+        $investment = Investment::first();
+        $returnValue = $job->calculateCommission($investment);
+        $this->assertEquals(303.75, $returnValue['net']);
+        $this->assertEquals(375, $returnValue['gross']);
     }
 
 }
