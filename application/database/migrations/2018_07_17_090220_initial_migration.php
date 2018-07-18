@@ -199,14 +199,6 @@ class InitialMigration extends Migration
             $table->date('activation_at')->nullable();
         });
 
-        Schema::create('investor_user', function (Blueprint $table) {
-            $table->unsignedInteger('investor_id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('editor_id')->comment('External user ID');
-            $table->string('note');
-            $table->timestamps();
-        });
-
         Schema::create('projects', function (Blueprint $table) {
             $table->unsignedInteger('id')->comment('External Project ID');
             $table->string('name');
