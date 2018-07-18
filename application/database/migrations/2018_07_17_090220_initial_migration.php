@@ -20,8 +20,8 @@ class InitialMigration extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('company_id')->nullable()->index();
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('first_name', 300);
+            $table->string('last_name', 300);
             $table->string('email')->index();
             $table->string('password');
             $table->rememberToken();
@@ -191,8 +191,8 @@ class InitialMigration extends Migration
 
         Schema::create('investors', function (Blueprint $table) {
             $table->unsignedInteger('id')->primary()->nullable();
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('first_name', 300);
+            $table->string('last_name', 300);
             $table->timestamps();
             $table->unsignedInteger('user_id')->nullable()->index();
             $table->date('claim_end')->nullable();

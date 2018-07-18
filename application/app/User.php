@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\Dateable;
+use App\Traits\Encryptable;
 use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +20,7 @@ class User extends Authenticatable implements AuditableContract
     use Notifiable;
     use HasRoles;
     use Auditable;
+    use Encryptable;
     use Dateable {
         asDateTime as parentAsDateTime;
     }
@@ -31,6 +33,11 @@ class User extends Authenticatable implements AuditableContract
         'Dr. med.',
         'Prof. Dr.',
         'Prof.',
+    ];
+
+    protected $encryptable = [
+        'first_name',
+        'last_name'
     ];
 
     /**

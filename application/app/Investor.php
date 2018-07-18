@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Encryptable;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,6 +21,7 @@ class Investor extends Model implements AuditableContract
 {
     use Auditable;
     use OptimusEncodedRouteKey;
+    use Encryptable;
 
     const MORPH_NAME = 'investor';
 
@@ -29,6 +31,11 @@ class Investor extends Model implements AuditableContract
         'id', 'first_name', 'last_name', 'created_at', 'updated_at'
     ];
 
+    protected $encryptable = [
+        'first_name',
+        'last_name'
+    ];
+    
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

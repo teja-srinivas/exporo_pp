@@ -10,6 +10,7 @@ use App\Schema;
 use App\Investor;
 use App\Project;
 use App\User;
+use App\UserDetails;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -44,9 +45,13 @@ final class CommissionCalculationTest extends TestCase
                 ]
             );
 
-
-
             factory(User::class)->create(
+                [
+                    'id' => 1,
+                ]
+            );
+
+            factory(UserDetails::class)->create(
                 [
                     'id' => 1,
                     'first_investment_bonus' => 2,
