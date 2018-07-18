@@ -12,6 +12,7 @@ use App\Project;
 use App\Services\CalculateCommissionsService;
 use App\User;
 use App\UserDetails;
+use function GuzzleHttp\describe_type;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -43,27 +44,62 @@ final class CommissionCalculationTest extends TestCase
             factory(Investor::class)->create(
                 [
                     'id' => 1,
-                    'user_id' => 1
+                    'user_id' => 1,
+                ]
+            );
+
+            factory(Investor::class)->create(
+                [
+                    'id' => 2,
+                    'user_id' => 2,
                 ]
             );
 
             factory(User::class)->create(
                 [
                     'id' => 1,
+
                 ]
             );
+
+            factory(User::class)->create(
+                [
+                    'id' => 2,
+                ]
+            );
+
+
 
             factory(UserDetails::class)->create(
                 [
                     'id' => 1,
                     'first_investment_bonus' => 2,
-                    'further_investment_bonus' => 1.5
+                    'further_investment_bonus' => 1.5,
+                    'vat_included' => 0
+                ]
+            );
+
+            factory(UserDetails::class)->create(
+                [
+                    'id' => 2,
+                    'first_investment_bonus' => 2,
+                    'further_investment_bonus' => 1.5,
+                    'vat_included' => 1
                 ]
             );
 
             factory(Investment::class)->create(
                 [
+                    'id' => 1,
                     'investor_id' => 1,
+                    'project_id' => 1,
+                    'investsum' => 50000
+                ]
+            );
+            factory(Investment::class)->create(
+                [
+                    'id' => 2,
+                    'investor_id' => 2,
                     'project_id' => 1,
                     'investsum' => 50000
                 ]
@@ -81,6 +117,18 @@ final class CommissionCalculationTest extends TestCase
         $returnValue = $job->calculateCommission($investment);
         $this->assertEquals(303.75, $returnValue['net']);
         $this->assertEquals(375, $returnValue['gross']);
+    }
+
+    public function testVatIncluded()
+    {
+        $job = $this->app->make(CalculateCommissionsService::class);
+        $investment = $this->app->make( Investment::class);
+        $returnValue = $job->calculateCommission($investment->orderBy('id', 'desc')->first());
+
+        $this->assertEquals(375, $returnValue['net']);
+        $this->assertEquals(446.25, $returnValue['gross']);
+
+
     }
 
 }

@@ -18,8 +18,7 @@ final class CalculateCommissionsService
         } else {
             $sum = $schema->calculate((int) $investment->investsum, $investment->investor->user->details->further_investment_bonus , $runtime );
         }
-
-        if($investment->investor->user->vat_included){
+        if($investment->investor->user->details->vat_included){
             $sums['net'] = $sum;
             $sums['gross'] = $sum * 1.19;
         }
