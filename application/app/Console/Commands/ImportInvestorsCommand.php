@@ -9,7 +9,7 @@ use App;
 use App\Investor;
 use GuzzleHttp;
 
-final class importInvestorsCommand extends Command
+final class ImportInvestorsCommand extends Command
 {
     protected $signature = 'importInvestors {updated_at?}';
     protected $description = 'imports investors based on the last updated_at in the user Table';
@@ -33,7 +33,7 @@ final class importInvestorsCommand extends Command
     private function writeInvestorToDatabase($investors)
     {
         foreach ($investors['items'] as $investor) {
-            if($investor['created_at'] === '0000-00-00 00:00:00'){
+            if ($investor['created_at'] === '0000-00-00 00:00:00') {
                 continue;
             }
             App\Investor::updateOrCreate(

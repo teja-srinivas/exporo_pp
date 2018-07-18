@@ -31,10 +31,10 @@ class UpdateInvestmentsAddDefaultToId extends Migration
     public function down()
     {
         Schema::table('investments', function (Blueprint $table) {
-            $table->unsignedInteger('id')->default(NULL)->change();
-            $table->unsignedInteger('investor_id')->default(NULL)->change();
-            $table->unsignedInteger('project_id')->default(NULL)->change();
-            $table->unsignedInteger('amount')->default(NULL)->change();
+            $table->unsignedInteger('id')->default(null)->change();
+            $table->unsignedInteger('investor_id')->default(null)->change();
+            $table->unsignedInteger('project_id')->default(null)->change();
+            $table->unsignedInteger('amount')->default(null)->change();
         });
     }
 }

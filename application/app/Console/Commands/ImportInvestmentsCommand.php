@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 use App\Investment;
 use GuzzleHttp;
 
-final class importInvestmentsCommand extends Command
+final class ImportInvestmentsCommand extends Command
 {
 
     protected $signature = 'importInvestments {updated_at?}';
@@ -33,7 +33,7 @@ final class importInvestmentsCommand extends Command
     private function writeInvestmentsToDatabase($investments)
     {
         foreach ($investments['items'] as $investment) {
-            if($investment['created_at'] === '0000-00-00 00:00:00'){
+            if ($investment['created_at'] === '0000-00-00 00:00:00') {
                 continue;
             }
             Investment::updateOrCreate(
@@ -49,5 +49,4 @@ final class importInvestmentsCommand extends Command
             );
         }
     }
-
 }

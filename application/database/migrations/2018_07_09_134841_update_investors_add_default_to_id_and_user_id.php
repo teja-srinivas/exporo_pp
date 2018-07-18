@@ -11,7 +11,7 @@ class UpdateInvestorsAddDefaultToIdAndUserId extends Migration
      *
      * @return void
      */
-        public function up()
+    public function up()
     {
         Schema::table('investors', function (Blueprint $table) {
             $table->unsignedInteger('id')->default()->change();
@@ -27,8 +27,8 @@ class UpdateInvestorsAddDefaultToIdAndUserId extends Migration
     public function down()
     {
         Schema::table('investors', function (Blueprint $table) {
-        $table->unsignedInteger('id')->default(NULL)->change();
-        $table->$table->unsignedInteger('user_id')->default(NULL)->change();
+            $table->unsignedInteger('id')->default(null)->change();
+            $table->$table->unsignedInteger('user_id')->default(null)->change();
         });
     }
 }

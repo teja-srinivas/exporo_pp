@@ -9,7 +9,7 @@ use App;
 use App\Project;
 use GuzzleHttp;
 
-final class importProjectsCommand extends Command
+final class ImportProjectsCommand extends Command
 {
     protected $signature = 'importProjects {updated_at?}';
     protected $description = 'imports projects based on the last updated_at in the user Table';
@@ -33,7 +33,7 @@ final class importProjectsCommand extends Command
     private function writeProjectsToDatabase($projects)
     {
         foreach ($projects['items'] as $project) {
-            if($project['created_at'] === '0000-00-00 00:00:00'){
+            if ($project['created_at'] === '0000-00-00 00:00:00') {
                 continue;
             }
             App\Project::updateOrCreate(
