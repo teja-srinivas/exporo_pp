@@ -209,7 +209,7 @@ class InitialMigration extends Migration
             $table->text('description')->nullable();
             $table->unsignedInteger('schema_id')->nullable()->index();
             $table->timestamps();
-            $table->decimal('capital_cost')->nullable;
+            $table->decimal('capital_cost')->nullable();
             $table->date('launched_at')->nullable();
             $table->date('payback_min_at')->nullable();
             $table->date('payback_max_at')->nullable();
@@ -282,7 +282,6 @@ class InitialMigration extends Migration
             Permission::create(['name' => 'view partner dashboard'])
         );
     }
-
 
     /**
      * Reverse the migrations.
