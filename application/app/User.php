@@ -37,7 +37,8 @@ class User extends Authenticatable implements AuditableContract
 
     protected $encryptable = [
         'first_name',
-        'last_name'
+        'last_name',
+        'email'
     ];
 
     /**

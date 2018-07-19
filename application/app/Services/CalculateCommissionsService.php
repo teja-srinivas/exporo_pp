@@ -13,11 +13,13 @@ final class CalculateCommissionsService
     {
         $schema = $investment->project->schema->first();
         $runtime = $this->calcRuntimeInMonths($investment);
+        
         if ($this->checkIfIsFirstInvestment($investment)) {
             $sum = $schema->calculate((int) $investment->investsum, $investment->investor->user->details->first_investment_bonus, $runtime );
         } else {
             $sum = $schema->calculate((int) $investment->investsum, $investment->investor->user->details->further_investment_bonus , $runtime );
         }
+
         if($investment->investor->user->details->vat_included){
             $sums['net'] = $sum;
             $sums['gross'] = $sum * 1.19;
