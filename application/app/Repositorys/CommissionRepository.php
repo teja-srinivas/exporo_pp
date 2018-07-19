@@ -12,6 +12,6 @@ class CommissionRepository
     {
         return DB::table('projects')
             ->orderBy('updated_at', 'desc')
-            ->get(['updated_at']);
+            ->first(['updated_at']);
     }
 }
