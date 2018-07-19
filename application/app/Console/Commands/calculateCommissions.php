@@ -34,8 +34,7 @@ final class calculateCommissions extends Command
     {
         $investments = $this->getInvestmentsWithoutCommission();
         foreach ($investments as $investment) {
-
-            $sums = $this->calculationService->calculateCommission($investment, 100.00);
+            $sums = $this->calculationService->calculateCommission($investment);
             Commission::create([
                 'model_type' => 'investment',
                 'model_id' => $investment->id,
@@ -43,25 +42,6 @@ final class calculateCommissions extends Command
                 'net' => $sums['net'],
                 'gross' => $sums['gross']
             ]);
-
-            $user = User::find($investment->investor->user->parent_id);
-            $counter = 0;
-
-            while($user)
-            {
-                $this->calculationService->calculateCommission($investment);
-                $percentage = PartnerPercentages::find($counter);
-                $sums = $this->calculationService->calculateCommission($investment, $percentage);
-                 Commission::create([
-                    'model_type' => 'subpartner',
-                    'model_id' => $investment->id,
-                    'user_id' => $investment->investor->user->id,
-                    'net' => $sums['net'],
-                    'gross' => $sums['gross']
-                 ]);
-                 $user = User::find($user->parent_id);
-                 $counter++;
-            }
         }
     }
 
