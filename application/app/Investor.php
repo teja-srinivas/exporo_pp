@@ -60,6 +60,6 @@ class Investor extends Model implements AuditableContract
     {
         return DB::table('investors')
             ->orderBy('updated_at', 'desc')
-            ->get('updated_at');
+            ->get(['updated_at']);
     }
 }
