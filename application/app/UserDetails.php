@@ -51,7 +51,6 @@ class UserDetails extends Model implements AuditableContract
 
     protected $encryptable = [
         'vat_id',
-        'birth_date',
         'birth_place',
         'address_street',
         'address_addition',

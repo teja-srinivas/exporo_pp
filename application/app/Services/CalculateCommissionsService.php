@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 final class CalculateCommissionsService
 {
-    public function calculateCommission(Investment $investment): array
+    public function calculateCommission(Investment $investment, float $percentage = null): array
     {
         $schema = $investment->project->schema->first();
         $runtime = $this->calcRuntimeInMonths($investment);
@@ -36,8 +36,6 @@ final class CalculateCommissionsService
     {
         return $investment->is_first_investment;
     }
-
-
 
     private function calcRuntimeInMonths(Investment $investment)
     {
