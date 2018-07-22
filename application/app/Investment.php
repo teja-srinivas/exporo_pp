@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,6 +25,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 class Investment extends Model implements AuditableContract
 {
     use Auditable;
+    use OptimusEncodedRouteKey;
 
     const MORPH_NAME = 'investment';
 
