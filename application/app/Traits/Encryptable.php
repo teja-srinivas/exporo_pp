@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use Illuminate\Contracts\Encryption\DecryptException;
+
 /**
  * Used to encrypt/decrypt Eloquent Model properties.
  * Any properties listed in the $encryptable array
@@ -39,7 +41,11 @@ trait Encryptable
     protected function decryptAttribute($value)
     {
         if ($value) {
-            $value = decrypt($value);
+            try {
+                $value = decrypt($value);
+            } catch (DecryptException $e) {
+                // Ignore, as we probably have some legacy data
+            }
         }
 
         return $value;
