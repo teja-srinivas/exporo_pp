@@ -34,6 +34,7 @@ mix.purgeCss({
 });
 
 mix.extract([
+  'axios',
   'popper.js',
   'bootstrap/js/src/dropdown',
   'bootstrap/js/src/util',
