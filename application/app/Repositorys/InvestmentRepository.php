@@ -1,47 +1,40 @@
 <?php
 declare(strict_types=1);
 
-
 namespace App\Repositorys;
 
 use App\Investment;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
 
 final class InvestmentRepository
 {
-    public function getInvestmentsForInvestorNotCancelled($investorID)
+    public function getOpenForInvestor($investorId): Builder
     {
-        Investment::all()
-            ->where('investor_id', $investorID)
-            ->where('cancelled_at', 'NULL');
+        return Investment::query()
+            ->where('investor_id', $investorId)
+            ->whereNull('cancelled_at');
     }
 
-    public function getInvestmentsWithoutCommission(): Collection
+    public function queryWithoutCommission(): Builder
     {
-       return Investment::doesntHave('commissions')->get();
+        return Investment::doesntHave('commissions');
     }
 
-    public function getInvestmentsWhereCalculationChanged(): Collection
+    public function queryWhereCalculationChanged(): Builder
     {
-
-          $investmentDatabase =  DB::table('investments')
+        return Investment::query()
+            ->select(['investments.*'])
             ->leftJoin('projects', 'investments.project_id', 'projects.id')
             ->leftJoin('schemas', 'projects.schema_id', 'schemas.id')
             ->leftJoin('investors', 'investments.investor_id', 'investors.id')
-            ->leftJoin('commissions',function($join){
+            ->leftJoin('commissions', function (JoinClause $join) {
                 $join->on('investments.id', '=', 'commissions.model_id')
                     ->where('commissions.model_type', '=', 'investment');
             })
             ->whereColumn('commissions.updated_at', '<', 'investments.updated_at')
             ->orWhereColumn('commissions.updated_at', '<', 'projects.updated_at')
             ->orWhereColumn('commissions.updated_at', '<', 'schemas.updated_at')
-            ->orWhereColumn('commissions.updated_at', '<', 'investors.updated_at')->get(['investments.*'])->toArray();
-
-            return Investment::hydrate($investmentDatabase);
-
-
-
+            ->orWhereColumn('commissions.updated_at', '<', 'investors.updated_at');
     }
-
 }

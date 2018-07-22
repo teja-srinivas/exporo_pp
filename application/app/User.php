@@ -16,6 +16,10 @@ use Illuminate\Notifications\Notifiable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
+/**
+ * @property UserDetails $details
+ * @property Company $company
+ */
 class User extends Authenticatable implements AuditableContract
 {
     use Notifiable;

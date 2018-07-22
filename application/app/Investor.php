@@ -15,6 +15,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @property User $user
+ * @property UserDetails $details
  * @property string $first_name
  * @property string $last_name
  * @property Carbon $created_at
@@ -43,6 +44,11 @@ class Investor extends Model implements AuditableContract
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function details()
+    {
+        return $this->belongsTo(UserDetails::class, 'user_id', 'id');
     }
 
     public function investments(): HasMany

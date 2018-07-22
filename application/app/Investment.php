@@ -6,17 +6,21 @@ use App\Traits\Importable;
 use Carbon\Carbon;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @property int $bonus
+ * @property float $amount
  * @property float $interest_rate
  * @property boolean $is_first_investment
+ * @property Project $project
+ * @property Investor $investor
+ * @property Collection $commissions
  * @property Carbon $acknowledged_at
  * @property Carbon $cancelled_at
  * @property Carbon $paid_at
@@ -46,7 +50,7 @@ class Investment extends Model implements AuditableContract
     ];
 
     protected $fillable = [
-        'paid_at', 'id', 'investsum', 'updated_at', 'created_at', 'investor_id', 'project_id', 'description'
+        'paid_at', 'id', 'amount', 'updated_at', 'created_at', 'investor_id', 'project_id',
     ];
 
     public function investor(): BelongsTo
@@ -59,9 +63,9 @@ class Investment extends Model implements AuditableContract
         return $this->belongsTo(Project::class, 'project_id', 'id');
     }
 
-    public function commissions(): MorphOne
+    public function commissions(): MorphMany
     {
-        return $this->morphOne(Commission::class, 'model');
+        return $this->morphMany(Commission::class, 'model');
     }
 
     public function isRefundable(): bool

@@ -222,7 +222,7 @@ class InitialMigration extends Migration
             $table->unsignedInteger('investor_id')->nullable()->index();
             $table->unsignedInteger('ext_user_id')->nullable();
             $table->unsignedInteger('project_id')->nullable()->index();
-            $table->unsignedInteger('investsum')->nullable();
+            $table->unsignedInteger('amount')->nullable();
             $table->decimal('interest_rate')->default(1);
             $table->unsignedInteger('bonus')->nullable();
             $table->string('type')->nullable();
@@ -232,7 +232,6 @@ class InitialMigration extends Migration
             $table->dateTime('cancelled_at')->nullable();
             $table->timestamps();
         });
-
 
         Schema::create('bills', function (Blueprint $table) {
             $table->increments('id');

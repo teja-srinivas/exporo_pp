@@ -68,7 +68,7 @@ class UserDetails extends Model implements AuditableContract
         return $this->parentAsDateTime($value);
     }
 
-    public function User(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id');
     }

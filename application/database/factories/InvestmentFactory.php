@@ -5,7 +5,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Investment::class, function (Faker $faker) {
     return [
         'id' => $faker->unique()->numberBetween(),
-        'investsum' => $faker->numberBetween(500, 1500),
+        'amount' => $faker->numberBetween(500, 1500),
         'interest_rate' => $faker->randomFloat(2, 0.8, 1.5),
         'bonus' => $faker->numberBetween(0, 50),
         'paid_at' => $faker->randomDigit > 3 ? $faker->dateTime : null,

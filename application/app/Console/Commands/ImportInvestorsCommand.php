@@ -7,7 +7,7 @@ use App\Investor;
 
 final class ImportInvestorsCommand extends ImportCommand
 {
-    protected $signature = 'importInvestors {updated_at?}';
+    protected $signature = 'import:investors {updated_at?}';
     protected $description = 'imports investors based on the last updated_at in the user Table';
 
     protected $model = Investor::class;

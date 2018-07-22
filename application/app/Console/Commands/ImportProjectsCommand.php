@@ -7,7 +7,7 @@ use App\Project;
 
 final class ImportProjectsCommand extends ImportCommand
 {
-    protected $signature = 'importProjects {updated_at?}';
+    protected $signature = 'import:projects {updated_at?}';
     protected $description = 'imports projects based on the last updated_at in the user Table';
 
     protected $model = Project::class;
