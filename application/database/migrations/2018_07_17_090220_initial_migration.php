@@ -1,12 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
-use App\Permission;
-use Spatie\Permission\PermissionRegistrar;
-use App\Role;
 use App\User;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Spatie\Permission\PermissionRegistrar;
 
 class InitialMigration extends Migration
 {
@@ -20,9 +18,9 @@ class InitialMigration extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('company_id')->nullable()->index();
-            $table->string('first_name', 350);
-            $table->string('last_name', 350);
-            $table->string('email', 350)->index();
+            $table->text('first_name');
+            $table->text('last_name');
+            $table->string('email')->index();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
@@ -76,16 +74,16 @@ class InitialMigration extends Migration
             $table->enum('title', User::TITLES)->nullable();
             $table->enum('salutation', ['male', 'female'])->nullable();
             $table->date('birth_date')->nullable();
-            $table->string('birth_place', 350)->nullable();
-            $table->string('address_street', 350)->nullable();
-            $table->string('address_number', 350)->nullable();
-            $table->string('address_addition', 350)->nullable();
-            $table->string('address_zipcode', 350)->nullable();
-            $table->string('address_city', 350)->nullable();
-            $table->string('phone', 350)->nullable();
-            $table->string('website', 350)->nullable();
-            $table->string('vat_id', 350)->nullable();
-            $table->string('tax_office', 350)->nullable();
+            $table->text('birth_place')->nullable();
+            $table->text('address_street')->nullable();
+            $table->text('address_number')->nullable();
+            $table->text('address_addition')->nullable();
+            $table->text('address_zipcode')->nullable();
+            $table->text('address_city')->nullable();
+            $table->text('phone')->nullable();
+            $table->text('website')->nullable();
+            $table->text('vat_id')->nullable();
+            $table->text('tax_office')->nullable();
             $table->timestamps();
             $table->decimal('vat_amount')->default(19);
             $table->boolean('vat_included')->default(true);
@@ -191,8 +189,8 @@ class InitialMigration extends Migration
 
         Schema::create('investors', function (Blueprint $table) {
             $table->unsignedInteger('id')->primary()->nullable();
-            $table->string('first_name', 300);
-            $table->string('last_name', 300);
+            $table->text('first_name');
+            $table->text('last_name');
             $table->timestamps();
             $table->unsignedInteger('user_id')->nullable()->index();
             $table->date('claim_end')->nullable();
@@ -266,22 +264,6 @@ class InitialMigration extends Migration
             $table->text('formula');
             $table->timestamps();
         });
-
-        Role::create(['name' => Role::ADMIN]);
-        Role::create(['name' => Role::PARTNER]);
-        Permission::create(['name' => 'manage agbs']);
-        Permission::create(['name' => 'manage documents']);
-        Permission::create(['name' => 'manage users']);
-        Permission::create(['name' => 'manage authorization']);
-        Permission::create(['name' => 'process partners']);
-
-        Role::findByName(Role::ADMIN)->givePermissionTo(
-            Permission::create(['name' => 'view audits'])
-        );
-
-        Role::findByName(Role::PARTNER)->givePermissionTo(
-            Permission::create(['name' => 'view partner dashboard'])
-        );
     }
 
     /**
