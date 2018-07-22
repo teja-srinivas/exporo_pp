@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Importable;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,12 +13,15 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @property User $user
+ * @property string $first_name
+ * @property string $last_name
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
 class Investor extends Model implements AuditableContract
 {
     use Auditable;
+    use Importable;
     use OptimusEncodedRouteKey;
 
     const MORPH_NAME = 'investor';
@@ -46,12 +50,5 @@ class Investor extends Model implements AuditableContract
     public function commissions(): MorphOne
     {
         return $this->morphOne(Commission::class, 'model');
-    }
-
-    public static function getNewestUpdatedAtDate()
-    {
-        return DB::table('investors')
-            ->orderBy('updated_at', 'desc')
-            ->get('updated_at');
     }
 }

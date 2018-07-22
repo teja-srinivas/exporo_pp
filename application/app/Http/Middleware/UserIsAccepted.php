@@ -18,7 +18,7 @@ class UserIsAccepted
     public function handle($request, Closure $next)
     {
         /** @var User $user */
-        $user = Auth::user();
+        $user = $request->user();
 
         if ($user->rejected()) {
             return response()->view('message', [

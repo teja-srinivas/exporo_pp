@@ -2,12 +2,14 @@
 
 namespace App;
 
+use App\Traits\Importable;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Project extends Model
 {
+    use Importable;
     use OptimusEncodedRouteKey;
 
     public $incrementing = false;
@@ -19,12 +21,5 @@ class Project extends Model
     public function schema(): BelongsTo
     {
         return $this->belongsTo(Schema::class, 'schema_id');
-    }
-
-    public static function getNewestUpdatedAtDate()
-    {
-        return DB::table('projects')
-            ->orderBy('updated_at', 'desc')
-            ->get('updated_at');
     }
 }

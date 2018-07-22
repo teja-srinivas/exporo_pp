@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Importable;
 use Carbon\Carbon;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,6 +26,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 class Investment extends Model implements AuditableContract
 {
     use Auditable;
+    use Importable;
     use OptimusEncodedRouteKey;
 
     const MORPH_NAME = 'investment';
@@ -75,12 +77,5 @@ class Investment extends Model implements AuditableContract
     public function scopeBillable(Builder $query)
     {
         $query->refundable()->whereNotNull('paid_at');
-    }
-
-    public static function getNewestUpdatedAtDate()
-    {
-        return DB::table('investments')
-            ->orderBy('updated_at', 'desc')
-            ->get('updated_at');
     }
 }
