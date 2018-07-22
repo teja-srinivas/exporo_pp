@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repositorys;
+namespace App\Repositories;
 
 use App\Investment;
 use Illuminate\Database\Eloquent\Builder;

@@ -6,7 +6,7 @@ namespace App\Console\Commands;
 use App\Commission;
 use App\Investment;
 use App\PartnerPercentages;
-use App\Repositorys\InvestmentRepository;
+use App\Repositories\InvestmentRepository;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Investment;
-use App\Repositorys\InvestmentRepository;
+use App\Repositories\InvestmentRepository;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;

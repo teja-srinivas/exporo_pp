@@ -1,8 +1,7 @@
 <?php
 declare(strict_types=1);
 
-
-namespace App\Repositorys;
+namespace App\Repositories;
 
 final class InvestorRepository
 {

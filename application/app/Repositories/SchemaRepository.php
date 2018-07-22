@@ -1,10 +1,7 @@
 <?php
 declare(strict_types=1);
 
-
-namespace App\Repositorys;
-
-use App\Schema;
+namespace App\Repositories;
 
 final class SchemaRepository
 {
