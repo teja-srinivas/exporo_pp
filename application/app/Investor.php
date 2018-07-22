@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\Encryptable;
+use App\Traits\Importable;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,12 +15,15 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @property User $user
+ * @property string $first_name
+ * @property string $last_name
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
 class Investor extends Model implements AuditableContract
 {
     use Auditable;
+    use Importable;
     use OptimusEncodedRouteKey;
     use Encryptable;
 
@@ -35,7 +39,7 @@ class Investor extends Model implements AuditableContract
         'first_name',
         'last_name'
     ];
-    
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -54,12 +58,5 @@ class Investor extends Model implements AuditableContract
     public function commissions(): MorphOne
     {
         return $this->morphOne(Commission::class, 'model');
-    }
-
-    public static function getNewestUpdatedAtDate()
-    {
-        return DB::table('investors')
-            ->orderBy('updated_at', 'desc')
-            ->first(['updated_at']);
     }
 }
