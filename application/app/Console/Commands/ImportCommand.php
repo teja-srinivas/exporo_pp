@@ -37,7 +37,7 @@ abstract class ImportCommand extends Command
 
     private function importModels(array $models): void
     {
-        foreach ($models['items'] as $model) {
+        foreach ($models as $model) {
             if ($model['created_at'] === '0000-00-00 00:00:00') {
                 continue;
             }
