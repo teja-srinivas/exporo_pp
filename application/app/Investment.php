@@ -50,7 +50,8 @@ class Investment extends Model implements AuditableContract
     ];
 
     protected $fillable = [
-        'paid_at', 'id', 'amount', 'updated_at', 'created_at', 'investor_id', 'project_id',
+        'paid_at', 'id', 'amount', 'updated_at', 'created_at',
+        'investor_id', 'project_id', 'interest_rate', 'paid_at'
     ];
 
     public function investor(): BelongsTo

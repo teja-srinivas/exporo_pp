@@ -24,6 +24,7 @@ final class ImportInvestmentsCommand extends ImportCommand
                 'created_at' => $investment['created_at'],
                 'updated_at' => $investment['updated_at'],
                 'project_id' => $investment['project_nid'],
+                'interest_rate' => $investment['rate'],
             ]
         );
     }
