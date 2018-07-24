@@ -218,7 +218,6 @@ class InitialMigration extends Migration
         Schema::create('investments', function (Blueprint $table) {
             $table->unsignedInteger('id')->primary()->nullable();
             $table->unsignedInteger('investor_id')->nullable()->index();
-            $table->unsignedInteger('ext_user_id')->nullable();
             $table->unsignedInteger('project_id')->nullable()->index();
             $table->unsignedInteger('amount')->nullable();
             $table->decimal('interest_rate')->default(1);
