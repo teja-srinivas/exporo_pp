@@ -216,7 +216,7 @@ class InitialMigration extends Migration
         });
 
         Schema::create('investments', function (Blueprint $table) {
-            $table->unsignedInteger('id')->nullable();
+            $table->unsignedInteger('id')->primary()->nullable();
             $table->unsignedInteger('investor_id')->nullable()->index();
             $table->unsignedInteger('ext_user_id')->nullable();
             $table->unsignedInteger('project_id')->nullable()->index();
@@ -224,10 +224,10 @@ class InitialMigration extends Migration
             $table->decimal('interest_rate')->default(1);
             $table->unsignedInteger('bonus')->nullable();
             $table->string('type')->nullable();
-            $table->dateTime('paid_at')->nullable();
+            $table->dateTime('paid_at')->index()->nullable();
             $table->boolean('is_first_investment')->nullable();
-            $table->dateTime('acknowledged_at')->nullable();
-            $table->dateTime('cancelled_at')->nullable();
+            $table->dateTime('acknowledged_at')->index()->nullable();
+            $table->dateTime('cancelled_at')->index()->nullable();
             $table->timestamps();
         });
 
