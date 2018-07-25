@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use OwenIt\Auditing\Auditable;
-use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
@@ -33,7 +32,7 @@ class Investor extends Model implements AuditableContract
     public $incrementing = false;
 
     protected $fillable = [
-        'id', 'first_name', 'last_name', 'created_at', 'updated_at'
+        'id', 'first_name', 'last_name', 'created_at', 'updated_at', 'user_id', 'claim_end', 'activation_at'
     ];
 
     protected $encryptable = [

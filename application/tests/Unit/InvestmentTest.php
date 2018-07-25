@@ -15,13 +15,13 @@ class InvestmentTest extends TestCase
         $investment = new Investment();
         $this->assertEquals(true, $investment->isRefundable());
 
-        $investment = new Investment(['paid_at' => now()]);
+        $investment = new Investment(['acknowledged_at' => now()]);
         $this->assertEquals(true, $investment->isRefundable());
 
-        $investment = new Investment(['paid_at' => now()->subDays(10)]);
+        $investment = new Investment(['acknowledged_at' => now()->subDays(10)]);
         $this->assertEquals(true, $investment->isRefundable());
 
-        $investment = new Investment(['paid_at' => now()->subWeeks(2)]);
+        $investment = new Investment(['acknowledged_at' => now()->subWeeks(2)]);
         $this->assertEquals(false, $investment->isRefundable());
 
         // TODO

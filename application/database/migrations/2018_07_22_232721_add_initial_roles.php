@@ -3,6 +3,7 @@
 use App\Permission;
 use App\Role;
 use Illuminate\Database\Migrations\Migration;
+use Spatie\Permission\PermissionRegistrar;
 
 class AddInitialRoles extends Migration
 {

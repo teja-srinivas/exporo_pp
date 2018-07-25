@@ -51,7 +51,8 @@ class Investment extends Model implements AuditableContract
 
     protected $fillable = [
         'paid_at', 'id', 'amount', 'updated_at', 'created_at',
-        'investor_id', 'project_id', 'interest_rate', 'paid_at'
+        'investor_id', 'project_id', 'interest_rate', 'paid_at',
+        'acknowledged_at', 'rate', 'is_first_investment'
     ];
 
     public function investor(): BelongsTo
@@ -71,7 +72,8 @@ class Investment extends Model implements AuditableContract
 
     public function isRefundable(): bool
     {
-        return $this->acknowledged_at < now()->subWeeks(2);
+
+        return $this->acknowledged_at >= now()->subWeeks(2) || $this->acknowledged_at === null;
     }
 
     public function isBillable(): bool

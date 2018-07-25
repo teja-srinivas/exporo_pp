@@ -27,12 +27,10 @@ abstract class ImportCommand extends Command
 
         $nextLink = $this->apiUrl . '?api-token=12341&updated_at=' . $updated_at;
         $client = new Client();
+        $response = json_decode($client->get($nextLink)->getBody()->getContents(), true);
 
-        while ($nextLink) {
-            $response = json_decode($client->get($nextLink)->getBody()->getContents(), true);
             $this->importModels($response['items']);
-            $nextLink = $response['next'];
-        }
+
     }
 
     private function importModels(array $models): void

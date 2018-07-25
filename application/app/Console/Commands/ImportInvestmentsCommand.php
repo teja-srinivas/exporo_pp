@@ -20,11 +20,14 @@ final class ImportInvestmentsCommand extends ImportCommand
             [
                 'id' => $investment['id'],
                 'investor_id' => $investment['user_id'],
-                'amount' => $investment['investsum'],
+                'amount' => $investment['amount'],
+                'acknowledged_at' => $investment['acknowledged_at'],
                 'created_at' => $investment['created_at'],
                 'updated_at' => $investment['updated_at'],
-                'project_id' => $investment['project_nid'],
+                'project_id' => $investment['node_id'],
                 'interest_rate' => $investment['rate'],
+                'is_first_investment' => $investment['is_first_investment'],
+                'paid_at' => $investment['paid_at']
             ]
         );
     }

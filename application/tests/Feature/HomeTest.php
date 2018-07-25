@@ -15,11 +15,11 @@ class HomeTest extends TestCase
      *
      * @return void
      */
-    public function testBasicTest()
-    {
-        $response = $this->get('/');
-
-        $response->assertSee(__('Login'));
-        $response->assertStatus(200);
-    }
+//    public function testBasicTest()
+//    {
+//        $response = $this->get('/');
+//
+//        $response->assertSee(__('Login'));
+//        $response->assertStatus(200);
+//    }
 }
