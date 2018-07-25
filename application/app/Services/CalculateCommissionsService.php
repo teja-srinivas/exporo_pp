@@ -19,7 +19,7 @@ final class CalculateCommissionsService
 
         $sum = $investment->project->schema->calculate((int) $investment->amount, $bonus, $runtime);
 
-        return $userDetails->vat_included !== "0" ? [
+        return $userDetails->vat_included ? [
             'net' => $sum,
             'gross' => $sum * (1.0 + self::VAT),
         ] : [
