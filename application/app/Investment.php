@@ -72,7 +72,6 @@ class Investment extends Model implements AuditableContract
 
     public function isRefundable(): bool
     {
-
         return $this->acknowledged_at >= now()->subWeeks(2) || $this->acknowledged_at === null;
     }
 
