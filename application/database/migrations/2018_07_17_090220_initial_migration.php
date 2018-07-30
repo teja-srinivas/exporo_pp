@@ -23,6 +23,7 @@ class InitialMigration extends Migration
             $table->string('email')->index();
             $table->string('password');
             $table->unsignedInteger('parent_id')->index()->default(0);
+            $table->string('api_token')->index();
             $table->rememberToken();
             $table->timestamps();
             $table->unique(['email', 'company_id']);
