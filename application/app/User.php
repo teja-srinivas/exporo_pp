@@ -117,6 +117,11 @@ class User extends Authenticatable implements AuditableContract
         return $this->hasMany(Investor::class, 'user_id');
     }
 
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'parent_id');
+    }
+
     public function scopeOrdered(Builder $query)
     {
         $query->orderBy('last_name')->orderBy('first_name');

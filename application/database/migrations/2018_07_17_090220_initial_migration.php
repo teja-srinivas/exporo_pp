@@ -22,6 +22,7 @@ class InitialMigration extends Migration
             $table->text('last_name');
             $table->string('email')->index();
             $table->string('password');
+            $table->unsignedInteger('parent_id')->index()->default(0);
             $table->rememberToken();
             $table->timestamps();
             $table->unique(['email', 'company_id']);
@@ -87,7 +88,6 @@ class InitialMigration extends Migration
             $table->timestamps();
             $table->decimal('vat_amount')->default(19);
             $table->boolean('vat_included')->default(true);
-            $table->unsignedInteger('parent_id')->index()->default(0);
             $table->decimal('registration_bonus')->default(0);
             $table->decimal('first_investment_bonus')->default(0);
             $table->decimal('further_investment_bonus')->default(0);
