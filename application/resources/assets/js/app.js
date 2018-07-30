@@ -6,6 +6,7 @@
  */
 
 import './bootstrap';
+import './icons';
 
 
 /**
@@ -15,6 +16,19 @@ import './bootstrap';
  */
 
 import Vue from 'vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { FormCheckbox, FormGroup, FormInput, Pagination } from 'bootstrap-vue/es/components';
+import Notifications from 'vue-notification';
+import velocity from 'velocity-animate'
+
+Vue.use(FormCheckbox);
+Vue.use(FormGroup);
+Vue.use(FormInput);
+Vue.use(Pagination);
+Vue.use(Notifications, { velocity });
+
+Vue.component('commission-approval', () => import('./components/CommissionApproval/index.vue'));
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 document.addEventListener('DOMContentLoaded', () => {
   for (const el of document.querySelectorAll('vue')) {

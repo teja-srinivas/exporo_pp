@@ -1,7 +1,18 @@
-.table-sticky thead th {
-  position: sticky;
-  top: 66px;
-  box-shadow: 0 2px 1px -1px rgba(black, 0.1);
-  background: $white;
-  z-index: 1;
+.table-sticky {
+  thead th,
+  tfoot td {
+    position: sticky;
+    background: $white;
+    z-index: 1;
+  }
+
+  thead th {
+    top: 66px;
+    box-shadow: 0 0.5px 0 $table-border-color;
+  }
+
+  tfoot td {
+    bottom: 0;
+    box-shadow: 0 -0.25px 0 $table-border-color;
+  }
 }

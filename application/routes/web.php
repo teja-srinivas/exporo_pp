@@ -27,6 +27,7 @@ Route::middleware(['auth', 'accepted'])->group(function () {
         ->middleware('signed');
 
     Route::resource('agbs', 'AgbController');
+    Route::resource('commissions', 'CommissionController');
     Route::resource('documents', 'UserDocumentController');
     Route::resource('users', 'UserController');
     Route::resource('roles', 'RoleController', ['except' => ['index']]);

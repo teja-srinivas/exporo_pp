@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->name('api.')->namespace('Api')->group(function () {
+    Route::apiResource('commissions', 'CommissionController');
+    Route::put('commissions', 'CommissionController@updateMultiple')->name('commissions.updateBatch');
 });

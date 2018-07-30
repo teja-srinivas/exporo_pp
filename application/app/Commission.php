@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,16 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @property Investment $investment
+ * @property User $user
  * @property bool $on_hold
+ * @property Carbon $rejected_at
+ * @property int $rejected_by
+ * @property User $rejectedBy
+ * @property Carbon $reviewed_at
+ * @property int $reviewed_by
+ * @property User $reviewedBy
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class Commission extends Model implements AuditableContract
 {
@@ -23,8 +33,14 @@ class Commission extends Model implements AuditableContract
         'on_hold' => 'bool',
     ];
 
+    protected $dates = [
+        'rejected_at',
+        'reviewed_at',
+    ];
+
     protected $fillable = [
-        'bill_id', 'model_type', 'model_id', 'user_id', 'net', 'gross'
+        'bill_id', 'model_type', 'model_id', 'user_id', 'net', 'gross',
+        'on_hold', 'note_public', 'note_private',
     ];
 
     public function bill(): BelongsTo
@@ -32,9 +48,24 @@ class Commission extends Model implements AuditableContract
         return $this->belongsTo(Bill::class, 'bill_id');
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function model(): MorphTo
     {
         return $this->morphTo('model');
+    }
+
+    public function rejectedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'rejected_by');
+    }
+
+    public function reviewedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reviewed_by');
     }
 
     /**
@@ -65,16 +96,64 @@ class Commission extends Model implements AuditableContract
                     ->where('commissions.model_type', Investor::MORPH_NAME);
     }
 
+    public function isAcceptable()
+    {
+        return $this->investment->isBillable();
+    }
+
+    public function scopeIsAcceptable(Builder $query)
+    {
+        // TODO add support for investors (aka newly acquired users)
+        $query->whereHas('investment', function (Builder $query) {
+            $query->billable();
+        });
+    }
+
     public function isBillable(): bool
     {
-        return !$this->on_hold && $this->investment->isBillable();
+        return !$this->on_hold && $this->rejected_at === null && $this->isAcceptable();
     }
 
     public function scopeIsBillable(Builder $query)
     {
         // We can delay commissions for later bills
-        $query->where('on_hold', '!=', true)->whereHas('investment', function (Builder $query) {
-            $query->billable();
+        $query->where('on_hold', '!=', true)
+            ->whereNull('commissions.rejected_at')
+            ->whereNull('bill_id')
+            ->isAcceptable();
+    }
+
+    public function scopeIsOpen(Builder $query)
+    {
+        $query->whereNull('bill_id');
+        $query->where(function (Builder $query) {
+            $query->whereNull('commissions.rejected_at');
+            $query->orWhere('commissions.rejected_at', '>=', now()->subMonth());
         });
     }
+
+    public function reject(?User $user)
+    {
+        if ($user === null) {
+            $this->rejected_by = null;
+            $this->rejected_at = null;
+            return;
+        }
+
+        $this->rejected_by = $user->id;
+        $this->rejected_at = now();
+    }
+
+    public function review(?User $user)
+    {
+        if ($user === null) {
+            $this->reviewed_by = null;
+            $this->reviewed_at = null;
+            return;
+        }
+
+        $this->reviewed_by = $user->id;
+        $this->reviewed_at = now();
+    }
+
 }

@@ -97,3 +97,7 @@ $badge-font-size: 85%;
 
 // Buttons
 $btn-box-shadow: 0.185rem 0.185rem 0 rgba($black, 0.1);
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
