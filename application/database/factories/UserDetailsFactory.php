@@ -13,5 +13,7 @@ $factory->define(App\UserDetails::class, function (Faker $faker) {
         'address_city' => $faker->city,
         'phone' => $faker->phoneNumber,
         'website' => $faker->url,
+        'first_investment_bonus' => $faker->randomFloat(2, 1, 15),
+        'further_investment_bonus' => $faker->randomFloat(2, 0, 4),
     ];
 });
