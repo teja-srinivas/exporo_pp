@@ -80,13 +80,20 @@ class Investment extends Model implements AuditableContract
         return !$this->isRefundable() && $this->paid_at !== null;
     }
 
-    public function scopeRefundable(Builder $query)
+    /**
+     * @param Builder|\Illuminate\Database\Query\Builder $query
+     */
+    public function scopeRefundable($query)
     {
         $query->where('acknowledged_at', '<=', now()->subWeeks(2));
     }
 
-    public function scopeBillable(Builder $query)
+    /**
+     * @param Builder|\Illuminate\Database\Query\Builder $query
+     */
+    public function scopeBillable($query)
     {
-        $query->refundable()->whereNotNull('paid_at');
+        $this->scopeRefundable($query);
+        $query->whereNotNull('paid_at');
     }
 }

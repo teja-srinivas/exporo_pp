@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Query\JoinClause;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
@@ -104,8 +105,13 @@ class Commission extends Model implements AuditableContract
     public function scopeIsAcceptable(Builder $query)
     {
         // TODO add support for investors (aka newly acquired users)
-        $query->whereHas('investment', function (Builder $query) {
-            $query->billable();
+
+        // It's faster to do a manual join than using whereHas
+        // https://github.com/laravel/framework/issues/18415
+        $query->join('investments', function (JoinClause $join) {
+            $join->where('commissions.model_type', 'investment');
+            $join->on('commissions.model_id', 'investments.id');
+            (new Investment)->scopeBillable($join);
         });
     }
 
