@@ -23,9 +23,9 @@ abstract class ImportCommand extends Command
 
     public function handle()
     {
-        $updated_at = $this->argument('updated_at') ?: $this->model::getNewestUpdatedAtDate();
+       // $updated_at = $this->argument('updated_at') ?: $this->model::getNewestUpdatedAtDate();
 
-        $nextLink = $this->apiUrl . '?api-token=12341&updated_at=' . $updated_at;
+        $nextLink = $this->apiUrl . '?api-token=12341';
         $client = new Client();
         $response = json_decode($client->get($nextLink)->getBody()->getContents(), true);
 

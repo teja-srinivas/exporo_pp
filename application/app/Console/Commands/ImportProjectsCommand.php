@@ -15,6 +15,7 @@ final class ImportProjectsCommand extends ImportCommand
 
     protected function importModel(array $project): void
     {
+        if($project['start_date'] !== '0000-00-00 00:00:00'){
         Project::updateOrCreate(
             ['id' => $project['nid']],
             [
@@ -23,7 +24,12 @@ final class ImportProjectsCommand extends ImportCommand
                 'updated_at' => $project['updated_at'],
                 'name' => $project['slug'],
                 'type' => $project['type'],
+                'payback_min_at' => $project['end_date'],
+                'launched_at' => $project['start_date'],
+                'interest_rate' => $project['rates'],
+                'runtime' => $project['runtime']
             ]
         );
+        }
     }
 }

@@ -26,6 +26,7 @@ class UserDetails extends Model implements AuditableContract
     ];
 
     protected $fillable = [
+        'id',
         'company',
         'title',
         'salutation',
@@ -40,6 +41,9 @@ class UserDetails extends Model implements AuditableContract
         'website',
         'vat_id',
         'tax_office',
+        'registration_bonus',
+        'first_investment_bonus',
+        'further_investment_bonus'
     ];
 
     protected $dates = [

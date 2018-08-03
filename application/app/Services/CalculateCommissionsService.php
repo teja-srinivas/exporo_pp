@@ -11,13 +11,14 @@ final class CalculateCommissionsService
 
     public function calculate(Investment $investment): array
     {
-        $userDetails = $investment->investor->details;
+        $userDetails = $investment->investor->user->details;
         $runtime = $investment->project->runtimeInMonths();
+        $margin = $investment->project->margin;
         $bonus = $investment->is_first_investment
             ? $userDetails->first_investment_bonus
             : $userDetails->further_investment_bonus;
 
-        $sum = $investment->project->schema->calculate((int) $investment->amount, $bonus, $runtime);
+        $sum = $investment->project->schema->calculate((int) $investment->amount, $bonus, $runtime, (float) $margin);
 
         return $userDetails->vat_included ? [
             'net' => $sum,

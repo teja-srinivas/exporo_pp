@@ -29,7 +29,9 @@ class Project extends Model
     ];
 
     protected $fillable = [
-        'id', 'name', 'type', 'created_at', 'updated_at'
+        'id', 'name', 'type', 'created_at', 'updated_at', 'launched_at',
+        'payback_min_at', 'approved_at', 'approved_by', 'schema_id', 'capital_cost',
+        'interest_rate', 'runtime'
     ];
 
     public function schema(): BelongsTo
@@ -44,6 +46,9 @@ class Project extends Model
 
     public function runtimeInMonths(): int
     {
+        if($this->runtime){
+            return $this->runtime;
+        }
         return $this->payback_min_at->diffInMonths($this->launched_at);
     }
 }

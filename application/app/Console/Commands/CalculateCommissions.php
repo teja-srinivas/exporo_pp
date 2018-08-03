@@ -20,8 +20,8 @@ final class CalculateCommissions extends Command
 
     public function handle(InvestmentRepository $repository, CalculateCommissionsService $commissionsService)
     {
-        $repository->queryWithoutCommission()
-            ->with('project.schema', 'investor.details')
+       $repository->queryWithoutCommission()->count()
+            ->with('project.schema')
             ->chunkSimple(self::PER_CHUNK, function (Collection $chunk) use ($commissionsService) {
                 $this->line('Calculating ' . $chunk->count() . ' commissions...');
                 Commission::query()->insert($this->calculate($commissionsService, $chunk));
