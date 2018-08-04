@@ -188,9 +188,7 @@ class CommissionController extends Controller
                 $user = $columns['user'];
 
                 if (!empty($user['filter'])) {
-                    $query->whereHas('user', function (Builder $query) use ($user) {
-                        $query->where('id', $user['filter']);
-                    });
+                    $query->where('user_id', $user['filter']);
                 }
 
                 if ($withSort && !empty($user['order'])) {
