@@ -11,7 +11,7 @@ final class CalculateCommissionsService
 
     public function calculate(Investment $investment): array
     {
-        $userDetails = $investment->investor->user->details;
+        $userDetails = $investment->investor->details;
         $runtime = $investment->project->runtimeInMonths();
         $margin = $investment->project->margin;
         $bonus = $investment->is_first_investment

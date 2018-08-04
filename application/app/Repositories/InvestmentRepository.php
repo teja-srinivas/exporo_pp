@@ -18,9 +18,13 @@ final class InvestmentRepository
 
     public function queryWithoutCommission(): Builder
     {
-        return Investment::doesntHave('commissions')
-            ->join ('investors', 'investments.investor_id', '=', 'investors.id')
-            ->whereNotNull('investors.user_id');
+        return Investment::query()
+            ->has('investor.details')
+            ->has('project')
+            ->doesntHave('commissions')
+            ->join('investors', 'investments.investor_id', 'investors.id')
+            ->whereNotNull('investors.user_id')
+            ->select('investments.*');
     }
 
     public function queryWhereCalculationChanged(): Builder
