@@ -17,6 +17,13 @@
 @endsection
 
 @section('main-content')
+    @if($bills->isEmpty())
+        @card
+        <div class="lead text-center text-muted">
+            Es gibt derzeit keine Provisionen, aus denen Rechnungen erstellt werden können.
+        </div>
+        @endcard
+    @else
     <table class="table table-borderless table-striped table-sm bg-white shadow-sm accent-primary table-sticky">
         <thead>
         <tr>
@@ -40,4 +47,5 @@
         </tr>
         </tfoot>
     </table>
+    @endif
 @endsection
