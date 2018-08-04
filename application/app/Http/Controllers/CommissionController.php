@@ -15,8 +15,21 @@ class CommissionController extends Controller
      */
     public function index()
     {
+        $totals = Commission::query()
+            ->selectRaw('SUM(gross) as gross')
+            ->selectRaw('SUM(net) as net')
+            ->selectRaw('COUNT(id) as count')
+            ->isOpen()
+            ->isAcceptable()
+            ->get()
+            ->first();
+
         return response()->view('commissions.approval', [
-            'total' => Commission::query()->isOpen()->isAcceptable()->count(),
+            'totals' => [
+                'count' => (int)($totals->count ?: 0),
+                'gross' => (float)($totals->gross ?: 0),
+                'net' => (float)($totals->net ?: 0),
+            ],
         ]);
     }
 

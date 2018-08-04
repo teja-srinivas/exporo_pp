@@ -248,6 +248,7 @@
         <tr>
           <td colspan="2" class="text-center align-middle small">
             <font-awesome-icon v-if="isLoading" icon="sync" spin />
+            <span v-else-if="hasFilters">{{ meta.total }} / {{ totals.count }}</span>
             <span v-else>{{ meta.total }} insg.</span>
           </td>
           <td colspan="2" class="text-center">
@@ -262,7 +263,7 @@
             />
           </td>
           <td class="text-right lead font-weight-bold">
-            {{ formatEuro(totalPayments) }}
+            {{ formatEuro(totals[paymentType] || 0) }}
           </td>
         </tr>
         </tfoot>
@@ -310,12 +311,12 @@
 import axios from 'axios';
 
 import debounce from 'lodash/debounce';
+import filter from 'lodash/filter';
 import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import reduce from 'lodash/reduce';
 import set from 'lodash/set';
-import sumBy from 'lodash/sumBy';
 
 import { confirm } from '../../alert';
 
@@ -333,6 +334,10 @@ export default {
   props: {
     api: {
       type: String,
+      required: true,
+    },
+    totals: {
+      type: Object,
       required: true,
     },
   },
@@ -376,10 +381,6 @@ export default {
   },
 
   computed: {
-    totalPayments() {
-      return sumBy(this.commissions, this.paymentType);
-    },
-
     currentPage: {
       get() {
         return this.meta.current_page;
@@ -400,6 +401,10 @@ export default {
         map[`filter[${key}]`] = val === true || val.length > 0 ? val : undefined;
         return map;
       }, {});
+    },
+
+    hasFilters() {
+      return filter(this.filterParams, filter => filter !== undefined).length > 0;
     },
   },
 
