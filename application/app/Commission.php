@@ -102,20 +102,26 @@ class Commission extends Model implements AuditableContract
         return $this->investment->isBillable();
     }
 
-    public function scopeIsAcceptable(Builder $query)
+    public function scopeIsAcceptable(Builder $query, bool $subQuery = true)
     {
         // TODO add support for investors (aka newly acquired users)
 
         // It's faster for us to do a sub-query whereIn than using whereHas
         // https://github.com/laravel/framework/issues/18415
-        $query->where(function (Builder $query) {
+        $query->where(function (Builder $query) use ($subQuery) {
             $query->where('model_type', 'investment');
-            $query->whereIn('model_id', function ($query) {
-                $investment = new Investment;
 
-                $query->select('id')->from($investment->getTable());
-                $investment->scopeBillable($query);
-            });
+            if ($subQuery) {
+                $investmentIds = Investment::query()->billable()->pluck('id');
+            } else {
+                $investmentIds = function ($query) {
+                    $investment = new Investment;
+                    $query->select('id')->from($investment->getTable());
+                    $investment->scopeBillable($query);
+                };
+            }
+
+            $query->whereIn('model_id', $investmentIds);
         });
     }
 

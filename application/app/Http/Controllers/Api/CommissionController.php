@@ -214,7 +214,7 @@ class CommissionController extends Controller
                 }
             )
             ->isOpen()
-            ->isAcceptable();
+            ->isAcceptable(false);
     }
 
 }
