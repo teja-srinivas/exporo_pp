@@ -106,12 +106,16 @@ class Commission extends Model implements AuditableContract
     {
         // TODO add support for investors (aka newly acquired users)
 
-        // It's faster to do a manual join than using whereHas
+        // It's faster for us to do a sub-query whereIn than using whereHas
         // https://github.com/laravel/framework/issues/18415
-        $query->join('investments', function (JoinClause $join) {
-            $join->where('commissions.model_type', 'investment');
-            $join->on('commissions.model_id', 'investments.id');
-            (new Investment)->scopeBillable($join);
+        $query->where(function (Builder $query) {
+            $query->where('model_type', 'investment');
+            $query->whereIn('model_id', function ($query) {
+                $investment = new Investment;
+
+                $query->select('id')->from($investment->getTable());
+                $investment->scopeBillable($query);
+            });
         });
     }
 
@@ -161,5 +165,4 @@ class Commission extends Model implements AuditableContract
         $this->reviewed_by = $user->id;
         $this->reviewed_at = now();
     }
-
 }

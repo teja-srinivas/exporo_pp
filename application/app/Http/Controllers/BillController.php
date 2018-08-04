@@ -60,17 +60,29 @@ class BillController extends Controller
             ->distinct()
             ->pluck('user_id');
 
+        // Pre-select all valid commission IDs
+        // Doing the isBillable check for each updates eats up DB time
+        $commissionIds = Commission::query()->select('user_id', 'id')->get()->mapToGroups(function ($row) {
+            return [
+                $row['user_id'] => $row['id'],
+            ];
+        });
+
+        Bill::disableAuditing();
+
         // Create bills for each user and assign it to their commissions
-        $users->each(function (int $userId) use ($releaseAt) {
+        $users->each(function (int $userId) use ($commissionIds, $releaseAt) {
             $bill = Bill::query()->forceCreate([
                 'user_id' => $userId,
                 'released_at' => $releaseAt,
             ]);
 
-            Commission::query()->where('user_id', $userId)->isBillable()->update([
+            Commission::query()->whereIn('id', $commissionIds[$userId])->update([
                 'bill_id' => $bill->getKey(),
             ]);
         });
+
+        Bill::enableAuditing();
 
         flash_success($users->count() . ' Rechnung(en) wurden erstellt');
 
