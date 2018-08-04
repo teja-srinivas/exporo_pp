@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Commission as CommissionResource;
 use App\Http\Resources\CommissionCollection;
 use App\Http\Resources\PaginatedResource;
+use App\Project;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 
 class CommissionController extends Controller
@@ -196,8 +198,13 @@ class CommissionController extends Controller
                 }
             })
             ->when($columns->has('model'), function (Builder $query) use ($columns) {
-                $query->whereHas('investment.project', function (Builder $query) use ($columns) {
-                    $query->where('name', 'like', '%' . $columns['model']['filter'] . '%');
+                $projectIds = Project::query()
+                    ->where('name', 'like', '%' . $columns['model']['filter'] . '%')
+                    ->pluck('id');
+
+                $query->join('investments', function (JoinClause $join) use ($projectIds) {
+                    $join->on('commissions.model_id', 'investments.id');
+                    $join->whereIn('project_id', $projectIds);
                 });
             })
             ->when(
