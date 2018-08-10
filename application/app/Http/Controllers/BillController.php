@@ -27,7 +27,7 @@ class BillController extends Controller
      */
     public function create()
     {
-        $bills = $this->getBillableCommissions()->map(function (object $row) {
+        $bills = $this->getBillableCommissions()->map(function (Commission $row) {
             return [
                 'firstName' => decrypt($row->first_name),
                 'lastName' => decrypt($row->last_name),
