@@ -27,6 +27,7 @@ Route::middleware(['auth', 'accepted'])->group(function () {
         ->middleware('signed');
 
     Route::resource('agbs', 'AgbController');
+    Route::get('bills/preview/{id}', 'BillController@preview');
     Route::resource('bills', 'BillController');
     Route::resource('commissions', 'CommissionController');
     Route::resource('documents', 'UserDocumentController');

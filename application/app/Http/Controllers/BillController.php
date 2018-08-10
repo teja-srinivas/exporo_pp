@@ -20,6 +20,21 @@ class BillController extends Controller
         //
     }
 
+    public function preview(int $id)
+    {
+        $commissions = $this->getBillableCommissionsForUser($id)->map(function (Commission $row){
+            return [
+                'userId' => $row->user_id,
+                'firstName' => $row->investment,
+                'lastName' => $row->investment,
+                'net' => $row->net,
+                'gross' => $row->gross,
+            ];
+        });
+        return response()->view('bills.preview', [
+            'commissions' => $commissions,
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -29,6 +44,7 @@ class BillController extends Controller
     {
         $bills = $this->getBillableCommissions()->map(function (Commission $row) {
             return [
+                'userId' => $row->user_id,
                 'firstName' => decrypt($row->first_name),
                 'lastName' => decrypt($row->last_name),
                 'sum' => $row->sum,
@@ -144,6 +160,14 @@ class BillController extends Controller
             ->selectRaw('SUM(net) as sum')
             ->groupBy('user_id')
             ->orderBy('user_id')
+            ->get();
+    }
+
+    private function getBillableCommissionsForUser(int $id)
+    {
+        return Commission::query()
+            ->isBillable()
+            ->where('user_id', $id)
             ->get();
     }
 }

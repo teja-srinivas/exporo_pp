@@ -29,6 +29,7 @@
         <tr>
             <th>Partner</th>
             <th class="text-right">Summe</th>
+            <th class="text-right">Preview</th>
         </tr>
         </thead>
         <tbody>
@@ -36,6 +37,7 @@
             <tr>
                 <td>{{ $bill['lastName'] }}, {{ $bill['firstName'] }}</td>
                 <td class="text-right">{{ format_money($bill['sum']) }}</td>
+                <td class="text-right"> <a href="preview/{{ $bill['userId'] }}" target="_blank"> <button class="btn btn-primary">Preview</button> </a> </td>
             </tr>
         @endforeach
         </tbody>
