@@ -22,15 +22,16 @@ class BillController extends Controller
 
     public function preview(int $id)
     {
-        $commissions = $this->getBillableCommissionsForUser($id)->map(function (Commission $row){
+        $commissions = $this->getBillableInvestmentCommissionsForUser($id)->map(function (Commission $row){
             return [
-                'userId' => $row->user_id,
-                'firstName' => $row->investment,
-                'lastName' => $row->investment,
+                'investorId' => $row->user_id,
+                'firstName' => $row->investment->investor->first_name,
+                'lastName' => $row->investment->investor->last_name,
                 'net' => $row->net,
                 'gross' => $row->gross,
             ];
         });
+
         return response()->view('bills.preview', [
             'commissions' => $commissions,
         ]);
@@ -163,11 +164,12 @@ class BillController extends Controller
             ->get();
     }
 
-    private function getBillableCommissionsForUser(int $id)
+    private function getBillableInvestmentCommissionsForUser(int $id)
     {
         return Commission::query()
             ->isBillable()
             ->where('user_id', $id)
+            ->where('model_type', 'investment')
             ->get();
     }
 }

@@ -13,7 +13,7 @@
             <tbody>
             @foreach($commissions as $commission)
                 <tr>
-                    <td> {{$commission['firstName']}}, {{ $commission['lastName'] }}, {{ $commission['u'] }}</td>
+                    <td> {{  $commission['lastName'] }}, {{ $commission['firstName'] }}</td>
                     <td class="text-right">{{ format_money($commission['net']) }}</td>
                     <td class="text-right">{{ format_money($commission['gross']) }}</td>
                 </tr>
