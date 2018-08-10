@@ -1,5 +1,5 @@
 @extends('bills.layout.bill')
-@section('content')
+@section('projects')
 
     <h1 class="text-center"> Übersicht Provisionsgutschrift</h1>
 
@@ -13,8 +13,6 @@
                 <th class="text-center">Investitionsbetrag</th>
                 <th class="text-center">Provision Netto</th>
                 <th class="text-center">Provision Brutto</th>
-
-
             </tr>
             </thead>
             <tbody>
@@ -23,7 +21,7 @@
                     <td> {{  $investment['lastName'] }}, {{ $investment['firstName'] }}</td>
                     <td class="text-center"> {{ $investment['projectName'] }}</td>
                     <td class="text-center"> {{ $investment['projectRuntime'] }}</td>
-                    <td class="text-center"> {{ $investment['investsum'] }}</td>
+                    <td class="text-center"> {{ format_money($investment['investsum']) }}</td>
                     <td class="text-center">{{ format_money($investment['net']) }}</td>
                     <td class="text-center">{{ format_money($investment['gross']) }}</td>
                 </tr>
@@ -38,9 +36,9 @@
             <th class="text-center"> Total brutto Provision</th>
         </thead>
         <tbody>
-        <td class="text-center"> {{ $investmentSum }}</td>
-        <td class="text-center"> {{ $investmentNetSum }}</td>
-        <td class="text-center"> {{ $investmentGrossSum }}</td>
+        <td class="text-center"> {{ format_money($investmentSum) }}</td>
+        <td class="text-center"> {{ format_money($investmentNetSum) }}</td>
+        <td class="text-center"> {{ format_money($investmentGrossSum) }}</td>
         </tbody>
     </table>
 @endsection

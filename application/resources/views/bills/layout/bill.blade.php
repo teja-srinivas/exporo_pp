@@ -24,7 +24,9 @@
     </head>
     <body>
         <main>
-            @yield('content')
+            <div class="container">
+                @yield('projects')
+            </div>
         </main>
     </body>
 </html>
