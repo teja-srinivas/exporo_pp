@@ -1,23 +1,46 @@
 @extends('bills.layout.bill')
 @section('content')
 
-    <h1> Übersicht Provisionsgutschrift</h1>
+    <h1 class="text-center"> Übersicht Provisionsgutschrift</h1>
+
+    <h2 class="text-center">Projekte</h2>
         <table class="table table-borderless table-striped table-sm bg-white shadow-sm accent-primary table-sticky">
             <thead>
             <tr>
                 <th>Anleger</th>
-                <th class="text-right">Netto</th>
-                <th class="text-right">Brutto</th>
+                <th class="text-center"> Projektname</th>
+                <th class="text-center"> Projektlaufzeit in Monaten </th>
+                <th class="text-center">Investitionsbetrag</th>
+                <th class="text-center">Provision Netto</th>
+                <th class="text-center">Provision Brutto</th>
+
+
             </tr>
             </thead>
             <tbody>
-            @foreach($commissions as $commission)
+            @foreach($investments as $investment)
                 <tr>
-                    <td> {{  $commission['lastName'] }}, {{ $commission['firstName'] }}</td>
-                    <td class="text-right">{{ format_money($commission['net']) }}</td>
-                    <td class="text-right">{{ format_money($commission['gross']) }}</td>
+                    <td> {{  $investment['lastName'] }}, {{ $investment['firstName'] }}</td>
+                    <td class="text-center"> {{ $investment['projectName'] }}</td>
+                    <td class="text-center"> {{ $investment['projectRuntime'] }}</td>
+                    <td class="text-center"> {{ $investment['investsum'] }}</td>
+                    <td class="text-center">{{ format_money($investment['net']) }}</td>
+                    <td class="text-center">{{ format_money($investment['gross']) }}</td>
                 </tr>
             @endforeach
             </tbody>
         </table>
+
+    <table class="table table-borderless table-striped table-sm bg-white shadow-sm accent-primary table-sticky">
+        <thead>
+            <th class="text-center"> Total Investmentvolumen</th>
+            <th class="text-center"> Total netto Provision</th>
+            <th class="text-center"> Total brutto Provision</th>
+        </thead>
+        <tbody>
+        <td class="text-center"> {{ $investmentSum }}</td>
+        <td class="text-center"> {{ $investmentNetSum }}</td>
+        <td class="text-center"> {{ $investmentGrossSum }}</td>
+        </tbody>
+    </table>
 @endsection
