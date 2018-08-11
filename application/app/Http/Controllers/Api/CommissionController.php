@@ -24,7 +24,8 @@ class CommissionController extends Controller
     {
         $query = Commission::query()->with([
             'model.investor:id,last_name,first_name',
-            'model.project:id,name',
+            'model.project:id,name,schema_id',
+            'model.project.schema:id,formula',
             'user:id,last_name,first_name',
         ]);
 

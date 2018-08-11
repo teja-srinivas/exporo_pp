@@ -225,6 +225,15 @@
                     />
                   </div>
                 </div>
+
+                <div v-if="commission.project.schema" class="mb-1 row align-items-center">
+                  <div class="col-sm-3">
+                    <strong>Formel:</strong>
+                  </div>
+                  <div class="col-sm-9">
+                    {{ commission.project.schema }}
+                  </div>
+                </div>
               </td>
             </tr>
           </template>
