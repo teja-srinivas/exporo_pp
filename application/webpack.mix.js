@@ -29,8 +29,13 @@ mix.purgeCss({
   // Dropdowns and animated JS content
   whitelist: ['show', 'fade', 'collapse', 'collapsing'],
 
-  // We use badges for user role colors
-  whitelistPatterns: [/^badge-/],
+  whitelistPatterns: [
+    // We use badges for user role colors
+    /^badge-/,
+
+    // Pagination stuff
+    /^pag/
+  ],
 });
 
 mix.extract([
