@@ -79,8 +79,7 @@ class Commission extends Model implements AuditableContract
      */
     public function investment(): BelongsTo
     {
-        return $this->belongsTo(Investment::class, 'model_id')
-                    ->where('commissions.model_type', Investment::MORPH_NAME);
+        return $this->belongsTo(Investment::class, 'model_id');
     }
 
     /**
@@ -93,8 +92,7 @@ class Commission extends Model implements AuditableContract
      */
     public function investor(): BelongsTo
     {
-        return $this->belongsTo(Investor::class, 'model_id')
-                    ->where('commissions.model_type', Investor::MORPH_NAME);
+        return $this->belongsTo(Investor::class, 'model_id');
     }
 
     public function isAcceptable()
