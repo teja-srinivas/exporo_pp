@@ -20,7 +20,9 @@ final class InvestmentRepository
     {
         return Investment::query()
             ->has('investor.details')
-            ->has('project')
+            ->whereHas('project', function (Builder $query) {
+                $query->whereNotNull('approved_at');
+            })
             ->doesntHave('commissions')
             ->join('investors', 'investments.investor_id', 'investors.id')
             ->whereNotNull('investors.user_id')
