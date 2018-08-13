@@ -14,7 +14,7 @@
         <tr>
             <th>Name</th>
             <th>Benutzer</th>
-            <th width="160">Datum</th>
+            <th width="120">Erstellt Am</th>
         </tr>
         </thead>
         <tbody>
@@ -27,11 +27,11 @@
                         {{ $document->user->last_name }}
                     </a>
                 </td>
-                <td>{{ $document->created_at->format('d.m.Y H:i:s') }}</td>
+                <td>@timeago($document->created_at)</td>
             </tr>
         @empty
             <tr class="text-center text-muted">
-                <td colspan="4">Noch keine Dokumente hochgeladen</td>
+                <td colspan="3">Noch keine Dokumente hochgeladen</td>
             </tr>
         @endforelse
         </tbody>
