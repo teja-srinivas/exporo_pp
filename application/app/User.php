@@ -5,6 +5,7 @@ namespace App;
 use App\Traits\Dateable;
 use App\Traits\Encryptable;
 use App\Traits\HasRoles;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -16,6 +17,12 @@ use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
+ * @property string $first_name
+ * @property string $last_name
+ * @property Carbon $accepted_at
+ * @property Carbon $rejected_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  * @property UserDetails $details
  * @property Company $company
  */
@@ -100,6 +107,14 @@ class User extends Authenticatable implements AuditableContract
     public function agbs(): BelongsToMany
     {
         return $this->belongsToMany(Agb::class)->withTimestamps();
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function bills(): HasMany
+    {
+        return $this->hasMany(Bill::class);
     }
 
     /**
