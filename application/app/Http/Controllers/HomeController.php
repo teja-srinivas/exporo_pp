@@ -26,6 +26,15 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         return response()->view('home', [
+            'total' => Commission::query()
+                ->where('user_id', $request->user()->id)
+                ->whereNull('rejected_at')
+                ->sum('net'),
+             'approved' => Commission::query()
+                ->whereNotNull('reviewed_at')
+                ->whereNull('bill_id')
+                ->where('user_id', $request->user()->id)
+                ->sum('net'),
             'paid' => Commission::query()
                 ->join('bills', 'bill_id', 'bills.id')
                 ->where('commissions.user_id', $request->user()->id)
