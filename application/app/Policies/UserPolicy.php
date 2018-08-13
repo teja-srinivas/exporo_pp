@@ -48,7 +48,7 @@ class UserPolicy extends BasePolicy
      */
     public function view(User $user, $model)
     {
-        return $user->is($model) || parent::view($user, $model);
+        return parent::view($user, $model);
     }
 
     /**
