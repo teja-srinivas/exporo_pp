@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Interfaces\FileReference;
+use App\Traits\Dateable;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,12 +15,22 @@ class Document extends Model implements FileReference, AuditableContract
 {
     use Auditable;
     use OptimusEncodedRouteKey;
+    use Dateable {
+        asDateTime as parentAsDateTime;
+    }
 
     const DIRECTORY = 'documents';
 
     protected $fillable = [
         'name', 'description',
     ];
+
+
+    // Fix for the audit package not detecting this method (for some reason)
+    protected function asDateTime($value)
+    {
+        return $this->parentAsDateTime($value);
+    }
 
     /**
      * @return BelongsTo
