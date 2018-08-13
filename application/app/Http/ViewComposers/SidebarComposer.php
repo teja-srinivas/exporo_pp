@@ -47,7 +47,7 @@ class SidebarComposer
 
     protected function getPartner()
     {
-        if (!$this->user->can('view partner dashboard')) {
+        if ($this->user->cannot('view partner dashboard')) {
             return [];
         }
 
