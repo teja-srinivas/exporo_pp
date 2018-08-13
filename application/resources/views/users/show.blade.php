@@ -32,14 +32,14 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th width="140">Datum</th>
+                <th width="120">Datum</th>
             </tr>
             </thead>
             <tbody>
             @forelse($user->agbs as $agb)
                 <tr>
                     <td><a href="{{ route('agbs.show', $agb) }}">{{ $agb->name }}</a></td>
-                    <td>{{ $agb->pivot->created_at->format('d.m.Y H:i') }}</td>
+                    <td>@timeago($agb->pivot->created_at)</td>
                 </tr>
             @empty
                 <tr class="text-center text-muted">
@@ -58,7 +58,7 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th width="140">Datum</th>
+                <th width="120">Datum</th>
             </tr>
             </thead>
             <tbody>
@@ -71,7 +71,7 @@
 
                         <small style="line-height: 1rem">{{ $document->description }}</small>
                     </td>
-                    <td>{{ $document->created_at->format('d.m.Y H:i') }}</td>
+                    <td>@timeago($document->created_at)</td>
                 </tr>
             @empty
                 <tr class="text-center text-muted">
