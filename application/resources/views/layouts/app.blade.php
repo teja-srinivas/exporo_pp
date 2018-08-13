@@ -115,6 +115,7 @@
     </div>
 
     {{-- Transition flickering fix (https://github.com/twbs/bootstrap/issues/22014) --}}
-    @yield('scripts', '<script>var __flickerFix = true;</script>')
+    <script>var __flickerFix = true;</script>
+    @section('scripts')
 </body>
 </html>
