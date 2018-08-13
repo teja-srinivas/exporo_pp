@@ -19,9 +19,12 @@ class CommissionController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
     {
+        $this->authorize('list', Commission::class);
+
         $query = Commission::query()->with([
             'model.investor:id,last_name,first_name',
             'model.project:id,name,schema_id',

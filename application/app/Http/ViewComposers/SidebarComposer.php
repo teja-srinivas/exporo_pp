@@ -3,6 +3,7 @@
 namespace App\Http\ViewComposers;
 
 use App\Agb;
+use App\Bill;
 use App\Document;
 use App\Role;
 use App\User;
@@ -156,6 +157,14 @@ class SidebarComposer
                 'title' => 'Dokumente',
                 'url' => route('documents.index'),
                 'isActive' => $this->request->routeIs('documents.*'),
+            ];
+        }
+
+        if ($this->canList(Bill::class)) {
+            $links[] = [
+                'title' => 'Abrechnungen',
+                'url' => route('bills.index'),
+                'isActive' => $this->request->routeIs('bills.*'),
             ];
         }
 

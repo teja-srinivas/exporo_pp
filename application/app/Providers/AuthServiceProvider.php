@@ -2,16 +2,8 @@
 
 namespace App\Providers;
 
-use App\Agb;
-use App\Document;
-use App\Permission;
-use App\Policies\AgbPolicy;
-use App\Policies\DocumentPolcy;
-use App\Policies\PermissionPolicy;
-use App\Policies\RolePolicy;
-use App\Policies\UserPolicy;
-use App\Role;
-use App\User;
+use App;
+use App\Policies;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -23,11 +15,13 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Agb::class => AgbPolicy::class,
-        Document::class => DocumentPolcy::class,
-        Permission::class => PermissionPolicy::class,
-        Role::class => RolePolicy::class,
-        User::class => UserPolicy::class,
+        App\Agb::class => Policies\AgbPolicy::class,
+        App\Bill::class => Policies\BillPolicy::class,
+        App\Commission::class => Policies\BillPolicy::class, // TODO
+        App\Document::class => Policies\DocumentPolcy::class,
+        App\Permission::class => Policies\PermissionPolicy::class,
+        App\Role::class => Policies\RolePolicy::class,
+        App\User::class => Policies\UserPolicy::class,
     ];
 
     /**
@@ -39,8 +33,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('view partner dashboard', function (User $user) {
-            return $user->hasAnyRole(Role::ADMIN, Role::PARTNER);
+        Gate::define('view partner dashboard', function (App\User $user) {
+            return $user->hasAnyRole(App\Role::ADMIN, App\Role::PARTNER);
         });
     }
 }

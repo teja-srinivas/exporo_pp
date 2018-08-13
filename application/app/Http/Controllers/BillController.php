@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Bill;
 use App\Commission;
+use App\Http\Resources\User as UserResource;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -13,11 +14,27 @@ class BillController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return view('bills.index', [
+            'bills' => Bill::getDetailsPerUser()->with('user')->get()->map(function (Bill $bill) use ($request) {
+                return [
+                    'name' => $bill->getDisplayName(),
+                    'date' => $bill->created_at,
+                    'user' => UserResource::make($bill->user)->toArray($request),
+                    'meta' => [
+                        'net' => format_money($bill->net),
+                        'commissions' => $bill->commissions,
+                    ],
+                    'links' => [
+                        'self' => route('bills.show', $bill),
+                    ],
+                ];
+            }),
+        ]);
     }
 
     /**
