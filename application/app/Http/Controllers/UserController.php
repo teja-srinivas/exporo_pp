@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bill;
 use App\Company;
 use App\Http\Requests\UserStoreRequest;
 use App\Role;
@@ -83,8 +84,10 @@ class UserController extends Controller
             },
             'investors' => function ($query) {
                 $query->orderBy('first_name');
-            }
+            },
         ]);
+
+        $user->bills = Bill::getDetailsPerUser($user->id)->get();
 
         return response()->view('users.show', compact('user'));
     }

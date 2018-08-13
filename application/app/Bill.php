@@ -85,4 +85,39 @@ class Bill extends Model implements AuditableContract
     {
         $query->whereNotNull('released_at')->where('released_at', '<=', now());
     }
+
+    /**
+     * Generates a human readable name for this bill, to be used for link texts.
+     *
+     * @return string
+     */
+    public function getDisplayName(): string
+    {
+        // TODO is there a better way to decide on a name for a bill?
+        return $this->created_at->startOfMonth()->subMonth(1)->format('F Y');
+    }
+
+    /**
+     * Returns a simplified bill model that contains
+     * - the id,
+     * - the total sum of the bill
+     * - the amount of commissions contained in the bill
+     *
+     * Optionally, a specific user can be provided.
+     *
+     * @param int|null $forUser The user ID
+     * @return Builder
+     */
+    public static function getDetailsPerUser(?int $forUser = null): Builder
+    {
+        return self::query()
+            ->join('commissions', 'commissions.bill_id', 'bills.id')
+            ->groupBy('bills.id')
+            ->select('bills.id', 'bills.user_id', 'bills.created_at')
+            ->selectRaw('COUNT(commissions.id) as commissions')
+            ->selectRaw('SUM(commissions.net) as net')
+            ->when($forUser !== null, function (Builder $query) use ($forUser) {
+                $query->where('bills.user_id', $forUser);
+            });
+    }
 }
