@@ -15,6 +15,7 @@
         @method('PUT')
 
         @card
+            @if($role->canBeDeleted())
             @include('components.form.builder', [
                 'contained' => false,
                 'labelWidth' => 2,
@@ -28,6 +29,7 @@
                     ],
                 ]
             ])
+            @endif
 
             <div class="form-group row mb-0">
                 <label class="col-sm-2 col-form-label">Fähigkeiten:</label>

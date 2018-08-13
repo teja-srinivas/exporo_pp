@@ -92,11 +92,14 @@ class RoleController extends Controller
         $this->authorize('update', Role::class);
 
         $data = $request->validate([
-            'name' => 'required|unique:roles,name,' . $role->id,
+            'name' => 'unique:roles,name,' . $role->id,
             'permissions' => 'nullable|array',
         ]);
 
-        $role->fill(['name' => $data['name']])->save();
+        if ($role->canBeDeleted() && isset($data['name'])) {
+            $role->fill(['name' => $data['name']])->save();
+        }
+
         $role->syncPermissions(Permission::whereIn('id', array_keys($data['permissions']))->get());
 
         flash_success();
@@ -114,6 +117,8 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $this->authorize('delete', Role::class);
+
+        abort_unless($role->canBeDeleted(), 409, 'Role is a system resource');
 
         $role->delete();
 
