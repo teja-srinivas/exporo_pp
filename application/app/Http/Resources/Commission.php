@@ -38,6 +38,14 @@ class Commission extends JsonResource
                     return User::make($this->rejected_by);
                 }),
             ], null)*/,
+            'project' => [
+                'schema' => $this->when(
+                    is_a($model->model, \App\Investment::class),
+                    function () use ($model) {
+                        return $model->model->project->schema->formula;
+                    }
+                ),
+            ],
             'user' => User::make($model->user),
             'model' => Investment::make($model->model),
         ];
