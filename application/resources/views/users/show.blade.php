@@ -116,18 +116,11 @@
                 </tr>
             @empty
                 <tr class="text-center text-muted">
-                    <td colspan="4">Noch keinen Dokumenten zugewiesen</td>
+                    <td colspan="4">Noch keine Provisionen abgerechnet</td>
                 </tr>
             @endforelse
             </tbody>
         </table>
-
-        @slot('footer')
-            <div class="text-right">
-                <a href="{{ route('documents.create', ['user_id' => $user]) }}"
-                   class="btn btn-primary btn-sm">Dokument Hochladen</a>
-            </div>
-        @endslot
     @endcard
 
     @card
