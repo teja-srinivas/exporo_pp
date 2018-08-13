@@ -12,8 +12,9 @@
 @endsection
 
 @section('main-content')
-    <vue data-is="commission-approval" data-props='@json([
+    @php($vueData = [
         'api' => route('api.commissions.index'),
         'totals' => $totals,
-    ])' />
+    ])
+    <vue data-is="commission-approval" data-props='@json($vueData)' />
 @endsection
