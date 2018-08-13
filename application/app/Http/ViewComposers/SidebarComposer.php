@@ -4,8 +4,6 @@ namespace App\Http\ViewComposers;
 
 use App\Agb;
 use App\Document;
-use App\Permission;
-use App\Policies\AgbPolicy;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -60,14 +58,6 @@ class SidebarComposer
                         'title' => 'Übersicht',
                         'url' => route('home'),
                         'isActive' => $this->request->routeIs('home'),
-                    ],
-                    [
-                        'title' => 'Abrechnungen',
-                        'url' => '#',
-                    ],
-                    [
-                        'title' => 'Provisionen',
-                        'url' => '#',
                     ],
                 ],
             ],
