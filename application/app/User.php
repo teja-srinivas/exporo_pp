@@ -142,7 +142,7 @@ class User extends Authenticatable implements AuditableContract
 
     public function canBeProcessed()
     {
-        return $this->hasRole(Role::PARTNER);
+        return $this->roles->isEmpty() || $this->hasRole(Role::PARTNER);
     }
 
     public function hasBeenProcessed()
