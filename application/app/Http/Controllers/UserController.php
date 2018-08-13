@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Bill;
 use App\Company;
 use App\Http\Requests\UserStoreRequest;
-use App\Role;
 use App\User;
-use App\UserDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -23,7 +21,7 @@ class UserController extends Controller
     {
         $this->authorize('list', User::class);
 
-        $users = User::ordered()->latest()->with('roles')->get();
+        $users = User::query()->latest()->with('roles')->get()->sortBy('last_name');
 
         return response()->view('users.index', compact('users'));
     }

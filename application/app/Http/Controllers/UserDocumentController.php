@@ -67,7 +67,7 @@ class UserDocumentController extends Controller
 
         $user = User::find($request->get('user_id'));
 
-        $users = User::ordered()
+        $users = User::query()
             ->get(['id', 'first_name', 'last_name'])
             ->mapWithKeys(function (User $user) {
                 return [$user->id => $user->last_name . ', ' . $user->first_name];

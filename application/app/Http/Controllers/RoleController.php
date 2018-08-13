@@ -57,7 +57,7 @@ class RoleController extends Controller
         $this->authorize('view', Role::class);
 
         $role->load(['users' => function ($q) {
-            $q->ordered()->latest()->with('roles');
+            $q->latest()->with('roles');
         }]);
 
         return response()->view('roles.show', compact('role'));
