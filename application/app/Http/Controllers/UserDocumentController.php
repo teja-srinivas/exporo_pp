@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Agb;
+use App\Bill;
 use App\Document;
 use App\User;
 use Illuminate\Http\Request;
@@ -14,36 +15,53 @@ class UserDocumentController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = auth()->user();
+        $user = $request->user();
 
         // TODO maybe extract this to a different route?
         if ($user->cannot('list', Document::class)) {
-            $agbs = $user->agbs()->latest()->get();
+            $bills = Bill::getDetailsPerUser($user->id)/*->with('user')*/->latest()->get();
 
-            $documents = collect($user->documents)
-                ->map(function (Document $document) {
+            $documents = $bills->map(function (Bill $bill) use ($request) {
+                    return [
+                        'type' => 'Abrechnung',
+                        'title' => $bill->getDisplayName(),
+                        'created_at' => $bill->created_at,
+                        'meta' => [
+                            'net' => format_money($bill->net),
+                            'commissions' => $bill->commissions,
+                        ],
+                        'link' => route('bills.show', $bill),
+                    ];
+                })
+                ->merge($user->documents->map(function (Document $document) {
                     return [
                         'type' => 'Dokument',
                         'title' => $document->name,
                         'link' => $document->getDownloadUrl(),
                         'created_at' => $document->created_at,
                     ];
-                })
-                ->merge($agbs->map(function (Agb $agb) {
+                }))
+                ->merge($user->agbs()->latest()->get()->map(function (Agb $agb) {
                     return [
                         'type' => __('AGB'),
                         'title' => $agb->name,
                         'link' => $agb->getDownloadUrl(),
                         'created_at' => $agb->pivot->created_at,
                     ];
-                }));
+                }))
+                ->sortByDesc('created_at');
 
-            return response()->view('users.documents', compact('documents'));
+            $detailColumns = $documents->sum(function (array $entry) {
+                return count($entry['meta'] ?? []);
+            });
+
+            return response()->view('users.documents', compact('documents', 'detailColumns'));
         }
 
         $this->authorize('list', Document::class);
