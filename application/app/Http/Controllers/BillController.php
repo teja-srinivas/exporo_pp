@@ -28,6 +28,7 @@ class BillController extends Controller
                 'firstName' => $row->investment->investor->first_name,
                 'lastName' => $row->investment->investor->last_name,
                 'investsum' => $row->investment->amount,
+                'investDate' => $row->investment->created_at->format('d-m-Y'),
                 'net' => $row->net,
                 'gross' => $row->gross,
                 'projectName' => $row->investment->project->name,

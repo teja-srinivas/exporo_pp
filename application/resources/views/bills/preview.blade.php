@@ -5,7 +5,7 @@
 
     <h2 class="text-center">Eigenumsatz</h2>
     @foreach($investments as $investment)
-    <h3 class="text-center">Projekt {{ $investment[0]['projectName'] }}</h3>
+    <h3 class="mt-5 text-center">Projekt {{ $investment[0]['projectName'] }}</h3>
     <div class="kpi_headline">
         <div class="text-left"> Projektkürzel:</div>
         <div class="text-center">Projektlaufzeit: {{ $investment[0]['projectRuntime'] }}</div>
@@ -15,8 +15,8 @@
             <thead>
             <tr>
                 <th>Anleger</th>
-                <th class="text-center"> Projektlaufzeit in Monaten </th>
-                <th class="text-center">Investitionsbetrag</th>
+                <th class="text-center"> Investitionsbetrag </th>
+                <th class="text-center">Datum des Investments</th>
                 <th class="text-center">Provision Netto</th>
             </tr>
             </thead>
@@ -25,6 +25,7 @@
                 <tr>
                     <td> {{  $investDetails['lastName'] }}, {{ $investDetails['firstName'] }}</td>
                     <td class="text-center"> {{ format_money($investDetails['investsum']) }}</td>
+                    <td class="text-center"> {{ $investDetails['investDate'] }}</td>
                     <td class="text-center">{{ format_money($investDetails['net']) }}</td>
                 </tr>
                 @endforeach
