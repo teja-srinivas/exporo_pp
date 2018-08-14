@@ -4,42 +4,42 @@
     <h1 class="text-center"> Übersicht Provisionsgutschrift</h1>
 
     <h2 class="text-center">Eigenumsatz</h2>
-    <h3 class="text-center">Projekt</h3>
-        <table class="table table-borderless table-striped table-sm bg-white shadow-sm accent-primary table-sticky">
+    @foreach($investments as $investment)
+    <h3 class="text-center">Projekt {{ $investment[0]['projectName'] }}</h3>
+    <div class="kpi_headline">
+        <div class="text-left"> Projektkürzel:</div>
+        <div class="text-center">Projektlaufzeit: {{ $investment[0]['projectRuntime'] }}</div>
+        <div class="text-right">Projektmarge: {{ $investment[0]['projectMargin'] }}%</div>
+    </div>
+        <table class="table table-borderless table-striped table-sm bg-white shadow-sm accent-primary">
             <thead>
             <tr>
                 <th>Anleger</th>
-                <th class="text-center"> Projektname</th>
                 <th class="text-center"> Projektlaufzeit in Monaten </th>
                 <th class="text-center">Investitionsbetrag</th>
                 <th class="text-center">Provision Netto</th>
-                <th class="text-center">Provision Brutto</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($investments as $investment)
+            @foreach($investment as $investDetails)
                 <tr>
-                    <td> {{  $investment['lastName'] }}, {{ $investment['firstName'] }}</td>
-                    <td class="text-center"> {{ $investment['projectName'] }}</td>
-                    <td class="text-center"> {{ $investment['projectRuntime'] }}</td>
-                    <td class="text-center"> {{ format_money($investment['investsum']) }}</td>
-                    <td class="text-center">{{ format_money($investment['net']) }}</td>
-                    <td class="text-center">{{ format_money($investment['gross']) }}</td>
+                    <td> {{  $investDetails['lastName'] }}, {{ $investDetails['firstName'] }}</td>
+                    <td class="text-center"> {{ format_money($investDetails['investsum']) }}</td>
+                    <td class="text-center">{{ format_money($investDetails['net']) }}</td>
                 </tr>
-            @endforeach
+                @endforeach
             </tbody>
         </table>
+    @endforeach
 
     <table class="table table-borderless table-striped table-sm bg-white shadow-sm accent-primary table-sticky">
         <thead>
             <th class="text-center"> Total Investmentvolumen</th>
             <th class="text-center"> Total netto Provision</th>
-            <th class="text-center"> Total brutto Provision</th>
         </thead>
         <tbody>
         <td class="text-center"> {{ format_money($investmentSum) }}</td>
         <td class="text-center"> {{ format_money($investmentNetSum) }}</td>
-        <td class="text-center"> {{ format_money($investmentGrossSum) }}</td>
         </tbody>
     </table>
 @endsection

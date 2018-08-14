@@ -31,19 +31,25 @@ class BillController extends Controller
                 'net' => $row->net,
                 'gross' => $row->gross,
                 'projectName' => $row->investment->project->name,
+                'projectMargin' => $row->investment->project->margin,
                 'projectRuntime' => $row->investment->project->runtime ?? $row->investment->project->runtimeInMonths(),
             ];
+        })->groupBy('projectName');
+
+
+
+        $investmentSum = $investments->sum(function($investments) {
+            return $investments->sum('investsum');
         });
 
-        $investmentSum = $investments->sum('investsum');
-        $investmentGrossSum = $investments->sum('gross');
-        $investmentNetSum = $investments->sum('net');
+        $investmentNetSum = $investments->sum(function($investments) {
+            return $investments->sum('net');
+        });
 
 
         return response()->view('bills.preview', [
             'investments' => $investments,
             'investmentSum' => $investmentSum,
-            'investmentGrossSum' => $investmentGrossSum,
             'investmentNetSum' => $investmentNetSum,
         ]);
     }
