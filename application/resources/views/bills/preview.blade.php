@@ -3,7 +3,8 @@
 
     <h1 class="text-center"> Übersicht Provisionsgutschrift</h1>
 
-    <h2 class="text-center">Projekte</h2>
+    <h2 class="text-center">Eigenumsatz</h2>
+    <h3 class="text-center">Projekt</h3>
         <table class="table table-borderless table-striped table-sm bg-white shadow-sm accent-primary table-sticky">
             <thead>
             <tr>

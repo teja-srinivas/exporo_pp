@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Investment;
+use App\UserDetails;
 
 final class CalculateCommissionsService
 {
@@ -20,6 +21,17 @@ final class CalculateCommissionsService
 
         $sum = $investment->project->schema->calculate((int) $investment->amount, $bonus, $runtime, (float) $margin);
 
+        return $userDetails->vat_included ? [
+            'net' => $sum,
+            'gross' => $sum * (1.0 + self::VAT),
+        ] : [
+            'net' => $sum * (1.0 - self::VAT),
+            'gross' => $sum,
+        ];
+    }
+
+    public function calculateRegistration(UserDetails $userDetails, $sum)
+    {
         return $userDetails->vat_included ? [
             'net' => $sum,
             'gross' => $sum * (1.0 + self::VAT),

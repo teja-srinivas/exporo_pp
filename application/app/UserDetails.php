@@ -22,6 +22,7 @@ class UserDetails extends Model implements AuditableContract
     protected $casts = [
         'first_investment_bonus' => 'float',
         'further_investment_bonus' => 'float',
+        'registration_bonus' => 'float',
         'vat_included' => 'bool',
     ];
 
