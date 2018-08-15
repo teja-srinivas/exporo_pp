@@ -34,7 +34,9 @@
             </div>
             <div class="p2 mt-1">
                 Webseite:
-                <a href="http://{{  $company->website }}" target="_blank" **media="screen"> {{  $company->website }} </a>
+                <a href="http://{{  $company->website }}" target="_blank">
+                    {{  $company->website }}
+                </a>
             </div>
             <div class="p2 mt-4">
                 Hamburg, {{  \Carbon\Carbon::NOW()->format('d.m.Y') }}
@@ -87,8 +89,10 @@
     </div>
     <div class="mt-3 print_break">
         <div>
-            Die Abrechnung ist sofort nach Erhalt auf Richtigkeit hin zu überprüfen. Sie gilt als anerkannt, sofern nicht innerhalb von 4 Wochen nach
-            dem Erhalt, dieser schriftlich gegenüber der EXPORO AG, Am Sandtorkai 70, 20457 Hamburg oder per Email an abrechnung@exporo.com
+            Die Abrechnung ist sofort nach Erhalt auf Richtigkeit hin zu überprüfen. Sie gilt als anerkannt, sofern
+            nicht innerhalb von 4 Wochen nach
+            dem Erhalt, dieser schriftlich gegenüber der EXPORO AG, Am Sandtorkai 70, 20457 Hamburg oder per Email an
+            abrechnung@exporo.com
             widersprochen wurde.
         </div>
         <div class="mt-2">
