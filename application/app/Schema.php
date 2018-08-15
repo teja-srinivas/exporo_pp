@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Dateable;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
 use MathParser\Interpreting\Evaluator;
@@ -18,12 +19,21 @@ class Schema extends Model implements AuditableContract
 {
     use Auditable;
     use OptimusEncodedRouteKey;
+    use Dateable {
+        asDateTime as parentAsDateTime;
+    }
 
     protected $fillable = [
         'name',
         'formula',
     ];
 
+
+    // Fix for the audit package not detecting this method (for some reason)
+    protected function asDateTime($value)
+    {
+        return $this->parentAsDateTime($value);
+    }
 
     public function projects()
     {

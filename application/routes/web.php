@@ -32,6 +32,7 @@ Route::middleware(['auth', 'accepted'])->group(function () {
     Route::resource('documents', 'UserDocumentController');
     Route::resource('users', 'UserController');
     Route::resource('roles', 'RoleController', ['except' => ['index']]);
+    Route::resource('schemas', 'SchemaController');
 
     Route::get('/home', 'HomeController@index')->name('home');
 
