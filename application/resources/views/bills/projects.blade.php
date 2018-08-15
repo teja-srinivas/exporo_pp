@@ -1,17 +1,16 @@
-@extends('bills.layout.bill')
 @section('projects')
 
-    <h1 class="text-center"> Übersicht Provisionsgutschrift</h1>
+    <h1 class="text-center mt-5"> Übersicht Provisionsgutschrift</h1>
 
-    <h2 class="text-center">Eigenumsatz</h2>
+    <h2 class="mt-5 text-center">Eigenumsatz</h2>
     @foreach($investments as $investment)
     <h3 class="mt-5 text-center">Projekt {{ $investment[0]['projectName'] }}</h3>
-    <div class="kpi_headline">
+    <div class="mt-3 kpi_headline">
         <div class="text-left"> Projektkürzel:</div>
         <div class="text-center">Projektlaufzeit: {{ $investment[0]['projectRuntime'] }}</div>
         <div class="text-right">Projektmarge: {{ $investment[0]['projectMargin'] }}%</div>
     </div>
-        <table class="table table-borderless table-striped table-sm bg-white shadow-sm accent-primary">
+        <table class="mt-3 table table-borderless table-striped table-sm bg-white shadow-sm accent-primary">
             <thead>
             <tr>
                 <th>Anleger</th>
@@ -28,12 +27,12 @@
                     <td class="text-center"> {{ $investDetails['investDate'] }}</td>
                     <td class="text-center">{{ format_money($investDetails['net']) }}</td>
                 </tr>
-                @endforeach
+            @endforeach
             </tbody>
         </table>
     @endforeach
 
-    <table class="table table-borderless table-striped table-sm bg-white shadow-sm accent-primary table-sticky">
+    <table class="mt-5 table table-borderless table-striped table-sm bg-white shadow-sm accent-primary table-sticky">
         <thead>
             <th class="text-center"> Total Investmentvolumen</th>
             <th class="text-center"> Total netto Provision</th>

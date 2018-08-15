@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Bill;
 use App\Commission;
 use Carbon\Carbon;
+use App\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-
 class BillController extends Controller
 {
     /**
@@ -24,7 +24,7 @@ class BillController extends Controller
     {
         $investments = $this->getBillableInvestmentCommissionsForUser($id)->map(function (Commission $row){
             return [
-                'investorId' => $row->user_id,
+                'investorId' => $row->investment->investor->id,
                 'firstName' => $row->investment->investor->first_name,
                 'lastName' => $row->investment->investor->last_name,
                 'investsum' => $row->investment->amount,
@@ -48,10 +48,15 @@ class BillController extends Controller
         });
 
 
-        return response()->view('bills.preview', [
+        $user = User::find($id);
+        $company = $user->company;
+
+        return response()->view('bills.bill', [
             'investments' => $investments,
             'investmentSum' => $investmentSum,
             'investmentNetSum' => $investmentNetSum,
+            'user' => $user,
+            'company' => $company,
         ]);
     }
     /**

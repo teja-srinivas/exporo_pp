@@ -28,6 +28,10 @@ footer {
   flex:1;
 }
 
+.print_break {
+  page-break-after: always;
+}
+
 @include media-breakpoint-down(sm) {
   .navbar .dropdown-menu {
     border-width: 0;

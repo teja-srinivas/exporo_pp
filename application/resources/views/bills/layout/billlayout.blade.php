@@ -22,9 +22,11 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     </head>
+
     <body>
         <main>
             <div class="container">
+                @yield('cover')
                 @yield('projects')
             </div>
         </main>
