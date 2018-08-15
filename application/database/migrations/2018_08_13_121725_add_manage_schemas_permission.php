@@ -1,12 +1,12 @@
 <?php
 
 use App\Permission;
-use App\Policies\BillPolicy;
+use App\Policies\SchemaPolicy;
 use App\Role;
 use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\PermissionRegistrar;
 
-class AddManageBillsPermission extends Migration
+class AddManageSchemasPermission extends Migration
 {
     /**
      * Run the migrations.
@@ -18,7 +18,7 @@ class AddManageBillsPermission extends Migration
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         Role::findByName(Role::INTERNAL)->givePermissionTo(
-            Permission::create(['name' => BillPolicy::PERMISSION])
+            Permission::create(['name' => SchemaPolicy::PERMISSION])
         );
     }
 
@@ -29,7 +29,7 @@ class AddManageBillsPermission extends Migration
      */
     public function down()
     {
-        Permission::query()->where('name', BillPolicy::PERMISSION)->delete();
+        Permission::query()->where('name', SchemaPolicy::PERMISSION)->delete();
 
         app(PermissionRegistrar::class)->forgetCachedPermissions();
     }

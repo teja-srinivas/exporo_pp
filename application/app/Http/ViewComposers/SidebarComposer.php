@@ -5,7 +5,9 @@ namespace App\Http\ViewComposers;
 use App\Agb;
 use App\Bill;
 use App\Document;
+use App\Project;
 use App\Role;
+use App\Schema;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -160,11 +162,27 @@ class SidebarComposer
             ];
         }
 
+        if ($this->canList(Project::class)) {
+            $links[] = [
+                'title' => 'Projekte',
+                'url' => route('projects.index'),
+                'isActive' => $this->request->routeIs('projects.*'),
+            ];
+        }
+
         if ($this->canList(Bill::class)) {
             $links[] = [
                 'title' => 'Abrechnungen',
                 'url' => route('bills.index'),
                 'isActive' => $this->request->routeIs('bills.*'),
+            ];
+        }
+
+        if ($this->canList(Schema::class)) {
+            $links[] = [
+                'title' => 'Schemata',
+                'url' => route('schemas.index'),
+                'isActive' => $this->request->routeIs('schemas.*'),
             ];
         }
 

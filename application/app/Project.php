@@ -10,11 +10,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * @property int $runtime
+ * @property User $approved
  * @property Schema $schema;
  * @property Carbon $payback_min_at
  * @property Carbon $launched_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property Carbon $approved_at
  */
 class Project extends Model
 {
@@ -26,6 +29,7 @@ class Project extends Model
     protected $dates = [
         'launched_at',
         'payback_min_at',
+        'payback_max_at',
     ];
 
     protected $fillable = [
@@ -44,11 +48,22 @@ class Project extends Model
         return $this->hasMany(Investment::class, 'project_id', 'id');
     }
 
+    public function approved(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'approved_by', 'id');
+    }
+
+    public function wasApproved(): bool
+    {
+        return $this->approved_at !== null;
+    }
+
     public function runtimeInMonths(): int
     {
-        if($this->runtime){
+        if ($this->runtime){
             return $this->runtime;
         }
+
         return $this->payback_min_at->diffInMonths($this->launched_at);
     }
 }
