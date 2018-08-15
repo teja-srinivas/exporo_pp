@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Schema;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -27,7 +28,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('projects.show', compact('project'));
+        $schemas = Schema::all()->pluck('name', 'id');
+
+        return view('projects.show', compact('project', 'schemas'));
     }
 
     /**
@@ -40,15 +43,23 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         $data = $this->validate($request, [
-            'accept' => 'boolean',
+            'accept' => 'nullable|boolean',
+            'schema' => 'nullable|numeric|exists:schemas,id',
         ]);
 
-        if ($data['accept']) {
+        if (isset($data['accept'])) {
             $project->approved_at = now();
             $project->approved()->associate($request->user());
             $project->save();
 
             flash_success('Das Projekt wurde erfolgreich bestätigt.');
+        }
+
+        if (isset($data['schema'])) {
+            $project->schema()->associate(Schema::findOrFail($data['schema']));
+            $project->save();
+
+            flash_success('Das Schema wurde erfolgreich geändert.');
         }
 
         return back();

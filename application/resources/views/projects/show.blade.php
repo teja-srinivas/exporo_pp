@@ -51,14 +51,6 @@
                 <td>{{ $project->margin }}%</td>
             </tr>
             <tr>
-                <td>Abrechnungsschema</td>
-                <td>
-                    <a href="{{ route('schemas.show', $project->schema) }}">
-                        {{ $project->schema->name }}
-                    </a>
-                </td>
-            </tr>
-            <tr>
                 <td>Gestartet</td>
                 <td>@timeago($project->launched_at)</td>
             </tr>
@@ -75,5 +67,47 @@
             </tr>
             </tbody>
         </table>
+    @endcard
+
+    @card
+        @slot('title', 'Abrechnungsschema')
+        @slot('subtitle')
+            Jetziges Schema:
+
+            <a href="{{ route('schemas.show', $project->schema) }}">
+                {{ $project->schema->name }}
+            </a>
+        @endslot
+
+        <code class="d-block text-center lead">{{ $project->schema->formula }}</code>
+
+        @slot('footer')
+            {{--
+                TODO: only show this form if we don't have any bills on this project yet
+                Should in that case already calculated commissions count as well?
+                Or only care about approved comissions? TBD.
+            --}}
+            <form action="{{ route('projects.update', $project) }}" method="POST"
+                  class="d-flex justify-content-end form-inline">
+                @method('PUT')
+                @csrf
+
+                @include('components.form.builder', [
+                    'inputs' => [
+                        [
+                            'type' => 'select',
+                            'label' => __('Schema'),
+                            'name' => 'schema',
+                            'required' => true,
+                            'default' => $project->schema_id,
+                            'values' => $schemas,
+                            'assoc' => true,
+                        ],
+                    ],
+                ])
+
+                <button class="btn btn-primary">Schema Ändern</button>
+            </form>
+        @endslot
     @endcard
 @endsection
