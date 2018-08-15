@@ -5,6 +5,7 @@ namespace App\Http\ViewComposers;
 use App\Agb;
 use App\Bill;
 use App\Document;
+use App\Project;
 use App\Role;
 use App\Schema;
 use App\User;
@@ -158,6 +159,14 @@ class SidebarComposer
                 'title' => 'Dokumente',
                 'url' => route('documents.index'),
                 'isActive' => $this->request->routeIs('documents.*'),
+            ];
+        }
+
+        if ($this->canList(Project::class)) {
+            $links[] = [
+                'title' => 'Projekte',
+                'url' => route('projects.index'),
+                'isActive' => $this->request->routeIs('projects.*'),
             ];
         }
 

@@ -4,7 +4,9 @@
         @if(isset($title) && !isset($info))
         <div class="card-title">
             <h5 @isset($subtitle)class="mb-1"@endisset>{{ $title }}</h5>
-            {{ $subtitle or '' }}
+            @isset($subtitle)
+            <small class="small">{{ $subtitle }}</small>
+            @endisset
         </div>
         @endif
 

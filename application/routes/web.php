@@ -31,6 +31,7 @@ Route::middleware(['auth', 'accepted'])->group(function () {
     Route::resource('commissions', 'CommissionController');
     Route::resource('documents', 'UserDocumentController');
     Route::resource('users', 'UserController');
+    Route::resource('projects', 'ProjectController', ['only' => ['index', 'show', 'update']]);
     Route::resource('roles', 'RoleController', ['except' => ['index']]);
     Route::resource('schemas', 'SchemaController');
 
