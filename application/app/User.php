@@ -135,14 +135,9 @@ class User extends Authenticatable implements AuditableContract
         return $this->belongsTo(User::class, 'parent_id');
     }
 
-    public function scopeOrdered(Builder $query)
-    {
-        $query->orderBy('last_name')->orderBy('first_name');
-    }
-
     public function canBeProcessed()
     {
-        return $this->hasRole(Role::PARTNER);
+        return $this->roles->isEmpty() || $this->hasRole(Role::PARTNER);
     }
 
     public function hasBeenProcessed()

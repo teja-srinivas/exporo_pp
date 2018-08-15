@@ -25,21 +25,8 @@ class UserDocumentController extends Controller
 
         // TODO maybe extract this to a different route?
         if ($user->cannot('list', Document::class)) {
-            $bills = Bill::getDetailsPerUser($user->id)/*->with('user')*/->latest()->get();
-
-            $documents = $bills->map(function (Bill $bill) use ($request) {
-                    return [
-                        'type' => 'Abrechnung',
-                        'title' => $bill->getDisplayName(),
-                        'created_at' => $bill->created_at,
-                        'meta' => [
-                            'net' => format_money($bill->net),
-                            'commissions' => $bill->commissions,
-                        ],
-                        'link' => route('bills.show', $bill),
-                    ];
-                })
-                ->merge($user->documents->map(function (Document $document) {
+            $documents =
+                ($user->documents->map(function (Document $document) {
                     return [
                         'type' => 'Dokument',
                         'title' => $document->name,
@@ -57,11 +44,7 @@ class UserDocumentController extends Controller
                 }))
                 ->sortByDesc('created_at');
 
-            $detailColumns = $documents->sum(function (array $entry) {
-                return count($entry['meta'] ?? []);
-            });
-
-            return response()->view('users.documents', compact('documents', 'detailColumns'));
+            return response()->view('users.documents', compact('documents'));
         }
 
         $this->authorize('list', Document::class);
@@ -84,7 +67,7 @@ class UserDocumentController extends Controller
 
         $user = User::find($request->get('user_id'));
 
-        $users = User::ordered()
+        $users = User::query()
             ->get(['id', 'first_name', 'last_name'])
             ->mapWithKeys(function (User $user) {
                 return [$user->id => $user->last_name . ', ' . $user->first_name];

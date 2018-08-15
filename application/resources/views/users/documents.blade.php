@@ -7,27 +7,12 @@
         <tbody>
         @forelse($documents as $document)
             <tr>
-                <td @empty($document['meta'])colspan="{{ $detailColumns + 1 }}"@endempty>
+                <td>
                     <p class="small text-muted mb-1">{{ $document['type'] }}</p>
                     <span class="lead font-weight-bold">
                         <a href="{{ $document['link'] }}">{{ $document['title'] }}</a>
                     </span>
                 </td>
-                @unless(empty($document['meta']))
-                @foreach([
-                    'commissions' => 'Provisionen',
-                    'net' => 'Summe',
-                ] as $key => $displayName)
-                    @isset($document['meta'][$key])
-                        <td class="text-right">
-                            <p class="small text-muted mb-1">{{ $displayName }}</p>
-                            <div class="lead">{{ $document['meta'][$key] }}</div>
-                        </td>
-                    @elseif($loop->index < $detailColumns)
-                        <td></td>
-                    @endif
-                @endforeach
-                @endunless
                 <td class="align-middle text-right" width="200">
                     <p class="small text-muted mb-1">Erstellt</p>
                     @timeago($document['created_at'])

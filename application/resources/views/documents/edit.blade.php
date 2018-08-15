@@ -2,7 +2,7 @@
 
 @section('title')
     @breadcrumps([
-        route('documents.index') => 'AGBs',
+        route('documents.index') => 'Dokumente',
         route('documents.show', $document) => $document->name,
         'Bearbeiten',
     ])

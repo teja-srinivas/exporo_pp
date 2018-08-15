@@ -8,11 +8,11 @@
             <div class="row text-center">
                 <div class="col-sm border-sm-right mb-3 mb-sm-0">
                     Ausstehend
-                    <div class="h2 mb-1">{{ format_money(0) }}</div>
+                    <div class="h2 mb-1">{{ format_money(max(0, $total - $approved - $paid)) }}</div>
                 </div>
                 <div class="col-sm border-sm-right mb-3 mb-sm-0">
                     Freigegeben
-                    <div class="h2 mb-1">{{ format_money(0) }}</div>
+                    <div class="h2 mb-1">{{ format_money($approved) }}</div>
                 </div>
                 <div class="col-sm">
                     Ausgezahlt
@@ -22,12 +22,30 @@
         </div>
     </div>
 
-    @card
-        @slot('title', 'Vermitteltes Kapital')
-        @slot('subtitle', 'freigegebener Provisionen')
+    <h4 class="mt-4">Abrechnungen</h4>
 
-        <div class="pb-5 d-flex align-items-center justify-content-center" style="height: 420px">
-            <span class="lead text-muted">Es wurden noch keine Provisionen freigegeben/ausgezahlt</span>
-        </div>
-    @endcard
+    <table class="bg-white shadow-sm accent-primary table table-borderless table-striped table-sm">
+        <thead>
+        <tr>
+            <th>Monat</th>
+            <th class="text-right">Summe</th>
+            <th class="text-right">Provisionen</th>
+            <th class="text-right" width="140">Erstellt</th>
+        </tr>
+        </thead>
+        <tbody>
+        @forelse($bills as $bill)
+            <tr>
+                <td><a href="{{ route('bills.show', $bill) }}">{{ $bill->getDisplayName() }}</a></td>
+                <td class="text-right">{{ format_money($bill->net) }}</td>
+                <td class="text-right">{{ $bill->commissions }}</td>
+                <td class="text-right">@timeago($bill->created_at)</td>
+            </tr>
+        @empty
+            <tr class="text-center text-muted">
+                <td colspan="5">Es wurden noch keine Abrechnungen erstellt</td>
+            </tr>
+        @endforelse
+        </tbody>
+    </table>
 @endsection
