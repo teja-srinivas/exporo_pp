@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+
 class BillController extends Controller
 {
     /**
@@ -39,7 +40,7 @@ class BillController extends Controller
 
     public function preview(int $id)
     {
-        $investments = $this->getBillableInvestmentCommissionsForUser($id)->map(function (Commission $row){
+        $investments = $this->getBillableInvestmentCommissionsForUser($id)->map(function (Commission $row) {
             return [
                 'investorId' => $row->investment->investor->id,
                 'firstName' => $row->investment->investor->first_name,
@@ -54,13 +55,11 @@ class BillController extends Controller
             ];
         })->groupBy('projectName');
 
-
-
-        $investmentSum = $investments->sum(function($investments) {
+        $investmentSum = $investments->sum(function ($investments) {
             return $investments->sum('investsum');
         });
 
-        $investmentNetSum = $investments->sum(function($investments) {
+        $investmentNetSum = $investments->sum(function ($investments) {
             return $investments->sum('net');
         });
 
@@ -76,6 +75,7 @@ class BillController extends Controller
             'company' => $company,
         ]);
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -100,7 +100,7 @@ class BillController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -149,7 +149,7 @@ class BillController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Bill  $bill
+     * @param  \App\Bill $bill
      * @return \Illuminate\Http\Response
      */
     public function show(Bill $bill)
@@ -160,7 +160,7 @@ class BillController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Bill  $bill
+     * @param  \App\Bill $bill
      * @return \Illuminate\Http\Response
      */
     public function edit(Bill $bill)
@@ -171,8 +171,8 @@ class BillController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Bill  $bill
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Bill $bill
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Bill $bill)
@@ -183,7 +183,7 @@ class BillController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Bill  $bill
+     * @param  \App\Bill $bill
      * @return \Illuminate\Http\Response
      */
     public function destroy(Bill $bill)
