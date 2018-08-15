@@ -22,7 +22,7 @@
 
         </div>
         <div class="d-flex flex-column float-right clearfix">
-            <h3> {{ $company->name }}</h3>
+            <h4> {{ $company->name }}</h4>
             <div class="p2 mt-1">
                 Telefon: {{  $company->phone_number }}
             </div>
