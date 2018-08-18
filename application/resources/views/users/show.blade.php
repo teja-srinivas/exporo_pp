@@ -3,7 +3,7 @@
 @section('title')
     @breadcrumps([
         route('users.index') => 'Benutzer',
-        "{$user->first_name} {$user->last_name}",
+        $user->getDisplayName(),
     ])
 @endsection
 

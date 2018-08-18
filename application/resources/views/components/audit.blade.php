@@ -34,8 +34,7 @@
                             </span>
                         @else
                         <a href="{{ route('users.show', $audit->user) }}">
-                            {{ $audit->user->first_name }}
-                            {{ $audit->user->last_name }}
+                            {{ $audit->user->getDisplayName() }}
                         </a>
                         @endempty
                     </strong>

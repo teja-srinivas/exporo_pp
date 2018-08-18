@@ -165,6 +165,11 @@ class User extends Authenticatable implements AuditableContract
         return $this->canBeProcessed() && $this->accepted_at === null;
     }
 
+    public function getDisplayName()
+    {
+        return trim("{$this->last_name}, {$this->first_name}", ', ');
+    }
+
     public static function getRoleColor(Role $role)
     {
         switch ($role->name ?? '') {

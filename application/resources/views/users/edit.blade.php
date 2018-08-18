@@ -6,7 +6,7 @@
     @else
         @breadcrumps([
             route('users.index') => 'Benutzer',
-            route('users.show', $user) => "{$user->first_name} {$user->last_name}",
+            route('users.show', $user) => $user->getDisplayName(),
             'Bearbeiten'
         ])
     @endif
