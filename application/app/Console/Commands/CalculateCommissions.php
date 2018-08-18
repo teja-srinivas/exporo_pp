@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Console\Commands;
@@ -6,85 +7,102 @@ namespace App\Console\Commands;
 use App\Commission;
 use App\Investment;
 use App\Investor;
-use App\UserDetails;
 use App\Repositories\InvestmentRepository;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Collection;
 
 final class CalculateCommissions extends Command
 {
-    const PER_CHUNK = 480;
+    const PER_CHUNK = 800;
 
     protected $signature = 'calculate:commissions';
     protected $description = 'Calculates commissions from existing investments';
 
     public function handle(InvestmentRepository $repository, CalculateCommissionsService $commissionsService)
     {
-        $this->createRegistrationCommission($commissionsService);
-        $repository->queryWithoutCommission()
-            ->with('project.schema', 'investor.details')
-            ->chunkSimple(self::PER_CHUNK, function (Collection $chunk) use ($commissionsService) {
-                $this->line('Calculating ' . $chunk->count() . ' commissions...');
-                Commission::query()->insert($this->calculate($commissionsService, $chunk));
-            });
-
-
+        $this->calculateInvestors($commissionsService);
+        $this->calculateInvestments($repository, $commissionsService);
     }
 
-    private function calculate(CalculateCommissionsService $commissions, Collection $investments): array
+    protected function calculate(string $type, Builder $query, callable $calculate): void
     {
-        $now = now();
+        $query->chunkSimple(self::PER_CHUNK, function (Collection $chunk) use ($type, $calculate) {
+            $this->line("Calculating {$chunk->count()} $type commissions...");
 
-        return $investments->map(function (Investment $investment) use ($commissions, $now) {
-            $sums = $commissions->calculate($investment);
+            $now = now();
+
+            Commission::query()->insert($chunk->map(function ($entry) use ($now, $type, $calculate) {
+                return $calculate($entry) + [
+                    'model_type' => $type,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            })->all());
+        });
+    }
+
+    /**
+     * Calculates the commissions for every investor that joined
+     * using some sort of affiliate link whose partner now
+     * receives a registration bonus because of that.
+     *
+     * @param CalculateCommissionsService $commissionsService
+     */
+    protected function calculateInvestors(CalculateCommissionsService $commissionsService): void
+    {
+        // Select essential information of investors where
+        // - the partner actually has a registration bonus
+        // - the partner has not yet received a bonus
+        $query = Investor::query()
+            ->select('investors.id', 'investors.user_id')
+            ->selectRaw('user_details.registration_bonus')
+            ->selectRaw('user_details.vat_included')
+            ->join('user_details', 'user_details.id', 'investors.user_id')
+            ->leftJoin('commissions', function (JoinClause $join) {
+                $join->on('investors.id', 'commissions.model_id');
+                $join->where('commissions.model_type', '=', Investor::MORPH_NAME);
+            })
+            ->where('registration_bonus', '>', 0)
+            ->whereNull('commissions.id');
+
+        $callback = function (Investor $investor) use ($commissionsService) {
+            $sums = $commissionsService->calculateNetAndGross(
+                (bool)$investor->vat_included,
+                $investor->registration_bonus
+            );
 
             return $sums + [
-                'model_type' => 'investment',
+                'model_id' => $investor->id,
+                'user_id' => $investor->user_id,
+            ];
+        };
+
+        $this->calculate(Investor::MORPH_NAME, $query, $callback);
+    }
+
+    /**
+     * Calculate commissions based on investments for all approved projects.
+     *
+     * @param InvestmentRepository $repository
+     * @param CalculateCommissionsService $commissions
+     */
+    protected function calculateInvestments(
+        InvestmentRepository $repository,
+        CalculateCommissionsService $commissions
+    ): void {
+        $query = $repository->queryWithoutCommission()->with('project.schema', 'investor.details');
+
+        $callback = function (Investment $investment) use ($commissions) {
+            return $commissions->calculate($investment) + [
+                'model_type' => Investment::MORPH_NAME,
                 'model_id' => $investment->id,
                 'user_id' => $investment->investor->user_id,
-                'created_at' => $now,
-                'updated_at' => $now,
             ];
-        })->all();
-    }
+        };
 
-    private function createRegistrationCommission(CalculateCommissionsService $commissionsService)
-    {
-        $users = $this->getUsersWithRegistrationProvision();
-
-        foreach ($users as $user)
-        {
-            $provision = $user->registration_bonus;
-            $provision = $commissionsService->calculateRegistration($user, $provision);
-            $investors = $this->getInvestorRegistrationProvision($user->id);
-
-
-            foreach ($investors as $investor){
-                Commission::create([
-                    'model_type' => 'investor',
-                    'model_id' => $investor->id,
-                    'user_id' => $user->id,
-                    'net' => $provision['net'],
-                    'gross' => $provision['gross']
-                ]);
-
-            }
-        }
-    }
-
-    private function getInvestorRegistrationProvision(int $userId): Collection
-    {
-        return Investor::query()
-            ->doesntHave('commissions')
-            ->whereIn('user_id', [$userId])
-            ->get();
-    }
-
-    private function getUsersWithRegistrationProvision(): Collection
-    {
-      return UserDetails::where('registration_bonus', '!=', 'NULL')
-            ->where('registration_bonus', '!=', 0.00)
-            ->get();
+        $this->calculate(Investment::MORPH_NAME, $query, $callback);
     }
 }

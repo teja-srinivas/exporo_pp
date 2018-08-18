@@ -21,18 +21,12 @@ final class CalculateCommissionsService
 
         $sum = $investment->project->schema->calculate((int) $investment->amount, $bonus, $runtime, (float) $margin);
 
-        return $userDetails->vat_included ? [
-            'net' => $sum,
-            'gross' => $sum * (1.0 + self::VAT),
-        ] : [
-            'net' => $sum * (1.0 - self::VAT),
-            'gross' => $sum,
-        ];
+        return $this->calculateNetAndGross($userDetails->vat_included, $sum);
     }
 
-    public function calculateRegistration(UserDetails $userDetails, $sum)
+    public function calculateNetAndGross(bool $includeVat, $sum)
     {
-        return $userDetails->vat_included ? [
+        return $includeVat ? [
             'net' => $sum,
             'gross' => $sum * (1.0 + self::VAT),
         ] : [

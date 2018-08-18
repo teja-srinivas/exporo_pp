@@ -9,6 +9,9 @@ use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
+/**
+ * @property bool $vat_included
+ */
 class UserDetails extends Model implements AuditableContract
 {
     use Encryptable;
