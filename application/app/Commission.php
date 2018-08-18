@@ -128,13 +128,13 @@ class Commission extends Model implements AuditableContract
         return !$this->on_hold && $this->rejected_at === null && $this->isAcceptable();
     }
 
-    public function scopeIsBillable(Builder $query)
+    public function scopeIsBillable(Builder $query, bool $subQuery = true)
     {
         // We can delay commissions for later bills
         $query->where('on_hold', '!=', true)
             ->whereNull('commissions.rejected_at')
             ->whereNull('bill_id')
-            ->isAcceptable();
+            ->isAcceptable($subQuery);
     }
 
     public function scopeIsOpen(Builder $query)

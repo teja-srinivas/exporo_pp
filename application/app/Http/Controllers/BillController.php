@@ -38,41 +38,29 @@ class BillController extends Controller
         ]);
     }
 
-    public function preview(int $id)
+    public function preview(User $user)
     {
-        $investments = $this->getBillableInvestmentCommissionsForUser($id)->map(function (Commission $row) {
+        $investments = $this->getBillableInvestmentCommissionsForUser($user->getKey())->map(function (Commission $row) {
             return [
                 'investorId' => $row->investment->investor->id,
                 'firstName' => $row->investment->investor->first_name,
                 'lastName' => $row->investment->investor->last_name,
                 'investsum' => $row->investment->amount,
-                'investDate' => $row->investment->created_at->format('d-m-Y'),
+                'investDate' => $row->investment->created_at->format('d.m.Y'),
                 'net' => $row->net,
                 'gross' => $row->gross,
                 'projectName' => $row->investment->project->name,
                 'projectMargin' => $row->investment->project->margin,
                 'projectRuntime' => $row->investment->project->runtime ?? $row->investment->project->runtimeInMonths(),
             ];
-        })->groupBy('projectName');
-
-        $investmentSum = $investments->sum(function ($investments) {
-            return $investments->sum('investsum');
         });
-
-        $investmentNetSum = $investments->sum(function ($investments) {
-            return $investments->sum('net');
-        });
-
-
-        $user = User::find($id);
-        $company = $user->company;
 
         return response()->view('bills.bill', [
-            'investments' => $investments,
-            'investmentSum' => $investmentSum,
-            'investmentNetSum' => $investmentNetSum,
+            'investments' => $investments->groupBy('projectName'),
+            'investmentSum' => $investments->sum('investsum'),
+            'investmentNetSum' => $investments->sum('net'),
             'user' => $user,
-            'company' => $company,
+            'company' => $user->company,
         ]);
     }
 
@@ -207,9 +195,10 @@ class BillController extends Controller
     private function getBillableInvestmentCommissionsForUser(int $id): Collection
     {
         return Commission::query()
-            ->isBillable()
+            ->isBillable(false)
             ->where('user_id', $id)
             ->where('model_type', 'investment')
+            ->with('investment.investor', 'investment.project')
             ->get();
     }
 }
