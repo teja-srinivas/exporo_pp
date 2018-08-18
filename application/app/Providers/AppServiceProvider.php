@@ -42,9 +42,13 @@ class AppServiceProvider extends ServiceProvider
         Builder::macro('chunkSimple', function (int $size, callable $callable) {
             $page = 1;
 
-            while (($chunk = $this->limit($size)->get())->count() >= $size) {
+            while (($chunk = $this->limit($size)->get())->count() > 0) {
                 if ($callable($chunk, $page++) === false) {
                     return false;
+                }
+
+                if ($chunk->count() < $size) {
+                    break;
                 }
             }
 
