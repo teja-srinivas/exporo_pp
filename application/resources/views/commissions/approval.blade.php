@@ -12,9 +12,17 @@
 @endsection
 
 @section('main-content')
-    @php($vueData = [
-        'api' => route('api.commissions.index'),
-        'totals' => $totals,
-    ])
-    <vue data-is="commission-approval" data-props='@json($vueData)' />
+    @if($totals['count'] > 0)
+        @php($vueData = [
+            'api' => route('api.commissions.index'),
+            'totals' => $totals,
+        ])
+        <vue data-is="commission-approval" data-props='@json($vueData)' />
+    @else
+        @card
+            <div class="lead text-center text-muted">
+                Es gibt derzeit keine offenen Provisionen zum Abrechnen
+            </div>
+        @endcard
+    @endif
 @endsection
