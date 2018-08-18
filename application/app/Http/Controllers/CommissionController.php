@@ -20,7 +20,7 @@ class CommissionController extends Controller
             ->selectRaw('SUM(net) as net')
             ->selectRaw('COUNT(id) as count')
             ->isOpen()
-            ->isAcceptable()
+            ->isAcceptable(false)
             ->get()
             ->first();
 

@@ -155,7 +155,7 @@ class CommissionController extends Controller
             }
         }
 
-        $this->applyFilter(Commission::query(), $request, false)->update($values);
+        $this->applyFilter(Commission::query(), $request, true)->update($values);
     }
 
     /**
@@ -169,8 +169,17 @@ class CommissionController extends Controller
         //
     }
 
-    private function applyFilter(Builder $query, Request $request, bool $withSort = true): Builder
-    {
+    /**
+     * @param Builder $query
+     * @param Request $request
+     * @param bool $forUpdate Enables performance improvements when we're executing an UPDATE query
+     * @return Builder
+     */
+    private function applyFilter(
+        Builder $query,
+        Request $request,
+        bool $forUpdate = false
+    ): Builder {
         $columns = $this->parseSortAndFilter($request);
 
         return $query
@@ -188,14 +197,14 @@ class CommissionController extends Controller
                     $query->whereNull('reviewed_at');
                 }
             })
-            ->when($columns->has('user'), function (Builder $query) use ($columns, $withSort) {
+            ->when($columns->has('user'), function (Builder $query) use ($columns, $forUpdate) {
                 $user = $columns['user'];
 
                 if (!empty($user['filter'])) {
                     $query->where('user_id', $user['filter']);
                 }
 
-                if ($withSort && !empty($user['order'])) {
+                if (!$forUpdate && !empty($user['order'])) {
                     $query->orderBy('user_id', $user['order']);
                 }
             })
@@ -210,13 +219,13 @@ class CommissionController extends Controller
                 });
             })
             ->when(
-                $withSort && $columns->has('money') && !empty($columns['money']['order']),
+                !$forUpdate && $columns->has('money') && !empty($columns['money']['order']),
                 function (Builder $query) use ($columns) {
                     $query->orderBy('net', $columns['money']['order']);
                 }
             )
             ->isOpen()
-            ->isAcceptable(false);
+            ->isAcceptable($forUpdate);
     }
 
 }
