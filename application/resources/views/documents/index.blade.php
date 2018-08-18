@@ -14,7 +14,7 @@
         <tr>
             <th>Name</th>
             <th>Benutzer</th>
-            <th width="120">Erstellt Am</th>
+            <th width="140">Erstellt Am</th>
         </tr>
         </thead>
         <tbody>

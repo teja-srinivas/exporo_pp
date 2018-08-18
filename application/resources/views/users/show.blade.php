@@ -32,7 +32,7 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th width="120">Datum</th>
+                <th width="140">Datum</th>
             </tr>
             </thead>
             <tbody>
@@ -58,7 +58,7 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th width="120">Datum</th>
+                <th width="140">Datum</th>
             </tr>
             </thead>
             <tbody>
@@ -99,7 +99,7 @@
                 <th>Zeitraum</th>
                 <th class="text-right">Provisionen</th>
                 <th class="text-right">Summe</th>
-                <th width="120">Datum</th>
+                <th width="140">Datum</th>
             </tr>
             </thead>
             <tbody>
