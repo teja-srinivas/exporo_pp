@@ -1,7 +1,10 @@
 @extends('layouts.sidebar')
 
 @section('title')
-    Provisionsübersicht
+    @breadcrumps([
+        route('bills.index') => 'Abrechnungen',
+        'Provisionsübersicht',
+    ])
 @endsection
 
 @section('actions')

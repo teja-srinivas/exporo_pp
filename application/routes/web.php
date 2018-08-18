@@ -28,8 +28,8 @@ Route::middleware(['auth', 'accepted'])->group(function () {
 
     Route::resource('agbs', 'AgbController');
     Route::get('bills/preview/{user}', 'BillController@preview');
+    Route::resource('bills/commissions', 'CommissionController');
     Route::resource('bills', 'BillController');
-    Route::resource('commissions', 'CommissionController');
     Route::resource('documents', 'UserDocumentController');
     Route::resource('users', 'UserController');
     Route::resource('projects', 'ProjectController', ['only' => ['index', 'show', 'update']]);
