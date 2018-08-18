@@ -60,10 +60,6 @@ class Project extends Model
 
     public function runtimeInMonths(): int
     {
-        if ($this->runtime){
-            return $this->runtime;
-        }
-
-        return $this->payback_min_at->diffInMonths($this->launched_at);
+        return $this->runtime ?? $this->payback_min_at->diffInMonths($this->launched_at);
     }
 }

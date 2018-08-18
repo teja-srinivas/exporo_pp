@@ -40,7 +40,9 @@ class BillController extends Controller
 
     public function preview(User $user)
     {
-        $investments = $this->getBillableInvestmentCommissionsForUser($user->getKey())->map(function (Commission $row) {
+        $collection = $this->getBillableInvestmentCommissionsForUser($user->getKey());
+
+        $investments = $collection->map(function (Commission $row) {
             return [
                 'investorId' => $row->investment->investor->id,
                 'firstName' => $row->investment->investor->first_name,
@@ -51,7 +53,7 @@ class BillController extends Controller
                 'gross' => $row->gross,
                 'projectName' => $row->investment->project->name,
                 'projectMargin' => $row->investment->project->margin,
-                'projectRuntime' => $row->investment->project->runtime ?? $row->investment->project->runtimeInMonths(),
+                'projectRuntime' => $row->investment->project->runtimeInMonths(),
             ];
         });
 
@@ -182,23 +184,23 @@ class BillController extends Controller
     private function getBillableCommissions(): Collection
     {
         return Commission::query()
-            ->isBillable()
             ->join('users', 'user_id', 'users.id')
             ->addSelect(['users.first_name', 'users.last_name'])
             ->addSelect(['user_id'])
             ->selectRaw('SUM(net) as sum')
             ->groupBy('user_id')
             ->orderBy('user_id')
+            ->isBillable(false)
             ->get();
     }
 
     private function getBillableInvestmentCommissionsForUser(int $id): Collection
     {
         return Commission::query()
-            ->isBillable(false)
             ->where('user_id', $id)
             ->where('model_type', 'investment')
-            ->with('investment.investor', 'investment.project')
+            ->with('investment.investor:id,first_name,last_name', 'investment.project')
+            ->isBillable(false)
             ->get();
     }
 }
