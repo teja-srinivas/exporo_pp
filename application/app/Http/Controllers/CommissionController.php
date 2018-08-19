@@ -18,9 +18,9 @@ class CommissionController extends Controller
         $totals = Commission::query()
             ->selectRaw('SUM(gross) as gross')
             ->selectRaw('SUM(net) as net')
-            ->selectRaw('COUNT(id) as count')
+            ->selectRaw('COUNT(commissions.id) as count')
             ->isOpen()
-            ->isAcceptable(false)
+            ->isAcceptable()
             ->get()
             ->first();
 

@@ -181,7 +181,7 @@ class BillController extends Controller
             ->selectRaw('SUM(net) as sum')
             ->groupBy('user_id')
             ->orderBy('user_id')
-            ->isBillable(false)
+            ->isBillable()
             ->get();
     }
 
@@ -190,7 +190,7 @@ class BillController extends Controller
         return Commission::query()
             ->where('user_id', $user->getKey())
             ->where('model_type', 'investment')
-            ->isBillable(false);
+            ->isBillable();
     }
 
     /**

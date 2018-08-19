@@ -100,26 +100,20 @@ class Commission extends Model implements AuditableContract
         return $this->investment->isBillable();
     }
 
-    public function scopeIsAcceptable(Builder $query, bool $subQuery = true)
+    /**
+     * Checks if the given model being referenced is actually billable.
+     * e.g. Investments not being processed yet.
+     *
+     * @param Builder $query
+     */
+    public function scopeIsAcceptable(Builder $query)
     {
-        // TODO add support for investors (aka newly acquired users)
+        $investment = new Investment();
+        $investment->scopeBillable($query);
 
-        // It's faster for us to do a sub-query whereIn than using whereHas
-        // https://github.com/laravel/framework/issues/18415
-        $query->where(function (Builder $query) use ($subQuery) {
-            $query->where('model_type', 'investment');
-
-            if ($subQuery) {
-                $investmentIds = Investment::query()->billable()->pluck('id');
-            } else {
-                $investmentIds = function ($query) {
-                    $investment = new Investment;
-                    $query->select('id')->from($investment->getTable());
-                    $investment->scopeBillable($query);
-                };
-            }
-
-            $query->whereIn('model_id', $investmentIds);
+        $query->leftJoin($investment->getTable(), function (JoinClause $join) use ($investment) {
+            $join->where('commissions.model_type', '=', 'investment');
+            $join->on('commissions.model_id', $investment->getTable() . '.id');
         });
     }
 
@@ -128,15 +122,21 @@ class Commission extends Model implements AuditableContract
         return !$this->on_hold && $this->rejected_at === null && $this->isAcceptable();
     }
 
-    public function scopeIsBillable(Builder $query, bool $subQuery = true)
+    public function scopeIsBillable(Builder $query)
     {
         // We can delay commissions for later bills
         $query->where('on_hold', '!=', true)
             ->whereNull('commissions.rejected_at')
             ->whereNull('bill_id')
-            ->isAcceptable($subQuery);
+            ->isAcceptable();
     }
 
+    /**
+     * Checks whether the commission is not already included in a bill
+     * and has not yet been rejected.
+     *
+     * @param Builder $query
+     */
     public function scopeIsOpen(Builder $query)
     {
         $query->whereNull('bill_id');

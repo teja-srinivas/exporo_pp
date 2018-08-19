@@ -9,7 +9,7 @@ use App\Http\Resources\CommissionCollection;
 use App\Http\Resources\PaginatedResource;
 use App\Project;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\JoinClause;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class CommissionController extends Controller
@@ -127,9 +127,13 @@ class CommissionController extends Controller
 
     public function updateMultiple(Request $request)
     {
-        $values = [];
-        $now = now();
         $userId = $request->user()->id;
+
+        $now = now();
+        $values = [
+            'commissions.' . Model::CREATED_AT => $now,
+            'commissions.' . Model::UPDATED_AT => $now,
+        ];
 
         if ($request->has('onHold')) {
             $values['on_hold'] = $request->get('onHold');
@@ -155,7 +159,7 @@ class CommissionController extends Controller
             }
         }
 
-        $this->applyFilter(Commission::query(), $request, true)->update($values);
+        $this->applyFilter(Commission::query(), $request, true)->toBase()->update($values);
     }
 
     /**
@@ -187,6 +191,7 @@ class CommissionController extends Controller
             ->when(true, function (Builder $query) use ($columns) {
                 if ($columns->has('rejected')) {
                     $query->whereNotNull('rejected_at');
+                    $query->whereNull('bill_id');
                 } else {
                     $query->whereNull('rejected_at');
                 }
@@ -201,22 +206,19 @@ class CommissionController extends Controller
                 $user = $columns['user'];
 
                 if (!empty($user['filter'])) {
-                    $query->where('user_id', $user['filter']);
+                    $query->where('commissions.user_id', $user['filter']);
                 }
 
                 if (!$forUpdate && !empty($user['order'])) {
-                    $query->orderBy('user_id', $user['order']);
+                    $query->orderBy('commissions.user_id', $user['order']);
                 }
             })
             ->when($columns->has('model'), function (Builder $query) use ($columns) {
                 $projectIds = Project::query()
                     ->where('name', 'like', '%' . $columns['model']['filter'] . '%')
-                    ->pluck('id');
+                    ->select('id');
 
-                $query->join('investments', function (JoinClause $join) use ($projectIds) {
-                    $join->on('commissions.model_id', 'investments.id');
-                    $join->whereIn('project_id', $projectIds);
-                });
+                $query->whereIn('investments.project_id', $projectIds);
             })
             ->when(
                 !$forUpdate && $columns->has('money') && !empty($columns['money']['order']),
@@ -224,8 +226,11 @@ class CommissionController extends Controller
                     $query->orderBy('net', $columns['money']['order']);
                 }
             )
-            ->isOpen()
-            ->isAcceptable($forUpdate);
+            ->when(!$columns->has('rejected'), function (Builder $query) {
+                $query->isOpen();
+            })
+            ->isAcceptable()
+            ->select('commissions.*');
     }
 
 }
