@@ -1,47 +1,51 @@
-@section('projects')
+@foreach($investments as $project)
+    <div class="bg-white my-3 p-2 shadow-sm border-0 print-break-avoid">
+        <div class="my-2">
+            <h5>
+                Projekt {{ $project[0]['projectName'] }}
 
-    <h1 class="text-center mt-5"> Übersicht Provisionsgutschrift</h1>
-
-    <h3 class="mt-5 text-center">Eigenumsatz</h3>
-
-    @foreach($investments as $investment)
-        <h5 class="mt-5">Projekt {{ $investment[0]['projectName'] }}</h5>
-        <div class="d-flex">
-            <div class="text-left flex-fill">Projektkürzel:</div>
-            <div class="text-center flex-fill">Laufzeit: {{ $investment[0]['projectRuntime'] }}</div>
-            <div class="text-right flex-fill">Marge: {{ $investment[0]['projectMargin'] }}%</div>
+                <small class="text-muted text-right ml-3">
+                    Projektkürzel:
+                    &nbsp;&ndash;&nbsp;
+                    Laufzeit: {{ $project[0]['projectRuntime'] }} Monate
+                    &nbsp;&ndash;&nbsp;
+                    Marge: {{ $project[0]['projectMargin'] }}%
+                </small>
+            </h5>
         </div>
 
-        <table class="mt-2 table table-striped table-sm bg-white shadow-sm">
+        <table class="table table-striped table-sm mb-0">
             <thead>
             <tr>
-                <th>Anleger</th>
-                <th class="text-right">Investitionsbetrag</th>
-                <th class="text-right">Datum des Investments</th>
-                <th class="text-right">Provision Netto</th>
+                <th class="border-top-0">Anleger</th>
+                <th class="border-top-0 text-right">Investitionsbetrag</th>
+                <th class="border-top-0 text-right">Datum des Investments</th>
+                <th class="border-top-0 text-right">Provision Netto</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($investment as $investDetails)
+            @foreach($project->sortNatural('lastName') as $investment)
                 <tr>
-                    <td>{{  $investDetails['lastName'] }}, {{ $investDetails['firstName'] }}</td>
-                    <td class="text-right">{{ format_money($investDetails['investsum']) }}</td>
-                    <td class="text-right">{{ $investDetails['investDate'] }}</td>
-                    <td class="text-right">{{ format_money($investDetails['net']) }}</td>
+                    <td>{{  $investment['lastName'] }}, {{ $investment['firstName'] }}</td>
+                    <td class="text-right">{{ format_money($investment['investsum']) }}</td>
+                    <td class="text-right">{{ $investment['investDate'] }}</td>
+                    <td class="text-right">{{ format_money($investment['net']) }}</td>
                 </tr>
             @endforeach
             </tbody>
         </table>
-    @endforeach
+    </div>
+@endforeach
 
-    <table class="mt-5 table table-borderless table-striped table-sm bg-white shadow-sm accent-primary table-sticky">
-        <thead>
-            <th class="text-right">Total Investmentvolumen</th>
-            <th class="text-right">Total netto Provision</th>
-        </thead>
-        <tbody>
-        <td class="text-right">{{ format_money($investmentSum) }}</td>
-        <td class="text-right">{{ format_money($investmentNetSum) }}</td>
-        </tbody>
-    </table>
-@endsection
+<table class="mt-3 table table-borderless lead table-sm">
+    <tbody>
+    <tr>
+        <td class="text-right font-weight-bold">Total Investmentvolumen</td>
+        <td class="text-right" width="150">{{ format_money($investmentSum) }}</td>
+    </tr>
+    <tr>
+        <td class="text-right font-weight-bold">Total Netto Provision</td>
+        <td class="text-right" width="150">{{ format_money($investmentNetSum) }}</td>
+    </tr>
+    </tbody>
+</table>

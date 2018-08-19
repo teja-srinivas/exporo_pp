@@ -19,8 +19,12 @@ footer {
   border-radius: 0;
 }
 
-.print_break {
+.print-break {
   page-break-after: always;
+}
+
+.print-break-avoid {
+  page-break-inside: avoid;
 }
 
 @include media-breakpoint-down(sm) {

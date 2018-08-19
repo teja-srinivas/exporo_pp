@@ -7,6 +7,7 @@ use App\Commission;
 use App\Http\Resources\User as UserResource;
 use Carbon\Carbon;
 use App\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -43,27 +44,9 @@ class BillController extends Controller
 
     public function preview(User $user)
     {
-        $collection = $this->getBillableInvestmentCommissionsForUser($user->getKey());
+        $investments = $this->mapForView($this->getBillableInvestmentCommissions($user));
 
-        $investments = $collection->map(function (Commission $row) {
-            return [
-                'investorId' => $row->investment->investor->id,
-                'firstName' => $row->investment->investor->first_name,
-                'lastName' => $row->investment->investor->last_name,
-                'investsum' => $row->investment->amount,
-                'investDate' => $row->investment->created_at->format('d.m.Y'),
-                'net' => $row->net,
-                'gross' => $row->gross,
-                'projectName' => $row->investment->project->name,
-                'projectMargin' => $row->investment->project->margin,
-                'projectRuntime' => $row->investment->project->runtimeInMonths(),
-            ];
-        });
-
-        return response()->view('bills.bill', [
-            'investments' => $investments->groupBy('projectName'),
-            'investmentSum' => $investments->sum('investsum'),
-            'investmentNetSum' => $investments->sum('net'),
+        return response()->view('bills.bill', $investments + [
             'user' => $user,
             'company' => $user->company,
         ]);
@@ -147,7 +130,12 @@ class BillController extends Controller
      */
     public function show(Bill $bill)
     {
-        //
+        $bill->load('user');
+
+        return view('bills.show', $this->mapForView($bill->commissions()) + [
+            'bill' => $bill,
+            'user' => $bill->user,
+        ]);
     }
 
     /**
@@ -197,13 +185,52 @@ class BillController extends Controller
             ->get();
     }
 
-    private function getBillableInvestmentCommissionsForUser(int $id): Collection
+    private function getBillableInvestmentCommissions(User $user): Builder
     {
         return Commission::query()
-            ->where('user_id', $id)
+            ->where('user_id', $user->getKey())
             ->where('model_type', 'investment')
-            ->with('investment.investor:id,first_name,last_name', 'investment.project')
-            ->isBillable(false)
-            ->get();
+            ->isBillable(false);
+    }
+
+    /**
+     * @param Builder $query
+     * @return array
+     */
+    protected function mapForView($query): array
+    {
+        // TODO support investor commissions
+
+        $collection = $query->with(
+            'investment.investor:id,first_name,last_name',
+            'investment.project'
+        )->get()->filter(function (Commission $row) {
+            return $row->investment !== null;
+        });
+
+        $investments = $collection->map(function (Commission $row) {
+            $investment = $row->investment;
+            $investor = $investment->investor;
+            $project = $investment->project;
+
+            return [
+                'investorId' => $investor->id,
+                'firstName' => $investor->first_name,
+                'lastName' => $investor->last_name,
+                'investsum' => $investment->amount,
+                'investDate' => $investment->created_at->format('d.m.Y'),
+                'net' => $row->net,
+                'gross' => $row->gross,
+                'projectName' => $project->name,
+                'projectMargin' => $project->margin,
+                'projectRuntime' => $project->runtimeInMonths(),
+            ];
+        });
+
+        return [
+            'investments' => $investments->sortBy('projectName')->groupBy('projectName'),
+            'investmentSum' => $investments->sum('investsum'),
+            'investmentNetSum' => $investments->sum('net'),
+        ];
     }
 }
