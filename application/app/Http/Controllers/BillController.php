@@ -13,6 +13,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection as BaseCollection;
 
 class BillController extends Controller
 {
@@ -201,8 +202,24 @@ class BillController extends Controller
     {
         $collection = $query->get()->groupBy('model_type');
 
-        $investments = $collection->get(Investment::MORPH_NAME, collect());
-        $investments = $investments->load(
+        $investments = $this->mapInvestments($collection->get(Investment::MORPH_NAME));
+        $investors = $this->mapInvestors($collection->get(Investor::MORPH_NAME));
+
+        return [
+            'investments' => $investments->sortBy('projectName')->groupBy('projectName'),
+            'investmentSum' => $investments->sum('investsum'),
+            'investmentNetSum' => $investments->sum('net'),
+            'investors' => $investors,
+        ];
+    }
+
+    private function mapInvestments(?Collection $investments): BaseCollection
+    {
+        if ($investments === null) {
+            return collect();
+        }
+
+        return $investments->load(
             'model.investor:id,first_name,last_name',
             'model.project'
         )->map(function (Commission $row) {
@@ -224,18 +241,17 @@ class BillController extends Controller
                 'projectRuntime' => $project->runtimeInMonths(),
             ];
         });
+    }
 
-        $investors = $collection->get(Investor::MORPH_NAME, collect());
-        $investors = $investors->map(function(Commission $row) {
+    private function mapInvestors(?Collection $investors): BaseCollection
+    {
+        if ($investors === null) {
+            return collect();
+        }
+
+        return $investors->map(function(Commission $row) {
             // TODO
             return $row;
         });
-
-        return [
-            'investments' => $investments->sortBy('projectName')->groupBy('projectName'),
-            'investmentSum' => $investments->sum('investsum'),
-            'investmentNetSum' => $investments->sum('net'),
-            'investors' => $investors,
-        ];
     }
 }
