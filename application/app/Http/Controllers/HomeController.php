@@ -46,7 +46,7 @@ class HomeController extends Controller
 
             'paid' => Commission::query()
                 ->join('bills', 'bill_id', 'bills.id')
-                ->where('commissions.user_id', $request->user()->id)
+                ->forUser($request->user())
                 ->where('released_at', '<=', now())
                 ->sum('net'),
         ]);

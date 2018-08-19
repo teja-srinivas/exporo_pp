@@ -154,6 +154,11 @@ class Commission extends Model implements AuditableContract
         });
     }
 
+    public function scopeForUser(Builder $query, $user)
+    {
+        $query->where($this->getTable() . '.user_id', is_numeric($user) ? $user : $user->id);
+    }
+
     public function reject(?User $user)
     {
         if ($user === null) {

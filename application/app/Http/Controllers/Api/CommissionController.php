@@ -227,7 +227,7 @@ class CommissionController extends Controller
                 $user = $columns['user'];
 
                 if (!empty($user['filter'])) {
-                    $query->where('commissions.user_id', $user['filter']);
+                    $query->forUser($user['filter']);
                 }
 
                 if (!$forUpdate && !empty($user['order'])) {

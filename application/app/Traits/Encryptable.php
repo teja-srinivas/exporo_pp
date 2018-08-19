@@ -40,15 +40,7 @@ trait Encryptable
      */
     protected function decryptAttribute($value)
     {
-        if ($value) {
-            try {
-                $value = decrypt($value);
-            } catch (DecryptException $e) {
-                // Ignore, as we probably have some legacy data
-            }
-        }
-
-        return $value;
+        return self::decrypt($value);
     }
 
 
@@ -126,5 +118,25 @@ trait Encryptable
         }
 
         return $attributes;
+    }
+
+    /**
+     * Decrypts the given value, but silently fails
+     * in case we got legacy data.
+     *
+     * @param $value
+     * @return mixed
+     */
+    public static function decrypt($value)
+    {
+        if ($value) {
+            try {
+                $value = decrypt($value);
+            } catch (DecryptException $e) {
+                // Ignore, as we probably have some legacy data
+            }
+        }
+
+        return $value;
     }
 }

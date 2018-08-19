@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Bill;
 use App\Commission;
 use App\Http\Resources\User as UserResource;
+use App\Investment;
+use App\Investor;
+use App\Traits\Encryptable;
 use Carbon\Carbon;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,7 +47,7 @@ class BillController extends Controller
 
     public function preview(User $user)
     {
-        $investments = $this->mapForView($this->getBillableInvestmentCommissions($user));
+        $investments = $this->mapForView($this->getBillableCommissionsForUser($user));
 
         return response()->view('bills.bill', $investments + [
             'user' => $user,
@@ -62,8 +65,8 @@ class BillController extends Controller
         $bills = $this->getBillableCommissions()->map(function (Commission $row) {
             return [
                 'userId' => $row->user_id,
-                'firstName' => decrypt($row->first_name),
-                'lastName' => decrypt($row->last_name),
+                'firstName' => Encryptable::decrypt($row->first_name),
+                'lastName' => Encryptable::decrypt($row->last_name),
                 'sum' => $row->sum,
             ];
         });
@@ -91,7 +94,7 @@ class BillController extends Controller
         $users = Commission::query()
             ->isBillable()
             ->distinct()
-            ->pluck('user_id');
+            ->pluck('commissions.user_id');
 
         // Pre-select all valid commission IDs
         // Doing the isBillable check for each updates eats up DB time
@@ -177,20 +180,17 @@ class BillController extends Controller
         return Commission::query()
             ->join('users', 'user_id', 'users.id')
             ->addSelect(['users.first_name', 'users.last_name'])
-            ->addSelect(['user_id'])
+            ->addSelect(['commissions.user_id'])
             ->selectRaw('SUM(net) as sum')
-            ->groupBy('user_id')
-            ->orderBy('user_id')
+            ->groupBy('commissions.user_id')
+            ->orderBy('commissions.user_id')
             ->isBillable()
             ->get();
     }
 
-    private function getBillableInvestmentCommissions(User $user): Builder
+    private function getBillableCommissionsForUser(User $user): Builder
     {
-        return Commission::query()
-            ->where('user_id', $user->getKey())
-            ->where('model_type', 'investment')
-            ->isBillable();
+        return Commission::query()->forUser($user)->isBillable();
     }
 
     /**
@@ -199,17 +199,15 @@ class BillController extends Controller
      */
     protected function mapForView($query): array
     {
-        // TODO support investor commissions
+        $collection = $query->get()->groupBy('model_type');
 
-        $collection = $query->with(
-            'investment.investor:id,first_name,last_name',
-            'investment.project'
-        )->get()->filter(function (Commission $row) {
-            return $row->investment !== null;
-        });
-
-        $investments = $collection->map(function (Commission $row) {
-            $investment = $row->investment;
+        $investments = $collection->get(Investment::MORPH_NAME, collect());
+        $investments = $investments->load(
+            'model.investor:id,first_name,last_name',
+            'model.project'
+        )->map(function (Commission $row) {
+            /** @var Investment $investment */
+            $investment = $row->model;
             $investor = $investment->investor;
             $project = $investment->project;
 
@@ -227,10 +225,17 @@ class BillController extends Controller
             ];
         });
 
+        $investors = $collection->get(Investor::MORPH_NAME, collect());
+        $investors = $investors->map(function(Commission $row) {
+            // TODO
+            return $row;
+        });
+
         return [
             'investments' => $investments->sortBy('projectName')->groupBy('projectName'),
             'investmentSum' => $investments->sum('investsum'),
             'investmentNetSum' => $investments->sum('net'),
+            'investors' => $investors,
         ];
     }
 }
