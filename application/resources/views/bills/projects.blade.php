@@ -14,7 +14,7 @@
             </h5>
         </div>
 
-        <table class="table table-striped table-sm mb-0">
+        <table class="table table-striped table-sm mb-0 table-foot-totals">
             <thead>
             <tr>
                 <th class="border-top-0">Anleger</th>
@@ -33,6 +33,22 @@
                 </tr>
             @endforeach
             </tbody>
+            <tfoot>
+            <tr class="font-weight-bold">
+                <td class="text-right">
+                    Investitionsbetrag Total
+                </td>
+                <td class="text-right">
+                    {{ format_money($project->sum('investsum')) }}
+                </td>
+                <td class="text-right">
+                    Provision Netto Total
+                </td>
+                <td class="text-right">
+                    {{ format_money($project->sum('net')) }}
+                </td>
+            </tr>
+            </tfoot>
         </table>
     </div>
 @endforeach
