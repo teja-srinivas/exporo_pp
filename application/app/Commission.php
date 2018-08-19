@@ -108,12 +108,20 @@ class Commission extends Model implements AuditableContract
      */
     public function scopeIsAcceptable(Builder $query)
     {
+        // Investments
         $investment = new Investment();
-        $investment->scopeBillable($query);
-
         $query->leftJoin($investment->getTable(), function (JoinClause $join) use ($investment) {
             $join->where('commissions.model_type', '=', 'investment');
             $join->on('commissions.model_id', $investment->getTable() . '.id');
+
+            $investment->scopeBillable($join);
+        });
+
+        // Investors
+        $investor = new Investor();
+        $query->leftJoin($investor->getTable(), function (JoinClause $join) use ($investor) {
+            $join->where('commissions.model_type', '=', 'investor');
+            $join->on('commissions.model_id', $investor->getTable() . '.id');
         });
     }
 

@@ -26,15 +26,36 @@ class CommissionController extends Controller
         $this->authorize('list', Commission::class);
 
         $query = Commission::query()->with([
-            'model.investor:id,last_name,first_name',
-            'model.project:id,name,schema_id',
-            'model.project.schema:id,formula',
             'user:id,last_name,first_name',
+            'model',
         ]);
 
-        $this->applyFilter($query, $request);
+        $results = $this->applyFilter($query, $request)->paginate(25);
 
-        return CommissionResource::collection($query->paginate(25));
+        // Eager load morphTo relationships
+        // http://derekmd.com/2017/06/eager-loading-laravel-polymorphic-relations/
+        $relations = [
+            \App\Investment::MORPH_NAME => [
+                'investor.id,last_name,first_name',
+                'project:id,name,schema_id',
+                'project.schema:id,formula',
+            ],
+        ];
+
+        $results->pluck('model')
+            ->groupBy(function ($model) {
+                return get_class($model);
+            })
+            ->filter(function ($models, $className) use ($relations) {
+                return array_has($relations, $className);
+            })
+            ->each(function ($models, $className) use ($relations) {
+                $className::with($relations[$className])
+                    ->eagerLoadRelations($models->all());
+            });
+
+        // Return a JSON resource
+        return CommissionResource::collection($results);
     }
 
     private function parseSortAndFilter(Request $request)

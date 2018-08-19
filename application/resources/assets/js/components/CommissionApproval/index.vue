@@ -103,7 +103,7 @@
                 type="text"
                 class="mt-1 p-1 d-block w-100 form-control form-control-sm"
                 v-model="filter.model"
-                placeholder="Projektname oder Investor-ID"
+                placeholder="Projektname"
                 @click.stop
               >
             </th>
@@ -172,9 +172,16 @@
                 {{ displayNameUser(commission.user) }}
               </td>
 
-              <td>
+              <td v-if="commission.type === 'investment'">
                 <font-awesome-icon icon="home" fixed-width size="sm" class="align-baseline" style="color: #aaa" />
                 {{ commission.model.project.name }}
+              </td>
+
+              <td v-else-if="commission.type === 'investor'">
+                <font-awesome-icon icon="user" fixed-width size="sm" class="align-baseline" style="color: #aaa" />
+
+                {{ commission.model.lastName }},
+                {{ commission.model.firstName }}
               </td>
 
               <td v-if="commission.showDetails" class="text-right" rowspan="2">
@@ -193,12 +200,15 @@
               :key="`${commission.id}-details`"
             >
               <td colspan="4" class="small border-right pl-3" :class="$style.infoBox">
-                <div class="mt-1 mb-2 row align-items-center">
+                <div v-if="commission.type === 'investment'" class="my-1 row align-items-center">
                   <div class="col-sm-3"><strong>Investor:</strong></div>
-                  <div class="col-sm-9">{{ displayNameUser(commission.model.investor) }}</div>
+                  <div class="col-sm-9">
+                    <input type="text" readonly class="form-control-plaintext"
+                           :value="displayNameUser(commission.model.investor)">
+                  </div>
                 </div>
 
-                <div class="mb-1 row align-items-center">
+                <div class="my-1 row align-items-center">
                   <div class="col-sm-3">
                     <strong>Rechnungsnotiz:</strong>
                   </div>
@@ -212,7 +222,7 @@
                   </div>
                 </div>
 
-                <div class="mb-1 row align-items-center">
+                <div class="my-1 row align-items-center">
                   <div class="col-sm-3">
                     <strong>Notizen für Intern:</strong>
                   </div>
@@ -226,12 +236,12 @@
                   </div>
                 </div>
 
-                <div v-if="commission.project.schema" class="mb-1 row align-items-center">
+                <div v-if="commission.type === 'investment'" class="my-1 row align-items-center">
                   <div class="col-sm-3">
                     <strong>Formel:</strong>
                   </div>
                   <div class="col-sm-9">
-                    {{ commission.project.schema }}
+                    <input type="text" readonly class="form-control-plaintext" :value="commission.model.project.schema">
                   </div>
                 </div>
               </td>
@@ -579,10 +589,6 @@ export default {
   }
 
   .green :global {
-//    .custom-control-label::before {
-//       background-color: rgba($green, 0.2);
-//    }
-
     .custom-control-label::after {
       background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23888' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E");
     }
@@ -592,11 +598,11 @@ export default {
     }
   }
 
-  .yellow :global(.custom-control-input:checked ~ .custom-control-label::before) {
+  .yellow :global .custom-control-input:checked ~ .custom-control-label::before {
     background-color: $yellow !important;
   }
 
-  .red :global(.custom-control-input:checked ~ .custom-control-label::before) {
+  .red :global .custom-control-input:checked ~ .custom-control-label::before {
     background-color: $red !important;
   }
 </style>

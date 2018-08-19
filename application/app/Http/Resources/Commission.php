@@ -7,6 +7,11 @@ use App\Commission as Model;
 
 class Commission extends JsonResource
 {
+    private const RESOURCES = [
+        \App\Investment::MORPH_NAME => Investment::class,
+        \App\Investor::MORPH_NAME => Investor::class,
+    ];
+
     /**
      * Transform the resource into an array.
      *
@@ -17,8 +22,10 @@ class Commission extends JsonResource
     {
         /** @var Model $model */
         $model = $this->resource;
+
         return [
             'id' => $this->getRouteKey(),
+            'type' => $model->model_type,
             'net' => (float)$model->net,
             'gross' => (float)$model->gross,
             'onHold' => $model->on_hold,
@@ -26,28 +33,10 @@ class Commission extends JsonResource
                 'private' => (string)$model->note_private,
                 'public' => (string)$model->note_public,
             ],
-            'reviewed' => $model->reviewed_at !== null /*$this->when($this->reviewed_at, [
-                'date' => $this->reviewed_at,
-                'user' => $this->when($this->reviewed_by, function () {
-                    return User::make($this->reviewed_by);
-                }),
-            ], null)*/,
-            'rejected' => $model->rejected_at !== null /* $this->when($this->rejected_at, [
-                'date' => $this->rejected_at,
-                'user' => $this->when($this->rejected_by, function () {
-                    return User::make($this->rejected_by);
-                }),
-            ], null)*/,
-            'project' => [
-                'schema' => $this->when(
-                    is_a($model->model, \App\Investment::class),
-                    function () use ($model) {
-                        return $model->model->project->schema->formula;
-                    }
-                ),
-            ],
+            'reviewed' => $model->reviewed_at !== null,
+            'rejected' => $model->rejected_at !== null,
             'user' => User::make($model->user),
-            'model' => Investment::make($model->model),
+            'model' => (self::RESOURCES[$model->model_type])::make($model->model),
         ];
     }
 }

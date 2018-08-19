@@ -17,7 +17,10 @@ class Investment extends JsonResource
         return [
             'id' => $this->getRouteKey(),
             'investor' => Investor::make($this->investor),
-            'project' => $this->project,
+            'project' => [
+                'name' => $this->project->name,
+                'schema' => $this->project->schema->formula,
+            ],
         ];
     }
 }
