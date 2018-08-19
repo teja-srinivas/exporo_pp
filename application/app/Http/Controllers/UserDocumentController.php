@@ -69,7 +69,7 @@ class UserDocumentController extends Controller
 
         $users = User::query()
             ->get(['id', 'first_name', 'last_name'])
-            ->sortBy('last_name', SORT_NATURAL | SORT_FLAG_CASE)
+            ->sortNatural('last_name')
             ->mapWithKeys(function (User $user) {
                 return [$user->id => $user->last_name . ', ' . $user->first_name];
             });

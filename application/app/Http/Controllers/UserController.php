@@ -21,7 +21,7 @@ class UserController extends Controller
     {
         $this->authorize('list', User::class);
 
-        $users = User::query()->latest()->with('roles')->get()->sortBy('last_name');
+        $users = User::query()->latest()->with('roles')->get()->sortNatural('last_name');
 
         return response()->view('users.index', compact('users'));
     }

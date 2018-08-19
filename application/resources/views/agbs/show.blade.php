@@ -33,7 +33,7 @@
             </tr>
             </thead>
             <tbody>
-            @forelse($agb->users->sortBy('last_name') as $user)
+            @forelse($agb->users->sortNatural('last_name') as $user)
                 <tr>
                     <td><a href="{{ route('users.show', $user) }}">{{ $user->last_name }}</a></td>
                     <td><a href="{{ route('users.show', $user) }}">{{ $user->first_name }}</a></td>

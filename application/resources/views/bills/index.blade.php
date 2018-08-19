@@ -25,8 +25,8 @@
                 <td><a href="{{ $bill['links']['self'] }}">{{ $bill['name'] }}</a></td>
                 <td>
                     <a href="{{ $bill['user']['links']['self'] }}">
+                        {{ $bill['user']['lastName']}},
                         {{ $bill['user']['firstName']}}
-                        {{ $bill['user']['lastName']}}
                     </a>
                 </td>
                 <td class="text-right">{{ $bill['meta']['net'] ?? '' }}</td>

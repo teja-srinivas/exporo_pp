@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -53,6 +54,10 @@ class AppServiceProvider extends ServiceProvider
             }
 
             return true;
+        });
+
+        Collection::macro('sortNatural', function ($callback) {
+            return $this->sortBy($callback, SORT_NATURAL | SORT_FLAG_CASE);
         });
     }
 

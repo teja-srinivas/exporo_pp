@@ -37,7 +37,7 @@ class BillController extends Controller
             })->sortBy(function (array $bill) {
                 // Sort bills by date, but ignore the creation time, just use the date
                 return $bill['date']->format('Ymd');
-            })->sortBy('user.lastName', SORT_NATURAL | SORT_FLAG_CASE),
+            })->sortNatural('user.lastName'),
         ]);
     }
 
