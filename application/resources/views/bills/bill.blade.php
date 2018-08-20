@@ -9,4 +9,15 @@
     <h3 class="mt-5 text-center">Eigenumsatz</h3>
 
     @include('bills.projects')
+
 @endsection
+
+@section('registrations')
+    <h3 class="mt-5 text-center">Registrierungen</h3>
+    @include('bills.registrations')
+@endsection
+
+@section('footer')
+    @include('bills.footer')
+@endsection
+

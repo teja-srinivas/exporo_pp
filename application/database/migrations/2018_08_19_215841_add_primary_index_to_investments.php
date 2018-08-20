@@ -14,7 +14,7 @@ class AddPrimaryIndexToInvestments extends Migration
     public function up()
     {
         Schema::table('investments', function (Blueprint $table) {
-            $table->primary('id');
+            $table->index('id');
         });
     }
 

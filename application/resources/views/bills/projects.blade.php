@@ -60,7 +60,7 @@
         <td class="text-right" width="150">{{ format_money($investmentSum) }}</td>
     </tr>
     <tr>
-        <td class="text-right font-weight-bold">Total Netto Provision</td>
+        <td class="text-right font-weight-bold">Netto Provision</td>
         <td class="text-right" width="150">{{ format_money($investmentNetSum) }}</td>
     </tr>
     </tbody>

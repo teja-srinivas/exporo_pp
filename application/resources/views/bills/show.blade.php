@@ -10,4 +10,6 @@
 
 @section('main-content')
     @include('bills.projects')
+    @include('bills.registrations')
+    @include('bills.footer')
 @endsection

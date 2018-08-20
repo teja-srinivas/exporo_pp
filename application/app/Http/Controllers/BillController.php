@@ -13,17 +13,13 @@ use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection as BaseCollection;
 
 class BillController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+
+    public function index(Request $request): Response
     {
         return view('bills.index', [
             'bills' => Bill::getDetailsPerUser()->with('user')->get()->map(function (Bill $bill) use ($request) {
@@ -56,12 +52,7 @@ class BillController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): Response
     {
         $bills = $this->getBillableCommissions()->map(function (Commission $row) {
             return [
@@ -77,13 +68,8 @@ class BillController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function store(Request $request): Response
     {
         $data = $request->validate([
             'release_at' => 'required|date',
@@ -126,16 +112,10 @@ class BillController extends Controller
         return redirect('/bills/create');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Bill $bill
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Bill $bill)
+
+    public function show(Bill $bill): Response
     {
         $bill->load('user');
-
         return view('bills.show', $this->mapForView($bill->commissions()) + [
             'bill' => $bill,
             'user' => $bill->user,
@@ -194,22 +174,21 @@ class BillController extends Controller
         return Commission::query()->forUser($user)->isBillable();
     }
 
-    /**
-     * @param Builder $query
-     * @return array
-     */
-    protected function mapForView($query): array
-    {
-        $collection = $query->get()->groupBy('model_type');
 
+    protected function mapForView(Builder $query): array
+    {
+
+        $collection = $query->get()->groupBy('model_type');
         $investments = $this->mapInvestments($collection->get(Investment::MORPH_NAME));
         $investors = $this->mapInvestors($collection->get(Investor::MORPH_NAME));
-
+        $totalProvision = $investors->sum('net') + $investments->sum('net');
         return [
             'investments' => $investments->sortBy('projectName')->groupBy('projectName'),
             'investmentSum' => $investments->sum('investsum'),
             'investmentNetSum' => $investments->sum('net'),
             'investors' => $investors,
+            'investorsNetSum' => $investors->sum('net'),
+            'totalProvision' => $totalProvision
         ];
     }
 
@@ -243,14 +222,18 @@ class BillController extends Controller
         });
     }
 
-    private function mapInvestors(?Collection $investors): BaseCollection
+    private function mapInvestors(?Collection $investors): ?BaseCollection
     {
+
         if ($investors === null) {
             return collect();
         }
 
         return $investors->map(function(Commission $row) {
-            // TODO
+
+            $row['first_name'] = $row->investor->first_name;
+            $row['last_name'] = $row->investor->last_name;
+
             return $row;
         });
     }

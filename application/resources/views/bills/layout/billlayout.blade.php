@@ -19,6 +19,8 @@
         <div class="container">
             @yield('cover')
             @yield('projects')
+            @yield('registrations')
+            @yield('footer')
         </div>
     </main>
 </body>
