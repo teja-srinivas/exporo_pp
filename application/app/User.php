@@ -125,6 +125,11 @@ class User extends Authenticatable implements AuditableContract
         return $this->hasMany(Document::class);
     }
 
+    public function provisionTypes()
+    {
+        return $this->hasMany(ProvisionType::class, 'user_id');
+    }
+
     public function investors()
     {
         return $this->hasMany(Investor::class, 'user_id');

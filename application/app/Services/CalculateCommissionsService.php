@@ -12,12 +12,18 @@ final class CalculateCommissionsService
 
     public function calculate(Investment $investment): array
     {
+
+        $provisionType = $investment->project->provision_type;
+
+            $type = $investment->investor->user->provisionTypes()->where('name', $provisionType)->get();
+          $provisions =  $type[0]->provisions;
+
         $userDetails = $investment->investor->details;
         $runtime = $investment->project->runtimeInMonths();
         $margin = $investment->project->margin;
         $bonus = $investment->is_first_investment
-            ? $userDetails->first_investment_bonus
-            : $userDetails->further_investment_bonus;
+            ? $provisions->first_investment
+            : $provisions->further_investment_bonus;
 
         $sum = $investment->project->schema->calculate((int) $investment->amount, $bonus, $runtime, (float) $margin);
 
