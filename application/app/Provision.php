@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Provision extends Model
 {
     protected $fillable = [
-        'id', 'type_id', 'value'
+        'id', 'type_id', 'first_investment', 'further_investment', 'registration'
     ];
 
     public function provisionTypes()

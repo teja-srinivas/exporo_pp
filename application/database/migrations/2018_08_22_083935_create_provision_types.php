@@ -17,6 +17,7 @@ class CreateProvisionTypes extends Migration
            $table->increments('id');
            $table->unsignedInteger('user_id');
            $table->string('name');
+           $table->timestamps();
        });
     }
 

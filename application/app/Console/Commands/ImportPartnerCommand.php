@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 
+use App\Provision;
+use App\ProvisionType;
 use App\User;
 use App\UserDetails;
 
@@ -44,12 +46,41 @@ final class ImportPartnerCommand extends ImportCommand
                 'phone' => $partner['phone'],
                 'website' => $partner['partner_url'],
                 'vat_id' => $partner['tax_id'],
-                'registration_bonus' => $partner['provision_registration'],
-                'first_investment_bonus' => $partner['provision_first_investment'],
-                'further_investment_bonus' => $partner['provision_investment'],
                 'vat_included' => $partner['vat_included'],
                 'vat_amount' => $partner['vat'],
             ]
         );
+
+        $typeFinanzierung = ProvisionType::updateOrCreate(
+            [
+                'user_id' => $partner['id'],
+                'name' => 'finanzierung'
+            ]
+        );
+
+        $typeRegistration = ProvisionType::updateOrCreate(
+            [
+                'user_id' => $partner['id'],
+                'name' => 'registration'
+            ]
+        );
+
+        Provision::updateOrCreate(
+            ['id' => $typeFinanzierung['id']],
+            [
+                'type_id' => $typeFinanzierung['id'],
+                'first_investment' => $partner['percentage_first_investment'],
+                'further_investment' => $partner['percentage_further_investment']
+            ]
+        );
+
+        Provision::updateOrCreate(
+            ['id' => $typeRegistration['id']],
+            [
+                'type_id' => $typeRegistration['id'],
+                'registration' => $partner['provision_registration'],
+            ]
+        );
+
     }
 }

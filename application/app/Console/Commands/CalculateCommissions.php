@@ -36,10 +36,10 @@ final class CalculateCommissions extends Command
 
             Commission::query()->insert($chunk->map(function ($entry) use ($now, $type, $calculate) {
                 return $calculate($entry) + [
-                    'model_type' => $type,
-                    'created_at' => $now,
-                    'updated_at' => $now,
-                ];
+                        'model_type' => $type,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
             })->all());
         });
     }
@@ -65,7 +65,12 @@ final class CalculateCommissions extends Command
                 $join->on('investors.id', 'commissions.model_id');
                 $join->where('commissions.model_type', '=', Investor::MORPH_NAME);
             })
-            ->where('registration_bonus', '>', 0)
+            ->leftJoin('provision_types', function (JoinClause $join) {
+                $join->on('provision_types.user_id', 'user_details.id');
+                $join->where('name', 'registration');
+            })
+            ->leftJoin('provisions', 'provisions.type_id', 'provision_types.id')
+            ->where('provisions.registration', '>', 0)
             ->whereNull('commissions.id');
 
         $callback = function (Investor $investor) use ($commissionsService) {
@@ -75,9 +80,9 @@ final class CalculateCommissions extends Command
             );
 
             return $sums + [
-                'model_id' => $investor->id,
-                'user_id' => $investor->user_id,
-            ];
+                    'model_id' => $investor->id,
+                    'user_id' => $investor->user_id,
+                ];
         };
 
         $this->calculate(Investor::MORPH_NAME, $query, $callback);
@@ -92,15 +97,16 @@ final class CalculateCommissions extends Command
     protected function calculateInvestments(
         InvestmentRepository $repository,
         CalculateCommissionsService $commissions
-    ): void {
+    ): void
+    {
         $query = $repository->queryWithoutCommission()->with('project.schema', 'investor.details');
 
         $callback = function (Investment $investment) use ($commissions) {
             return $commissions->calculate($investment) + [
-                'model_type' => Investment::MORPH_NAME,
-                'model_id' => $investment->id,
-                'user_id' => $investment->investor->user_id,
-            ];
+                    'model_type' => Investment::MORPH_NAME,
+                    'model_id' => $investment->id,
+                    'user_id' => $investment->investor->user_id,
+                ];
         };
 
         $this->calculate(Investment::MORPH_NAME, $query, $callback);
