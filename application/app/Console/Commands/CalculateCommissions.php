@@ -25,7 +25,7 @@ final class CalculateCommissions extends Command
     public function handle(InvestmentRepository $repository, CalculateCommissionsService $commissionsService)
     {
         $this->calculateInvestors($commissionsService);
-        $this->calculateInvestments($repository, $commissionsService);
+       // $this->calculateInvestments($repository, $commissionsService);
     }
 
     private function calculate(string $type, Builder $query, callable $calculate): void
@@ -34,7 +34,6 @@ final class CalculateCommissions extends Command
             $this->line("Calculating {$chunk->count()} $type commissions...");
 
             $now = now();
-
             Commission::query()->insert($chunk->map(function ($entry) use ($now, $type, $calculate) {
                 return $calculate($entry) + [
                         'model_type' => $type,
@@ -59,27 +58,25 @@ final class CalculateCommissions extends Command
         // - the partner has not yet received a bonus
         $query = Investor::query()
             ->select('investors.id', 'investors.user_id')
-            ->selectRaw('user_details.registration_bonus')
+            ->selectRaw('provisions.registration')
             ->selectRaw('user_details.vat_included')
             ->join('user_details', 'user_details.id', 'investors.user_id')
             ->leftJoin('commissions', function (JoinClause $join) {
                 $join->on('investors.id', 'commissions.model_id');
                 $join->where('commissions.model_type', '=', Investor::MORPH_NAME);
             })
-            ->leftJoin('provision_types', function (JoinClause $join) {
-                $join->on('provision_types.user_id', 'user_details.id');
-                $join->where('name', 'registration');
+            ->leftJoin('provisions', function (JoinClause $join) {
+                $join->on('provisions.user_id', 'user_details.id');
+                $join->where('provisions.type_id', '=', 3);
             })
-            ->leftJoin('provisions', 'provisions.type_id', 'provision_types.id')
             ->where('provisions.registration', '>', 0)
             ->whereNull('commissions.id');
 
         $callback = function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
                 (bool)$investor->vat_included,
-                $investor->registration_bonus
+                $investor->registration
             );
-
             return $sums + [
                     'model_id' => $investor->id,
                     'user_id' => $investor->user_id,
@@ -100,8 +97,8 @@ final class CalculateCommissions extends Command
         CalculateCommissionsService $commissions
     ): void
     {
-        $query = $repository->queryWithoutCommission()->with('project.schema', 'investor.details');
 
+        $query = $repository->queryWithoutCommission()->with('project.schema', 'investor.details');
         $callback = function (Investment $investment) use ($commissions) {
 
             if ($investment->investor->user->parent_id) {
@@ -113,6 +110,7 @@ final class CalculateCommissions extends Command
                     'user_id' => $investment->investor->user_id,
                 ];
         };
+
 
         $this->calculate(Investment::MORPH_NAME, $query, $callback);
     }

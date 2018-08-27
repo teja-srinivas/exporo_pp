@@ -14,8 +14,7 @@ final class CalculateCommissionsService
     {
 
         $provisionType = $investment->project->provision_type;
-        $provisions = $investment->investor->user->provisions()->where('type_id', $provisionType)->first()->provisions;
-
+        $provisions = $investment->investor->user->provisions()->where('type_id', $provisionType)->first();
         $runtime = $investment->project->runtimeInMonths();
         $margin = $investment->project->margin / 100;
 
@@ -34,6 +33,7 @@ final class CalculateCommissionsService
         }
 
         $userDetails = $investment->investor->details;
+
         $bonus = $investment->is_first_investment
             ? $provisions->first_investment
             : $provisions->further_investment;
