@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Console\Commands\CalculateCommissions;
 use App\Investment;
+use App\Provision;
+use App\ProvisionType;
 use App\Schema;
 use App\Investor;
 use App\Project;
 use App\Services\CalculateCommissionsService;
 use App\User;
 use App\UserDetails;
-use function GuzzleHttp\describe_type;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -33,6 +33,7 @@ final class CommissionCalculationTest extends TestCase
                 'interest_rate' => 5,
                 'margin' => 10,
                 'type' => 'project',
+                'provision_type' => 'finanzierung',
                 'schema_id' => 1,
                 'created_at' => '2015-05-06 21:22:39',
                 'updated_at' => '2018-07-16 12:56:06',
@@ -65,6 +66,7 @@ final class CommissionCalculationTest extends TestCase
         factory(User::class)->create(
             [
                 'id' => 2,
+                'parent_id' => 1
             ]
         );
 
@@ -82,7 +84,42 @@ final class CommissionCalculationTest extends TestCase
                 'id' => 2,
                 'first_investment_bonus' => 2,
                 'further_investment_bonus' => 1.5,
-                'vat_included' => 1
+                'vat_included' => 1,
+            ]
+        );
+
+        factory(ProvisionType::class)->create(
+            [
+                'id' => 1,
+                'user_id' => 1,
+                'name' => 'finanzierung'
+            ]
+        );
+
+        factory(ProvisionType::class)->create(
+            [
+                'id' => 2,
+                'user_id' => 2,
+                'name' => 'finanzierung'
+            ]
+        );
+
+        factory(Provision::class)->create(
+            [
+                'id' => 1,
+                'type_id' => 1,
+                'first_investment' => 1.25,
+                'further_investment' => 0.75,
+                'registration' => 10,
+            ]
+        );
+        factory(Provision::class)->create(
+            [
+                'id' => 2,
+                'type_id' => 2,
+                'first_investment' => 1.15,
+                'further_investment' => 0.65,
+                'registration' => 10,
             ]
         );
 
@@ -125,5 +162,12 @@ final class CommissionCalculationTest extends TestCase
 
         $this->assertEquals(375, $returnValue['net']);
         $this->assertEquals(446.25, $returnValue['gross']);
+    }
+
+    public function testParentIsCalculated()
+    {
+        $service = $this->app->make(CalculateCommissionsService::class);
+        $returnValue = $service->calculate(Investment::find(2), User::find(1), User::find(2));
+        dd($returnValue);
     }
 }

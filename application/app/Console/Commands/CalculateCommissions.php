@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use App\Commission;
 use App\Investment;
 use App\Investor;
+use App\User;
 use App\Repositories\InvestmentRepository;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Console\Command;
@@ -27,7 +28,7 @@ final class CalculateCommissions extends Command
         $this->calculateInvestments($repository, $commissionsService);
     }
 
-    protected function calculate(string $type, Builder $query, callable $calculate): void
+    private function calculate(string $type, Builder $query, callable $calculate): void
     {
         $query->chunkSimple(self::PER_CHUNK, function (Collection $chunk) use ($type, $calculate) {
             $this->line("Calculating {$chunk->count()} $type commissions...");
@@ -51,7 +52,7 @@ final class CalculateCommissions extends Command
      *
      * @param CalculateCommissionsService $commissionsService
      */
-    protected function calculateInvestors(CalculateCommissionsService $commissionsService): void
+    private function calculateInvestors(CalculateCommissionsService $commissionsService): void
     {
         // Select essential information of investors where
         // - the partner actually has a registration bonus
@@ -94,7 +95,7 @@ final class CalculateCommissions extends Command
      * @param InvestmentRepository $repository
      * @param CalculateCommissionsService $commissions
      */
-    protected function calculateInvestments(
+    private function calculateInvestments(
         InvestmentRepository $repository,
         CalculateCommissionsService $commissions
     ): void
@@ -102,6 +103,10 @@ final class CalculateCommissions extends Command
         $query = $repository->queryWithoutCommission()->with('project.schema', 'investor.details');
 
         $callback = function (Investment $investment) use ($commissions) {
+
+            if ($investment->investor->user->parent_id) {
+                $this->calculateParentPartner($investment, $investment->investor->user, $commissions);
+            }
             return $commissions->calculate($investment) + [
                     'model_type' => Investment::MORPH_NAME,
                     'model_id' => $investment->id,
@@ -110,5 +115,30 @@ final class CalculateCommissions extends Command
         };
 
         $this->calculate(Investment::MORPH_NAME, $query, $callback);
+    }
+
+
+    private function calculateParentPartner(Investment $investment, User $user, CalculateCommissionsService $commission)
+    {
+        $parent = $this->getParentPartner($user->parent_id);
+        //calculation
+
+        $result =  $commission->calculate($investment, $parent, $user);
+
+        Commission::create([
+            'model_type' => 'subpartner',
+            'user_id' => $user->id,
+            'net' => $result['net'],
+            'gross' => $result['gross'],
+        ]);
+
+        if ($parent->parent_id) {
+            $this->calculateParentPartner($investment, $parent, $parent->parent_id);
+        }
+    }
+
+    private function getParentPartner(int $id)
+    {
+        return User::find($id);
     }
 }

@@ -16,4 +16,10 @@ class Provision extends Model
     {
         return $this->belongsTo(ProvisionType::class, 'type_id', 'id');
     }
+
+    protected $casts = [
+        'first_investment' => 'float',
+        'further_investment' => 'float',
+        'registration' => 'float'
+    ];
 }

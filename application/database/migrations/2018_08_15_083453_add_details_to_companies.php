@@ -33,14 +33,7 @@ class AddDetailsToCompanies extends Migration
     public function down()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->dropColumn('street');
-            $table->dropColumn('street_no');
-            $table->dropColumn('postal_code');
-            $table->dropColumn('city');
-            $table->dropColumn('phone_number');
-            $table->dropColumn('fax_number');
-            $table->dropColumn('email');
-            $table->dropColumn('website');
+            $table->dropColumn(['street', 'street_no', 'postal_code', 'city', 'phone_number', 'fax_number', 'email', 'website' ]);
         });
     }
 }

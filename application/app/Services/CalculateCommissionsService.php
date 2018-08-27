@@ -4,26 +4,38 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Investment;
-use App\UserDetails;
+use App\User;
 
 final class CalculateCommissionsService
 {
     const VAT = 19 / 100;
 
-    public function calculate(Investment $investment): array
+    public function calculate(Investment $investment, User $parent = null, User $child = null): array
     {
 
         $provisionType = $investment->project->provision_type;
+        $provisions = $investment->investor->user->provisionTypes()->where('name', $provisionType)->first()->provisions;
 
-        $type = $investment->investor->user->provisionTypes()->where('name', $provisionType)->get();
-        $provisions = $type[0]->provisions;
+        $runtime = $investment->project->runtimeInMonths();
+        $margin = $investment->project->margin / 100;
+
+        if ($parent && $child) {
+            $provisionsChild = $child->provisionTypes()->where('name', $provisionType)->first()->provisions;
+            $provisionsParent = $parent->provisionTypes()->where('name', $provisionType)->first()->provisions;
+            $userDetails = $parent->details;
+            $bonus = $investment->is_first_investment
+                ? $provisionsParent->first_investment - $provisionsChild->first_investment
+                : $provisionsParent->further_investment - $provisionsChild->further_investment;
+
+            $sum = $investment->project->schema->calculate((int)$investment->amount, $bonus, $runtime, (float)$margin);
+
+            return $this->calculateNetAndGross($userDetails->vat_included, $sum);
+        }
 
         $userDetails = $investment->investor->details;
-        $runtime = $investment->project->runtimeInMonths();
-        $margin = $investment->project->margin;
         $bonus = $investment->is_first_investment
             ? $provisions->first_investment
-            : $provisions->further_investment_bonus;
+            : $provisions->further_investment;
 
         $sum = $investment->project->schema->calculate((int)$investment->amount, $bonus, $runtime, (float)$margin);
 

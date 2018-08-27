@@ -14,7 +14,7 @@ class AddProvisionTypeToProject extends Migration
     public function up()
     {
         Schema::table('projects', function (Blueprint $table){
-           $table->string('provision_type');
+           $table->string('provision_type')->nullable();
         });
     }
 
