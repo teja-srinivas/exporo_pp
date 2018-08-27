@@ -15,7 +15,6 @@ class CreateProvisionTypes extends Migration
     {
        Schema::create('provision_types', function (Blueprint $table){
            $table->increments('id');
-           $table->unsignedInteger('user_id');
            $table->string('name');
            $table->timestamps();
        });

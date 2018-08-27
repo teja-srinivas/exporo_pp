@@ -35,8 +35,13 @@ class Project extends Model
     protected $fillable = [
         'id', 'name', 'type', 'created_at', 'updated_at', 'launched_at',
         'payback_min_at', 'approved_at', 'approved_by', 'schema_id', 'capital_cost',
-        'interest_rate', 'runtime'
+        'interest_rate', 'runtime', 'provision_type'
     ];
+
+    protected $casts = [
+        'provision_type' => 'int',
+    ];
+
 
     public function schema(): BelongsTo
     {

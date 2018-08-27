@@ -51,33 +51,20 @@ final class ImportPartnerCommand extends ImportCommand
             ]
         );
 
-        $typeFinanzierung = ProvisionType::updateOrCreate(
-            [
-                'user_id' => $partner['id'],
-                'name' => 'finanzierung'
-            ]
-        );
-
-        $typeRegistration = ProvisionType::updateOrCreate(
-            [
-                'user_id' => $partner['id'],
-                'name' => 'registration'
-            ]
-        );
 
         Provision::updateOrCreate(
-            ['id' => $typeFinanzierung['id']],
             [
-                'type_id' => $typeFinanzierung['id'],
+                'user_id' => $partner['id'],
+                'type_id' => 1,
                 'first_investment' => $partner['percentage_first_investment'],
                 'further_investment' => $partner['percentage_further_investment']
             ]
         );
 
         Provision::updateOrCreate(
-            ['id' => $typeRegistration['id']],
             [
-                'type_id' => $typeRegistration['id'],
+                'user_id' => $partner['id'],
+                'type_id' => 3,
                 'registration' => $partner['provision_registration'],
             ]
         );

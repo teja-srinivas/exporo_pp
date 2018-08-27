@@ -14,14 +14,15 @@ final class CalculateCommissionsService
     {
 
         $provisionType = $investment->project->provision_type;
-        $provisions = $investment->investor->user->provisionTypes()->where('name', $provisionType)->first()->provisions;
+        $provisions = $investment->investor->user->provisions()->where('type_id', $provisionType)->first()->provisions;
 
         $runtime = $investment->project->runtimeInMonths();
         $margin = $investment->project->margin / 100;
 
         if ($parent && $child) {
-            $provisionsChild = $child->provisionTypes()->where('name', $provisionType)->first()->provisions;
-            $provisionsParent = $parent->provisionTypes()->where('name', $provisionType)->first()->provisions;
+            $provisionsChild = $child->provisions()->where('type_id', $provisionType)->first();
+            $provisionsParent = $parent->provisions()->where('type_id', $provisionType)->first();
+
             $userDetails = $parent->details;
             $bonus = $investment->is_first_investment
                 ? $provisionsParent->first_investment - $provisionsChild->first_investment

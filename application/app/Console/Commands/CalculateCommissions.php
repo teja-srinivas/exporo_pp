@@ -126,7 +126,7 @@ final class CalculateCommissions extends Command
         $result =  $commission->calculate($investment, $parent, $user);
 
         Commission::create([
-            'model_type' => 'subpartner',
+            'model_type' => 'overhead',
             'user_id' => $user->id,
             'net' => $result['net'],
             'gross' => $result['gross'],

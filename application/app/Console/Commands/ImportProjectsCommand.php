@@ -23,7 +23,6 @@ final class ImportProjectsCommand extends ImportCommand
                 'created_at' => $project['created_at'],
                 'updated_at' => $project['updated_at'],
                 'name' => $project['slug'],
-                'type' => $project['type'],
                 'payback_min_at' => $project['end_date'],
                 'launched_at' => $project['start_date'],
                 'interest_rate' => $project['rates'],

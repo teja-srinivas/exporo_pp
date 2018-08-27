@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Console\Commands;
+ini_set('memory_limit', '2G');
 
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
@@ -23,13 +24,14 @@ abstract class ImportCommand extends Command
 
     public function handle()
     {
-       // $updated_at = $this->argument('updated_at') ?: $this->model::getNewestUpdatedAtDate();
+        // $updated_at = $this->argument('updated_at') ?: $this->model::getNewestUpdatedAtDate();
 
         $nextLink = $this->apiUrl . '?api-token=12341';
+
         $client = new Client();
         $response = json_decode($client->get($nextLink)->getBody()->getContents(), true);
 
-            $this->importModels($response['items']);
+        $this->importModels($response['items']);
 
     }
 

@@ -33,7 +33,7 @@ final class CommissionCalculationTest extends TestCase
                 'interest_rate' => 5,
                 'margin' => 10,
                 'type' => 'project',
-                'provision_type' => 'finanzierung',
+                'provision_type' => 1,
                 'schema_id' => 1,
                 'created_at' => '2015-05-06 21:22:39',
                 'updated_at' => '2018-07-16 12:56:06',
@@ -91,15 +91,6 @@ final class CommissionCalculationTest extends TestCase
         factory(ProvisionType::class)->create(
             [
                 'id' => 1,
-                'user_id' => 1,
-                'name' => 'finanzierung'
-            ]
-        );
-
-        factory(ProvisionType::class)->create(
-            [
-                'id' => 2,
-                'user_id' => 2,
                 'name' => 'finanzierung'
             ]
         );
@@ -107,16 +98,19 @@ final class CommissionCalculationTest extends TestCase
         factory(Provision::class)->create(
             [
                 'id' => 1,
+                'user_id' => 1,
                 'type_id' => 1,
                 'first_investment' => 1.25,
                 'further_investment' => 0.75,
                 'registration' => 10,
             ]
         );
+
         factory(Provision::class)->create(
             [
                 'id' => 2,
-                'type_id' => 2,
+                'user_id' => 2,
+                'type_id' => 1,
                 'first_investment' => 1.15,
                 'further_investment' => 0.65,
                 'registration' => 10,
@@ -126,6 +120,7 @@ final class CommissionCalculationTest extends TestCase
         factory(Investment::class)->create(
             [
                 'id' => 1,
+                'interest_rate' => 5,
                 'investor_id' => 1,
                 'project_id' => 1,
                 'amount' => 50000
@@ -168,6 +163,7 @@ final class CommissionCalculationTest extends TestCase
     {
         $service = $this->app->make(CalculateCommissionsService::class);
         $returnValue = $service->calculate(Investment::find(2), User::find(1), User::find(2));
-        dd($returnValue);
+        $this->assertEquals( 202.5 ,$returnValue['net']);
+        $this->assertEquals( 250 ,$returnValue['gross']);
     }
 }
