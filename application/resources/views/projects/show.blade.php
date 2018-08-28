@@ -110,4 +110,45 @@
             </form>
         @endslot
     @endcard
+
+    @card
+
+        @slot('title', 'Provisionstyp')
+        @slot('subtitle')
+            Aktueller Typ:
+
+            <a href="{{ route('provisionTypes.show', $project->provisionType) }}">
+                {{ $project->provisionType->name }}
+            </a>
+            @endslot
+    @slot('footer')
+        {{--
+            TODO: only show this form if we don't have any bills on this project yet
+            Should in that case already calculated commissions count as well?
+            Or only care about approved comissions? TBD.
+        --}}
+        <form action="{{ route('projects.update', $project) }}" method="POST"
+              class="d-flex justify-content-end form-inline">
+            @method('PUT')
+            @csrf
+
+            @include('components.form.builder', [
+                'inputs' => [
+                    [
+                        'type' => 'select',
+                        'label' => __('Typ'),
+                        'name' => 'provisionType',
+                        'required' => true,
+                        'default' => $project->provision_type,
+                        'values' => $provisionTypes,
+                        'assoc' => true,
+                    ],
+                ],
+            ])
+
+            <button class="btn btn-primary">Typ Ändern</button>
+        </form>
+    @endslot
+    @endcard
+
 @endsection

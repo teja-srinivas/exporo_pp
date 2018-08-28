@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\ProvisionType;
 use App\Schema;
 use Illuminate\Http\Request;
 
@@ -29,8 +30,9 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $schemas = Schema::all()->pluck('name', 'id');
+        $provisionTypes = ProvisionType::all()->pluck('name', 'id');
 
-        return view('projects.show', compact('project', 'schemas'));
+        return view('projects.show', compact('project', 'schemas', 'provisionTypes'));
     }
 
     /**
@@ -45,6 +47,7 @@ class ProjectController extends Controller
         $data = $this->validate($request, [
             'accept' => 'nullable|boolean',
             'schema' => 'nullable|numeric|exists:schemas,id',
+            'provisionType' => 'nullable|numeric|exists:provision_types,id'
         ]);
 
         if (isset($data['accept'])) {
@@ -60,6 +63,13 @@ class ProjectController extends Controller
             $project->save();
 
             flash_success('Das Schema wurde erfolgreich geändert.');
+        }
+
+        if (isset($data['provisionType'])) {
+            $project->provisionType()->associate(ProvisionType::findOrFail($data['provisionType']));
+            $project->save();
+
+            flash_success('Der ProvisionType wurde erfolgreich geändert.');
         }
 
         return back();

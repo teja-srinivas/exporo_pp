@@ -25,7 +25,7 @@ final class CalculateCommissions extends Command
     public function handle(InvestmentRepository $repository, CalculateCommissionsService $commissionsService)
     {
         $this->calculateInvestors($commissionsService);
-       // $this->calculateInvestments($repository, $commissionsService);
+        $this->calculateInvestments($repository, $commissionsService);
     }
 
     private function calculate(string $type, Builder $query, callable $calculate): void

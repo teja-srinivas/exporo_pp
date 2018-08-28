@@ -58,6 +58,11 @@ class Project extends Model
         return $this->belongsTo(User::class, 'approved_by', 'id');
     }
 
+    public function provisionType()
+    {
+        return $this->belongsTo(ProvisionType::class, 'provision_type', 'id');
+    }
+
     public function wasApproved(): bool
     {
         return $this->approved_at !== null;

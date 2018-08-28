@@ -12,9 +12,9 @@ class ProvisionType extends Model
         'id', 'user_id', 'name'
     ];
 
-    public function user()
+    public function projects()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->hasMany(Project::class, 'provision_type', 'id');
     }
 
     public function provisions()
