@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Dateable;
 use App\Traits\Importable;
 use Carbon\Carbon;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
@@ -23,6 +24,7 @@ class Project extends Model
 {
     use Importable;
     use OptimusEncodedRouteKey;
+    use Dateable;
 
     public $incrementing = false;
 
