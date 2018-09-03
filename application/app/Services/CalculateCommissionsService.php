@@ -12,7 +12,6 @@ final class CalculateCommissionsService
 
     public function calculate(Investment $investment, User $parent = null, User $child = null): array
     {
-
         $provisionType = $investment->project->provision_type;
         $provisions = $investment->investor->user->provisions()->where('type_id', $provisionType)->first();
         $runtime = $investment->project->runtimeInMonths();
@@ -41,7 +40,6 @@ final class CalculateCommissionsService
         $sum = $investment->project->schema->calculate((int)$investment->amount, $bonus, $runtime, (float)$margin);
 
         return $this->calculateNetAndGross($userDetails->vat_included, $sum);
-
     }
 
     public function calculateNetAndGross(bool $includeVat, $sum)

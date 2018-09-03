@@ -88,7 +88,7 @@ class Agb extends Model implements AuditableContract, FileReference
      */
     public function getDownloadUrl(): string
     {
-        return URL::temporarySignedRoute('agbs.download', now()->addHours(12), $this);
+        return URL::temporarySignedRoute('agbs.download', now()->addHours(12), [$this]);
     }
 
     /**

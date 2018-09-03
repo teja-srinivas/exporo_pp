@@ -240,5 +240,4 @@ class CommissionController extends Controller
             ->isAcceptable()
             ->select('commissions.*');
     }
-
 }

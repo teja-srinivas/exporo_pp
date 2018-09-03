@@ -95,22 +95,20 @@ final class CalculateCommissions extends Command
     private function calculateInvestments(
         InvestmentRepository $repository,
         CalculateCommissionsService $commissions
-    ): void
-    {
-
+    ): void {
         $query = $repository->queryWithoutCommission()->with('project.schema', 'investor.details');
-        $callback = function (Investment $investment) use ($commissions) {
 
+        $callback = function (Investment $investment) use ($commissions) {
             if ($investment->investor->user->parent_id) {
                 $this->calculateParentPartner($investment, $investment->investor->user, $commissions);
             }
+
             return $commissions->calculate($investment) + [
                     'model_type' => Investment::MORPH_NAME,
                     'model_id' => $investment->id,
                     'user_id' => $investment->investor->user_id,
                 ];
         };
-
 
         $this->calculate(Investment::MORPH_NAME, $query, $callback);
     }
@@ -119,9 +117,7 @@ final class CalculateCommissions extends Command
     private function calculateParentPartner(Investment $investment, User $user, CalculateCommissionsService $commission)
     {
         $parent = $this->getParentPartner($user->parent_id);
-        //calculation
-
-        $result =  $commission->calculate($investment, $parent, $user);
+        $result = $commission->calculate($investment, $parent, $user);
 
         Commission::create([
             'model_type' => 'overhead',

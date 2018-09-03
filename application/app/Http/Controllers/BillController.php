@@ -199,11 +199,12 @@ class BillController extends Controller
      */
     protected function mapForView($query): array
     {
-
         $collection = $query->get()->groupBy('model_type');
+
         $investments = $this->mapInvestments($collection->get(Investment::MORPH_NAME));
         $investors = $this->mapInvestors($collection->get(Investor::MORPH_NAME));
         $totalProvision = $investors->sum('net') + $investments->sum('net');
+
         return [
             'investments' => $investments->sortBy('projectName')->groupBy('projectName'),
             'investmentSum' => $investments->sum('investsum'),
@@ -246,13 +247,11 @@ class BillController extends Controller
 
     private function mapInvestors(?Collection $investors): ?BaseCollection
     {
-
         if ($investors === null) {
             return collect();
         }
 
-        return $investors->map(function(Commission $row) {
-
+        return $investors->map(function (Commission $row) {
             $row['first_name'] = $row->investor->first_name;
             $row['last_name'] = $row->investor->last_name;
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-
 use App\Provision;
 use App\ProvisionType;
 use App\User;
@@ -68,6 +67,5 @@ final class ImportPartnerCommand extends ImportCommand
                 'registration' => $partner['provision_registration'],
             ]
         );
-
     }
 }

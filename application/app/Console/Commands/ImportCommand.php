@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Console\Commands;
+
 ini_set('memory_limit', '2G');
 
 use GuzzleHttp\Client;
@@ -32,7 +33,6 @@ abstract class ImportCommand extends Command
         $response = json_decode($client->get($nextLink)->getBody()->getContents(), true);
 
         $this->importModels($response['items']);
-
     }
 
     private function importModels(array $models): void

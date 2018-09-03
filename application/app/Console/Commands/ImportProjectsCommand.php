@@ -13,9 +13,13 @@ final class ImportProjectsCommand extends ImportCommand
     protected $model = Project::class;
     protected $apiUrl = 'exporo.dev/api/partnerprogram/project';
 
+
     protected function importModel(array $project): void
     {
-        if($project['start_date'] !== '0000-00-00 00:00:00'){
+        if ($project['start_date'] === '0000-00-00 00:00:00') {
+            return;
+        }
+
         Project::updateOrCreate(
             ['id' => $project['nid']],
             [
@@ -29,6 +33,5 @@ final class ImportProjectsCommand extends ImportCommand
                 'runtime' => $project['runtime']
             ]
         );
-        }
     }
 }
