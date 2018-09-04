@@ -14,7 +14,11 @@ class ProvisionTypeController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('list', ProvisionType::class);
+
+        return view('provision_types.index', [
+            'provisionType' => ProvisionType::all(),
+        ]);
     }
 
     /**
@@ -38,12 +42,15 @@ class ProvisionTypeController extends Controller
         //
     }
 
-
-    public function show($type)
+    /**
+     * @param ProvisionType $provisionType
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show(ProvisionType $provisionType)
     {
-        $projects = $type->projects()->orderBy('name')->get();
+        $projects = $provisionType->projects()->orderBy('name')->get();
 
-        return view('schemas.show', compact('schema', 'projects'));
+        return view('provision_types.show', compact('provisionType', 'projects'));
     }
 
     /**

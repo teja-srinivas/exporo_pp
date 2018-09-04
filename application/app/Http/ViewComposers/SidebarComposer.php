@@ -6,6 +6,7 @@ use App\Agb;
 use App\Bill;
 use App\Document;
 use App\Project;
+use App\ProvisionType;
 use App\Role;
 use App\Schema;
 use App\User;
@@ -183,6 +184,14 @@ class SidebarComposer
                 'title' => 'Schemata',
                 'url' => route('schemas.index'),
                 'isActive' => $this->request->routeIs('schemas.*'),
+            ];
+        }
+
+        if ($this->canList(ProvisionType::class)) {
+            $links[] = [
+                'title' => 'Provisionstypen',
+                'url' => route('provisionTypes.index'),
+                'isActive' => $this->request->routeIs('provisionTypes.*'),
             ];
         }
 
