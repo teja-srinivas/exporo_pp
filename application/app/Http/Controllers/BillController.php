@@ -52,7 +52,7 @@ class BillController extends Controller
 
         return response()->view('bills.bill', $investments + [
             'user' => $user,
-            'company' => $user->company,
+            'company' => optional($user->company),
         ]);
     }
 
