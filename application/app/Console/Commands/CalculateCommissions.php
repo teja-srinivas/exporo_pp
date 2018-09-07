@@ -34,12 +34,13 @@ final class CalculateCommissions extends Command
             $this->line("Calculating {$chunk->count()} $type commissions...");
 
             $now = now();
+
             Commission::query()->insert($chunk->map(function ($entry) use ($now, $type, $calculate) {
                 return $calculate($entry) + [
-                        'model_type' => $type,
-                        'created_at' => $now,
-                        'updated_at' => $now,
-                    ];
+                    'model_type' => $type,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
             })->all());
         });
     }
@@ -74,13 +75,14 @@ final class CalculateCommissions extends Command
 
         $callback = function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
-                (bool)$investor->vat_included,
+                $investor->vat_included,
                 $investor->registration
             );
+
             return $sums + [
-                    'model_id' => $investor->id,
-                    'user_id' => $investor->user_id,
-                ];
+                'model_id' => $investor->id,
+                'user_id' => $investor->user_id,
+            ];
         };
 
         $this->calculate(Investor::MORPH_NAME, $query, $callback);
@@ -96,7 +98,11 @@ final class CalculateCommissions extends Command
         InvestmentRepository $repository,
         CalculateCommissionsService $commissions
     ): void {
-        $query = $repository->queryWithoutCommission()->with('project.schema', 'investor.details');
+        $query = $repository->queryWithoutCommission()->with([
+            'project.schema',
+            'investor.details',
+            'investor.user',
+        ]);
 
         $callback = function (Investment $investment) use ($commissions) {
             if ($investment->investor->user->parent_id) {
@@ -104,10 +110,10 @@ final class CalculateCommissions extends Command
             }
 
             return $commissions->calculate($investment) + [
-                    'model_type' => Investment::MORPH_NAME,
-                    'model_id' => $investment->id,
-                    'user_id' => $investment->investor->user_id,
-                ];
+                'model_type' => Investment::MORPH_NAME,
+                'model_id' => $investment->id,
+                'user_id' => $investment->investor->user_id,
+            ];
         };
 
         $this->calculate(Investment::MORPH_NAME, $query, $callback);
@@ -116,23 +122,16 @@ final class CalculateCommissions extends Command
 
     private function calculateParentPartner(Investment $investment, User $user, CalculateCommissionsService $commission)
     {
-        $parent = $this->getParentPartner($user->parent_id);
+        $parent = User::findOrFail($user->parent_id);
         $result = $commission->calculate($investment, $parent, $user);
 
-        Commission::create([
+        Commission::create($result + [
             'model_type' => 'overhead',
             'user_id' => $user->id,
-            'net' => $result['net'],
-            'gross' => $result['gross'],
         ]);
 
         if ($parent->parent_id) {
-            $this->calculateParentPartner($investment, $parent, $parent->parent_id);
+            $this->calculateParentPartner($investment, $parent, $commission);
         }
-    }
-
-    private function getParentPartner(int $id)
-    {
-        return User::find($id);
     }
 }

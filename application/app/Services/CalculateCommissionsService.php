@@ -25,19 +25,15 @@ final class CalculateCommissionsService
             $bonus = $investment->is_first_investment
                 ? $provisionsParent->first_investment - $provisionsChild->first_investment
                 : $provisionsParent->further_investment - $provisionsChild->further_investment;
+        } else {
+            $userDetails = $investment->investor->details;
 
-            $sum = $investment->project->schema->calculate((int)$investment->amount, $bonus, $runtime, (float)$margin);
-
-            return $this->calculateNetAndGross($userDetails->vat_included, $sum);
+            $bonus = $investment->is_first_investment
+                ? $provisions->first_investment
+                : $provisions->further_investment;
         }
 
-        $userDetails = $investment->investor->details;
-
-        $bonus = $investment->is_first_investment
-            ? $provisions->first_investment
-            : $provisions->further_investment;
-
-        $sum = $investment->project->schema->calculate((int)$investment->amount, $bonus, $runtime, (float)$margin);
+        $sum = $investment->project->schema->calculate((int) $investment->amount, $bonus, $runtime, (float) $margin);
 
         return $this->calculateNetAndGross($userDetails->vat_included, $sum);
     }

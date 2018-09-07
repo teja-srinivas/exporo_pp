@@ -31,6 +31,7 @@ final class ImportPartnerCommand extends ImportCommand
                 'accepted_at' => $partner['partner_approved_at'],
             ]
         );
+
         UserDetails::updateOrCreate(
             ['id' => $partner['id']],
             [
@@ -49,7 +50,6 @@ final class ImportPartnerCommand extends ImportCommand
                 'vat_amount' => $partner['vat'],
             ]
         );
-
 
         Provision::updateOrCreate(
             [
