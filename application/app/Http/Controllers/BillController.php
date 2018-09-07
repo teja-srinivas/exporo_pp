@@ -203,15 +203,17 @@ class BillController extends Controller
 
         $investments = $this->mapInvestments($collection->get(Investment::MORPH_NAME));
         $investors = $this->mapInvestors($collection->get(Investor::MORPH_NAME));
-        $totalProvision = $investors->sum('net') + $investments->sum('net');
+
+        $investmentsNetSum = $investments->sum('net');
+        $investorsNetSum = $investors->sum('net');
 
         return [
             'investments' => $investments->sortBy('projectName')->groupBy('projectName'),
             'investmentSum' => $investments->sum('investsum'),
-            'investmentNetSum' => $investments->sum('net'),
-            'investors' => $investors,
-            'investorsNetSum' => $investors->sum('net'),
-            'totalProvision' => $totalProvision
+            'investmentNetSum' => $investmentsNetSum,
+            'investors' => $investors->sortBy('last_name'),
+            'investorsNetSum' => $investorsNetSum,
+            'totalProvision' => $investorsNetSum + $investmentsNetSum
         ];
     }
 
