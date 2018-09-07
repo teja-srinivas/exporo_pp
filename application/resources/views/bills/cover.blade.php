@@ -90,8 +90,11 @@
     <div>
         Die Abrechnung ist sofort nach Erhalt auf Richtigkeit hin zu überprüfen. Sie gilt als anerkannt, sofern
         nicht innerhalb von 4 Wochen nach
-        dem Erhalt, dieser schriftlich gegenüber der EXPORO AG, Am Sandtorkai 70, 20457 Hamburg oder per Email an
-        abrechnung@exporo.com
+        dem Erhalt, dieser schriftlich gegenüber der
+        {{ $company->name }}, {{ $company->street }}
+        {{ $company->street_no }},
+        {{ $company->postal_code }} {{ $company->city }}
+        oder per Email an abrechnung@exporo.com
         widersprochen wurde.
     </div>
     <div class="mt-2">
