@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
 require('laravel-mix-purgecss');
 
 /*
@@ -21,8 +21,8 @@ mix.webpackConfig({
   },
 });
 
-mix.js('resources/assets/js/app.js', 'public/js')
-mix.sass('resources/assets/sass/app.scss', 'public/css')
+mix.js('resources/js/app.js', 'public/js')
+mix.sass('resources/sass/app.scss', 'public/css')
 mix.version();
 
 mix.purgeCss({
@@ -53,7 +53,7 @@ Mix.listen('configReady', ({module}) => {
     if (rule.test.test && rule.test.test('test.js')) {
       delete rule.exclude;
       rule.include = [
-        __dirname + '/resources/assets/js/',
+        __dirname + '/resources/js/',
         __dirname + '/node_modules/bootstrap/js/',
       ];
     }
