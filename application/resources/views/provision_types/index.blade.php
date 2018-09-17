@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 
-@section('title', $provisionType->count() . ' provisionta')
+@section('title', $provisionType->count() . ' Provisionstypen')
 
 @section('actions')
     @can('create', App\ProvisionType::class)
