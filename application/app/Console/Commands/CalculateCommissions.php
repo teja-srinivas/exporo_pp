@@ -24,8 +24,8 @@ final class CalculateCommissions extends Command
 
     public function handle(InvestmentRepository $repository, CalculateCommissionsService $commissionsService)
     {
-        $this->calculateInvestors($commissionsService);
         $this->calculateInvestments($repository, $commissionsService);
+        $this->calculateInvestors($commissionsService);
     }
 
     private function calculate(string $type, Builder $query, callable $calculate): void
@@ -34,7 +34,6 @@ final class CalculateCommissions extends Command
             $this->line("Calculating {$chunk->count()} $type commissions...");
 
             $now = now();
-
             Commission::query()->insert($chunk->map(function ($entry) use ($now, $type, $calculate) {
                 return $calculate($entry) + [
                     'model_type' => $type,
@@ -115,22 +114,20 @@ final class CalculateCommissions extends Command
                 'user_id' => $investment->investor->user_id,
             ];
         };
-
         $this->calculate(Investment::MORPH_NAME, $query, $callback);
     }
 
 
     private function calculateParentPartner(Investment $investment, User $user, CalculateCommissionsService $commission)
     {
-        $parent = User::findOrFail($user->parent_id);
+        $parent = User::find($user->parent_id);
+        if ($parent && $parent->parent_id && $parent->id !== $parent->parent_id) {
         $result = $commission->calculate($investment, $parent, $user);
 
         Commission::create($result + [
             'model_type' => 'overhead',
             'user_id' => $user->id,
         ]);
-
-        if ($parent->parent_id) {
             $this->calculateParentPartner($investment, $parent, $commission);
         }
     }
