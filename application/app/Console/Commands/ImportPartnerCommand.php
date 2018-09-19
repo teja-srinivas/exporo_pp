@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Provision;
-use App\ProvisionType;
+use App\CommissionBonus;
+use App\CommissionType;
 use App\User;
 use App\UserDetails;
 
@@ -51,7 +51,7 @@ final class ImportPartnerCommand extends ImportCommand
             ]
         );
 
-        Provision::updateOrCreate(
+        CommissionBonus::updateOrCreate(
             [
                 'user_id' => $partner['id'],
                 'type_id' => 1,
@@ -60,7 +60,7 @@ final class ImportPartnerCommand extends ImportCommand
             ]
         );
 
-        Provision::updateOrCreate(
+        CommissionBonus::updateOrCreate(
             [
                 'user_id' => $partner['id'],
                 'type_id' => 3,

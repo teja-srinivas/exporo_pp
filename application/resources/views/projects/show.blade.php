@@ -112,16 +112,15 @@
     @endcard
 
     @card
-
         @slot('title', 'Provisionstyp')
         @slot('subtitle')
             Aktueller Typ:
 
-            <a href="{{ route('provisionTypes.show', $project->provisionType) }}">
-                {{ $project->provisionType->name }}
+            <a href="{{ route('commissionTypes.show', $project->commissionType) }}">
+                {{ $project->commissionType->name }}
             </a>
-            @endslot
-    @slot('footer')
+        @endslot
+        @slot('footer')
         {{--
             TODO: only show this form if we don't have any bills on this project yet
             Should in that case already calculated commissions count as well?
@@ -137,10 +136,10 @@
                     [
                         'type' => 'select',
                         'label' => __('Typ'),
-                        'name' => 'provisionType',
+                        'name' => 'commissionType',
                         'required' => true,
-                        'default' => $project->provision_type,
-                        'values' => $provisionTypes,
+                        'default' => $project->commission_type,
+                        'values' => $commissionTypes,
                         'assoc' => true,
                     ],
                 ],
@@ -148,7 +147,7 @@
 
             <button class="btn btn-primary">Typ Ändern</button>
         </form>
-    @endslot
+        @endslot
     @endcard
 
 @endsection

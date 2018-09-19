@@ -24,7 +24,7 @@ class AuthServiceProvider extends ServiceProvider
         App\Role::class => Policies\RolePolicy::class,
         App\Schema::class => Policies\SchemaPolicy::class,
         App\User::class => Policies\UserPolicy::class,
-        App\ProvisionType::class => Policies\ProvisitionTypePolicy::class,
+        App\CommissionType::class => Policies\CommissionTypePolicy::class,
     ];
 
     /**

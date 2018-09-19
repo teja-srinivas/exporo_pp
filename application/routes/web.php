@@ -28,6 +28,7 @@ Route::middleware(['auth', 'accepted'])->group(function () {
 
     Route::resource('agbs', 'AgbController');
     Route::get('bills/preview/{user}', 'BillController@preview');
+    Route::resource('bills/commissions/types', 'CommissionTypeController')->names('commissionTypes');
     Route::resource('bills/commissions', 'CommissionController');
     Route::resource('bills', 'BillController');
     Route::resource('documents', 'UserDocumentController');
@@ -35,7 +36,6 @@ Route::middleware(['auth', 'accepted'])->group(function () {
     Route::resource('projects', 'ProjectController', ['only' => ['index', 'show', 'update']]);
     Route::resource('roles', 'RoleController', ['except' => ['index']]);
     Route::resource('schemas', 'SchemaController');
-    Route::resource('provisionTypes', 'ProvisionTypeController');
 
     Route::get('/home', 'HomeController@index')->name('home');
 

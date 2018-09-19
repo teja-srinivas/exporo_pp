@@ -213,7 +213,7 @@ class BillController extends Controller
             'investmentNetSum' => $investmentsNetSum,
             'investors' => $investors->sortBy('last_name'),
             'investorsNetSum' => $investorsNetSum,
-            'totalProvision' => $investorsNetSum + $investmentsNetSum
+            'totalCommission' => $investorsNetSum + $investmentsNetSum,
         ];
     }
 

@@ -125,9 +125,9 @@ class User extends Authenticatable implements AuditableContract
         return $this->hasMany(Document::class);
     }
 
-    public function provisions()
+    public function bonuses()
     {
-        return $this->hasMany(Provision::class, 'user_id');
+        return $this->hasMany(CommissionBonus::class, 'user_id');
     }
 
     public function investors()

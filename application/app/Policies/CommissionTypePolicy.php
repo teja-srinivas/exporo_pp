@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
-class ProvisitionTypePolicy extends BasePolicy
+class CommissionTypePolicy extends BasePolicy
 {
-    const PERMISSION = 'manage provisionTypes';
+    const PERMISSION = 'manage commission types';
 
     /**
      * AgbPolicy constructor.

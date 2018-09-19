@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
-use App\ProvisionType;
+use App\CommissionType;
 use App\Schema;
 use Illuminate\Http\Request;
 
@@ -29,10 +29,10 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $schemas = Schema::all()->pluck('name', 'id');
-        $provisionTypes = ProvisionType::all()->pluck('name', 'id');
+        $schemas = Schema::query()->pluck('name', 'id');
+        $commissionTypes = CommissionType::query()->pluck('name', 'id');
 
-        return view('projects.show', compact('project', 'schemas', 'provisionTypes'));
+        return view('projects.show', compact('project', 'schemas', 'commissionTypes'));
     }
 
     /**
@@ -47,7 +47,7 @@ class ProjectController extends Controller
         $data = $this->validate($request, [
             'accept' => 'nullable|boolean',
             'schema' => 'nullable|numeric|exists:schemas,id',
-            'provisionType' => 'nullable|numeric|exists:provision_types,id'
+            'commissionType' => 'nullable|numeric|exists:commission_types,id'
         ]);
 
         if (isset($data['accept'])) {
@@ -65,8 +65,8 @@ class ProjectController extends Controller
             flash_success('Das Schema wurde erfolgreich geändert.');
         }
 
-        if (isset($data['provisionType'])) {
-            $project->provisionType()->associate(ProvisionType::findOrFail($data['provisionType']));
+        if (isset($data['commissionType'])) {
+            $project->commissionType()->associate(CommissionType::findOrFail($data['commissionType']));
             $project->save();
 
             flash_success('Der ProvisionType wurde erfolgreich geändert.');

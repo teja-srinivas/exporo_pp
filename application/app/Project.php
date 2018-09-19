@@ -37,11 +37,11 @@ class Project extends Model
     protected $fillable = [
         'id', 'name', 'type', 'created_at', 'updated_at', 'launched_at',
         'payback_min_at', 'approved_at', 'approved_by', 'schema_id', 'capital_cost',
-        'interest_rate', 'runtime', 'provision_type'
+        'interest_rate', 'runtime', 'commission_type'
     ];
 
     protected $casts = [
-        'provision_type' => 'int',
+        'commission_type' => 'int',
     ];
 
 
@@ -60,9 +60,9 @@ class Project extends Model
         return $this->belongsTo(User::class, 'approved_by', 'id');
     }
 
-    public function provisionType()
+    public function commissionType()
     {
-        return $this->belongsTo(ProvisionType::class, 'provision_type', 'id');
+        return $this->belongsTo(CommissionType::class, 'commission_type', 'id');
     }
 
     public function wasApproved(): bool

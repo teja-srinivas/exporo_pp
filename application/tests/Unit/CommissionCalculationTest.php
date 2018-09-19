@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Investment;
-use App\Provision;
-use App\ProvisionType;
+use App\CommissionBonus;
+use App\CommissionType;
 use App\Schema;
 use App\Investor;
 use App\Project;
@@ -33,7 +33,7 @@ final class CommissionCalculationTest extends TestCase
                 'interest_rate' => 5,
                 'margin' => 10,
                 'type' => 'project',
-                'provision_type' => 1,
+                'commission_type' => 1,
                 'schema_id' => 1,
                 'created_at' => '2015-05-06 21:22:39',
                 'updated_at' => '2018-07-16 12:56:06',
@@ -88,14 +88,14 @@ final class CommissionCalculationTest extends TestCase
             ]
         );
 
-        factory(ProvisionType::class)->create(
+        factory(CommissionType::class)->create(
             [
                 'id' => 1,
                 'name' => 'finanzierung'
             ]
         );
 
-        factory(Provision::class)->create(
+        factory(CommissionBonus::class)->create(
             [
                 'id' => 1,
                 'user_id' => 1,
@@ -106,7 +106,7 @@ final class CommissionCalculationTest extends TestCase
             ]
         );
 
-        factory(Provision::class)->create(
+        factory(CommissionBonus::class)->create(
             [
                 'id' => 2,
                 'user_id' => 2,

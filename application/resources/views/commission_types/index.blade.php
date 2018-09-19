@@ -1,10 +1,10 @@
 @extends('layouts.sidebar')
 
-@section('title', $provisionType->count() . ' Provisionstypen')
+@section('title', $types->count() . ' Provisionstypen')
 
 @section('actions')
-    @can('create', App\ProvisionType::class)
-        <a href="{{ route('provisionTypes.create') }}" class="btn btn-primary btn-sm">Provisionstyp Erstellen</a>
+    @can('create', App\CommissionType::class)
+        <a href="{{ route('commissionTypes.create') }}" class="btn btn-primary btn-sm">Provisionstyp Erstellen</a>
     @endcan
 @endsection
 
@@ -17,10 +17,10 @@
         </tr>
         </thead>
         <tbody>
-        @forelse($provisionType as $provision)
+        @forelse($types as $type)
             <tr>
-                <td><a href="{{ route('provisionTypes.show', $provision) }}">{{ $provision->name }}</a></td>
-                <td>@timeago($provision->created_at)</td>
+                <td><a href="{{ route('commissionTypes.show', $type) }}">{{ $type->name }}</a></td>
+                <td>@timeago($type->created_at)</td>
             </tr>
         @empty
             <tr class="text-center text-muted">

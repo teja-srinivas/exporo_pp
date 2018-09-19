@@ -58,18 +58,18 @@ final class CalculateCommissions extends Command
         // - the partner has not yet received a bonus
         $query = Investor::query()
             ->select('investors.id', 'investors.user_id')
-            ->selectRaw('provisions.registration')
+            ->selectRaw('commission_bonuses.registration')
             ->selectRaw('user_details.vat_included')
             ->join('user_details', 'user_details.id', 'investors.user_id')
             ->leftJoin('commissions', function (JoinClause $join) {
                 $join->on('investors.id', 'commissions.model_id');
                 $join->where('commissions.model_type', '=', Investor::MORPH_NAME);
             })
-            ->leftJoin('provisions', function (JoinClause $join) {
-                $join->on('provisions.user_id', 'user_details.id');
-                $join->where('provisions.type_id', '=', 3);
+            ->leftJoin('commission_bonuses', function (JoinClause $join) {
+                $join->on('commission_bonuses.user_id', 'user_details.id');
+                $join->where('commission_bonuses.type_id', '=', 3); // FIXME magic number
             })
-            ->where('provisions.registration', '>', 0)
+            ->where('commission_bonuses.registration', '>', 0)
             ->whereNull('commissions.id');
 
         $callback = function (Investor $investor) use ($commissionsService) {

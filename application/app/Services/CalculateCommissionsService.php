@@ -12,26 +12,27 @@ final class CalculateCommissionsService
 
     public function calculate(Investment $investment, User $parent = null, User $child = null): array
     {
-        $provisionType = $investment->project->provision_type;
-        $provisions = $investment->investor->user->provisions()->where('type_id', $provisionType)->first();
+        $commissionType = $investment->project->commission_type;
+        $bonus = $investment->investor->user->bonuses()->where('type_id', $commissionType)->first();
         $runtime = $investment->project->runtimeInMonths();
         $margin = $investment->project->margin / 100;
 
         if ($parent && $child) {
-            $provisionsChild = $child->provisions()->where('type_id', $provisionType)->first();
-            $provisionsParent = $parent->provisions()->where('type_id', $provisionType)->first();
+            $childBonus = $child->bonuses()->where('type_id', $commissionType)->first();
+            $parentBonus = $parent->bonuses()->where('type_id', $commissionType)->first();
 
             $userDetails = $parent->details;
             $bonus = $investment->is_first_investment
-                ? $provisionsParent->first_investment - $provisionsChild->first_investment
-                : $provisionsParent->further_investment - $provisionsChild->further_investment;
+                ? $parentBonus->first_investment - $childBonus->first_investment
+                : $parentBonus->further_investment - $childBonus->further_investment;
         } else {
             $userDetails = $investment->investor->details;
 
             $bonus = $investment->is_first_investment
-                ? $provisions->first_investment
-                : $provisions->further_investment;
+                ? $bonus->first_investment
+                : $bonus->further_investment;
         }
+
         $lzf = $this->calculateLZF($runtime);
         $sum = $investment->project->schema->calculate((int) $investment->amount, $bonus, $lzf, (float) $margin);
 

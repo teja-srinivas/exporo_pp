@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\ProvisionType;
+use App\CommissionType;
 use Illuminate\Http\Request;
 
 
-class ProvisionTypeController extends Controller
+class CommissionTypeController extends Controller
 {
 
 
     public function index()
     {
-        $this->authorize('list', ProvisionType::class);
+        $this->authorize('list', CommissionType::class);
 
-        return view('provision_types.index', [
-            'provisionType' => ProvisionType::all(),
+        return view('commission_types.index', [
+            'types' => CommissionType::all(),
         ]);
     }
 
@@ -26,7 +26,7 @@ class ProvisionTypeController extends Controller
      */
     public function create()
     {
-        return view('provision_types.create');
+        return view('commission_types.create');
     }
 
     /**
@@ -41,49 +41,49 @@ class ProvisionTypeController extends Controller
             'name' => 'required',
         ]);
 
-        ProvisionType::create($data);
+        CommissionType::create($data);
 
         flash_success('Provisionstyp wurde angelegt');
 
-        return redirect()->route('provisionTypes.index');
+        return redirect()->route('commissionTypes.index');
     }
 
     /**
-     * @param ProvisionType $provisionType
+     * @param CommissionType $type
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(ProvisionType $provisionType)
+    public function show(CommissionType $type)
     {
-        $projects = $provisionType->projects()->orderBy('name')->get();
+        $projects = $type->projects()->orderBy('name')->get();
 
-        return view('provision_types.show', compact('provisionType', 'projects'));
+        return view('commission_types.show', compact('type', 'projects'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param CommissionType $type
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProvisionType $provisionType)
+    public function edit(CommissionType $type)
     {
-        return view('provision_types.edit', compact('provisionType'));
+        return view('commission_types.edit', compact('type'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  CommissionType $type
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProvisionType $provisionType)
+    public function update(Request $request, CommissionType $type)
     {
         $data = $this->validate($request, [
             'name' => 'required',
         ]);
 
-        $provisionType->fill($data)->save();
+        $type->fill($data)->save();
 
         flash_success('Provisionstyp wurde aktualisiert');
 
@@ -93,8 +93,8 @@ class ProvisionTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return void
      */
     public function destroy($id)
     {
