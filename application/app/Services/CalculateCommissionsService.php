@@ -32,10 +32,15 @@ final class CalculateCommissionsService
                 ? $provisions->first_investment
                 : $provisions->further_investment;
         }
-
-        $sum = $investment->project->schema->calculate((int) $investment->amount, $bonus, $runtime, (float) $margin);
+        $lzf = $this->calculateLZF($runtime);
+        $sum = $investment->project->schema->calculate((int) $investment->amount, $bonus, $lzf, (float) $margin);
 
         return $this->calculateNetAndGross($userDetails->vat_included, $sum);
+    }
+
+    private function calculateLZF($runtime): float
+    {
+        return ($runtime / 24 < 1 ? $runtime / 24 : 1 );
     }
 
     public function calculateNetAndGross(bool $includeVat, $sum)
