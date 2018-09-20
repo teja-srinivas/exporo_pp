@@ -282,7 +282,7 @@
             />
           </td>
           <td class="text-right lead font-weight-bold">
-            {{ formatEuro(totals[paymentType] || 0) }}
+            {{ formatEuro(filteredTotals[paymentType] || 0) }}
           </td>
         </tr>
         </tfoot>
@@ -400,6 +400,10 @@ export default {
   },
 
   computed: {
+    filteredTotals() {
+      return this.meta.totals || this.totals;
+    },
+
     currentPage: {
       get() {
         return this.meta.current_page;

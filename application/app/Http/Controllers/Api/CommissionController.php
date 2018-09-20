@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Commission;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Commission as CommissionResource;
-use App\Http\Resources\CommissionCollection;
-use App\Http\Resources\PaginatedResource;
 use App\Project;
+use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 class CommissionController extends Controller
 {
@@ -30,7 +31,11 @@ class CommissionController extends Controller
             'model',
         ]);
 
-        $results = $this->applyFilter($query, $request)->paginate(25);
+        $results = $this->applyFilter($query, $request);
+
+        // Run a custom pagination that also sums the "net"
+        // and "gross" so we don't have to do 3 queries
+        $results = $this->runCustomPagination($results);
 
         // Eager load morphTo relationships
         $results->loadMorph('model', [
@@ -42,7 +47,14 @@ class CommissionController extends Controller
         ]);
 
         // Return a JSON resource
-        return CommissionResource::collection($results);
+        return CommissionResource::collection($results)->additional([
+            'meta' => [
+                'totals' => [
+                    'gross' => $results->totalGross,
+                    'net' => $results->totalNet,
+                ],
+            ],
+        ]);
     }
 
     private function parseSortAndFilter(Request $request)
@@ -239,5 +251,46 @@ class CommissionController extends Controller
             })
             ->isAcceptable()
             ->select('commissions.*');
+    }
+
+    private function runCustomPagination(Builder $query): LengthAwarePaginator
+    {
+        static $pageName = 'page';
+        static $perPage = 25;
+
+        // Mostly copied from the BuildsQueries->paginate() method
+        $page = Paginator::resolveCurrentPage($pageName);
+
+        $totals = $this->getPaginationTotals($query);
+        $results = $totals->aggregate
+            ? $query->forPage($page, $perPage)->get()
+            : (new Commission)->newCollection();
+
+        // modified copy of $query->paginator()
+        return Container::getInstance()->makeWith(LengthAwarePaginator::class, [
+            'items' => $results,
+            'total' => $totals->aggregate,
+            'perPage' => $perPage,
+            'currentPage' => $page,
+            'options' => [
+                'path' => Paginator::resolveCurrentPath(),
+                'pageName' => $pageName,
+                'totalGross' => (float) $totals->gross,
+                'totalNet' => (float) $totals->net,
+            ],
+        ]);
+    }
+
+    private function getPaginationTotals(Builder $query): object
+    {
+        // modified copy of $query->toBase()->getCountForPagination();
+        // here we can finally add the sum() columns
+        return $query->toBase()
+            ->cloneWithout(['columns', 'orders', 'limit', 'offset'])
+            ->cloneWithoutBindings(['select', 'order'])
+            ->selectRaw('count(commissions.id) as aggregate')
+            ->selectRaw('SUM(gross) as gross')
+            ->selectRaw('SUM(net) as net')
+            ->get()->first();
     }
 }
