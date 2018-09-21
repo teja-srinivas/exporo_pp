@@ -281,7 +281,7 @@ class CommissionController extends Controller
         ]);
     }
 
-    private function getPaginationTotals(Builder $query): object
+    private function getPaginationTotals(Builder $query)
     {
         // modified copy of $query->toBase()->getCountForPagination();
         // here we can finally add the sum() columns
