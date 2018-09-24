@@ -23,11 +23,14 @@ class RenameProvisionTables extends Migration
             $table->renameColumn('provision_type', 'commission_type');
         });
 
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-
-        $permission = Permission::findByName('manage provisionTypes');
-        $permission->name = CommissionTypePolicy::PERMISSION;
-        $permission->save();
+        try {
+            app(PermissionRegistrar::class)->forgetCachedPermissions();
+            $permission = Permission::findByName('manage provisionTypes');
+            $permission->name = CommissionTypePolicy::PERMISSION;
+            $permission->save();
+        } catch (\Spatie\Permission\Exceptions\PermissionDoesNotExist $ignore) {
+            // We're running a fresh migration, ignore this
+        }
     }
 
     /**
