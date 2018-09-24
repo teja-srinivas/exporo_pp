@@ -19,14 +19,13 @@ final class InvestmentRepository
     public function queryWithoutCommission(): Builder
     {
         return Investment::query()
-            ->has('investor.details')
-            ->whereHas('project', function (Builder $query) {
-                $query->whereNotNull('approved_at');
-            })
             ->doesntHave('commissions')
             ->join('investors', 'investments.investor_id', 'investors.id')
+            ->join('user_details', 'user_details.id', 'investors.user_id')
+            ->join('projects', 'investments.project_id', 'projects.id')
             ->whereNotNull('investors.user_id')
-            ->select('investments.*');
+            ->whereNotNull('projects.approved_at')
+            ->select(['investments.*']);
     }
 
     public function queryWhereCalculationChanged(): Builder
