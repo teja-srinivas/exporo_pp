@@ -30,13 +30,17 @@ final class CalculateCommissionsService
                 : $bonus->further_investment;
         }
 
-        $lzf = $this->calculateLZF($runtime);
-        $sum = $investment->project->schema->calculate((int) $investment->amount, $bonus, $lzf, (float) $margin);
+        $sum = $investment->project->schema->calculate([
+            'investment' => (int)$investment->amount,
+            'bonus' => $bonus,
+            'laufzeit' => $this->calculateRuntimeFactor($investment->project->runtimeInMonths()),
+            'marge' => (float)($investment->project->margin / 100),
+        ]);
 
         return $this->calculateNetAndGross($userDetails->vat_included, $sum);
     }
 
-    private function calculateLZF($runtime): float
+    private function calculateRuntimeFactor($runtime): float
     {
         return $runtime / 24 < 1 ? $runtime / 24 : 1;
     }
