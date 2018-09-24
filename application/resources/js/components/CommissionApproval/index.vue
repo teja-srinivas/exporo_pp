@@ -204,7 +204,7 @@
                   <div class="col-sm-3"><strong>Investor:</strong></div>
                   <div class="col-sm-9">
                     <input type="text" readonly class="form-control-plaintext"
-                           :value="displayNameUser(commission.model.investor)">
+                           :value="`${displayNameUser(commission.model.investor)} (#${commission.model.investor.id})`">
                   </div>
                 </div>
 
