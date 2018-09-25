@@ -10,6 +10,7 @@ class Commission extends JsonResource
     private const RESOURCES = [
         \App\Investment::MORPH_NAME => Investment::class,
         \App\Investor::MORPH_NAME => Investor::class,
+        'overhead' => Investment::class
     ];
 
     /**
