@@ -17,7 +17,11 @@ use Illuminate\Support\Collection;
 
 final class CalculateCommissions extends Command
 {
-    const PER_CHUNK = 800;
+    // This value has been tuned to a value where it makes the most sense
+    // as we eager load data, the more we have in the database the slower
+    // our queries become. It is important, that we get just the right
+    // amount of data before it becomes too much (e.g. run out of RAM)
+    const PER_CHUNK = 2500;
 
     protected $signature = 'calculate:commissions';
     protected $description = 'Calculates commissions from existing investments';
@@ -28,14 +32,21 @@ final class CalculateCommissions extends Command
         $this->calculateInvestors($commissionsService);
     }
 
-    private function calculate(string $type, Builder $query, callable $calculate): void
+    private function calculate(string $type, Builder $query, callable $calculate, bool $flatten = false): void
     {
-        $query->chunkSimple(self::PER_CHUNK, function (Collection $chunk) use ($type, $calculate) {
+        $query->chunkSimple(self::PER_CHUNK, function (Collection $chunk) use ($type, $calculate, $flatten) {
             $this->line("Calculating {$chunk->count()} $type commissions...");
 
-            $now = now();
-            Commission::query()->insert($chunk->map(function ($entry) use ($now, $type, $calculate) {
-                return $calculate($entry) + [
+            $rows = $chunk->map($calculate);
+
+            if ($flatten) {
+                $rows = $rows->flatten(1);
+            }
+
+            $now = now()->toDateTimeString();
+
+            Commission::query()->insert($rows->map(function ($entry) use($now, $type) {
+                return $entry + [
                     'model_type' => $type,
                     'created_at' => $now,
                     'updated_at' => $now,
@@ -74,8 +85,8 @@ final class CalculateCommissions extends Command
 
         $callback = function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
-                $investor->vat_included,
-                $investor->registration
+                (bool) $investor->vat_included,
+                (float) $investor->registration
             );
 
             return $sums + [
@@ -100,36 +111,33 @@ final class CalculateCommissions extends Command
         $query = $repository->queryWithoutCommission()->with([
             'project.schema',
             'investor.details',
-            'investor.user',
+            'investor.user.bonuses',
         ]);
 
         $callback = function (Investment $investment) use ($commissions) {
-            if ($investment->investor->user->parent_id) {
-                $this->calculateParentPartner($investment, $investment->investor->user, $commissions);
-            }
-
-            return $commissions->calculate($investment) + [
-                'model_type' => Investment::MORPH_NAME,
+            $entries = [];
+            $entries[] = $commissions->calculate($investment) + [
                 'model_id' => $investment->id,
                 'user_id' => $investment->investor->user_id,
             ];
+
+            for ($user = $investment->investor->user; $user->parentId > 0; $user = $parent) {
+                $parent = User::query()->find($user->parent_id, ['id']);
+
+                if (!$parent || !$parent->parent_id || $parent->id === $parent->parent_id) {
+                    break;
+                }
+
+                $entries[] = $commissions->calculate($investment, $parent, $user) + [
+                    'model_type' => 'overhead',
+                    'model_id' => $investment->id,
+                    'user_id' => $user->id,
+                ];
+            }
+
+            return $entries;
         };
-        $this->calculate(Investment::MORPH_NAME, $query, $callback);
-    }
 
-
-    private function calculateParentPartner(Investment $investment, User $user, CalculateCommissionsService $commission)
-    {
-        $parent = User::find($user->parent_id);
-        if ($parent && $user->parent_id !== $user->id) {
-        $result = $commission->calculate($investment, $parent, $user);
-
-        Commission::create($result + [
-            'model_type' => 'overhead',
-            'model_id' => $investment->id,
-            'user_id' => $user->id,
-        ]);
-            $this->calculateParentPartner($investment, $parent, $commission);
-        }
+        $this->calculate(Investment::MORPH_NAME, $query, $callback, true);
     }
 }
