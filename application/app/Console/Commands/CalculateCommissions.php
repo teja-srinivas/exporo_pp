@@ -121,11 +121,12 @@ final class CalculateCommissions extends Command
     private function calculateParentPartner(Investment $investment, User $user, CalculateCommissionsService $commission)
     {
         $parent = User::find($user->parent_id);
-        if ($parent && $parent->parent_id && $parent->id !== $parent->parent_id) {
+        if ($parent && $user->parent_id !== $user->id) {
         $result = $commission->calculate($investment, $parent, $user);
 
         Commission::create($result + [
             'model_type' => 'overhead',
+            'model_id' => $investment->id,
             'user_id' => $user->id,
         ]);
             $this->calculateParentPartner($investment, $parent, $commission);
