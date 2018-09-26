@@ -54,7 +54,8 @@
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="2" class="font-weight-bold text-right lead">
+            <td class="align-middle">{{ $bills->count() }} Partner</td>
+            <td class="font-weight-bold text-right lead">
                 {{ format_money($bills->sum('sum')) }}
             </td>
             <td></td>
