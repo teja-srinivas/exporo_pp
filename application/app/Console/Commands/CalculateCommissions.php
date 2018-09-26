@@ -122,9 +122,13 @@ final class CalculateCommissions extends Command
             ];
 
             for ($user = $investment->investor->user; $user->parent_id > 0; $user = $parent) {
+                if ($user->id === $user->parent_id) {
+                    break;
+                }
+
                 $parent = User::query()->find($user->parent_id, ['id']);
 
-                if (!$parent || $user->id === $user->parent_id) {
+                if (!$parent) {
                     break;
                 }
 
