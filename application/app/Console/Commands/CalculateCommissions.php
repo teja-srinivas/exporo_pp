@@ -134,7 +134,7 @@ final class CalculateCommissions extends Command
                 }
 
                 $entries[] = $commissions->calculate($investment, $parent, $user) + [
-                    'model_type' => 'overhead',
+                    'model_type' => Investment::OVERHEAD_MORPH_NAME,
                     'model_id' => $investment->id,
                     'user_id' => $user->id,
                 ];

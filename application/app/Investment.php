@@ -35,6 +35,7 @@ class Investment extends Model implements AuditableContract
     use OptimusEncodedRouteKey;
 
     const MORPH_NAME = 'investment';
+    const OVERHEAD_MORPH_NAME = 'overhead';
 
     public $incrementing = false;
 
