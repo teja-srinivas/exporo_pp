@@ -70,7 +70,7 @@ class BillController extends Controller
                 'lastName' => Encryptable::decrypt($row->last_name),
                 'sum' => $row->sum,
             ];
-        });
+        })->sortNatural('lastName');
 
         return response()->view('bills.create', [
             'bills' => $bills,
