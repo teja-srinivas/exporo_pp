@@ -179,6 +179,7 @@ class CommissionController extends Controller
             }
         }
 
+        // Don't use "update" directly, so it doesn't update the updated_at column
         $this->applyFilter(Commission::query(), $request, true)->toBase()->update($values);
     }
 
@@ -240,19 +241,16 @@ class CommissionController extends Controller
 
                 $query->whereIn('investments.project_id', $projectIds);
             })
-            ->when(
-                !$forUpdate && $columns->has('money'),
-                function (Builder $query) use ($columns) {
-                    if (!empty($columns['money']['order'])) {
-                        $query->orderBy('gross', $columns['money']['order']);
-                    }
-
-                    // Match any valid where clause for SQL
-                    if (preg_match('/(>=|>|=|<|<=|!=)?\s*(\d+)/', $columns['money']['filter'], $matches) > 0) {
-                        $query->where('gross', $matches[1] ?: '=', $matches[2]);
-                    }
+            ->when($columns->has('money'), function (Builder $query) use ($forUpdate, $columns) {
+                if (!$forUpdate && !empty($columns['money']['order'])) {
+                    $query->orderBy('gross', $columns['money']['order']);
                 }
-            )
+
+                // Match any valid where clause for SQL
+                if (preg_match('/(>=|>|=|<|<=|!=)?\s*(\d+)/', $columns['money']['filter'], $matches) > 0) {
+                    $query->where('gross', $matches[1] ?: '=', $matches[2]);
+                }
+            })
             ->when(!$columns->has('rejected'), function (Builder $query) {
                 $query->isOpen();
             })
