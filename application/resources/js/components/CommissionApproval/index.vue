@@ -188,7 +188,6 @@
                 <font-awesome-icon icon="user" fixed-width size="sm" class="align-baseline" style="color: #aaa" />
               </td>
 
-
               <td v-if="commission.showDetails" class="text-right" rowspan="2">
                 <strong>Netto</strong>: {{ formatEuro(commission.net) }}<br>
                 <strong>Brutto</strong>: {{ formatEuro(commission.gross) }}
@@ -371,7 +370,7 @@ export default {
       isLoading: false,
       commissions: [],
       meta: {},
-      paymentType: 'net',
+      paymentType: 'gross',
 
       label: {
         gross: 'Brutto',
