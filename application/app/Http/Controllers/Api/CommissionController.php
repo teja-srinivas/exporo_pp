@@ -243,7 +243,7 @@ class CommissionController extends Controller
             ->when(
                 !$forUpdate && $columns->has('money') && !empty($columns['money']['order']),
                 function (Builder $query) use ($columns) {
-                    $query->orderBy('net', $columns['money']['order']);
+                    $query->orderBy('gross', $columns['money']['order']);
                 }
             )
             ->when(!$columns->has('rejected'), function (Builder $query) {
