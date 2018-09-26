@@ -35,7 +35,12 @@
         <tbody>
         @foreach($bills as $bill)
             <tr>
-                <td>{{ $bill['lastName'] }}, {{ $bill['firstName'] }}</td>
+                <td>
+                    <a href="{{ route('users.show', $bill['userId']) }}">
+                        <span class="text-muted small mr-1">#{{ $bill['userId'] }}</span>
+                        {{ $bill['lastName'] }}, {{ $bill['firstName'] }}
+                    </a>
+                </td>
                 <td class="text-right">{{ format_money($bill['sum']) }}</td>
                 <td class="text-right" width="100">
                     <a
