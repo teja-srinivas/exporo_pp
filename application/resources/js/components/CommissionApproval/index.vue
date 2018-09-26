@@ -112,6 +112,15 @@
               Netto
               <radio-switch v-model="paymentType" left="net" right="gross" />
               Brutto
+
+              <input
+                slot="below"
+                type="text"
+                class="mt-1 p-1 d-block w-100 form-control form-control-sm"
+                v-model="filter.money"
+                placeholder="Brutto-Filter"
+                @click.stop
+              >
             </filter-button>
           </tr>
         </thead>
@@ -383,6 +392,7 @@ export default {
         reviewed: false,
         onHold: false,
         rejected: false,
+        money: '',
       },
 
       sort: {

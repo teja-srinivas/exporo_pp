@@ -241,9 +241,16 @@ class CommissionController extends Controller
                 $query->whereIn('investments.project_id', $projectIds);
             })
             ->when(
-                !$forUpdate && $columns->has('money') && !empty($columns['money']['order']),
+                !$forUpdate && $columns->has('money'),
                 function (Builder $query) use ($columns) {
-                    $query->orderBy('gross', $columns['money']['order']);
+                    if (!empty($columns['money']['order'])) {
+                        $query->orderBy('gross', $columns['money']['order']);
+                    }
+
+                    // Match any valid where clause for SQL
+                    if (preg_match('/(>=|>|=|<|<=|!=)?\s*(\d+)/', $columns['money']['filter'], $matches) > 0) {
+                        $query->where('gross', $matches[1] ?: '=', $matches[2]);
+                    }
                 }
             )
             ->when(!$columns->has('rejected'), function (Builder $query) {
