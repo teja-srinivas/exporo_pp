@@ -2,6 +2,7 @@
 table-sticky position-relative">
     <thead>
     <tr>
+        <th>ID</th>
         <th>Nachname</th>
         <th>Vorname</th>
         <th class="text-right">Status</th>
@@ -11,6 +12,7 @@ table-sticky position-relative">
     <tbody>
     @forelse($users as $user)
         <tr>
+            <td><a href="{{ route('users.show', $user) }}" class="text-muted">#{{ $user->id }}</a></td>
             <td><a href="{{ route('users.show', $user) }}">{{ $user->last_name }}</a></td>
             <td><a href="{{ route('users.show', $user) }}">{{ $user->first_name }}</a></td>
             <td class="text-right">
