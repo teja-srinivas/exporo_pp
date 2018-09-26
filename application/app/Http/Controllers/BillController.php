@@ -135,6 +135,7 @@ class BillController extends Controller
     public function show(Bill $bill)
     {
         $bill->load('user');
+
         return view('bills.show', $this->mapForView($bill->commissions()) + [
             'bill' => $bill,
             'user' => $bill->user,
@@ -208,7 +209,10 @@ class BillController extends Controller
         $investorsNetSum = $investors->sum('net');
 
         return [
-            'investments' => $investments->sortBy('projectName')->groupBy('projectName'),
+            'investments' => $investments
+                ->sortBy('created_at')
+                ->sortBy('projectName')
+                ->groupBy('projectName'),
             'investmentSum' => $investments->sum('investsum'),
             'investmentNetSum' => $investmentsNetSum,
             'investors' => $investors->sortBy('last_name'),
