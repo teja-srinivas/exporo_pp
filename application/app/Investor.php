@@ -13,7 +13,9 @@ use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
+ * @property int $id
  * @property User $user
+ * @property int $user_id
  * @property UserDetails $details
  * @property string $first_name
  * @property string $last_name

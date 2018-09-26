@@ -17,6 +17,8 @@ use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
+ * @property int $id
+ * @property int $parent_id
  * @property string $first_name
  * @property string $last_name
  * @property Carbon $accepted_at

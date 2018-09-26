@@ -14,6 +14,7 @@ use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
+ * @property int $id
  * @property int $bonus
  * @property float $amount
  * @property float $interest_rate

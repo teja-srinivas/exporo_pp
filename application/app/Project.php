@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property User $approved
  * @property Schema $schema;
  * @property Carbon $payback_min_at
- * * @property Carbon $payback_max_at
+ * @property Carbon $payback_max_at
  * @property Carbon $launched_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
