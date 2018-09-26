@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property User $approved
  * @property Schema $schema;
  * @property Carbon $payback_min_at
+ * * @property Carbon $payback_max_at
  * @property Carbon $launched_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -36,7 +37,7 @@ class Project extends Model
 
     protected $fillable = [
         'id', 'name', 'type', 'created_at', 'updated_at', 'launched_at',
-        'payback_min_at', 'approved_at', 'approved_by', 'schema_id', 'capital_cost',
+        'payback_min_at', 'payback_max_at', 'approved_at', 'approved_by', 'schema_id', 'capital_cost',
         'interest_rate', 'runtime', 'commission_type'
     ];
 
@@ -72,6 +73,15 @@ class Project extends Model
 
     public function runtimeInMonths(): int
     {
-        return $this->runtime ?? $this->payback_min_at->diffInMonths($this->launched_at);
+        return $this->runtime ?? $this->diffInMonths($this->launched_at, $this->payback_max_at);
+    }
+
+    protected function diffInMonths(\DateTime $date1, \DateTime $date2)
+    {
+        $diff =  $date1->diff($date2);
+
+        $months = $diff->y * 12 + $diff->m + $diff->d / 30;
+
+        return (int) round($months);
     }
 }

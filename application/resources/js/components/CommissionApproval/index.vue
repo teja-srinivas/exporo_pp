@@ -184,6 +184,11 @@
                 {{ commission.model.firstName }}
               </td>
 
+              <td v-else-if="commission.type === 'overhead'">
+                <font-awesome-icon icon="user" fixed-width size="sm" class="align-baseline" style="color: #aaa" />
+              </td>
+
+
               <td v-if="commission.showDetails" class="text-right" rowspan="2">
                 <strong>Netto</strong>: {{ formatEuro(commission.net) }}<br>
                 <strong>Brutto</strong>: {{ formatEuro(commission.gross) }}

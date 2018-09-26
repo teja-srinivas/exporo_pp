@@ -42,7 +42,7 @@ final class CalculateCommissionsService
 
     private function calculateRuntimeFactor($runtime): float
     {
-        return $runtime / 24 < 1 ? $runtime / 24 : 1;
+        return $runtime / 24 < 1 ? round($runtime / 24, 2) : 1;
     }
 
     public function calculateNetAndGross(bool $includeVat, float $sum): array
