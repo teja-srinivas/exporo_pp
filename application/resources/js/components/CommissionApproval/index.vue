@@ -232,6 +232,15 @@
                   </div>
                 </div>
 
+                <div v-if="commission.model.project !== undefined" class="my-1 row align-items-center">
+                  <div class="col-sm-3">
+                    <strong>Formel:</strong>
+                  </div>
+                  <div class="col-sm-9 py-1">
+                    <schema :value="commission.model.project.schema" :commission="commission" />
+                  </div>
+                </div>
+
                 <div class="my-1 row align-items-center">
                   <div class="col-sm-3">
                     <strong>Rechnungsnotiz:</strong>
@@ -257,15 +266,6 @@
                       class="form-control form-control-sm"
                       placeholder="Privat"
                     />
-                  </div>
-                </div>
-
-                <div v-if="commission.type === 'investment'" class="my-1 row align-items-center">
-                  <div class="col-sm-3">
-                    <strong>Formel:</strong>
-                  </div>
-                  <div class="col-sm-9">
-                    <input type="text" readonly class="form-control-plaintext" :value="commission.model.project.schema">
                   </div>
                 </div>
               </td>
@@ -365,6 +365,7 @@ import { confirm } from '../../alert';
 
 import FilterButton from './FilterButton';
 import RadioSwitch from '../RadioSwitch';
+import Schema from './Schema.vue';
 
 export default {
   name: 'CommissionApproval',
@@ -372,6 +373,7 @@ export default {
   components: {
     FilterButton,
     RadioSwitch,
+    Schema,
   },
 
   props: {

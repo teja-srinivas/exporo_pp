@@ -10,7 +10,7 @@ class Commission extends JsonResource
     private const RESOURCES = [
         \App\Investment::MORPH_NAME => Investment::class,
         \App\Investor::MORPH_NAME => Investor::class,
-        'overhead' => Investment::class
+        \App\Investment::OVERHEAD_MORPH_NAME => Investment::class,
     ];
 
     /**
@@ -27,12 +27,13 @@ class Commission extends JsonResource
         return [
             'id' => $this->getRouteKey(),
             'type' => $model->model_type,
-            'net' => (float)$model->net,
-            'gross' => (float)$model->gross,
+            'net' => $model->net,
+            'gross' => $model->gross,
+            'bonus' => $model->bonus,
             'onHold' => $model->on_hold,
             'note' => [
-                'private' => (string)$model->note_private,
-                'public' => (string)$model->note_public,
+                'private' => $model->note_private,
+                'public' => $model->note_public,
             ],
             'reviewed' => $model->reviewed_at !== null,
             'rejected' => $model->rejected_at !== null,

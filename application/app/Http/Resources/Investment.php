@@ -14,12 +14,18 @@ class Investment extends JsonResource
      */
     public function toArray($request)
     {
+        /** @var \App\Investment $investment */
+        $investment = $this->resource;
+
         return [
             'id' => $this->getRouteKey(),
-            'investor' => Investor::make($this->investor),
+            'investor' => Investor::make($investment->investor),
+            'investment' => $investment->amount,
             'project' => [
-                'name' => $this->project->name,
-                'schema' => $this->project->schema->formula,
+                'name' => $investment->project->name,
+                'schema' => $investment->project->schema->formula,
+                'margin' => $investment->project->marginPercentage(),
+                'runtimeFactor' => $investment->project->runtimeFactor(),
             ],
         ];
     }

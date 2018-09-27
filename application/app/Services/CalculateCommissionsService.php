@@ -33,16 +33,13 @@ final class CalculateCommissionsService
         $sum = $investment->project->schema->calculate([
             'investment' => (int)$investment->amount,
             'bonus' => $bonus,
-            'laufzeit' => $this->calculateRuntimeFactor($investment->project->runtimeInMonths()),
-            'marge' => (float)($investment->project->margin / 100),
+            'laufzeit' => $investment->project->runtimeFactor(),
+            'marge' => $investment->project->marginPercentage(),
         ]);
 
-        return $this->calculateNetAndGross($userDetails->vat_included, $sum);
-    }
-
-    private function calculateRuntimeFactor($runtime): float
-    {
-        return $runtime / 24 < 1 ? round($runtime / 24, 2) : 1;
+        return $this->calculateNetAndGross($userDetails->vat_included, $sum) + [
+            'bonus' => $bonus,
+        ];
     }
 
     public function calculateNetAndGross(bool $includeVat, float $sum): array

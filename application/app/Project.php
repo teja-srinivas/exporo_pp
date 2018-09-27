@@ -43,6 +43,8 @@ class Project extends Model
 
     protected $casts = [
         'commission_type' => 'int',
+        'interest_rate' => 'float',
+        'margin' => 'float',
     ];
 
 
@@ -74,6 +76,18 @@ class Project extends Model
     public function runtimeInMonths(): int
     {
         return $this->runtime ?? $this->diffInMonths($this->launched_at, $this->payback_max_at);
+    }
+
+    public function runtimeFactor(): float
+    {
+        $runtime = $this->runtimeInMonths();
+
+        return $runtime / 24 < 1 ? round($runtime / 24, 2) : 1;
+    }
+
+    public function marginPercentage(): float
+    {
+        return (float)($this->margin / 100);
     }
 
     protected function diffInMonths(\DateTime $date1, \DateTime $date2)

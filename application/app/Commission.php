@@ -14,6 +14,11 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @property Investment $investment
+ * @property float $net
+ * @property float $gross
+ * @property float $bonus
+ * @property string $note_private
+ * @property string $note_public
  * @property User $user
  * @property bool $on_hold
  * @property Carbon $rejected_at
@@ -32,6 +37,11 @@ class Commission extends Model implements AuditableContract
 
     protected $casts = [
         'on_hold' => 'bool',
+        'net' => 'float',
+        'gross' => 'float',
+        'bonus' => 'float',
+        'note_private' => 'string',
+        'note_public' => 'string',
     ];
 
     protected $dates = [
