@@ -97,7 +97,18 @@
             </filter-button>
 
             <th class="border-bottom-1">
-              Typ
+              <div class="d-flex justify-content-between">
+                Typ
+                <select
+                  v-model="filter.type"
+                  class="form-control form-control-sm w-50 py-0 px-1 h-auto"
+                >
+                  <option value="">(Alle)</option>
+                  <option value="investment">Investment</option>
+                  <option value="investor">Investor</option>
+                  <option value="overhead">Overhead</option>
+                </select>
+              </div>
               <input
                 slot="below"
                 type="text"
@@ -388,6 +399,7 @@ export default {
 
       filter: {
         model: '',
+        type: '',
         user: '',
         reviewed: false,
         onHold: false,
@@ -486,23 +498,6 @@ export default {
     displayNameUser({ firstName, lastName }) {
       return `${lastName}, ${firstName}`;
     },
-
-    // updateDatedValue(commission, key, value) {
-    //   if (value) {
-    //     commission[key] = {
-    //
-    //     }
-    //   } else {
-    //     this.$set(commission, key, {
-    //       date: '',
-    //       user: '',
-    //     });
-    //
-    //     this.updateOrRollBack(commission, key, value, () => {
-    //
-    //     })
-    //   }
-    // },
 
     async confirm(message, callback) {
       const close = await confirm(message);

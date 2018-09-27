@@ -254,6 +254,12 @@ class CommissionController extends Controller
             ->when(!$columns->has('rejected'), function (Builder $query) {
                 $query->isOpen();
             })
+            ->when(
+                $columns->has('type') && !empty($columns['type']['filter']),
+                function (Builder $query) use ($columns) {
+                    $query->where('model_type', $columns['type']['filter']);
+                }
+            )
             ->isAcceptable()
             ->select('commissions.*');
     }
