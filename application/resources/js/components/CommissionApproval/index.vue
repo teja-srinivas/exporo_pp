@@ -101,11 +101,11 @@
                 Typ
                 <select
                   v-model="filter.type"
-                  class="form-control form-control-sm w-50 py-0 px-1 h-auto"
+                  class="form-control form-control-sm w-auto py-0 px-1 h-auto"
                 >
                   <option value="">(Alle)</option>
-                  <option value="investment">Investment</option>
-                  <option value="investor">Investor</option>
+                  <option value="investment">Projektinvestment</option>
+                  <option value="investor">Registrierung</option>
                   <option value="overhead">Overhead</option>
                 </select>
               </div>
