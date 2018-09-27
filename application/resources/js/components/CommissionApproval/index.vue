@@ -225,27 +225,27 @@
             >
               <td colspan="4" class="small border-right pl-3" :class="$style.infoBox">
                 <div v-if="commission.type === 'investment'" class="my-1 row align-items-center">
-                  <div class="col-sm-3"><strong>Investor:</strong></div>
-                  <div class="col-sm-9">
+                  <div class="col-sm-2"><strong>Investor:</strong></div>
+                  <div class="col-sm-10">
                     <input type="text" readonly class="form-control-plaintext"
                            :value="`${displayNameUser(commission.model.investor)} (#${commission.model.investor.id})`">
                   </div>
                 </div>
 
                 <div v-if="commission.model.project !== undefined" class="my-1 row align-items-center">
-                  <div class="col-sm-3">
+                  <div class="col-sm-2">
                     <strong>Formel:</strong>
                   </div>
-                  <div class="col-sm-9 py-1">
+                  <div class="col-sm-10 py-1">
                     <schema :value="commission.model.project.schema" :commission="commission" />
                   </div>
                 </div>
 
                 <div class="my-1 row align-items-center">
-                  <div class="col-sm-3">
-                    <strong>Rechnungsnotiz:</strong>
+                  <div class="col-sm-2">
+                    <strong>Notiz:</strong>
                   </div>
-                  <div class="col-sm-9">
+                  <div class="col-sm-10">
                     <input
                       :value="commission.note.public"
                       @change="e => updateValue(commission, 'note.public', e.target.value.trim())"
@@ -256,15 +256,15 @@
                 </div>
 
                 <div class="my-1 row align-items-center">
-                  <div class="col-sm-3">
-                    <strong>Notizen für Intern:</strong>
+                  <div class="col-sm-2 pr-1">
+                    <strong>Notiz (Intern):</strong>
                   </div>
-                  <div class="col-sm-9">
+                  <div class="col-sm-10">
                     <input
                       :value="commission.note.private"
                       @change="e => updateValue(commission, 'note.private', e.target.value.trim())"
                       class="form-control form-control-sm"
-                      placeholder="Privat"
+                      placeholder="Privat, nur für die Buchhaltung"
                     />
                   </div>
                 </div>
