@@ -1,0 +1,9 @@
+{
+  "pathToDockerfile": "../Dockerfile",
+  "pathToContext": "..",
+  "serviceName": "pp",
+  "appImageName": "webapp",
+  "appContainerName": "webapp",
+  "environmentDefault": "stage",
+  "awsAccountId": 432488122699
+}

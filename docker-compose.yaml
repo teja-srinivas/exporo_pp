@@ -3,9 +3,9 @@ version: '3.2'
 services:
 
   webapp:
-    build: ./webapp
+    build: application
     volumes:
-      - ../../application:/var/www/html:delegated
+      - application:/var/www/html:delegated
     ports:
       - 80:8080
     depends_on:
@@ -27,6 +27,6 @@ services:
   redis:
     image: redis:3
     volumes:
-      - ../../application/:/data
+      - application/:/data
     ports:
       - 6390:6379

@@ -1,0 +1,15 @@
+{
+  "name": "partner-program-infrastructure",
+  "description": "infrastructure as code for aws ecs fargate docker exporo php apps, with nginx, rds aurora mysql and elasticache redis, bootstrapped with cloudformation",
+  "repository": "https://bitbucket.org/exporo/exporo_pp.git",
+  "version": "1.0.0",
+  "scripts": {
+    "docker": "npx exporo-cloud docker",
+    "aws": "npx exporo-cloud aws"
+  },
+  "dependencies": {
+    "exporo-cloud": "git+ssh://git@bitbucket.org/exporodev/exporo_infrastructure.git#master"
+  },
+  "author": "Exporo Partner Program Team team.partnerprogramm@exporo.com",
+  "license": "UNLICENSED"
+}
