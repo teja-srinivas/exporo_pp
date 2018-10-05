@@ -23,7 +23,7 @@ export default {
       variables: {
         bonus: {
           value: this.commission.bonus,
-          formatter: this.formatMoney,
+          formatter: this.formatNumber,
         },
         investment: {
           value: this.commission.model.investment,

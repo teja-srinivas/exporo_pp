@@ -37,9 +37,16 @@ final class CalculateCommissionsService
             'marge' => $investment->project->marginPercentage(),
         ]);
 
+        if ($parent && $child) {
+            return $this->calculateNetAndGross($userDetails->vat_included, $sum) + [
+                    'bonus' => $bonus,
+                    'user_id' => $parent->id
+            ];
+        }
+
         return $this->calculateNetAndGross($userDetails->vat_included, $sum) + [
-            'bonus' => $bonus,
-        ];
+                'bonus' => $bonus,
+            ];
     }
 
     public function calculateNetAndGross(bool $includeVat, float $sum): array
