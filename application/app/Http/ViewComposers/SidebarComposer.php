@@ -78,7 +78,8 @@ class SidebarComposer
                     ],
                     [
                         'title' => 'Investments',
-                        'url' => '#3',
+                        'url' => route('investments.index'),
+                        'isActive' => $this->request->routeIs('investments.*'),
                     ],
                     [
                         'title' => 'Auszahlungen',

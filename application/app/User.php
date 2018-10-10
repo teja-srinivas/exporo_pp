@@ -137,6 +137,11 @@ class User extends Authenticatable implements AuditableContract
         return $this->hasMany(Investor::class, 'user_id');
     }
 
+    public function investments()
+    {
+        return $this->hasManyThrough(Investment::class, Investor::class);
+    }
+
     public function parent(): BelongsTo
     {
         return $this->belongsTo(User::class, 'parent_id');
