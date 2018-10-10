@@ -23,19 +23,14 @@
 
 .sidebar-header {
   position: relative;
-
-  > span {
-    background-color: $body-bg;
-    padding-right: map_get($spacers, 3);
-  }
+  display: flex;
 
   &::after {
     content: '';
     border-bottom: 1px solid $gray-300;
-    position: absolute;
-    top: 0.55rem;
-    right: 0;
-    left: 0;
+    margin-left: map_get($spacers, 3);
     z-index: -1;
+    flex: 1;
+    align-self: center;
   }
 }
