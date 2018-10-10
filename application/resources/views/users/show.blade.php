@@ -24,6 +24,29 @@
 @section('main-content')
     @include('users.partials.application')
 
+    <div class="shadow-sm mb-2 bg-white">
+        <div class="p-2">
+            <div class="row text-center">
+                <div class="col-sm border-sm-right mb-3 mb-sm-0">
+                    <a href="{{ route('users.investors.index', $user) }}" class="btn btn-outline-light p-0 btn-block">
+                        <span class="text-reset">Investoren</span>
+                        <div class="h2 mb-1">{{ $investors->count }}</div>
+                    </a>
+                </div>
+                <div class="col-sm border-sm-right mb-3 mb-sm-0">
+                    <a href="{{ route('users.investments.index', $user) }}" class="btn btn-outline-light p-0 btn-block">
+                        <span class="text-reset">Investments</span>
+                        <div class="h2 mb-1">{{ $investors->investments }}</div>
+                    </a>
+                </div>
+                <div class="col-sm">
+                    Investmentvolumen
+                    <div class="h2 mb-1">{{ format_money($investors->amount) }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @card
         @slot('title', 'AGBs')
         @slot('info', 'die von diesem Nutzer akzeptiert wurden.')
@@ -117,34 +140,6 @@
             @empty
                 <tr class="text-center text-muted">
                     <td colspan="4">Noch keine Provisionen abgerechnet</td>
-                </tr>
-            @endforelse
-            </tbody>
-        </table>
-    @endcard
-
-    @card
-        @slot('title', 'Investoren')
-        @slot('info')
-            <a href="{{ route('users.investments.index', $user) }}" class="btn btn-sm btn-secondary">
-                Getätigte Investments
-            </a>
-        @endslot
-
-        <table class="table table-sm table-hover table-striped mb-0 table-borderless">
-            <thead>
-            <tr>
-                <th>Name</th>
-            </tr>
-            </thead>
-            <tbody>
-            @forelse($user->investors as $investor)
-                <tr>
-                    <td>{{ $investor->first_name }} {{ mb_substr($investor->last_name, 0, 1) }}.</td>
-                </tr>
-            @empty
-                <tr class="text-center text-muted">
-                    <td colspan="4">Noch keine Investoren hinterlegt</td>
                 </tr>
             @endforelse
             </tbody>

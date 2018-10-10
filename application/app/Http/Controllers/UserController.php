@@ -80,14 +80,18 @@ class UserController extends Controller
             'agbs' => function ($query) {
                 $query->latest();
             },
-            'investors' => function ($query) {
-                $query->orderBy('first_name');
-            },
         ]);
 
         $user->bills = Bill::getDetailsPerUser($user->id)->get();
 
-        return response()->view('users.show', compact('user'));
+        $investors = $user->investors()->toBase()
+            ->join('investments', 'investments.investor_id', 'investors.id')
+            ->selectRaw('count(distinct(investors.id)) as count')
+            ->selectRaw('count(investments.id) as investments')
+            ->selectRaw('sum(investments.amount) as amount')
+            ->first();
+
+        return response()->view('users.show', compact('user', 'investors'));
     }
 
     /**

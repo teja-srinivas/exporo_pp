@@ -7,6 +7,7 @@ use App\Traits\Encryptable;
 use App\Traits\HasRoles;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,6 +27,8 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property UserDetails $details
+ * @property Collection $investors
+ * @property Collection $investments
  * @property Company $company
  */
 class User extends Authenticatable implements AuditableContract
@@ -132,7 +135,7 @@ class User extends Authenticatable implements AuditableContract
         return $this->hasMany(CommissionBonus::class, 'user_id');
     }
 
-    public function investors()
+    public function investors(): HasMany
     {
         return $this->hasMany(Investor::class, 'user_id');
     }

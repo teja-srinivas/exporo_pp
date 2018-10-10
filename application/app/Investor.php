@@ -37,6 +37,11 @@ class Investor extends Model implements AuditableContract
         'id', 'first_name', 'last_name', 'created_at', 'updated_at', 'user_id', 'claim_end', 'activation_at'
     ];
 
+    protected $dates = [
+        'activation_at',
+        'claim_end',
+    ];
+
     protected $casts = [
         'vat_included' => 'bool',
     ];

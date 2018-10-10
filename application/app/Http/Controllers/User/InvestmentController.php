@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use App\Policies\UserPolicy;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -18,14 +16,12 @@ class InvestmentController extends Controller
      */
     public function index(User $user, Request $request)
     {
-        $viewer = $request->user();
-
-        abort_if($user->isNot($viewer) && $viewer->cannot(UserPolicy::PERMISSION), 404);
+        $this->authorizeViewingUser($user, $request);
 
         return view('users.investments.index', [
             'user' => $user,
             'investments' => $user->investments()
-                ->rightJoin('projects', 'projects.id', 'investments.project_id')
+                ->join('projects', 'projects.id', 'investments.project_id')
                 ->select('investments.id', 'paid_at', 'investments.type', 'amount')
                 ->selectRaw('investors.first_name')
                 ->selectRaw('investors.last_name')

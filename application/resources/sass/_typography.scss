@@ -29,3 +29,9 @@ h1, h2, .h1 {
   background: $primary;
   color: $white;
 }
+
+.text-reset {
+    color: $body-color;
+    text-transform: none;
+    font-family: $font-family-base;
+}
