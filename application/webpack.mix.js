@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const path = require('path');
 require('laravel-mix-purgecss');
 
 /*
@@ -53,8 +54,8 @@ Mix.listen('configReady', ({module}) => {
     if (rule.test.test && rule.test.test('test.js')) {
       delete rule.exclude;
       rule.include = [
-        __dirname + '/resources/js/',
-        __dirname + '/node_modules/bootstrap/js/',
+        path.resolve(__dirname, 'resources/js'),
+        path.resolve(__dirname, 'node_modules/bootstrap/js'),
       ];
     }
   });
