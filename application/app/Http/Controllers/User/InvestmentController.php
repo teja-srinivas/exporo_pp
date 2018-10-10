@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
+use App\Policies\UserPolicy;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -10,14 +12,18 @@ class InvestmentController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param User $user
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(User $user, Request $request)
     {
-        /** @var User $user */
-        $user = $request->user();
+        $viewer = $request->user();
 
-        return view('investments.index', [
+        abort_if($user->isNot($viewer) && $viewer->cannot(UserPolicy::PERMISSION), 404);
+
+        return view('users.investments.index', [
+            'user' => $user,
             'investments' => $user->investments()
                 ->rightJoin('projects', 'projects.id', 'investments.project_id')
                 ->select('investments.id', 'paid_at', 'investments.type', 'amount')

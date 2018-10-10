@@ -1,5 +1,17 @@
 @extends('layouts.sidebar')
 
+@section('title')
+    @if($user->is(auth()->user()))
+        Partner-Investments
+    @else
+        @breadcrumps([
+            route('users.index') => 'Benutzer',
+            route('users.show', $user) => $user->getDisplayName(),
+            'Partner-Investments'
+        ])
+    @endif
+@endsection
+
 @section('main-content')
     <table class="bg-white shadow-sm accent-primary table table-borderless table-sm
                   table-hover table-striped table-sticky position-relative">

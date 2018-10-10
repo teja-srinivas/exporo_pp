@@ -125,7 +125,11 @@
 
     @card
         @slot('title', 'Investoren')
-        @slot('info', '')
+        @slot('info')
+            <a href="{{ route('users.investments.index', $user) }}" class="btn btn-sm btn-secondary">
+                Getätigte Investments
+            </a>
+        @endslot
 
         <table class="table table-sm table-hover table-striped mb-0 table-borderless">
             <thead>
