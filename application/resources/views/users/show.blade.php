@@ -48,6 +48,40 @@
     </div>
 
     @card
+        @slot('title', 'Abrechnungen')
+        @slot('info', 'der bereits erfolgten Provisionsansprüchen.')
+
+        <table class="table table-sm table-hover table-striped mb-0 table-borderless">
+            <thead>
+            <tr>
+                <th>Zeitraum</th>
+                <th class="text-right">Provisionen</th>
+                <th class="text-right">Summe</th>
+                <th width="140">Datum</th>
+            </tr>
+            </thead>
+            <tbody>
+            @forelse($user->bills as $bill)
+                <tr>
+                    <td>
+                        <div>
+                            <a href="{{ route('bills.show', $bill) }}">{{ $bill->getDisplayName() }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">{{ $bill->commissions }}</td>
+                    <td class="text-right">{{ format_money($bill->net) }}</td>
+                    <td>@timeago($bill->created_at)</td>
+                </tr>
+            @empty
+                <tr class="text-center text-muted">
+                    <td colspan="4">Noch keine Provisionen abgerechnet</td>
+                </tr>
+            @endforelse
+            </tbody>
+        </table>
+    @endcard
+
+    @card
         @slot('title', 'AGBs')
         @slot('info', 'die von diesem Nutzer akzeptiert wurden.')
 
@@ -110,40 +144,6 @@
                    class="btn btn-primary btn-sm">Dokument Hochladen</a>
             </div>
         @endslot
-    @endcard
-
-    @card
-        @slot('title', 'Abrechnungen')
-        @slot('info', 'der bereits erfolgten Provisionsansprüchen.')
-
-        <table class="table table-sm table-hover table-striped mb-0 table-borderless">
-            <thead>
-            <tr>
-                <th>Zeitraum</th>
-                <th class="text-right">Provisionen</th>
-                <th class="text-right">Summe</th>
-                <th width="140">Datum</th>
-            </tr>
-            </thead>
-            <tbody>
-            @forelse($user->bills as $bill)
-                <tr>
-                    <td>
-                        <div>
-                            <a href="{{ route('bills.show', $bill) }}">{{ $bill->getDisplayName() }}</a>
-                        </div>
-                    </td>
-                    <td class="text-right">{{ $bill->commissions }}</td>
-                    <td class="text-right">{{ format_money($bill->net) }}</td>
-                    <td>@timeago($bill->created_at)</td>
-                </tr>
-            @empty
-                <tr class="text-center text-muted">
-                    <td colspan="4">Noch keine Provisionen abgerechnet</td>
-                </tr>
-            @endforelse
-            </tbody>
-        </table>
     @endcard
 
     @include('users.partials.details')
