@@ -24,7 +24,7 @@
 @section('main-content')
     @include('users.partials.application')
 
-    <div class="shadow-sm mb-2 bg-white">
+    <div class="shadow-sm my-3 bg-white">
         <div class="p-2">
             <div class="row text-center">
                 <div class="col-sm border-sm-right mb-3 mb-sm-0">

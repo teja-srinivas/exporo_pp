@@ -1,5 +1,5 @@
 @if($user->hasNotBeenProcessed())
-    <form action="{{ route('users.update', $user) }}" method="POST">
+    <form action="{{ route('users.update', $user) }}" method="POST" class="my-3">
         @csrf
         @method('PUT')
 
