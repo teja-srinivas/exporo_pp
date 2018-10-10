@@ -83,10 +83,6 @@ class SidebarComposer
                             'users.investments.index', $this->user, false
                         ), 1)),
                     ],
-                    [
-                        'title' => 'Auszahlungen',
-                        'url' => '#4',
-                    ],
                 ],
             ],
             [

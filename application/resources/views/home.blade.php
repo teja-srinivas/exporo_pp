@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <h4 class="mt-4">Abrechnungen</h4>
+    <h4 class="mt-4">Auszahlungen</h4>
 
     <table class="bg-white shadow-sm accent-primary table table-borderless table-striped table-sm">
         <thead>
