@@ -43,7 +43,7 @@
             </tr>
         @empty
             <tr class="text-center text-muted">
-                <td colspan="5">Es wurden noch keine Abrechnungen erstellt</td>
+                <td colspan="5">Es wurden noch keine Abrechnungen ausgezahlt</td>
             </tr>
         @endforelse
         </tbody>

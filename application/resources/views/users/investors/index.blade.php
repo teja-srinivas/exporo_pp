@@ -25,7 +25,7 @@
             </tr>
         </thead>
         <tbody>
-        @foreach($investors as $investor)
+        @forelse($investors as $investor)
             <tr>
                 <td class="text-right text-muted small align-middle">{{ $investor->id }}</td>
                 <td>
@@ -47,7 +47,11 @@
                     {{ optional($investor->activation_at)->format('d.m.Y') }}
                 </td>
             </tr>
-        @endforeach
+        @empty
+            <tr class="text-center text-muted">
+                <td colspan="6">Es wurden noch keine Investoren geworben</td>
+            </tr>
+        @endforelse
         </tbody>
     </table>
 @endsection

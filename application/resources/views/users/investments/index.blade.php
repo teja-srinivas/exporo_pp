@@ -26,7 +26,7 @@
             </tr>
         </thead>
         <tbody>
-        @foreach($investments as $investment)
+        @forelse($investments as $investment)
             <tr>
                 <td class="text-right text-muted small align-middle">{{ $investment->id }}</td>
                 <td>
@@ -49,7 +49,11 @@
                     {{ optional($investment->paid_at)->format('d.m.Y') }}
                 </td>
             </tr>
-        @endforeach
+        @empty
+            <tr class="text-center text-muted">
+                <td colspan="6">Es wurden noch keine Investments getätigt</td>
+            </tr>
+        @endforelse
         </tbody>
     </table>
 @endsection
