@@ -142,6 +142,19 @@ class BillController extends Controller
         ]);
     }
 
+    public function billPdf(int $bill)
+    {
+       $bill = Bill::findOrFail($bill);
+        $bill->load('user');
+
+        $investments = $this->mapForView($bill->commissions());
+
+        return response()->view('bills.bill', $investments + [
+                'user' => $bill->user,
+                'company' => optional($bill->user->company),
+            ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

@@ -53,7 +53,7 @@
 <h3 class="text-center mt-5">Provisionsgutschrift</h3>
 <div class="mt-5">
     Sofern Provisionen angefallen sind, überweisen wir diese in den nächsten Tagen auf das von Ihnen angegebene
-    Konto {{ $user->details->iban }}
+    Konto {{ $user->details->iban  }}
 </div>
 <div>
     Die Provisionsgutschrift stellt sich wie folgt zusammen:

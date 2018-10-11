@@ -93,6 +93,7 @@ final class CalculateCommissions extends Command
             return $sums + [
                     'model_id' => $investor->id,
                     'user_id' => $investor->user_id,
+                    'bonus' => 0,
                 ];
         };
 
