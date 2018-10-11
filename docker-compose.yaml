@@ -3,9 +3,9 @@ version: '3.2'
 services:
 
   webapp:
-    build: application
+    build: .
     volumes:
-      - application:/var/www/html:delegated
+      - ./application:/var/www/html
     ports:
       - 80:8080
     depends_on:
@@ -19,14 +19,13 @@ services:
       MYSQL_PASSWORD: secret
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - ./database/seeds/dumps:/var/lib/mysql
-
+      - ./application/data/database:/var/lib/mysql
     ports:
       - 3306:3306
 
   redis:
     image: redis:3
     volumes:
-      - application/:/data
+      - ./application/data/cache/:/data
     ports:
       - 6390:6379

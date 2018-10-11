@@ -1,2 +1,4 @@
 .php_cs.cache
 /.idea
+/application/node_modules
+/infrastructure/node_modules
