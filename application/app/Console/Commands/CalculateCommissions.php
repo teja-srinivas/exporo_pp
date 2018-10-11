@@ -45,12 +45,12 @@ final class CalculateCommissions extends Command
 
             $now = now()->toDateTimeString();
 
-            Commission::query()->insert($rows->map(function ($entry) use($now, $type) {
+            Commission::query()->insert($rows->map(function ($entry) use ($now, $type) {
                 return $entry + [
-                    'model_type' => $type,
-                    'created_at' => $now,
-                    'updated_at' => $now,
-                ];
+                        'model_type' => $type,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
             })->all());
         });
     }
@@ -85,15 +85,15 @@ final class CalculateCommissions extends Command
 
         $callback = function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
-                // Temp values that come from the query (not actually from the Investor's table)
-                (bool) $investor->vat_included,
-                (float) $investor->registration
+            // Temp values that come from the query (not actually from the Investor's table)
+                (bool)$investor->vat_included,
+                (float)$investor->registration
             );
 
             return $sums + [
-                'model_id' => $investor->id,
-                'user_id' => $investor->user_id,
-            ];
+                    'model_id' => $investor->id,
+                    'user_id' => $investor->user_id,
+                ];
         };
 
         $this->calculate(Investor::MORPH_NAME, $query, $callback);
@@ -108,7 +108,8 @@ final class CalculateCommissions extends Command
     private function calculateInvestments(
         InvestmentRepository $repository,
         CalculateCommissionsService $commissions
-    ): void {
+    ): void
+    {
         $query = $repository->queryWithoutCommission()->with([
             'project.schema',
             'investor.details',
@@ -118,9 +119,9 @@ final class CalculateCommissions extends Command
         $callback = function (Investment $investment) use ($commissions) {
             $entries = [];
             $entries[] = $commissions->calculate($investment) + [
-                'model_id' => $investment->id,
-                'user_id' => $investment->investor->user_id,
-            ];
+                    'model_id' => $investment->id,
+                    'user_id' => $investment->investor->user_id,
+                ];
 
             for ($user = $investment->investor->user; $user->parent_id > 0; $user = $parent) {
                 if ($user->id === $user->parent_id) {
@@ -134,10 +135,10 @@ final class CalculateCommissions extends Command
                 }
 
                 $entries[] = $commissions->calculate($investment, $parent, $user) + [
-                    'model_type' => Investment::OVERHEAD_MORPH_NAME,
-                    'model_id' => $investment->id,
-                    'user_id' => $user->id,
-                ];
+                        'model_type' => Investment::OVERHEAD_MORPH_NAME,
+                        'model_id' => $investment->id,
+                        'user_id' => $user->id,
+                    ];
             }
 
             return $entries;
