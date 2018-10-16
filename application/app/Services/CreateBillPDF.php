@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use GuzzleHttp\Client;
-
+use Illuminate\Support\Facades\Storage;
 final class CreateBillPDF
 {
     protected $client;
@@ -16,27 +16,34 @@ final class CreateBillPDF
         $this->globalsParams = [
             'force' => 'true',
             'full_page' => true,
-            'delay' => 6500,
+            'delay' => 0,
             'transparent' => 'true',
             'pdf_page_size' => 'A4',
             'pdf_background' => 'true',
             'pdf_margin' => 'minimum',
-            'retina' => true
+            'auth' => config('urlbox.auth_key'),
+            'retina' => false,
+            'ttl' => 0,
         ];
     }
 
-    public function getPDF(string $url, $type = 'pdf')
+    public function getPDF(string $url, $bill, $type = 'pdf')
     {
-        $url = env('URLBOX_BASE_URL') . $type;
-        $this->globalsParams['url'] = $url;
 
-        return $this->getRequest($url, $this->globalsParams);
+        $urlBoxUrl = env('URLBOX_BASE_URL') . $type;
+        $this->globalsParams['url'] = $url . $bill['id'];
+
+        return $this->getRequest($urlBoxUrl, $this->globalsParams, $bill);
     }
 
-    protected function getRequest(string $url, array $params)
+    protected function getRequest(string $url, array $params, $bill)
     {
-        $url = env('URLBOX_BASE_URL') . '?' . http_build_query($params);
+
+        $url = $url . '?' . http_build_query($params) . '&authorization=Basic%20YS52ZXJ0Z2V3YWxsQGV4cG9yby5jb206MTIzNDU2';
         $res = $this->client->request('GET', $url);
-        return $res->getBody();
+
+        Storage::disk('s3')->put('statements/'. $bill['id'] . '-' . $bill->user['last_name'] . '-' . $bill->user['first_name'] . '-' . $bill['created_at']. '.pdf'
+            , $res->getBody()->getContents(), 'private');
+        return $res->getBody()->getContents();
     }
 }

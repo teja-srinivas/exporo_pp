@@ -28,7 +28,6 @@ Route::middleware(['auth', 'accepted'])->group(function () {
 
     Route::resource('agbs', 'AgbController');
     Route::get('bills/preview/{user}', 'BillController@preview');
-    Route::get('bills/pdf/{bill}', 'BillController@billPdf');
     Route::resource('bills/commissions/types', 'CommissionTypeController')->names('commissionTypes');
     Route::resource('bills/commissions', 'CommissionController');
     Route::resource('bills', 'BillController');
@@ -47,5 +46,7 @@ Route::middleware(['auth', 'accepted'])->group(function () {
 
     Route::get('/authorization', 'AuthorizationController@index')->name('authorization.index');
 });
+
+Route::get('bills/pdf/{bill}', 'BillController@billPdf')->middleware('auth.basic.once');
 
 Auth::routes();
