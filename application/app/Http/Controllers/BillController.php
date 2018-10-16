@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection as BaseCollection;
+use Illuminate\Support\Facades\Storage;
 
 class BillController extends Controller
 {
@@ -112,9 +113,13 @@ class BillController extends Controller
         });
 
         Bill::disableAuditing();
+        $dateForDirectory = now()->format('Y-m');
+        if(!in_array($dateForDirectory . '/' , Storage::disk('s3')->directories('statements'))){
+        Storage::disk('s3')->makeDirectory('statements/' . $dateForDirectory . '/' );
+         }
 
         // Create bills for each user and assign it to their commissions
-        $users->each(function (int $userId) use ($commissionIds, $releaseAt, $billPdf) {
+        $users->each(function (int $userId) use ($commissionIds, $releaseAt, $billPdf, $dateForDirectory) {
             $bill = Bill::query()->forceCreate([
                 'user_id' => $userId,
                 'released_at' => $releaseAt,
@@ -124,7 +129,7 @@ class BillController extends Controller
                 'bill_id' => $bill->getKey(),
             ]);
 
-            ProcessBillCreation::dispatch('https://2dfc8a5e.ngrok.io/bills/pdf/', $bill);
+            ProcessBillCreation::dispatch('https://2dfc8a5e.ngrok.io/bills/pdf/', $bill, $dateForDirectory);
         });
         Bill::enableAuditing();
 
