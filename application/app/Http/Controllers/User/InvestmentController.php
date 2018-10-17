@@ -26,7 +26,7 @@ class InvestmentController extends Controller
                 ->select('investments.id', 'paid_at', 'amount')
                 ->selectRaw('investors.first_name')
                 ->selectRaw('investors.last_name')
-                ->selectRaw('projects.name as project_name')
+                ->selectRaw('projects.description as project_name')
                 ->selectRaw('schemas.name as type')
                 ->latest('investments.created_at')
                 ->get(),

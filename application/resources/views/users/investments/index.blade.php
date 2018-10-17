@@ -19,7 +19,7 @@
             <tr>
                 <th class="text-right">ID</th>
                 <th>Name</th>
-                <th>Project</th>
+                <th>Projekt</th>
                 <th>Provisionstyp</th>
                 <th class="text-right">Betrag</th>
                 <th class="text-right">Bezahldatum</th>
