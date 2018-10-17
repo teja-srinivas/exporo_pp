@@ -562,7 +562,7 @@ export default {
 
     async updateOrRollBack(commission, props, rollbackCallback) {
       try {
-        await axios.put(`${this.api}/${commission.id}`, props);
+        await axios.put(`${this.api}/${commission.key}`, props);
         this.$notify('Änderungen gespeichert');
 
       } catch (e) {
