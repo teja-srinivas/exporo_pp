@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * @property string $name
+ * @property string $description
  * @property int $runtime
  * @property User $approved
  * @property Schema $schema;

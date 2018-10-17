@@ -22,7 +22,7 @@ class Investment extends JsonResource
             'investor' => Investor::make($investment->investor),
             'investment' => $investment->amount,
             'project' => [
-                'name' => $investment->project->name,
+                'name' => $investment->project->description,
                 'schema' => $investment->project->schema->formula,
                 'margin' => $investment->project->marginPercentage(),
                 'runtimeFactor' => $investment->project->runtimeFactor(),

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\DB;
 
 class CommissionController extends Controller
 {
@@ -235,8 +236,11 @@ class CommissionController extends Controller
                 }
             })
             ->when($columns->has('model'), function (Builder $query) use ($columns) {
+                $lowercaseName = mb_convert_case($columns['model']['filter'], MB_CASE_LOWER);
+                $quotedName = DB::connection()->getPdo()->quote('%' . $lowercaseName . '%');
+
                 $projectIds = Project::query()
-                    ->where('name', 'like', '%' . $columns['model']['filter'] . '%')
+                    ->whereRaw('LOWER(description) LIKE ' . $quotedName)
                     ->select('id');
 
                 $query->whereIn('investments.project_id', $projectIds);
