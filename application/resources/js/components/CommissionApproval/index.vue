@@ -114,9 +114,12 @@
                   class="form-control form-control-sm w-auto py-0 px-1 h-auto"
                 >
                   <option value="">(Alle)</option>
-                  <option value="investment">Projektinvestment</option>
                   <option value="investor">Registrierung</option>
                   <option value="overhead">Overhead</option>
+                  <option disabled>&mdash;</option>
+                  <option value="investment">Projektinvestment</option>
+                  <option value="first-investment">Erstinvestment</option>
+                  <option value="further-investment">Folgeinvestment</option>
                 </select>
               </div>
               <input

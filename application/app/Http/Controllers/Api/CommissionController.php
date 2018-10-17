@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Commission;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Commission as CommissionResource;
+use App\Investment;
 use App\Project;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
@@ -261,7 +262,22 @@ class CommissionController extends Controller
             ->when(
                 $columns->has('type') && !empty($columns['type']['filter']),
                 function (Builder $query) use ($columns) {
-                    $query->where('model_type', $columns['type']['filter']);
+                    $type = $columns['type']['filter'];
+
+                    switch ($type) {
+                        case 'first-investment':
+                            $query->where('model_type', Investment::MORPH_NAME);
+                            $query->where('investments.is_first_investment', true);
+                            break;
+
+                        case 'further-investment':
+                            $query->where('model_type', Investment::MORPH_NAME);
+                            $query->where('investments.is_first_investment', false);
+                            break;
+
+                        default:
+                            $query->where('model_type', $type);
+                    }
                 }
             )
             ->when($columns->has('id'), function (Builder $query) use ($columns) {
