@@ -89,40 +89,11 @@ class SidebarComposer
                 ],
             ],
             [
-                'title' => 'Meine Partner',
-                'links' => [
-                    [
-                        'title' => 'Partner werben',
-                        'url' => '#1',
-                    ],
-                    [
-                        'title' => 'Meine Partner',
-                        'url' => '#2',
-                    ],
-                ],
-            ],
-            [
                 'title' => 'Werbemittel',
                 'links' => [
                     [
-                        'title' => 'Banner',
-                        'url' => '#1',
-                    ],
-                    [
-                        'title' => 'Iframes',
-                        'url' => '#2',
-                    ],
-                    [
-                        'title' => 'Mailings',
-                        'url' => '#3',
-                    ],
-                    [
                         'title' => 'Links',
                         'url' => '#4',
-                    ],
-                    [
-                        'title' => 'Social Media Content',
-                        'url' => '#5',
                     ],
                 ],
             ],

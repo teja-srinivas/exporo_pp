@@ -85,7 +85,7 @@ class UserController extends Controller
         $user->bills = Bill::getDetailsPerUser($user->id)->get();
 
         $investors = $user->investors()->toBase()
-            ->join('investments', 'investments.investor_id', 'investors.id')
+            ->leftJoin('investments', 'investments.investor_id', 'investors.id')
             ->selectRaw('count(distinct(investors.id)) as count')
             ->selectRaw('count(investments.id) as investments')
             ->selectRaw('sum(investments.amount) as amount')

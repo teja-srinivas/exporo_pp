@@ -95,10 +95,10 @@ export default {
     span {
       font-size: 10pt;
       display: inline-block;
-      background-color: rgba(white, 0.65);
+      background-color: rgba(white, 0.75);
       padding: 2px 4px;
       margin: 1px 0 1px 4px;
-      border-radius: $border-radius;
+      border-radius: ($border-radius / 2);
     }
 
     &.danger {

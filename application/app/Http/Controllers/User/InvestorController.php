@@ -19,7 +19,7 @@ class InvestorController extends Controller
         return view('users.investors.index', [
             'user' => $user,
             'investors' => $user->investors()
-                ->join('investments', 'investments.investor_id', 'investors.id')
+                ->leftJoin('investments', 'investments.investor_id', 'investors.id')
                 ->select('investors.id', 'first_name', 'last_name', 'activation_at')
                 ->selectRaw('count(investments.id) as investments')
                 ->selectRaw('sum(investments.amount) as amount')

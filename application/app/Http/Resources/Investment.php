@@ -21,11 +21,15 @@ class Investment extends JsonResource
             'id' => $this->getRouteKey(),
             'investor' => Investor::make($investment->investor),
             'investment' => $investment->amount,
+            'isFirst' => $investment->is_first_investment,
             'project' => [
-                'name' => $investment->project->name,
+                'name' => $investment->project->description,
                 'schema' => $investment->project->schema->formula,
                 'margin' => $investment->project->marginPercentage(),
                 'runtimeFactor' => $investment->project->runtimeFactor(),
+                'links' => [
+                    'self' => route('projects.show', $investment->project),
+                ],
             ],
         ];
     }

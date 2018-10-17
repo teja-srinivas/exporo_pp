@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             {{-- Sidebar --}}
-            <div class="col-md-3">
+            <div class="col-md-3 col-xl-2">
                 <div class="sidebar sticky-top mb-3">
                     @foreach($menu as $group)
                         <h6 class="text-muted text-uppercase tracking-wide sidebar-header @unless($loop->first) mt-4 @endif">
@@ -27,7 +27,7 @@
             </div>
 
             {{-- Main Content Area --}}
-            <div class="col-md-9">
+            <div class="col-md-9 col-xl-10">
                 <div class="d-flex justify-content-between align-items-center
                             @if($__env->hasSection('actions') || $__env->hasSection('title')) mb-3 @endif">
                     <div class="flex-fill mr-2">

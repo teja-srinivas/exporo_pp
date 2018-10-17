@@ -25,7 +25,8 @@ class Commission extends JsonResource
         $model = $this->resource;
 
         return [
-            'id' => $this->getRouteKey(),
+            'id' => $this->id,
+            'key' => $this->getRouteKey(),
             'type' => $model->model_type,
             'net' => $model->net,
             'gross' => $model->gross,
