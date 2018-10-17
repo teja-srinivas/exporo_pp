@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Jenssegers\Date\Date;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
@@ -97,5 +98,10 @@ class Investment extends Model implements AuditableContract
     {
         $this->scopeRefundable($query);
         $query->whereNotNull('paid_at');
+    }
+
+    public function getPaidAtAttribute($value)
+    {
+        return $value !== '1970-01-01 00:00:00' ? Date::make($value) : null;
     }
 }
