@@ -43,6 +43,7 @@ Route::middleware(['auth', 'accepted'])->group(function () {
     });
 
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::view('/affiliate/links', 'affiliate/links')->name('affiliate.links');
 
     Route::get('/authorization', 'AuthorizationController@index')->name('authorization.index');
 });

@@ -93,7 +93,8 @@ class SidebarComposer
                 'links' => [
                     [
                         'title' => 'Links',
-                        'url' => '#4',
+                        'url' => route('affiliate.links'),
+                        'isActive' => $this->request->routeIs('affiliate.links'),
                     ],
                 ],
             ],
