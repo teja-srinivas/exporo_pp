@@ -5,6 +5,8 @@ fontawesome.library.add(
   require('@fortawesome/fontawesome-free-solid/faChevronRight'),
   require('@fortawesome/fontawesome-free-solid/faHome'),
   require('@fortawesome/fontawesome-free-solid/faUser'),
+  require('@fortawesome/fontawesome-free-solid/faUsers'),
+  require('@fortawesome/fontawesome-free-solid/faShareSquare'),
   require('@fortawesome/fontawesome-free-solid/faSort'),
   require('@fortawesome/fontawesome-free-solid/faSortDown'),
   require('@fortawesome/fontawesome-free-solid/faSortUp'),

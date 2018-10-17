@@ -197,28 +197,39 @@
                 </div>
               </td>
 
-              <td>
-                <span class="text-muted small mr-1">
-                  #{{ commission.user.id }}
-                </span>
-                {{ displayNameUser(commission.user) }}
+              <td colspan="2">
+                <div class="d-flex align-items-center">
+                  <a :href="commission.user.links.self" target="_blank" class="mr-1" @click.stop style="line-height: 0">
+                    <font-awesome-icon icon="share-square" size="xs" />
+                  </a>
+                  <a href="#" class="text-muted small mr-2" :title="displayNameUser(commission.user)" @click.prevent="filter.user = `${commission.user.id}`">
+                    #{{ commission.user.id }}
+                  </a>
+                  <div v-if="commission.model.project !== undefined" class="flex-fill">
+                    <schema :value="commission.model.project.schema" :commission="commission" />
+                  </div>
+                  <div v-else class="row flex-fill">
+                    <div class="col">
+                      {{ displayNameUser(commission.user) }}
+                    </div>
+                    <div class="col">
+                      <span class="text-muted small mr-2">#{{ commission.model.id }}</span>
+                      {{ commission.model.lastName }},
+                      {{ commission.model.firstName }}
+                    </div>
+                  </div>
+                  <div v-if="commission.type === 'investment'" title="Projektinvestment">
+                    <font-awesome-icon icon="home" fixed-width size="sm" class="align-baseline text-primary" />
+                  </div>
+                  <div v-else-if="commission.type === 'investor'" title="Registrierung">
+                    <font-awesome-icon icon="user" fixed-width size="sm" class="align-baseline text-success" />
+                  </div>
+                  <div v-else-if="commission.type === 'overhead'" title="Overhead">
+                    <font-awesome-icon icon="users" fixed-width size="sm" class="align-baseline text-muted" />
+                  </div>
+                </div>
               </td>
 
-              <td v-if="commission.type === 'investment'">
-                <font-awesome-icon icon="home" fixed-width size="sm" class="align-baseline" style="color: #aaa" />
-                {{ commission.model.project.name }}
-              </td>
-
-              <td v-else-if="commission.type === 'investor'">
-                <font-awesome-icon icon="user" fixed-width size="sm" class="align-baseline" style="color: #aaa" />
-
-                {{ commission.model.lastName }},
-                {{ commission.model.firstName }}
-              </td>
-
-              <td v-else-if="commission.type === 'overhead'">
-                <font-awesome-icon icon="user" fixed-width size="sm" class="align-baseline" style="color: #aaa" />
-              </td>
 
               <td v-if="commission.showDetails" class="text-right" rowspan="2">
                 <strong>Netto</strong>: {{ formatEuro(commission.net) }}<br>
@@ -236,20 +247,24 @@
               :key="`${commission.id}-details`"
             >
               <td colspan="4" class="small border-right pl-3" :class="$style.infoBox">
+                <div v-if="commission.type === 'investment'" class="my-2 row align-items-center">
+                  <div class="col-sm-2"><strong>Projekt:</strong></div>
+                  <div class="col-sm-10 d-flex align-items-center">
+                      <a :href="commission.model.project.links.self" target="_blank" class="mr-1" @click.stop style="line-height: 0">
+                          <font-awesome-icon icon="share-square" size="xs" />
+                      </a>
+
+                      <a href="#" class="text-body" @click.prevent="filter.model = `${commission.model.project.name}`">
+                          {{ commission.model.project.name }}
+                      </a>
+                  </div>
+                </div>
+
                 <div v-if="commission.type === 'investment'" class="my-1 row align-items-center">
                   <div class="col-sm-2"><strong>Investor:</strong></div>
                   <div class="col-sm-10">
                     <input type="text" readonly class="form-control-plaintext"
-                           :value="`${displayNameUser(commission.model.investor)} (#${commission.model.investor.id})`">
-                  </div>
-                </div>
-
-                <div v-if="commission.model.project !== undefined" class="my-1 row align-items-center">
-                  <div class="col-sm-2">
-                    <strong>Formel:</strong>
-                  </div>
-                  <div class="col-sm-10 py-1">
-                    <schema :value="commission.model.project.schema" :commission="commission" />
+                           :value="`#${commission.model.investor.id} ${displayNameUser(commission.model.investor)}`">
                   </div>
                 </div>
 

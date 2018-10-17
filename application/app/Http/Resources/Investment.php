@@ -26,6 +26,9 @@ class Investment extends JsonResource
                 'schema' => $investment->project->schema->formula,
                 'margin' => $investment->project->marginPercentage(),
                 'runtimeFactor' => $investment->project->runtimeFactor(),
+                'links' => [
+                    'self' => route('projects.show', $investment->project),
+                ],
             ],
         ];
     }
