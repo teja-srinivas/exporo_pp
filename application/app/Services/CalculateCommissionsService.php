@@ -55,7 +55,7 @@ final class CalculateCommissionsService
             'net' => $sum,
             'gross' => $sum * (1.0 + self::VAT),
         ] : [
-            'net' => $sum * (1.0 - self::VAT),
+            'net' => $sum / (1.0 + self::VAT),
             'gross' => $sum,
         ];
     }
