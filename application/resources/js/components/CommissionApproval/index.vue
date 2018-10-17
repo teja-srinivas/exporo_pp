@@ -365,6 +365,7 @@ import filter from 'lodash/filter';
 import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import map from 'lodash/map';
+import mapValues from 'lodash/mapValues';
 import reduce from 'lodash/reduce';
 import set from 'lodash/set';
 
@@ -526,7 +527,7 @@ export default {
     },
 
     async updateMultiple(commission, props) {
-      const prev = map(props, (val, key) => {
+      const prev = mapValues(props, (val, key) => {
         const value = get(commission, key);
         set(commission, key, val);
 
@@ -572,7 +573,7 @@ export default {
           type: 'error',
         });
 
-        rollbackCallback();
+        this.$nextTick(rollbackCallback);
       }
     }
   },
