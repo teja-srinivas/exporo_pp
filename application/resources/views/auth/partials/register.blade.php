@@ -37,7 +37,7 @@
                         <label class="custom-control-label" for="salutation2">Herr</label>
                     </div>
 
-                    @include('components.form.error', ['name' => 'salutation'])
+                    @include('components.form.error', ['name' => 'salutation', 'class' => 'd-block'])
                 </div>
             </div>
 
