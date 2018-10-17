@@ -218,6 +218,9 @@
                       {{ commission.model.firstName }}
                     </div>
                   </div>
+                  <div v-if="commission.type === 'investment' && commission.model.isFirst" title="Erstinvestment">
+                    <font-awesome-icon icon="flag" fixed-width size="sm" class="align-baseline text-danger" />
+                  </div>
                   <div v-if="commission.type === 'investment'" title="Projektinvestment">
                     <font-awesome-icon icon="home" fixed-width size="sm" class="align-baseline text-primary" />
                   </div>

@@ -21,6 +21,7 @@ class Investment extends JsonResource
             'id' => $this->getRouteKey(),
             'investor' => Investor::make($investment->investor),
             'investment' => $investment->amount,
+            'isFirst' => $investment->is_first_investment,
             'project' => [
                 'name' => $investment->project->description,
                 'schema' => $investment->project->schema->formula,
