@@ -260,6 +260,9 @@ class CommissionController extends Controller
                     $query->where('model_type', $columns['type']['filter']);
                 }
             )
+            ->when($columns->has('id'), function (Builder $query) use ($columns) {
+                $query->where('commissions.id', $columns['id']['filter']);
+            })
             ->isAcceptable()
             ->select('commissions.*');
     }

@@ -33,9 +33,8 @@
     <div class="card border-0 shadow-sm accent-primary">
       <table :class="$style.table" class="table table-sm table-hover table-striped mb-0 table-sticky">
         <colgroup>
-          <col width="50">
-          <col width="25">
-          <col width="72">
+          <col width="80">
+          <col width="80">
           <col width="50%">
           <col width="50%">
           <col width="150">
@@ -44,10 +43,17 @@
         <!-- Header -->
         <thead>
           <tr>
-            <th class="border-bottom-1 align-top pr-0">
+            <th class="border-bottom-1 align-top">
               ID
+              <input
+                type="text"
+                class="mt-1 p-1 d-block w-100 form-control form-control-sm"
+                v-model="filter.id"
+                placeholder="ID"
+                @click.stop
+              >
             </th>
-            <th class="border-bottom-1 align-top px-0" colspan="2">
+            <th class="border-bottom-1 align-top pr-0">
               <div class="d-flex flex-column justify-content-between">
                 <div>Status</div>
 
@@ -149,15 +155,14 @@
               :key="commission.id"
               @click="commission.showDetails = !commission.showDetails"
             >
-              <td class="text-muted small pr-0" style="padding-top: 0.4rem">
-                  {{ commission.id }}
+              <td class="text-muted pl-1 align-middle">
+                <div class="d-flex align-items-center justify-content-between">
+                    <font-awesome-icon v-if="commission.showDetails" icon="chevron-down" fixed-width />
+                    <font-awesome-icon v-else icon="chevron-right" fixed-width />
+                    <small class="ml-1" v-text="commission.id" />
+                </div>
               </td>
-              <td class="border-right-0 text-muted px-0">
-                <font-awesome-icon v-if="commission.showDetails" icon="chevron-down" fixed-width />
-                <font-awesome-icon v-else icon="chevron-right" fixed-width />
-              </td>
-
-              <td :rowspan="commission.showDetails ? 2 : 1" class="px-0 pb-0 border-left-0">
+              <td :rowspan="commission.showDetails ? 2 : 1" class="pr-0 pb-0 border-left-0">
                 <div class="d-flex">
                   <b-form-checkbox
                     :checked="commission.reviewed"
@@ -282,7 +287,7 @@
 
         <!-- Loading / Empty State -->
         <tr v-else>
-          <td colspan="6" class="text-center text-muted">
+          <td colspan="5" class="text-center text-muted">
             <span v-if="isLoading">
               Provisionen werden geladen...
             </span>
@@ -296,7 +301,7 @@
         <!-- Footer -->
         <tfoot>
         <tr>
-          <td colspan="3" class="text-center align-middle small">
+          <td colspan="2" class="text-center align-middle small">
             <font-awesome-icon v-if="isLoading" icon="sync" spin />
             <span v-else-if="hasFilters">{{ meta.total }} / {{ totals.count }}</span>
             <span v-else>{{ meta.total }} insg.</span>
@@ -408,6 +413,7 @@ export default {
       },
 
       filter: {
+        id: '',
         model: '',
         type: '',
         user: '',
