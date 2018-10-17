@@ -33,17 +33,21 @@
     <div class="card border-0 shadow-sm accent-primary">
       <table :class="$style.table" class="table table-sm table-hover table-striped mb-0 table-sticky">
         <colgroup>
+          <col width="50">
           <col width="25">
-          <col width="75">
+          <col width="72">
           <col width="50%">
           <col width="50%">
-          <col width="165">
+          <col width="150">
         </colgroup>
 
         <!-- Header -->
         <thead>
           <tr>
-            <th class="border-bottom-1 align-top pr-0" colspan="2">
+            <th class="border-bottom-1 align-top pr-0">
+              ID
+            </th>
+            <th class="border-bottom-1 align-top px-0" colspan="2">
               <div class="d-flex flex-column justify-content-between">
                 <div>Status</div>
 
@@ -145,13 +149,16 @@
               :key="commission.id"
               @click="commission.showDetails = !commission.showDetails"
             >
-              <td class="border-right-0 text-muted pr-1">
+              <td class="text-muted small pr-0" style="padding-top: 0.4rem">
+                  {{ commission.id }}
+              </td>
+              <td class="border-right-0 text-muted px-0">
                 <font-awesome-icon v-if="commission.showDetails" icon="chevron-down" fixed-width />
                 <font-awesome-icon v-else icon="chevron-right" fixed-width />
               </td>
 
-              <td :rowspan="commission.showDetails ? 2 : 1" class="pl-1 pr-0 pb-0 border-left-0">
-                <div class="d-inline-flex">
+              <td :rowspan="commission.showDetails ? 2 : 1" class="px-0 pb-0 border-left-0">
+                <div class="d-flex">
                   <b-form-checkbox
                     :checked="commission.reviewed"
                     @change="val => updateMultiple(commission, {
@@ -275,7 +282,7 @@
 
         <!-- Loading / Empty State -->
         <tr v-else>
-          <td colspan="5" class="text-center text-muted">
+          <td colspan="6" class="text-center text-muted">
             <span v-if="isLoading">
               Provisionen werden geladen...
             </span>
@@ -289,7 +296,7 @@
         <!-- Footer -->
         <tfoot>
         <tr>
-          <td colspan="2" class="text-center align-middle small">
+          <td colspan="3" class="text-center align-middle small">
             <font-awesome-icon v-if="isLoading" icon="sync" spin />
             <span v-else-if="hasFilters">{{ meta.total }} / {{ totals.count }}</span>
             <span v-else>{{ meta.total }} insg.</span>
