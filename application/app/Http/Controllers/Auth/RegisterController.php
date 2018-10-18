@@ -8,11 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Role;
 use App\User;
-use App\UserDetails;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Message;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use Sichikawa\LaravelSendgridDriver\Transport\SendgridTransport;
 class RegisterController extends Controller
 {
     /*
@@ -34,7 +35,7 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
-
+    protected $user;
     /**
      * Create a new controller instance.
      *
@@ -75,7 +76,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::forceCreate([
+        $this->user = User::forceCreate([
             'company_id' => Company::first()->getKey(),
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
@@ -83,7 +84,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $user->details()->create([
+        $this->user->details()->create([
             'company' => $data['company'],
             'title' => $data['title'],
             'salutation' => $data['salutation'],
@@ -100,14 +101,32 @@ class RegisterController extends Controller
             'tax_office' => $data['tax_office'],
         ]);
 
-        $user->assignRole(Role::PARTNER);
+        $this->user->assignRole(Role::PARTNER);
 
-        $user->agbs()->attach(
+        $this->user->agbs()->attach(
             collect(Agb::TYPES)->map(function (string $type) {
                 return Agb::current($type);
             })->filter()->pluck('id')
         );
 
-        return $user;
+        Mail::send([], [], function (Message $message) {
+            $message
+                ->to('a.vertgewall@exporo.com')
+                ->from('partnerprogramm@exporo.com')
+                ->embedData([
+                    'personalizations' => [
+                        [
+                            'dynamic_template_data' => [
+                                'Anrede' => $this->user->salutation,
+                                'Nachname' => $this->user->last_name,
+                                'Activationhash' => 'esfgrt'
+                            ],
+                        ],
+                    ],
+                    'template_id' => env('DOI_TEMPLATE'),
+                ], SendgridTransport::SMTP_API_NAME);
+        });
+
+        return $this->user;
     }
 }
