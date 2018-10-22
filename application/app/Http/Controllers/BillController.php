@@ -113,13 +113,8 @@ class BillController extends Controller
         });
 
         Bill::disableAuditing();
-        $dateForDirectory = now()->format('Y-m');
-        if(!in_array($dateForDirectory . '/' , Storage::disk('s3')->directories('statements'))){
-        Storage::disk('s3')->makeDirectory('statements/' . $dateForDirectory . '/' );
-         }
-
         // Create bills for each user and assign it to their commissions
-        $users->each(function (int $userId) use ($commissionIds, $releaseAt, $billPdf, $dateForDirectory) {
+        $users->each(function (int $userId) use ($commissionIds, $releaseAt, $billPdf) {
             $bill = Bill::query()->forceCreate([
                 'user_id' => $userId,
                 'released_at' => $releaseAt,
@@ -129,7 +124,7 @@ class BillController extends Controller
                 'bill_id' => $bill->getKey(),
             ]);
 
-            ProcessBillCreation::dispatch('https://2dfc8a5e.ngrok.io/bills/pdf/', $bill, $dateForDirectory);
+            ProcessBillCreation::dispatch('https://2aae4327.ngrok.io/bills/pdf/', $bill);
         });
         Bill::enableAuditing();
 

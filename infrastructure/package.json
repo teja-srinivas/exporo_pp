@@ -4,11 +4,11 @@
   "repository": "https://bitbucket.org/exporo/exporo_pp.git",
   "version": "1.0.0",
   "scripts": {
-    "docker": "npx exporo-cloud docker",
-    "aws": "npx exporo-cloud aws"
+    "docker": "npx exporo-cloud docker-image-magic",
+    "aws": "npx exporo-cloud aws-infra-magic"
   },
   "dependencies": {
-    "exporo-cloud": "git+ssh://git@bitbucket.org/exporodev/exporo_infrastructure.git#master"
+    "exporo-cloud": "git+ssh://git@bitbucket.org/exporodev/exporo_infrastructure.git#1.0.0"
   },
   "author": "Exporo Partner Program Team team.partnerprogramm@exporo.com",
   "license": "UNLICENSED"

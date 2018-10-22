@@ -42,7 +42,7 @@ final class CreateBillPDF
         $url = $url . '?' . http_build_query($params) . '&authorization=Basic%20YS52ZXJ0Z2V3YWxsQGV4cG9yby5jb206MTIzNDU2';
         $res = $this->client->request('GET', $url);
 
-        Storage::disk('s3')->put('statements/'. $bill['id'] . '-' . $bill->user['last_name'] . '-' . $bill->user['first_name'] . '-' . $bill['created_at']. '.pdf'
+        Storage::disk('s3')->put('statements/'. $bill['id'] .'.pdf'
             , $res->getBody()->getContents(), 'private');
         return $res->getBody()->getContents();
     }

@@ -17,16 +17,11 @@ class ProcessBillCreation implements ShouldQueue
     protected $globalsParams;
     protected $url;
     protected $bill;
-    protected $dateForDirectory;
 
-    public function __construct($url, $bill, $dateForDirectory)
+    public function __construct($url, $bill)
     {
-
-        $this->dateForDirectory = $dateForDirectory;
-
         $this->url = $url;
         $this->bill = $bill;
-
         $this->globalsParams = [
             'force' => 'true',
             'full_page' => true,
@@ -53,21 +48,11 @@ class ProcessBillCreation implements ShouldQueue
         $client = new Client();
         $url = $url . '?' . http_build_query($this->globalsParams) . '&authorization=Basic%20YS52ZXJ0Z2V3YWxsQGV4cG9yby5jb206MTIzNDU2';
         $res = $client->request('GET', $url);
-
-
         return $res->getBody()->getContents();
     }
 
     protected function storeInS3($result){
-        $user = $this->bill->user;
-        if(!in_array( $user['id'] . '-' . $user['last_name']. '-' . $user['first_name'] . '/' ,
-            Storage::disk('s3')->directories('statements/' . $this->dateForDirectory . '/'))){
-            Storage::disk('s3')->makeDirectory('statements/' . $this->dateForDirectory . '/' . $user['id'] .
-                '-' . $user['last_name']. '-' . $user['first_name'] . '/' );
-        }
-
-        Storage::disk('s3')->put('statements/' . $this->dateForDirectory . '/' . $user['id'] . '-' .
-            $user['last_name']. '-' . $user['first_name'] . '/' . $this->bill['id'] . '_' . $user['last_name'] . '_'. $user['first_name'] . '_' . $this->bill['created_at'] . '.pdf'
+        Storage::disk('s3')->put('statements/' . $this->bill['id'] . '.pdf'
             , $result, 'private');
     }
 }
