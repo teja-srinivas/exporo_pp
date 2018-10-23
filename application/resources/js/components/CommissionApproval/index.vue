@@ -33,7 +33,7 @@
     <div class="card border-0 shadow-sm accent-primary">
       <table :class="$style.table" class="table table-sm table-hover table-striped mb-0 table-sticky">
         <colgroup>
-          <col width="80">
+          <col width="90">
           <col width="80">
           <col width="50%">
           <col width="50%">
@@ -158,9 +158,14 @@
             >
               <td class="text-muted pl-1 align-middle">
                 <div class="d-flex align-items-center justify-content-between">
-                    <font-awesome-icon v-if="commission.showDetails" icon="chevron-down" fixed-width />
-                    <font-awesome-icon v-else icon="chevron-right" fixed-width />
-                    <small class="ml-1" v-text="commission.id" />
+                  <font-awesome-icon v-if="commission.showDetails" icon="chevron-down" fixed-width />
+                  <font-awesome-icon v-else icon="chevron-right" fixed-width />
+                  <a
+                    href="#"
+                    class="ml-1 small text-muted"
+                    v-text="commission.model.id"
+                    @click.stop="filterById(commission.model.id)"
+                  />
                 </div>
               </td>
               <td :rowspan="commission.showDetails ? 2 : 1" class="pr-0 pb-0 border-left-0">
@@ -204,20 +209,14 @@
                     <font-awesome-icon icon="share-square" size="xs" />
                   </a>
                   <a href="#" class="text-muted small mr-2" :title="displayNameUser(commission.user)" @click.prevent="filter.user = `${commission.user.id}`">
-                    #{{ commission.user.id }}
+                    {{ commission.user.id }}
                   </a>
                   <div v-if="commission.model.project !== undefined" class="flex-fill">
                     <schema :value="commission.model.project.schema" :commission="commission" />
                   </div>
                   <div v-else class="row flex-fill">
-                    <div class="col">
-                      {{ displayNameUser(commission.user) }}
-                    </div>
-                    <div class="col">
-                      <span class="text-muted small mr-2">#{{ commission.model.id }}</span>
-                      {{ commission.model.lastName }},
-                      {{ commission.model.firstName }}
-                    </div>
+                    <div class="col" v-text="displayNameUser(commission.user)" />
+                    <div class="col" v-text="displayNameUser(commission.model)" />
                   </div>
                   <div v-if="commission.type === 'investment' && commission.model.isFirst" title="Erstinvestment">
                     <font-awesome-icon icon="flag" fixed-width size="sm" class="align-baseline text-danger" />
@@ -600,6 +599,11 @@ export default {
 
         this.$nextTick(rollbackCallback);
       }
+    },
+
+    filterById(id) {
+      this.filter = mapValues(this.filter, () => '');
+      this.filter.id = `${id}`;
     }
   },
 
