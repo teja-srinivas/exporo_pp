@@ -7,12 +7,11 @@ use App\Company;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Role;
+use App\Services\EmailService;
 use App\User;
-
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Sichikawa\LaravelSendgridDriver\Transport\SendgridTransport;
 class RegisterController extends Controller
 {
     /*
@@ -108,23 +107,14 @@ class RegisterController extends Controller
             })->filter()->pluck('id')
         );
 
-        Mail::send([], [], function (Message $message) {
-            $message
-                ->to($this->user->email)
-                ->from('partnerprogramm@exporo.com')
-                ->embedData([
-                    'personalizations' => [
-                        [
-                            'dynamic_template_data' => [
-                                'Anrede' => $this->user->salutation,
-                                'Nachname' => $this->user->last_name,
-                                'Activationhash' => 'esfgrt'
-                            ],
-                        ],
-                    ],
-                    'template_id' => env('DOI_TEMPLATE'),
-                ], SendgridTransport::SMTP_API_NAME);
-        });
+        $email = new EmailService();
+
+        $email->SendMail([
+            'Anrede' => $this->user->salutation,
+            'Nachname' => $this->user->last_name,
+            'Activationhash' => 'esfgrt'
+        ], $this->user, config('mail.templateIds.registration'));
+
 
         return $this->user;
     }

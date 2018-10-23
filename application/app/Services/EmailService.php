@@ -14,17 +14,18 @@ final class EmailService
     protected $templateId;
     protected $user;
     protected $mail;
+
     public function SendMail(array $templateData, $user, $templateId)
     {
         $this->templateId = $templateId;
         $this->templateData = $templateData;
         $this->user = $user;
-        if(env('APP_ENV') !== 'production'){
+        if (env('APP_ENV') !== 'production') {
             $this->mail = 'a.vertgewall@exporo.com';
-        }
-        else{
+        } else {
             $this->mail = $user->email;
         }
+
         Mail::send([], [], function (Message $message) {
             $message
                 ->to('a.vertgewall@exporo.com')
@@ -32,9 +33,10 @@ final class EmailService
                 ->embedData([
                     'personalizations' => [
                         [
-                            'dynamic_template_data' => $this->templateData
-                            ],
+                            'dynamic_template_data' =>
+                                $this->templateData
                         ],
+                    ],
                     'template_id' => $this->templateId,
                 ], SendgridTransport::SMTP_API_NAME);
         });
