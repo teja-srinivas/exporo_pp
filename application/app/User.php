@@ -29,6 +29,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property UserDetails $details
  * @property Collection $investors
  * @property Collection $investments
+ * @property Collection $bonuses
  * @property Company $company
  */
 class User extends Authenticatable implements AuditableContract
