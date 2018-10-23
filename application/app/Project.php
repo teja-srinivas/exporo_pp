@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $name
  * @property string $description
  * @property int $runtime
+ * @property int $commission_type
  * @property User $approved
  * @property Schema $schema;
  * @property Carbon $payback_min_at

@@ -47,10 +47,10 @@ final class CalculateCommissions extends Command
 
             Commission::query()->insert($rows->map(function ($entry) use ($now, $type) {
                 return $entry + [
-                        'model_type' => $type,
-                        'created_at' => $now,
-                        'updated_at' => $now,
-                    ];
+                    'model_type' => $type,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
             })->all());
         });
     }
@@ -69,7 +69,7 @@ final class CalculateCommissions extends Command
         // - the partner has not yet received a bonus
         $query = Investor::query()
             ->select('investors.id', 'investors.user_id')
-            ->selectRaw('commission_bonuses.registration')
+            ->selectRaw('commission_bonuses.value')
             ->selectRaw('user_details.vat_included')
             ->join('user_details', 'user_details.id', 'investors.user_id')
             ->leftJoin('commissions', function (JoinClause $join) {
@@ -78,23 +78,23 @@ final class CalculateCommissions extends Command
             })
             ->leftJoin('commission_bonuses', function (JoinClause $join) {
                 $join->on('commission_bonuses.user_id', 'user_details.id');
-                $join->where('commission_bonuses.type_id', '=', 3); // FIXME magic number
+                $join->where('commission_bonuses.calculation_type', '=', 'registration');
             })
-            ->where('commission_bonuses.registration', '>', 0)
+            ->where('commission_bonuses.value', '>', 0)
             ->whereNull('commissions.id');
 
         $callback = function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
-            // Temp values that come from the query (not actually from the Investor's table)
+                // Temp values that come from the query (not actually from the Investor's table)
                 (bool)$investor->vat_included,
-                (float)$investor->registration
+                (float)$investor->value
             );
 
             return $sums + [
-                    'model_id' => $investor->id,
-                    'user_id' => $investor->user_id,
-                    'bonus' => 0,
-                ];
+                'model_id' => $investor->id,
+                'user_id' => $investor->user_id,
+                'bonus' => 0,
+            ];
         };
 
         $this->calculate(Investor::MORPH_NAME, $query, $callback);
@@ -120,9 +120,8 @@ final class CalculateCommissions extends Command
         $callback = function (Investment $investment) use ($commissions) {
             $entries = [];
             $entries[] = $commissions->calculate($investment) + [
-                    'model_id' => $investment->id,
-                    'user_id' => $investment->investor->user_id,
-                ];
+                'model_id' => $investment->id,
+            ];
 
             for ($user = $investment->investor->user; $user->parent_id > 0; $user = $parent) {
                 if ($user->id === $user->parent_id) {
@@ -136,10 +135,9 @@ final class CalculateCommissions extends Command
                 }
 
                 $entries[] = $commissions->calculate($investment, $parent, $user) + [
-                        'model_type' => Investment::OVERHEAD_MORPH_NAME,
-                        'model_id' => $investment->id,
-                        'user_id' => $user->id,
-                    ];
+                    'model_type' => Investment::OVERHEAD_MORPH_NAME,
+                    'model_id' => $investment->id,
+                ];
             }
 
             return $entries;

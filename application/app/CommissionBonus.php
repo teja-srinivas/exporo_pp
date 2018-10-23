@@ -3,8 +3,16 @@ declare(strict_types=1);
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property float $value
+ * @property string $calculation_type
+ * @property Carbon $accepted_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ */
 class CommissionBonus extends Model
 {
     protected $table = 'commission_bonuses';
@@ -14,9 +22,7 @@ class CommissionBonus extends Model
     ];
 
     protected $casts = [
-        'first_investment' => 'float',
-        'further_investment' => 'float',
-        'registration' => 'float'
+        'value' => 'float',
     ];
 
     public function commissionTypes()
