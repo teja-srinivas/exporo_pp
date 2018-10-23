@@ -8,8 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Role;
 use App\User;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Mail\Message;
+
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -111,7 +110,7 @@ class RegisterController extends Controller
 
         Mail::send([], [], function (Message $message) {
             $message
-                ->to('a.vertgewall@exporo.com')
+                ->to($this->user->email)
                 ->from('partnerprogramm@exporo.com')
                 ->embedData([
                     'personalizations' => [

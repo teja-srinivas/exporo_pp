@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Bill;
 use App\Company;
 use App\Http\Requests\UserStoreRequest;
+use App\Services\EmailService;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -120,9 +121,23 @@ class UserController extends Controller
     public function update(UserStoreRequest $request, User $user)
     {
         $attributes = $request->validated();
-
         if (isset($attributes['accept'])) {
+            $email = new EmailService();
             $field = $attributes['accept']? 'accepted_at' : 'rejected_at';
+            if($field === 'accepted_at'){
+                $email->SendMail([
+                    'Anrede' => $user->salutation,
+                    'Vorname' => $user->first_name,
+                    'Nachname' => $user->last_name,
+                    'Login' => route('login'),
+                ], $user, config('mail.templateIds.approved'));
+            }
+            elseif ($field === 'rejected_at'){
+                $email->SendMail([
+                    'Anrede' => $user->salutation,
+                    'Nachname' => $user->last_name,
+                ], $user, config('mail.templateIds.rejected'));
+            }
             $user->setAttribute($field, now());
         }
 
