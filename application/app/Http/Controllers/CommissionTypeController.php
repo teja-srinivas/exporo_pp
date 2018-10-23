@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\CommissionType;
 use Illuminate\Http\Request;
 
-
 class CommissionTypeController extends Controller
 {
 
@@ -82,6 +81,8 @@ class CommissionTypeController extends Controller
         $data = $this->validate($request, [
             'name' => 'required',
         ]);
+
+        $data['is_project_type'] = $request->has('is_project_type');
 
         $type->fill($data)->save();
 

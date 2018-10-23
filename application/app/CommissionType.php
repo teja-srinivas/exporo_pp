@@ -10,7 +10,7 @@ class CommissionType extends Model
     protected $table = 'commission_types';
 
     protected $fillable = [
-        'id', 'user_id', 'name'
+        'id', 'name', 'is_project_type',
     ];
 
     public function projects()
