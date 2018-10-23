@@ -49,16 +49,14 @@ final class CalculateCommissionsService
 
     public function calculateBonus(Investment $investment, User $user)
     {
-        $bonuses = $user->bonuses->where('type_id', $investment->project->commission_type);
+        $bonus = optional($user->bonuses->where('type_id', $investment->project->commission_type)->first());
 
-        return $bonuses->sum(function (CommissionBonus $bonus) use ($investment) {
-            switch ($bonus->calculation_type) {
-                case CommissionBonus::TYPE_FIRST_INVESTMENT:
-                    return $investment->is_first_investment ? $bonus->value : 0;
+        switch ($bonus->calculation_type) {
+            case CommissionBonus::TYPE_FIRST_INVESTMENT:
+                return $investment->is_first_investment ? $bonus->value : 0;
 
-                case CommissionBonus::TYPE_FURTHER_INVESTMENT:
-                    return $investment->is_first_investment ? 0 : $bonus->value;
-            }
-        });
+            case CommissionBonus::TYPE_FURTHER_INVESTMENT:
+                return $investment->is_first_investment ? 0 : $bonus->value;
+        }
     }
 }
