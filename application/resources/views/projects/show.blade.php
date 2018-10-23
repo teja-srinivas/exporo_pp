@@ -3,7 +3,7 @@
 @section('title')
     @breadcrumps([
         route('projects.index') => 'Projekte',
-        $project->name,
+        $project->description,
     ])
 @endsection
 
