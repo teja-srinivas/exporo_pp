@@ -133,9 +133,7 @@
             </th>
 
             <filter-button element="th" v-model="sort" name="money" class="border-bottom-1 align-top">
-              Netto
-              <radio-switch v-model="paymentType" left="net" right="gross" />
-              Brutto
+              Betrag
 
               <input
                 slot="below"
@@ -236,14 +234,13 @@
                 </div>
               </td>
 
-
               <td v-if="commission.showDetails" class="text-right" rowspan="2">
                 <strong>Netto</strong>: {{ formatEuro(commission.net) }}<br>
                 <strong>Brutto</strong>: {{ formatEuro(commission.gross) }}
               </td>
 
               <td v-else class="text-right">
-                {{ formatEuro(commission[paymentType]) }}
+                {{ formatEuro(commission.vatIncluded ? commission.net : commission.gross) }}
               </td>
             </tr>
 
@@ -328,18 +325,25 @@
             <span v-else>{{ meta.total }} insg.</span>
           </td>
           <td colspan="2" class="text-center">
-            <b-pagination
-              size="sm"
-              class="justify-content-center mb-0"
-              v-model="currentPage"
-              :disabled="isLoading"
-              :total-rows="meta.total"
-              :per-page="meta.per_page"
-              :limit="10"
-            />
+            <div class="d-flex align-items-center">
+              <div class="flex-fill">
+                <b-pagination
+                  size="sm"
+                  class="justify-content-center mb-0"
+                  v-model="currentPage"
+                  :disabled="isLoading"
+                  :total-rows="meta.total"
+                  :per-page="meta.per_page"
+                  :limit="10"
+                />
+              </div>
+              <strong class="text-right">
+                Netto:
+              </strong>
+            </div>
           </td>
           <td class="text-right lead font-weight-bold">
-            {{ formatEuro(filteredTotals[paymentType] || 0) }}
+            {{ formatEuro(filteredTotal || 0) }}
           </td>
         </tr>
         </tfoot>
@@ -426,12 +430,6 @@ export default {
       isLoading: false,
       commissions: [],
       meta: {},
-      paymentType: 'gross',
-
-      label: {
-        gross: 'Brutto',
-        net: 'Netto',
-      },
 
       filter: {
         id: '',
@@ -463,8 +461,8 @@ export default {
   },
 
   computed: {
-    filteredTotals() {
-      return this.meta.totals || this.totals;
+    filteredTotal() {
+      return this.meta.totalNet || this.totalNet;
     },
 
     currentPage: {
