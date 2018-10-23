@@ -381,6 +381,14 @@
         >Ablehnen</button>
       </div>
 
+      <div class="p-1 bg-white shadow-sm">
+        <strong class="ml-1 mr-2">Filter:</strong>
+        <button
+          class="btn btn-sm btn-outline-secondary"
+          @click="clearFilters"
+        >Alle löschen</button>
+      </div>
+
       <a class="btn btn-primary" href="/bills/create">Rechnungen Erstellen</a>
     </div>
   </div>
@@ -601,8 +609,12 @@ export default {
       }
     },
 
-    filterById(id) {
+    clearFilters() {
       this.filter = mapValues(this.filter, () => '');
+    },
+
+    filterById(id) {
+      this.clearFilters();
       this.filter.id = `${id}`;
     }
   },
