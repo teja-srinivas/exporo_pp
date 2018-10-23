@@ -53,10 +53,10 @@ final class CalculateCommissionsService
 
         return $bonuses->sum(function (CommissionBonus $bonus) use ($investment) {
             switch ($bonus->calculation_type) {
-                case 'first_investment':
+                case CommissionBonus::TYPE_FIRST_INVESTMENT:
                     return $investment->is_first_investment ? $bonus->value : 0;
 
-                case 'further_investment':
+                case CommissionBonus::TYPE_FURTHER_INVESTMENT:
                     return $investment->is_first_investment ? 0 : $bonus->value;
             }
         });

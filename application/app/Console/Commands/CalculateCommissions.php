@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Commission;
+use App\CommissionBonus;
 use App\Investment;
 use App\Investor;
 use App\User;
@@ -78,7 +79,7 @@ final class CalculateCommissions extends Command
             })
             ->leftJoin('commission_bonuses', function (JoinClause $join) {
                 $join->on('commission_bonuses.user_id', 'user_details.id');
-                $join->where('commission_bonuses.calculation_type', '=', 'registration');
+                $join->where('commission_bonuses.calculation_type', '=', CommissionBonus::TYPE_REGISTRATION);
             })
             ->where('commission_bonuses.value', '>', 0)
             ->whereNull('commissions.id');
