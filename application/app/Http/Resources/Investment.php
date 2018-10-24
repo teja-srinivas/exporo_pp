@@ -14,7 +14,7 @@ class Investment extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var \App\Investment $investment */
+        /** @var \App\Models\Investment $investment */
         $investment = $this->resource;
 
         return [

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller as BaseController;
+use App\Models\User;
 use App\Policies\UserPolicy;
-use App\User;
 use Illuminate\Http\Request;
 
 class Controller extends BaseController

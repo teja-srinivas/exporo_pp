@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Schema;
+use App\Models\Schema;
 use Tests\TestCase;
 
 class SchemaTest extends TestCase

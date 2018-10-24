@@ -1,10 +1,10 @@
 <?php
 
-use App\Permission;
+use App\Models\Permission;
 use App\Policies\CommissionTypePolicy;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use Spatie\Permission\PermissionRegistrar;
 
 class RenameProvisionTables extends Migration

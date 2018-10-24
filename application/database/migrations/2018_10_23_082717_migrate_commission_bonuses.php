@@ -1,11 +1,10 @@
 <?php
 
-use App\CommissionBonus;
+use App\Models\CommissionBonus;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class MigrateCommissionBonuses extends Migration
 {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\CommissionType;
+use App\Models\CommissionType;
 use Illuminate\Http\Request;
 
 class CommissionTypeController extends Controller

@@ -1,6 +1,6 @@
 <?php
 
-use App\Agb;
+use App\Models\Agb;
 
 return [
     'type' => [

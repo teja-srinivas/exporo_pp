@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Commission;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Commission as CommissionResource;
-use App\Investment;
-use App\Project;
+use App\Models\Commission;
+use App\Models\Investment;
+use App\Models\Project;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -41,7 +41,7 @@ class CommissionController extends Controller
 
         // Eager load morphTo relationships
         $results->loadMorph('model', [
-            \App\Investment::MORPH_NAME => [
+            \App\Models\Investment::MORPH_NAME => [
                 'investor.id,last_name,first_name',
                 'project:id,name,schema_id',
                 'project.schema:id,formula',
@@ -101,7 +101,7 @@ class CommissionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Commission  $commission
+     * @param  \App\Models\Commission  $commission
      * @return \Illuminate\Http\Response
      */
     public function show(Commission $commission)
@@ -113,7 +113,7 @@ class CommissionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Commission $commission
+     * @param  \App\Models\Commission $commission
      * @return void
      * @throws \Throwable
      */
@@ -185,7 +185,7 @@ class CommissionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Commission  $commission
+     * @param  \App\Models\Commission  $commission
      * @return \Illuminate\Http\Response
      */
     public function destroy(Commission $commission)

@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Bill;
-use App\Commission;
 use App\Http\Resources\User as UserResource;
-use App\Investment;
-use App\Investor;
 use App\Jobs\ProcessBillCreation;
+use App\Models\Bill;
+use App\Models\Commission;
+use App\Models\Investment;
+use App\Models\Investor;
+use App\Models\User;
 use App\Services\CreateBillPDF;
 use App\Services\EmailService;
 use App\Traits\Encryptable;
 use Carbon\Carbon;
-use App\User;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection as BaseCollection;
-use Illuminate\Support\Facades\Storage;
 
 class BillController extends Controller
 {
@@ -148,7 +147,7 @@ class BillController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Bill $bill
+     * @param  \App\Models\Bill $bill
      * @return \Illuminate\Http\Response
      */
     public function show(Bill $bill)
@@ -177,7 +176,7 @@ class BillController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Bill $bill
+     * @param  \App\Models\Bill $bill
      * @return \Illuminate\Http\Response
      */
     public function edit(Bill $bill)
@@ -189,7 +188,7 @@ class BillController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Bill $bill
+     * @param  \App\Models\Bill $bill
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Bill $bill)
@@ -200,7 +199,7 @@ class BillController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Bill $bill
+     * @param  \App\Models\Bill $bill
      * @return \Illuminate\Http\Response
      */
     public function destroy(Bill $bill)

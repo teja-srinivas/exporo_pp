@@ -3,7 +3,7 @@
 @section('title', $schemas->count() . ' Schemata')
 
 @section('actions')
-    @can('create', App\Schema::class)
+    @can('create', \App\Models\Schema::class)
         <a href="{{ route('schemas.create') }}" class="btn btn-primary btn-sm">Abrechnungsschema Erstellen</a>
     @endcan
 @endsection

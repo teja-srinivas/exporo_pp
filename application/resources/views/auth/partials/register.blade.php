@@ -18,7 +18,7 @@
                 <div class="col-sm-8">
                     @include('components.form.select', [
                         'name' => 'title',
-                        'values' => \App\User::TITLES,
+                        'values' => \App\Models\User::TITLES,
                     ])
                 </div>
             </div>
@@ -233,7 +233,7 @@
 
                 @component('components.form.checkbox', ['name' => 'legal_exporo_ag'])
                     <span>den</span>
-                    <a href="{!! $agbs[App\Agb::TYPE_AG] !!}">AGB</a>
+                    <a href="{!! $agbs[\App\Models\Agb::TYPE_AG] !!}">AGB</a>
                     &
                     <a href="#">Datenschutzerklärung</a>
                     der Exporo AG,
@@ -247,7 +247,7 @@
                     'required' => true,
                 ])
                     <span>den</span>
-                    <a href="{!! $agbs[App\Agb::TYPE_GMBH] !!}">AGB</a>
+                    <a href="{!! $agbs[\App\Models\Agb::TYPE_GMBH] !!}">AGB</a>
                     & Datenschutzerklärung der Exporo Investment GmbH,
                     sowie den Bestimmungen zu Cookies & Internet-Werbung einverstanden.
                 @endcomponent

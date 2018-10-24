@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 
 /**
  * Policy for accessing user models.
@@ -42,8 +42,8 @@ class UserPolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\User  $user
-     * @param  \App\User  $model
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
      * @return mixed
      */
     public function view(User $user, $model)
@@ -54,8 +54,8 @@ class UserPolicy extends BasePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\User  $user
-     * @param  \App\User  $model
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
      * @return mixed
      */
     public function update(User $user, $model)

@@ -2,9 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\User;
+use App\Models\User;
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class UserIsAccepted
 {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Schema;
+use App\Models\Schema;
 use Illuminate\Http\Request;
 
 class SchemaController extends Controller
@@ -56,7 +56,7 @@ class SchemaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Schema  $schema
+     * @param  \App\Models\Schema  $schema
      * @return \Illuminate\Http\Response
      */
     public function show(Schema $schema)
@@ -69,7 +69,7 @@ class SchemaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Schema  $schema
+     * @param  \App\Models\Schema  $schema
      * @return \Illuminate\Http\Response
      */
     public function edit(Schema $schema)
@@ -81,7 +81,7 @@ class SchemaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Schema $schema
+     * @param  \App\Models\Schema $schema
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -102,7 +102,7 @@ class SchemaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Schema $schema
+     * @param  \App\Models\Schema $schema
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */

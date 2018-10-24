@@ -1,14 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Traits\Dateable;
 use App\Traits\Importable;
 use Carbon\Carbon;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $name

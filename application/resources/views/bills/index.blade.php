@@ -3,7 +3,7 @@
 @section('title', $bills->count() . ' Abrechnungen')
 
 @section('actions')
-    @can('create', App\Bill::class)
+    @can('create', \App\Models\Bill::class)
         <a href="{{ route('commissions.index') }}" class="btn btn-primary btn-sm">Abrechnungen Erstellen</a>
     @endcan
 @endsection

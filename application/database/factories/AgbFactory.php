@@ -1,9 +1,9 @@
 <?php
 
-use App\Agb;
+use App\Models\Agb;
 use Faker\Generator as Faker;
 
-$factory->define(App\Agb::class, function (Faker $faker) {
+$factory->define(\App\Models\Agb::class, function (Faker $faker) {
     $created = $faker->date();
 
     return [

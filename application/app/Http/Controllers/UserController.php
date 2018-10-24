@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Bill;
-use App\Company;
 use App\Http\Requests\UserStoreRequest;
+use App\Models\Bill;
+use App\Models\Company;
+use App\Models\User;
 use App\Services\EmailService;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 

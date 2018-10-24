@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Project::class, function (Faker $faker) {
+$factory->define(\App\Models\Project::class, function (Faker $faker) {
     $paybackMin = $faker->date();
     return [
         'id' => $faker->unique()->numberBetween(),

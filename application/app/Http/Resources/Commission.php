@@ -2,15 +2,15 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Commission as Model;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Commission as Model;
 
 class Commission extends JsonResource
 {
     private const RESOURCES = [
-        \App\Investment::MORPH_NAME => Investment::class,
-        \App\Investor::MORPH_NAME => Investor::class,
-        \App\Investment::OVERHEAD_MORPH_NAME => Investment::class,
+        \App\Models\Investment::MORPH_NAME => Investment::class,
+        \App\Models\Investor::MORPH_NAME => Investor::class,
+        \App\Models\Investment::OVERHEAD_MORPH_NAME => Investment::class,
     ];
 
     /**

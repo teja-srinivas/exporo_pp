@@ -3,7 +3,7 @@
 @section('title', $types->count() . ' Provisionstypen')
 
 @section('actions')
-    @can('create', App\CommissionType::class)
+    @can('create', \App\Models\CommissionType::class)
         <a href="{{ route('commissionTypes.create') }}" class="btn btn-primary btn-sm">Provisionstyp Erstellen</a>
     @endcan
 @endsection

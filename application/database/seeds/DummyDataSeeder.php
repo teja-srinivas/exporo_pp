@@ -1,19 +1,16 @@
 <?php
 
-use App\Agb;
-use App\Bill;
-use App\Company;
-use App\Investment;
-use App\Investor;
-use App\Project;
-use App\Role;
-use App\Schema;
-use App\User;
-use App\UserDetails;
-use Faker\Provider\Address;
-use Faker\Provider\Lorem;
+use App\Models\Agb;
+use App\Models\Bill;
+use App\Models\Company;
+use App\Models\Investment;
+use App\Models\Investor;
+use App\Models\Project;
+use App\Models\Role;
+use App\Models\Schema;
+use App\Models\User;
+use App\Models\UserDetails;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DummyDataSeeder extends Seeder
 {

@@ -1,8 +1,8 @@
 <?php
 
-use App\Permission;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Policies\BillPolicy;
-use App\Role;
 use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\PermissionRegistrar;
 

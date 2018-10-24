@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Investor::class, function (Faker $faker) {
+$factory->define(\App\Models\Investor::class, function (Faker $faker) {
     return [
         'id' => $faker->unique()->randomNumber(),
         'first_name' => $faker->firstName,
