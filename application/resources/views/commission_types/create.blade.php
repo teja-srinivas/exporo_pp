@@ -18,6 +18,12 @@
                     'name' => 'name',
                     'required' => true,
                 ],
+                [
+                    'type' => 'checkbox',
+                    'label' => __('Typ'),
+                    'name' => 'is_project_type',
+                    'description' => 'Für Projekte zur Auswahl möglich',
+                ],
             ]
         ])
 

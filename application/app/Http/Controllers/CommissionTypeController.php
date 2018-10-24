@@ -31,14 +31,17 @@ class CommissionTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
         $data = $this->validate($request, [
             'name' => 'required',
         ]);
+
+        $data['is_project_type'] = $request->has('is_project_type');
 
         CommissionType::create($data);
 
@@ -75,6 +78,7 @@ class CommissionTypeController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  CommissionType $type
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, CommissionType $type)
     {
