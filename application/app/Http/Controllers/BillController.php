@@ -128,7 +128,7 @@ class BillController extends Controller
                 'bill_id' => $bill->getKey(),
             ]);
 
-            ProcessBillCreation::dispatch('https://ef392209.ngrok.io/bills/pdf/', $bill);
+            ProcessBillCreation::dispatch(url()->current() . '/pdf/', $bill);
 
             $email->SendMail([
                 'Anrede' => $user->salutation,
