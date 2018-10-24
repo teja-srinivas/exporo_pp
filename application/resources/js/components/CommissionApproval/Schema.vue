@@ -89,8 +89,9 @@ export default {
     margin: 1px;
     font-weight: $font-weight-bold;
     line-height: 1;
+    font-size: 90%;
     display: inline-flex;
-    align-items: center;
+    align-items: baseline;
 
     span {
       font-size: 10pt;
