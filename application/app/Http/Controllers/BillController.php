@@ -94,9 +94,6 @@ class BillController extends Controller
             'release_at' => 'required|date',
         ]);
 
-        $client = new Client();
-        $billPdf = new CreateBillPDF($client);
-
         $releaseAt = Carbon::parse($data['release_at']);
 
         // Fetch all users that can be billed
@@ -116,7 +113,7 @@ class BillController extends Controller
         Bill::disableAuditing();
         // Create bills for each user and assign it to their commissions
         $email = new EmailService();
-        $users->each(function (int $userId) use ($commissionIds, $releaseAt, $billPdf, $email) {
+        $users->each(function (int $userId) use ($commissionIds, $releaseAt, $email) {
             $user = User::find($userId);
             /** @var Bill $bill */
             $bill = Bill::query()->forceCreate([
@@ -128,7 +125,7 @@ class BillController extends Controller
                 'bill_id' => $bill->getKey(),
             ]);
 
-            ProcessBillCreation::dispatch(url()->current() . '/pdf/', $bill);
+            ProcessBillCreation::dispatch('https://245ff891.ngrok.io/bills/pdf/', $bill);
 
             $email->SendMail([
                 'Anrede' => $user->salutation,

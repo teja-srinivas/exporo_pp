@@ -52,7 +52,7 @@ class ProcessBillCreation implements ShouldQueue
     }
 
     protected function storeInS3($result){
-        Storage::disk('s3')->put('statements/' . $this->bill['id'] . '.pdf'
+        Storage::disk('s3')->put('statements/' . $this->bill->user->id . '-' .$this->bill['id'] . '-' . $this->bill['created_at'] . '.pdf'
             , $result, 'private');
     }
 }
