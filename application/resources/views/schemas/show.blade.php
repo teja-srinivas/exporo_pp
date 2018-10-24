@@ -34,7 +34,7 @@
         <tbody>
         @forelse($projects as $project)
             <tr>
-                <td>{{ $project->name }}</td>
+                <td><a href="{{ route('projects.show', $project) }}">{{ $project->description }}</a></td>
                 <td class="text-right">@timeago($project->created_at)</td>
             </tr>
         @empty

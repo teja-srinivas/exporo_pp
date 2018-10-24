@@ -3,7 +3,7 @@
 @section('title')
     @breadcrumps([
         route('projects.index') => 'Projekte',
-        $project->name,
+        $project->description,
     ])
 @endsection
 
@@ -25,20 +25,14 @@
         </form>
     @endif
 
-    @unless(empty($project->image))
-        <img src="{{ $project->image }}" class="img-fluid">
-    @endif
-
-    @unless(empty($project->description))
-        @card
-            @slot('title', 'Beschreibung')
-            {{ $project->description }}
-        @endcard
-    @endif
-
     @card
-        @slot('title', 'Details')
         @slot('subtitle', 'Alle Angaben werden synchronisiert mit dem Hauptsystem.')
+
+        @unless(empty($project->image))
+            @slot('info')
+                <img src="https://cdn.exporo.de/image-cache/400/{{ $project->image }}" class="img-fluid">
+            @endslot
+        @endif
 
         <table class="table table-borderless table-striped table-sm m-0">
             <tbody>

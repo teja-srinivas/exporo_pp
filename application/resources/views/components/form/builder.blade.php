@@ -9,7 +9,7 @@
             class="col-sm-{{ $colWidthLabel }} col-form-label"
         >{{ $input['label'] }}:</label>
 
-        <div class="col-sm-{{ $colWidthInput }} {{ $type === 'radio' ? 'pt-1' : '' }}">
+        <div class="col-sm-{{ $colWidthInput }} {{ in_array($type, ['radio', 'checkbox']) ? 'col-form-label' : '' }}">
             @includeFirst(["components.form.{$type}", 'components.form.input'], $input)
         </div>
     </div>

@@ -3,10 +3,28 @@ declare(strict_types=1);
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property float $value
+ * @property string $calculation_type
+ * @property Carbon $accepted_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ */
 class CommissionBonus extends Model
 {
+    const TYPE_REGISTRATION = 'registration';
+    const TYPE_FIRST_INVESTMENT = 'first_investment';
+    const TYPE_FURTHER_INVESTMENT = 'further_investment';
+
+    const TYPES = [
+        self::TYPE_REGISTRATION,
+        self::TYPE_FIRST_INVESTMENT,
+        self::TYPE_FURTHER_INVESTMENT,
+    ];
+
     protected $table = 'commission_bonuses';
 
     protected $fillable = [
@@ -14,9 +32,7 @@ class CommissionBonus extends Model
     ];
 
     protected $casts = [
-        'first_investment' => 'float',
-        'further_investment' => 'float',
-        'registration' => 'float'
+        'value' => 'float',
     ];
 
     public function commissionTypes()

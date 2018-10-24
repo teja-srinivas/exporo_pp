@@ -9,6 +9,10 @@
         @if($required ?? false) required @endif
     >
     <label class="custom-control-label" for="{{ $id }}">
-        {{ $label ?? $slot ?? '' }}
+        {{ $description ?? $label ?? $slot ?? '' }}
     </label>
 </div>
+
+@include('components.form.error', compact('name', 'error') + [
+    'class' => $errors->has($name) ? 'd-block' : '',
+])

@@ -15,7 +15,7 @@
         @forelse($projects as $project)
             <tr>
                 <td>
-                    <a href="{{ route('projects.show', $project) }}">{{ $project->name }}</a>
+                    <a href="{{ route('projects.show', $project) }}">{{ $project->description }}</a>
                 </td>
                 <td>
                     @unless($project->wasApproved())

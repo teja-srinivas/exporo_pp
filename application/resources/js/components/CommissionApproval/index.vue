@@ -33,7 +33,7 @@
     <div class="card border-0 shadow-sm accent-primary">
       <table :class="$style.table" class="table table-sm table-hover table-striped mb-0 table-sticky">
         <colgroup>
-          <col width="80">
+          <col width="90">
           <col width="80">
           <col width="50%">
           <col width="50%">
@@ -133,9 +133,7 @@
             </th>
 
             <filter-button element="th" v-model="sort" name="money" class="border-bottom-1 align-top">
-              Netto
-              <radio-switch v-model="paymentType" left="net" right="gross" />
-              Brutto
+              Betrag
 
               <input
                 slot="below"
@@ -160,9 +158,14 @@
             >
               <td class="text-muted pl-1 align-middle">
                 <div class="d-flex align-items-center justify-content-between">
-                    <font-awesome-icon v-if="commission.showDetails" icon="chevron-down" fixed-width />
-                    <font-awesome-icon v-else icon="chevron-right" fixed-width />
-                    <small class="ml-1" v-text="commission.id" />
+                  <font-awesome-icon v-if="commission.showDetails" icon="chevron-down" fixed-width />
+                  <font-awesome-icon v-else icon="chevron-right" fixed-width />
+                  <a
+                    href="#"
+                    class="ml-1 small text-muted"
+                    v-text="commission.model.id"
+                    @click.stop="filterById(commission.model.id)"
+                  />
                 </div>
               </td>
               <td :rowspan="commission.showDetails ? 2 : 1" class="pr-0 pb-0 border-left-0">
@@ -206,20 +209,14 @@
                     <font-awesome-icon icon="share-square" size="xs" />
                   </a>
                   <a href="#" class="text-muted small mr-2" :title="displayNameUser(commission.user)" @click.prevent="filter.user = `${commission.user.id}`">
-                    #{{ commission.user.id }}
+                    {{ commission.user.id }}
                   </a>
                   <div v-if="commission.model.project !== undefined" class="flex-fill">
                     <schema :value="commission.model.project.schema" :commission="commission" />
                   </div>
                   <div v-else class="row flex-fill">
-                    <div class="col">
-                      {{ displayNameUser(commission.user) }}
-                    </div>
-                    <div class="col">
-                      <span class="text-muted small mr-2">#{{ commission.model.id }}</span>
-                      {{ commission.model.lastName }},
-                      {{ commission.model.firstName }}
-                    </div>
+                    <div class="col" v-text="displayNameUser(commission.user)" />
+                    <div class="col" v-text="displayNameUser(commission.model)" />
                   </div>
                   <div v-if="commission.type === 'investment' && commission.model.isFirst" title="Erstinvestment">
                     <font-awesome-icon icon="flag" fixed-width size="sm" class="align-baseline text-danger" />
@@ -236,14 +233,13 @@
                 </div>
               </td>
 
-
               <td v-if="commission.showDetails" class="text-right" rowspan="2">
                 <strong>Netto</strong>: {{ formatEuro(commission.net) }}<br>
                 <strong>Brutto</strong>: {{ formatEuro(commission.gross) }}
               </td>
 
               <td v-else class="text-right">
-                {{ formatEuro(commission[paymentType]) }}
+                {{ formatEuro(commission.vatIncluded ? commission.net : commission.gross) }}
               </td>
             </tr>
 
@@ -328,18 +324,25 @@
             <span v-else>{{ meta.total }} insg.</span>
           </td>
           <td colspan="2" class="text-center">
-            <b-pagination
-              size="sm"
-              class="justify-content-center mb-0"
-              v-model="currentPage"
-              :disabled="isLoading"
-              :total-rows="meta.total"
-              :per-page="meta.per_page"
-              :limit="10"
-            />
+            <div class="d-flex align-items-center">
+              <div class="flex-fill">
+                <b-pagination
+                  size="sm"
+                  class="justify-content-center mb-0"
+                  v-model="currentPage"
+                  :disabled="isLoading"
+                  :total-rows="meta.total"
+                  :per-page="meta.per_page"
+                  :limit="10"
+                />
+              </div>
+              <strong class="text-right">
+                Netto:
+              </strong>
+            </div>
           </td>
           <td class="text-right lead font-weight-bold">
-            {{ formatEuro(filteredTotals[paymentType] || 0) }}
+            {{ formatEuro(filteredTotal || 0) }}
           </td>
         </tr>
         </tfoot>
@@ -376,6 +379,14 @@
             reviewed: false,
           }))"
         >Ablehnen</button>
+      </div>
+
+      <div class="p-1 bg-white shadow-sm">
+        <strong class="ml-1 mr-2">Filter:</strong>
+        <button
+          class="btn btn-sm btn-outline-secondary"
+          @click="clearFilters"
+        >Alle löschen</button>
       </div>
 
       <a class="btn btn-primary" href="/bills/create">Rechnungen Erstellen</a>
@@ -426,12 +437,6 @@ export default {
       isLoading: false,
       commissions: [],
       meta: {},
-      paymentType: 'gross',
-
-      label: {
-        gross: 'Brutto',
-        net: 'Netto',
-      },
 
       filter: {
         id: '',
@@ -463,8 +468,8 @@ export default {
   },
 
   computed: {
-    filteredTotals() {
-      return this.meta.totals || this.totals;
+    filteredTotal() {
+      return this.meta.totalNet || this.totalNet;
     },
 
     currentPage: {
@@ -602,6 +607,15 @@ export default {
 
         this.$nextTick(rollbackCallback);
       }
+    },
+
+    clearFilters() {
+      this.filter = mapValues(this.filter, () => '');
+    },
+
+    filterById(id) {
+      this.clearFilters();
+      this.filter.id = `${id}`;
     }
   },
 

@@ -276,7 +276,7 @@ class BillController extends Controller
                 'investDate' => $investment->created_at->format('d.m.Y'),
                 'net' => $row->net,
                 'gross' => $row->gross,
-                'projectName' => $project->name,
+                'projectName' => $project->description,
                 'projectMargin' => $project->margin,
                 'projectRuntime' => $project->runtimeInMonths(),
             ];

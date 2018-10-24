@@ -25,6 +25,13 @@
                     'required' => true,
                     'default' => $type->name,
                 ],
+                [
+                    'type' => 'checkbox',
+                    'label' => __('Typ'),
+                    'name' => 'is_project_type',
+                    'default' => $type->is_project_type,
+                    'description' => 'Für Projekte zur Auswahl möglich',
+                ],
             ]
         ])
 

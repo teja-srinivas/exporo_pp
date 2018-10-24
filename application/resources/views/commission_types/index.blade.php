@@ -13,13 +13,21 @@
         <thead>
         <tr>
             <th>Name</th>
+            <th>Art</th>
             <th width="140">Erstellt</th>
         </tr>
         </thead>
         <tbody>
         @forelse($types as $type)
             <tr>
-                <td><a href="{{ route('commissionTypes.show', $type) }}">{{ $type->name }}</a></td>
+                <td>
+                    <a href="{{ route('commissionTypes.show', $type) }}">{{ $type->name }}</a>
+                </td>
+                <td>
+                    @if($type->is_project_type)
+                    <div class="badge badge-info">Projektbezogen</div>
+                    @endif
+                </td>
                 <td>@timeago($type->created_at)</td>
             </tr>
         @empty

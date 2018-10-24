@@ -30,7 +30,10 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $schemas = Schema::query()->pluck('name', 'id');
-        $commissionTypes = CommissionType::query()->pluck('name', 'id');
+
+        $commissionTypes = CommissionType::query()
+            ->where('is_project_type', true)
+            ->pluck('name', 'id');
 
         return view('projects.show', compact('project', 'schemas', 'commissionTypes'));
     }
@@ -66,7 +69,10 @@ class ProjectController extends Controller
         }
 
         if (isset($data['commissionType'])) {
-            $project->commissionType()->associate(CommissionType::findOrFail($data['commissionType']));
+            $project->commissionType()->associate(CommissionType::query()
+                ->where('is_project_type', true)
+                ->findOrFail($data['commissionType']));
+
             $project->save();
 
             flash_success('Der ProvisionType wurde erfolgreich geändert.');
