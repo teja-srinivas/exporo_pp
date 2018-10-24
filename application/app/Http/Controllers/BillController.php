@@ -9,6 +9,7 @@ use App\Investment;
 use App\Investor;
 use App\Jobs\ProcessBillCreation;
 use App\Services\CreateBillPDF;
+use App\Services\EmailService;
 use App\Traits\Encryptable;
 use Carbon\Carbon;
 use App\User;
@@ -114,7 +115,10 @@ class BillController extends Controller
 
         Bill::disableAuditing();
         // Create bills for each user and assign it to their commissions
-        $users->each(function (int $userId) use ($commissionIds, $releaseAt, $billPdf) {
+        $email = new EmailService();
+        $users->each(function (int $userId) use ($commissionIds, $releaseAt, $billPdf, $email) {
+            $user = User::find($userId);
+            /** @var Bill $bill */
             $bill = Bill::query()->forceCreate([
                 'user_id' => $userId,
                 'released_at' => $releaseAt,
@@ -124,8 +128,16 @@ class BillController extends Controller
                 'bill_id' => $bill->getKey(),
             ]);
 
-            ProcessBillCreation::dispatch('https://2aae4327.ngrok.io/bills/pdf/', $bill);
+            ProcessBillCreation::dispatch('https://ef392209.ngrok.io/bills/pdf/', $bill);
+
+            $email->SendMail([
+                'Anrede' => $user->salutation,
+                'Nachname' => $user->last_name,
+                'Provision' => format_money($bill->getTotalNet()),
+                'Link' => 'exporo.com'
+            ], $user, config('mail.templateIds.commissionCreated'));
         });
+
         Bill::enableAuditing();
 
         flash_success($users->count() . ' Rechnung(en) wurden erstellt');
