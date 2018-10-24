@@ -57,7 +57,7 @@
                 <td><strong>{{ $group->first()->type->name }}</strong></td>
                 <td>
                     @foreach($group as $bonus)
-                    {{ $bonus->calculation_type }}:
+                    {{ App\Models\CommissionBonus::DISPLAY_NAMES[$bonus->calculation_type] }}:
                     @if($bonus->is_percentage)
                         {{ $bonus->value }}
                     @else

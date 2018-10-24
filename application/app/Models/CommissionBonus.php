@@ -25,6 +25,12 @@ class CommissionBonus extends Model
         self::TYPE_FURTHER_INVESTMENT,
     ];
 
+    const DISPLAY_NAMES = [
+        self::TYPE_REGISTRATION => 'Registrierung',
+        self::TYPE_FIRST_INVESTMENT => 'Erstinvestment',
+        self::TYPE_FURTHER_INVESTMENT => 'Folgeinvestment',
+    ];
+
     protected $table = 'commission_bonuses';
 
     protected $fillable = [
