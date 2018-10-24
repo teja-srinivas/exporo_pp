@@ -20,7 +20,7 @@
                     <td>
                         <a href="{{ route('roles.show', $role) }}">{{ studly_case($role->name) }}</a>
 
-                        @if(in_array($role->name,App\Role::ROLES))
+                        @if(in_array($role->name,\App\Models\Role::ROLES))
                             <div class="badge badge-info">System</div>
                         @endif
                     </td>

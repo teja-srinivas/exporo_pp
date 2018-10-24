@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Agb;
-use App\Bill;
-use App\Document;
-use App\User;
+use App\Models\Agb;
+use App\Models\Document;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
@@ -109,7 +108,7 @@ class UserDocumentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Document $document
+     * @param  \App\Models\Document $document
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -123,7 +122,7 @@ class UserDocumentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Document $document
+     * @param  \App\Models\Document $document
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -138,7 +137,7 @@ class UserDocumentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Document $document
+     * @param  \App\Models\Document $document
      * @return \Illuminate\Http\Response
      * @throws \Throwable
      */
@@ -174,7 +173,7 @@ class UserDocumentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Document $document
+     * @param  \App\Models\Document $document
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */

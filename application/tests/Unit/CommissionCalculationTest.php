@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Investment;
-use App\CommissionBonus;
-use App\CommissionType;
-use App\Schema;
-use App\Investor;
-use App\Project;
+use App\Models\CommissionBonus;
+use App\Models\CommissionType;
+use App\Models\Investment;
+use App\Models\Investor;
+use App\Models\Project;
+use App\Models\Schema;
+use App\Models\User;
+use App\Models\UserDetails;
 use App\Services\CalculateCommissionsService;
-use App\User;
-use App\UserDetails;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 

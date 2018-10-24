@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Traits\Dateable;
 use App\Traits\Encryptable;
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**

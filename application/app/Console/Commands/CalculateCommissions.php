@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Commission;
-use App\CommissionBonus;
-use App\Investment;
-use App\Investor;
-use App\User;
+use App\Models\Commission;
+use App\Models\CommissionBonus;
+use App\Models\Investment;
+use App\Models\Investor;
+use App\Models\User;
 use App\Repositories\InvestmentRepository;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Console\Command;

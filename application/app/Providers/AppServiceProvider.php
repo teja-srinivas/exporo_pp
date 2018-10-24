@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
@@ -22,9 +22,9 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Relation::morphMap([
-            \App\Investment::MORPH_NAME => \App\Investment::class,
-            \App\Investor::MORPH_NAME => \App\Investor::class,
-            \App\Investment::OVERHEAD_MORPH_NAME => \App\Investment::class
+            \App\Models\Investment::MORPH_NAME => \App\Models\Investment::class,
+            \App\Models\Investor::MORPH_NAME => \App\Models\Investor::class,
+            \App\Models\Investment::OVERHEAD_MORPH_NAME => \App\Models\Investment::class
         ]);
 
         // Accented card with its title and content in the body

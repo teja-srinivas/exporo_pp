@@ -2,14 +2,14 @@
 
 namespace App\Http\ViewComposers;
 
-use App\Agb;
-use App\Bill;
-use App\Document;
-use App\Project;
-use App\CommissionType;
-use App\Role;
-use App\Schema;
-use App\User;
+use App\Models\Agb;
+use App\Models\Bill;
+use App\Models\CommissionType;
+use App\Models\Document;
+use App\Models\Project;
+use App\Models\Role;
+use App\Models\Schema;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -17,7 +17,7 @@ use Illuminate\View\View;
 class SidebarComposer
 {
     /**
-     * @var \App\User|null
+     * @var \App\Models\User|null
      */
     private $user;
 

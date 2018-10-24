@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Traits\Dateable;
 use Carbon\Carbon;
@@ -81,9 +81,9 @@ class Bill extends Model implements AuditableContract
         return $this->commissions()->sum('net');
     }
 
-    public function scopeReleased(Builder $query)
+    public function scopeReleased(Builder $query, Carbon $now = null)
     {
-        $query->whereNotNull('released_at')->where('released_at', '<=', now());
+        $query->whereNotNull('released_at')->where('released_at', '<=', $now ?? now());
     }
 
     /**

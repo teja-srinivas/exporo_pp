@@ -3,7 +3,7 @@
 @section('title', $documents->count() . ' Dokumente')
 
 @section('actions')
-    @can('create', App\Document::class)
+    @can('create', \App\Models\Document::class)
         <a href="{{ route('documents.create') }}" class="btn btn-primary btn-sm">Neu Anlegen</a>
     @endcan
 @endsection

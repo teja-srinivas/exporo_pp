@@ -24,7 +24,7 @@ table-sticky position-relative">
 
                 @foreach ($user->roles as $role)
                     <a href="{{ route('roles.show', $role) }}"
-                       class="badge badge-{{ App\User::getRoleColor($role) }}">
+                       class="badge badge-{{ \App\Models\User::getRoleColor($role) }}">
                         {{ studly_case($role->name) }}
                     </a>
                 @endforeach

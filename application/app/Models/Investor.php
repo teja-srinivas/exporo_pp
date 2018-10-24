@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Carbon;
 use App\Traits\Encryptable;
 use App\Traits\Importable;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;

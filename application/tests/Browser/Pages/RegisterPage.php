@@ -2,8 +2,8 @@
 
 namespace Tests\Browser\Pages;
 
-use App\User;
-use App\UserDetails;
+use App\Models\User;
+use App\Models\UserDetails;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Page as BasePage;
 

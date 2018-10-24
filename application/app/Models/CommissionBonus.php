@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App;
+namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -34,6 +34,12 @@ class CommissionBonus extends Model
     protected $casts = [
         'value' => 'float',
     ];
+
+
+    public function bundles()
+    {
+        return $this->belongsToMany(BonusBundle::class, 'bonus_bundle', 'bonus_id', 'bundle_id');
+    }
 
     public function commissionTypes()
     {

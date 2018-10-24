@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Traits\Dateable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

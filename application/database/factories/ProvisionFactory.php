@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\CommissionBonus::class, function (Faker $faker) {
+$factory->define(\App\Models\CommissionBonus::class, function (Faker $faker) {
 
     return [
         'id' => $faker->unique()->numberBetween(),

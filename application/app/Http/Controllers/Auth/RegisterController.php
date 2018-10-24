@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Agb;
-use App\Company;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
-use App\Role;
+use App\Models\Agb;
+use App\Models\Company;
+use App\Models\Role;
+use App\Models\User;
 use App\Services\EmailService;
-use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+
 class RegisterController extends Controller
 {
     /*
@@ -70,7 +71,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\CommissionBonus;
-use App\Investment;
-use App\User;
+use App\Models\CommissionBonus;
+use App\Models\Investment;
+use App\Models\User;
 
 final class CalculateCommissionsService
 {

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Investment;
+use App\Models\Investment;
 use App\Repositories\InvestmentRepository;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Console\Command;

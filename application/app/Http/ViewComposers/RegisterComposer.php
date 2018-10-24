@@ -2,7 +2,7 @@
 
 namespace App\Http\ViewComposers;
 
-use App\Agb;
+use App\Models\Agb;
 use Illuminate\View\View;
 
 class RegisterComposer

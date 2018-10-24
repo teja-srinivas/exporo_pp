@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Project;
-use App\CommissionType;
-use App\Schema;
+use App\Models\CommissionType;
+use App\Models\Project;
+use App\Models\Schema;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -24,7 +24,7 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Project  $project
+     * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
     public function show(Project $project)
@@ -41,9 +41,10 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Project  $project
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Project $project
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Project $project)
     {
@@ -75,7 +76,7 @@ class ProjectController extends Controller
 
             $project->save();
 
-            flash_success('Der ProvisionType wurde erfolgreich geändert.');
+            flash_success('Der Provisionstyp wurde erfolgreich geändert.');
         }
 
         return back();

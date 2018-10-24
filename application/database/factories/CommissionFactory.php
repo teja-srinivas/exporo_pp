@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Commission::class, function (Faker $faker) {
+$factory->define(\App\Models\Commission::class, function (Faker $faker) {
     return [
         //
     ];

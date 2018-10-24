@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Bill;
-use App\Commission;
+use App\Models\Bill;
+use App\Models\Commission;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 

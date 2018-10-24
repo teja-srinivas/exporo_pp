@@ -21,7 +21,7 @@
         'type' => 'select',
         'name' => 'title',
         'label' => __('Title'),
-        'values' => \App\User::TITLES,
+        'values' => \App\Models\User::TITLES,
     ],
     [
         'name' => 'company',

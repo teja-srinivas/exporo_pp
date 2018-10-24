@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Commission;
-use http\Env\Response;
+use App\Models\Commission;
 use Illuminate\Http\Request;
 
 class CommissionController extends Controller
@@ -57,7 +56,7 @@ class CommissionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Commission  $commission
+     * @param  \App\Models\Commission  $commission
      * @return \Illuminate\Http\Response
      */
     public function show(Commission $commission)
@@ -68,7 +67,7 @@ class CommissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Commission  $commission
+     * @param  \App\Models\Commission  $commission
      * @return \Illuminate\Http\Response
      */
     public function edit(Commission $commission)
@@ -80,7 +79,7 @@ class CommissionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Commission  $commission
+     * @param  \App\Models\Commission  $commission
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Commission $commission)
@@ -91,7 +90,7 @@ class CommissionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Commission  $commission
+     * @param  \App\Models\Commission  $commission
      * @return \Illuminate\Http\Response
      */
     public function destroy(Commission $commission)

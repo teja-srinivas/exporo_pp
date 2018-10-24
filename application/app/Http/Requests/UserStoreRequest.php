@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use App\Rules\VatId;
-use App\User;
-use App\UserDetails;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

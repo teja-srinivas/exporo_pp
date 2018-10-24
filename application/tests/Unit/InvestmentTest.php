@@ -2,10 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Investment;
+use App\Models\Investment;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InvestmentTest extends TestCase
 {

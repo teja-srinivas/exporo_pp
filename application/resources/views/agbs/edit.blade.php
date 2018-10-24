@@ -26,7 +26,7 @@
                         'required' => true,
                         'assoc' => true,
                         'default' => $agb->type,
-                        'values' => collect(App\Agb::TYPES)->mapWithKeys(function (string $type) {
+                        'values' => collect(\App\Models\Agb::TYPES)->mapWithKeys(function (string $type) {
                             return [$type => __("agbs.type.{$type}")];
                         }),
                     ],
