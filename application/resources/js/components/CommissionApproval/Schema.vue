@@ -55,7 +55,7 @@ export default {
             variable.value === undefined ? this.$style.danger : '',
           ];
 
-          return `<span class="${classes.join(' ')}">${name}: <span>${formatted}</span></span>`;
+          return `<span class="${classes.join(' ')}">${name}<span>${formatted}</span></span>`;
         })
 
         // Replace certain mathematical characters
