@@ -41,7 +41,7 @@ class CommissionBonus extends Model
         return $this->belongsToMany(BonusBundle::class, 'bonus_bundle', 'bonus_id', 'bundle_id');
     }
 
-    public function commissionTypes()
+    public function type()
     {
         return $this->belongsTo(CommissionType::class, 'type_id', 'id');
     }

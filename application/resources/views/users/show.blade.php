@@ -48,6 +48,30 @@
     </div>
 
     @card
+        @slot('title', 'Vergütungssschemata')
+        @slot('info', '')
+
+        <table class="table table-borderless table-sm table-striped mb-0">
+            @foreach($bonuses as $group)
+            <tr>
+                <td><strong>{{ $group->first()->type->name }}</strong></td>
+                <td>
+                    @foreach($group as $bonus)
+                    {{ $bonus->calculation_type }}:
+                    @if($bonus->is_percentage)
+                        {{ $bonus->value }}
+                    @else
+                        {{ format_money($bonus->value) }}
+                    @endif
+                    <br>
+                    @endforeach
+                </td>
+            </tr>
+            @endforeach
+        </table>
+    @endcard
+
+    @card
         @slot('title', 'Abrechnungen')
         @slot('info', 'der bereits erfolgten Provisionsansprüchen.')
 

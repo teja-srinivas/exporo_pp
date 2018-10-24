@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserStoreRequest;
 use App\Models\Bill;
+use App\Models\CommissionBonus;
 use App\Models\Company;
 use App\Models\User;
 use App\Services\EmailService;
@@ -92,7 +93,9 @@ class UserController extends Controller
             ->selectRaw('sum(investments.amount) as amount')
             ->first();
 
-        return response()->view('users.show', compact('user', 'investors'));
+        $bonuses = $user->bonuses->load('type')->groupBy('type_id');
+
+        return response()->view('users.show', compact('user', 'investors', 'bonuses'));
     }
 
     /**
