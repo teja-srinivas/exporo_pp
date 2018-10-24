@@ -76,7 +76,7 @@ class ProjectController extends Controller
 
             $project->save();
 
-            flash_success('Der ProvisionType wurde erfolgreich geändert.');
+            flash_success('Der Provisionstyp wurde erfolgreich geändert.');
         }
 
         return back();
