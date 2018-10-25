@@ -25,6 +25,12 @@ class CommissionBonus extends Model
         self::TYPE_FURTHER_INVESTMENT,
     ];
 
+    const DISPLAY_NAMES = [
+        self::TYPE_REGISTRATION => 'Registrierung',
+        self::TYPE_FIRST_INVESTMENT => 'Erstinvestment',
+        self::TYPE_FURTHER_INVESTMENT => 'Folgeinvestment',
+    ];
+
     protected $table = 'commission_bonuses';
 
     protected $fillable = [
@@ -41,7 +47,7 @@ class CommissionBonus extends Model
         return $this->belongsToMany(BonusBundle::class, 'bonus_bundle', 'bonus_id', 'bundle_id');
     }
 
-    public function commissionTypes()
+    public function type()
     {
         return $this->belongsTo(CommissionType::class, 'type_id', 'id');
     }

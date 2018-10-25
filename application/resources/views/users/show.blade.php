@@ -48,6 +48,35 @@
     </div>
 
     @card
+        @slot('title', 'Vergütungssschemata')
+        @slot('info', 'für die jeweiligen Produkttypen')
+
+        <table class="table table-borderless table-sm table-striped mb-0">
+            <thead>
+                <tr>
+                    <th class="border-bottom">Typ</th>
+                    <th class="border-bottom">Für</th>
+                    <th class="border-bottom">Wert</th>
+                </tr>
+            </thead>
+            @foreach($bonuses as $group)
+            @foreach($group as $bonus)
+                @if($loop->first)
+                <tr>
+                    <td rowspan="{{ $group->count() }}">
+                        <strong>{{ $group->first()->type->name }}</strong>
+                    </td>
+                @endif
+                    <td>{{ App\Models\CommissionBonus::DISPLAY_NAMES[$bonus->calculation_type] }}</td>
+                    <td class="text-right">{{ $bonus->getDisplayValue() }}</td>
+                </td>
+                </tr>
+            @endforeach
+            @endforeach
+        </table>
+    @endcard
+
+    @card
         @slot('title', 'Abrechnungen')
         @slot('info', 'der bereits erfolgten Provisionsansprüchen.')
 
