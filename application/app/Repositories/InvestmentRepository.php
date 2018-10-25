@@ -22,8 +22,10 @@ final class InvestmentRepository
             ->doesntHave('commissions')
             ->join('investors', 'investments.investor_id', 'investors.id')
             ->join('user_details', 'user_details.id', 'investors.user_id')
+            ->join('users', 'investors.user_id', 'users.id')
             ->join('projects', 'investments.project_id', 'projects.id')
             ->whereNotNull('investors.user_id')
+            ->whereNotNull('users.accepted_at')
             ->whereNotNull('projects.approved_at')
             ->select(['investments.*']);
     }
