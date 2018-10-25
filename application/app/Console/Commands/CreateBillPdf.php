@@ -30,7 +30,7 @@ class CreateBillPdf extends Command
      */
     public function __construct()
     {
-        $this->url = 'e248b0a7.eu.ngrok.io/bills/pdf/';
+        $this->url = url()->current() . '/bills/pdf/';
         $this->globalsParams = [
             'force' => 'true',
             'full_page' => true,
@@ -53,6 +53,8 @@ class CreateBillPdf extends Command
             $urlBoxUrl = config('services.urlbox.url') . $type;
             $this->globalsParams['url'] = $this->url . $bill['id'];
             $this->storeInS3($this->getRequest($urlBoxUrl, $bill));
+            $bill->pdf_created = true;
+            $bill->save();
         }
     }
 
