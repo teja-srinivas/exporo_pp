@@ -40,4 +40,8 @@ return [
         'api_key' => env('SENDGRID_API_KEY'),
     ],
 
+    'urlbox' => [
+        'url' => "https://api.urlbox.io/v1/DyAbJzpLRnKGArR6/"
+    ],
+
 ];
