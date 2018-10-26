@@ -61,6 +61,6 @@ class CommissionBonus extends Model
 
     public function getDisplayValue()
     {
-        return $this->is_percentage ? $this->value . '%' : format_money($this->value);
+        return $this->is_percentage ? ($this->value * 100) . '%' : format_money($this->value);
     }
 }
