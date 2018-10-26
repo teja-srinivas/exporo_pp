@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property float $value
+ * @property bool $is_percentage
  * @property string $calculation_type
  * @property Carbon $accepted_at
  * @property Carbon $created_at
@@ -39,6 +40,7 @@ class CommissionBonus extends Model
 
     protected $casts = [
         'value' => 'float',
+        'is_percentage' => 'bool',
     ];
 
 
@@ -55,5 +57,10 @@ class CommissionBonus extends Model
     public function Users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function getDisplayValue()
+    {
+        return $this->is_percentage ? $this->value . '%' : format_money($this->value);
     }
 }
