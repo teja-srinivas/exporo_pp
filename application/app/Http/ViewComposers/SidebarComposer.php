@@ -69,10 +69,6 @@ class SidebarComposer
                 'title' => 'Meine Kunden',
                 'links' => [
                     [
-                        'title' => 'Kunden werben',
-                        'url' => '#1'
-                    ],
-                    [
                         'title' => 'Investoren',
                         'url' => route('users.investors.index', ['user' => $this->user]),
                         'isActive' => $this->request->is(substr(route(
@@ -95,6 +91,11 @@ class SidebarComposer
                         'title' => 'Links',
                         'url' => route('affiliate.links'),
                         'isActive' => $this->request->routeIs('affiliate.links'),
+                    ],
+                    [
+                        'title' => 'Mailings',
+                        'url' => route('affiliate.mails'),
+                        'isActive' => $this->request->routeIs('affiliate.mails'),
                     ],
                 ],
             ],
