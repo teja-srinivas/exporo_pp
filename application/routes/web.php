@@ -40,6 +40,10 @@ Route::middleware(['auth', 'accepted'])->group(function () {
     Route::prefix('users')->name('users.')->group(function () {
         Route::resource('{user}/investments', 'User\InvestmentController', ['only' => ['index']]);
         Route::resource('{user}/investors', 'User\InvestorController', ['only' => ['index']]);
+
+        Route::resource('{user}/commission-bonuses', 'User\CommissionBonusController', ['only' => [
+            'store', 'update', 'destroy'
+        ]]);
     });
 
     Route::get('/home', 'HomeController@index')->name('home');
