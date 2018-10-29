@@ -7,7 +7,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property int $type_id
+ * @property int $user_id
  * @property float $value
+ * @property bool $is_overhead
  * @property bool $is_percentage
  * @property string $calculation_type
  * @property Carbon $accepted_at
