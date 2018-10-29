@@ -2,15 +2,15 @@
 
 @section('title')
     @breadcrumps([
-    route('commissionTypes.index') => 'Provisionstypen',
-    route('commissionTypes.show', $type) => $type->name,
+    route('commissions.types.index') => 'Provisionstypen',
+    route('commissions.types.show', $type) => $type->name,
     'Bearbeiten',
     ])
 @endsection
 
 @section('main-content')
 
-    <form action="{{ route('commissionTypes.update', $type) }}" method="POST">
+    <form action="{{ route('commissions.types.update', $type) }}" method="POST">
         @csrf
         @method('PUT')
 

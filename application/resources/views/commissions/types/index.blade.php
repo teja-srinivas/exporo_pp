@@ -4,7 +4,7 @@
 
 @section('actions')
     @can('create', \App\Models\CommissionType::class)
-        <a href="{{ route('commissionTypes.create') }}" class="btn btn-primary btn-sm">Provisionstyp Erstellen</a>
+        <a href="{{ route('commissions.types.create') }}" class="btn btn-primary btn-sm">Provisionstyp Erstellen</a>
     @endcan
 @endsection
 
@@ -21,7 +21,7 @@
         @forelse($types as $type)
             <tr>
                 <td>
-                    <a href="{{ route('commissionTypes.show', $type) }}">{{ $type->name }}</a>
+                    <a href="{{ route('commissions.types.show', $type) }}">{{ $type->name }}</a>
                 </td>
                 <td>
                     @if($type->is_project_type)

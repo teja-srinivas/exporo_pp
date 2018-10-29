@@ -76,7 +76,7 @@
                         class="border-top bg-white"
                         rowspan="{{ $group->count() }}"
                     >
-                        <a href="{{ route('commissionTypes.show', $group->first()->type) }}">
+                        <a href="{{ route('commissions.types.show', $group->first()->type) }}">
                             <strong>{{ $group->first()->type->name }}</strong>
                         </a>
                     </td>

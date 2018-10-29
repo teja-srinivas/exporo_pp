@@ -13,7 +13,7 @@ class CommissionTypeController extends Controller
     {
         $this->authorize('list', CommissionType::class);
 
-        return view('commission_types.index', [
+        return view('commissions.types.index', [
             'types' => CommissionType::all(),
         ]);
     }
@@ -25,7 +25,7 @@ class CommissionTypeController extends Controller
      */
     public function create()
     {
-        return view('commission_types.create');
+        return view('commissions.types.create');
     }
 
     /**
@@ -47,7 +47,7 @@ class CommissionTypeController extends Controller
 
         flash_success('Provisionstyp wurde angelegt');
 
-        return redirect()->route('commissionTypes.index');
+        return redirect()->route('commissions.types.index');
     }
 
     /**
@@ -60,7 +60,7 @@ class CommissionTypeController extends Controller
             ? $type->projects()->orderBy('name')->get()
             : [];
 
-        return view('commission_types.show', compact('type', 'projects'));
+        return view('commissions.types.show', compact('type', 'projects'));
     }
 
     /**
@@ -71,7 +71,7 @@ class CommissionTypeController extends Controller
      */
     public function edit(CommissionType $type)
     {
-        return view('commission_types.edit', compact('type'));
+        return view('commissions.types.edit', compact('type'));
     }
 
     /**

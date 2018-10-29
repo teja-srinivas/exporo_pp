@@ -5,7 +5,7 @@
 @endsection
 
 @section('main-content')
-    <form action="{{ route('commissionTypes.store') }}" method="POST">
+    <form action="{{ route('commissions.types.store') }}" method="POST">
         @csrf
 
         @card

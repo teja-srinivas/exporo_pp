@@ -28,14 +28,14 @@ Route::middleware(['auth', 'accepted'])->group(function () {
 
     Route::resource('agbs', 'AgbController');
     Route::get('bills/preview/{user}', 'BillController@preview');
-    Route::resource('bills/commissions/types', 'CommissionTypeController')->names('commissionTypes');
-    Route::resource('bills/commissions', 'CommissionController');
     Route::resource('bills', 'BillController');
-    Route::resource('documents', 'UserDocumentController');
-    Route::resource('users', 'UserController');
+    Route::resource('commissions/types', 'CommissionTypeController')->names('commissions.types');
+    Route::resource('commissions', 'CommissionController');
     Route::resource('projects', 'ProjectController', ['only' => ['index', 'show', 'update']]);
     Route::resource('roles', 'RoleController', ['except' => ['index']]);
     Route::resource('schemas', 'SchemaController');
+    Route::resource('users/documents', 'UserDocumentController');
+    Route::resource('users', 'UserController');
 
     Route::prefix('users')->name('users.')->group(function () {
         Route::resource('{user}/investments', 'User\InvestmentController', ['only' => ['index']]);

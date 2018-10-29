@@ -165,8 +165,8 @@ class SidebarComposer
         if ($this->canList(CommissionType::class)) {
             $links[] = [
                 'title' => 'Provisionstypen',
-                'url' => route('commissionTypes.index'),
-                'isActive' => $this->request->routeIs('commissionTypes.*'),
+                'url' => route('commissions.types.index'),
+                'isActive' => $this->request->routeIs('commissions.types.*'),
             ];
         }
 
