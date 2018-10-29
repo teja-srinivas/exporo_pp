@@ -29,7 +29,7 @@ class CopyOverheadCommissionBonuses extends Migration
             ])
             ->get();
 
-        $now = now()->toDateString();
+        $now = now()->toDateTimeString();
 
         $inserts = $childUserBonuses->map(function (CommissionBonus $bonus) use ($now) {
             return [
