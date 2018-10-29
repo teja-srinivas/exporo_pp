@@ -4,7 +4,7 @@
     @breadcrumps([
         route('authorization.index') => 'Berechtigungen',
         'Rollen',
-        studly_case($role->name),
+        $role->getDisplayName(),
     ])
 @endsection
 
