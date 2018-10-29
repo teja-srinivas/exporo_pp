@@ -48,6 +48,7 @@ final class CalculateCommissions extends Command
 
             Commission::query()->insert($rows->map(function ($entry) use ($now, $type) {
                 return $entry + [
+                    'child_user_id' => 0,
                     'model_type' => $type,
                     'created_at' => $now,
                     'updated_at' => $now,
@@ -146,8 +147,9 @@ final class CalculateCommissions extends Command
                 }
 
                 $entries[] = $commissions->calculate($investment, $parent, $user) + [
-                    'model_type' => Investment::OVERHEAD_MORPH_NAME,
+                    'model_type' => Investment::MORPH_NAME,
                     'model_id' => $investment->id,
+                    'child_user_id' => $userId,
                 ];
             }
 

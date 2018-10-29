@@ -10,7 +10,6 @@ class Commission extends JsonResource
     private const RESOURCES = [
         \App\Models\Investment::MORPH_NAME => Investment::class,
         \App\Models\Investor::MORPH_NAME => Investor::class,
-        \App\Models\Investment::OVERHEAD_MORPH_NAME => Investment::class,
     ];
 
     /**
@@ -40,6 +39,7 @@ class Commission extends JsonResource
             'reviewed' => $model->reviewed_at !== null,
             'rejected' => $model->rejected_at !== null,
             'user' => User::make($model->user),
+            'childUser' => $this->when($model->child_user_id > 0, User::make($model->childUser)),
             'model' => (self::RESOURCES[$model->model_type])::make($model->model),
         ];
     }
