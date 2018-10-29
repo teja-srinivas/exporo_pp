@@ -51,7 +51,7 @@
         @slot('title', 'Vergütungssschemata')
         @slot('info', 'für die jeweiligen Produkttypen')
 
-        <table class="table table-borderless table-sm table-striped mb-0">
+        <table class="table table-borderless table-hover table-sm table-striped mb-0">
             <thead>
                 <tr>
                     <th>Typ</th>
@@ -63,17 +63,24 @@
             @foreach($group as $bonus)
                 <tr>
                 @if($loop->first)
-                    <td rowspan="{{ $group->count() }}">
+                    <td
+                        class="border-top bg-white"
+                        rowspan="{{ $group->count() }}"
+                    >
                         <strong>{{ $group->first()->type->name }}</strong>
                     </td>
                 @endif
-                    <td>{{ $bonus->getDisplayName() }}</td>
-                    <td>
+                    <td class="{{ $loop->first ? 'border-top' : '' }}">
+                        {{ $bonus->getDisplayName() }}
+                    </td>
+                    <td class="{{ $loop->first ? 'border-top' : '' }}">
                         @if($bonus->is_overhead)
                             <div class="badge badge-info">Overhead</div>
                         @endif
                     </td>
-                    <td class="text-right">{{ $bonus->getDisplayValue() }}</td>
+                    <td class="text-right {{ $loop->first ? 'border-top' : '' }}">
+                        {{ $bonus->getDisplayValue() }}
+                    </td>
                 </tr>
             @endforeach
             @empty
