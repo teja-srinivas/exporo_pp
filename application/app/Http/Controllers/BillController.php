@@ -126,7 +126,7 @@ class BillController extends Controller
                 'Nachname' => $user->last_name,
                 'Provision' => format_money($bill->getTotalNet()),
                 'Link' => 'exporo.com'
-            ], $user, config('mail.templateIds.commissionCreated'))->onQueue('emails');
+            ], $user, config('mail.templateIds.commissionCreated'))->onQueue('emailsLow');
         });
 
         Bill::enableAuditing();
