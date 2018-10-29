@@ -20,6 +20,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $note_private
  * @property string $note_public
  * @property User $user
+ * @property User $childUser
  * @property bool $on_hold
  * @property Carbon $rejected_at
  * @property int $rejected_by
@@ -62,6 +63,11 @@ class Commission extends Model implements AuditableContract
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function childUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'child_user_id');
     }
 
     public function model(): MorphTo

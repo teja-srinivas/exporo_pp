@@ -48,6 +48,7 @@ final class CalculateCommissions extends Command
 
             Commission::query()->insert($rows->map(function ($entry) use ($now, $type) {
                 return $entry + [
+                    'child_user_id' => 0,
                     'model_type' => $type,
                     'created_at' => $now,
                     'updated_at' => $now,
@@ -121,26 +122,37 @@ final class CalculateCommissions extends Command
             'investor.user.bonuses',
         ]);
 
-        $callback = function (Investment $investment) use ($commissions) {
+        $userCache = [];
+
+        $callback = function (Investment $investment) use ($commissions, $userCache) {
             $entries = [];
             $entries[] = $commissions->calculate($investment) + [
                 'model_id' => $investment->id,
             ];
 
             for ($user = $investment->investor->user; $user->parent_id > 0; $user = $parent) {
-                if ($user->id === $user->parent_id) {
+                $userId = $user->id;
+                $parentId = $user->parent_id;
+
+                if ($userId === $parentId) {
                     break;
                 }
 
-                $parent = User::query()->find($user->parent_id, ['id']);
+                $parent = $userCache[$parentId] ?? null;
+
+                if ($parent == null) {
+                    $parent = User::query()->find($parentId, ['id']);
+                    $userCache[$parentId] = $parent;
+                }
 
                 if (!$parent) {
                     break;
                 }
 
                 $entries[] = $commissions->calculate($investment, $parent, $user) + [
-                    'model_type' => Investment::OVERHEAD_MORPH_NAME,
+                    'model_type' => Investment::MORPH_NAME,
                     'model_id' => $investment->id,
+                    'child_user_id' => $userId,
                 ];
             }
 
