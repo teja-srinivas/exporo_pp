@@ -22,6 +22,7 @@
 @endsection
 
 @section('main-content')
+@if($type->is_project_type)
     <h4 class="mt-4">Projekte mit diesem Provisionstyp</h4>
 
     <table class="bg-white shadow-sm accent-primary table table-borderless table-striped table-sm table-sticky">
@@ -44,4 +45,9 @@
         @endforelse
         </tbody>
     </table>
+@else
+    <p class="lead text-center">
+        Dieser Provisionstyp ist nicht projektbezogen
+    </p>
+@endif
 @endsection

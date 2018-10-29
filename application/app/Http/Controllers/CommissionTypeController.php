@@ -56,7 +56,9 @@ class CommissionTypeController extends Controller
      */
     public function show(CommissionType $type)
     {
-        $projects = $type->projects()->orderBy('name')->get();
+        $projects = $type->is_project_type
+            ? $type->projects()->orderBy('name')->get()
+            : [];
 
         return view('commission_types.show', compact('type', 'projects'));
     }
