@@ -59,20 +59,25 @@
                     <th class="border-bottom">Wert</th>
                 </tr>
             </thead>
-            @foreach($bonuses as $group)
+            @forelse($bonuses as $group)
             @foreach($group as $bonus)
-                @if($loop->first)
                 <tr>
+                @if($loop->first)
                     <td rowspan="{{ $group->count() }}">
                         <strong>{{ $group->first()->type->name }}</strong>
                     </td>
                 @endif
-                    <td>{{ App\Models\CommissionBonus::DISPLAY_NAMES[$bonus->calculation_type] }}</td>
+                    <td>{{ $bonus->getDisplayName() }}</td>
                     <td class="text-right">{{ $bonus->getDisplayValue() }}</td>
-                </td>
                 </tr>
             @endforeach
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="4" class="disabled text-muted text-center">
+                        Kein Vergütungsschema hinterlegt
+                    </td>
+                </tr>
+            @endforelse
         </table>
     @endcard
 

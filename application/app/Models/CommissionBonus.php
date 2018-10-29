@@ -63,4 +63,9 @@ class CommissionBonus extends Model
     {
         return $this->is_percentage ? ($this->value * 100) . '%' : format_money($this->value);
     }
+
+    public function getDisplayName()
+    {
+        return self::DISPLAY_NAMES[$this->calculation_type];
+    }
 }
