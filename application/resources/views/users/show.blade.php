@@ -121,9 +121,7 @@
             @forelse($user->bills as $bill)
                 <tr>
                     <td>
-                        <div>
-                            <a href="{{ route('bills.show', $bill) }}">{{ $bill->getDisplayName() }}</a>
-                        </div>
+                        <a href="{{ route('bills.show', $bill) }}">{{ $bill->getDisplayName() }}</a>
                     </td>
                     <td class="text-right">{{ $bill->commissions }}</td>
                     <td class="text-right">{{ format_money($bill->net) }}</td>
@@ -135,6 +133,16 @@
                 </tr>
             @endforelse
             </tbody>
+            @unless($user->bills->isEmpty())
+            <tfoot>
+                <tr>
+                    <td class="border-top text-right"><strong>Total</strong></td>
+                    <td class="border-top text-right">{{ $user->bills->sum('commissions') }}</td>
+                    <td class="border-top text-right">{{ format_money($user->bills->sum('net')) }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+            @endunless
         </table>
     @endcard
 
