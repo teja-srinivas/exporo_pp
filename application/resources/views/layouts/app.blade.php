@@ -8,7 +8,13 @@
     <meta name="api-token" content="{{ optional(auth()->user())->api_token ?? '' }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>
+        {{ config('app.name', 'Laravel') }}
+
+        {{-- Extract the page title from our (possibly) breadcrumped title section --}}
+        @php($pageTitle = strip_tags($__env->yieldContent('title')))
+        @unless(empty($pageTitle)) - {{ $pageTitle }}@endunless
+    </title>
 
     <!-- Scripts -->
     <script src="{{ mix('js/manifest.js') }}" defer></script>
