@@ -22,6 +22,15 @@
 @endsection
 
 @section('main-content')
+    @if($user->parent_id > 0)
+        <h5>
+            Unterpartner von:
+            <a href="{{ route('users.show', $user->parent) }}">
+                {{ $user->parent->getDisplayName() }}
+            </a>
+        </h5>
+    @endif
+
     @include('users.partials.application')
 
     <div class="shadow-sm my-3 bg-white">
