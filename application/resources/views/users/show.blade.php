@@ -67,7 +67,9 @@
                         class="border-top bg-white"
                         rowspan="{{ $group->count() }}"
                     >
-                        <strong>{{ $group->first()->type->name }}</strong>
+                        <a href="{{ route('commissionTypes.show', $group->first()->type) }}">
+                            <strong>{{ $group->first()->type->name }}</strong>
+                        </a>
                     </td>
                 @endif
                     <td class="{{ $loop->first ? 'border-top' : '' }}">
