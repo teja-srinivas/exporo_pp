@@ -14,7 +14,7 @@ class AddPdfCreatedToBill extends Migration
     public function up()
     {
         Schema::table('bills', function (Blueprint $table) {
-            $table->boolean('pdf_created')->after('released_at');
+            $table->boolean('pdf_created')->after('released_at')->nullable();
         });
     }
 
