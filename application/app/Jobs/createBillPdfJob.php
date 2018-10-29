@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Storage;
-
+use GuzzleHttp\Client;
 class createBillPdfJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -22,7 +22,7 @@ class createBillPdfJob implements ShouldQueue
     {
         $this->bill = $bill;
         $this->type = $type;
-        $this->url = url()->current() . '/bills/pdf/';
+        $this->url = 'https://05bfbaaf.eu.ngrok.io/bills/pdf/';
         $this->globalsParams = [
             'force' => 'true',
             'full_page' => true,
@@ -46,7 +46,7 @@ class createBillPdfJob implements ShouldQueue
     {
         $urlBoxUrl = config('services.urlbox.url') . $this->type;
         $this->globalsParams['url'] = $this->url . $this->bill['id'];
-        $this->storeInS3($this->getRequest($urlBoxUrl, $this->bill));
+        $this->storeInS3($this->getRequest($urlBoxUrl));
         $this->bill->pdf_created = true;
         $this->bill->save();
     }
@@ -59,9 +59,9 @@ class createBillPdfJob implements ShouldQueue
         return $res->getBody()->getContents();
     }
 
-    private function storeInS3($result, $bill)
+    private function storeInS3($result)
     {
-        Storage::disk('s3')->put('statements/' . $bill['id'] . '.pdf'
+        Storage::disk('s3')->put('statements/' . $this->bill['id'] . '.pdf'
             , $result, 'private');
     }
 }

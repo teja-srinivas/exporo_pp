@@ -26,6 +26,7 @@ final class InvestmentRepository
             ->join('projects', 'investments.project_id', 'projects.id')
             ->whereNotNull('investors.user_id')
             ->whereNotNull('users.accepted_at')
+            ->whereNull('users.rejected_at')
             ->whereNotNull('projects.approved_at')
             ->select(['investments.*']);
     }
