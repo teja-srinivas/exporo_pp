@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\createBillPdfJob;
 use App\Models\Bill;
 use Illuminate\Console\Command;
 use GuzzleHttp\Client;
@@ -46,15 +47,11 @@ class CreateBillPdf extends Command
         parent::__construct();
     }
 
-    public function handle($type = 'pdf')
+    public function handle()
     {
         $bills = $this->getReleasedBills();
         foreach ($bills as $bill) {
-            $urlBoxUrl = config('services.urlbox.url') . $type;
-            $this->globalsParams['url'] = $this->url . $bill['id'];
-            $this->storeInS3($this->getRequest($urlBoxUrl, $bill));
-            $bill->pdf_created = true;
-            $bill->save();
+           createBillPdfJob::dispatch($bill)->onQueue('createBillPdf');
         }
     }
 
@@ -62,19 +59,4 @@ class CreateBillPdf extends Command
     {
         return (Bill::where('released_at', now()->format('Y-m-d'))->get());
     }
-
-    private function getRequest(string $url)
-    {
-        $client = new Client();
-        $url = $url . '?' . http_build_query($this->globalsParams) . '&authorization=Basic%20YS52ZXJ0Z2V3YWxsQGV4cG9yby5jb206MTIzNDU2';
-        $res = $client->request('GET', $url);
-        return $res->getBody()->getContents();
-    }
-
-    private function storeInS3($result, $bill)
-    {
-        Storage::disk('s3')->put('statements/' . $bill['id'] . '.pdf'
-            , $result, 'private');
-    }
-
 }
