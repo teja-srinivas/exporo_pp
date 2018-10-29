@@ -10,7 +10,7 @@ use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
 use App\Services\CreateBillPDF;
-use App\Services\EmailService;
+use App\Jobs\SendMail;
 use App\Traits\Encryptable;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -124,14 +124,12 @@ class BillController extends Controller
                 'bill_id' => $bill->getKey(),
             ]);
 
-            ProcessBillCreation::dispatch('a5ca0df8.ngrok.io/bills/pdf/', $bill);
-
-            $email->SendMail([
+            SendMail::dispatch([
                 'Anrede' => $user->salutation,
                 'Nachname' => $user->last_name,
                 'Provision' => format_money($bill->getTotalNet()),
                 'Link' => 'exporo.com'
-            ], $user, config('mail.templateIds.commissionCreated'));
+            ], $user, config('mail.templateIds.commissionCreated'))->onQueue('emails');
         });
 
         Bill::enableAuditing();

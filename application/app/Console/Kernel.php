@@ -24,10 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
-
-        $schedule->command('create:billpdf')->dailyAt('08:00:00');
+        $schedule->command('create:billpdf')->dailyAt('23:59:00');
     }
 
     /**

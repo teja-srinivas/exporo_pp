@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserStoreRequest;
+use App\Jobs\SendMail;
 use App\Models\Bill;
 use App\Models\CommissionBonus;
 use App\Models\Company;
@@ -125,20 +126,19 @@ class UserController extends Controller
     {
         $attributes = $request->validated();
         if (isset($attributes['accept'])) {
-            $email = new EmailService();
             $field = $attributes['accept']? 'accepted_at' : 'rejected_at';
             if($field === 'accepted_at'){
-                $email->SendMail([
+                SendMail::dispatch([
                     'Vorname' => $user->first_name,
                     'Nachname' => $user->last_name,
                     'Login' => route('login'),
-                ], $user, config('mail.templateIds.approved'));
+                ], $user, config('mail.templateIds.approved'))->onQueue('emails');
             }
             elseif ($field === 'rejected_at'){
-                $email->SendMail([
+                SendMail::dispatch([
                     'Anrede' => $user->salutation,
                     'Nachname' => $user->last_name,
-                ], $user, config('mail.templateIds.rejected'));
+                ], $user, config('mail.templateIds.rejected'))->onQueue('emails');
             }
             $user->setAttribute($field, now());
         }
