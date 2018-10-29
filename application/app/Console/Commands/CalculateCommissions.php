@@ -118,18 +118,28 @@ final class CalculateCommissions extends Command
             'investor.user.bonuses',
         ]);
 
-        $callback = function (Investment $investment) use ($commissions) {
+        $userCache = [];
+
+        $callback = function (Investment $investment) use ($commissions, $userCache) {
             $entries = [];
             $entries[] = $commissions->calculate($investment) + [
                 'model_id' => $investment->id,
             ];
 
             for ($user = $investment->investor->user; $user->parent_id > 0; $user = $parent) {
-                if ($user->id === $user->parent_id) {
+                $userId = $user->id;
+                $parentId = $user->parent_id;
+
+                if ($userId === $parentId) {
                     break;
                 }
 
-                $parent = User::query()->find($user->parent_id, ['id']);
+                $parent = $userCache[$parentId] ?? null;
+
+                if ($parent == null) {
+                    $parent = User::query()->find($parentId, ['id']);
+                    $userCache[$parentId] = $parent;
+                }
 
                 if (!$parent) {
                     break;
