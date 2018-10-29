@@ -54,9 +54,9 @@
         <table class="table table-borderless table-sm table-striped mb-0">
             <thead>
                 <tr>
-                    <th class="border-bottom">Typ</th>
-                    <th class="border-bottom">Für</th>
-                    <th class="border-bottom">Wert</th>
+                    <th>Typ</th>
+                    <th colspan="2">Für</th>
+                    <th>Wert</th>
                 </tr>
             </thead>
             @forelse($bonuses as $group)
@@ -68,6 +68,11 @@
                     </td>
                 @endif
                     <td>{{ $bonus->getDisplayName() }}</td>
+                    <td>
+                        @if($bonus->is_overhead)
+                            <div class="badge badge-info">Overhead</div>
+                        @endif
+                    </td>
                     <td class="text-right">{{ $bonus->getDisplayValue() }}</td>
                 </tr>
             @endforeach

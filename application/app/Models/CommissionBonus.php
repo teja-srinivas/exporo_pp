@@ -40,6 +40,7 @@ class CommissionBonus extends Model
 
     protected $casts = [
         'value' => 'float',
+        'is_overhead' => 'bool',
         'is_percentage' => 'bool',
     ];
 
