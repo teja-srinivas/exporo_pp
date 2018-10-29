@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\User as UserResource;
-use App\Jobs\ProcessBillCreation;
 use App\Models\Bill;
 use App\Models\Commission;
 use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
-use App\Services\CreateBillPDF;
 use App\Jobs\SendMail;
 use App\Traits\Encryptable;
 use Carbon\Carbon;
