@@ -40,6 +40,7 @@ class CommissionBonus extends Model
 
     protected $casts = [
         'value' => 'float',
+        'is_overhead' => 'bool',
         'is_percentage' => 'bool',
     ];
 
@@ -62,5 +63,10 @@ class CommissionBonus extends Model
     public function getDisplayValue()
     {
         return $this->is_percentage ? ($this->value * 100) . '%' : format_money($this->value);
+    }
+
+    public function getDisplayName()
+    {
+        return self::DISPLAY_NAMES[$this->calculation_type];
     }
 }

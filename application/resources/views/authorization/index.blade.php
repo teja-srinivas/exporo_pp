@@ -18,7 +18,7 @@
             @forelse($roles as $role)
                 <tr>
                     <td>
-                        <a href="{{ route('roles.show', $role) }}">{{ studly_case($role->name) }}</a>
+                        <a href="{{ route('roles.show', $role) }}">{{ $role->getDisplayName() }}</a>
 
                         @if(in_array($role->name,\App\Models\Role::ROLES))
                             <div class="badge badge-info">System</div>

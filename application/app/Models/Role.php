@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * Extension to the spatie role model to add timestamp support
  * to its permissions relationship.
  *
- * @package App
+ * @property int $id
+ * @property string $name
  */
 class Role extends \Spatie\Permission\Models\Role
 {
@@ -38,5 +39,10 @@ class Role extends \Spatie\Permission\Models\Role
     public function canBeDeleted(): bool
     {
         return !in_array($this->name, self::ROLES);
+    }
+
+    public function getDisplayName()
+    {
+        return ucfirst($this->name);
     }
 }

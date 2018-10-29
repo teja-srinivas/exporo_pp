@@ -51,28 +51,47 @@
         @slot('title', 'Vergütungssschemata')
         @slot('info', 'für die jeweiligen Produkttypen')
 
-        <table class="table table-borderless table-sm table-striped mb-0">
+        <table class="table table-borderless table-hover table-sm table-striped mb-0">
             <thead>
                 <tr>
-                    <th class="border-bottom">Typ</th>
-                    <th class="border-bottom">Für</th>
-                    <th class="border-bottom">Wert</th>
+                    <th>Typ</th>
+                    <th colspan="2">Für</th>
+                    <th>Wert</th>
                 </tr>
             </thead>
-            @foreach($bonuses as $group)
+            @forelse($bonuses as $group)
             @foreach($group as $bonus)
-                @if($loop->first)
                 <tr>
-                    <td rowspan="{{ $group->count() }}">
-                        <strong>{{ $group->first()->type->name }}</strong>
+                @if($loop->first)
+                    <td
+                        class="border-top bg-white"
+                        rowspan="{{ $group->count() }}"
+                    >
+                        <a href="{{ route('commissionTypes.show', $group->first()->type) }}">
+                            <strong>{{ $group->first()->type->name }}</strong>
+                        </a>
                     </td>
                 @endif
-                    <td>{{ App\Models\CommissionBonus::DISPLAY_NAMES[$bonus->calculation_type] }}</td>
-                    <td class="text-right">{{ $bonus->getDisplayValue() }}</td>
-                </td>
+                    <td class="{{ $loop->first ? 'border-top' : '' }}">
+                        {{ $bonus->getDisplayName() }}
+                    </td>
+                    <td class="{{ $loop->first ? 'border-top' : '' }}">
+                        @if($bonus->is_overhead)
+                            <div class="badge badge-info">Overhead</div>
+                        @endif
+                    </td>
+                    <td class="text-right {{ $loop->first ? 'border-top' : '' }}">
+                        {{ $bonus->getDisplayValue() }}
+                    </td>
                 </tr>
             @endforeach
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="4" class="disabled text-muted text-center">
+                        Kein Vergütungsschema hinterlegt
+                    </td>
+                </tr>
+            @endforelse
         </table>
     @endcard
 
