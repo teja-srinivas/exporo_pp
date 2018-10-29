@@ -73,6 +73,7 @@ final class CalculateCommissions extends Command
             ->selectRaw('commission_bonuses.value')
             ->selectRaw('user_details.vat_included')
             ->join('user_details', 'user_details.id', 'investors.user_id')
+            ->join('users', 'user.id', 'investors.user_id')
             ->leftJoin('commissions', function (JoinClause $join) {
                 $join->on('investors.id', 'commissions.model_id');
                 $join->where('commissions.model_type', '=', Investor::MORPH_NAME);
@@ -82,7 +83,9 @@ final class CalculateCommissions extends Command
                 $join->where('commission_bonuses.calculation_type', '=', CommissionBonus::TYPE_REGISTRATION);
             })
             ->where('commission_bonuses.value', '>', 0)
-            ->whereNull('commissions.id');
+            ->whereNull('commissions.id')
+            ->whereNotNull('user.accepted_at')
+            ->whereNull('user.rejected_at');
 
         $callback = function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
