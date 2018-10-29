@@ -218,7 +218,10 @@
                     <div class="col" v-text="displayNameUser(commission.user)" />
                     <div class="col" v-text="displayNameUser(commission.model)" />
                   </div>
-                  <div v-if="commission.type === 'investment' && commission.model.isFirst" title="Erstinvestment">
+                  <div v-if="commission.childUser !== undefined" title="Overhead" class="mx-1">
+                    <font-awesome-icon icon="users" fixed-width size="sm" class="align-baseline text-muted" />
+                  </div>
+                  <div v-if="commission.type === 'investment' && commission.model.isFirst" title="Erstinvestment" class="mx-1">
                     <font-awesome-icon icon="flag" fixed-width size="sm" class="align-baseline text-danger" />
                   </div>
                   <div v-if="commission.type === 'investment'" title="Projektinvestment">
@@ -226,9 +229,6 @@
                   </div>
                   <div v-else-if="commission.type === 'investor'" title="Registrierung">
                     <font-awesome-icon icon="user" fixed-width size="sm" class="align-baseline text-success" />
-                  </div>
-                  <div v-else-if="commission.type === 'overhead'" title="Overhead">
-                    <font-awesome-icon icon="users" fixed-width size="sm" class="align-baseline text-muted" />
                   </div>
                 </div>
               </td>
@@ -249,7 +249,20 @@
               :key="`${commission.id}-details`"
             >
               <td colspan="4" class="small border-right pl-3" :class="$style.infoBox">
-                <div v-if="commission.type === 'investment'" class="my-2 row align-items-center">
+                <div v-if="commission.childUser !== undefined" class="py-2 row align-items-center">
+                  <div class="col-sm-2"><strong>Unterpartner:</strong></div>
+                  <div class="col-sm-10">
+                      <a :href="commission.childUser.links.self" target="_blank" class="mr-1" @click.stop style="line-height: 0">
+                          <font-awesome-icon icon="share-square" size="xs" />
+                      </a>
+
+                      <a href="#" class="text-body" @click.prevent="filter.user = `${commission.childUser.id}`">
+                          #{{ commission.childUser.id }} {{ displayNameUser(commission.childUser) }}
+                      </a>
+                  </div>
+                </div>
+
+                <div v-if="commission.type === 'investment'" class="py-2 row align-items-center">
                   <div class="col-sm-2"><strong>Projekt:</strong></div>
                   <div class="col-sm-10 d-flex align-items-center">
                       <a :href="commission.model.project.links.self" target="_blank" class="mr-1" @click.stop style="line-height: 0">
@@ -262,7 +275,7 @@
                   </div>
                 </div>
 
-                <div v-if="commission.type === 'investment'" class="my-1 row align-items-center">
+                <div v-if="commission.type === 'investment'" class="py-1 row align-items-center">
                   <div class="col-sm-2"><strong>Investor:</strong></div>
                   <div class="col-sm-10">
                     <input type="text" readonly class="form-control-plaintext"
