@@ -109,8 +109,7 @@ class BillController extends Controller
 
         Bill::disableAuditing();
         // Create bills for each user and assign it to their commissions
-        $email = new EmailService();
-        $users->each(function (int $userId) use ($commissionIds, $releaseAt, $email) {
+        $users->each(function (int $userId) use ($commissionIds, $releaseAt) {
             $user = User::find($userId);
             /** @var Bill $bill */
             $bill = Bill::query()->forceCreate([
