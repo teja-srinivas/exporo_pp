@@ -8,7 +8,7 @@ use App\Models\Agb;
 use App\Models\Company;
 use App\Models\Role;
 use App\Models\User;
-use App\Services\EmailService;
+use App\Jobs\SendMail;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -108,13 +108,12 @@ class RegisterController extends Controller
             })->filter()->pluck('id')
         );
 
-        $email = new EmailService();
 
-        $email->SendMail([
+        SendMail::dispatch([
             'Anrede' => $this->user->salutation,
             'Nachname' => $this->user->last_name,
             'Activationhash' => 'esfgrt'
-        ], $this->user, config('mail.templateIds.registration'));
+        ], $this->user, config('mail.templateIds.registration'))->onQueue('email');
 
 
         return $this->user;
