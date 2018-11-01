@@ -41,7 +41,7 @@ class CommissionController extends Controller
 
         // Eager load morphTo relationships
         $results->loadMorph('model', [
-            \App\Models\Investment::MORPH_NAME => [
+            Investment::MORPH_NAME => [
                 'investor.id,last_name,first_name',
                 'project:id,name,schema_id',
                 'project.schema:id,formula',
