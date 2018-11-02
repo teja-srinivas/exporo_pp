@@ -43,6 +43,7 @@ class SidebarComposer
     {
         $view->with('menu', $this->user === null ? [] : array_merge(
             $this->getInternal(),
+            $this->getCommissions(),
             $this->getPartner()
         ));
     }
@@ -146,6 +147,18 @@ class SidebarComposer
             ];
         }
 
+        return empty($links) ? [] : [
+            [
+                'title' => 'Verwaltung',
+                'links' => $links,
+            ],
+        ];
+    }
+
+    private function getCommissions()
+    {
+        $links = [];
+
         if ($this->canList(Bill::class)) {
             $links[] = [
                 'title' => 'Abrechnungen',
@@ -164,7 +177,7 @@ class SidebarComposer
 
         if ($this->canList(CommissionType::class)) {
             $links[] = [
-                'title' => 'Provisionstypen',
+                'title' => 'Typen',
                 'url' => route('commissions.types.index'),
                 'isActive' => $this->request->routeIs('commissions.types.*'),
             ];
@@ -172,7 +185,7 @@ class SidebarComposer
 
         return empty($links) ? [] : [
             [
-                'title' => 'System-Verwaltung',
+                'title' => 'Provisionen',
                 'links' => $links,
             ],
         ];
