@@ -38,7 +38,7 @@ class CommissionBonus extends Model
     protected $table = 'commission_bonuses';
 
     protected $fillable = [
-        'id', 'type_id', 'value', 'is_overhead', 'is_percentage', 'user_id'
+        'id', 'type_id', 'calculation_type', 'value', 'is_overhead', 'is_percentage', 'user_id',
     ];
 
     protected $casts = [

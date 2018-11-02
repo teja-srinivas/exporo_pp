@@ -17,16 +17,24 @@ import './icons';
 
 import Vue from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { FormCheckbox, FormGroup, FormInput, Pagination } from 'bootstrap-vue/es/components';
+import FormCheckbox from 'bootstrap-vue/es/components/form-checkbox';
+import FormGroup from 'bootstrap-vue/es/components/form-group';
+import FormInput from 'bootstrap-vue/es/components/form-input';
+import FormRadio from 'bootstrap-vue/es/components/form-radio';
+import Pagination from 'bootstrap-vue/es/components/pagination';
+import Popover from 'bootstrap-vue/es/components/popover';
 import Notifications from 'vue-notification';
-import velocity from 'velocity-animate'
+import velocity from 'velocity-animate';
 
 Vue.use(FormCheckbox);
 Vue.use(FormGroup);
 Vue.use(FormInput);
+Vue.use(FormRadio);
 Vue.use(Pagination);
+Vue.use(Popover);
 Vue.use(Notifications, { velocity });
 
+Vue.component('bonus-bundle-editor', () => import('./components/BonusBundleEditor/index.vue'));
 Vue.component('commission-approval', () => import('./components/CommissionApproval/index.vue'));
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

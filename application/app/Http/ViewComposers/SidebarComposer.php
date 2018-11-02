@@ -4,6 +4,7 @@ namespace App\Http\ViewComposers;
 
 use App\Models\Agb;
 use App\Models\Bill;
+use App\Models\BonusBundle;
 use App\Models\CommissionType;
 use App\Models\Document;
 use App\Models\Project;
@@ -180,6 +181,14 @@ class SidebarComposer
                 'title' => 'Typen',
                 'url' => route('commissions.types.index'),
                 'isActive' => $this->request->routeIs('commissions.types.*'),
+            ];
+        }
+
+        if ($this->canList(BonusBundle::class)) {
+            $links[] = [
+                'title' => 'Packete',
+                'url' => route('commissions.bundles.index'),
+                'isActive' => $this->request->routeIs('commissions.bundles.*'),
             ];
         }
 

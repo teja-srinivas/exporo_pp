@@ -2,18 +2,19 @@
 
 @section('title')
     @breadcrumps([
-        route('commissions.types.index') => 'Provisionstypen',
+        route('commissions.bundles.index') => 'Provisionspackete',
         'Neu Anlegen',
     ])
 @endsection
 
 @section('main-content')
-    <form action="{{ route('commissions.types.store') }}" method="POST">
+    <form action="{{ route('commissions.bundles.store') }}" method="POST">
         @csrf
 
         @card
         @include('components.form.builder', [
             'labelWidth' => 2,
+            'contained' => false,
             'inputs' => [
                 [
                     'type' => 'text',
@@ -25,14 +26,17 @@
                     'type' => 'checkbox',
                     'label' => __('Typ'),
                     'name' => 'is_project_type',
-                    'description' => 'Für Projekte zur Auswahl möglich',
+                    'description' => 'Für Partner zur Auswahl möglich',
+                    'default' => true,
                 ],
             ]
         ])
 
+        @include('components.bundle-editor')
+
         @slot('footer')
             <div class="text-right">
-                <button class="btn btn-primary">Provisionstyp Anlegen</button>
+                <button class="btn btn-primary">Packet Erstellen</button>
             </div>
         @endslot
         @endcard

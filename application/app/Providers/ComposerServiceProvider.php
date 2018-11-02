@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\ViewComposers\BundleEditorComposer;
 use App\Http\ViewComposers\RegisterComposer;
 use App\Http\ViewComposers\SidebarComposer;
 use Illuminate\Support\Facades\View;
@@ -18,5 +19,6 @@ class ComposerServiceProvider extends ServiceProvider
     {
         View::composer('auth.partials.register', RegisterComposer::class);
         View::composer('layouts.sidebar', SidebarComposer::class);
+        View::composer('components.bundle-editor', BundleEditorComposer::class);
     }
 }

@@ -29,6 +29,7 @@ Route::middleware(['auth', 'accepted'])->group(function () {
     Route::resource('agbs', 'AgbController');
     Route::get('bills/preview/{user}', 'BillController@preview');
     Route::resource('bills', 'BillController');
+    Route::resource('commissions/bundles', 'BonusBundleController')->names('commissions.bundles');
     Route::resource('commissions/types', 'CommissionTypeController')->names('commissions.types');
     Route::resource('commissions', 'CommissionController', ['only' => ['index']]);
     Route::resource('projects', 'ProjectController', ['only' => ['index', 'show', 'update']]);
