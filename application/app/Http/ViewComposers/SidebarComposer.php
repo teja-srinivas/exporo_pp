@@ -150,7 +150,7 @@ class SidebarComposer
             $links[] = [
                 'title' => 'Abrechnungen',
                 'url' => route('bills.index'),
-                'isActive' => $this->request->routeIs('bills.*', 'commissions.*'),
+                'isActive' => $this->request->routeIs('bills.*', 'commissions.index'),
             ];
         }
 

@@ -30,7 +30,7 @@ Route::middleware(['auth', 'accepted'])->group(function () {
     Route::get('bills/preview/{user}', 'BillController@preview');
     Route::resource('bills', 'BillController');
     Route::resource('commissions/types', 'CommissionTypeController')->names('commissions.types');
-    Route::resource('commissions', 'CommissionController');
+    Route::resource('commissions', 'CommissionController', ['only' => ['index']]);
     Route::resource('projects', 'ProjectController', ['only' => ['index', 'show', 'update']]);
     Route::resource('roles', 'RoleController', ['except' => ['index']]);
     Route::resource('schemas', 'SchemaController');
