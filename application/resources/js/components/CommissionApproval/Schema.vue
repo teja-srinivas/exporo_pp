@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import { formatMoney, formatNumber } from '../../utils/formatters';
+
 export default {
   props: {
     value: {
@@ -23,19 +25,19 @@ export default {
       variables: {
         bonus: {
           value: this.commission.bonus,
-          formatter: this.formatNumber,
+          formatter: formatNumber,
         },
         investment: {
           value: this.commission.model.investment,
-          formatter: this.formatMoney,
+          formatter: formatMoney,
         },
         laufzeit: {
           value: this.commission.model.project.runtimeFactor,
-          formatter: this.formatNumber,
+          formatter: formatNumber,
         },
         marge: {
           value: this.commission.model.project.margin,
-          formatter: this.formatNumber,
+          formatter: formatNumber,
         },
       },
     };
@@ -61,14 +63,6 @@ export default {
         // Replace certain mathematical characters
         .replace(/\*/g, '<b>&times;</b>');
     },
-
-    formatMoney: val => val.toLocaleString('de-DE', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 0,
-    }),
-
-    formatNumber: val => val.toLocaleString('de-DE'),
   }
 };
 </script>
