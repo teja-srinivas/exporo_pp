@@ -22,7 +22,7 @@ class createBillPdfJob implements ShouldQueue
     {
         $this->bill = $bill;
         $this->type = $type;
-        $this->url = 'https://05bfbaaf.eu.ngrok.io/bills/pdf/';
+        $this->url = url()->current() . '/bills/pdf/';
         $this->globalsParams = [
             'force' => 'true',
             'full_page' => true,

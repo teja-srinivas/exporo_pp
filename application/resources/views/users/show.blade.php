@@ -65,7 +65,8 @@
                 <tr>
                     <th>Typ</th>
                     <th colspan="2">Für</th>
-                    <th>Wert</th>
+                    <th class="text-right">Wert</th>
+                    <th class="text-right">Aktionen</th>
                 </tr>
             </thead>
             @forelse($bonuses as $group)
@@ -91,6 +92,20 @@
                     </td>
                     <td class="text-right {{ $loop->first ? 'border-top' : '' }}">
                         {{ $bonus->getDisplayValue() }}
+                    </td>
+                    <td class="d-flex justify-content-end {{ $loop->first ? 'border-top' : '' }}">
+                        <form action="{{ route('users.commission-bonuses.update', [$user, $bonus]) }}" method="POST" class="mx-1 form-inline">
+                            @csrf
+                            @method('PUT')
+                            <input type="text" class="form-control" name="value" size="3" value="{{ $bonus->value }}">
+                            <button class="btn btn-sm btn-link ml-1">Ändern</button>
+                        </form>
+
+                        <form action="{{ route('users.commission-bonuses.destroy', [$user, $bonus]) }}" method="POST" class="mx-1">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-sm btn-link px-0 text-danger">Löschen</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
