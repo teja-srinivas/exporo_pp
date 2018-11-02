@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserStoreRequest;
 use App\Jobs\SendMail;
 use App\Models\Bill;
-use App\Models\CommissionBonus;
 use App\Models\Company;
 use App\Models\User;
+use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -127,10 +127,11 @@ class UserController extends Controller
         if (isset($attributes['accept'])) {
             $field = $attributes['accept']? 'accepted_at' : 'rejected_at';
             if($field === 'accepted_at'){
+                $token = app(PasswordBroker::class)->createToken($user);
                 SendMail::dispatch([
                     'Vorname' => $user->first_name,
                     'Nachname' => $user->last_name,
-                    'Login' => route('login'),
+                    'Login' => url('password/reset/' . $token),
                 ], $user, config('mail.templateIds.approved'))->onQueue('emails');
             }
             elseif ($field === 'rejected_at'){

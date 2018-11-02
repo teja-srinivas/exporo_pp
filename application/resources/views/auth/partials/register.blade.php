@@ -24,16 +24,18 @@
             </div>
 
             <div class="form-group row">
-                <label for="salutation1" class="col-sm-4 col-form-label font-weight-bold">{{ __('Salutation') }}*</label>
+                <label for="salutation1" class="col-sm-4 col-form-label font-weight-bold">{{ __('Salutation') }}
+                    *</label>
                 <div class="col-sm-8 pt-1">
                     <div class="custom-control custom-control-inline custom-radio{{ $errors->has('salutation') ? ' is-invalid' : '' }}">
-                        <input type="radio" id="salutation1" name="salutation" value="female" class="custom-control-input"
-                               {{ old('salutation') === 'female' ? 'checked' : '' }}>
+                        <input type="radio" id="salutation1" name="salutation" value="female"
+                               class="custom-control-input"
+                                {{ old('salutation') === 'female' ? 'checked' : '' }}>
                         <label class="custom-control-label" for="salutation1">Frau</label>
                     </div>
                     <div class="custom-control custom-control-inline custom-radio{{ $errors->has('salutation') ? ' is-invalid' : '' }}">
                         <input type="radio" id="salutation2" name="salutation" value="male" class="custom-control-input"
-                               {{ old('salutation') === 'male' ? 'checked' : '' }}>
+                                {{ old('salutation') === 'male' ? 'checked' : '' }}>
                         <label class="custom-control-label" for="salutation2">Herr</label>
                     </div>
 
@@ -42,7 +44,8 @@
             </div>
 
             <div class="form-group row">
-                <label for="inputFirstName" class="col-sm-4 col-form-label font-weight-bold">{{ __('First Name') }}*</label>
+                <label for="inputFirstName" class="col-sm-4 col-form-label font-weight-bold">{{ __('First Name') }}
+                    *</label>
                 <div class="col-sm-8">
                     @include('components.form.input', [
                         'name' => 'first_name',
@@ -53,7 +56,8 @@
             </div>
 
             <div class="form-group row">
-                <label for="inputLastName" class="col-sm-4 col-form-label font-weight-bold">{{ __('Last Name') }}*</label>
+                <label for="inputLastName" class="col-sm-4 col-form-label font-weight-bold">{{ __('Last Name') }}
+                    *</label>
                 <div class="col-sm-8">
                     @include('components.form.input', [
                         'name' => 'last_name',
@@ -64,19 +68,10 @@
             </div>
 
             <div class="form-group row">
-                <label for="inputBirthDay" class="col-sm-4 col-form-label font-weight-bold">{{ __('Birthday') }}*</label>
+                <label for="inputBirthDay" class="col-sm-4 col-form-label font-weight-bold">{{ __('Birthday') }}
+                    *</label>
                 <div class="col-sm-8">
                     @include('components.form.birthday', [
-                        'required' => true,
-                    ])
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="inputBirthPlace" class="col-sm-4 col-form-label font-weight-bold">{{ __('Birthplace') }}*</label>
-                <div class="col-sm-8">
-                    @include('components.form.input', [
-                        'name' => 'birth_place',
                         'required' => true,
                     ])
                 </div>
@@ -120,7 +115,8 @@
             </div>
 
             <div class="form-group row">
-                <label for="inputAddressZipcode" class="col-sm-4 col-form-label font-weight-bold">{{ __('ZIP Code') }}*</label>
+                <label for="inputAddressZipcode" class="col-sm-4 col-form-label font-weight-bold">{{ __('ZIP Code') }}
+                    *</label>
                 <div class="col-sm-8">
                     @include('components.form.input', [
                         'name' => 'address_zipcode',
@@ -142,7 +138,8 @@
             </div>
 
             <div class="form-group row">
-                <label for="inputEmail" class="col-sm-4 col-form-label font-weight-bold">{{ __('E-Mail Address') }}*</label>
+                <label for="inputEmail" class="col-sm-4 col-form-label font-weight-bold">{{ __('E-Mail Address') }}
+                    *</label>
                 <div class="col-sm-8">
                     @include('components.form.input', [
                         'type' => 'email',
@@ -153,7 +150,7 @@
                 </div>
             </div>
 
-            <div class="form-group row mb-0">
+            <div class="form-group row">
                 <label for="inputPhone" class="col-sm-4 col-form-label font-weight-bold">{{ __('Telephone') }}*</label>
                 <div class="col-sm-8">
                     @include('components.form.input', [
@@ -164,9 +161,6 @@
                     ])
                 </div>
             </div>
-        </div>
-
-        <div class="col-lg">
             <div class="form-group row">
                 <label for="inputWebsite" class="col-sm-4 col-form-label">{{ __('Your Website') }}</label>
                 <div class="col-sm-8">
@@ -177,64 +171,25 @@
                     ])
                 </div>
             </div>
+        </div>
 
-            <div class="form-group row">
-                <label for="inputVatId" class="col-sm-4 col-form-label">{{ __('VAT ID') }}</label>
-                <div class="col-sm-8">
-                    @include('components.form.input', [
-                        'type' => 'text',
-                        'name' => 'vat_id',
-                    ])
-                </div>
-            </div>
+        <div class="col-lg">
 
-            <div class="form-group row">
-                <label for="inputTaxOffice" class="col-sm-4 col-form-label">{{ __('Tax Office') }}</label>
-                <div class="col-sm-8">
-                    @include('components.form.input', [
-                        'type' => 'text',
-                        'name' => 'tax_office',
-                    ])
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-4 col-form-label font-weight-bold">{{ __('Password') }}*</label>
-                <div class="col-sm-8">
-                    @include('components.form.input', [
-                        'type' => 'password',
-                        'name' => 'password',
-                        'autocomplete' => 'new-password',
-                        'required' => true,
-                    ])
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="inputPasswordConfirmation" class="col-sm-4 col-form-label font-weight-bold">{{ __('Confirm Password') }}*</label>
-                <div class="col-sm-8">
-                    @include('components.form.input', [
-                        'type' => 'password',
-                        'name' => 'password_confirmation',
-                        'autocomplete' => 'new-password',
-                        'required' => true,
-                        'error' => false,
-                    ])
-                </div>
-            </div>
-
-            <div class="form-group mt-4">
+            <div class="form-group">
                 <p>
                     Mit der Anmeldung zum Exporo Partnerprogramm schließen Sie einen Partnervertrag
                     mit der Exporo AG und der Exporo Investment GmbH.
                 </p>
 
-                <p>Sie erklären sich mit</p>
+                <p>Hiermit willige ich ein,</p>
 
                 @component('components.form.checkbox', ['name' => 'legal_exporo_ag'])
+                    Informationen über Kapitalanlagen, Projekt-Updates sowie plattformrelevante Informationen per Newsletter zu erhalten.
+                    Diese freiwillige Einwilligung kann ich jederzeit widerrufen.
+                    Zusätzlich stimme ich
                     <span>den</span>
                     <a href="{!! $agbs[\App\Models\Agb::TYPE_AG] !!}">AGB</a>
-                    &
+                    und der
                     <a href="#">Datenschutzerklärung</a>
                     der Exporo AG,
                 @endcomponent
@@ -243,12 +198,17 @@
 
                 @component('components.form.checkbox', [
                     'name' => 'legal_exporo_gmbh',
-                    'class' => 'mt-2',
+                    'class' => 'mt-4',
                     'required' => true,
                 ])
+                    Informationen über Kapitalanlagen, Projekt-Updates sowie plattformrelevante Informationen per Newsletter zu erhalten.
+                    Diese freiwillige Einwilligung kann ich jederzeit widerrufen.
+                    Zusätzlich stimme ich
                     <span>den</span>
                     <a href="{!! $agbs[\App\Models\Agb::TYPE_GMBH] !!}">AGB</a>
-                    & Datenschutzerklärung der Exporo Investment GmbH,
+                    und der
+                    <a href="#">Datenschutzerklärung</a>
+                    der Exporo Investment GmbH,
                     sowie den Bestimmungen zu Cookies & Internet-Werbung einverstanden.
                 @endcomponent
 
@@ -265,14 +225,24 @@
                 @endcomponent
 
                 @include('components.form.error', ['name' => 'legal_transfer'])
-            </div>
 
-            <div class="form-group row">
-                <button type="submit" class="btn btn-lg btn-success mx-auto">
-                    {{ __('Register') }}
-                </button>
+                @component('components.form.checkbox', [
+                    'name' => 'cookie_advertisement',
+                    'class' => 'mt-4',
+                    'required' => true,
+                ])
+                    Mit den Bestimmungen zu Cookies & Internet-Werbung erkläre ich mich einverstanden.
+                @endcomponent
             </div>
         </div>
+    </div>
+
+    <div class="form-group row">
+        <button type="submit" class="btn btn-lg btn-success mx-auto">
+            {{ __('Register') }}
+        </button>
+    </div>
+    </div>
     </div>
 
     <div class="mt-3 text-center small">Pflichtfelder sind mit * gekennzeichnet und müssen ausgefüllt werden.</div>

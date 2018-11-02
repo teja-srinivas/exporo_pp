@@ -21,7 +21,7 @@ Route::prefix('agbs')->group(function () {
     Route::get('latest/{type}', 'AgbController@latest')->name('agbs.latest');
 });
 
-Route::middleware(['auth', 'accepted'])->group(function () {
+Route::middleware(['auth', 'accepted', 'filled'])->group(function () {
     Route::get('/documents/{document}/download', 'UserDocumentController@download')
         ->name('documents.download')
         ->middleware('signed');

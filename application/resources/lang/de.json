@@ -19,6 +19,7 @@
   "Website": "Website",
   "VAT ID": "USt-IdNr.",
   "Tax Office": "Finanzamt",
+  "IBAN": "IBAN",
   "Password": "Passwort",
   "Confirm Password": "Passwort bestätigen",
   "Login": "Anmelden",
@@ -27,6 +28,7 @@
   "Remember Me": "Eingeloggt bleiben",
   "Forgot Your Password?": "Passwort vergessen?",
   "Reset Password": "Passwort zurücksetzen",
+  "Set Password": "Passwort setzen",
   "Send Password Reset Link": "Zurücksetzen-Link zusenden",
   "Formula": "Formel"
 }

@@ -59,7 +59,6 @@ class RegisterController extends Controller
             UserStoreRequest::getUserValidationRules(),
             UserStoreRequest::getDetailValidationRules(),
             [
-                'password' => 'required|string|min:6|confirmed',
                 'legal_exporo_ag' => 'accepted',
                 'legal_exporo_gmbh' => 'accepted',
                 'legal_transfer' => 'accepted',
@@ -80,7 +79,6 @@ class RegisterController extends Controller
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
         ]);
 
         $this->user->details()->create([
@@ -88,7 +86,6 @@ class RegisterController extends Controller
             'title' => $data['title'],
             'salutation' => $data['salutation'],
             'birth_date' => UserStoreRequest::makeBirthDate($data),
-            'birth_place' => $data['birth_place'],
             'address_street' => $data['address_street'],
             'address_number' => $data['address_number'],
             'address_addition' => $data['address_addition'],
@@ -96,8 +93,6 @@ class RegisterController extends Controller
             'address_city' => $data['address_city'],
             'phone' => $data['phone'],
             'website' => $data['website'],
-            'vat_id' => $data['vat_id'],
-            'tax_office' => $data['tax_office'],
         ]);
 
         $this->user->assignRole(Role::PARTNER);
@@ -113,9 +108,18 @@ class RegisterController extends Controller
             'Anrede' => $this->user->salutation,
             'Nachname' => $this->user->last_name,
             'Activationhash' => 'esfgrt'
-        ], $this->user, config('mail.templateIds.registration'))->onQueue('email');
+        ], $this->user, config('mail.templateIds.registration'))->onQueue('emails');
 
 
         return $this->user;
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    protected function setPassword(array $data)
+    {
+        $this->user = User::find($data[id]);
     }
 }

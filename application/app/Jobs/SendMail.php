@@ -44,7 +44,7 @@ class SendMail implements ShouldQueue
 
         Mail::send([], [], function (Message $message) {
             $message
-                ->to('a.vertgewall@exporo.com')
+                ->to($this->mail)
                 ->from('partnerprogramm@exporo.com')
                 ->embedData([
                     'personalizations' => [

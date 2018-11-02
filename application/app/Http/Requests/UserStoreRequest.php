@@ -121,7 +121,7 @@ class UserStoreRequest extends FormRequest
             "birth_month" => "{$prefix}|numeric|min:1|max:12",
             "birth_year" => "{$prefix}|numeric|min:". now()->subYears(120)->year . '|max:' . $adultYear->year,
             'birth_date' => "{$datePrefix}|date|before_or_equal:" . $adultYear, // needs to be an adult
-            'birth_place' => "{$prefix}|string|max:100",
+            'birth_place' => 'nullable|string|max:100',
             'address_street' => 'nullable|string|max:100',
             'address_number' => 'nullable|string|max:20',
             'address_addition' => 'nullable|string|max:100',

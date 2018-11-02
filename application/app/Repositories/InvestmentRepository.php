@@ -28,6 +28,8 @@ final class InvestmentRepository
             ->whereNotNull('users.accepted_at')
             ->whereNull('users.rejected_at')
             ->whereNotNull('projects.approved_at')
+            ->whereNotNull('investments.acknowledged_at')
+            ->whereRaw('investments.acknowledged_at NOT LIKE "1970-01-01 00:00:00"')
             ->select(['investments.*']);
     }
 

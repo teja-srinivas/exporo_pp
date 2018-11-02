@@ -121,4 +121,9 @@
         'name' => 'tax_office',
         'label' => __('Tax Office'),
     ],
+    [
+        'type' => 'text',
+        'name' => 'iban',
+        'label' => __('IBAN'),
+    ],
 ])])
