@@ -33,7 +33,11 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 document.addEventListener('DOMContentLoaded', () => {
   for (const el of document.querySelectorAll('vue')) {
     const component = el.dataset.is;
-    const props = JSON.parse(el.dataset.props);
+    if (component === undefined) {
+      continue;
+    }
+
+    const props = el.dataset.props !== undefined ? JSON.parse(el.dataset.props) : {};
 
     new Vue({
       el,
