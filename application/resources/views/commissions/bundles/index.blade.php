@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 
-@section('title', $bundles->count() . ' Provisionspackete')
+@section('title', $count . ' Provisionspackete')
 
 @section('actions')
     @can('create', \App\Models\BonusBundle::class)
