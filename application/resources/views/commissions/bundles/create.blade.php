@@ -25,7 +25,7 @@
                 [
                     'type' => 'checkbox',
                     'label' => __('Typ'),
-                    'name' => 'is_project_type',
+                    'name' => 'selectable',
                     'description' => 'Für Partner zur Auswahl möglich',
                     'default' => true,
                 ],

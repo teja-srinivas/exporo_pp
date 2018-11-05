@@ -45,7 +45,6 @@ class BonusBundleController extends Controller
     {
         $data = $this->validate($request, [
             'name' => 'required',
-            'selectable' => 'approved',
             'bonuses.*.type_id' => Rule::exists('commission_types', 'id'),
             'bonuses.*.value' => 'numeric',
             'bonuses.*.calculation_type' => Rule::in(CommissionBonus::TYPES),
@@ -56,12 +55,12 @@ class BonusBundleController extends Controller
         $bundle = new BonusBundle();
         $bundle->fill([
             'name' => $data['name'],
-            'selectable' => isset($data['selectable']),
+            'selectable' => $request->has('selectable'),
         ])->saveOrFail();
 
         $bonusIds = [];
 
-        foreach ($data['bonuses'] as $id => $values) {
+        foreach ($data['bonuses'] ?? [] as $id => $values) {
             $bonus = $id > 0 ? CommissionBonus::query()->findOrFail($id) : new CommissionBonus();
             $bonus->fill($values);
             $bonus->user_id = 0; // Marks this as "not attached"
