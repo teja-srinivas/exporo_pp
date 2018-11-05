@@ -58,9 +58,9 @@ class CommissionBonus extends Model
         return $this->belongsTo(CommissionType::class, 'type_id', 'id');
     }
 
-    public function Users()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id', 'user');
     }
 
     public function getDisplayValue()
