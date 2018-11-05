@@ -26,6 +26,8 @@ import Popover from 'bootstrap-vue/es/components/popover';
 import Notifications from 'vue-notification';
 import velocity from 'velocity-animate';
 
+import App from './components/App.vue';
+
 Vue.use(FormCheckbox);
 Vue.use(FormGroup);
 Vue.use(FormInput);
@@ -39,6 +41,8 @@ Vue.component('commission-approval', () => import('./components/CommissionApprov
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 document.addEventListener('DOMContentLoaded', () => {
+  let usesVue = false;
+
   for (const el of document.querySelectorAll('vue')) {
     const component = el.dataset.is;
     if (component === undefined) {
@@ -50,6 +54,20 @@ document.addEventListener('DOMContentLoaded', () => {
     new Vue({
       el,
       render: createElement => createElement(component, { props }),
+    });
+
+    usesVue = true;
+  }
+
+  // Insert global instance whenever we use a vue component on the page
+  // This takes care of things like notifications
+  if (usesVue) {
+    const root = document.createElement('div');
+    document.body.appendChild(root);
+
+    new Vue({
+      el: root,
+      render: h => h(App),
     });
   }
 });

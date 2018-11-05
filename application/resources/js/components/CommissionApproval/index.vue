@@ -4,12 +4,6 @@
 -->
 <template>
   <div :class="{[$style.disabled]: isLoading}">
-    <notifications
-      animation-type="velocity"
-      :animation="animation"
-      position="bottom right"
-    />
-
     <!-- Filter -->
     <div class="card border-0 shadow-sm mb-2 rounded align-items-center">
       <div class="p-1">
@@ -465,17 +459,6 @@ export default {
       sort: {
         name: 'money',
         order: '',
-      },
-
-      animation: {
-        enter: ({ clientHeight }) => ({
-          height: [clientHeight, 0],
-          opacity: 1,
-        }),
-        leave: {
-          height: 0,
-          opacity: 0,
-        },
       },
     };
   },
