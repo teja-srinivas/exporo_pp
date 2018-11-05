@@ -29,35 +29,24 @@ mix.sourceMaps();
 
 mix.purgeCss({
   // Dropdowns and animated JS content
-  whitelist: ['show', 'fade', 'collapse', 'collapsing'],
+  whitelist: [
+    'arrow', 'show', 'fade', 'collapse', 'collapsing',
+    'form-group', 'form-row', 'fieldset', 'legend',
+  ],
 
   whitelistPatterns: [
     // We use badges for user role colors
     /^badge-/,
 
-    // Pagination stuff
-    /^pag/
+    // Dynamic JS stuff
+    /^pag/,
+    /^popover/,
+    /^bs-popover/,
   ],
 });
 
 mix.extract([
   'axios',
   'popper.js',
-  'bootstrap/js/src/dropdown',
-  'bootstrap/js/src/util',
   'jquery',
 ]);
-
-// Allow custom bootstrap builds by using their source files
-// This enables the babel-loader to properly compile them
-Mix.listen('configReady', ({module}) => {
-  module.rules.find(rule => {
-    if (rule.test.test && rule.test.test('test.js')) {
-      delete rule.exclude;
-      rule.include = [
-        path.resolve(__dirname, 'resources/js'),
-        path.resolve(__dirname, 'node_modules/bootstrap/js'),
-      ];
-    }
-  });
-});

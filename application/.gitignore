@@ -15,6 +15,6 @@ yarn-error.log
 /public/images
 /public/css
 /public/js
-/public/*.js
+/public/*.js*
 /data/cache
 /data/database
