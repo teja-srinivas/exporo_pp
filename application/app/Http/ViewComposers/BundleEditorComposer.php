@@ -25,9 +25,13 @@ class BundleEditorComposer
             return $this->defaults;
         }
 
+        $editable = auth()->user()->can(\App\Policies\BonusBundlePolicy::PERMISSION);
+
         return $this->defaults = [
             'calculationTypes' => CommissionBonus::DISPLAY_NAMES,
             'commissionTypes' => CommissionType::query()->pluck('name', 'id'),
+            'editable' => $editable,
+            'legacy' => !$editable,
         ] + ($useAjax ? [
             'api' => route('api.commissions.bonuses.store'),
         ] : []);

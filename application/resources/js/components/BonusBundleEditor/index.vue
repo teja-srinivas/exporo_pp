@@ -5,14 +5,14 @@
         <col width="40%">
         <col width="40%">
         <col width="20%">
-        <col width="90">
+        <col width="90" v-if="editable">
       </colgroup>
       <thead>
       <tr>
         <th>Typ</th>
         <th>Für</th>
         <th class="text-right">Wert</th>
-        <th class="text-right">
+        <th class="text-right" v-if="editable">
           <button
             class="btn btn-sm btn-link p-0"
             type="button"
@@ -76,6 +76,7 @@
             </td>
 
             <td
+              v-if="editable"
               :class="{ 'border-top': index === 0 }"
               class="text-right"
             >
@@ -143,10 +144,12 @@
 
 <script>
 import axios from 'axios';
-import map from 'lodash/map';
+import each from 'lodash/each';
+import filter from 'lodash/filter';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import groupBy from 'lodash/groupBy';
+import map from 'lodash/map';
 import { confirm } from '../../alert';
 import { formatMoney, formatNumber } from '../../utils/formatters';
 import Editor from './Editor.vue';
@@ -166,6 +169,16 @@ export default {
       default: '',
     },
 
+    editable: {
+      type: Boolean,
+      default: true,
+    },
+
+    legacy: {
+      type: Boolean,
+      default: true,
+    },
+
     bonuses: {
       type: Array,
       default: () => [],
@@ -183,10 +196,26 @@ export default {
   },
 
   data() {
+    let items = map(this.bonuses, toLocal);
+
+    if (this.legacy) {
+      // For the legacy mode, show only the difference
+      // between the normal and the overhead bonus(es)
+      const isOverhead = filter(items, ['overhead', true]);
+      const isPercentage = filter(isOverhead, ['isPercentage', true]);
+
+      each(isPercentage, item => {
+        const related = this.findRelated(items, item);
+        if (related) {
+          item.value = item.value - related.value;
+        }
+      });
+    }
+
     const data = {
       editItem: null,
       editTarget: null,
-      items: map(this.bonuses, toLocal),
+      items: items,
     };
 
     return data;
@@ -305,7 +334,8 @@ export default {
     },
 
     formatValue({ isPercentage, value }) {
-      return isPercentage ? `${formatNumber(value * 100)} %` : formatMoney(value);
+      const multiplier = this.legacy ? 0.02 : 1;
+      return isPercentage ? `${formatNumber(value * 100 * multiplier)} %` : formatMoney(value);
     },
 
     inputPrefix(item, key) {
@@ -360,6 +390,17 @@ export default {
           throw e;
         }
       });
+    },
+
+    findRelated(items, overhead) {
+      // Find the related item that has not been labeled as overhead
+      return find(
+        filter(items, ['overhead', false]),
+        ({ type, calculationType }) => (
+          type === overhead.type &&
+          calculationType === overhead.calculationType
+        ),
+      );
     },
   },
 };
