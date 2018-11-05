@@ -57,6 +57,8 @@ else
   echo "no aws region and deployment param detected - no sshd configured"
 fi
 
+php artisan config:cache
+php artisan route:cache
 php artisan migrate --force
 
 # super simple process handling, esp restarting on a crash

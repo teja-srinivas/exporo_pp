@@ -7,10 +7,10 @@ RUN curl -L https://download.newrelic.com/php_agent/archive/8.2.0.221/newrelic-p
     NR_INSTALL_USE_CP_NOT_LN=1 NR_INSTALL_SILENT=1 /tmp/newrelic-php5-*/newrelic-install install && \
     rm -rf /tmp/newrelic-php5-* /tmp/nrinstall*
 
-COPY ./infrastructure/docker/manifest/ /
-RUN chmod 755 /entrypoint.sh
 ADD ./application/ /var/www/html
 RUN chmod -R 777 /var/www/html/
+COPY ./infrastructure/docker/manifest/ /
+RUN chmod 755 /entrypoint.sh
 
 WORKDIR /var/www/html
 
