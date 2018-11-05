@@ -77,8 +77,8 @@ class SidebarComposer
                     ],
                     [
                         'title' => 'Provisionsschema',
-                        'url' => '#',
-                        'isActive' => false,
+                        'url' => route('commission-details'),
+                        'isActive' => $this->request->routeIs('commission-details'),
                     ],
                 ],
             ],
