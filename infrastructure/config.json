@@ -5,5 +5,6 @@
   "appImageName": "webapp",
   "appContainerName": "webapp",
   "environmentDefault": "stage",
-  "awsAccountId": 432488122699
+  "awsAccountId": 432488122699,
+  "cidrBlockSegment2": 102
 }
