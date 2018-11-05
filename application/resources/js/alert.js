@@ -6,7 +6,7 @@ const swalert = sweetalert.mixin({
   cancelButtonText: 'Nein',
 });
 
-export const confirm = message => new Promise((resolve) => {
+const ask = message => new Promise((resolve) => {
   swalert({
     type: 'question',
     text: message,
@@ -17,3 +17,13 @@ export const confirm = message => new Promise((resolve) => {
     preConfirm: () => new Promise(resolve2 => resolve(resolve2)),
   });
 });
+
+export const confirm = async (message, callback) => {
+  const close = await ask(message);
+
+  try {
+    await callback();
+  } finally {
+    close();
+  }
+};

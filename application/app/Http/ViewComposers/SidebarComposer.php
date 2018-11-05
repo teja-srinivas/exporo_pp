@@ -4,6 +4,7 @@ namespace App\Http\ViewComposers;
 
 use App\Models\Agb;
 use App\Models\Bill;
+use App\Models\BonusBundle;
 use App\Models\CommissionType;
 use App\Models\Document;
 use App\Models\Project;
@@ -43,6 +44,7 @@ class SidebarComposer
     {
         $view->with('menu', $this->user === null ? [] : array_merge(
             $this->getInternal(),
+            $this->getCommissions(),
             $this->getPartner()
         ));
     }
@@ -146,11 +148,23 @@ class SidebarComposer
             ];
         }
 
+        return empty($links) ? [] : [
+            [
+                'title' => 'Verwaltung',
+                'links' => $links,
+            ],
+        ];
+    }
+
+    private function getCommissions()
+    {
+        $links = [];
+
         if ($this->canList(Bill::class)) {
             $links[] = [
                 'title' => 'Abrechnungen',
                 'url' => route('bills.index'),
-                'isActive' => $this->request->routeIs('bills.*', 'commissions.*'),
+                'isActive' => $this->request->routeIs('bills.*', 'commissions.index'),
             ];
         }
 
@@ -164,15 +178,23 @@ class SidebarComposer
 
         if ($this->canList(CommissionType::class)) {
             $links[] = [
-                'title' => 'Provisionstypen',
-                'url' => route('commissionTypes.index'),
-                'isActive' => $this->request->routeIs('commissionTypes.*'),
+                'title' => 'Typen',
+                'url' => route('commissions.types.index'),
+                'isActive' => $this->request->routeIs('commissions.types.*'),
+            ];
+        }
+
+        if ($this->canList(BonusBundle::class)) {
+            $links[] = [
+                'title' => 'Packete',
+                'url' => route('commissions.bundles.index'),
+                'isActive' => $this->request->routeIs('commissions.bundles.*'),
             ];
         }
 
         return empty($links) ? [] : [
             [
-                'title' => 'System-Verwaltung',
+                'title' => 'Provisionen',
                 'links' => $links,
             ],
         ];

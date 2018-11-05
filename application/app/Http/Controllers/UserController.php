@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserStoreRequest;
 use App\Jobs\SendMail;
 use App\Models\Bill;
+use App\Models\BonusBundle;
+use App\Models\CommissionBonus;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Auth\Passwords\PasswordBroker;
@@ -78,6 +80,7 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         $user->load([
+            'bonuses.type',
             'documents',
             'agbs' => function ($query) {
                 $query->latest();
@@ -93,9 +96,11 @@ class UserController extends Controller
             ->selectRaw('sum(investments.amount) as amount')
             ->first();
 
-        $bonuses = $user->bonuses->load('type')->groupBy('type_id');
+        $bonusBundles = BonusBundle::all()->mapWithKeys(function (BonusBundle $bundle) {
+            return [$bundle->getKey() => $bundle->name];
+        });
 
-        return response()->view('users.show', compact('user', 'investors', 'bonuses'));
+        return response()->view('users.show', compact('user', 'investors', 'bonusBundles'));
     }
 
     /**

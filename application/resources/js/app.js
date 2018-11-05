@@ -17,27 +17,57 @@ import './icons';
 
 import Vue from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { FormCheckbox, FormGroup, FormInput, Pagination } from 'bootstrap-vue/es/components';
+import FormCheckbox from 'bootstrap-vue/es/components/form-checkbox';
+import FormGroup from 'bootstrap-vue/es/components/form-group';
+import FormInput from 'bootstrap-vue/es/components/form-input';
+import FormRadio from 'bootstrap-vue/es/components/form-radio';
+import Pagination from 'bootstrap-vue/es/components/pagination';
+import Popover from 'bootstrap-vue/es/components/popover';
 import Notifications from 'vue-notification';
-import velocity from 'velocity-animate'
+import velocity from 'velocity-animate';
+
+import App from './components/App.vue';
 
 Vue.use(FormCheckbox);
 Vue.use(FormGroup);
 Vue.use(FormInput);
+Vue.use(FormRadio);
 Vue.use(Pagination);
+Vue.use(Popover);
 Vue.use(Notifications, { velocity });
 
+Vue.component('bonus-bundle-editor', () => import('./components/BonusBundleEditor/index.vue'));
 Vue.component('commission-approval', () => import('./components/CommissionApproval/index.vue'));
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 document.addEventListener('DOMContentLoaded', () => {
+  let usesVue;
+
   for (const el of document.querySelectorAll('vue')) {
     const component = el.dataset.is;
-    const props = JSON.parse(el.dataset.props);
+    if (component === undefined) {
+      continue;
+    }
+
+    const props = el.dataset.props !== undefined ? JSON.parse(el.dataset.props) : {};
 
     new Vue({
       el,
       render: createElement => createElement(component, { props }),
+    });
+
+    usesVue = true;
+  }
+
+  // Insert global instance whenever we use a vue component on the page
+  // This takes care of things like notifications
+  if (usesVue) {
+    const root = document.createElement('div');
+    document.body.appendChild(root);
+
+    new Vue({
+      el: root,
+      render: h => h(App),
     });
   }
 });

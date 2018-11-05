@@ -2,14 +2,14 @@
 
 @section('title')
     @breadcrumps([
-    route('commissionTypes.index') => 'Provisionstypen',
+    route('commissions.types.index') => 'Provisionstypen',
     $type->name,
     ])
 @endsection
 
 @section('actions')
     @unless($type->projects()->count() > 0)
-        <form action="{{ route('commissionTypes.destroy', $type) }}" method="POST" class="d-inline-flex">
+        <form action="{{ route('commissions.types.destroy', $type) }}" method="POST" class="d-inline-flex">
             @method('DELETE')
             @csrf
             <button class="btn btn-outline-danger btn-sm mr-2">Löschen</button>
@@ -17,7 +17,7 @@
     @endif
 
     @can('update', $type)
-        <a href="{{ route('commissionTypes.edit', $type) }}" class="btn btn-primary btn-sm">Bearbeiten</a>
+        <a href="{{ route('commissions.types.edit', $type) }}" class="btn btn-primary btn-sm">Bearbeiten</a>
     @endcan
 @endsection
 

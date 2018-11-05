@@ -4,12 +4,6 @@
 -->
 <template>
   <div :class="{[$style.disabled]: isLoading}">
-    <notifications
-      animation-type="velocity"
-      :animation="animation"
-      position="bottom right"
-    />
-
     <!-- Filter -->
     <div class="card border-0 shadow-sm mb-2 rounded align-items-center">
       <div class="p-1">
@@ -466,17 +460,6 @@ export default {
         name: 'money',
         order: '',
       },
-
-      animation: {
-        enter: ({ clientHeight }) => ({
-          height: [clientHeight, 0],
-          opacity: 1,
-        }),
-        leave: {
-          height: 0,
-          opacity: 0,
-        },
-      },
     };
   },
 
@@ -517,6 +500,8 @@ export default {
   },
 
   methods: {
+    confirm,
+
     formatEuro(number) {
       return number.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
     },
@@ -545,19 +530,15 @@ export default {
           text: e.message,
           type: 'error',
         });
-      }
 
-      this.isLoading = false;
+        throw e;
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     displayNameUser({ firstName, lastName }) {
       return `${lastName}, ${firstName}`;
-    },
-
-    async confirm(message, callback) {
-      const close = await confirm(message);
-      await callback();
-      close();
     },
 
     async updateValue(commission, key, value) {
@@ -603,6 +584,7 @@ export default {
           text: e.message,
           type: 'error',
         });
+        throw e;
       }
     },
 
@@ -619,6 +601,7 @@ export default {
         });
 
         this.$nextTick(rollbackCallback);
+        throw e;
       }
     },
 

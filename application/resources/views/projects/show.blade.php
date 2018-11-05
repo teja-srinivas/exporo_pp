@@ -110,7 +110,7 @@
         @slot('subtitle')
             Aktueller Typ:
 
-            <a href="{{ route('commissionTypes.show', $project->commissionType) }}">
+            <a href="{{ route('commissions.types.show', $project->commissionType) }}">
                 {{ $project->commissionType->name }}
             </a>
         @endslot

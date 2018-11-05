@@ -38,7 +38,7 @@ class CommissionBonus extends Model
     protected $table = 'commission_bonuses';
 
     protected $fillable = [
-        'id', 'type_id', 'value', 'is_overhead', 'is_percentage', 'user_id'
+        'id', 'type_id', 'calculation_type', 'value', 'is_overhead', 'is_percentage', 'user_id',
     ];
 
     protected $casts = [
@@ -58,9 +58,9 @@ class CommissionBonus extends Model
         return $this->belongsTo(CommissionType::class, 'type_id', 'id');
     }
 
-    public function Users()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id', 'user');
     }
 
     public function getDisplayValue()

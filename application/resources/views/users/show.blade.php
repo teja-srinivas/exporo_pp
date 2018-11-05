@@ -60,63 +60,25 @@
         @slot('title', 'Vergütungssschemata')
         @slot('info', 'für die jeweiligen Produkttypen')
 
-        <table class="table table-borderless table-hover table-sm table-striped mb-0">
-            <thead>
-                <tr>
-                    <th>Typ</th>
-                    <th colspan="2">Für</th>
-                    <th class="text-right">Wert</th>
-                    <th class="text-right">Aktionen</th>
-                </tr>
-            </thead>
-            @forelse($bonuses as $group)
-            @foreach($group as $bonus)
-                <tr>
-                @if($loop->first)
-                    <td
-                        class="border-top bg-white"
-                        rowspan="{{ $group->count() }}"
-                    >
-                        <a href="{{ route('commissionTypes.show', $group->first()->type) }}">
-                            <strong>{{ $group->first()->type->name }}</strong>
-                        </a>
-                    </td>
-                @endif
-                    <td class="{{ $loop->first ? 'border-top' : '' }}">
-                        {{ $bonus->getDisplayName() }}
-                    </td>
-                    <td class="{{ $loop->first ? 'border-top' : '' }}">
-                        @if($bonus->is_overhead)
-                            <div class="badge badge-info">Overhead</div>
-                        @endif
-                    </td>
-                    <td class="text-right {{ $loop->first ? 'border-top' : '' }}">
-                        {{ $bonus->getDisplayValue() }}
-                    </td>
-                    <td class="d-flex justify-content-end {{ $loop->first ? 'border-top' : '' }}">
-                        <form action="{{ route('users.commission-bonuses.update', [$user, $bonus]) }}" method="POST" class="mx-1 form-inline">
-                            @csrf
-                            @method('PUT')
-                            <input type="text" class="form-control" name="value" size="3" value="{{ $bonus->value }}">
-                            <button class="btn btn-sm btn-link ml-1">Ändern</button>
-                        </form>
+        @include('components.bundle-editor', ['bonuses' => $user->bonuses])
 
-                        <form action="{{ route('users.commission-bonuses.destroy', [$user, $bonus]) }}" method="POST" class="mx-1">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-sm btn-link px-0 text-danger">Löschen</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-            @empty
-                <tr>
-                    <td colspan="4" class="disabled text-muted text-center">
-                        Kein Vergütungsschema hinterlegt
-                    </td>
-                </tr>
-            @endforelse
-        </table>
+        @slot('footer')
+            <form action="{{ route('users.update', $user) }}" method="POST"
+                  class="d-flex justify-content-end form-inline">
+                @method('PUT')
+                @csrf
+
+                @include('components.form.select', [
+                    'type' => 'select',
+                    'name' => 'bonusBundle',
+                    'required' => true,
+                    'values' => $bonusBundles,
+                    'assoc' => true,
+                ])
+
+                <button class="btn btn-primary ml-2">Ersetzen</button>
+            </form>
+        @endslot
     @endcard
 
     @card
