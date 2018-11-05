@@ -10,7 +10,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Jobs\SendMail;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -35,6 +35,7 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/home';
     protected $user;
+
     /**
      * Create a new controller instance.
      *
@@ -48,7 +49,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -69,7 +70,7 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \App\Models\User
      */
     protected function create(array $data)
@@ -103,13 +104,11 @@ class RegisterController extends Controller
             })->filter()->pluck('id')
         );
 
-
         SendMail::dispatch([
             'Anrede' => $this->user->salutation,
             'Nachname' => $this->user->last_name,
-            'Activationhash' => 'esfgrt'
+            'Activationhash' => Url::signedRoute('doi', ['user' => $this->user->id]),
         ], $this->user, config('mail.templateIds.registration'))->onQueue('emails');
-
 
         return $this->user;
     }

@@ -46,6 +46,9 @@ Route::middleware(['auth', 'accepted', 'filled'])->group(function () {
         ]]);
     });
 
+
+
+
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::view('/affiliate/links', 'affiliate/links')->name('affiliate.links');
@@ -54,6 +57,7 @@ Route::middleware(['auth', 'accepted', 'filled'])->group(function () {
     Route::get('/authorization', 'AuthorizationController@index')->name('authorization.index');
 });
 
+Route::get('user/{user}/doi', 'UserController@doi')->name('doi')->middleware('signed');
 Route::get('bills/pdf/{bill}', 'BillController@billPdf')->middleware('auth.basic.once');
 
 Auth::routes();
