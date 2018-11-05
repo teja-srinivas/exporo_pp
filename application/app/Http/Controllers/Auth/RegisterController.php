@@ -10,6 +10,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Jobs\SendMail;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
@@ -34,6 +35,10 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
+
+    /**
+     * @var User
+     */
     protected $user;
 
     /**
@@ -75,34 +80,35 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $this->user = User::forceCreate([
-            'company_id' => Company::first()->getKey(),
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-        ]);
+        $agbs = collect(Agb::TYPES)->map(function (string $type) {
+            return Agb::current($type);
+        })->filter()->pluck('id');
 
-        $this->user->details()->create([
-            'company' => $data['company'],
-            'title' => $data['title'],
-            'salutation' => $data['salutation'],
-            'birth_date' => UserStoreRequest::makeBirthDate($data),
-            'address_street' => $data['address_street'],
-            'address_number' => $data['address_number'],
-            'address_addition' => $data['address_addition'],
-            'address_zipcode' => $data['address_zipcode'],
-            'address_city' => $data['address_city'],
-            'phone' => $data['phone'],
-            'website' => $data['website'],
-        ]);
+        DB::transaction(function () use ($data, $agbs) {
+            $this->user = User::query()->forceCreate([
+                'company_id' => Company::query()->first()->getKey(),
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'email' => $data['email'],
+            ]);
 
-        $this->user->assignRole(Role::PARTNER);
+            $this->user->details()->create([
+                'company' => $data['company'],
+                'title' => $data['title'],
+                'salutation' => $data['salutation'],
+                'birth_date' => UserStoreRequest::makeBirthDate($data),
+                'address_street' => $data['address_street'],
+                'address_number' => $data['address_number'],
+                'address_addition' => $data['address_addition'],
+                'address_zipcode' => $data['address_zipcode'],
+                'address_city' => $data['address_city'],
+                'phone' => $data['phone'],
+                'website' => $data['website'],
+            ]);
 
-        $this->user->agbs()->attach(
-            collect(Agb::TYPES)->map(function (string $type) {
-                return Agb::current($type);
-            })->filter()->pluck('id')
-        );
+            $this->user->assignRole(Role::PARTNER);
+            $this->user->agbs()->attach($agbs);
+        });
 
         SendMail::dispatch([
             'Anrede' => $this->user->salutation,
@@ -111,14 +117,5 @@ class RegisterController extends Controller
         ], $this->user, config('mail.templateIds.registration'))->onQueue('emails');
 
         return $this->user;
-    }
-
-    /**
-     * @param array $data
-     * @return void
-     */
-    protected function setPassword(array $data)
-    {
-        $this->user = User::find($data[id]);
     }
 }
