@@ -57,18 +57,19 @@
             </td>
 
             <td
-              :class="{ 'border-top': index === 0 }"
-              class="text-right align-bottom"
+              :class="{ 'border-top': index === 0, [$style.leadingNone]: true }"
+              class="text-right align-middle text-nowrap"
             >
               <!-- Form field generation for saving it in the DB -->
-              <input type="hidden" :name="inputPrefix(item, 'type_id')" :value="item.type">
-              <input type="hidden" :name="inputPrefix(item, 'calculation_type')" :value="item.calculationType">
-              <input type="hidden" :name="inputPrefix(item, 'value')" :value="item.value">
-              <input type="hidden" :name="inputPrefix(item, 'is_percentage')" :value="item.isPercentage ? 1 : 0">
-              <input type="hidden" :name="inputPrefix(item, 'is_overhead')" :value="item.overhead ? 1 : 0">
+              <template v-if="api">
+                <input type="hidden" :name="inputPrefix(item, 'type_id')" :value="item.type">
+                <input type="hidden" :name="inputPrefix(item, 'calculation_type')" :value="item.calculationType">
+                <input type="hidden" :name="inputPrefix(item, 'value')" :value="item.value">
+                <input type="hidden" :name="inputPrefix(item, 'is_percentage')" :value="item.isPercentage ? 1 : 0">
+                <input type="hidden" :name="inputPrefix(item, 'is_overhead')" :value="item.overhead ? 1 : 0">
+              </template>
 
               <span
-                :class="$style.leadingNone"
                 class="lead"
                 v-text="formatValue(item)"
               />
@@ -107,6 +108,7 @@
                 <button
                   type="button"
                   class="btn btn-outline-danger border-0 p-1 btn-sm"
+                  @click="deleteItem(item)"
                 >
                   <font-awesome-icon
                     :class="$style.ignoreEvents"
@@ -140,12 +142,17 @@
 </template>
 
 <script>
+import axios from 'axios';
 import map from 'lodash/map';
+import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import groupBy from 'lodash/groupBy';
+import { confirm } from '../../alert';
 import { formatMoney, formatNumber } from '../../utils/formatters';
 import Editor from './Editor.vue';
+import { toForeign, toLocal } from './mapper';
 
+// Temporary ID for entries until we persist them in the DB (either via a form or ajax)
 let tempIdCounter = -1;
 
 export default {
@@ -154,6 +161,11 @@ export default {
   },
 
   props: {
+    api: {
+      type: String,
+      default: '',
+    },
+
     bonuses: {
       type: Array,
       default: () => [],
@@ -171,23 +183,22 @@ export default {
   },
 
   data() {
-    return {
+    const data = {
       editItem: null,
       editTarget: null,
-      items: map(this.bonuses, bonus => ({
-        id: bonus.id,
-        overhead: bonus.is_overhead,
-        isPercentage: bonus.is_percentage,
-        value: bonus.value,
-        type: bonus.type_id,
-        calculationType: bonus.calculation_type,
-      })),
+      items: map(this.bonuses, toLocal),
     };
+
+    return data;
   },
 
   computed: {
     itemsById() {
       return groupBy(this.items, 'type');
+    },
+
+    editItemId() {
+      return this.editItem !== null ? this.editItem.id : 0;
     },
   },
 
@@ -217,7 +228,7 @@ export default {
     },
 
     showEditor(item, target) {
-      if (this.editItem !== null && this.editItem.id === item.id) {
+      if (this.editItemId === item.id) {
         return;
       }
 
@@ -240,19 +251,56 @@ export default {
       }
 
       if (item.id === 0) {
-        item.id = tempIdCounter--; // temporary Id until we saved the entry
+        item.id = tempIdCounter--;
         this.addItem(item);
         return;
       }
 
-      // TODO API call
       const index = findIndex(this.items, ({ id }) => id === item.id);
+
+      if (this.api) {
+        const copy = this.items[index];
+
+        this.updateOrRollBack(
+          item,
+          () => this.$set(this.items, index, copy),
+        );
+      }
+
       this.$set(this.items, index, item);
     },
 
-    addItem(item) {
+    async addItem(item) {
+      const itemId = item.id;
+
       this.items.push(item);
       this.editItem = null;
+
+      try {
+        const { data } = await axios.post(this.api, toForeign(item));
+
+        if (this.editItemId === itemId) {
+          this.editItem.id = data.id;
+        }
+
+        item = find(this.items, ['id', itemId]);
+
+        if (item) {
+          item.id = data.id;
+        }
+
+        this.$notify('Eintrag angelegt');
+
+      } catch (e) {
+        this.$notify({
+          title: 'Fehler beim Anlegen',
+          text: e.message + '. Eintrag wird wieder gelöscht.',
+          type: 'error',
+        });
+
+        this.items = this.items.slice(0, this.items.length - 1);
+        throw e;
+      }
     },
 
     formatValue({ isPercentage, value }) {
@@ -265,6 +313,43 @@ export default {
 
     makeEditId(item) {
       return `bb-edit-${item.id}`;
+    },
+
+    async updateOrRollBack(bonus, rollbackCallback) {
+      try {
+        await axios.put(`${this.api}/${bonus.id}`, toForeign(bonus));
+        this.$notify('Änderungen gespeichert');
+
+      } catch (e) {
+        this.$notify({
+          title: 'Fehler beim Speichern',
+          text: e.message + '. Änderungen werden wieder zurückgesetzt.',
+          type: 'error',
+        });
+
+        this.$nextTick(rollbackCallback);
+        throw e;
+      }
+    },
+
+    async deleteItem(item) {
+      await confirm('Eintrag wirklich löschen?', async () => {
+        try {
+          this.items.splice(findIndex(this.items, ['id', item.id]), 1);
+          await axios.delete(`${this.api}/${item.id}`);
+          this.$notify('Eintrag gelöscht');
+
+        } catch (e) {
+          this.$notify({
+            title: 'Fehler beim Speichern',
+            text: e.message + '. Änderungen werden wieder zurückgesetzt.',
+            type: 'error',
+          });
+
+          this.items.push(item);
+          throw e;
+        }
+      });
     },
   },
 };

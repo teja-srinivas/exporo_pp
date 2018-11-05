@@ -16,10 +16,10 @@ class BundleEditorComposer
 
     public function compose(View $view)
     {
-        $view->with('defaults', $this->getDefaults());
+        $view->with('defaults', $this->getDefaults($view['ajax'] ?? true));
     }
 
-    private function getDefaults(): array
+    private function getDefaults(bool $useAjax): array
     {
         if ($this->defaults) {
             return $this->defaults;
@@ -28,6 +28,8 @@ class BundleEditorComposer
         return $this->defaults = [
             'calculationTypes' => CommissionBonus::DISPLAY_NAMES,
             'commissionTypes' => CommissionType::query()->pluck('name', 'id'),
-        ];
+        ] + ($useAjax ? [
+            'api' => route('api.commissions.bonuses.store'),
+        ] : []);
     }
 }

@@ -41,7 +41,7 @@ Vue.component('commission-approval', () => import('./components/CommissionApprov
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 document.addEventListener('DOMContentLoaded', () => {
-  let usesVue = false;
+  let usesVue;
 
   for (const el of document.querySelectorAll('vue')) {
     const component = el.dataset.is;

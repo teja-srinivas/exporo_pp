@@ -32,7 +32,7 @@
             ]
         ])
 
-        @include('components.bundle-editor')
+        @include('components.bundle-editor', ['ajax' => false])
 
         @slot('footer')
             <div class="text-right">

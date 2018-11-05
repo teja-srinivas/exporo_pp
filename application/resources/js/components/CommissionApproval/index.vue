@@ -500,6 +500,8 @@ export default {
   },
 
   methods: {
+    confirm,
+
     formatEuro(number) {
       return number.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
     },
@@ -528,19 +530,15 @@ export default {
           text: e.message,
           type: 'error',
         });
-      }
 
-      this.isLoading = false;
+        throw e;
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     displayNameUser({ firstName, lastName }) {
       return `${lastName}, ${firstName}`;
-    },
-
-    async confirm(message, callback) {
-      const close = await confirm(message);
-      await callback();
-      close();
     },
 
     async updateValue(commission, key, value) {
@@ -586,6 +584,7 @@ export default {
           text: e.message,
           type: 'error',
         });
+        throw e;
       }
     },
 
@@ -602,6 +601,7 @@ export default {
         });
 
         this.$nextTick(rollbackCallback);
+        throw e;
       }
     },
 

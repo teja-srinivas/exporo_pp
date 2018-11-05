@@ -88,7 +88,7 @@ export default {
 
   data() {
     return {
-      item: this.value !== null ? {...this.value} : null,
+      item: null,
     };
   },
 
@@ -104,8 +104,12 @@ export default {
   },
 
   watch: {
-    value(val) {
-      this.item = val !== null ? {...val} : null;
+    value: {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        this.item = val !== null ? {...val} : null;
+      },
     },
   },
 };
