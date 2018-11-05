@@ -78,7 +78,8 @@
             </div>
 
             <div class="form-group row">
-                <label for="inputAddressStreet" class="col-sm-4 col-form-label">{{ __('Address') }}</label>
+                <label for="inputAddressStreet" class="col-sm-4 col-form-label font-weight-bold">{{ __('Address') }}
+                    *</label>
                 <div class="col-sm-8">
                     <div class="row">
                         <div class="col-8">
@@ -86,14 +87,14 @@
                                 'name' => 'address_street',
                                 'autocomplete' => 'address-line1',
                                 'placeholder' => 'Musterstraße',
-                                'error' => false,
+                                'required' => true,
                             ])
                         </div>
                         <div class="col-4">
                             @include('components.form.input', [
                                 'name' => 'address_number',
                                 'placeholder' => '12c',
-                                'error' => false,
+                                'required' => true,
                             ])
                         </div>
                     </div>
@@ -190,7 +191,7 @@
                     <span>den</span>
                     <a href="{!! $agbs[\App\Models\Agb::TYPE_AG] !!}">AGB</a>
                     und der
-                    <a href="#">Datenschutzerklärung</a>
+                    <a href="https://exporo.de/datenschutz">Datenschutzerklärung</a>
                     der Exporo AG,
                 @endcomponent
 
@@ -207,9 +208,8 @@
                     <span>den</span>
                     <a href="{!! $agbs[\App\Models\Agb::TYPE_GMBH] !!}">AGB</a>
                     und der
-                    <a href="#">Datenschutzerklärung</a>
-                    der Exporo Investment GmbH,
-                    sowie den Bestimmungen zu Cookies & Internet-Werbung einverstanden.
+                    <a href="https://exporo.de/datenschutz" target="_blank">Datenschutzerklärung</a>
+                    der Exporo Investment GmbH zu.
                 @endcomponent
 
                 @include('components.form.error', ['name' => 'legal_exporo_gmbh'])
@@ -231,7 +231,7 @@
                     'class' => 'mt-4',
                     'required' => true,
                 ])
-                    Mit den Bestimmungen zu Cookies & Internet-Werbung erkläre ich mich einverstanden.
+                    Mit den Bestimmungen zu <a href="https://exporo.de/datenschutz" target="_blank"> Cookies & Internet-Werbung</a> erkläre ich mich einverstanden.
                 @endcomponent
             </div>
         </div>
