@@ -58,7 +58,6 @@ class SidebarComposer
         return [
             [
                 'title' => 'Meine Daten',
-                'help' => '#',
                 'links' => [
                     [
                         'title' => 'Provisionen',
