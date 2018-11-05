@@ -61,7 +61,7 @@
               class="text-right align-middle text-nowrap"
             >
               <!-- Form field generation for saving it in the DB -->
-              <template v-if="api">
+              <template v-if="!api">
                 <input type="hidden" :name="inputPrefix(item, 'type_id')" :value="item.type">
                 <input type="hidden" :name="inputPrefix(item, 'calculation_type')" :value="item.calculationType">
                 <input type="hidden" :name="inputPrefix(item, 'value')" :value="item.value">
@@ -198,7 +198,7 @@ export default {
     },
 
     editItemId() {
-      return this.editItem !== null ? this.editItem.id : 0;
+      return this.editItem !== null ? this.editItem.id : null;
     },
   },
 
@@ -257,15 +257,12 @@ export default {
       }
 
       const index = findIndex(this.items, ({ id }) => id === item.id);
+      const copy = this.items[index];
 
-      if (this.api) {
-        const copy = this.items[index];
-
-        this.updateOrRollBack(
-          item,
-          () => this.$set(this.items, index, copy),
-        );
-      }
+      this.updateOrRollBack(
+        item,
+        () => this.$set(this.items, index, copy),
+      );
 
       this.$set(this.items, index, item);
     },
@@ -275,6 +272,10 @@ export default {
 
       this.items.push(item);
       this.editItem = null;
+
+      if (!this.api) {
+        return;
+      }
 
       try {
         const { data } = await axios.post(this.api, toForeign(item));
@@ -316,6 +317,10 @@ export default {
     },
 
     async updateOrRollBack(bonus, rollbackCallback) {
+      if (!this.api) {
+        return;
+      }
+
       try {
         await axios.put(`${this.api}/${bonus.id}`, toForeign(bonus));
         this.$notify('Änderungen gespeichert');
@@ -336,6 +341,11 @@ export default {
       await confirm('Eintrag wirklich löschen?', async () => {
         try {
           this.items.splice(findIndex(this.items, ['id', item.id]), 1);
+
+          if (!this.api) {
+            return;
+          }
+
           await axios.delete(`${this.api}/${item.id}`);
           this.$notify('Eintrag gelöscht');
 
