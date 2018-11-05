@@ -62,41 +62,22 @@
                             <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                             <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->first_name }} {{ Auth::user()->last_name }} <span class="caret"></span>
+                            <li class="nav-item">
+                                Angemeldet als
+
+                                <strong>
+                                    {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
+                                </strong>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a href="#" class="dropdown-item">Investment-Cockpit</a>
-                                    @can('view partner dashboard')
-                                    <a href="{{ route('home') }}"
-                                       class="dropdown-item {{ request()->routeIs('home') ? 'active' : '' }}">Partner-Cockpit</a>
-                                    @endcan
-
-                                    <div class="dropdown-divider"></div>
-
-                                    <h5 class="dropdown-header text-uppercase tracking-wide">Meine Daten</h5>
-                                    <a href="{{ route('users.edit', Auth::user()) }}"
-                                       class="dropdown-item {{ request()->is(substr(route('users.edit', Auth::user(), false), 1)) ? 'active' : '' }}">Einstellungen</a>
-
-                                    <a href="{{ route('documents.index') }}"
-                                       class="dropdown-item {{ request()->routeIs('documents.index') ? 'active' : '' }}">Dokumente</a>
-
-                                    <a href="#" class="dropdown-item">Provisionsschema</a>
-                                    <a href="#" class="dropdown-item">Buchhaltung</a>
-
-                                    <div class="dropdown-divider"></div>
-
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
                             </li>
                         @endguest
                     </ul>

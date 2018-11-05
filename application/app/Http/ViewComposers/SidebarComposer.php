@@ -57,13 +57,28 @@ class SidebarComposer
 
         return [
             [
-                'title' => 'Meine Provisionen',
+                'title' => 'Meine Daten',
                 'help' => '#',
                 'links' => [
                     [
-                        'title' => 'Übersicht',
+                        'title' => 'Provisionen',
                         'url' => route('home'),
                         'isActive' => $this->request->routeIs('home'),
+                    ],
+                    [
+                        'title' => 'Einstellungen',
+                        'url' => route('users.edit', $this->user),
+                        'isActive' => $this->request->routeIs('users.edit'),
+                    ],
+                    [
+                        'title' => 'Dokumente',
+                        'url' => route('documents.index'),
+                        'isActive' => $this->request->routeIs('documents.index'),
+                    ],
+                    [
+                        'title' => 'Provisionsschema',
+                        'url' => '#',
+                        'isActive' => false,
                     ],
                 ],
             ],
