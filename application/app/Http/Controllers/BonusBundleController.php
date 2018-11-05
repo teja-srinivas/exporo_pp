@@ -19,7 +19,11 @@ class BonusBundleController extends Controller
     public function index()
     {
         return view('commissions.bundles.index', [
-            'bundles' => BonusBundle::query()->with('bonuses')->get(),
+            'bundles' => BonusBundle::query()
+                ->with('bonuses')
+                ->orderBy('name')
+                ->get()
+                ->groupBy('selectable'),
         ]);
     }
 
