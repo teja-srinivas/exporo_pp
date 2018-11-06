@@ -14,6 +14,7 @@ return [
 
     'message' => [
         'status' => [
+            'cancelled' => 'Ihr Account wurde deaktiviert.',
             'idle' => 'Sie wurden von uns noch nicht freigeschaltet. Dies kann i.d.R. einige Werktage dauern.',
             'rejected' => 'Unser Team hat ihre Registrierung abgewiesen.',
         ],

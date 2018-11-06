@@ -28,6 +28,8 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $last_name
  * @property Carbon $accepted_at
  * @property Carbon $rejected_at
+ * @property Carbon $term_cancelled_at
+ * @property Carbon $email_verified_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property UserDetails $details
@@ -84,6 +86,8 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     protected $dates = [
         'accepted_at',
         'rejected_at',
+        'term_cancelled_at',
+        'email_verified_at',
     ];
 
     protected $auditExclude = [
@@ -175,6 +179,11 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     public function rejected()
     {
         return $this->canBeProcessed() && $this->rejected_at !== null;
+    }
+
+    public function cancelled()
+    {
+        return $this->term_cancelled_at !== null;
     }
 
     public function accepted()

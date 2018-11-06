@@ -19,6 +19,12 @@ class UserIsAccepted
         /** @var User $user */
         $user = $request->user();
 
+        if ($user->cancelled()) {
+            return response()->view('message', [
+                'message' => __('users.message.status.cancelled'),
+            ]);
+        }
+
         if ($user->rejected()) {
             return response()->view('message', [
                 'message' => __('users.message.status.rejected'),
