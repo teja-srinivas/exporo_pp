@@ -47,7 +47,8 @@ class UserDetails extends Model implements AuditableContract
         'tax_office',
         'registration_bonus',
         'first_investment_bonus',
-        'further_investment_bonus'
+        'further_investment_bonus',
+        'iban',
     ];
 
     protected $dates = [

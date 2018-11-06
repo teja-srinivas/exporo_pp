@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "69dda4393e258acfa19f6822f342f057",
+    "content-hash": "4d1689107f607b1c21e11f358954bd75",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1120,6 +1120,65 @@
                 "url"
             ],
             "time": "2017-03-20T17:10:46+00:00"
+        },
+        {
+            "name": "intervention/validation",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Intervention/validation.git",
+                "reference": "94fb31a5f6617119c0fd49c3cb58cf074bcd4aa9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Intervention/validation/zipball/94fb31a5f6617119c0fd49c3cb58cf074bcd4aa9",
+                "reference": "94fb31a5f6617119c0fd49c3cb58cf074bcd4aa9",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~4|~5",
+                "illuminate/validation": "~4|~5",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Intervention\\Validation\\ValidationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Intervention\\Validation\\": "src/Intervention/Validation"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oliver Vogel",
+                    "email": "oliver@olivervogel.net",
+                    "homepage": "http://olivervogel.net/"
+                }
+            ],
+            "description": "Additional Validator Functions for the Laravel Framework",
+            "keywords": [
+                "BIC",
+                "IBAN",
+                "ISBN",
+                "ISIN",
+                "creditcard",
+                "laravel",
+                "validation",
+                "validator"
+            ],
+            "time": "2017-06-29T17:58:28+00:00"
         },
         {
             "name": "itsgoingd/clockwork",
