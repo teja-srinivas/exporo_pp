@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\AuthenticateOnceWithBasicAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -52,18 +51,18 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'accepted' => \App\Http\Middleware\UserIsAccepted::class,
-        'auth' => \App\Http\Middleware\Authenticate::class,
+        'accepted' => Middleware\UserIsAccepted::class,
+        'auth' => Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'auth.basic.once' => AuthenticateOnceWithBasicAuth::class,
+        'auth.basic.once' => Middleware\AuthenticateOnceWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'filled' => \App\Http\Middleware\UserHasFilledPersonalData::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'filled' => Middleware\UserHasFilledPersonalData::class,
+        'guest' => Middleware\RedirectIfAuthenticated::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
     ];
 }

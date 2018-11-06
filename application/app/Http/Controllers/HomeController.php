@@ -10,22 +10,12 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Show the application dashboard.
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function __invoke(Request $request)
     {
         return response()->view('home', [
             'bills' => Bill::getDetailsPerUser($request->user()->id)->released()->latest()->get(),

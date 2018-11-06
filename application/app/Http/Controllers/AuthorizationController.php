@@ -7,7 +7,7 @@ use App\Models\Role;
 
 class AuthorizationController extends Controller
 {
-    public function index()
+    public function __invoke()
     {
         $this->authorize('list', Role::class);
 
