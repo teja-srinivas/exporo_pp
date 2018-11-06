@@ -36,7 +36,7 @@ class SendMail implements ShouldQueue
     public function handle(Mailer $mailer)
     {
         if (env('APP_ENV') !== 'prod') {
-            $this->mail = 'a.vertgewall@exporo.com';
+            $this->mail = 'stageapp@exporo.com';
         } else {
             $this->mail = $this->user->email;
         }
