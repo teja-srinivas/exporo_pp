@@ -218,8 +218,6 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         SendMail::dispatch([
-            'Anrede' => $this->salutation,
-            'Nachname' => $this->last_name,
             'Activationhash' => URL::signedRoute('verification.verify', [$this->id]),
         ], $this, config('mail.templateIds.registration'))->onQueue('emails');
     }

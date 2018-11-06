@@ -122,8 +122,6 @@ class BillController extends Controller
             ]);
 
             SendMail::dispatch([
-                'Anrede' => $user->salutation,
-                'Nachname' => $user->last_name,
                 'Provision' => format_money($bill->getTotalNet()),
                 'Link' => 'exporo.com'
             ], $user, config('mail.templateIds.commissionCreated'))->onQueue('emailsLow');
