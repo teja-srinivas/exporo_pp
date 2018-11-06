@@ -29,7 +29,7 @@ class HomeController extends Controller
             'approved' => Commission::query()
                 ->where(function (Builder $query) {
                     $query->whereNotNull('reviewed_at');
-                    $query->orWhereNull('bill_id');
+                    $query->whereNull('bill_id');
                 })
                 ->where('user_id', $request->user()->id)
                 ->sum('net'),
