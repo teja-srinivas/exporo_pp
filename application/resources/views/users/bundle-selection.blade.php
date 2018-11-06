@@ -23,8 +23,8 @@
                             @php($key = $bundle->getKey())
                             @php($id = 'bundleSelection_' . $key)
 
-                            <div class="d-flex mb-3">
-                                <div class="custom-control custom-radio mt-1">
+                            <div class="d-flex mb-4">
+                                <div class="custom-control custom-radio">
                                     <input
                                         type="radio"
                                         id="{{ $id }}"
@@ -38,6 +38,7 @@
                                 </div>
 
                                 <div class="flex-fill shadow-sm rounded">
+                                    <h5 class="text-dark">{{ $bundle->name }}</h5>
                                     @include('components.bundle-editor', ['bonuses' => $bundle->bonuses])
                                 </div>
                             </div>

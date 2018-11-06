@@ -15,8 +15,7 @@
         @slot('title', 'Aktiv')
         @slot('info')
             Derzeit auswählbar von Partnern nach der Regis&shy;trierung.
-            Der hier angegebene Name ist nur für interne Zwecke da
-            und wird nicht mit angezeigt.
+            Der hier angegebene Name wird bei der Auswahl als Überschrift angezeigt.
         @endslot
 
         @isset($bundles[1])
