@@ -124,7 +124,7 @@ class UserStoreRequest extends FormRequest
             'birth_place' => 'nullable|string|max:100',
             'address_street' => 'required|nullable|string|max:100',
             'address_number' => 'required|nullable|string|max:20',
-            'address_addition' => 'required|nullable|string|max:100',
+            'address_addition' => 'nullable|string|max:100',
             'address_zipcode' => 'required|nullable|string|max:20',
             'address_city' => 'nullable|string|max:100',
             'phone' => "{$prefix}|string|max:100",
