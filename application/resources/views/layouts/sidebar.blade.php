@@ -42,7 +42,7 @@
                 {{-- Validation Errors --}}
                 @if($errors->any())
                     <div class="alert alert-warning">
-                        Es sind Fehler beim Speichern aufgetreten
+                        {{ session('error-message') ?? 'Es sind Fehler beim Speichern aufgetreten' }}
                     </div>
                 @endif
 

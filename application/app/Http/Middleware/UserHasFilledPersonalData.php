@@ -31,7 +31,11 @@ class UserHasFilledPersonalData
             return $next($request);
         }
 
-        return redirect()->route('users.edit', $user);
+        return redirect()->route('users.edit', $user)->withErrors([
+            'iban' => 'Bitte füllen Sie Ihre IBAN aus um fortfahren zu können',
+        ])->with([
+            'error-message' => 'Wir benötigen noch ein paar Daten von Ihnen',
+        ]);
     }
 
     private function hasFilledAllData($user): bool
