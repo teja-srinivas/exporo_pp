@@ -200,7 +200,7 @@ class SidebarComposer
 
         if ($this->canList(BonusBundle::class)) {
             $links[] = [
-                'title' => 'Packete',
+                'title' => 'Pakete',
                 'url' => route('commissions.bundles.index'),
                 'isActive' => $this->request->routeIs('commissions.bundles.*'),
             ];

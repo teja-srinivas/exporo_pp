@@ -2,7 +2,7 @@
 
 @section('title')
     @breadcrumps([
-        route('commissions.bundles.index') => 'Provisionspackete',
+        route('commissions.bundles.index') => 'Provisionspakete',
         'Neu Anlegen',
     ])
 @endsection

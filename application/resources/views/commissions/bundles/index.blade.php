@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 
-@section('title', $count . ' Provisionspackete')
+@section('title', $count . ' Provisionspakete')
 
 @section('actions')
     @can('create', \App\Models\BonusBundle::class)
@@ -19,12 +19,18 @@
             und wird nicht mit angezeigt.
         @endslot
 
-        @foreach($bundles[true] as $bundle)
+        @isset($bundles[1])
+            @foreach($bundles[true] as $bundle)
             <div class="p-2 shadow-sm border rounded @unless($loop->first) mt-3 @endunless">
                 <h5 class="text-dark">{{ $bundle->name }}</h5>
                 @include('components.bundle-editor', ['bonuses' => $bundle->bonuses])
             </div>
-        @endforeach
+            @endforeach
+        @else
+            <div class="lead text-center text-muted d-flex justify-content-center align-items-center flex-fill h-100">
+                Noch keine Pakete angelegt
+            </div>
+        @endisset
     @endcard
 
     <h4>Intern / Versteckt / Archiv</h4>
@@ -36,12 +42,20 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($bundles[false] as $bundle)
+        @isset($bundles[0])
+            @foreach($bundles[false] as $bundle)
             <tr>
                 <td>{{ $bundle->name }}</td>
                 <td>@timeago($bundle->created_at)</td>
             </tr>
-        @endforeach
+            @endforeach
+        @else
+            <tr>
+                <td colspan="2" class="text-muted text-center">
+                    Noch keine Pakete archiviert
+                </td>
+            </tr>
+        @endisset
         </tbody>
     </table>
 
