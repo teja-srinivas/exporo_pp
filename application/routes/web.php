@@ -13,7 +13,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome');
+Route::redirect('/', 'https://p.exporo.de/');
 
 Route::prefix('agbs')->group(function () {
     Route::get('{agb}/download', 'AgbController@download')
