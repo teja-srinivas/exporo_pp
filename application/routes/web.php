@@ -21,7 +21,7 @@ Route::prefix('agbs')->group(function () {
     Route::get('latest/{type}', 'AgbController@latest')->name('agbs.latest');
 });
 
-Route::middleware(['auth', 'accepted', 'filled'])->group(function () {
+Route::middleware(['verified', 'accepted', 'filled'])->group(function () {
     Route::get('/documents/{document}/download', 'UserDocumentController@download')
         ->name('documents.download')
         ->middleware('signed');
@@ -59,4 +59,4 @@ Route::middleware(['auth', 'accepted', 'filled'])->group(function () {
 Route::get('user/{user}/doi', 'UserController@doi')->name('doi')->middleware('signed');
 Route::get('bills/pdf/{bill}', 'BillController@billPdf')->middleware('auth.basic.once');
 
-Auth::routes();
+Auth::routes(['verify' => true]);

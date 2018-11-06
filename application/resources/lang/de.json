@@ -30,5 +30,10 @@
   "Reset Password": "Passwort zurücksetzen",
   "Set Password": "Passwort setzen",
   "Send Password Reset Link": "Zurücksetzen-Link zusenden",
-  "Formula": "Formel"
+  "Formula": "Formel",
+  "Verify Your Email Address": "Verifizieren Sie ihre Email-Adresse",
+  "A fresh verification link has been sent to your email address.": "Eine neue Email zur Verifizierung wurde an ihre Adresse abgeschickt.",
+  "Before proceeding, please check your email for a verification link.": "Um mit der Registrierung fortfahren zu können, überprüfen Sie bitte ihren Posteingang auf einen Verifizierungslink.",
+  "If you did not receive the email": "Falls Sie keine Nachricht erhalten haben",
+  "click here to request another": "klicken Sie hier um eine neue E-Mail zu versenden"
 }

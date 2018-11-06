@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Jobs\SendMail;
 use App\Traits\Dateable;
 use App\Traits\Encryptable;
 use App\Traits\HasRoles;
 use Carbon\Carbon;
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -13,12 +16,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\URL;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @property int $id
  * @property int $parent_id
+ * @property string $salutation
  * @property string $first_name
  * @property string $last_name
  * @property Carbon $accepted_at
@@ -32,12 +37,13 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property Collection $bills
  * @property Company $company
  */
-class User extends Authenticatable implements AuditableContract
+class User extends Authenticatable implements AuditableContract, MustVerifyEmailContract
 {
     use Notifiable;
     use HasRoles;
     use Auditable;
     use Encryptable;
+    use MustVerifyEmail;
     use Dateable {
         asDateTime as parentAsDateTime;
     }
@@ -197,4 +203,14 @@ class User extends Authenticatable implements AuditableContract
                 return 'light';
         }
     }
+
+    public function sendEmailVerificationNotification()
+    {
+        SendMail::dispatch([
+            'Anrede' => $this->salutation,
+            'Nachname' => $this->last_name,
+            'Activationhash' => URL::signedRoute('verification.verify', [$this->id]),
+        ], $this, config('mail.templateIds.registration'))->onQueue('emails');
+    }
+
 }

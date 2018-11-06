@@ -185,9 +185,9 @@
                 <p>Hiermit willige ich ein,</p>
 
                 @component('components.form.checkbox', ['name' => 'legal_exporo_ag'])
-                    Informationen über Kapitalanlagen, Projekt-Updates sowie plattformrelevante Informationen per Newsletter zu erhalten.
-                    Diese freiwillige Einwilligung kann ich jederzeit widerrufen.
-                    Zusätzlich stimme ich
+                    Informationen über Kapitalanlagen, Projekt-Updates sowie plattform&shy;relevante
+                    Informationen per Newsletter zu erhalten. Diese freiwillige Einwilligung
+                    kann ich jederzeit widerrufen. Zusätzlich stimme ich
                     <span>den</span>
                     <a href="{!! $agbs[\App\Models\Agb::TYPE_AG] !!}">AGB</a>
                     und der
@@ -202,9 +202,9 @@
                     'class' => 'mt-4',
                     'required' => true,
                 ])
-                    Informationen über Kapitalanlagen, Projekt-Updates sowie plattformrelevante Informationen per Newsletter zu erhalten.
-                    Diese freiwillige Einwilligung kann ich jederzeit widerrufen.
-                    Zusätzlich stimme ich
+                    Informationen über Kapitalanlagen, Projekt-Updates sowie plattform&shy;relevante
+                    Informationen per Newsletter zu erhalten. Diese freiwillige Einwilligung
+                    kann ich jederzeit widerrufen. Zusätzlich stimme ich
                     <span>den</span>
                     <a href="{!! $agbs[\App\Models\Agb::TYPE_GMBH] !!}">AGB</a>
                     und der
