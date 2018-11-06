@@ -19,7 +19,7 @@ class UserHasFilledPersonalData
         /** @var User $user */
         $user = $request->user();
 
-        if (request()->routeIs('users.edit')) {
+        if (request()->routeIs('users.edit', 'users.update')) {
             return $next($request);
         }
 
@@ -32,42 +32,14 @@ class UserHasFilledPersonalData
 
     private function hasFilledAllData($user): bool
     {
-        if (strlen($user->salutation) > 0) {
-            return true;
+        if ($user->details->birth_date === "1970-01-01 00:00:00") {
+            return false;
         }
 
-        if (strlen($user->first_name) > 0) {
-            return true;
+        if (strlen($user->details->iban) === 0) {
+            return false;
         }
 
-        if (strlen($user->last_name) > 0) {
-            return true;
-        }
-
-        if (strlen($user->email) > 0) {
-            return true;
-        }
-
-        if (strlen($user->details->birth_date) > 0 && $user->details->birth_date !== "1970-01-01 00:00:00") {
-            return true;
-        }
-
-        if (strlen($user->details->phone) > 0) {
-            return true;
-        }
-
-        if (strlen($user->details->address_street) > 0) {
-            return true;
-        }
-
-        if (strlen($user->details->address_number) > 0) {
-            return true;
-        }
-
-        if (strlen($user->details->iban) > 0) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 }
