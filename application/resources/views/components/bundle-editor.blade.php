@@ -12,4 +12,8 @@ if (($editable ?? null) === false) {
 <vue
     data-is="bonus-bundle-editor"
     data-props='@json($options + $defaults)'
-></vue>
+>
+    <div class="text-center text-muted">
+        Provisionsschema wird geladen&hellip;
+    </div>
+</vue>
