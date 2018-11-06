@@ -19,6 +19,10 @@ class UserHasFilledPersonalData
         /** @var User $user */
         $user = $request->user();
 
+        if (!$user->canBeProcessed()) {
+            return $next($request);
+        }
+
         if (request()->routeIs('users.edit', 'users.update')) {
             return $next($request);
         }
