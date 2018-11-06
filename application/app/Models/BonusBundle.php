@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -29,5 +30,10 @@ class BonusBundle extends Model
     public function bonuses()
     {
         return $this->belongsToMany(CommissionBonus::class, 'bonus_bundle', 'bundle_id', 'bonus_id');
+    }
+
+    public function scopeSelectable(Builder $query)
+    {
+        $query->where('selectable', true);
     }
 }

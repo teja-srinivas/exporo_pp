@@ -137,7 +137,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasMany(Document::class);
     }
 
-    public function bonuses()
+    public function bonuses(): HasMany
     {
         return $this->hasMany(CommissionBonus::class, 'user_id');
     }

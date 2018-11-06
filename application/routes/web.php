@@ -24,7 +24,10 @@ Route::prefix('agbs')->group(function () {
 });
 
 Route::middleware(['verified'])->group(function () {
-    Route::middleware(['accepted', 'filled'])->group(function () {
+    Route::resource('users/{user}/bundle-selection', 'User\BundleSelection', ['only' => ['index', 'store']])
+        ->names('users.bundle-selection');
+
+    Route::middleware(['bundle-selected', 'accepted', 'filled'])->group(function () {
         Route::get('authorization', 'AuthorizationController')->name('authorization.index');
         Route::resource('agbs', 'AgbController');
         Route::get('bills/preview/{user}', 'BillController@preview');
