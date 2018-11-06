@@ -122,16 +122,16 @@ class UserStoreRequest extends FormRequest
             "birth_year" => "{$prefix}|numeric|min:". now()->subYears(120)->year . '|max:' . $adultYear->year,
             'birth_date' => "{$datePrefix}|date|before_or_equal:" . $adultYear, // needs to be an adult
             'birth_place' => 'nullable|string|max:100',
-            'address_street' => 'required|nullable|string|max:100',
-            'address_number' => 'required|nullable|string|max:20',
+            'address_street' => "{$prefix}|string|max:100",
+            'address_number' => "{$prefix}|string|max:20",
             'address_addition' => 'nullable|string|max:100',
-            'address_zipcode' => 'required|nullable|string|max:20',
+            'address_zipcode' => "{$prefix}|string|max:20",
             'address_city' => 'nullable|string|max:100',
             'phone' => "{$prefix}|string|max:100",
             'website' => 'nullable|string|max:100',
             'vat_id' => ['nullable', new VatId()],
             'tax_office' => 'nullable|string|max:100',
-            'iban' => 'sometimes|required|string|iban',
+            'iban' => 'sometimes|iban',
         ];
     }
 }
