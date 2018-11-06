@@ -20,6 +20,7 @@ class UserDocumentController extends Controller
      */
     public function index(Request $request)
     {
+        /** @var User $user */
         $user = $request->user();
 
         // TODO maybe extract this to a different route?
@@ -32,8 +33,8 @@ class UserDocumentController extends Controller
                         'link' => $document->getDownloadUrl(),
                         'created_at' => $document->created_at,
                     ];
-                }))
-                ->merge($user->agbs()->latest()->get()->map(function (Agb $agb) {
+                }))->toBase() // important, the eloquent collection merges differently
+                ->merge($user->agbs->map(function (Agb $agb) {
                     return [
                         'type' => __('AGB'),
                         'title' => $agb->name,
