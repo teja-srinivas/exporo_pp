@@ -10,7 +10,7 @@
 @section('main-content')
     @foreach([
         'Startseite' => 'https://exporo.de/?a_aid=',
-        'Registrierungs-Landingpage' => 'https://affiliate.exporo.de/registrierung/?a_aid=',
+        'Registrierungs-Landingpage' => 'https://p.exporo.de/registrierung/?a_aid=',
     ] as $title => $prefix)
         @card
             @slot('title', $title)
