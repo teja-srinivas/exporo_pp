@@ -51,7 +51,7 @@ if [[ -n "${DEPLOYMENT_ENV}" ]]; then
      -e 's/newrelic.appname = "PHP Application"/newrelic.appname = "${OPS_APP_NAME}_${DEPLOYMENT_ENV}"/' \
      -e 's/;newrelic.enabled = true/newrelic.enabled = true/' \
         /etc/php.d/newrelic.ini
-
+    echo new_relic "${NEW_RELIC_LICENSE_KEY:0:4}"
     ln -s /usr/lib/php/extensions/no-debug-non-zts-20160303/newrelic.so /usr/lib/php/modules/newrelic.so
 else
   echo "no aws region and deployment param detected - no sshd configured"
