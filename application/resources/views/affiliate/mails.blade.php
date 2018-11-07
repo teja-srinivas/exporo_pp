@@ -34,7 +34,7 @@ Mit der Exporo AG, dem deutschen Marktführer dieser Anlageform, können Sie ber
 Exporo ist für Anleger kostenfrei - durch die schlanken Strukturen der Onlineabwicklung entsteht ein Kostenvorteil, welcher zu dem geringen Mindestinvestment und zu attraktiven Renditen führt.
 
 Hier können Sie sich unverbindlich für weitere Informationen registrieren:
-https://p.exporo.de/{{ $suffix }}
+https://p.exporo.de/registrierung/{{ $suffix }}
 
 Bei Fragen zur Plattform oder zu aktuellen Immobilienprojekten ist das Team von Exporo telefonisch unter 040 210 91 73 -00 oder E-Mail über info@exporo.de zu erreichen.
 

@@ -40,8 +40,6 @@ class SendCommissionEmail extends Command
         $bills = $this->getReleasedBills();
         foreach ($bills as $bill) {
             SendMail::dispatch([
-                'Anrede' => $this->details->salutation = 'male' ? 'Herr' : 'Frau',
-                'Nachname' => $bill->user->last_name,
                 'Provision' => format_money($bill->getTotalNet()),
                 'Link' => 'exporo.com'
             ], $bill->user, config('mail.templateIds.commissionCreated'))->onQueue('emailsLow');

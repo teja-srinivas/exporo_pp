@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,7 +18,11 @@ class SendMail implements ShouldQueue
 
     protected $templateData;
     protected $templateId;
+
+    /** @var User */
     protected $user;
+
+    /** @var string */
     protected $mail;
 
     public function __construct(array $templateData, $user, $templateId)
@@ -48,7 +53,11 @@ class SendMail implements ShouldQueue
             $data = [
                 'personalizations' => [
                     [
-                        'dynamic_template_data' => $this->templateData
+                        'dynamic_template_data' => $this->templateData + [
+                            'Anrede' => implode(' ', [$this->user->salutation, $this->user->title]),
+                            'Vorname' => $this->user->first_name,
+                            'Nachname' => $this->user->last_name,
+                        ]
                     ],
                 ],
                 'template_id' => $this->templateId,
