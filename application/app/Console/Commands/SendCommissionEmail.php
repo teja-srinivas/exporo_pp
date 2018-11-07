@@ -40,7 +40,7 @@ class SendCommissionEmail extends Command
         $bills = $this->getReleasedBills();
         foreach ($bills as $bill) {
             SendMail::dispatch([
-                'Anrede' => $bill->user->salutation,
+                'Anrede' => $this->details->salutation = 'male' ? 'Herr' : 'Frau',
                 'Nachname' => $bill->user->last_name,
                 'Provision' => format_money($bill->getTotalNet()),
                 'Link' => 'exporo.com'

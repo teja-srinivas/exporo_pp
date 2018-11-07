@@ -134,6 +134,7 @@ class UserController extends Controller
             if($field === 'accepted_at'){
                 $token = app(PasswordBroker::class)->createToken($user);
                 SendMail::dispatch([
+                    'Anrede' => $this->details->salutation = 'male' ? 'Herr' : 'Frau',
                     'Vorname' => $user->first_name,
                     'Nachname' => $user->last_name,
                     'Login' => url('password/reset/' . $token),
@@ -141,7 +142,7 @@ class UserController extends Controller
             }
             elseif ($field === 'rejected_at'){
                 SendMail::dispatch([
-                    'Anrede' => $user->salutation,
+                    'Anrede' => $this->details->salutation = 'male' ? 'Herr' : 'Frau',
                     'Nachname' => $user->last_name,
                 ], $user, config('mail.templateIds.rejected'))->onQueue('emails');
             }

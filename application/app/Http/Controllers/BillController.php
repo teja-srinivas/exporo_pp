@@ -122,7 +122,7 @@ class BillController extends Controller
             ]);
 
             SendMail::dispatch([
-                'Anrede' => $user->salutation,
+                'Anrede' => $this->details->salutation = 'male' ? 'Herr' : 'Frau',
                 'Nachname' => $user->last_name,
                 'Provision' => format_money($bill->getTotalNet()),
                 'Link' => 'exporo.com'
