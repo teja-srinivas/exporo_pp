@@ -29,7 +29,7 @@ class SendMail implements ShouldQueue
     {
         $this->user = $user;
         $this->templateData = array_merge($templateData, [
-            'Anrede' => implode(' ', [$this->user->details->salutation = "male" ? 'Herr' : 'Frau', $this->user->details->title]),
+            'Anrede' => implode(' ', [$this->user->details->salutation === "male" ? 'Herr' : 'Frau', $this->user->details->title]),
             'Vorname' => $this->user->first_name,
             'Nachname' => $this->user->last_name,
         ]);
