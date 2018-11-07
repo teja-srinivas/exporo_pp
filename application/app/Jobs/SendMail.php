@@ -27,8 +27,12 @@ class SendMail implements ShouldQueue
 
     public function __construct(array $templateData, $user, $templateId)
     {
-        $this->templateData = $templateData;
         $this->user = $user;
+        $this->templateData = array_merge($templateData, [
+            'Anrede' => implode(' ', [$this->user->details->salutation = "male" ? 'Herr' : 'Frau', $this->user->details->title]),
+            'Vorname' => $this->user->first_name,
+            'Nachname' => $this->user->last_name,
+        ]);
         $this->templateId = $templateId;
     }
 
@@ -53,16 +57,11 @@ class SendMail implements ShouldQueue
             $data = [
                 'personalizations' => [
                     [
-                        'dynamic_template_data' => $this->templateData + [
-                            'Anrede' => implode(' ', [$this->user->salutation, $this->user->title]),
-                            'Vorname' => $this->user->first_name,
-                            'Nachname' => $this->user->last_name,
-                        ]
+                        'dynamic_template_data' => $this->templateData
                     ],
                 ],
                 'template_id' => $this->templateId,
             ];
-
             $message->embedData(
                 config('mail.driver') === 'sendgrid' ? $data : json_encode($data),
                 SendgridTransport::SMTP_API_NAME
