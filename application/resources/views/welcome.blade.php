@@ -150,7 +150,7 @@
                     <h2>Zum Exporo Partnerprogramm</h2>
                     @guest
                         <p class="lead">
-                            Werde jetzt Partner beim Exporo Partnerprogramm und sichere Dir attraktive Provisionen!
+                            Werden Sie jetzt Partner beim Exporo Partnerprogramm und sichern Sie sich attraktive Provisionen!
                         </p>
                     @else
                         <a href="{{ route('home') }}" class="btn btn-lg btn-primary mx-auto">Zum Dashboard</a>

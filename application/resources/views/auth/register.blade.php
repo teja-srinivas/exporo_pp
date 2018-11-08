@@ -4,7 +4,7 @@
     <div class="container">
         @card
         <h3>Exporo-Partnerprogramm</h3>
-        <h4>Werde jetzt Partner beim Exporo Partnerprogramm und sichere Dir attraktive Provisionen!</h4>
+        <h4>Werden Sie jetzt Partner beim Exporo Partnerprogramm und sichern Sie sich attraktive Provisionen!</h4>
         <hr>
         @include('auth.partials.register')
         @endcard
