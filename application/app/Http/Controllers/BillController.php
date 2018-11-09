@@ -221,8 +221,10 @@ class BillController extends Controller
      */
     protected function mapForView($query): array
     {
-        $collection = $query->get()->groupBy('model_type');
+        $query->select('*');
+        $query->selectRaw('commissions.bonus as cBonus');
 
+        $collection = $query->get()->groupBy('model_type');
         $investments = $this->mapInvestments($collection->get(Investment::MORPH_NAME));
         $investors = $this->mapInvestors($collection->get(Investor::MORPH_NAME));
 
@@ -265,9 +267,11 @@ class BillController extends Controller
                 'investDate' => $investment->created_at->format('d.m.Y'),
                 'net' => $row->net,
                 'gross' => $row->gross,
+                'bonus' => $row->cBonus * 100,
                 'projectName' => $project->description,
                 'projectMargin' => $project->margin,
                 'projectRuntime' => $project->runtimeInMonths(),
+                'projectFactor' => $project->runtimeFactor(),
             ];
         });
     }

@@ -1,15 +1,18 @@
 @foreach($investments as $project)
+    @php($factor = $project[0]['projectFactor'] * ($project[0]['projectMargin'] / 100))
+
     <div class="bg-white my-3 p-2 shadow-sm border-0 print-break-avoid">
         <div class="my-2">
             <h5>
                 Projekt {{ $project[0]['projectName'] }}
 
                 <small class="text-muted text-right ml-3">
-                    Projektkürzel:
-                    &nbsp;&ndash;&nbsp;
                     Laufzeit: {{ $project[0]['projectRuntime'] }} Monate
                     &nbsp;&ndash;&nbsp;
                     Marge: {{ $project[0]['projectMargin'] }}%
+                    &nbsp;&ndash;&nbsp;
+                    Faktor: {{ $factor }}
+                    ({{ $project[0]['projectFactor'] }} * {{ $project[0]['projectMargin'] }})
                 </small>
             </h5>
         </div>
@@ -20,6 +23,7 @@
                 <th class="border-top-0">Anleger</th>
                 <th class="border-top-0 text-right">Investitionsbetrag</th>
                 <th class="border-top-0 text-right">Datum des Investments</th>
+                <th class="border-top-0 text-right">Formel</th>
                 <th class="border-top-0 text-right">Provision Netto</th>
             </tr>
             </thead>
@@ -29,6 +33,7 @@
                     <td>{{  $investment['lastName'] }}, {{ $investment['firstName'] }}</td>
                     <td class="text-right">{{ format_money($investment['investsum']) }}</td>
                     <td class="text-right">{{ $investment['investDate'] }}</td>
+                    <td class="text-right">{{ $investment['bonus'] }}% * {{ $factor }}</td>
                     <td class="text-right">{{ format_money($investment['net']) }}</td>
                 </tr>
             @endforeach
@@ -41,7 +46,7 @@
                 <td class="text-right">
                     {{ format_money($project->sum('investsum')) }}
                 </td>
-                <td class="text-right">
+                <td class="text-right" colspan="2">
                     Provision Netto Total
                 </td>
                 <td class="text-right">
