@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>
-        {{ config('app.name', 'Laravel') }}
+        {{ config('app.name')}}
 
         {{-- Extract the page title from our (possibly) breadcrumped title section --}}
         @php($pageTitle = strip_tags($__env->yieldContent('title')))
