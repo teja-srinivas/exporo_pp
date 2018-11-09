@@ -258,6 +258,12 @@ class CommissionController extends Controller
                 $query->isOpen();
             })
             ->when(
+                $columns->has('overhead') && !empty($columns['overhead']['filter']),
+                function (Builder $query) use ($columns) {
+                    $query->where('child_user_id', $columns['overhead']['filter'] === 'true' ? '>' : '=', 0);
+                }
+            )
+            ->when(
                 $columns->has('type') && !empty($columns['type']['filter']),
                 function (Builder $query) use ($columns) {
                     $type = $columns['type']['filter'];

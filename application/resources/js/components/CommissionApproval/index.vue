@@ -103,18 +103,28 @@
             <th class="border-bottom-1">
               <div class="d-flex justify-content-between">
                 Typ
-                <select
-                  v-model="filter.type"
-                  class="form-control form-control-sm w-auto py-0 px-1 h-auto"
-                >
-                  <option value="">(Alle)</option>
-                  <option value="investor">Registrierung</option>
-                  <option value="overhead">Overhead</option>
-                  <option disabled>&mdash;</option>
-                  <option value="investment">Projektinvestment</option>
-                  <option value="first-investment">Erstinvestment</option>
-                  <option value="further-investment">Folgeinvestment</option>
-                </select>
+
+                <div class="d-flex">
+                  <select
+                    v-model="filter.type"
+                    class="form-control form-control-sm w-auto py-0 px-1 h-auto"
+                  >
+                    <option value="">(Alle)</option>
+                    <option value="investor">Registrierung</option>
+                    <option value="investment">Projektinvestment</option>
+                    <option value="first-investment">Erstinvestment</option>
+                    <option value="further-investment">Folgeinvestment</option>
+                  </select>
+
+                  <select
+                    v-model="filter.overhead"
+                    class="form-control form-control-sm w-auto py-0 px-1 h-auto ml-1"
+                  >
+                    <option value="">(Overhead)</option>
+                    <option value="true">Ja</option>
+                    <option value="false">Nein</option>
+                  </select>
+                </div>
               </div>
               <input
                 slot="below"
@@ -450,6 +460,7 @@ export default {
         model: '',
         type: '',
         user: '',
+        overhead: '',
         reviewed: false,
         onHold: false,
         rejected: false,
