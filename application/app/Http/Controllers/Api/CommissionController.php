@@ -30,6 +30,8 @@ class CommissionController extends Controller
 
         $query = Commission::query()->with([
             'user:id,last_name,first_name',
+            'childUser:id,last_name,first_name',
+            'user.details:vat_included',
             'model',
         ]);
 
@@ -41,9 +43,8 @@ class CommissionController extends Controller
 
         // Eager load morphTo relationships
         $results->loadMorph('model', [
-            Investment::MORPH_NAME => [
-                'investor.id,last_name,first_name',
-                'project:id,name,schema_id',
+            Investment::class => [
+                'investor:id,last_name,first_name',
                 'project.schema:id,formula',
             ],
         ]);
