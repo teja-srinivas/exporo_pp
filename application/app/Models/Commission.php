@@ -36,6 +36,8 @@ class Commission extends Model implements AuditableContract
     use Auditable;
     use OptimusEncodedRouteKey;
 
+    const TYPE_CORRECTION = 'correction';
+
     protected $casts = [
         'on_hold' => 'bool',
         'net' => 'float',

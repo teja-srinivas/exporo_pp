@@ -7,6 +7,8 @@ use App\Http\Resources\Commission as CommissionResource;
 use App\Models\Commission;
 use App\Models\Investment;
 use App\Models\Project;
+use App\Models\UserDetails;
+use App\Services\CalculateCommissionsService;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -91,12 +93,33 @@ class CommissionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @param  CalculateCommissionsService $service
+     * @return void
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request, CalculateCommissionsService $service)
     {
-        //
+        $data = $this->validate($request, [
+            'userId' => ['required', 'exists:users,id'],
+            'amount' => ['required', 'numeric'],
+            'note.public' => ['sometimes'],
+            'note.private' => ['sometimes'],
+        ]);
+
+        /** @var UserDetails $userDetails */
+        $userDetails = UserDetails::query()->findOrFail($data['userId']);
+
+        $sums = $service->calculateNetAndGross($userDetails->vat_included, (float) $data['amount']);
+
+        Commission::query()->forceCreate($sums + [
+            'model_type' => Commission::TYPE_CORRECTION,
+            'user_id' => $userDetails->getKey(),
+            'child_user_id' => 0,
+            'bonus' => 0,
+            'note_public' => array_get($data, 'note.public', null),
+            'note_private' => array_get($data, 'note.private', null),
+        ]);
     }
 
     /**

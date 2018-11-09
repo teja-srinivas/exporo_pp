@@ -408,6 +408,72 @@
 
       <a class="btn btn-primary" href="/bills/create">Rechnungen Erstellen</a>
     </div>
+
+    <div class="shadow-sm bg-white accent-primary my-4">
+      <div class="card-body">
+        <h5 class="card-title">Korrekturzahlung anlegen</h5>
+        <form @submit.prevent="createCustomEntry">
+          <div class="my-1 row align-items-center">
+            <div class="col-sm-2">
+              <strong>Partner (ID):</strong>
+            </div>
+            <div class="col-sm-10">
+              <input
+                v-model.number="newEntry.userId"
+                type="text"
+                class="form-control form-control-sm mr-2"
+                placeholder="Partner-ID"
+              >
+            </div>
+          </div>
+
+          <div class="my-1 row align-items-center">
+            <div class="col-sm-2 pr-1">
+              <strong>Betrag in EUR:</strong>
+            </div>
+            <div class="col-sm-10">
+              <input
+                v-model.number="newEntry.amount"
+                type="number"
+                step="0.01"
+                class="form-control form-control-sm mr-2"
+                placeholder="Betrag in EUR"
+              >
+            </div>
+          </div>
+
+          <div class="my-1 row align-items-center">
+            <div class="col-sm-2">
+              <strong>Notiz/Titel:</strong>
+            </div>
+            <div class="col-sm-10">
+              <input
+                v-model="newEntry.note.public"
+                class="form-control form-control-sm"
+                placeholder="Steht auf der Rechnung"
+              />
+            </div>
+          </div>
+
+          <div class="my-1 row align-items-center">
+            <div class="col-sm-2 pr-1">
+              <strong>Notiz (Intern):</strong>
+            </div>
+            <div class="col-sm-10">
+              <input
+                v-model="newEntry.note.private"
+                class="form-control form-control-sm"
+                placeholder="Privat, nur für die Buchhaltung"
+              />
+            </div>
+          </div>
+
+          <div class="text-right mt-3">
+            <button class="btn btn-primary">Korrekturzahlung Anlegen</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -428,6 +494,15 @@ import { confirm } from '../../alert';
 import FilterButton from './FilterButton';
 import RadioSwitch from '../RadioSwitch';
 import Schema from './Schema.vue';
+
+const createNewEntry = () => ({
+  userId: null,
+  amount: 0,
+  note: {
+    public: '',
+    private: '',
+  },
+});
 
 export default {
   name: 'CommissionApproval',
@@ -471,6 +546,8 @@ export default {
         name: 'money',
         order: '',
       },
+
+      newEntry: createNewEntry(),
     };
   },
 
@@ -623,7 +700,25 @@ export default {
     filterById(id) {
       this.clearFilters();
       this.filter.id = `${id}`;
-    }
+    },
+
+    async createCustomEntry() {
+      try {
+        await axios.post(this.api, this.newEntry);
+      } catch (e) {
+        this.$notify({
+          title: 'Fehler beim Anlegen des Eintrags',
+          text: e.message,
+          type: 'error',
+        });
+
+        throw e;
+      }
+
+      // Clear the data and update our contents
+      this.newEntry = createNewEntry();
+      await this.getPage();
+    },
   },
 
   watch: {
