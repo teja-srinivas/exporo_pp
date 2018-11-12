@@ -213,7 +213,9 @@
                   <a :href="commission.user.links.self" target="_blank" class="mr-1" @click.stop style="line-height: 0">
                     <font-awesome-icon icon="share-square" size="xs" />
                   </a>
-                  <a href="#" class="text-muted small mr-2" :title="displayNameUser(commission.user)" @click.prevent="filter.user = `${commission.user.id}`">
+                  <a href="#" class="text-muted small mr-2"
+                     v-b-tooltip.hover.right="displayNameUser(commission.user)"
+                     @click.prevent="filter.user = `${commission.user.id}`">
                     {{ commission.user.id }}
                   </a>
                   <div v-if="commission.model && commission.model.project !== undefined" class="flex-fill">
@@ -441,7 +443,7 @@
                 placeholder="Betrag in EUR"
               >
               <strong class="text-danger text-nowrap align-self-center">
-                Mehrwertsteuer ist partnerabhängig!
+                MwSt. ist partnerabhängig!
               </strong>
             </div>
           </div>
@@ -493,6 +495,8 @@ import mapValues from 'lodash/mapValues';
 import reduce from 'lodash/reduce';
 import set from 'lodash/set';
 
+import BTooltip from 'bootstrap-vue/es/directives/tooltip/tooltip';
+
 import { confirm } from '../../alert';
 
 import FilterButton from './FilterButton';
@@ -515,6 +519,10 @@ export default {
     FilterButton,
     RadioSwitch,
     Schema,
+  },
+
+  directives: {
+    BTooltip,
   },
 
   props: {
