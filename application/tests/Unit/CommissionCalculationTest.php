@@ -152,11 +152,38 @@ final class CommissionCalculationTest extends TestCase
     {
         /** @var $service CalculateCommissionsService */
         $service = $this->app->make(CalculateCommissionsService::class);
-        $investment = Investment::query()->orderBy('id', 'desc')->first();
-        $returnValue = $service->calculate($investment);
 
-        $this->assertEquals(375, $returnValue['net']);
-        $this->assertEquals(446.25, $returnValue['gross']);
+        $tests = [
+            [
+                'included' => null,
+                'value' => 10,
+                'expected' => [
+                    'net' => 10,
+                    'gross' => 10,
+                ],
+            ],
+            [
+                'included' => false,
+                'value' => 10,
+                'expected' => [
+                    'net' => 10,
+                    'gross' => 10 * CalculateCommissionsService::VAT,
+                ],
+            ],
+            [
+                'included' => true,
+                'value' => 10,
+                'expected' => [
+                    'net' => 10 / CalculateCommissionsService::VAT,
+                    'gross' => 10,
+                ],
+            ],
+        ];
+
+        foreach ($tests as $entry) {
+            $result = $service->calculateNetAndGross($entry['included'], $entry['value']);
+            $this->assertEquals($entry['expected'], $result, 'Vat included is: ' . var_export($entry['included'], true));
+        }
     }
 
     public function testParentIsCalculated()
