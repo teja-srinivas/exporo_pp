@@ -24,7 +24,7 @@ class HomeController extends Controller
             'total' => Commission::query()
                 ->where('user_id', $request->user()->id)
                 ->whereNull('rejected_at')
-                ->sum('net'),
+                ->sum('gross'),
 
             'approved' => Commission::query()
                 ->where(function (Builder $query) {
@@ -32,13 +32,13 @@ class HomeController extends Controller
                     $query->whereNull('bill_id');
                 })
                 ->where('user_id', $request->user()->id)
-                ->sum('net'),
+                ->sum('gross'),
 
             'paid' => Commission::query()
                 ->join('bills', 'bill_id', 'bills.id')
                 ->forUser($request->user())
                 ->where('released_at', '<=', now())
-                ->sum('net'),
+                ->sum('gross'),
         ]);
     }
 }
