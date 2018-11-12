@@ -144,7 +144,7 @@ class CommissionController extends Controller
      * @return void
      * @throws \Throwable
      */
-    public function update(Request $request, Commission $commission)
+    public function update(Request $request, Commission $commission, CalculateCommissionsService $service)
     {
         static $lookup = [
             'note.public' => 'note_public',
@@ -166,6 +166,12 @@ class CommissionController extends Controller
 
         if (isset($remapped['reviewed'])) {
             $commission->review($remapped['reviewed'] === true ? $request->user() : null);
+        }
+
+        if (isset($remapped['amount'])) {
+            $commission->fill($service->calculateNetAndGross(
+                $commission->userDetails->vat_included, (float) $remapped['amount']
+            ));
         }
 
         $commission->saveOrFail();
