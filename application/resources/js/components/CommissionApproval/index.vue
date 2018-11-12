@@ -114,6 +114,7 @@
                     <option value="investment">Projektinvestment</option>
                     <option value="first-investment">Erstinvestment</option>
                     <option value="further-investment">Folgeinvestment</option>
+                    <option value="correction">Korrekturzahlung</option>
                   </select>
 
                   <select
