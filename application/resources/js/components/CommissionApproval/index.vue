@@ -165,6 +165,7 @@
                   <font-awesome-icon v-if="commission.showDetails" icon="chevron-down" fixed-width />
                   <font-awesome-icon v-else icon="chevron-right" fixed-width />
                   <a
+                    v-if="commission.model"
                     href="#"
                     class="ml-1 small text-muted"
                     v-text="commission.model.id"
@@ -215,17 +216,17 @@
                   <a href="#" class="text-muted small mr-2" :title="displayNameUser(commission.user)" @click.prevent="filter.user = `${commission.user.id}`">
                     {{ commission.user.id }}
                   </a>
-                  <div v-if="commission.model.project !== undefined" class="flex-fill">
+                  <div v-if="commission.model && commission.model.project !== undefined" class="flex-fill">
                     <schema :value="commission.model.project.schema" :commission="commission" />
                   </div>
                   <div v-else class="row flex-fill">
                     <div class="col" v-text="displayNameUser(commission.user)" />
-                    <div class="col" v-text="displayNameUser(commission.model)" />
+                    <div v-if="commission.model" class="col" v-text="displayNameUser(commission.model)" />
                   </div>
                   <div v-if="commission.childUser !== undefined" title="Overhead" class="mx-1">
                     <font-awesome-icon icon="users" fixed-width size="sm" class="align-baseline text-muted" />
                   </div>
-                  <div v-if="commission.type === 'investment' && commission.model.isFirst" title="Erstinvestment" class="mx-1">
+                  <div v-if="commission.type === 'investment' && commission.model && commission.model.isFirst" title="Erstinvestment" class="mx-1">
                     <font-awesome-icon icon="flag" fixed-width size="sm" class="align-baseline text-danger" />
                   </div>
                   <div v-if="commission.type === 'investment'" title="Projektinvestment">
@@ -266,7 +267,7 @@
                   </div>
                 </div>
 
-                <div v-if="commission.type === 'investment'" class="py-2 row align-items-center">
+                <div v-if="commission.type === 'investment' && commission.model" class="py-2 row align-items-center">
                   <div class="col-sm-2"><strong>Projekt:</strong></div>
                   <div class="col-sm-10 d-flex align-items-center">
                       <a :href="commission.model.project.links.self" target="_blank" class="mr-1" @click.stop style="line-height: 0">
@@ -279,7 +280,7 @@
                   </div>
                 </div>
 
-                <div v-if="commission.type === 'investment'" class="py-1 row align-items-center">
+                <div v-if="commission.type === 'investment' && commission.model" class="py-1 row align-items-center">
                   <div class="col-sm-2"><strong>Investor:</strong></div>
                   <div class="col-sm-10">
                     <input type="text" readonly class="form-control-plaintext"
