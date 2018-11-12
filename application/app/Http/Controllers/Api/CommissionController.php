@@ -12,6 +12,7 @@ use App\Services\CalculateCommissionsService;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -32,8 +33,10 @@ class CommissionController extends Controller
 
         $query = Commission::query()->with([
             'user:id,last_name,first_name',
+            'user.details' => function (HasOne $query) {
+                return $query->select(['id', 'vat_included']);
+            },
             'childUser:id,last_name,first_name',
-            'user.details:vat_included',
             'model',
         ]);
 
