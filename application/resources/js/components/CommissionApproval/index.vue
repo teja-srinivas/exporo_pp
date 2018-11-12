@@ -431,7 +431,7 @@
             <div class="col-sm-2 pr-1">
               <strong>Betrag in EUR:</strong>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-10 d-flex">
               <input
                 v-model.number="newEntry.amount"
                 type="number"
@@ -439,6 +439,9 @@
                 class="form-control form-control-sm mr-2"
                 placeholder="Betrag in EUR"
               >
+              <strong class="text-danger text-nowrap align-self-center">
+                Mehrwertsteuer ist partnerabhängig!
+              </strong>
             </div>
           </div>
 
