@@ -438,7 +438,6 @@ import FilterButton from './FilterButton';
 import RadioSwitch from '../RadioSwitch';
 import Schema from './Schema.vue';
 
-
 export default {
   name: 'CommissionApproval',
 
@@ -533,6 +532,10 @@ export default {
     },
 
     async getPage(number = 1) {
+      if (this.isLoading) {
+        return;
+      }
+
       this.isLoading = true;
 
       // Returns a paginated response
@@ -559,7 +562,9 @@ export default {
 
         throw e;
       } finally {
-        this.isLoading = false;
+        this.$nextTick(() => {
+          this.isLoading = false;
+        });
       }
     },
 
