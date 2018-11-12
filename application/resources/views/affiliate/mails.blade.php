@@ -42,7 +42,7 @@ Viele Grüße
 {{ $user->first_name }} {{ $user->last_name }}
 
 P.S.: Die Presse hat bereits mehrfach über Exporo berichtet:
-https://exporo.de/presse{{ $suffix }}
+https://exporo.de/presse/{{ $suffix }}
         </textarea>
     @endcard
 @endsection
