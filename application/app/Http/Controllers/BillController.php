@@ -52,7 +52,7 @@ class BillController extends Controller
     {
         $investments = $this->mapForView($this->getBillableCommissionsForUser($user));
 
-        return response()->view('bills.bill', $investments + [
+        return response()->view('bills.pdf.bill', $investments + [
             'user' => $user,
             'company' => optional($user->company),
         ]);
@@ -94,10 +94,11 @@ class BillController extends Controller
         $releaseAt = Carbon::parse($data['release_at']);
 
         // Fetch all users that can be billed
-        $users = Commission::query()
+        $users = User::query()->whereKey(Commission::query()
             ->isBillable()
             ->distinct()
-            ->pluck('commissions.user_id');
+            ->pluck('commissions.user_id')
+        );
 
         // Pre-select all valid commission IDs
         // Doing the isBillable check for each updates eats up DB time
@@ -108,16 +109,16 @@ class BillController extends Controller
         });
 
         Bill::disableAuditing();
+
         // Create bills for each user and assign it to their commissions
-        $users->each(function (int $userId) use ($commissionIds, $releaseAt) {
-            $user = User::find($userId);
+        $users->each(function (User $user) use ($commissionIds, $releaseAt) {
             /** @var Bill $bill */
             $bill = Bill::query()->forceCreate([
-                'user_id' => $userId,
+                'user_id' => $user->id,
                 'released_at' => $releaseAt,
             ]);
 
-            Commission::query()->whereIn('id', $commissionIds[$userId])->update([
+            Commission::query()->whereIn('id', $commissionIds[$user->id])->update([
                 'bill_id' => $bill->getKey(),
             ]);
 
@@ -152,15 +153,15 @@ class BillController extends Controller
 
     public function billPdf(int $bill)
     {
-       $bill = Bill::findOrFail($bill);
+        $bill = Bill::findOrFail($bill);
         $bill->load('user');
 
         $investments = $this->mapForView($bill->commissions());
 
-        return response()->view('bills.bill', $investments + [
-                'user' => $bill->user,
-                'company' => optional($bill->user->company),
-            ]);
+        return response()->view('bills.pdf.bill', $investments + [
+            'user' => $bill->user,
+            'company' => optional($bill->user->company),
+        ]);
     }
 
     /**

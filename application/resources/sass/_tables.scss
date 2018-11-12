@@ -18,7 +18,9 @@
 }
 
 .table-foot-totals {
-  > tfoot > tr > td {
-    border-top-width: 2px;
+  > tfoot > tr:first-child > {
+    td, th {
+      border-top-width: 2px;
+    }
   }
 }
