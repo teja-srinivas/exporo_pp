@@ -36,15 +36,25 @@ final class CalculateCommissionsService
         ];
     }
 
-    public function calculateNetAndGross(bool $includeVat, float $sum): array
+    public function calculateNetAndGross(?bool $includeVat, float $sum): array
     {
-        return $includeVat ? [
-            'net' => $sum,
-            'gross' => $sum * self::VAT,
-        ] : [
-            'net' => $sum / self::VAT,
-            'gross' => $sum,
-        ];
+        switch ($includeVat) {
+            case null:
+                return [
+                    'net' => $sum,
+                    'gross' => $sum,
+                ];
+            case false:
+                return [
+                    'net' => $sum,
+                    'gross' => $sum * self::VAT,
+                ];
+            case true:
+                return [
+                    'net' => $sum / self::VAT,
+                    'gross' => $sum,
+                ];
+        }
     }
 
     public function calculateBonus(Investment $investment, User $user): float
