@@ -20,8 +20,8 @@ class VerificationController extends Controller
     |
     */
 
-    use VerifiesEmails{
-        verify as traitverify;
+    use VerifiesEmails {
+        verify as traitVerify;
     }
 
     /**
@@ -35,8 +35,10 @@ class VerificationController extends Controller
     {
         $user = User::findOrFail($request->route('id'));
         auth()->login($user);
-        return($this->traitverify($request));
+
+        return $this->traitverify($request);
     }
+
     /**
      * Create a new controller instance.
      *
@@ -44,6 +46,7 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('auth')->except('verify');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
