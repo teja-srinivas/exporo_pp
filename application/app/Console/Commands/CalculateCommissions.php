@@ -156,7 +156,11 @@ final class CalculateCommissions extends Command
                 ];
             }
 
-            return $entries;
+            // Only store entries where we got an actual bonus value
+            // (the user has a corresponding commission bonus)
+            return array_filter($entries, function ($entry) {
+                return $entry['bonus'] > 0;
+            });
         };
 
         $this->calculate(Investment::MORPH_NAME, $query, $callback, true);
