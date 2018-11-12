@@ -354,7 +354,7 @@
                 />
               </div>
               <strong class="text-right">
-                Netto:
+                Brutto:
               </strong>
             </div>
           </td>
@@ -553,7 +553,7 @@ export default {
 
   computed: {
     filteredTotal() {
-      return this.meta.totalNet || this.totalNet;
+      return this.meta.totalGross || this.totals.gross;
     },
 
     currentPage: {

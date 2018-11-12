@@ -54,7 +54,7 @@ class CommissionController extends Controller
         // Return a JSON resource
         return CommissionResource::collection($results)->additional([
             'meta' => [
-                'totalNet' => $results->totalNet,
+                'totalGross' => $results->totalGross,
             ],
         ]);
     }
@@ -274,7 +274,7 @@ class CommissionController extends Controller
 
                 // Match any valid where clause for SQL
                 if (preg_match('/(>=|>|=|<|<=|!=)?\s*(\d+)/', $columns['money']['filter'], $matches) > 0) {
-                    $query->where('net', $matches[1] ?: '=', $matches[2]);
+                    $query->where('gross', $matches[1] ?: '=', $matches[2]);
                 }
             })
             ->when(!$columns->has('rejected'), function (Builder $query) {
@@ -336,7 +336,7 @@ class CommissionController extends Controller
             'options' => [
                 'path' => Paginator::resolveCurrentPath(),
                 'pageName' => $pageName,
-                'totalNet' => (float) $totals->net,
+                'totalGross' => (float) $totals->gross,
             ],
         ]);
     }
@@ -349,7 +349,7 @@ class CommissionController extends Controller
             ->cloneWithout(['columns', 'orders', 'limit', 'offset'])
             ->cloneWithoutBindings(['select', 'order'])
             ->selectRaw('count(commissions.id) as aggregate')
-            ->selectRaw('SUM(net) as net')
+            ->selectRaw('SUM(gross) as gross')
             ->get()->first();
     }
 }
