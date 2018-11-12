@@ -41,10 +41,10 @@ class Commission extends JsonResource
             'user' => User::make($model->user),
             'childUser' => $this->when($model->child_user_id > 0, function () use ($model) {
                 return User::make($model->childUser);
-            }),
+            }, null),
             'model' => $this->when(isset(self::RESOURCES[$model->model_type]), function () use ($model) {
                 return (self::RESOURCES[$model->model_type])::make($model->model);
-            }),
+            }, null),
         ];
     }
 }

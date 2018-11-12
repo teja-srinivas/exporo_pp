@@ -163,8 +163,10 @@
             >
               <td class="text-muted pl-1 align-middle">
                 <div class="d-flex align-items-center justify-content-between">
-                  <font-awesome-icon v-if="commission.showDetails" icon="chevron-down" fixed-width />
-                  <font-awesome-icon v-else icon="chevron-right" fixed-width />
+                  <font-awesome-icon
+                    :icon="commission.showDetails ? 'chevron-down' : 'chevron-right'"
+                    fixed-width
+                  />
                   <a
                     v-if="commission.model"
                     href="#"
@@ -174,7 +176,7 @@
                   />
                 </div>
               </td>
-              <td :rowspan="commission.showDetails ? 2 : 1" class="pr-0 pb-0 border-left-0">
+              <td :rowspan="commission.showDetails ? 2 : 1" class="pr-0 pb-0">
                 <div class="d-flex">
                   <b-form-checkbox
                     :checked="commission.reviewed"
@@ -219,24 +221,34 @@
                      @click.prevent="filter.user = `${commission.user.id}`">
                     {{ commission.user.id }}
                   </a>
+
                   <div v-if="commission.model && commission.model.project !== undefined" class="flex-fill">
                     <schema :value="commission.model.project.schema" :commission="commission" />
+                  </div>
+                  <div v-else-if="commission.type === 'correction'" class="flex-fill">
+                    <strong>Korrektur:</strong> {{ commission.note.public}}
                   </div>
                   <div v-else class="row flex-fill">
                     <div class="col" v-text="displayNameUser(commission.user)" />
                     <div v-if="commission.model" class="col" v-text="displayNameUser(commission.model)" />
                   </div>
-                  <div v-if="commission.childUser !== undefined" title="Overhead" class="mx-1">
+
+                  <div v-if="commission.childUser !== null" title="Overhead" class="mx-1">
                     <font-awesome-icon icon="users" fixed-width size="sm" class="align-baseline text-muted" />
                   </div>
+
                   <div v-if="commission.type === 'investment' && commission.model && commission.model.isFirst" title="Erstinvestment" class="mx-1">
                     <font-awesome-icon icon="flag" fixed-width size="sm" class="align-baseline text-danger" />
                   </div>
+
                   <div v-if="commission.type === 'investment'" title="Projektinvestment">
                     <font-awesome-icon icon="home" fixed-width size="sm" class="align-baseline text-primary" />
                   </div>
                   <div v-else-if="commission.type === 'investor'" title="Registrierung">
                     <font-awesome-icon icon="user" fixed-width size="sm" class="align-baseline text-success" />
+                  </div>
+                  <div v-else-if="commission.type === 'correction'" title="Korrekturzahlung">
+                    <font-awesome-icon icon="euro-sign" fixed-width size="sm" class="align-baseline text-dark" />
                   </div>
                 </div>
               </td>
@@ -246,9 +258,11 @@
                 <strong>Brutto</strong>: {{ formatEuro(commission.gross) }}
               </td>
 
-              <td v-else class="text-right">
-                {{ formatEuro(commission.vatIncluded ? commission.net : commission.gross) }}
-              </td>
+              <td
+                v-else
+                class="text-right"
+                v-text="formatEuro(commission.vatIncluded ? commission.gross : commission.net)"
+              />
             </tr>
 
             <!-- Commission Details -->
@@ -257,7 +271,7 @@
               :key="`${commission.id}-details`"
             >
               <td colspan="4" class="small border-right pl-3" :class="$style.infoBox">
-                <div v-if="commission.childUser !== undefined" class="py-2 row align-items-center">
+                <div v-if="commission.childUser !== null" class="py-2 row align-items-center">
                   <div class="col-sm-2"><strong>Unterpartner:</strong></div>
                   <div class="col-sm-10">
                       <a :href="commission.childUser.links.self" target="_blank" class="mr-1" @click.stop style="line-height: 0">
@@ -291,6 +305,20 @@
                   </div>
                 </div>
 
+                <div v-if="commission.type === 'correction'" class="my-1 row align-items-center">
+                  <div class="col-sm-2">
+                    <strong>{{ commission.vatIncluded ? 'Brutto' : 'Netto' }} in EUR:</strong>
+                  </div>
+                  <div class="col-sm-10">
+                    <input
+                      :value="commission.vatIncluded ? commission.gross : commission.net"
+                      @change="e => updateValue(commission, 'amount', e.target.value.trim())"
+                      class="form-control form-control-sm"
+                      placeholder="MwSt. ist partnerabhängig"
+                    />
+                  </div>
+                </div>
+
                 <div class="my-1 row align-items-center">
                   <div class="col-sm-2">
                     <strong>Notiz:</strong>
@@ -317,6 +345,16 @@
                       placeholder="Privat, nur für die Buchhaltung"
                     />
                   </div>
+                </div>
+
+                <div v-if="commission.model === null" class="my-2 text-right">
+                  <button
+                    type="button"
+                    @click="confirm('Wirklich löschen?', () => destroy(commission))"
+                    class="btn btn-sm btn-danger"
+                  >
+                    Provision löschen
+                  </button>
                 </div>
               </td>
             </tr>
@@ -573,6 +611,8 @@ export default {
     },
 
     async updateValue(commission, key, value) {
+      const needsUpdate = key === 'amount';
+
       const prev = get(commission, key);
       set(commission, key, value);
 
@@ -581,6 +621,10 @@ export default {
         { [key]: value },
         () => set(commission, key, prev)
       );
+
+      if (needsUpdate) {
+        await this.getPage(this.currentPage);
+      }
     },
 
     async updateMultiple(commission, props) {
@@ -656,6 +700,29 @@ export default {
       } catch (e) {
         this.$notify({
           title: 'Fehler beim Anlegen des Eintrags',
+          text: e.message,
+          type: 'error',
+        });
+
+        throw e;
+      }
+    },
+
+    async destroy(commission) {
+      try {
+        await axios.delete(`${this.api}/${commission.key}`);
+        this.$notify('Eintrag gelöscht');
+
+        // Determine and load the (new) last page
+        const page = this.commissions.length > 1
+          ? this.currentPage
+          : Math.max(1, Math.ceil((this.meta.total - 1) / this.meta.per_page));
+
+        this.getPage(page);
+
+      } catch (e) {
+        this.$notify({
+          title: 'Fehler beim Löschen des Eintrags',
           text: e.message,
           type: 'error',
         });

@@ -4,6 +4,7 @@ fontawesome.library.add(
   require('@fortawesome/free-solid-svg-icons/faChevronDown').definition,
   require('@fortawesome/free-solid-svg-icons/faChevronRight').definition,
   require('@fortawesome/free-solid-svg-icons/faCopy').definition,
+  require('@fortawesome/free-solid-svg-icons/faEuroSign').definition,
   require('@fortawesome/free-solid-svg-icons/faFlag').definition,
   require('@fortawesome/free-solid-svg-icons/faHome').definition,
   require('@fortawesome/free-solid-svg-icons/faPen').definition,

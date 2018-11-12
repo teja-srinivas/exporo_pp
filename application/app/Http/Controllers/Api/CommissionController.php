@@ -218,12 +218,13 @@ class CommissionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Commission  $commission
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Commission $commission
+     * @return void
+     * @throws \Exception
      */
     public function destroy(Commission $commission)
     {
-        //
+        $commission->delete();
     }
 
     /**

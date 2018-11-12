@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
         Relation::morphMap([
             \App\Models\Investment::MORPH_NAME => \App\Models\Investment::class,
             \App\Models\Investor::MORPH_NAME => \App\Models\Investor::class,
+            \App\Models\Commission::TYPE_CORRECTION => \App\Models\Commission::class,
         ]);
 
         // Accented card with its title and content in the body
