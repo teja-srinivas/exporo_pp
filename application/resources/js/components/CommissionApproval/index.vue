@@ -645,6 +645,9 @@ export default {
         await axios.post(this.api, entry);
         this.$notify('Eintrag angelegt');
 
+        // Determine and load the (new) last page
+        this.currentPage = this.hasFilters ? 1 : Math.ceil((this.meta.total + 1) / this.meta.per_page);
+
       } catch (e) {
         this.$notify({
           title: 'Fehler beim Anlegen des Eintrags',
@@ -654,8 +657,6 @@ export default {
 
         throw e;
       }
-
-      await this.getPage();
     },
   },
 
