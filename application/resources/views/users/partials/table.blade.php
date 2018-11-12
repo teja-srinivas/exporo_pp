@@ -12,9 +12,10 @@ table-sticky position-relative">
     <tbody>
     @forelse($users as $user)
         <tr>
-            <td><a href="{{ route('users.show', $user) }}" class="text-muted">#{{ $user->id }}</a></td>
-            <td><a href="{{ route('users.show', $user) }}">{{ $user->last_name }}</a></td>
-            <td><a href="{{ route('users.show', $user) }}">{{ $user->first_name }}</a></td>
+            @php($showUserLink = route('users.show', $user))
+            <td><a href="{{ $showUserLink }}" class="text-muted">#{{ $user->id }}</a></td>
+            <td><a href="{{ $showUserLink }}">{{ $user->last_name }}</a></td>
+            <td><a href="{{ $showUserLink }}">{{ $user->first_name }}</a></td>
             <td class="text-right">
                 @if($user->rejected())
                     <div class="badge badge-danger">Abgelehnt</div>
