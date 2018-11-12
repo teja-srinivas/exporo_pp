@@ -34,7 +34,7 @@ class BillController extends Controller
                     'date' => $bill->created_at,
                     'user' => UserResource::make($bill->user)->toArray($request),
                     'meta' => [
-                        'net' => format_money($bill->net),
+                        'gross' => format_money($bill->gross),
                         'commissions' => $bill->commissions,
                     ],
                     'links' => [
@@ -203,7 +203,7 @@ class BillController extends Controller
             ->join('users', 'user_id', 'users.id')
             ->addSelect(['users.first_name', 'users.last_name'])
             ->addSelect(['commissions.user_id'])
-            ->selectRaw('SUM(net) as sum')
+            ->selectRaw('SUM(gross) as sum')
             ->groupBy('commissions.user_id')
             ->orderBy('commissions.user_id')
             ->isBillable()

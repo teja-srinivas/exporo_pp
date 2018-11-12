@@ -115,7 +115,7 @@
                 <tr>
                     <td class="border-top text-right"><strong>Total</strong></td>
                     <td class="border-top text-right">{{ $user->bills->sum('commissions') }}</td>
-                    <td class="border-top text-right">{{ format_money($user->bills->sum('net')) }}</td>
+                    <td class="border-top text-right">{{ format_money($user->bills->sum('gross')) }}</td>
                     <td></td>
                 </tr>
             </tfoot>
