@@ -16,8 +16,8 @@ class User extends JsonResource
     {
         return [
             'id' => $this->id,
-            'firstName' => $this->first_name,
-            'lastName' => $this->last_name,
+            'firstName' => trim($this->first_name),
+            'lastName' => trim($this->last_name),
             'links' => [
                 'self' => route('users.show', $this->id),
             ],

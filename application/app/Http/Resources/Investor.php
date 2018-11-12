@@ -16,8 +16,8 @@ class Investor extends JsonResource
     {
         return [
             'id' => $this->id,
-            'firstName' => $this->first_name,
-            'lastName' => $this->last_name,
+            'firstName' => trim($this->first_name),
+            'lastName' => trim($this->last_name),
         ];
     }
 }
