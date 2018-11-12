@@ -14,12 +14,11 @@ use Illuminate\Contracts\Encryption\DecryptException;
  * Encryption is handled by the Crypt helper function, which
  * uses the cipher/key defined in config/app.php.
  *
- * Source:
+ * Original source:
  * https://raw.githubusercontent.com/synkyo/encryptable/9e9d3d1e893a31cbff1f9e7001ea8da527e548ea/src/Encryptable.php
  */
 trait Encryptable
 {
-
     /**
      * @param $key
      *
@@ -129,7 +128,9 @@ trait Encryptable
      */
     public static function decrypt($value)
     {
-        if ($value) {
+        // Check against a safe length of an encrypted string
+        // so we can just skip unencrypted data
+        if ($value && strlen($value) > 160) {
             try {
                 $value = decrypt($value);
             } catch (DecryptException $e) {
