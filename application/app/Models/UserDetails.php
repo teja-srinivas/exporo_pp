@@ -63,12 +63,15 @@ class UserDetails extends Model implements AuditableContract
         'vat_id',
         'birth_place',
         'address_street',
+        'address_number',
         'address_addition',
         'address_zipcode',
         'address_city',
         'phone',
         'website',
-        'tax_office'
+        'tax_office',
+        'iban',
+        'bic'
     ];
 
 
