@@ -25,7 +25,7 @@
                 Marge: {{ $project[0]['projectMargin'] }}%
                 &nbsp;&ndash;&nbsp;
                 Faktor: {{ $factor }}
-                ({{ $project[0]['projectFactor'] }} * {{ $project[0]['projectMargin'] }})
+                ({{ $project[0]['projectFactor'] }} * {{ $project[0]['projectMargin'] }}%)
             </th>
         </tr>
 
