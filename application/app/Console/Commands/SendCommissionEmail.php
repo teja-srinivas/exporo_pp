@@ -41,7 +41,7 @@ class SendCommissionEmail extends Command
         foreach ($bills as $bill) {
             SendMail::dispatch([
                 'Provision' => format_money($bill->getTotalNet()),
-                'Link' => 'exporo.com'
+                'Link' => 'p.exporo.com'
             ], $bill->user, config('mail.templateIds.commissionCreated'))->onQueue('emailsLow');
         };
     }

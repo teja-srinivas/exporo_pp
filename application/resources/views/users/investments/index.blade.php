@@ -30,8 +30,8 @@
             <tr>
                 <td class="text-right text-muted small align-middle">{{ $investment->id }}</td>
                 <td>
-                    @php($firstName = trim($investment->first_name))
-                    @php($lastName = trim($investment->last_name))
+                    @php($firstName = trim(decrypt($investment->first_name)))
+                    @php($lastName = trim(decrypt($investment->last_name)))
 
                     @if(!empty($firstName) && !empty($lastName))
                         {{ $firstName[0] }}.

@@ -12,7 +12,7 @@ class CreateBillPdf extends Command
      *
      * @var string
      */
-    protected $signature = 'create:billpdf';
+    protected $signature = 'create:billpdf {--live=}' ;
 
     /**
      * The console command description.
@@ -35,7 +35,7 @@ class CreateBillPdf extends Command
     {
         $bills = $this->getReleasedBills();
         foreach ($bills as $bill) {
-           createBillPdfJob::dispatch($bill)->onQueue('createBillPdf');
+           createBillPdfJob::dispatch($bill, $this->option('live') ?? null)->onQueue('createBillPdf');
         }
     }
 
