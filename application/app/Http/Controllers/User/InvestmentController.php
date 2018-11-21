@@ -28,6 +28,7 @@ class InvestmentController extends Controller
                 ->selectRaw('investors.last_name')
                 ->selectRaw('projects.description as project_name')
                 ->selectRaw('schemas.name as type')
+                ->whereRaw('investments.cancelled_at LIKE "1970-01-01 00:00:00"')
                 ->latest('investments.created_at')
                 ->get(),
         ]);

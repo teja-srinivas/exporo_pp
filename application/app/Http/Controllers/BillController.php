@@ -226,11 +226,12 @@ class BillController extends Controller
         $query->selectRaw('commissions.bonus as cBonus');
 
         $collection = $query->get()->groupBy('model_type');
+        $overhead = $this->mapOverhead($collection->get(Investment::MORPH_NAME));
         $investments = $this->mapInvestments($collection->get(Investment::MORPH_NAME));
         $investors = $this->mapInvestors($collection->get(Investor::MORPH_NAME));
-
         $investmentsNetSum = $investments->sum('net');
         $investorsNetSum = $investors->sum('net');
+        $overheadNetSum = $overhead->sum('net');
 
         return [
             'investments' => $investments
@@ -240,8 +241,14 @@ class BillController extends Controller
             'investmentSum' => $investments->sum('investsum'),
             'investmentNetSum' => $investmentsNetSum,
             'investors' => $investors->sortBy('last_name'),
+            'overheads' => $overhead
+            ->sortBy('created_at')
+            ->sortBy('projectName')
+            ->sortBy('projectName'),
+            'overheadSum' => $overhead->sum('investsum'),
+            'overheadNetSum' => $overheadNetSum,
             'investorsNetSum' => $investorsNetSum,
-            'totalCommission' => $investorsNetSum + $investmentsNetSum,
+            'totalCommission' => $investorsNetSum + $investmentsNetSum + $overheadNetSum,
         ];
     }
 
@@ -251,7 +258,14 @@ class BillController extends Controller
             return collect();
         }
 
-        return $investments->load(
+      $filtered = $investments->filter(function($investment){
+            if($investment['child_user_id'] === 0){
+                return $investment;
+            }
+            return null;
+        });
+
+        return $filtered->load(
             'model.investor:id,first_name,last_name',
             'model.project'
         )->map(function (Commission $row) {
@@ -288,6 +302,43 @@ class BillController extends Controller
             $row['last_name'] = $row->investor->last_name;
 
             return $row;
+        });
+    }
+
+    private function mapOverhead(?Collection $overheads): ?BaseCollection
+    {
+        if ($overheads === null) {
+            return collect();
+        }
+        $filtered = $overheads->filter(function($overhead){
+            if($overhead['child_user_id'] > 0){
+                return $overhead;
+            }
+            return null;
+        });
+        return $filtered->load(
+            'model.investor',
+            'model.project'
+        )->map(function (Commission $row){
+            $investment = $row->model;
+            $investor = $investment->investor;
+            $project = $investment->project;
+            $partner = $investment->investor->user;
+            return [
+                'partnerId' => $partner->id,
+                'firstName' => $investor->first_name,
+                'lastName' => $investor->last_name,
+                'investsum' => $investment->amount,
+                'investDate' => $investment->created_at->format('d.m.Y'),
+                'net' => $row->net,
+                'gross' => $row->gross,
+                'bonus' => $row->cBonus * 100,
+                'projectName' => $project->description,
+                'projectId' => $project->id,
+                'projectMargin' => $project->margin,
+                'projectRuntime' => $project->runtimeInMonths(),
+                'projectFactor' => $project->runtimeFactor(),
+            ];
         });
     }
 }

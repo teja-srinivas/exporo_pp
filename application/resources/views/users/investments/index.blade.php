@@ -2,12 +2,12 @@
 
 @section('title')
     @if($user->is(auth()->user()))
-        Partner-Investments
+        Investments
     @else
         @breadcrumps([
             route('users.index') => 'Benutzer',
             route('users.show', $user) => $user->getDisplayName(),
-            'Partner-Investments'
+            'Investments'
         ])
     @endif
 @endsection
@@ -30,8 +30,8 @@
             <tr>
                 <td class="text-right text-muted small align-middle">{{ $investment->id }}</td>
                 <td>
-                    @php($firstName = trim(decrypt($investment->first_name)))
-                    @php($lastName = trim(decrypt($investment->last_name)))
+                    @php($firstName = trim($investment->first_name))
+                    @php($lastName = trim($investment->last_name))
 
                     @if(!empty($firstName) && !empty($lastName))
                         {{ $firstName[0] }}.

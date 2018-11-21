@@ -38,7 +38,7 @@
             <div class="row text-center">
                 <div class="col-sm border-sm-right mb-3 mb-sm-0">
                     <a href="{{ route('users.investors.index', $user) }}" class="btn btn-outline-light p-0 btn-block">
-                        <span class="text-reset">Investoren</span>
+                        <span class="text-reset">Meine Kunden</span>
                         <div class="h2 mb-1">{{ $investors->count }}</div>
                     </a>
                 </div>

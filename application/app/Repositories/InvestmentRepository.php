@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Investment;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
 
@@ -29,7 +30,10 @@ final class InvestmentRepository
             ->whereNull('users.rejected_at')
             ->whereNotNull('projects.approved_at')
             ->whereNotNull('investments.acknowledged_at')
+            ->whereNotNull('investments.paid_at')
             ->whereRaw('investments.acknowledged_at NOT LIKE "1970-01-01 00:00:00"')
+            ->where('investments.acknowledged_at', '<', Carbon::now()->subDays(14))
+            ->whereRaw('cancelled_at LIKE "1970-01-01 00:00:00"')
             ->select(['investments.*']);
     }
 

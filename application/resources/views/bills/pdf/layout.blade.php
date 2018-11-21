@@ -51,6 +51,7 @@
     <section class="sheet">
         @yield('projects')
         @yield('registrations')
+        @yield('overheads')
         @yield('footer')
     </section>
 </body>

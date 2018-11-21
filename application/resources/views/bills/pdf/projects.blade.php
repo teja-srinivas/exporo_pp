@@ -14,7 +14,6 @@
     <tbody>
     @foreach($investments as $project)
         @php($factor = $project[0]['projectFactor'] * ($project[0]['projectMargin'] / 100))
-
         <tr>
             <th scope="rowgroup">
                 <h5 class="m-0">{{ $project[0]['projectName'] }}</h5>

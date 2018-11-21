@@ -17,6 +17,12 @@
 @endsection
 @endunless
 
+@unless($overheads->isEmpty())
+@section('overheads')
+    @include('bills.pdf.overhead')
+@endsection
+@endunless
+
 @section('footer')
     @include('bills.pdf.footer')
 @endsection

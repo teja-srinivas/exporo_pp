@@ -2,7 +2,7 @@
 
 @section('title')
     @if($user->is(auth()->user()))
-        Investoren
+        Meine Kunden
     @else
         @breadcrumps([
             route('users.index') => 'Benutzer',
@@ -49,7 +49,7 @@
             </tr>
         @empty
             <tr class="text-center text-muted">
-                <td colspan="6">Es wurden noch keine Investoren geworben</td>
+                <td colspan="6">Es wurden noch keine Kunden geworben</td>
             </tr>
         @endforelse
         </tbody>

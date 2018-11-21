@@ -11,7 +11,7 @@
         @foreach($investors->sortNatural('lastName') as $investor)
             <tr>
                 <td>{{  $investor['last_name'] }}, {{ $investor['first_name'] }}</td>
-                <td class="text-right">{{ optional($investor['created_at'])->format('d.m.Y') }}</td>
+                <td class="text-right">{{ $investor['activation_at'] }}</td>
                 <td class="text-right">{{ format_money($investor['net']) }}</td>
             </tr>
         @endforeach
