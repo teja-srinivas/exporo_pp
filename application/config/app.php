@@ -213,4 +213,12 @@ return [
 
     ],
 
+    /*
+   |--------------------------------------------------------------------------
+   | Encryptioncheck
+   |--------------------------------------------------------------------------
+   |
+   |provides key for checking if a given value in encrypted
+   */
+    'encryptCheck' =>'eyJpdiI6'
 ];
