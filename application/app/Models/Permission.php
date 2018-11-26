@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Dateable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -13,8 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Permission extends \Spatie\Permission\Models\Permission
 {
-    use Dateable;
-
     /**
      * @inheritdoc
      */

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Interfaces\FileReference;
-use App\Traits\Dateable;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +14,6 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 class Agb extends Model implements AuditableContract, FileReference
 {
     use Auditable;
-    use Dateable;
     use OptimusEncodedRouteKey;
 
     const DIRECTORY = 'agbs';

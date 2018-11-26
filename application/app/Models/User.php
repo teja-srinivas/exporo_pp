@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Jobs\SendMail;
-use App\Traits\Dateable;
 use App\Traits\Encryptable;
 use App\Traits\HasRoles;
 use Carbon\Carbon;
@@ -48,9 +47,6 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     use Auditable;
     use Encryptable;
     use MustVerifyEmail;
-    use Dateable {
-        asDateTime as parentAsDateTime;
-    }
 
     /**
      * Possible user titles
@@ -96,12 +92,6 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         'remember_token',
     ];
 
-
-    // Fix for the audit package not detecting this method (for some reason)
-    protected function asDateTime($value)
-    {
-        return $this->parentAsDateTime($value);
-    }
 
     /**
      * @return HasOne
