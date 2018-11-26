@@ -184,7 +184,7 @@
 
                 <p>Hiermit willige ich ein,</p>
 
-                @component('components.form.checkbox', ['name' => 'legal_exporo_ag'])
+                @component('components.form.checkbox', ['name' => 'legal_exporo_ag', 'required' => true])
                     Informationen über Kapitalanlagen, Projekt-Updates sowie plattform&shy;relevante
                     Informationen per Newsletter zu erhalten. Diese freiwillige
                     <a href="https://exporo.de/einwilligungserklaerung-exporo-ag" target="_blank">Einwilligung</a>
@@ -196,7 +196,7 @@
                     der Exporo AG,
                 @endcomponent
 
-                @include('components.form.error', ['name' => 'llegal_exporo_ag'])
+                @include('components.form.error', ['name' => 'legal_exporo_ag'])
 
                 @component('components.form.checkbox', [
                     'name' => 'legal_exporo_gmbh',
