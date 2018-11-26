@@ -115,6 +115,7 @@ class UserStoreRequest extends FormRequest
 
         return [
             'company' => 'nullable|string|max:100',
+            'display_name' => 'nullable|string',
             'title' => ['nullable', Rule::in(User::TITLES)],
             'salutation' => "{$prefix}|in:male,female",
             "birth_day" => "{$prefix}|numeric|min:1|max:31",

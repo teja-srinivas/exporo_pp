@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\UserDetails;
+use App\Models\User;
+use App\Observers\UserDetailsObserver;
+use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
@@ -60,6 +64,9 @@ class AppServiceProvider extends ServiceProvider
         Collection::macro('sortNatural', function ($callback) {
             return $this->sortBy($callback, SORT_NATURAL | SORT_FLAG_CASE);
         });
+
+        User::observe(UserObserver::class);
+        UserDetails::observe(UserDetailsObserver::class);
     }
 
     /**

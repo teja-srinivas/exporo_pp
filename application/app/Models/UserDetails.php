@@ -32,6 +32,7 @@ class UserDetails extends Model implements AuditableContract
     protected $fillable = [
         'id',
         'company',
+        'display_name',
         'title',
         'salutation',
         'birth_date',
