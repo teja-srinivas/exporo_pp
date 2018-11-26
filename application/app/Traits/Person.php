@@ -25,4 +25,39 @@ trait Person
             return strlen($name) > 0;
         }));
     }
+
+    /**
+     * Returns an anonymized first name in the form of their initial.
+     *
+     * @return string
+     */
+    public function getInitial(): string
+    {
+        return self::anonymizeFirstName($this->first_name);
+    }
+
+    /**
+     * Returns an anonymized first name in the form of their initial.
+     *
+     * @param string $firstName The first name to use
+     * @return string
+     */
+    public static function anonymizeFirstName(?string $firstName): string
+    {
+        $name = trim($firstName ?? '');
+
+        return strlen($name) > 0 ? $name[0] . '.' : '';
+    }
+
+    /**
+     * Anonymizes the given first and last names into a full, displayable name.
+     *
+     * @param string $firstName
+     * @param string $lastName
+     * @return string
+     */
+    public static function anonymizeName(?string $firstName, ?string $lastName): string
+    {
+        return self::anonymizeFirstName($firstName) . ($lastName !== null ? ' ' . trim($lastName) : '');
+    }
 }
