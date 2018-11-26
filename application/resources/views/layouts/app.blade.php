@@ -44,7 +44,14 @@
     <!-- End Google Tag Manager (noscript) -->
 
     <div id="app" class="d-flex flex-column wrapper">
-        <div class="p-2 bg-white border-bottom">
+        <div class="p-2 bg-secondary text-light text-center" style="line-height: 1.3">
+            <b>AKTUELL ARBEITEN WIR INTENSIV AN DER WEITERENTWICKLUNG UNSERES PARTNERCOCKPITS</b><br>
+            <small>
+                Bei Fragen oder Anregungen melden Sie sich gerne telefonisch oder schreiben Sie uns eine E-Mail an
+                <a href="mailto:partner@exporo.com" class="text-white">partner@exporo.com</a>
+            </small>
+        </div>
+        <div class="pt-2 px-2 bg-white">
             <div class="container px-0 px-md-4 d-flex align-items-center justify-content-end">
                 <div class="text-right small">
                     <span class="d-none d-sm-inline">Unsere</span>
