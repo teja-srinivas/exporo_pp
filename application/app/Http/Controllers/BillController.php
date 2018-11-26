@@ -10,8 +10,8 @@ use App\Models\Investor;
 use App\Models\User;
 use App\Jobs\SendMail;
 use App\Traits\Encryptable;
+use App\Traits\Person;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -148,12 +148,12 @@ class BillController extends Controller
         return view('bills.show', $this->mapForView($bill->commissions()) + [
             'bill' => $bill,
             'user' => $bill->user,
+            'company' => optional($bill->user->company),
         ]);
     }
 
-    public function billPdf(int $bill)
+    public function billPdf(Bill $bill)
     {
-        $bill = Bill::findOrFail($bill);
         $bill->load('user');
 
         $investments = $this->mapForView($bill->commissions());
@@ -224,31 +224,44 @@ class BillController extends Controller
     {
         $query->select('*');
         $query->selectRaw('commissions.bonus as cBonus');
+        $query->selectRaw('commissions.created_at as created_at');
 
         $collection = $query->get()->groupBy('model_type');
+
         $overhead = $this->mapOverhead($collection->get(Investment::MORPH_NAME));
         $investments = $this->mapInvestments($collection->get(Investment::MORPH_NAME));
         $investors = $this->mapInvestors($collection->get(Investor::MORPH_NAME));
+
+        $custom = $collection->get(Commission::TYPE_CORRECTION) ?? collect();
+        $customNetSum = $custom->sum('net');
+        $customGrossSum = $custom->sum('gross');
+
         $investmentsNetSum = $investments->sum('net');
         $investorsNetSum = $investors->sum('net');
         $overheadNetSum = $overhead->sum('net');
 
+        $investmentsGrossSum = $investments->sum('gross');
+        $investorsGrossSum = $investors->sum('gross');
+        $overheadGrossSum = $overhead->sum('gross');
+
         return [
-            'investments' => $investments
-                ->sortBy('created_at')
-                ->sortBy('projectName')
-                ->groupBy('projectName'),
+            'investments' => $investments->sortNatural('lastName')->groupBy('projectName')->sortKeys(),
             'investmentSum' => $investments->sum('investsum'),
             'investmentNetSum' => $investmentsNetSum,
-            'investors' => $investors->sortBy('last_name'),
-            'overheads' => $overhead
-            ->sortBy('created_at')
-            ->sortBy('projectName')
-            ->sortBy('projectName'),
+            'investmentGrossSum' => $investmentsGrossSum,
+
+            'investors' => $investors,
+            'investorsNetSum' => $investorsNetSum,
+            'investorsGrossSum' => $investorsGrossSum,
+
+            'overheads' => $overhead->sortBy('partnerName')->groupBy('projectName')->sortKeys(),
             'overheadSum' => $overhead->sum('investsum'),
             'overheadNetSum' => $overheadNetSum,
-            'investorsNetSum' => $investorsNetSum,
-            'totalCommission' => $investorsNetSum + $investmentsNetSum + $overheadNetSum,
+            'overheadGrossSum' => $overheadGrossSum,
+
+            'custom' => $custom,
+            'customNetSum' => $customNetSum,
+            'customGrossSum' => $customGrossSum,
         ];
     }
 
@@ -258,11 +271,8 @@ class BillController extends Controller
             return collect();
         }
 
-      $filtered = $investments->filter(function($investment){
-            if($investment['child_user_id'] === 0){
-                return $investment;
-            }
-            return null;
+        $filtered = $investments->filter(function($investment){
+            return $investment['child_user_id'] === 0;
         });
 
         return $filtered->load(
@@ -276,8 +286,8 @@ class BillController extends Controller
 
             return [
                 'investorId' => $investor->id,
-                'firstName' => $investor->first_name,
-                'lastName' => $investor->last_name,
+                'firstName' => Person::anonymizeFirstName($investor->first_name),
+                'lastName' => trim($investor->last_name),
                 'investsum' => $investment->amount,
                 'investDate' => $investment->created_at->format('d.m.Y'),
                 'net' => $row->net,
@@ -297,12 +307,13 @@ class BillController extends Controller
             return collect();
         }
 
-        return $investors->map(function (Commission $row) {
-            $row['first_name'] = $row->investor->first_name;
-            $row['last_name'] = $row->investor->last_name;
+        return $investors->load('investor:id,first_name,last_name,activation_at')->map(function (Commission $row) {
+            $row['first_name'] = Person::anonymizeFirstName($row->investor->first_name);
+            $row['last_name'] = trim($row->investor->last_name);
+            $row['activation_at'] = Carbon::make($row['activation_at'] ?? $row->investor->activation_at)->format('d.m.Y');
 
             return $row;
-        });
+        })->sortNatural('last_name');
     }
 
     private function mapOverhead(?Collection $overheads): ?BaseCollection
@@ -310,12 +321,11 @@ class BillController extends Controller
         if ($overheads === null) {
             return collect();
         }
+
         $filtered = $overheads->filter(function($overhead){
-            if($overhead['child_user_id'] > 0){
-                return $overhead;
-            }
-            return null;
+            return $overhead['child_user_id'] > 0;
         });
+
         return $filtered->load(
             'model.investor',
             'model.project'
@@ -324,10 +334,12 @@ class BillController extends Controller
             $investor = $investment->investor;
             $project = $investment->project;
             $partner = $investment->investor->user;
+
             return [
                 'partnerId' => $partner->id,
-                'firstName' => $investor->first_name,
-                'lastName' => $investor->last_name,
+                'partnerName' => Person::anonymizeName($partner->first_name, $partner->last_name),
+                'firstName' => Person::anonymizeFirstName($investor->first_name),
+                'lastName' => trim($investor->last_name),
                 'investsum' => $investment->amount,
                 'investDate' => $investment->created_at->format('d.m.Y'),
                 'net' => $row->net,

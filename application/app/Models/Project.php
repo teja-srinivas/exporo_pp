@@ -83,7 +83,7 @@ class Project extends Model
     {
         $runtime = $this->runtimeInMonths();
 
-        return $runtime / 24 < 1 ? round($runtime / 24, 2) : 1;
+        return min(round($runtime / 24, 2), 1);
     }
 
     public function marginPercentage(): float

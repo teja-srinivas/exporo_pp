@@ -49,10 +49,7 @@
         @yield('cover')
     </section>
     <section class="sheet">
-        @yield('projects')
-        @yield('registrations')
-        @yield('overheads')
-        @yield('footer')
+        @yield('content')
     </section>
 </body>
 </html>

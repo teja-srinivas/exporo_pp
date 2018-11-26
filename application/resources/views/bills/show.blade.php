@@ -11,5 +11,4 @@
 @section('main-content')
     @include('bills.pdf.projects')
     @include('bills.pdf.registrations')
-    @include('bills.pdf.footer')
 @endsection

@@ -64,25 +64,36 @@
 <!-- Page Content -->
 <h3 class="mb-4">Provisionsgutschrift</h3>
 
-<p>
+<p class="mb-2">
     Sofern Provisionen angefallen sind, überweisen wir diese in den nächsten Tagen auf das von Ihnen angegebene
-    Konto {{ $user->details->iban }}
+    Konto:
 </p>
+<table class="table table-sm table-borderless w-50 mx-auto mb-4">
+    <tbody>
+    <tr>
+        <th scope="row">IBAN</th>
+        <td>{{ $user->details->iban }}</td>
+    </tr>
+    </tbody>
+</table>
+
+@php($sums = [
+    'Eigenumsatz' => $investmentNetSum,
+    'Umsatz Subpartner' => $overheadNetSum,
+    'Registrierungen' => $investorsNetSum,
+    'Korrekturbuchungen' => $customNetSum,
+])
+
 <p>
     Die Provisionsgutschrift stellt sich wie folgt zusammen:
 </p>
 
 <div class="my-5">
+    @php($total = array_sum($sums))
+    @php($totalGross = $investmentGrossSum + $overheadGrossSum + $investorsGrossSum + $customGrossSum)
+
+    @if($totalGross > 0)
     <table class="table table-sm mx-auto w-50 table-foot-totals">
-        @php($sums = [
-            'Eigenumsatz' => $investmentNetSum,
-            'Umsatz Subpartner' => 0,
-            'Registrierungen' => 0,
-            'Korrekturbuchungen' => 0,
-        ])
-
-        @php($total = array_sum($sums))
-
         <tbody>
         @foreach($sums as $title => $sum)
             @continue($sum <= 0)
@@ -94,18 +105,21 @@
         </tbody>
 
         <tfoot>
-        @if($user->details->vat_included !== null)
+        @if(abs($totalGross - $total) > 0)
             <tr>
-                <th scope="row" class="text-right">19% MwSt.</th>
-                <td class="text-right">{{ format_money(abs($totalCommission)) }}</td>
+                <th scope="row" class="text-right">zzgl. 19% MwSt.</th>
+                <td class="text-right">{{ format_money($totalGross - $total) }}</td>
             </tr>
         @endif
             <tr>
                 <th scope="row" class="text-right">Summe Gutschrift</th>
-                <td class="font-weight-bold text-right">{{ format_money($total) }}</td>
+                <td class="font-weight-bold text-right">{{ format_money($totalGross) }}</td>
             </tr>
         </tfoot>
     </table>
+    @else
+        <div class="text-center font-weight-bold">Für diesen Monat sind keine Provisionen angefallen.</div>
+    @endif
 </div>
 
 <p>
