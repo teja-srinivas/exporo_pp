@@ -89,6 +89,7 @@ class UserController extends Controller
 
         $user->bills = Bill::getDetailsPerUser($user->id)->get();
 
+        // TODO only count uncancelled investments
         $investors = $user->investors()->toBase()
             ->leftJoin('investments', 'investments.investor_id', 'investors.id')
             ->selectRaw('count(distinct(investors.id)) as count')

@@ -25,6 +25,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property User $childUser
  * @property int $child_user_id
  * @property bool $on_hold
+ * @property Investor $investor
  * @property Carbon $rejected_at
  * @property int $rejected_by
  * @property User $rejectedBy

@@ -29,19 +29,7 @@
         @forelse($investments as $investment)
             <tr>
                 <td class="text-right text-muted small align-middle">{{ $investment->id }}</td>
-                <td>
-                    @php($firstName = trim($investment->first_name))
-                    @php($lastName = trim($investment->last_name))
-
-                    @if(!empty($firstName) && !empty($lastName))
-                        {{ $firstName[0] }}.
-                        {{ $lastName }}
-                    @elseif(!empty($firstName))
-                        {{ $firstName }}
-                    @else
-                        {{ $lastName }}
-                    @endif
-                </td>
+                <td>{{ $investment->name }}</td>
                 <td>{{ $investment->project_name }}</td>
                 <td>{{ $investment->type }}</td>
                 <td class="text-right">{{ format_money($investment->amount) }}</td>

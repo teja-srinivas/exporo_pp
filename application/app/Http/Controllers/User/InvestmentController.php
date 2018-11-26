@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Investment;
 use App\Models\User;
+use App\Traits\Encryptable;
+use App\Traits\Person;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class InvestmentController extends Controller
@@ -28,9 +32,16 @@ class InvestmentController extends Controller
                 ->selectRaw('investors.last_name')
                 ->selectRaw('projects.description as project_name')
                 ->selectRaw('schemas.name as type')
-                ->whereRaw('investments.cancelled_at LIKE "1970-01-01 00:00:00"')
                 ->latest('investments.created_at')
-                ->get(),
+                ->uncancelled()
+                ->get()->each(function (Investment $investment) {
+                    $investment->name = Person::anonymizeName(
+                        Encryptable::decrypt($investment->first_name),
+                        Encryptable::decrypt($investment->last_name)
+                    );
+
+                    return $investment;
+                }),
         ]);
     }
 }

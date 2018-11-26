@@ -1,5 +1,7 @@
 <?php
 
+define('LEGACY_NULL', '1970-01-01 00:00:00');
+
 if (!function_exists('format_money')) {
     /**
      * Get a formatted number.

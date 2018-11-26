@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Jenssegers\Date\Date;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
@@ -74,7 +73,7 @@ class Investment extends Model implements AuditableContract
 
     public function isRefundable(): bool
     {
-        return $this->acknowledged_at >= now()->subWeeks(2) || $this->acknowledged_at === null || $this->acknowledged_at === '1970-01-01 00:00:00';
+        return $this->acknowledged_at >= now()->subWeeks(2) || $this->acknowledged_at === null || $this->acknowledged_at === LEGACY_NULL;
     }
 
     public function isBillable(): bool
@@ -99,8 +98,16 @@ class Investment extends Model implements AuditableContract
         $query->whereNotNull('paid_at');
     }
 
+    public function scopeUncancelled(Builder $query)
+    {
+        $query->where(function (Builder $query) {
+            $query->where('investments.cancelled_at', LEGACY_NULL);
+            $query->orWhereNull('investments.cancelled_at');
+        });
+    }
+
     public function getPaidAtAttribute($value)
     {
-        return $value !== '1970-01-01 00:00:00' ? Date::make($value) : null;
+        return $value !== LEGACY_NULL ? Carbon::make($value) : null;
     }
 }

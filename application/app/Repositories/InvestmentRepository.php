@@ -29,13 +29,10 @@ final class InvestmentRepository
             ->whereNull('users.rejected_at')
             ->whereNotNull('projects.approved_at')
             ->whereNotNull('investments.paid_at')
-            ->where('investments.acknowledged_at', '>', '1970-01-01 00:00:00')
+            ->where('investments.acknowledged_at', '>', LEGACY_NULL)
             ->where('investments.acknowledged_at', '<', now()->subDays(14))
-            ->where(function (Builder $query) {
-                $query->where('investments.cancelled_at', '>', '1970-01-01 00:00:00');
-                $query->orWhereNull('investments.cancelled_at');
-            })
-            ->select(['investments.*']);
+            ->select(['investments.*'])
+            ->uncancelled();
     }
 
     public function queryWhereCalculationChanged(): Builder
