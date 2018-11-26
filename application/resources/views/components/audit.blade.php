@@ -65,10 +65,8 @@
                                 <span class="text-muted">(versteckt)</span>
                             @elseif(is_bool($row[$key]))
                                 {!! $row[$key] ? '✔' : '-' !!}
-                            @elseif(str_contains($row[$key], config('app.encryptCheck')))
-                                {{decrypt($row[$key])}}
                             @else
-                                {{ $row[$key] }}
+                                {{ App\Traits\Encryptable::decrypt($row[$key]) }}
                             @endif
                         </td>
                     @endforeach

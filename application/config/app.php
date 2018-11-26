@@ -212,13 +212,4 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
-    /*
-   |--------------------------------------------------------------------------
-   | Encryptioncheck
-   |--------------------------------------------------------------------------
-   |
-   |provides key for checking if a given value in encrypted
-   */
-    'encryptCheck' =>'eyJpdiI6'
 ];
