@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/exporo/alpine-nginx-php-fpm:0.0.9
+FROM registry.gitlab.com/exporo/nginx-php:7.1.24
 
 RUN apk -v --update --no-cache add openssh mysql-client zip curl tar && \
     sed -i s/#PermitRootLogin.*/PermitRootLogin\ without-password/ /etc/ssh/sshd_config
