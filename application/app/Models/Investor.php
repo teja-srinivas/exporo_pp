@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Carbon;
 use App\Traits\Encryptable;
 use App\Traits\Importable;
+use App\Traits\Person;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -29,6 +30,7 @@ class Investor extends Model implements AuditableContract
     use Importable;
     use OptimusEncodedRouteKey;
     use Encryptable;
+    use Person;
 
     const MORPH_NAME = 'investor';
 
