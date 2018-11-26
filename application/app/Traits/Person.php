@@ -46,7 +46,7 @@ trait Person
     {
         $name = trim($firstName ?? '');
 
-        return strlen($name) > 0 ? $name[0] . '.' : '';
+        return strlen($name) > 0 ? mb_substr($name, 0, 1) . '.' : '';
     }
 
     /**
