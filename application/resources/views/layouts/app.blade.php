@@ -47,7 +47,7 @@
                     <span class="d-none d-sm-inline">Unsere</span>
                     Service-Hotline:
                     <a class="bold text-dark font-weight-bold mx-1" href="tel:+4940210917370">040 / 210 91 73 - 70</a>
-                    Mo - Fr, 9 bis 20 Uhr
+                    Mo - Fr, 9 bis 18 Uhr
                 </div>
             </div>
         </div>
