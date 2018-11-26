@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\User;
 use App\Models\UserDetails;
+use App\Traits\Person;
 
 class UserObserver
 {
@@ -43,8 +44,8 @@ class UserObserver
         if($userDetails->company){
             return $userDetails->company;
         }
-        $name = $user->first_name[0] . '.' . $user->last_name;
-        return $name;
+
+        return Person::anonymizeName($user->first_name, $user->last_name);
     }
 
     /**
