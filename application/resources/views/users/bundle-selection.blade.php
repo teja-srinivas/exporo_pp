@@ -5,7 +5,7 @@
         <div class="text-center my-4">
             <h1>Das Exporo Partnerprogramm</h1>
             <h3>
-                Du bist nur noch einen Schritt davon entfernt, Dich als Exporo Partner zu registrieren!
+                Sie sind nur noch einen Schritt davon entfernt, sich als Exporo Partner zu registrieren!
             </h3>
         </div>
 
@@ -16,7 +16,7 @@
 
                     @card
                         <p>
-                            An dieser Stelle möchten wir Dich bitten, eines unserer Provisionsmodelle zu wählen:
+                            An dieser Stelle möchten wir Sie bitten, eines unserer Provisionsmodelle zu wählen:
                         </p>
 
                         @foreach($bundles as $bundle)
@@ -45,13 +45,13 @@
                         @endforeach
 
                         <p>
-                            Nachdem wir Deine Daten geprüft und Dein Provisionsmodel festgelegt haben,
-                            erhälst Du eine E-Mail mit der Freigabe zu unserem Partnerprogramm.
+                            Nachdem Sie Ihr Provisionsmodel ausgewählt und wir Ihre Daten geprüft haben,
+                            erhalten Sie eine E-Mail mit der Freigabe zu unserem Partnerprogramm.
                         </p>
 
-                        Bei Fragen kannst Du Dich jederzeit an uns wenden &ndash;
-                        schreibe einfach eine E-Mail an <a href="mailto:partner@exporo.com">partner@exporo.com</a>,
-                        oder rufe uns unter <a href="tel:+4940210917370">040 210 91 73-70</a> an.
+                        Bei Fragen können Sie sich jederzeit an uns wenden &ndash;
+                        schreiben Sie einfach eine E-Mail an <a href="mailto:partner@exporo.com">partner@exporo.com</a>,
+                        oder rufen Sie uns unter <a href="tel:+4940210917370">040 210 91 73-70</a> an.
 
                         @slot('footer')
                             <div class="text-center">
