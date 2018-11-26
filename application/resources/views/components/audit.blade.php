@@ -57,11 +57,13 @@
 
                     @foreach(['old', 'new'] as $key)
                         <td>
-                            @if(!isset($row[$key]))
-                                @continue;
+                            @unless(array_key_exists($key, $row))
+                                @continue
                             @endif
 
-                            @if(in_array($title, $entity->getHidden()))
+                            @if($row[$key] === null)
+                                <code class="text-muted small">NULL</code>
+                            @elseif(in_array($title, $entity->getHidden()))
                                 <span class="text-muted">(versteckt)</span>
                             @elseif(is_bool($row[$key]))
                                 {!! $row[$key] ? '✔' : '-' !!}

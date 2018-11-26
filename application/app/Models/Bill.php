@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Dateable;
 use Carbon\Carbon;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,9 +25,6 @@ class Bill extends Model implements AuditableContract
 {
     use Auditable;
     use OptimusEncodedRouteKey;
-    use Dateable {
-        asDateTime as parentAsDateTime;
-    }
 
     protected $dates = [
         'released_at',
@@ -39,13 +35,6 @@ class Bill extends Model implements AuditableContract
         'pdf_created_at'
     ];
 
-
-
-    // Fix for the audit package not detecting this method (for some reason)
-    protected function asDateTime($value)
-    {
-        return $this->parentAsDateTime($value);
-    }
 
     public function user(): BelongsTo
     {

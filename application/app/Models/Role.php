@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Dateable;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -15,7 +14,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Role extends \Spatie\Permission\Models\Role
 {
-    use Dateable;
     use OptimusEncodedRouteKey;
 
     const PARTNER = 'partner';

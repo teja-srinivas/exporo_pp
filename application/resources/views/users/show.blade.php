@@ -121,6 +121,14 @@
             </tfoot>
             @endunless
         </table>
+
+        @slot('footer')
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('bills.preview', $user) }}" class="btn btn-sm btn-primary">
+                    Vorschau der nächsten Abrechnung
+                </a>
+            </div>
+        @endslot
     @endcard
 
     @card

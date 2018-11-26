@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d1689107f607b1c21e11f358954bd75",
+    "content-hash": "5bb638488d4d063aeca2f655ecd088ea",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1325,71 +1325,6 @@
             "time": "2015-04-20T18:58:01+00:00"
         },
         {
-            "name": "jenssegers/date",
-            "version": "v3.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jenssegers/date.git",
-                "reference": "3f5f94f28bd5108fab011869434209101d4189ae"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jenssegers/date/zipball/3f5f94f28bd5108fab011869434209101d4189ae",
-                "reference": "3f5f94f28bd5108fab011869434209101d4189ae",
-                "shasum": ""
-            },
-            "require": {
-                "nesbot/carbon": "^1.0",
-                "php": ">=5.6",
-                "symfony/translation": "^2.7|^3.0|^4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.0|^6.0|^7.0",
-                "satooshi/php-coveralls": "^2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.1-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "Jenssegers\\Date\\DateServiceProvider"
-                    ],
-                    "aliases": {
-                        "Date": "Jenssegers\\Date\\Date"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Jenssegers\\Date\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jens Segers",
-                    "homepage": "https://jenssegers.com"
-                }
-            ],
-            "description": "A date library to help you work with dates in different languages",
-            "homepage": "https://github.com/jenssegers/date",
-            "keywords": [
-                "carbon",
-                "date",
-                "datetime",
-                "i18n",
-                "laravel",
-                "time",
-                "translation"
-            ],
-            "time": "2018-05-16T11:53:55+00:00"
-        },
-        {
             "name": "jenssegers/optimus",
             "version": "v0.2.3",
             "source": {
@@ -1965,16 +1900,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.34.0",
+            "version": "1.36.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33"
+                "reference": "63da8cdf89d7a5efe43aabc794365f6e7b7b8983"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
-                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/63da8cdf89d7a5efe43aabc794365f6e7b7b8983",
+                "reference": "63da8cdf89d7a5efe43aabc794365f6e7b7b8983",
                 "shasum": ""
             },
             "require": {
@@ -1982,8 +1917,11 @@
                 "symfony/translation": "~2.6 || ~3.0 || ~4.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "~2",
                 "phpunit/phpunit": "^4.8.35 || ^5.7"
+            },
+            "suggest": {
+                "friendsofphp/php-cs-fixer": "Needed for the `composer phpcs` command. Allow to automatically fix code style.",
+                "phpstan/phpstan": "Needed for the `composer phpstan` command. Allow to detect potential errors."
             },
             "type": "library",
             "extra": {
@@ -2016,7 +1954,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-09-20T19:36:25+00:00"
+            "time": "2018-11-22T18:23:02+00:00"
         },
         {
             "name": "nikic/php-parser",

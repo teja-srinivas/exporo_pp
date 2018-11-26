@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Jobs\SendMail;
-use App\Traits\Dateable;
 use App\Traits\Encryptable;
 use App\Traits\HasRoles;
+use App\Traits\Person;
 use Carbon\Carbon;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
@@ -48,9 +48,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     use Auditable;
     use Encryptable;
     use MustVerifyEmail;
-    use Dateable {
-        asDateTime as parentAsDateTime;
-    }
+    use Person;
 
     /**
      * Possible user titles
@@ -96,12 +94,6 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         'remember_token',
     ];
 
-
-    // Fix for the audit package not detecting this method (for some reason)
-    protected function asDateTime($value)
-    {
-        return $this->parentAsDateTime($value);
-    }
 
     /**
      * @return HasOne
@@ -196,11 +188,6 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     public function notYetAccepted()
     {
         return $this->canBeProcessed() && $this->accepted_at === null;
-    }
-
-    public function getDisplayName()
-    {
-        return trim("{$this->last_name}, {$this->first_name}", ', ');
     }
 
     public static function getRoleColor(Role $role)

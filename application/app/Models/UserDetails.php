@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Dateable;
 use App\Traits\Encryptable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,9 +15,6 @@ class UserDetails extends Model implements AuditableContract
 {
     use Encryptable;
     use Auditable;
-    use Dateable {
-        asDateTime as parentAsDateTime;
-    }
 
     public $incrementing = false;
 
@@ -77,12 +73,6 @@ class UserDetails extends Model implements AuditableContract
         'bic'
     ];
 
-
-    // Fix for the audit package not detecting this method (for some reason)
-    protected function asDateTime($value)
-    {
-        return $this->parentAsDateTime($value);
-    }
 
     public function user(): BelongsTo
     {
