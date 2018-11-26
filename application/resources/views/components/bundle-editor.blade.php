@@ -7,6 +7,10 @@ $options = [
 if (($editable ?? null) === false) {
     $options['editable'] = false;
 }
+
+if (($legacy ?? null) === true) {
+    $options['legacy'] = true;
+}
 ?>
 
 <vue

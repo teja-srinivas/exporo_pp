@@ -4,6 +4,10 @@
 
 @section('main-content')
     <div class="rounded bg-white">
-        @include('components.bundle-editor', ['bonuses' => $bonuses, 'editable' => false])
+        @include('components.bundle-editor', [
+            'bonuses' => $bonuses,
+            'editable' => false,
+            'legacy' => true,
+        ])
     </div>
 @endsection
