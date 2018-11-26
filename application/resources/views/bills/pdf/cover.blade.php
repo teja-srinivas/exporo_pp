@@ -7,11 +7,14 @@
             {{ $company->city }}
         </div>
         <div class="lead">
-            @unless(empty($user->details->company))
+            @php($fullName = trim($user->first_name . ' ' . $user->last_name))
+            @php($userCompany = trim($user->details->company))
+
+            @if(!empty($userCompany) && $userCompany !== $fullName)
                 {{ $user->details->company }}<br>
             @endunless
 
-            {{ $user->first_name }} {{ $user->last_name}}<br>
+            {{ $fullName }}<br>
             {{ $user->details->address_street }} {{ $user->details->address_number }}<br>
             {{ $user->details->address_zipcode }} {{ $user->details->address_city }}<br>
         </div>
