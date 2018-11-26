@@ -46,7 +46,6 @@
     <div id="app" class="d-flex flex-column wrapper">
         <div class="p-2 bg-white border-bottom">
             <div class="container px-0 px-md-4 d-flex align-items-center justify-content-end">
-                <img class="mr-3 hidden-xs" src="{{ asset('images/MAM-Partner-logo.svg') }}" height="20">
                 <div class="text-right small">
                     <span class="d-none d-sm-inline">Unsere</span>
                     Service-Hotline:
