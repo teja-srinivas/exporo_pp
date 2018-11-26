@@ -13,7 +13,7 @@ services:
       - redis
 
   mysql:
-    image: mysql:5.7
+    image: mysql:5.7.24
     environment:
       MYSQL_DATABASE: forge
       MYSQL_USER: homestead

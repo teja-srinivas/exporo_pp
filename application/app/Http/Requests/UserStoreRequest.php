@@ -132,6 +132,7 @@ class UserStoreRequest extends FormRequest
             'vat_id' => ['nullable', new VatId()],
             'tax_office' => 'nullable|string|max:100',
             'iban' => 'sometimes|iban',
+            'bic' =>'sometimes|bic',
         ];
     }
 }

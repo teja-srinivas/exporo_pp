@@ -126,4 +126,9 @@
         'name' => 'iban',
         'label' => __('IBAN'),
     ],
+     [
+        'type' => 'text',
+        'name' => 'bic',
+        'label' => __('BIC'),
+    ],
 ])])

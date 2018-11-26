@@ -48,6 +48,7 @@ class UserDetails extends Model implements AuditableContract
         'registration_bonus',
         'first_investment_bonus',
         'further_investment_bonus',
+        'bic',
         'iban',
     ];
 
