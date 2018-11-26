@@ -166,7 +166,7 @@
                 <label for="inputWebsite" class="col-sm-4 col-form-label">{{ __('Your Website') }}</label>
                 <div class="col-sm-8">
                     @include('components.form.input', [
-                        'type' => 'url',
+                        'type' => 'text',
                         'name' => 'website',
                         'autocomplete' => 'url',
                     ])
