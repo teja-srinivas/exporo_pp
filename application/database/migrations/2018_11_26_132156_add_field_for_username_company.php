@@ -14,7 +14,7 @@ class AddFieldForUsernameCompany extends Migration
     public function up()
     {
         Schema::table('user_details', function (Blueprint $table) {
-            $table->string('company_user_clear')->nullable()->after('company');
+            $table->string('display_name')->nullable()->after('company');
         });
     }
 
@@ -26,7 +26,7 @@ class AddFieldForUsernameCompany extends Migration
     public function down()
     {
         Schema::table('user_details', function (Blueprint $table) {
-            $table->dropColumn('company_user_clear');
+            $table->dropColumn('display_name');
         });
     }
 }
