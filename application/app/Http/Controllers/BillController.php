@@ -169,9 +169,7 @@ class BillController extends Controller
 
     public function downloadBillFromS3(Bill $bill)
     {
-        if ($bill->user->id !== Auth::user()->id) {
-            return Response::HTTP_FORBIDDEN;
-        }
+        abort_unless($bill->user->id === Auth::user()->id,Response::HTTP_FORBIDDEN);
         abort_unless(Storage::disk('s3')->exists('statements/' . $bill->id . '.pdf'), Response::HTTP_NOT_FOUND);
 
         $billName = $this->getBillName($bill);
