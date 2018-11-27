@@ -36,7 +36,7 @@
         <tbody>
         @forelse($bills as $bill)
             <tr>
-                <td><a href="{{ route('bills.show', $bill) }}">{{ $bill->getDisplayName() }}</a></td>
+                <td><a href="{{ route('bills.download', $bill) }}">{{ $bill->getDisplayName() }}</a></td>
                 <td class="text-right">{{ format_money($bill->net) }}</td>
                 <td class="text-right">{{ $bill->commissions }}</td>
                 <td class="text-right">@timeago($bill->created_at)</td>

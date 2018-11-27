@@ -15,7 +15,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection as BaseCollection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BillController extends Controller
 {
@@ -53,9 +56,9 @@ class BillController extends Controller
         $investments = $this->mapForView($this->getBillableCommissionsForUser($user));
 
         return response()->view('bills.pdf.bill', $investments + [
-            'user' => $user,
-            'company' => optional($user->company),
-        ]);
+                'user' => $user,
+                'company' => optional($user->company),
+            ]);
     }
 
     /**
@@ -146,10 +149,10 @@ class BillController extends Controller
         $bill->load('user');
 
         return view('bills.show', $this->mapForView($bill->commissions()) + [
-            'bill' => $bill,
-            'user' => $bill->user,
-            'company' => optional($bill->user->company),
-        ]);
+                'bill' => $bill,
+                'user' => $bill->user,
+                'company' => optional($bill->user->company),
+            ]);
     }
 
     public function billPdf(Bill $bill)
@@ -159,9 +162,34 @@ class BillController extends Controller
         $investments = $this->mapForView($bill->commissions());
 
         return response()->view('bills.pdf.bill', $investments + [
-            'user' => $bill->user,
-            'company' => optional($bill->user->company),
-        ]);
+                'user' => $bill->user,
+                'company' => optional($bill->user->company),
+            ]);
+    }
+
+    public function downloadBillFromS3(Bill $bill)
+    {
+        if ($bill->user->id !== Auth::user()->id) {
+            return Response::HTTP_FORBIDDEN;
+        }
+        abort_unless(Storage::disk('s3')->exists('statements/' . $bill->id . '.pdf'), Response::HTTP_NOT_FOUND);
+
+        $billName = $this->getBillName($bill);
+        $file = Storage::disk('s3')->get('statements/' . $bill->id . '.pdf');
+
+        $headers = [
+            'Content-Type' => 'application/pdf',
+            'Content-Description' => 'File Transfer',
+            'Content-Disposition' => 'attachment; filename=Exporo AG Abrechnung vom' . $billName,
+            'filename' => 'Exporo AG Abrechnung vom $bill->created_at' . $billName
+        ];
+        return response($file, 200, $headers);
+    }
+
+    private function getBillName(Bill $bill)
+    {
+
+        return 'Exporo AG Abrechnung vom' . $bill->created_at->format('d.m.Y') . '.pdf';
     }
 
     /**
@@ -271,7 +299,7 @@ class BillController extends Controller
             return collect();
         }
 
-        $filtered = $investments->filter(function($investment){
+        $filtered = $investments->filter(function ($investment) {
             return $investment['child_user_id'] === 0;
         });
 
@@ -322,14 +350,14 @@ class BillController extends Controller
             return collect();
         }
 
-        $filtered = $overheads->filter(function($overhead){
+        $filtered = $overheads->filter(function ($overhead) {
             return $overhead['child_user_id'] > 0;
         });
 
         return $filtered->load(
             'model.investor',
             'model.project'
-        )->map(function (Commission $row){
+        )->map(function (Commission $row) {
             $investment = $row->model;
             $investor = $investment->investor;
             $project = $investment->project;
