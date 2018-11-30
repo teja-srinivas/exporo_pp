@@ -211,6 +211,12 @@ class CommissionController extends Controller
             }
         }
 
+        if ($request->has('reset')) {
+            $values['on_hold'] = false;
+            $values['reviewed_at'] = null;
+            $values['reviewed_by'] = null;
+        }
+
         // Don't use "update" directly, so it doesn't update the updated_at column
         $this->applyFilter(Commission::query(), $request, true)->toBase()->update($values);
     }

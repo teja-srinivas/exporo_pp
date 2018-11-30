@@ -442,6 +442,13 @@
             reviewed: false,
           }))"
         >Ablehnen</button>
+
+        <button
+          class="btn btn-sm btn-outline-dark"
+          @click="confirm('Wirklich alle zurücksetzen?', () => updateAll({
+            reset: true,
+          }))"
+        >Zurücksetzen</button>
       </div>
 
       <div class="p-1 bg-white shadow-sm">
