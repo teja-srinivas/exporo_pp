@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\SchemaUpdated;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
 use MathParser\Interpreting\Evaluator;
@@ -34,6 +35,10 @@ class Schema extends Model implements AuditableContract
     protected $fillable = [
         'name',
         'formula',
+    ];
+
+    protected $dispatchesEvents = [
+        'updated' => SchemaUpdated::class,
     ];
 
     /**

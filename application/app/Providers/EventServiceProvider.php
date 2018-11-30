@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\ProjectUpdated;
-use App\Listeners\InvalidateProjectCommissions;
+use App\Events\SchemaUpdated;
+use App\Listeners\InvalidateInvestentCommissionsOnSchemaChanges;
+use App\Listeners\InvalidateInvestmentCommissionsOnProjectChanges;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -21,7 +23,10 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         ProjectUpdated::class => [
-            InvalidateProjectCommissions::class,
+            InvalidateInvestmentCommissionsOnProjectChanges::class,
+        ],
+        SchemaUpdated::class => [
+            InvalidateInvestentCommissionsOnSchemaChanges::class,
         ],
     ];
 

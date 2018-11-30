@@ -6,7 +6,7 @@ use App\Events\ProjectUpdated;
 use App\Models\Commission;
 use App\Models\Investment;
 
-class InvalidateProjectCommissions
+class InvalidateInvestmentCommissionsOnProjectChanges
 {
     /**
      * Handle the event.
@@ -18,7 +18,7 @@ class InvalidateProjectCommissions
     {
         Commission::query()
             ->where('model_type', Investment::MORPH_NAME)
-            ->whereIn('model_id', $event->project->investments()->pluck('id'))
+            ->whereIn('model_id', $event->project->investments()->select('id'))
             ->isOpen()
             ->delete();
     }
