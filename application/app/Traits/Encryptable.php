@@ -128,11 +128,19 @@ trait Encryptable
      */
     public static function decrypt($value)
     {
+        static $cache;
+
         // Check against a safe length of an encrypted string
         // so we can just skip unencrypted data
         if ($value && strlen($value) > 160) {
+            if (isset($cache[$value])) {
+                return $cache[$value];
+            }
+
             try {
-                $value = decrypt($value);
+                $decrypted = decrypt($value);
+                $cache[$value] = $decrypted;
+                $value = $decrypted;
             } catch (DecryptException $e) {
                 // Ignore, as we probably have some legacy data
             }
