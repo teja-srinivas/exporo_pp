@@ -24,7 +24,7 @@ class createBillPdfJob implements ShouldQueue
         $this->live = $live;
         $this->bill = $bill;
         $this->type = $type;
-        $this->url = 'https://8e847651.eu.ngrok.io/bills/';
+        $this->url = 'https://partnerprogramm.exporo.de/bills/';
         $this->globalsParams = [
             'force' => 'true',
             'full_page' => true,
