@@ -5,11 +5,8 @@ namespace App\Listeners;
 use App\Events\SchemaUpdated;
 use App\Models\Commission;
 use App\Models\Investment;
-use App\Models\Project;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class InvalidateInvestentCommissionsOnSchemaChanges
+class InvalidateInvestmentCommissionsOnSchemaChanges
 {
     /**
      * Handle the event.

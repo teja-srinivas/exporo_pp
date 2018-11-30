@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\CommissionBonusUpdated;
 use App\Events\ProjectUpdated;
 use App\Events\SchemaUpdated;
-use App\Listeners\InvalidateInvestentCommissionsOnSchemaChanges;
+use App\Listeners\InvalidateCommissionsOnCommissionBonusChanges;
 use App\Listeners\InvalidateInvestmentCommissionsOnProjectChanges;
-use Illuminate\Support\Facades\Event;
+use App\Listeners\InvalidateInvestmentCommissionsOnSchemaChanges;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -19,14 +20,17 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        CommissionBonusUpdated::class => [
+            InvalidateCommissionsOnCommissionBonusChanges::class,
         ],
         ProjectUpdated::class => [
             InvalidateInvestmentCommissionsOnProjectChanges::class,
         ],
+        Registered::class => [
+            SendEmailVerificationNotification::class,
+        ],
         SchemaUpdated::class => [
-            InvalidateInvestentCommissionsOnSchemaChanges::class,
+            InvalidateInvestmentCommissionsOnSchemaChanges::class,
         ],
     ];
 

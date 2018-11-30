@@ -2,35 +2,25 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
+use App\Models\CommissionBonus;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class CommissionBonusUpdated
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use SerializesModels;
+
+    /**
+     * @var CommissionBonus
+     */
+    public $commissionBonus;
 
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param CommissionBonus $commissionBonus
      */
-    public function __construct()
+    public function __construct(CommissionBonus $commissionBonus)
     {
-        //
-    }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
+        $this->commissionBonus = $commissionBonus;
     }
 }
