@@ -42,8 +42,13 @@ class UserStoreRequest extends FormRequest
 
     public function validated()
     {
-        return $this->addCustomData(parent::validated())
-            + ['api_token' => str_random(64)];
+        $data = $this->addCustomData(parent::validated());
+
+        if (empty($this->route('user')->api_token)) {
+            $data['api_token'] = str_random(64);
+        }
+
+        return $data;
     }
 
     protected function addCustomData($array)
