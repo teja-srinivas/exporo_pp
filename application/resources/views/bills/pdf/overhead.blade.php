@@ -31,12 +31,22 @@
 
         @foreach($project as $investment)
             <tr>
-                <td>{{ $investment['partnerName'] }}</td>
+                <td rowspan="{{ empty($investment['note']) ? 1 : 2 }}">
+                    {{ $investment['partnerName'] }}
+                </td>
                 <td class="text-right">{{ format_money($investment['investsum']) }}</td>
                 <td class="text-right">{{ $investment['investDate'] }}</td>
                 <td class="text-right">{{ $investment['bonus'] }}% * {{ $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
                 <td class="text-right">{{ format_money($investment['net']) }}</td>
             </tr>
+            @unless(empty($investment['note']))
+                <tr>
+                    <td colspan="4" class="small">
+                        <b>Notiz:</b>
+                        <i>{{ $investment['note'] }}</i>
+                    </td>
+                </tr>
+            @endunless
         @endforeach
 
         <tr class="font-weight-bold shadow-sm">

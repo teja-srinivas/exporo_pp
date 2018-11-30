@@ -12,8 +12,17 @@
         <tbody>
         @foreach($investors as $investor)
             <tr>
-                <td>{{ $investor['first_name'] }} {{ $investor['last_name'] }}</td>
-                <td class="text-right">{{ $investor['activation_at'] }}</td>
+                <td>
+                    {{ $investor['firstName'] }} {{ $investor['lastName'] }}
+                    @unless(empty($investor['note']))
+                    <br>
+                    <div class="small">
+                        <b>Notiz:</b>
+                        <i>{{ $investor['note'] }}</i>
+                    </div>
+                    @endunless
+                </td>
+                <td class="text-right">{{ $investor['activationAt'] }}</td>
                 <td class="text-right">{{ format_money($investor['net']) }}</td>
             </tr>
         @endforeach

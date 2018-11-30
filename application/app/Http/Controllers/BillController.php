@@ -308,6 +308,7 @@ class BillController extends Controller
                 'projectMargin' => $project->margin,
                 'projectRuntime' => $project->runtimeInMonths(),
                 'projectFactor' => $project->runtimeFactor(),
+                'note' => $row->note_public,
             ];
         });
     }
@@ -321,12 +322,15 @@ class BillController extends Controller
         return $investors->load('investor:id,first_name,last_name,activation_at')->map(function (Commission $row) {
             $activationDate = Carbon::make($row['activation_at'] ?? $row->investor->activation_at);
 
-            return $row + [
-                    'first_name' => Person::anonymizeFirstName($row->investor->first_name),
-                    'last_name' => trim($row->investor->last_name),
-                    'activation_at' => $activationDate->format('d.m.Y'),
-                ];
-        })->sortNatural('last_name');
+            return [
+                    'firstName' => Person::anonymizeFirstName($row->investor->first_name),
+                    'lastName' => trim($row->investor->last_name),
+                    'activationAt' => $activationDate->format('d.m.Y'),
+                    'note' => $row->note_public,
+                    'net' => $row->net,
+                    'gross' => $row->gross,
+            ];
+        })->sortNatural('lastName');
     }
 
     private function mapOverhead(?Collection $overheads): ?BaseCollection
@@ -358,6 +362,7 @@ class BillController extends Controller
                 'projectMargin' => $project->margin,
                 'projectRuntime' => $project->runtimeInMonths(),
                 'projectFactor' => $project->runtimeFactor(),
+                'note' => $row->note_public,
             ];
         });
     }
