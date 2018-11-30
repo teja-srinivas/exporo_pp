@@ -9,6 +9,9 @@
             <th class="border-top-0">Formel</th>
             <th class="border-top-0">Provision</th>
         </tr>
+        <tr>
+            <td colspan="5" class="py-2" style="border-width: 0 !important;"></td>
+        </tr>
     </thead>
 
     <tbody>

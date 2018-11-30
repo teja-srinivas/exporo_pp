@@ -2,13 +2,16 @@
 
 <table class="table table-sm table-bordered border-left-0 border-right-0 mb-5 table-foot-totals">
     <thead>
-    <tr>
-        <th class="border-top-0">Partner</th>
-        <th class="border-top-0">Betrag</th>
-        <th class="border-top-0">Datum</th>
-        <th class="border-top-0">Formel</th>
-        <th class="border-top-0">Provision</th>
-    </tr>
+        <tr>
+            <th class="border-top-0">Partner</th>
+            <th class="border-top-0">Betrag</th>
+            <th class="border-top-0">Datum</th>
+            <th class="border-top-0">Formel</th>
+            <th class="border-top-0">Provision</th>
+        </tr>
+        <tr>
+            <td colspan="5" class="py-2" style="border-width: 0 !important;"></td>
+        </tr>
     </thead>
 
     <tbody>
@@ -52,7 +55,7 @@
         </tr>
 
         <tr>
-            <td colspan="5" class="border-0 py-3" style="border-width: 0 !important;"></td>
+            <td colspan="5" class="py-3" style="border-width: 0 !important;"></td>
         </tr>
     @endforeach
 
