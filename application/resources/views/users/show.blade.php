@@ -132,6 +132,36 @@
     @endcard
 
     @card
+        @slot('title', 'Subpartner')
+        @slot('info', 'die von diesem Nutzer geworben wurden.')
+
+        <table class="table table-sm table-hover table-striped mb-0 table-borderless">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th width="140">Datum</th>
+            </tr>
+            </thead>
+            <tbody>
+            @forelse($user->children->sortByDesc('created_at') as $user)
+                <tr>
+                    <td>
+                        <a href="{{ route('users.show', $user) }}">
+                            {{ $user->last_name }}, {{ $user->first_name }}
+                        </a>
+                    </td>
+                    <td>@timeago($user->created_at)</td>
+                </tr>
+            @empty
+                <tr class="text-center text-muted">
+                    <td colspan="4">Noch keine Subpartner geworben</td>
+                </tr>
+            @endforelse
+            </tbody>
+        </table>
+    @endcard
+
+    @card
         @slot('title', 'AGBs')
         @slot('info', 'die von diesem Nutzer akzeptiert wurden.')
 

@@ -155,6 +155,11 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->belongsTo(User::class, 'parent_id');
     }
 
+    public function children(): HasMany
+    {
+        return $this->hasMany(User::class, 'parent_id', 'id');
+    }
+
     public function canBeProcessed()
     {
         return $this->roles->isEmpty() || $this->hasRole(Role::PARTNER);
