@@ -19,7 +19,7 @@ class InvalidateInvestmentCommissionsOnProjectChanges
         Commission::query()
             ->where('model_type', Investment::MORPH_NAME)
             ->whereIn('model_id', $event->project->investments()->select('id'))
-            ->isOpen()
+            ->whereNull('bill_id')
             ->delete();
     }
 }

@@ -24,7 +24,7 @@ class InvalidateInvestmentCommissionsOnSchemaChanges
                 ->where('schemas.id', $event->schema->id)
                 ->select('investments.id')
             )
-            ->isOpen()
+            ->whereNull('bill_id')
             ->delete();
     }
 }
