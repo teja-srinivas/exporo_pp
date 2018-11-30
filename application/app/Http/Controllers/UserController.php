@@ -10,6 +10,7 @@ use App\Models\CommissionBonus;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Auth\Passwords\PasswordBroker;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -95,6 +96,10 @@ class UserController extends Controller
             ->selectRaw('count(distinct(investors.id)) as count')
             ->selectRaw('count(investments.id) as investments')
             ->selectRaw('sum(investments.amount) as amount')
+            ->where(function (Builder $query) {
+                $query->where('investments.cancelled_at', LEGACY_NULL);
+                $query->orWhereNull('investments.cancelled_at');
+            })
             ->first();
 
         $bonusBundles = BonusBundle::all()->mapWithKeys(function (BonusBundle $bundle) {

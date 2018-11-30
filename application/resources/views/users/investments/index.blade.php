@@ -27,14 +27,23 @@
         </thead>
         <tbody>
         @forelse($investments as $investment)
+            @php($cancelled = $investment->isCancelled())
             <tr>
                 <td class="text-right text-muted small align-middle">{{ $investment->id }}</td>
                 <td>{{ $investment->name }}</td>
                 <td>{{ $investment->project_name }}</td>
                 <td>{{ $investment->type }}</td>
-                <td class="text-right">{{ format_money($investment->amount) }}</td>
                 <td class="text-right">
+                    @unless($cancelled)
+                    {{ format_money($investment->amount) }}
+                    @endif
+                </td>
+                <td class="text-right">
+                    @if($cancelled)
+                    <div class="text-muted">Storniert</div>
+                    @else
                     {{ optional($investment->paid_at)->format('d.m.Y') }}
+                    @endif
                 </td>
             </tr>
         @empty
