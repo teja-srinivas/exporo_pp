@@ -143,7 +143,7 @@
             </tr>
             </thead>
             <tbody>
-            @forelse($user->children->sortByDesc('created_at') as $user)
+            @forelse($user->children->sortBy('last_name') as $user)
                 <tr>
                     <td>
                         <a href="{{ route('users.show', $user) }}">
