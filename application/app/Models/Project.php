@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $description
  * @property int $runtime
  * @property int $commission_type
+ * @property float $margin
  * @property User $approved
  * @property Schema $schema;
  * @property Carbon $payback_min_at

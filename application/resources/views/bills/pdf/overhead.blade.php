@@ -29,7 +29,7 @@
             </th>
         </tr>
 
-        @foreach($project->sortNatural('lastName') as $investment)
+        @foreach($project as $investment)
             <tr>
                 <td>{{ $investment['partnerName'] }}</td>
                 <td class="text-right">{{ format_money($investment['investsum']) }}</td>

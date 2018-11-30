@@ -175,18 +175,16 @@ class BillController extends Controller
         $billName = $this->getBillName($bill);
         $file = Storage::disk('s3')->get('statements/' . $bill->id . '.pdf');
 
-        $headers = [
+        return response($file, 200, [
             'Content-Type' => 'application/pdf',
             'Content-Description' => 'File Transfer',
             'Content-Disposition' => 'attachment; filename=Exporo AG Abrechnung vom' . $billName,
             'filename' => 'Exporo AG Abrechnung vom $bill->created_at' . $billName
-        ];
-        return response($file, 200, $headers);
+        ]);
     }
 
     private function getBillName(Bill $bill)
     {
-
         return 'Exporo AG Abrechnung vom' . $bill->created_at->format('d.m.Y') . '.pdf';
     }
 
@@ -254,40 +252,29 @@ class BillController extends Controller
 
         $collection = $query->get()->groupBy('model_type');
 
-        $overhead = $this->mapOverhead($collection->get(Investment::MORPH_NAME));
         $investments = $this->mapInvestments($collection->get(Investment::MORPH_NAME));
         $investors = $this->mapInvestors($collection->get(Investor::MORPH_NAME));
-
+        $overhead = $this->mapOverhead($collection->get(Investment::MORPH_NAME));
         $custom = $collection->get(Commission::TYPE_CORRECTION) ?? collect();
-        $customNetSum = $custom->sum('net');
-        $customGrossSum = $custom->sum('gross');
-
-        $investmentsNetSum = $investments->sum('net');
-        $investorsNetSum = $investors->sum('net');
-        $overheadNetSum = $overhead->sum('net');
-
-        $investmentsGrossSum = $investments->sum('gross');
-        $investorsGrossSum = $investors->sum('gross');
-        $overheadGrossSum = $overhead->sum('gross');
 
         return [
             'investments' => $investments->sortNatural('lastName')->groupBy('projectName')->sortKeys(),
             'investmentSum' => $investments->sum('investsum'),
-            'investmentNetSum' => $investmentsNetSum,
-            'investmentGrossSum' => $investmentsGrossSum,
+            'investmentNetSum' => $investments->sum('net'),
+            'investmentGrossSum' => $investments->sum('gross'),
 
             'investors' => $investors,
-            'investorsNetSum' => $investorsNetSum,
-            'investorsGrossSum' => $investorsGrossSum,
+            'investorsNetSum' => $investors->sum('net'),
+            'investorsGrossSum' => $investors->sum('gross'),
 
-            'overheads' => $overhead->sortBy('partnerName')->groupBy('projectName')->sortKeys(),
+            'overheads' => $overhead->sortBy('lastName')->groupBy('projectName')->sortKeys(),
             'overheadSum' => $overhead->sum('investsum'),
-            'overheadNetSum' => $overheadNetSum,
-            'overheadGrossSum' => $overheadGrossSum,
+            'overheadNetSum' => $overhead->sum('net'),
+            'overheadGrossSum' => $overhead->sum('gross'),
 
             'custom' => $custom,
-            'customNetSum' => $customNetSum,
-            'customGrossSum' => $customGrossSum,
+            'customNetSum' => $custom->sum('net'),
+            'customGrossSum' => $custom->sum('gross'),
         ];
     }
 
@@ -297,11 +284,9 @@ class BillController extends Controller
             return collect();
         }
 
-        $filtered = $investments->filter(function ($investment) {
-            return $investment['child_user_id'] === 0;
-        });
-
-        return $filtered->load(
+        return $investments->filter(function (Commission $commission) {
+            return $commission->child_user_id === 0;
+        })->load(
             'model.investor:id,first_name,last_name',
             'model.project'
         )->map(function (Commission $row) {
@@ -334,11 +319,13 @@ class BillController extends Controller
         }
 
         return $investors->load('investor:id,first_name,last_name,activation_at')->map(function (Commission $row) {
-            $row['first_name'] = Person::anonymizeFirstName($row->investor->first_name);
-            $row['last_name'] = trim($row->investor->last_name);
-            $row['activation_at'] = Carbon::make($row['activation_at'] ?? $row->investor->activation_at)->format('d.m.Y');
+            $activationDate = Carbon::make($row['activation_at'] ?? $row->investor->activation_at);
 
-            return $row;
+            return $row + [
+                    'first_name' => Person::anonymizeFirstName($row->investor->first_name),
+                    'last_name' => trim($row->investor->last_name),
+                    'activation_at' => $activationDate->format('d.m.Y'),
+                ];
         })->sortNatural('last_name');
     }
 
@@ -348,31 +335,26 @@ class BillController extends Controller
             return collect();
         }
 
-        $filtered = $overheads->filter(function ($overhead) {
-            return $overhead['child_user_id'] > 0;
-        });
-
-        return $filtered->load(
-            'model.investor',
-            'model.project'
+        return $overheads->filter(function (Commission $commission) {
+            return $commission->child_user_id > 0;
+        })->load(
+            'model.project',
+            'childUser'
         )->map(function (Commission $row) {
+            /** @var Investment $investment */
             $investment = $row->model;
-            $investor = $investment->investor;
             $project = $investment->project;
-            $partner = $investment->investor->user;
+            $partner = $row->childUser;
 
             return [
-                'partnerId' => $partner->id,
                 'partnerName' => Person::anonymizeName($partner->first_name, $partner->last_name),
-                'firstName' => Person::anonymizeFirstName($investor->first_name),
-                'lastName' => trim($investor->last_name),
+                'lastName' => trim($partner->last_name),
                 'investsum' => $investment->amount,
                 'investDate' => $investment->created_at->format('d.m.Y'),
                 'net' => $row->net,
                 'gross' => $row->gross,
                 'bonus' => $row->cBonus * 100,
                 'projectName' => $project->description,
-                'projectId' => $project->id,
                 'projectMargin' => $project->margin,
                 'projectRuntime' => $project->runtimeInMonths(),
                 'projectFactor' => $project->runtimeFactor(),
