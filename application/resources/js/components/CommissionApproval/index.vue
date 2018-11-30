@@ -229,8 +229,12 @@
                     <strong>Korrektur:</strong> {{ commission.note.public}}
                   </div>
                   <div v-else class="row flex-fill">
-                    <div class="col" v-text="displayNameUser(commission.user)" />
-                    <div v-if="commission.model" class="col" v-text="displayNameUser(commission.model)" />
+                    <div class="col-5" v-text="displayNameUser(commission.user)" />
+
+                    <template v-if="commission.model">
+                      <div class="col-5" v-text="displayNameUser(commission.model)" />
+                      <div class="col-2 pl-0" v-text="commission.model.activatedAt" />
+                    </template>
                   </div>
 
                   <div v-if="commission.childUser !== null" title="Overhead" class="mx-1">

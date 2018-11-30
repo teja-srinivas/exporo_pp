@@ -14,10 +14,16 @@ class Investor extends JsonResource
      */
     public function toArray($request)
     {
+        /** @var \App\Models\Investor $investor */
+        $investor = $this->resource;
+
         return [
-            'id' => $this->id,
-            'firstName' => trim($this->first_name),
-            'lastName' => trim($this->last_name),
+            'id' => $investor->id,
+            'firstName' => trim($investor->first_name),
+            'lastName' => trim($investor->last_name),
+            'activatedAt' => $investor->activation_at !== null
+                ? $investor->activation_at->format('d.m.Y')
+                : null,
         ];
     }
 }

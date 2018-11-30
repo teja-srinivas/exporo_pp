@@ -23,6 +23,8 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $last_name
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property Carbon $activation_at
+ * @property Carbon $claim_end
  */
 class Investor extends Model implements AuditableContract
 {
