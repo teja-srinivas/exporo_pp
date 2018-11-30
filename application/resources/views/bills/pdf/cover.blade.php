@@ -78,7 +78,7 @@
 </table>
 
 @php($sums = [
-    'Eigenumsatz' => $investmentNetSum,
+    'Umsatz' => $investmentNetSum,
     'Umsatz Subpartner' => $overheadNetSum,
     'Registrierungen' => $investorsNetSum,
     'Korrekturbuchungen' => $customNetSum,
