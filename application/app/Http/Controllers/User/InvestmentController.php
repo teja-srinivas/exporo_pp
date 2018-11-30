@@ -27,13 +27,12 @@ class InvestmentController extends Controller
             'investments' => $user->investments()
                 ->join('projects', 'projects.id', 'investments.project_id')
                 ->join('schemas', 'schemas.id', 'projects.schema_id')
-                ->select('investments.id', 'paid_at', 'amount')
+                ->select('investments.id', 'paid_at', 'amount', 'cancelled_at')
                 ->selectRaw('investors.first_name')
                 ->selectRaw('investors.last_name')
                 ->selectRaw('projects.description as project_name')
                 ->selectRaw('schemas.name as type')
                 ->latest('investments.created_at')
-                ->uncancelled()
                 ->get()->each(function (Investment $investment) {
                     $investment->name = Person::anonymizeName(
                         Encryptable::decrypt($investment->first_name),

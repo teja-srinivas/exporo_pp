@@ -81,6 +81,11 @@ class Investment extends Model implements AuditableContract
         return !$this->isRefundable() && $this->paid_at !== null;
     }
 
+    public function isCancelled(): bool
+    {
+        return $this->cancelled_at !== null && $this->cancelled_at->year > 1970;
+    }
+
     /**
      * @param Builder|\Illuminate\Database\Query\Builder $query
      */
