@@ -327,7 +327,7 @@ class CommissionController extends Controller
     private function runCustomPagination(Builder $query): LengthAwarePaginator
     {
         static $pageName = 'page';
-        static $perPage = 25;
+        static $perPage = 35;
 
         // Mostly copied from the BuildsQueries->paginate() method
         $page = Paginator::resolveCurrentPage($pageName);
