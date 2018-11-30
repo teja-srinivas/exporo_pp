@@ -7,6 +7,8 @@
         <thead>
         <tr>
             <th>Name</th>
+            <th>Schema</th>
+            <th>Typ</th>
             <th>Status</th>
             <th width="140">Erstellt</th>
         </tr>
@@ -16,6 +18,12 @@
             <tr>
                 <td>
                     <a href="{{ route('projects.show', $project) }}">{{ $project->description }}</a>
+                </td>
+                <td>
+                    {{ optional($project->schema)->name }}
+                </td>
+                <td>
+                    {{ optional($project->commissionType)->name }}
                 </td>
                 <td>
                     @unless($project->wasApproved())
