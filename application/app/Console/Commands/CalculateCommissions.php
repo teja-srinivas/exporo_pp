@@ -116,7 +116,7 @@ final class CalculateCommissions extends Command
         CalculateCommissionsService $commissions
     ): void
     {
-        $query = $repository->queryWithoutCommission()->with([
+        $query = $repository->withoutCommissionQuery()->with([
             'project.schema',
             'investor.details',
             'investor.user.bonuses',
@@ -124,7 +124,7 @@ final class CalculateCommissions extends Command
 
         $userCache = [];
 
-        $callback = function (Investment $investment) use ($commissions, $userCache) {
+        $callback = function (Investment $investment) use ($commissions, &$userCache) {
             $entries = [];
             $entries[] = $commissions->calculate($investment) + [
                 'model_id' => $investment->id,
@@ -138,9 +138,10 @@ final class CalculateCommissions extends Command
                     break;
                 }
 
+                /** @var User $parent */
                 $parent = $userCache[$parentId] ?? null;
 
-                if ($parent == null) {
+                if ($parent === null) {
                     $parent = User::query()->find($parentId, ['id']);
                     $userCache[$parentId] = $parent;
                 }
@@ -149,18 +150,22 @@ final class CalculateCommissions extends Command
                     break;
                 }
 
-                $entries[] = $commissions->calculate($investment, $parent, $user) + [
-                    'model_type' => Investment::MORPH_NAME,
-                    'model_id' => $investment->id,
-                    'child_user_id' => $userId,
-                ];
+                // We either get an array with the final calculation data, or null
+                // in case the user did not have an applicable bonus in which case
+                // we will stop traversing the parent chain
+                $sums = $commissions->calculate($investment, $parent, $user);
+                if ($sums === null) {
+                    break;
+                }
+
+                $entries[] = $sums + [
+                        'model_type' => Investment::MORPH_NAME,
+                        'model_id' => $investment->id,
+                        'child_user_id' => $userId,
+                    ];
             }
 
-            // Only store entries where we got an actual bonus value
-            // (the user has a corresponding commission bonus)
-            return array_filter($entries, function ($entry) {
-                return $entry['bonus'] > 0;
-            });
+            return $entries;
         };
 
         $this->calculate(Investment::MORPH_NAME, $query, $callback, true);

@@ -16,7 +16,7 @@ final class InvestmentRepository
             ->whereNull('cancelled_at');
     }
 
-    public function queryWithoutCommission(): Builder
+    public function withoutCommissionQuery(): Builder
     {
         return Investment::query()
             ->doesntHave('commissions')
@@ -35,7 +35,7 @@ final class InvestmentRepository
             ->uncancelled();
     }
 
-    public function queryWhereCalculationChanged(): Builder
+    public function whereCalculationChangedQuery(): Builder
     {
         return Investment::query()
             ->select(['investments.*'])

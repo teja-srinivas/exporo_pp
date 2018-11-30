@@ -11,7 +11,7 @@ final class CalculateCommissionsService
 {
     const VAT = 1 + (19 / 100);
 
-    public function calculate(Investment $investment, User $parent = null, User $child = null): array
+    public function calculate(Investment $investment, User $parent = null, User $child = null): ?array
     {
         if ($parent && $child) {
             $userId = $parent->id;
@@ -21,6 +21,10 @@ final class CalculateCommissionsService
             $userId = $investment->investor->user_id;
             $userDetails = $investment->investor->details;
             $bonus = $this->calculateBonus($investment, $investment->investor->user);
+        }
+
+        if ($bonus === null) {
+            return null;
         }
 
         $sum = $investment->project->schema->calculate([
@@ -58,7 +62,7 @@ final class CalculateCommissionsService
         ];
     }
 
-    public function calculateBonus(Investment $investment, User $user): float
+    public function calculateBonus(Investment $investment, User $user): ?float
     {
         $bonuses = $user->bonuses
             // Based on the type we determine the actual value
@@ -88,6 +92,6 @@ final class CalculateCommissionsService
             }
         });
 
-        return $bonus !== null ? $bonus->value : 0;
+        return $bonus !== null ? $bonus->value : null;
     }
 }

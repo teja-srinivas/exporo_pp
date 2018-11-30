@@ -19,7 +19,7 @@ final class RecalculateOutdatedCommissions extends Command
 
     public function handle(InvestmentRepository $investments, CalculateCommissionsService $service)
     {
-        $investments->queryWhereCalculationChanged()
+        $investments->whereCalculationChangedQuery()
             ->with('project.schema', 'investor.details')
             ->chunkSimple(self::PER_CHUNK, function (Collection $chunk) use ($service) {
                 $this->line('Calculating ' . $chunk->count() . ' commissions...');
