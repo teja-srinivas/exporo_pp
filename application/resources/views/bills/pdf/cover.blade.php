@@ -142,22 +142,13 @@
 
 <p class="text-justify small">
     <b>Erläuterung zur Provisionsberechnung:</b><br>
-    Zur Berechnung der genauen Provisionshöhe wird neben dem Investmentbetrag und dem Erst- oder
-    Folgeinvestments-Prozentsatzes auch die jeweilige Laufzeit des Projektes berücksichtigt.
-    Der Investment-Prozentsatz errechnet sich aus einer Projektmarge und einem Erst-/ Folgeinvestmentsatz.
-    Liegt Ihr Erstinvestmentsatz z.B. bei 125%, so errechnet sich aus diesem Wert multipliziert mit
-    einer Projektmarge Ihr Erstinvestment-Prozentsatz von 2,5%, auf das erste Investment.
-    Ist die Laufzeit eines Projektes kürzer als 24 Monate, so behalten wir uns vor die Vergütung
-    anteilig auf die kürzere Laufzeit zu berechnen, z.B. 18 Monate dividiert durch 24 Monate ergibt
-    einen Laufzeitfaktor von 0,75. Ist die Laufzeit eines Projektes länger als 24 Monate ist dieser immer gleich 1.
+    Zur Berechnung der genauen Provisionshöhe werden der Investmentbetrag, die Projektmarge
+    und die jeweilige Laufzeit des Projektes berücksichtigt. Liegt Ihr Erstinvestmentsatz
+    z.B. bei 2,5%, so entspricht dies bei einer Projektmarge von 2% einem Satz von 125%.
 </p>
 
-<p class="text-justify small">
-    Beispielberechnung: Bei einem Investmentbetrag von 10.000€, einem Erstinvestmentsatz von 125%,
-    einer Projektmarge von 2% und einer Projektlaufzeit von 12 Monaten würde sich die Provisionshöhe
-    wie folgt errechnen:
-</p>
-
-<p class="mb-4 small">
-    <i>10.000€ * (125% * 2%) * 0,5</i>, ergibt 125€.
+<p class="text-justify small mb-4">
+    <b>Beispielberechnung:</b><br>
+    <i>Erstinvestmentbetrag 10.000€ / Provisionssatz 2,5% / Projektmarge 2% / Laufzeit 12 Monate
+    = 10.000 € * (125% * 2%) * 0,5, ergibt 125€.</i>
 </p>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\ProjectUpdated;
 use App\Traits\Importable;
 use Carbon\Carbon;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
@@ -47,6 +48,10 @@ class Project extends Model
         'commission_type' => 'int',
         'interest_rate' => 'float',
         'margin' => 'float',
+    ];
+
+    protected $dispatchesEvents = [
+        'updated' => ProjectUpdated::class,
     ];
 
 

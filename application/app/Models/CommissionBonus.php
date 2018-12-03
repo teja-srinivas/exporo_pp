@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Events\CommissionBonusUpdated;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -45,6 +46,10 @@ class CommissionBonus extends Model
         'value' => 'float',
         'is_overhead' => 'bool',
         'is_percentage' => 'bool',
+    ];
+
+    protected $dispatchesEvents = [
+        'updated' => CommissionBonusUpdated::class,
     ];
 
 
