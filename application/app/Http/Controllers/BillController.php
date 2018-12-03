@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection as BaseCollection;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Role;
 use Illuminate\Support\Facades\Storage;
 
 class BillController extends Controller
@@ -175,7 +176,7 @@ class BillController extends Controller
 
     public function downloadBillFromS3(Bill $bill)
     {
-        abort_unless($bill->user->id === Auth::user()->id,Response::HTTP_FORBIDDEN);
+        abort_unless($bill->user->id === Auth::user()->id || Auth::user()->hasRole(Role::ADMIN),Response::HTTP_FORBIDDEN);
         abort_unless(Storage::disk('s3')->exists('statements/' . $bill->id), Response::HTTP_NOT_FOUND);
 
         $billName = $this->getBillName($bill);
