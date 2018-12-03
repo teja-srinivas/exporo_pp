@@ -176,10 +176,10 @@ class BillController extends Controller
     public function downloadBillFromS3(Bill $bill)
     {
         abort_unless($bill->user->id === Auth::user()->id,Response::HTTP_FORBIDDEN);
-        abort_unless(Storage::disk('s3')->exists('statements/' . $bill->id . '.pdf'), Response::HTTP_NOT_FOUND);
+        abort_unless(Storage::disk('s3')->exists('statements/' . $bill->id), Response::HTTP_NOT_FOUND);
 
         $billName = $this->getBillName($bill);
-        $file = Storage::disk('s3')->get('statements/' . $bill->id . '.pdf');
+        $file = Storage::disk('s3')->get('statements/' . $bill->id);
 
         return response($file, 200, [
             'Content-Type' => 'application/pdf',
@@ -362,7 +362,6 @@ class BillController extends Controller
                 'investsum' => $investment->amount,
                 'investDate' => $investment->created_at->format('d.m.Y'),
                 'net' => $row->net,
-                'gross' => $row->gross,
                 'bonus' => $row->cBonus * 100,
                 'projectName' => $project->description,
                 'projectMargin' => $project->margin,

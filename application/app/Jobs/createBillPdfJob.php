@@ -65,10 +65,10 @@ class createBillPdfJob implements ShouldQueue
     private function storeInS3($result)
     {
         if($this->live){
-        Storage::disk('s3')->put('statements/' . $this->bill['id'] . '.pdf'
+        Storage::disk('s3')->put('statements/' . $this->bill->id
             , $result, 'private');
         }
-        Storage::disk('s3')->put('preview/' . $this->bill['id'] . '.pdf'
+        Storage::disk('s3')->put('preview/' . $this->bill->id
             , $result, 'private');
     }
 }
