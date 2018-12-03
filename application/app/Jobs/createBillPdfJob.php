@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Services\ApiTokenService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -17,14 +18,12 @@ class createBillPdfJob implements ShouldQueue
     protected $live;
     protected  $type;
     protected $globalsParams;
-    protected $url;
 
     public function __construct($bill,  $live = null, $type = 'pdf')
     {
         $this->live = $live;
         $this->bill = $bill;
         $this->type = $type;
-        $this->url = 'https://partnerprogramm.exporo.de/bills/';
         $this->globalsParams = [
             'force' => 'true',
             'full_page' => true,
@@ -40,14 +39,14 @@ class createBillPdfJob implements ShouldQueue
     }
 
     /**
-     * Execute the job.
-     *
+     * @param ApiTokenService $service
      * @return void
      */
-    public function handle()
+    public function handle(ApiTokenService $service)
     {
+        $token =$service->forService('urlbox', $this->bill->user_id, $this->bill->id);
         $urlBoxUrl = config('services.urlbox.url') . $this->type;
-        $this->globalsParams['url'] = $this->url . $this->bill['id'] . '/pdf/';
+        $this->globalsParams['url'] = route('pdf.creation', [$this->bill, $token]);
         $this->storeInS3($this->getRequest($urlBoxUrl));
         if($this->live) {
         $this->bill->pdf_created = true;
@@ -58,7 +57,7 @@ class createBillPdfJob implements ShouldQueue
     private function getRequest(string $url)
     {
         $client = new Client();
-        $url = $url . '?' . http_build_query($this->globalsParams) . '&authorization=Basic%20YS52ZXJ0Z2V3YWxsQGV4cG9yby5jb206MTIzNDU2';
+        $url = $url . '?' . http_build_query($this->globalsParams);
         $res = $client->request('GET', $url);
         return $res->getBody()->getContents();
     }

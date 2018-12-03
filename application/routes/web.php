@@ -61,6 +61,6 @@ Route::middleware(['verified'])->group(function () {
     });
 });
 
-Route::get('bills/{bill}/pdf', 'BillController@billPdf')->middleware('auth.basic.once')->name('pdf.creation');
+Route::get('bills/{bill}/pdf/{token}', 'BillController@billPdf')->name('pdf.creation');
 
 Auth::routes(['verify' => true]);

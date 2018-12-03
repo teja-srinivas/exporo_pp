@@ -9,6 +9,7 @@ use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
 use App\Jobs\SendMail;
+use App\Services\ApiTokenService;
 use App\Traits\Encryptable;
 use App\Traits\Person;
 use Carbon\Carbon;
@@ -155,8 +156,13 @@ class BillController extends Controller
             ]);
     }
 
-    public function billPdf(Bill $bill)
+    public function billPdf(Bill $bill, $token, ApiTokenService $service)
     {
+        abort_unless(
+            $service->isValid('urlbox', $token, $bill->user_id, $bill->id),
+            Response::HTTP_FORBIDDEN
+        );
+
         $bill->load('user');
 
         $investments = $this->mapForView($bill->commissions());

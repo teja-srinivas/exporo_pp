@@ -30,7 +30,7 @@ class ApiTokenService
      * @param mixed ...$params
      * @return bool
      */
-    public function isValid(string $service, string $token, ... $params): bool
+    public function isValid(string $service, string $token, ...$params): bool
     {
         return Hash::check($this->getIdentifier($service, $params), base64_decode($token));
     }
