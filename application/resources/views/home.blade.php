@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 
-@section('title', 'Provisionsübersicht')
+@section('title', 'Abrechnung')
 
 @section('main-content')
     <div class="card shadow-sm border-0 accent-primary mb-2">

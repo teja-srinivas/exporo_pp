@@ -60,7 +60,7 @@ class SidebarComposer
                 'title' => 'Meine Daten',
                 'links' => [
                     [
-                        'title' => 'Provisionen',
+                        'title' => 'Abrechnungen',
                         'url' => route('home'),
                         'isActive' => $this->request->routeIs('home'),
                     ],
