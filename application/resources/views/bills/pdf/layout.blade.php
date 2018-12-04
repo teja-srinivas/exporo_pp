@@ -44,7 +44,7 @@
         }
     </style>
 </head>
-<body class="bg-white">
+<body class="bg-white mt-5 ">
     <section class="sheet">
         @yield('cover')
     </section>
