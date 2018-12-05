@@ -48,11 +48,11 @@ final class CalculateCommissions extends Command
 
             Commission::query()->insert($rows->map(function ($entry) use ($now, $type) {
                 return $entry + [
-                    'child_user_id' => 0,
-                    'model_type' => $type,
-                    'created_at' => $now,
-                    'updated_at' => $now,
-                ];
+                        'child_user_id' => 0,
+                        'model_type' => $type,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
             })->all());
         });
     }
@@ -90,16 +90,16 @@ final class CalculateCommissions extends Command
 
         $callback = function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
-                // Temp values that come from the query (not actually from the Investor's table)
+            // Temp values that come from the query (not actually from the Investor's table)
                 (bool)$investor->vat_included,
                 (float)$investor->value
             );
 
             return $sums + [
-                'model_id' => $investor->id,
-                'user_id' => $investor->user_id,
-                'bonus' => 0,
-            ];
+                    'model_id' => $investor->id,
+                    'user_id' => $investor->user_id,
+                    'bonus' => 0,
+                ];
         };
 
         $this->calculate(Investor::MORPH_NAME, $query, $callback);
@@ -126,9 +126,13 @@ final class CalculateCommissions extends Command
 
         $callback = function (Investment $investment) use ($commissions, &$userCache) {
             $entries = [];
-            $entries[] = $commissions->calculate($investment) + [
-                'model_id' => $investment->id,
-            ];
+            if ($investment->id)
+                $commission = $commissions->calculate($investment);
+            if ($commission) {
+                $entries[] = $commission + [
+                        'model_id' => $investment->id,
+                    ];
+            }
 
             for ($user = $investment->investor->user; $user->parent_id > 0; $user = $parent) {
                 $userId = $user->id;

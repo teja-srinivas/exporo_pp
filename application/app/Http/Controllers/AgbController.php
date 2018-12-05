@@ -58,7 +58,8 @@ class AgbController extends Controller
 
         // Replace the old file, if exists
         $agb = new Agb($data);
-        $agb->filename = $request->file('file')->store(Agb::DIRECTORY);
+        $agb->filename = $request['type'];
+        Storage::disk('s3')->put(Agb::DIRECTORY . '/' . $request['name'], $request->file('file')->get());
         $agb->is_default = $request->has('is_default');
 
         $agb->saveOrFail();
@@ -120,7 +121,8 @@ class AgbController extends Controller
         // Replace the old file, if exists
         if ($request->has('file')) {
             $oldFilename = $agb->filename;
-            $agb->filename = $request->file('file')->store(Agb::DIRECTORY);
+            $filename = $request['name'];
+            Storage::disk('s3')->put(Agb::DIRECTORY . '/' . $filename , $request->file('file')->get());
 
             if (!empty($oldFilename)) {
                 Storage::delete($oldFilename);
@@ -165,9 +167,14 @@ class AgbController extends Controller
      */
     public function download(Agb $agb)
     {
-        abort_unless(Storage::exists($agb->filename), Response::HTTP_NOT_FOUND);
-
-        return Storage::download($agb->filename, $agb->getReadableFilename());
+        abort_unless(Storage::disk('s3')->exists(Agb::DIRECTORY . '/' . $agb->name), Response::HTTP_NOT_FOUND);
+       $file = Storage::disk('s3')->get(Agb::DIRECTORY . '/' . $agb->name);
+            return response($file, 200, [
+                'Content-Type' => 'application/pdf',
+                'Content-Description' => 'File Transfer',
+                'Content-Disposition' => 'attachment; filename=' . $agb->getReadableFilename(),
+                'filename' => $agb->getReadableFilename(),
+            ]);
     }
 
     /**
