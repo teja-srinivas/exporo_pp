@@ -58,6 +58,7 @@ class BillController extends Controller
         $investments = $this->mapForView($this->getBillableCommissionsForUser($user));
 
         return response()->view('bills.pdf.bill', $investments + [
+                'bill' => '',
                 'user' => $user,
                 'company' => optional($user->company),
             ]);
@@ -169,7 +170,7 @@ class BillController extends Controller
         $investments = $this->mapForView($bill->commissions());
 
         return response()->view('bills.pdf.bill', $investments + [
-                'bill_id' => $bill->id,
+                'bill' => $bill,
                 'user' => $bill->user,
                 'company' => optional($bill->user->company),
             ]);
