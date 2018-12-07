@@ -32,8 +32,8 @@ class BonusBundle extends Model
         return $this->belongsToMany(CommissionBonus::class, 'bonus_bundle', 'bundle_id', 'bonus_id');
     }
 
-    public function scopeSelectable(Builder $query)
+    public function scopeSelectable(Builder $query, bool $childUser = false)
     {
-        $query->where('selectable', true);
+        $query->where($childUser ? 'child_user_selectable' : 'selectable', true);
     }
 }
