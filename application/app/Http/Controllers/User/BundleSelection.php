@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Models\BonusBundle;
 use App\Models\CommissionBonus;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -28,15 +29,26 @@ class BundleSelection extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        /** @var User $user */
+        $user = $request->user();
+
+        /** @var Collection $bundles */
+        $bundles = BonusBundle::query()
+            ->with('bonuses.type:name')
+            ->selectable($user->parent_id > 0)
+            ->get();
+
+        if ($bundles->count() === 1) {
+            return $this->selectAndRedirect($user, $bundles->first());
+        }
+
         return view('users.bundle-selection', [
-            'bundles' => BonusBundle::query()
-                ->with('bonuses.type:name')
-                ->selectable()
-                ->get(),
+            'bundles' => $bundles,
         ]);
     }
 
@@ -57,12 +69,19 @@ class BundleSelection extends Controller
             )->where('selectable', true)],
         ]);
 
-        /** @var User $user */
-        $user = $request->user();
+        return $this->selectAndRedirect(
+            $request->user(),
+            BonusBundle::query()->findOrFail($data['bundle'])
+        );
+    }
 
-        /** @var BonusBundle $bundle */
-        $bundle = BonusBundle::query()->findOrFail($data['bundle']);
-
+    /**
+     * @param User $user
+     * @param BonusBundle $bundle
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    private function selectAndRedirect(User $user, BonusBundle $bundle): \Illuminate\Http\RedirectResponse
+    {
         DB::transaction(function () use ($user, $bundle) {
             $userId = $user->getKey();
 
