@@ -42,11 +42,11 @@ class SidebarComposer
 
     public function compose(View $view)
     {
-        $view->with('menu', $this->user === null ? [] : array_merge(
+        $view->with('menu', $this->user === null ? [] : array_filter(array_merge(
             $this->getInternal(),
             $this->getCommissions(),
             $this->getPartner()
-        ));
+        )));
     }
 
     protected function getPartner()
@@ -119,7 +119,7 @@ class SidebarComposer
                     ],
                 ],
             ],
-            [
+            $this->user->bonuses()->where('is_overhead', true)->count() > 0 ? [
                 'title' => 'Meine Subpartner',
                 'links' => [
                     [
@@ -137,7 +137,7 @@ class SidebarComposer
                         'isActive' => $this->request->routeIs('affiliate.child-users'),
                     ],
                 ],
-            ],
+            ] : [],
         ];
     }
 
