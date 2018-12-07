@@ -88,6 +88,19 @@ class Bill extends Model implements AuditableContract
     }
 
     /**
+     * Returns a possible file name for this bill.
+     *
+     * To be used for user display and not for
+     * the actual storage on a system disk.
+     *
+     * @return string
+     */
+    public function getFileName(): string
+    {
+        return 'Exporo AG Abrechnung vom ' . $this->created_at->format('d.m.Y') . '.pdf';
+    }
+
+    /**
      * Returns a simplified bill model that contains
      * - the id,
      * - the total sum of the bill

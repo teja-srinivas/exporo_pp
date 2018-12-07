@@ -185,20 +185,14 @@ class BillController extends Controller
 
         abort_unless($disk->exists($filePath), Response::HTTP_NOT_FOUND);
 
-        $billName = $this->getBillName($bill);
         $stream = $disk->readStream($filePath);
 
         return response()->streamDownload(function () use ($stream) {
             fpassthru($stream);
-        }, $billName, [
+        }, $bill->getFileName(), [
             'Content-Type' => $disk->mimeType($filePath),
             'Content-Length' => $disk->size($filePath),
         ]);
-    }
-
-    private function getBillName(Bill $bill)
-    {
-        return 'Exporo AG Abrechnung vom ' . $bill->created_at->format('d.m.Y') . '.pdf';
     }
 
     /**
