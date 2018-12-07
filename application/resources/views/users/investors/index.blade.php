@@ -29,17 +29,10 @@
             <tr>
                 <td class="text-right text-muted small align-middle">{{ $investor->id }}</td>
                 <td>
-                    @php($firstName = trim($investor->first_name))
-                    @php($lastName = trim($investor->last_name))
-
-                    @if(!empty($firstName) && !empty($lastName))
-                        {{ $firstName[0] }}.
-                        {{ $lastName }}
-                    @elseif(!empty($firstName))
-                        {{ $firstName }}
-                    @else
-                        {{ $lastName }}
-                    @endif
+                    {{\App\Traits\Person::anonymizeName(
+                        $investor->first_name,
+                        $investor->last_name
+                    )}}
                 </td>
                 <td class="text-right">{{ $investor->investments }}</td>
                 <td class="text-right">{{ format_money($investor->amount) }}</td>
