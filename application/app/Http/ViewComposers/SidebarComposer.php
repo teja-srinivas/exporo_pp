@@ -88,14 +88,18 @@ class SidebarComposer
                         'title' => 'Meine Kunden',
                         'url' => route('users.investors.index', ['user' => $this->user]),
                         'isActive' => $this->request->is(substr(route(
-                            'users.investors.index', $this->user, false
+                            'users.investors.index',
+                            $this->user,
+                            false
                         ), 1)),
                     ],
                     [
                         'title' => 'Investments',
                         'url' => route('users.investments.index', ['user' => $this->user]),
                         'isActive' => $this->request->is(substr(route(
-                            'users.investments.index', $this->user, false
+                            'users.investments.index',
+                            $this->user,
+                            false
                         ), 1)),
                     ],
                 ],

@@ -213,5 +213,4 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
             'Activationhash' => URL::signedRoute('verification.verify', [$this->id]),
         ], $this, config('mail.templateIds.registration'))->onQueue('emails');
     }
-
 }

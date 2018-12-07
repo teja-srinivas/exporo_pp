@@ -40,15 +40,14 @@ class ForgotPasswordController extends Controller
         $this->validateEmail($request);
         $user = User::where('email', $request->only('email'))->first();
 
-        if($user){
-        $token = app(PasswordBroker::class)->createToken($user);
+        if ($user) {
+            $token = app(PasswordBroker::class)->createToken($user);
             SendMail::dispatch([
                 'user-email' => $user->email,
                 'link' => url('password/reset/' . $token)
             ], $user, config('mail.templateIds.resetPassword'))->onQueue('emails');
             $response = "passwords.sent";
-        }
-        else{
+        } else {
             $response = "passwords.user";
         }
 

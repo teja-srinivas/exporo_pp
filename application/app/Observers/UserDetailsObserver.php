@@ -17,7 +17,7 @@ class UserDetailsObserver
     public function created(UserDetails $userDetails)
     {
         $newDisplayName = $this->getNewDisplayName($userDetails);
-        if($userDetails->display_name === $newDisplayName) {
+        if ($userDetails->display_name === $newDisplayName) {
             return;
         }
 
@@ -35,7 +35,7 @@ class UserDetailsObserver
     {
         $newDisplayName = $this->getNewDisplayName($userDetails);
 
-        if($userDetails->display_name === $newDisplayName) {
+        if ($userDetails->display_name === $newDisplayName) {
             return;
         }
 
@@ -47,7 +47,7 @@ class UserDetailsObserver
     {
         $user = $userDetails->user;
 
-        if($userDetails->company){
+        if ($userDetails->company) {
             return $userDetails->company;
         }
 
@@ -63,7 +63,6 @@ class UserDetailsObserver
      */
     public function deleted(UserDetails $userDetails)
     {
-
     }
 
     /**
@@ -74,7 +73,6 @@ class UserDetailsObserver
      */
     public function restored(UserDetails $userDetails)
     {
-
     }
 
     /**

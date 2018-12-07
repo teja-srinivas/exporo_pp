@@ -10,16 +10,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Storage;
 use GuzzleHttp\Client;
-class createBillPdfJob implements ShouldQueue
+
+class CreateBillPdfJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $bill;
     protected $live;
-    protected  $type;
+    protected $type;
     protected $globalsParams;
 
-    public function __construct($bill,  $live = null, $type = 'pdf')
+    public function __construct($bill, $live = null, $type = 'pdf')
     {
         $this->live = $live;
         $this->bill = $bill;
@@ -44,13 +45,15 @@ class createBillPdfJob implements ShouldQueue
      */
     public function handle(ApiTokenService $service)
     {
-        $token =$service->forService('urlbox', $this->bill->user_id, $this->bill->id);
+        $token = $service->forService('urlbox', $this->bill->user_id, $this->bill->id);
         $urlBoxUrl = config('services.urlbox.url') . $this->type;
         $this->globalsParams['url'] = route('pdf.creation', [$this->bill, $token]);
+
         $this->storeInS3($this->getRequest($urlBoxUrl));
-        if($this->live) {
-        $this->bill->pdf_created = true;
-        $this->bill->save();
+
+        if ($this->live) {
+            $this->bill->pdf_created = true;
+            $this->bill->save();
         }
     }
 
@@ -64,11 +67,10 @@ class createBillPdfJob implements ShouldQueue
 
     private function storeInS3($result)
     {
-        if($this->live){
-        Storage::disk('s3')->put('statements/' . $this->bill->id
-            , $result, 'private');
+        if ($this->live) {
+            Storage::disk('s3')->put('statements/' . $this->bill->id, $result, 'private');
         }
-        Storage::disk('s3')->put('preview/' . $this->bill->id
-            , $result, 'private');
+
+        Storage::disk('s3')->put('preview/' . $this->bill->id, $result, 'private');
     }
 }

@@ -137,13 +137,12 @@ class UserController extends Controller
         $attributes = $request->validated();
         if (isset($attributes['accept'])) {
             $field = $attributes['accept'] ? 'accepted_at' : 'rejected_at';
-            if($field === 'accepted_at'){
+            if ($field === 'accepted_at') {
                 $token = app(PasswordBroker::class)->createToken($user);
                 SendMail::dispatch([
                     'Login' => url('password/reset/' . $token),
                 ], $user, config('mail.templateIds.approved'))->onQueue('emails');
-            }
-            elseif ($field === 'rejected_at'){
+            } elseif ($field === 'rejected_at') {
                 SendMail::dispatch([
                 ], $user, config('mail.templateIds.declined'))->onQueue('emails');
             }

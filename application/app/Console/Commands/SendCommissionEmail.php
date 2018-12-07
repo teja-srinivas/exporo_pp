@@ -50,5 +50,4 @@ class SendCommissionEmail extends Command
     {
         return (Bill::where('released_at', now()->subDay(1)->format('Y-m-d'))->get());
     }
-
 }

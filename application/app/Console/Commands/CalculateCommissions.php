@@ -90,7 +90,7 @@ final class CalculateCommissions extends Command
 
         $callback = function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
-            // Temp values that come from the query (not actually from the Investor's table)
+                // Temp values that come from the query (not actually from the Investor's table)
                 (bool)$investor->vat_included,
                 (float)$investor->value
             );
@@ -114,8 +114,7 @@ final class CalculateCommissions extends Command
     private function calculateInvestments(
         InvestmentRepository $repository,
         CalculateCommissionsService $commissions
-    ): void
-    {
+    ): void {
         $query = $repository->withoutCommissionQuery()->with([
             'project.schema',
             'investor.details',
@@ -126,12 +125,13 @@ final class CalculateCommissions extends Command
 
         $callback = function (Investment $investment) use ($commissions, &$userCache) {
             $entries = [];
-            if ($investment->id)
+
+            if ($investment->id) {
                 $commission = $commissions->calculate($investment);
-            if ($commission) {
-                $entries[] = $commission + [
-                        'model_id' => $investment->id,
-                    ];
+
+                if ($commission !== null) {
+                    $entries[] = $commission + ['model_id' => $investment->id];
+                }
             }
 
             for ($user = $investment->investor->user; $user->parent_id > 0; $user = $parent) {

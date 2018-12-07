@@ -2,9 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\createBillPdfJob;
+use App\Jobs\CreateBillPdfJob;
 use App\Models\Bill;
 use Illuminate\Console\Command;
+
 class CreateBillPdf extends Command
 {
     /**
@@ -35,7 +36,7 @@ class CreateBillPdf extends Command
     {
         $bills = $this->getReleasedBills();
         foreach ($bills as $bill) {
-           createBillPdfJob::dispatch($bill, $this->option('live') ?? null)->onQueue('createBillPdf');
+            CreateBillPdfJob::dispatch($bill, $this->option('live') ?? null)->onQueue('createBillPdf');
         }
     }
 

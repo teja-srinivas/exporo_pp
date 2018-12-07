@@ -122,7 +122,7 @@ class AgbController extends Controller
         if ($request->has('file')) {
             $oldFilename = $agb->filename;
             $filename = $request['name'];
-            Storage::disk('s3')->put(Agb::DIRECTORY . '/' . $filename , $request->file('file')->get());
+            Storage::disk('s3')->put(Agb::DIRECTORY . '/' . $filename, $request->file('file')->get());
 
             if (!empty($oldFilename)) {
                 Storage::delete($oldFilename);
@@ -168,7 +168,7 @@ class AgbController extends Controller
     public function download(Agb $agb)
     {
         abort_unless(Storage::disk('s3')->exists(Agb::DIRECTORY . '/' . $agb->name), Response::HTTP_NOT_FOUND);
-       $file = Storage::disk('s3')->get(Agb::DIRECTORY . '/' . $agb->name);
+        $file = Storage::disk('s3')->get(Agb::DIRECTORY . '/' . $agb->name);
             return response($file, 200, [
                 'Content-Type' => 'application/pdf',
                 'Content-Description' => 'File Transfer',

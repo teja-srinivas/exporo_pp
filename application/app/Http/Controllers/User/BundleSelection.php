@@ -52,7 +52,8 @@ class BundleSelection extends Controller
         $data = $this->validate($request, [
             // Only allow picking from our selected bundles
             'bundle' => ['required', Rule::exists(
-                (new BonusBundle)->getTable(), 'id'
+                (new BonusBundle)->getTable(),
+                'id'
             )->where('selectable', true)],
         ]);
 
@@ -67,7 +68,7 @@ class BundleSelection extends Controller
 
             $user->bonuses()->delete();
 
-            $bundle->bonuses->each(function (CommissionBonus $bonus) use($userId) {
+            $bundle->bonuses->each(function (CommissionBonus $bonus) use ($userId) {
                 $copy = $bonus->replicate(['user_id']);
                 $copy->user_id = $userId;
                 $copy->accepted_at = now();

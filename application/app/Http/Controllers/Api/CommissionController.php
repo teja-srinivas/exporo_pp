@@ -170,7 +170,8 @@ class CommissionController extends Controller
 
         if (isset($remapped['amount'])) {
             $commission->fill($service->calculateNetAndGross(
-                $commission->userDetails->vat_included, (float) $remapped['amount']
+                $commission->userDetails->vat_included,
+                (float) $remapped['amount']
             ));
         }
 

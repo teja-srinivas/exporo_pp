@@ -30,7 +30,7 @@ class UserObserver
         $userDetails = $user->details;
         $newDisplayName = $this->getNewDisplayName($userDetails, $user);
 
-        if($userDetails->display_name === $newDisplayName) {
+        if ($userDetails->display_name === $newDisplayName) {
             return;
         }
 
@@ -41,7 +41,7 @@ class UserObserver
     private function getNewDisplayName(UserDetails $userDetails, User $user): string
     {
 
-        if($userDetails->company){
+        if ($userDetails->company) {
             return $userDetails->company;
         }
 

@@ -9,7 +9,6 @@ use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
 use App\Jobs\SendMail;
-use App\Policies\BillPolicy;
 use App\Services\ApiTokenService;
 use App\Traits\Encryptable;
 use App\Traits\Person;
@@ -103,8 +102,7 @@ class BillController extends Controller
         $users = User::query()->whereKey(Commission::query()
             ->isBillable()
             ->distinct()
-            ->pluck('commissions.user_id')
-        );
+            ->pluck('commissions.user_id'));
 
         // Pre-select all valid commission IDs
         // Doing the isBillable check for each updates eats up DB time
