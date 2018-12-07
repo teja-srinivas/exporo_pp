@@ -17,7 +17,7 @@ class BundleSelection extends Controller
             /** @var User $user */
             $user = $request->user();
 
-            if ($user->canBeProcessed() && $user->bonuses()->exists()) {
+            if (!$user->canBeProcessed() || $user->bonuses()->exists()) {
                 return redirect()->home();
             }
 
