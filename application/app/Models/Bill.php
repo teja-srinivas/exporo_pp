@@ -97,7 +97,11 @@ class Bill extends Model implements AuditableContract
      */
     public function getFileName(): string
     {
-        return 'Exporo AG Abrechnung vom ' . $this->created_at->format('d.m.Y') . '.pdf';
+        return implode('_', [
+            $this->id,
+            $this->created_at->format('d.m.Y'),
+            $this->user_id,
+        ]) . '.pdf';
     }
 
     /**
