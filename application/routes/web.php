@@ -52,6 +52,7 @@ Route::middleware(['verified'])->group(function () {
         Route::prefix('users/{user}')->name('users.')->namespace('User')->group(function () {
             Route::resource('investments', 'InvestmentController', ['only' => ['index']]);
             Route::resource('investors', 'InvestorController', ['only' => ['index']]);
+            Route::resource('users', 'UserController', ['only' => ['index']]);
             Route::resource('commission-bonuses', 'CommissionBonusController', ['only' => [
                 'store', 'update', 'destroy'
             ]]);

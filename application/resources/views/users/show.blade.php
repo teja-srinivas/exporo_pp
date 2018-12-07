@@ -53,6 +53,12 @@
                         <div class="h2 mb-1">{{ $investors->investments }}</div>
                     </a>
                 </div>
+                <div class="col-sm border-sm-right mb-3 mb-sm-0">
+                    <a href="{{ route('users.users.index', $user) }}" class="btn btn-outline-light p-0 btn-block">
+                        <span class="text-reset">Subpartner</span>
+                        <div class="h2 mb-1">{{ $user->children()->count() }}</div>
+                    </a>
+                </div>
                 <div class="col-sm">
                     Investmentvolumen
                     <div class="h2 mb-1">{{ format_money($investors->amount) }}</div>

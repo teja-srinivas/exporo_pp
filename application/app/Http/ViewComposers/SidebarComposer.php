@@ -105,6 +105,20 @@ class SidebarComposer
                 ],
             ],
             [
+                'title' => 'Meine Subpartner',
+                'links' => [
+                    [
+                        'title' => 'Meine Subpartner',
+                        'url' => route('users.users.index', ['user' => $this->user]),
+                        'isActive' => $this->request->is(substr(route(
+                            'users.users.index',
+                            $this->user,
+                            false
+                        ), 1)),
+                    ],
+                ],
+            ],
+            [
                 'title' => 'Werbemittel',
                 'links' => [
                     [
