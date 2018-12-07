@@ -9,6 +9,7 @@ use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
 use App\Jobs\SendMail;
+use App\Policies\BillPolicy;
 use App\Services\ApiTokenService;
 use App\Traits\Encryptable;
 use App\Traits\Person;
@@ -175,15 +176,13 @@ class BillController extends Controller
             ]);
     }
 
-    public function downloadBillFromS3(Bill $bill, Request $request)
+    public function downloadBillFromS3(Bill $bill)
     {
-        /** @var User $user */
-        $user = $request->user();
+        $this->authorize('view', $bill);
 
         $disk = Storage::disk('s3');
         $filePath = 'statements/' . $bill->id;
 
-        abort_unless($bill->user_id === $user->id || $user->hasRole(Role::ADMIN), Response::HTTP_FORBIDDEN);
         abort_unless($disk->exists($filePath), Response::HTTP_NOT_FOUND);
 
         $billName = $this->getBillName($bill);
