@@ -25,9 +25,14 @@
     @if($user->parent_id > 0)
         <h5>
             Unterpartner von:
-            <a href="{{ route('users.show', $user->parent) }}">
-                {{ $user->parent->getDisplayName() }}
-            </a>
+
+            @if($user->parent)
+                <a href="{{ route('users.show', $user->parent) }}">
+                    {{ $user->parent->getDisplayName() }}
+                </a>
+            @else
+                #{{ $user->parent_id }} (Benutzer existiert nicht)
+            @endif
         </h5>
     @endif
 
