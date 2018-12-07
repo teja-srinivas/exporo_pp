@@ -13,7 +13,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', 'https://p.exporo.de/');
+Route::middleware(['referred'])->group(function () {
+    Route::redirect('/', 'https://p.exporo.de/');
+    Auth::routes(['verify' => true]);
+});
 
 Route::prefix('agbs')->group(function () {
     Route::get('{agb}/download', 'AgbController@download')
@@ -62,5 +65,3 @@ Route::middleware(['verified'])->group(function () {
 });
 
 Route::get('bills/{bill}/pdf/{token}', 'BillController@billPdf')->name('pdf.creation');
-
-Auth::routes(['verify' => true]);

@@ -62,6 +62,7 @@ class Kernel extends HttpKernel
         'bundle-selected' => Middleware\HasSelectedBundle::class,
         'guest' => Middleware\RedirectIfAuthenticated::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'referred' => Middleware\UserHasBeenReferred::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
