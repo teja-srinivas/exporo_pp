@@ -105,20 +105,6 @@ class SidebarComposer
                 ],
             ],
             [
-                'title' => 'Meine Subpartner',
-                'links' => [
-                    [
-                        'title' => 'Meine Subpartner',
-                        'url' => route('users.users.index', ['user' => $this->user]),
-                        'isActive' => $this->request->is(substr(route(
-                            'users.users.index',
-                            $this->user,
-                            false
-                        ), 1)),
-                    ],
-                ],
-            ],
-            [
                 'title' => 'Werbemittel',
                 'links' => [
                     [
@@ -130,6 +116,25 @@ class SidebarComposer
                         'title' => 'Mailings',
                         'url' => route('affiliate.mails'),
                         'isActive' => $this->request->routeIs('affiliate.mails'),
+                    ],
+                ],
+            ],
+            [
+                'title' => 'Meine Subpartner',
+                'links' => [
+                    [
+                        'title' => 'Meine Subpartner',
+                        'url' => route('users.users.index', ['user' => $this->user]),
+                        'isActive' => $this->request->is(substr(route(
+                            'users.users.index',
+                            $this->user,
+                            false
+                        ), 1)),
+                    ],
+                    [
+                        'title' => 'Subpartner werben',
+                        'url' => route('affiliate.child-users'),
+                        'isActive' => $this->request->routeIs('affiliate.child-users'),
                     ],
                 ],
             ],
