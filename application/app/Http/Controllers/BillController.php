@@ -361,6 +361,7 @@ class BillController extends Controller
                 'investsum' => $investment->amount,
                 'investDate' => $investment->created_at->format('d.m.Y'),
                 'net' => $row->net,
+                'gross' => $row->gross,
                 'bonus' => $row->cBonus * 100,
                 'projectName' => $project->description,
                 'projectMargin' => $project->margin,
