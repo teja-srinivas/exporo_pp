@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection as BaseCollection;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Role;
 use Illuminate\Support\Facades\Storage;
 
@@ -176,19 +175,25 @@ class BillController extends Controller
             ]);
     }
 
-    public function downloadBillFromS3(Bill $bill)
+    public function downloadBillFromS3(Bill $bill, Request $request)
     {
-        abort_unless($bill->user->id === Auth::user()->id || Auth::user()->hasRole(Role::ADMIN),Response::HTTP_FORBIDDEN);
-        abort_unless(Storage::disk('s3')->exists('statements/' . $bill->id), Response::HTTP_NOT_FOUND);
+        /** @var User $user */
+        $user = $request->user();
+
+        $disk = Storage::disk('s3');
+        $filePath = 'statements/' . $bill->id;
+
+        abort_unless($bill->user_id === $user->id || $user->hasRole(Role::ADMIN), Response::HTTP_FORBIDDEN);
+        abort_unless($disk->exists($filePath), Response::HTTP_NOT_FOUND);
 
         $billName = $this->getBillName($bill);
-        $file = Storage::disk('s3')->get('statements/' . $bill->id);
+        $stream = $disk->readStream($filePath);
 
-        return response($file, 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Description' => 'File Transfer',
-            'Content-Disposition' => 'attachment; filename=Exporo AG Abrechnung vom' . $billName,
-            'filename' => 'Exporo AG Abrechnung vom $bill->created_at' . $billName
+        return response()->streamDownload(function () use ($stream) {
+            fpassthru($stream);
+        }, $billName, [
+            'Content-Type' => $disk->mimeType($filePath),
+            'Content-Length' => $disk->size($filePath),
         ]);
     }
 
