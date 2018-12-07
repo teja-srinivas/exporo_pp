@@ -194,7 +194,7 @@ class BillController extends Controller
 
     private function getBillName(Bill $bill)
     {
-        return 'Exporo AG Abrechnung vom' . $bill->created_at->format('d.m.Y') . '.pdf';
+        return 'Exporo AG Abrechnung vom ' . $bill->created_at->format('d.m.Y') . '.pdf';
     }
 
     /**
