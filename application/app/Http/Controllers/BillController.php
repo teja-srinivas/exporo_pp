@@ -106,11 +106,15 @@ class BillController extends Controller
 
         // Pre-select all valid commission IDs
         // Doing the isBillable check for each updates eats up DB time
-        $commissionIds = Commission::query()->select('user_id', 'id')->get()->mapToGroups(function ($row) {
-            return [
-                $row['user_id'] => $row['id'],
-            ];
-        });
+        $commissionIds = Commission::query()
+            ->select('user_id', 'id')
+            ->isBillable()
+            ->get()
+            ->mapToGroups(function ($row) {
+                return [
+                    $row['user_id'] => $row['id'],
+                ];
+            });
 
         Bill::disableAuditing();
 
