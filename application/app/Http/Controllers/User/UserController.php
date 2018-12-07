@@ -30,6 +30,7 @@ class UserController extends Controller
                     ->selectRaw('sum(net) as net')
                     ->selectRaw('child_user_id as user_id')
                     ->groupBy('child_user_id')
+                    ->whereNotNull('bill_id')
                     ->forUser($user)
                 , 'commissions', 'commissions.user_id', '=', 'users.id', 'left')
                 ->select('users.id', 'user_details.display_name', 'accepted_at')
