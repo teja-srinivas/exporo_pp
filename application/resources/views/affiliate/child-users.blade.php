@@ -12,7 +12,7 @@
     @php($suffix = '?ref=' . $user->id)
 
     @foreach([
-        'Registrierungs-Landingpage' => 'https://p.exporo.de/registrierung/',
+        'Registrierungs-Landingpage' => 'partnerprogramm.exporo.de/register/',
     ] as $title => $prefix)
         @card
             @slot('title', $title)
