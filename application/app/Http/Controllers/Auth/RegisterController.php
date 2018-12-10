@@ -87,7 +87,7 @@ class RegisterController extends Controller
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
                 'email' => $data['email'],
-                'parent_id' => (request()->cookie(UserHasBeenReferred::COOKIE_NAME) ? request()->cookie(UserHasBeenReferred::COOKIE_NAME) : 0),
+                'parent_id' => request()->cookie(UserHasBeenReferred::COOKIE_NAME, 0),
             ]);
 
             $user->details()->create([
