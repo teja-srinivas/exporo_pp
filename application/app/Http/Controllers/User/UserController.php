@@ -38,10 +38,8 @@ class UserController extends Controller
                 ->selectRaw('count(distinct(investors.id)) as investors')
                 ->selectRaw('sum(investments.amount) as amount')
                 ->selectRaw('commissions.net as commissions')
-                ->where(function (Builder $query) {
-                    $query->where('investments.cancelled_at', LEGACY_NULL);
-                    $query->orWhereNull('investments.cancelled_at');
-                })
+                ->whereDate('investments.cancelled_at', '<=', LEGACY_NULL)
+                ->whereDate('investments.acknowledged_at', '>', LEGACY_NULL)
                 ->groupBy('users.id')
                 ->get(),
         ]);
