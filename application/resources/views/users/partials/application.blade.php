@@ -14,3 +14,12 @@
         </div>
     </form>
 @endif
+
+@unless($user->hasVerifiedEmail())
+    <div class="border bg-white p-3 d-flex align-items-center">
+        <div class="flex-fill">
+            <strong>Offene Validierung:</strong>
+            Der Nutzer hat die angegebene Email noch nicht verifiziert.
+        </div>
+    </div>
+@endunless
