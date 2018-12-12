@@ -141,18 +141,3 @@
     Fragen zur Abrechnung richten Sie bitte schriftlich an
     <a href="mailto:abrechnung@exporo.com">abrechnung@exporo.com</a>.
 </p>
-
-<hr class="my-4">
-
-<p class="text-justify small">
-    <b>Erläuterung zur Provisionsberechnung:</b><br>
-    Zur Berechnung der genauen Provisionshöhe werden der Investmentbetrag, die Projektmarge
-    und die jeweilige Laufzeit des Projektes berücksichtigt. Liegt Ihr Erstinvestmentsatz
-    z.B. bei 2,5%, so entspricht dies bei einer Projektmarge von 2% einem Satz von 125%.
-</p>
-
-<p class="text-justify small mb-4">
-    <b>Beispielberechnung:</b><br>
-    <i>Erstinvestmentbetrag 10.000€ / Provisionssatz 2,5% / Projektmarge 2% / Laufzeit 12 Monate
-    = 10.000 € * (125% * 2%) * 0,5, ergibt 125€.</i>
-</p>
