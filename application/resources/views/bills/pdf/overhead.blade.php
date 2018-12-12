@@ -36,7 +36,7 @@
                 </td>
                 <td class="text-right">{{ format_money($investment['investsum']) }}</td>
                 <td class="text-right">{{ $investment['investDate'] }}</td>
-                <td class="text-right">{{ $investment['bonus'] }}% * {{ $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
+                <td class="text-right">{{ $investment['bonus'] * $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
                 <td class="text-right">{{ format_money($investment['net']) }}</td>
             </tr>
             @unless(empty($investment['note']))
