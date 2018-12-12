@@ -16,7 +16,20 @@ final class CalculateCommissionsService
         if ($parent && $child) {
             $userId = $parent->id;
             $userDetails = $parent->details;
-            $bonus = $this->calculateBonus($investment, $parent) - $this->calculateBonus($investment, $child);
+
+            $parentBonus = $this->calculateBonus($investment, $parent);
+
+            if ($parentBonus === null) {
+                return null;
+            }
+
+            $childBonus = $this->calculateBonus($investment, $child);
+
+            if ($childBonus === null) {
+                return null;
+            }
+
+            $bonus = $parentBonus - $childBonus;
         } else {
             $userId = $investment->investor->user_id;
             $userDetails = $investment->investor->details;
