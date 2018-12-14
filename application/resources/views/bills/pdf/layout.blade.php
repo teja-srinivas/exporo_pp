@@ -15,14 +15,12 @@
 
     <style>
         @page {
-            margin: 20mm 10mm;
-            size: A4;
-            padding: 0;
+            margin: 20mm 0;
         }
 
         body {
             width: 240mm;
-            margin: 20mm auto;
+            margin: 0 auto;
             font-size: 12pt;
             padding-top: 3rem;
         }
