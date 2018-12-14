@@ -22,6 +22,7 @@ class Investment extends JsonResource
             'investor' => Investor::make($investment->investor),
             'investment' => $investment->amount,
             'isFirst' => $investment->is_first_investment,
+            'createdAt' => $investment->created_at->format('d.m.Y'),
             'project' => [
                 'name' => $investment->project->description,
                 'schema' => $investment->project->schema->formula,

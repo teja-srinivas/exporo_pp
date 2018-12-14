@@ -309,6 +309,14 @@
                   </div>
                 </div>
 
+                <div v-if="commission.type === 'investment' && commission.model" class="py-1 row align-items-center">
+                  <div class="col-sm-2"><strong>Investmentdatum:</strong></div>
+                  <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext"
+                           :value="commission.model.createdAt">
+                  </div>
+                </div>
+
                 <div v-if="commission.type === 'correction'" class="my-1 row align-items-center">
                   <div class="col-sm-2">
                     <strong>{{ commission.vatIncluded ? 'Brutto' : 'Netto' }} in EUR:</strong>
