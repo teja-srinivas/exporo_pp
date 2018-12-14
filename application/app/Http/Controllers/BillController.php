@@ -56,7 +56,6 @@ class BillController extends Controller
         $investments = $this->mapForView($this->getBillableCommissionsForUser($user));
 
         return response()->view('bills.pdf.bill', $investments + [
-                'bill' => '',
                 'user' => $user,
                 'company' => optional($user->company),
             ]);
