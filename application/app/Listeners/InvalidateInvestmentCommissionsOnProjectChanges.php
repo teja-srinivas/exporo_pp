@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\ProjectUpdated;
 use App\Models\Commission;
 use App\Models\Investment;
+use Illuminate\Database\Query\Builder;
 
 class InvalidateInvestmentCommissionsOnProjectChanges
 {
@@ -17,8 +18,9 @@ class InvalidateInvestmentCommissionsOnProjectChanges
     public function handle(ProjectUpdated $event)
     {
         Commission::query()
+            ->join('investments', 'investments.id', 'commissions.model_id')
             ->where('model_type', Investment::MORPH_NAME)
-            ->whereIn('model_id', $event->project->investments()->select('id'))
+            ->where('investments.project_id', $event->project->getKey())
             ->whereNull('bill_id')
             ->delete();
     }
