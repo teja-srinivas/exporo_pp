@@ -38,7 +38,7 @@ class CommissionController extends Controller
             },
             'childUser:id,last_name,first_name',
             'model',
-        ])->afterLaunch();
+        ]);
 
         $results = $this->applyFilter($query, $request);
 
@@ -328,6 +328,7 @@ class CommissionController extends Controller
                 $query->where('commissions.model_id', $columns['id']['filter']);
             })
             ->isAcceptable()
+            ->afterLaunch()
             ->select('commissions.*');
     }
 
