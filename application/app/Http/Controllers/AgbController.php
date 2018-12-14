@@ -20,7 +20,13 @@ class AgbController extends Controller
     {
         $this->authorize('list', Agb::class);
 
-        $list = Agb::with('users')->latest()->get();
+        $list = Agb::query()
+            ->join('agb_user', 'agb_user.agb_id', 'agbs.id')
+            ->latest()
+            ->groupBy('agbs.id')
+            ->selectRaw('count(user_id) as users')
+            ->selectRaw('agbs.*')
+            ->get();
 
         return response()->view('agbs.index', compact('list', 'canDelete'));
     }

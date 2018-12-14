@@ -26,10 +26,10 @@
                 <td class="small" style="vertical-align: middle">{{ __("agbs.type.{$agb->type}") }}</td>
                 <td><a href="{{ route('agbs.show', $agb) }}">{{ $agb->name }}</a></td>
                 <td class="text-right">
-                    @if($agb->users->isEmpty())
-                        <span class="text-muted">&mdash;</span>
+                    @if($agb->users > 0)
+                        <strong>{{ $agb->users }} <small>Benutzer</small></strong>
                     @else
-                        <strong>{{ $agb->users->count() }} <small>Benutzer</small></strong>
+                        <span class="text-muted">&mdash;</span>
                     @endif
                 </td>
                 <td class="text-right">
