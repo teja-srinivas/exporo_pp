@@ -195,6 +195,35 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->canBeProcessed() && $this->accepted_at === null;
     }
 
+    /**
+     * Builds and returns a usable greeting as you would see on letters.
+     *
+     * @return string
+     */
+    public function getGreeting(): string
+    {
+        $salutation = optional($this->details)->salutation;
+        $greeting = [];
+
+        if ($salutation === 'male') {
+            $greeting[] = 'Sehr geehrter Herr';
+        } else if ($salutation === 'female') {
+            $greeting[] = 'Sehr geehrte Frau';
+        } else {
+            $greeting[] = 'Sehr geehrte Damen und Herren';
+        }
+
+        $title = optional($this->details)->title;
+
+        if ($title !== null) {
+            $greeting[] = $title;
+        }
+
+        $greeting[] = trim($this->last_name);
+
+        return implode(' ', $greeting);
+    }
+
     public static function getRoleColor(Role $role)
     {
         switch ($role->name ?? '') {

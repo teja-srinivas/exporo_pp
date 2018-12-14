@@ -68,10 +68,12 @@
 <!-- Page Content -->
 <h3 class="mb-4">Provisionsgutschrift</h3>
 
-<p class="mb-2">
-    Sofern Provisionen angefallen sind, überweisen wir diese in den nächsten Tagen auf das von Ihnen angegebene
-    Konto:
+<p>{{ $user->getGreeting() }},</p>
+<p>
+    sofern im Vormonat Provisionen angefallen sind, überweisen wir diese
+    in den nächsten Tagen auf das von ihnen angegebene Konto:
 </p>
+
 <table class="table table-sm table-borderless w-50 mx-auto mb-4">
     <tbody>
     <tr>

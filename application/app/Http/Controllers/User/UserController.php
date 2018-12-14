@@ -4,8 +4,6 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Commission;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
