@@ -59,10 +59,10 @@
 <div class="text-right my-4">
     Hamburg, {{ now()->format('d.m.Y') }}
     <div class="lead font-weight-bold">Partner-ID: {{ $user->id }}</div>
+
     @if($bill)
         Rechnungsnummer: {{ $bill->id }}
     @endif
-
 </div>
 
 <!-- Page Content -->

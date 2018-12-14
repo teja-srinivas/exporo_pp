@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection as BaseCollection;
-use App\Models\Role;
 use Illuminate\Support\Facades\Storage;
 
 class BillController extends Controller
@@ -38,7 +37,7 @@ class BillController extends Controller
                     'date' => $bill->created_at,
                     'user' => UserResource::make($bill->user)->toArray($request),
                     'meta' => [
-                        'gross' => format_money($bill->gross),
+                        'net' => format_money($bill->net),
                         'commissions' => $bill->commissions,
                     ],
                     'links' => [
