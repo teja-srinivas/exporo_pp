@@ -38,7 +38,7 @@ class CommissionController extends Controller
             },
             'childUser:id,last_name,first_name',
             'model',
-        ]);
+        ])->afterLaunch();
 
         $results = $this->applyFilter($query, $request);
 

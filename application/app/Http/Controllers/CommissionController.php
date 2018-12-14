@@ -25,6 +25,7 @@ class CommissionController extends Controller
             ->selectRaw('COUNT(commissions.id) as count')
             ->isOpen()
             ->isAcceptable()
+            ->afterLaunch()
             ->get()
             ->first();
 

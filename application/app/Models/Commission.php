@@ -183,6 +183,29 @@ class Commission extends Model implements AuditableContract
         $query->where($this->getTable() . '.user_id', is_numeric($user) ? $user : $user->id);
     }
 
+    /**
+     * Only queries the commissions that we actually want to process
+     * after our "launch date".
+     *
+     * @param Builder $query
+     */
+    public function scopeAfterLaunch(Builder $query)
+    {
+        $query->where(function (Builder $query) {
+            $startDate = Carbon::createFromDate(2018, 11, 1);
+
+            $query->where(function (Builder $query) use ($startDate) {
+                $query->where('model_type', Investment::MORPH_NAME);
+                $query->whereDate('investments.created_at', '>=', $startDate);
+            });
+
+            $query->orWhere(function (Builder $query) use ($startDate) {
+                $query->where('model_type', Investor::MORPH_NAME);
+                $query->whereDate('investors.created_at', '>=', $startDate);
+            });
+        });
+    }
+
     public function reject(?User $user)
     {
         if ($user === null) {
