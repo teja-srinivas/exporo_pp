@@ -63,7 +63,7 @@
 
                             @if($row[$key] === null)
                                 <code class="text-muted small">NULL</code>
-                            @elseif(in_array($title, $entity->getHidden()))
+                            @elseif($entity !== null && in_array($title, $entity->getHidden()))
                                 <span class="text-muted">(versteckt)</span>
                             @elseif(is_bool($row[$key]))
                                 {!! $row[$key] ? '✔' : '-' !!}
