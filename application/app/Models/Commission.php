@@ -180,6 +180,10 @@ class Commission extends Model implements AuditableContract
 
     public function scopeForUser(Builder $query, $user)
     {
+        if ($user === null) {
+            return;
+        }
+
         $query->where($this->getTable() . '.user_id', is_numeric($user) ? $user : $user->id);
     }
 
