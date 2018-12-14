@@ -24,8 +24,6 @@
             </th>
             <th scope="rowgroup" colspan="4" class="small text-muted align-middle">
                 Laufzeitfaktor: {{ $details['projectFactor'] }} ({{ $details['projectRuntime'] }} Monate)
-                &nbsp;&ndash;
-                Marge: {{ $details['projectMargin'] }}%
             </th>
         </tr>
 
