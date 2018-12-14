@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-sm border-sm-right mb-3 mb-sm-0">
                     Freigegeben
-                    <div class="h2 mb-1">{{ format_money($approved) }}</div>
+                    <div class="h2 mb-1">{{ format_money($approved - $paid) }}</div>
                 </div>
                 <div class="col-sm">
                     Ausgezahlt

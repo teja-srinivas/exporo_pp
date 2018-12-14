@@ -191,6 +191,28 @@ class Commission extends Model implements AuditableContract
      */
     public function scopeAfterLaunch(Builder $query)
     {
+        // Determine if we need to join the related tables
+        $joins = $query->toBase()->joins ?? [];
+
+        if (!array_first($joins, function (JoinClause $join) {
+            return $join->table === 'investments';
+        })) {
+            $query->leftJoin('investments', function (JoinClause $join) {
+                $join->on('investments.id', '=', 'commissions.model_id')
+                    ->where('commissions.model_type', '=', Investment::MORPH_NAME);
+            });
+        }
+
+        if (!array_first($joins, function (JoinClause $join) {
+            return $join->table === 'investors';
+        })) {
+            $query->leftJoin('investors', function (JoinClause $join) {
+                $join->on('investors.id', '=', 'commissions.model_id')
+                    ->where('commissions.model_type', '=', Investor::MORPH_NAME);
+            });
+        }
+
+        // Then only match against the legacy stuff
         $query->where(function (Builder $query) {
             $startDate = Carbon::createFromDate(2018, 11, 1);
 

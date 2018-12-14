@@ -17,27 +17,31 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request)
     {
+        $user = $request->user();
+
         return response()->view('home', [
-            'bills' => Bill::getDetailsPerUser($request->user()->id)->released()->latest()->get(),
+            'bills' => Bill::getDetailsPerUser($user->id)->released()->latest()->get(),
 
             // Stats
             'total' => Commission::query()
-                ->where('user_id', $request->user()->id)
+                ->forUser($user)
                 ->whereNull('rejected_at')
+                ->afterLaunch()
                 ->sum('gross'),
 
             'approved' => Commission::query()
                 ->where(function (Builder $query) {
                     $query->whereNotNull('reviewed_at');
-                    $query->whereNull('bill_id');
                 })
-                ->where('user_id', $request->user()->id)
+                ->forUser($user)
+                ->afterLaunch()
                 ->sum('gross'),
 
             'paid' => Commission::query()
                 ->join('bills', 'bill_id', 'bills.id')
-                ->forUser($request->user())
+                ->forUser($user)
                 ->where('released_at', '<=', now())
+                ->afterLaunch()
                 ->sum('gross'),
         ]);
     }
