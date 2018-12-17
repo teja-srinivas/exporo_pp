@@ -229,6 +229,10 @@ class Commission extends Model implements AuditableContract
                 $query->where('model_type', Investor::MORPH_NAME);
                 $query->whereDate('investors.activation_at', '>=', $startDate);
             });
+
+            $query->orWhereNotIn('model_type', [
+                Investment::MORPH_NAME, Investor::MORPH_NAME,
+            ]);
         });
     }
 
