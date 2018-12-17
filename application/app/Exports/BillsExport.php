@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Models\Bill;
-use App\Traits\Person;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -61,16 +60,25 @@ class BillsExport implements FromCollection, WithHeadings, WithMapping
         return [
             $bill->user_id,
             $bill->user->getDisplayName(),
-            $bill->user->details->iban,
-            $bill->user->details->bic,
+            self::sanitize(str_replace('IBAN:', '', $bill->user->details->iban)),
+            self::sanitize($bill->user->details->bic),
             $bill->released_at->format('d.m.Y'),
             $bill->user_id + 700000,
             31020,
             'Provisionsgutschrift',
             $bill->id,
-            $totalGross,
+            number_format($totalGross, 2, ',', ''),
             'S',
             $totalGross > $totalNet ? 99 : '',
         ];
+    }
+
+    private function sanitize(?string $content): string
+    {
+        if ($content === null || $content === '0') {
+            return '';
+        }
+
+        return strtoupper(str_replace(' ', '', $content));
     }
 }
