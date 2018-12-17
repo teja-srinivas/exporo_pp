@@ -10,6 +10,8 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @property bool $vat_included
+ * @property string $iban
+ * @property string $bic
  */
 class UserDetails extends Model implements AuditableContract
 {
