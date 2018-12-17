@@ -138,9 +138,10 @@ class UserController extends Controller
         if (isset($attributes['accept'])) {
             $field = $attributes['accept'] ? 'accepted_at' : 'rejected_at';
             if ($field === 'accepted_at') {
-                $token = app(PasswordBroker::class)->createToken($user);
+                /** @var PasswordBroker $broker */
+                $broker = app(PasswordBroker::class);
                 SendMail::dispatch([
-                    'Login' => url('password/reset/' . $token),
+                    'Login' => route('password.reset', $broker->createToken($user)),
                 ], $user, config('mail.templateIds.approved'))->onQueue('emails');
             } elseif ($field === 'rejected_at') {
                 SendMail::dispatch([
