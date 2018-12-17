@@ -32,9 +32,9 @@ Route::middleware(['verified'])->group(function () {
 
     Route::middleware(['bundle-selected', 'accepted', 'filled'])->group(function () {
         Route::get('authorization', 'AuthorizationController')->name('authorization.index');
-        Route::resource('agbs', 'AgbController');
-        Route::get('bills/preview/{user}', 'BillController@preview')->name('bills.preview');
+        Route::get('bills/preview/{user?}', 'BillController@preview')->name('bills.preview');
         Route::get('bills/download/{bill}', 'BillController@downloadBillFromS3')->name('bills.download');
+        Route::resource('agbs', 'AgbController');
         Route::resource('bills', 'BillController');
         Route::resource('commissions/bundles', 'BonusBundleController')->names('commissions.bundles');
         Route::resource('commissions/types', 'CommissionTypeController')->names('commissions.types');

@@ -51,8 +51,12 @@ class BillController extends Controller
         ]);
     }
 
-    public function preview(User $user)
+    public function preview(User $user = null, Request $request)
     {
+        if ($user === null) {
+            $user = $request->user();
+        }
+
         $investments = $this->mapForView($this->getBillableCommissionsForUser($user));
 
         return response()->view('bills.pdf.bill', $investments + [
