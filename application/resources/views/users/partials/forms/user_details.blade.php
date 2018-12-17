@@ -101,7 +101,7 @@
         'autocomplete' => 'tel-national',
     ],
     [
-        'type' => 'url',
+        'type' => 'text',
         'name' => 'website',
         'label' => __('Website'),
         'autocomplete' => 'url',
