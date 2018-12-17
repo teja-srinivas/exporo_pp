@@ -9,6 +9,7 @@ use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
 use App\Jobs\SendMail;
+use App\Policies\BillPolicy;
 use App\Services\ApiTokenService;
 use App\Traits\Encryptable;
 use App\Traits\Person;
@@ -56,6 +57,8 @@ class BillController extends Controller
         if ($user === null) {
             $user = $request->user();
         }
+
+        $this->authorize('view', new Bill(['user_id' => $user->id]));
 
         $investments = $this->mapForView($this->getBillableCommissionsForUser($user));
 

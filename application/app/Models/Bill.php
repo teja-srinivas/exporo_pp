@@ -31,6 +31,7 @@ class Bill extends Model implements AuditableContract
     ];
 
     protected $fillable = [
+        'user_id',
         'released_at',
         'pdf_created_at'
     ];
