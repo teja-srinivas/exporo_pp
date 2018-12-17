@@ -23,8 +23,6 @@ class InvestorController extends Controller
                 ->select('investors.id', 'first_name', 'last_name', 'activation_at')
                 ->selectRaw('count(investments.id) as investments')
                 ->selectRaw('sum(investments.amount) as amount')
-                ->whereDate('investments.cancelled_at', '<=', LEGACY_NULL)
-                ->whereDate('investments.acknowledged_at', '>', LEGACY_NULL)
                 ->groupBy('investors.id')
                 ->get(),
         ]);
