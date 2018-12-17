@@ -112,7 +112,7 @@
                         <a href="{{ route('bills.show', $bill) }}">{{ $bill->getDisplayName() }}</a>
                     </td>
                     <td class="text-right">{{ $bill->commissions }}</td>
-                    <td class="text-right">{{ format_money($bill->net) }}</td>
+                    <td class="text-right">{{ format_money($bill->gross) }}</td>
                     <td>@timeago($bill->created_at)</td>
                 </tr>
             @empty
