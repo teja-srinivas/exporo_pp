@@ -184,7 +184,7 @@ class Commission extends Model implements AuditableContract
             return;
         }
 
-        $query->where($this->getTable() . '.user_id', is_numeric($user) ? $user : $user->id);
+        $query->where($this->getTable() . '.user_id', is_object($user) ? $user->id : $user);
     }
 
     /**
