@@ -90,16 +90,18 @@ class UserController extends Controller
 
         $user->bills = Bill::getDetailsPerUser($user->id)->get();
 
-        // TODO only count uncancelled investments
-        $investors = $user->investors()->toBase()
+        $investors = $user->investors()
             ->leftJoin('investments', 'investments.investor_id', 'investors.id')
             ->selectRaw('count(distinct(investors.id)) as count')
             ->selectRaw('count(investments.id) as investments')
             ->selectRaw('sum(investments.amount) as amount')
-            ->where(function (Builder $query) {
-                $query->where('investments.cancelled_at', LEGACY_NULL);
-                $query->orWhereNull('investments.cancelled_at');
-            })
+            ->selectSub($user->investments()->toBase()
+                ->where(function (Builder $query) {
+                    $query->where('investments.cancelled_at', LEGACY_NULL);
+                    $query->orWhereNull('investments.cancelled_at');
+                })
+                ->selectRaw('sum(amount)')
+            , 'amount')
             ->first();
 
         $bonusBundles = BonusBundle::all()->mapWithKeys(function (BonusBundle $bundle) {

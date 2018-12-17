@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Investment;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class InvestorController extends Controller
@@ -19,11 +21,22 @@ class InvestorController extends Controller
         return view('users.investors.index', [
             'user' => $user,
             'investors' => $user->investors()
-                ->leftJoin('investments', 'investments.investor_id', 'investors.id')
+                ->leftJoinSub(Investment::query()
+                    ->join('investors', 'investments.investor_id', 'investors.id')
+                    ->where('user_id', $user->getKey())
+                    ->whereDate('investments.acknowledged_at', '>', LEGACY_NULL)
+                    ->where(function (Builder $query) {
+                        $query->whereDate('investments.cancelled_at', '<=', LEGACY_NULL);
+                        $query->orWhereNull('investments.cancelled_at');
+                    })
+                    ->addSelect('investor_id')
+                    ->selectRaw('count(investments.id) as investments')
+                    ->selectRaw('sum(amount) as amount')
+                    ->groupBy('investor_id')
+                , 'investments', 'investments.investor_id', '=', 'investors.id')
                 ->select('investors.id', 'first_name', 'last_name', 'activation_at')
-                ->selectRaw('count(investments.id) as investments')
-                ->selectRaw('sum(investments.amount) as amount')
-                ->groupBy('investors.id')
+                ->selectRaw('ifnull(investments.investments, 0) as investments')
+                ->selectRaw('ifnull(investments.amount, 0) as amount')
                 ->get(),
         ]);
     }
