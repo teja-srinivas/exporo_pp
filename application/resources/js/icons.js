@@ -1,6 +1,6 @@
-import fontawesome from '@fortawesome/fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
-fontawesome.library.add(
+library.add(
   require('@fortawesome/free-solid-svg-icons/faChevronDown').definition,
   require('@fortawesome/free-solid-svg-icons/faChevronRight').definition,
   require('@fortawesome/free-solid-svg-icons/faCopy').definition,
