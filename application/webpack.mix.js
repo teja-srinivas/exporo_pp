@@ -41,6 +41,8 @@ mix.purgeCss({
     /^pag/,
     /^popover/,
     /^bs-popover/,
+    /^tooltip/,
+    /^bs-tooltip/,
   ],
 });
 
