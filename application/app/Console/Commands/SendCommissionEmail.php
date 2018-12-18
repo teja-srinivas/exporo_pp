@@ -43,8 +43,8 @@ class SendCommissionEmail extends Command
             SendMail::dispatch([
                 'Provision' => format_money($bill->getTotalNet()),
                 'Link' => 'p.exporo.com',
-                'billing_month' => Carbon::now()->format('m'),
-                'billing_year' => Carbon::now()->format('y'),
+                'billing_month' => Carbon::now()->subMonth(1)->format('F'),
+                'billing_year' => Carbon::now()->format('Y'),
             ], $bill->user, config('mail.templateIds.commissionCreated'))->onQueue('emails');
         };
     }

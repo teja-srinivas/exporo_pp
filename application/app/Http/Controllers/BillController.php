@@ -188,7 +188,7 @@ class BillController extends Controller
         $this->authorize('view', $bill);
 
         $disk = Storage::disk('s3');
-        $filePath = 'statements/' . $bill->id . '.pdf';
+        $filePath = 'statements/' . $bill->id;
 
         abort_unless($disk->exists($filePath), Response::HTTP_NOT_FOUND);
 
