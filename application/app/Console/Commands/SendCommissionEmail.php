@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Bill;
 use App\Jobs\SendMail;
+use Carbon\Carbon;
 
 class SendCommissionEmail extends Command
 {
@@ -41,8 +42,10 @@ class SendCommissionEmail extends Command
         foreach ($bills as $bill) {
             SendMail::dispatch([
                 'Provision' => format_money($bill->getTotalNet()),
-                'Link' => 'p.exporo.com'
-            ], $bill->user, config('mail.templateIds.commissionCreated'))->onQueue('emailsLow');
+                'Link' => 'p.exporo.com',
+                'billing_month' => Carbon::now()->format('m'),
+                'billing_year' => Carbon::now()->format('y'),
+            ], $bill->user, config('mail.templateIds.commissionCreated'))->onQueue('emails');
         };
     }
 

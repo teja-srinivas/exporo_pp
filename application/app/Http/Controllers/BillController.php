@@ -42,7 +42,7 @@ class BillController extends Controller
                         'commissions' => $bill->commissions,
                     ],
                     'links' => [
-                        'self' => route('bills.show', $bill),
+                        'self' => route('bills.download', $bill),
                     ],
                 ];
             })->sortBy(function (array $bill) {
@@ -188,7 +188,7 @@ class BillController extends Controller
         $this->authorize('view', $bill);
 
         $disk = Storage::disk('s3');
-        $filePath = 'statements/' . $bill->id;
+        $filePath = 'statements/' . $bill->id . '.pdf';
 
         abort_unless($disk->exists($filePath), Response::HTTP_NOT_FOUND);
 

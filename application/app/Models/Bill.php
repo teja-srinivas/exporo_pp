@@ -99,8 +99,9 @@ class Bill extends Model implements AuditableContract
     public function getFileName(): string
     {
         return implode('_', [
-            $this->id,
+            'Exporo_Provisionsabrechnung_vom',
             $this->created_at->format('d.m.Y'),
+            'für ',
             $this->user_id,
         ]) . '.pdf';
     }
