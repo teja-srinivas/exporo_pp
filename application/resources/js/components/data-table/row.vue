@@ -8,6 +8,7 @@
           :key="`${row.key}-header`"
           :class="{
             'border-bottom': depth === 0 || index < rows.length - 1 || showDetails(row),
+            'border-top': index > 0 && (!rows[index - 1].isGroup || !showDetails(rows[index - 1])),
           }"
           class="font-weight-bold"
           @click="toggleDetails(row)"
@@ -32,7 +33,7 @@
           <template v-for="column in columns">
             <!-- Use the regular cell when it's the one we're grouping by -->
             <cell
-              v-if="row.groupColumn === column.name"
+              v-if="row.groupColumns.indexOf(column.name) >= 0"
               :key="column.name"
               :column="column"
               :value="formatValue(row.groupValue, column)"
@@ -72,6 +73,7 @@
       <tr
         v-else
         :key="row[primary]"
+        :class="{ [$style.trChild]: index === 0 }"
       >
         <td
           v-if="depth > 0"
@@ -85,8 +87,8 @@
         />
 
         <td
-          v-if="depth === 0"
-          width="0"
+          v-if="depth === 0 || containsGroups"
+          :width="containsGroups ? 32 : 0"
         />
 
         <cell
@@ -102,6 +104,7 @@
 
 <script>
 import isArray from 'lodash/isArray';
+import findIndex from 'lodash/findIndex';
 
 import bus, { TOGGLE_DETAILS } from './events';
 
@@ -153,6 +156,12 @@ export default {
     },
   },
 
+  computed: {
+    containsGroups() {
+      return findIndex(this.rows, ({ isGroup }) => isGroup === true) >= 0;
+    },
+  },
+
   methods: {
     isArray,
 
@@ -190,6 +199,10 @@ export default {
 </script>
 
 <style lang="scss" module>
+  .trChild {
+    box-shadow: inset 0 6px 5px -5px rgba(black, 0.1);
+  }
+
   .chevron {
     width: 1em !important;
   }

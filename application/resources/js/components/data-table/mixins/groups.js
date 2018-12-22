@@ -129,7 +129,7 @@ export default {
      * @param children The (nested) groups to use
      * @return {Array|Object}
      */
-    mapGroup(values, children = [], parent = { hash: '#root' }) {
+    mapGroup(values, children = [], parent = { hash: '#root', groupColumns: [] }) {
       const [group, ...sub] = children;
 
       // If we have no group, early exit
@@ -152,7 +152,7 @@ export default {
       const groups = map(grouped, (list, key) => {
         const instance = {
           isGroup: true,
-          groupColumn: group.column,
+          groupColumns: [group.column, ...parent.groupColumns],
           groupValue: list[0],
           hash: `${parent.hash}.${group.column}[${key}]`,
           key,
@@ -162,13 +162,20 @@ export default {
           row: {},
         };
 
+        // Do the same recursively
+        instance.values = this.mapGroup(list, sub, instance);
+
+        // In case the group only has a single element,
+        // "unwrap" it again, as it's no longer needed
+        if (instance.values.length === 1) {
+          return instance.values[0];
+        }
+
         // 2. Use aggregates to create a displayable row
         each(this.columnsOptimized, (column) => {
           if (column.name === group.column) {
             return;
           }
-
-          // TODO inherit value from grouped parent
 
           // Otherwise try to determine an aggregated value
           const aggregate = column.formatter.defaultAggregator;
@@ -191,9 +198,6 @@ export default {
             format,
           };
         });
-
-        // Do the same recursively
-        instance.values = this.mapGroup(list, sub, instance);
         return instance;
       });
 
@@ -203,14 +207,29 @@ export default {
         if (group.column === col) {
           const formatter = this.columnsByName[col].formatter;
           return obj => {
-            // Take nested groups into account
-            const val = obj.values[0];
-            return formatter.orderBy((val.isGroup ? val.groupValue : val)[col]);
+            let val = obj;
+
+            if (val.isGroup) {
+              val = obj.values[0];
+
+              // Take nested groups into account
+              if (val.isGroup) {
+                val = val.groupValue;
+              }
+            }
+
+            return formatter.orderBy(val[col]);
           };
         }
 
         // Otherwise, use the aggregate
-        return obj => obj.columns[col].formatter.orderBy(obj.row[col]);
+        return obj => {
+          if (obj.isGroup) {
+            return obj.columns[col].formatter.orderBy(obj.row[col]);
+          }
+
+          return obj[col];
+        };
       });
     },
   },
