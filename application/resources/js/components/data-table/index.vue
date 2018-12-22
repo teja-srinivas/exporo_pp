@@ -9,9 +9,14 @@
         <select-box
           v-if="selectable"
           element="th"
+          key="#global-select"
         />
 
-        <th :width="localGroups.length * 32" />
+        <th
+          v-if="groupCount > 0"
+          :width="localGroups.length * 32"
+          key="#delimiter"
+        />
 
         <filter-button
           v-for="column in columnsOptimized"

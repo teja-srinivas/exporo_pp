@@ -88,7 +88,7 @@
 
         <select-box
           v-if="selectable"
-          element="th"
+          element="td"
         />
 
         <td
