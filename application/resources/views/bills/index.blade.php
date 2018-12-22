@@ -9,35 +9,54 @@
 @endsection
 
 @section('main-content')
-    <table class="bg-white shadow-sm accent-primary table table-borderless table-hover table-striped table-sticky table-sm">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Benutzer</th>
-            <th>Summe</th>
-            <th>Provisionen</th>
-            <th width="140">Erstellt</th>
-        </tr>
-        </thead>
-        <tbody>
-        @forelse($bills as $bill)
-            <tr>
-                <td><a href="{{ $bill['links']['self'] }}">{{ $bill['name'] }}</a></td>
-                <td>
-                    <a href="{{ $bill['user']['links']['self'] }}">
-                        {{ $bill['user']['lastName']}},
-                        {{ $bill['user']['firstName']}}
-                    </a>
-                </td>
-                <td class="text-right">{{ $bill['meta']['net'] ?? '' }}</td>
-                <td class="text-right">{{ $bill['meta']['commissions'] ?? '' }}</td>
-                <td>@timeago($bill['date'])</td>
-            </tr>
-        @empty
-            <tr class="text-center text-muted">
-                <td colspan="5">Noch keine Abrechnungen erstellt</td>
-            </tr>
-        @endforelse
-        </tbody>
-    </table>
+    @php($data = [
+        'selectable' => true,
+        'primary' => 'id',
+        'columns' => [
+            [
+                'name' => 'name',
+                'label' => 'Name',
+                'format' => 'display',
+                'options' => [
+                    'name' => 'displayName',
+                ],
+            ],
+            [
+                'name' => 'user',
+                'label' => 'Benutzer',
+                'format' => 'user',
+                'width' => '50%',
+            ],
+            [
+                'name' => 'gross',
+                'label' => 'Summe',
+                'groupBy' => false,
+                'format' => 'currency',
+            ],
+            [
+                'name' => 'commissions',
+                'label' => 'Provisionen',
+                'format' => 'number',
+            ],
+            [
+                'name' => 'date',
+                'label' => 'Erstellt',
+                'groupBy' => false,
+                'format' => 'date',
+                'width' => 100,
+            ],
+        ],
+        'groups' => [
+            [
+                'column' => 'name',
+                'sort' => [
+                    'name' => 'name',
+                    'order' => 'desc',
+                ],
+            ],
+        ],
+        'rows' => $bills->values(),
+    ])
+
+    <vue data-is="data-table" data-props='@json($data)'></vue>
 @endsection

@@ -36,6 +36,12 @@ class Bill extends Model implements AuditableContract
         'pdf_created_at'
     ];
 
+    protected $casts = [
+        // They're dynamic columns, but if they exist - cast them
+        'net' => 'float',
+        'gross' => 'float',
+    ];
+
 
     public function user(): BelongsTo
     {

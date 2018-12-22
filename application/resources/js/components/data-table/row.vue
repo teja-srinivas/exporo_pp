@@ -1,0 +1,196 @@
+<template>
+  <tbody v-if="true">
+    <template v-for="(row, index) in rows">
+      <!-- Groups -->
+      <template v-if="row.isGroup">
+        <!-- Group Header (aggregated row) -->
+        <tr
+          :key="`${row.key}-header`"
+          :class="{
+            'border-bottom': depth === 0 || index < rows.length - 1 || showDetails(row),
+          }"
+          class="font-weight-bold"
+          @click="toggleDetails(row)"
+        >
+          <td
+            v-if="depth > 0"
+            :width="depth * 32"
+            class="bg-light border-right"
+          />
+
+          <select-box
+            v-if="selectable"
+          />
+
+          <td width="32">
+            <font-awesome-icon
+              :icon="showDetails(row) ? 'chevron-down' : 'chevron-right'"
+              :class="$style.chevron"
+            />
+          </td>
+
+          <template v-for="column in columns">
+            <!-- Use the regular cell when it's the one we're grouping by -->
+            <cell
+              v-if="row.groupColumn === column.name"
+              :key="column.name"
+              :column="column"
+              :value="formatValue(row.groupValue, column)"
+            />
+
+            <!-- otherwise, use the aggregates -->
+            <cell
+              v-else
+              :key="column.name"
+              :column="row.columns[column.name]"
+              :value="formatValue(row.row, row.columns[column.name])"
+            />
+          </template>
+        </tr>
+
+        <!-- Group contents -->
+        <tr
+          v-if="showDetails(row)"
+          :key="`${row.key}-contents`"
+        >
+          <td
+            :colspan="columnCount + (depth > 0 ? 1 : 0)"
+            :class="{ 'border-bottom': depth === 0 || index < rows.length - 1 }"
+            class="p-0"
+          >
+            <table
+              :class="{ 'table-hover': row.values[0].isGroup === undefined }"
+              class="table table-sm table-striped bg-transparent m-0 table-fixed table-striped"
+            >
+              <table-group v-bind="buildChildProps(row)" />
+            </table>
+          </td>
+        </tr>
+      </template>
+
+      <!-- Regular rows -->
+      <tr
+        v-else
+        :key="row[primary]"
+      >
+        <td
+          v-if="depth > 0"
+          :width="depth * 32"
+          class="bg-light border-right"
+        />
+
+        <select-box
+          v-if="selectable"
+          element="th"
+        />
+
+        <td
+          v-if="depth === 0"
+          width="0"
+        />
+
+        <cell
+          v-for="column in columns"
+          :key="column.name"
+          :column="column"
+          :value="formatValue(row, column)"
+        />
+      </tr>
+    </template>
+  </tbody>
+</template>
+
+<script>
+import isArray from 'lodash/isArray';
+
+import bus, { TOGGLE_DETAILS } from './events';
+
+import SelectBox from './select-box';
+import Cell from "./cell";
+
+export default {
+  name: 'table-group',
+
+  components: {
+    Cell,
+    SelectBox,
+  },
+
+  props: {
+    primary: {
+      type: String,
+      required: true,
+    },
+
+    selectable: {
+      type: Boolean,
+      required: true,
+    },
+
+    columns: {
+      type: Array,
+      required: true,
+    },
+
+    columnCount: {
+      type: Number,
+      required: true,
+    },
+
+    rows: {
+      type: [Array, Object],
+      required: true,
+    },
+
+    depth: {
+      type: Number,
+      required: true,
+    },
+
+    expanded: {
+      type: Array,
+      required: true,
+    },
+  },
+
+  methods: {
+    isArray,
+
+    showDetails(group) {
+      return this.expanded.indexOf(group.hash) >= 0;
+    },
+
+    formatValue(row, column = {}) {
+      const value = row[column.name];
+
+      if (value === undefined || column === undefined) {
+        return '';
+      }
+
+      if (column.formatter && column.formatter.format) {
+        return column.formatter.format(value, column.options, row);
+      }
+
+      return value;
+    },
+
+    buildChildProps(group) {
+      return {
+        ...this.$props,
+        depth: this.depth + 1,
+        rows: group.values,
+      };
+    },
+
+    toggleDetails(group) {
+      bus.$emit(TOGGLE_DETAILS, group);
+    },
+  },
+};
+</script>
+
+<style lang="scss" module>
+  .chevron {
+    width: 1em !important;
+  }
+</style>

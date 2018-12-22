@@ -3,14 +3,18 @@
     :is="element"
     @click="updateFilter"
     :class="$style.cursor"
+    v-bind="$attrs"
   >
-    <div class="d-flex justify-content-between align-items-center">
-      <slot />
+    <div class="d-flex align-items-center">
+      <div class="flex-fill">
+        <slot />
+      </div>
+
+      <slot name="action" />
 
       <font-awesome-icon
         :icon="isActive ? icons[this.value.order] : 'sort'"
         :class="{[$style.icon]: !isActive }"
-        fixed-width
       />
     </div>
 
@@ -35,6 +39,8 @@ export default {
     },
   },
 
+  inheritAttrs: true,
+
   computed: {
     isActive() {
       return this.value.name === this.name && this.value.order !== '';
@@ -51,10 +57,11 @@ export default {
   methods: {
     updateFilter() {
       const list = ['', 'desc', 'asc'];
+      const order = !this.isActive ? list[1] : list[(list.indexOf(this.value.order) + 1) % list.length];
 
       this.$emit('input', {
-        name: this.name,
-        order: !this.isActive ? list[1] : list[(list.indexOf(this.value.order) + 1) % list.length],
+        name: order.length > 0 ? this.name : '',
+        order,
       });
     },
   },
@@ -62,11 +69,13 @@ export default {
 </script>
 
 <style lang="scss" module>
+  @import '../../sass/variables';
+
   .cursor {
     cursor: ns-resize;
   }
 
   .icon {
-    color: #bbb;
+    color: rgba($black, 0.2);
   }
 </style>

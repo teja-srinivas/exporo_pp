@@ -1,0 +1,217 @@
+import each from 'lodash/each';
+import findIndex from 'lodash/findIndex';
+import groupBy from 'lodash/groupBy';
+import map from 'lodash/map';
+import orderBy from 'lodash/orderBy';
+import reject from 'lodash/reject';
+
+import formatters from '../formatters';
+import bus, { TOGGLE_DETAILS } from '../events';
+
+export default {
+  props: {
+    groups: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
+  data() {
+    return {
+      localGroups: this.groups,
+      expanded: [],
+    };
+  },
+
+  created() {
+    bus.$on(TOGGLE_DETAILS, this.toggleGroupDetails);
+  },
+
+  methods: {
+    /**
+     * Indicates if our content is already being grouped by
+     * the given column.
+     *
+     * @param column
+     * @return {boolean}
+     */
+    hasGroupBy(column) {
+      return findIndex(
+        this.localGroups,
+        group => group.column === column.name
+      ) >= 0;
+    },
+
+    /**
+     * Indicates if we can add a group by for this given column.
+     * Columns can choose if they want to be grouped by or not.
+     *
+     * @param column
+     * @return {boolean}
+     */
+    canBeGroupedBy(column) {
+      return !this.hasGroupBy(column) && column.groupBy !== false;
+    },
+
+    /**
+     * Adds the given column to our "group by" clause.
+     *
+     * @param column
+     */
+    addGroupBy(column) {
+      if (!this.canBeGroupedBy(column)) {
+        return;
+      }
+
+      this.localGroups.push({
+        column: column.name,
+        sort: {
+          name: column.name,
+          order: 'asc',
+        },
+      });
+    },
+
+    /**
+     * Removes the given group by clause.
+     * Can either be a string, a group or a column object.
+     *
+     * @param {string, object} groupOrColumn
+     */
+    removeGroupBy(groupOrColumn) {
+      this.localGroups = reject(
+        this.localGroups,
+        group => {
+          const column = groupOrColumn.column || groupOrColumn.name || groupOrColumn;
+          return group.column === column;
+        },
+      );
+    },
+
+    /**
+     * Collapses/Expands the given group.
+     *
+     * @param group
+     */
+    toggleGroupDetails(group) {
+      const index = this.expanded.indexOf(group.hash);
+
+      if (index >= 0) {
+        this.expanded.splice(index, 1);
+        return;
+      }
+
+      this.expanded.push(group.hash);
+    },
+
+    /**
+     * Sorts the given values using the given sort parameters.
+     *
+     * @param values A list of values
+     * @param sort An object with the column name and order (asc, desc)
+     * @param orderFunc
+     * @return {*}
+     */
+    sortValues(values, sort, orderFunc) {
+      const column = sort.name;
+
+      if (column === '' || sort.order === '') {
+        return values;
+      }
+
+      return orderBy(values, [orderFunc(column)], [sort.order]);
+    },
+
+    /**
+     * Maps the given values into groups.
+     *
+     * @param values The values to group
+     * @param children The (nested) groups to use
+     * @return {Array|Object}
+     */
+    mapGroup(values, children = [], parent = { hash: '#root' }) {
+      const [group, ...sub] = children;
+
+      // If we have no group, early exit
+      if (group === undefined) {
+        return this.sortValues(values, this.sort, (col) => {
+          // Sort regular values by their global order
+          const formatter = this.columnsByName[col].formatter;
+          return obj => formatter.orderBy(obj[col]);
+        });
+      }
+
+      // 1. Group our contents by a displayable name
+      const column = this.columnsByName[group.column];
+      const grouped = groupBy(
+        values,
+        obj => column.formatter.groupBy(obj[group.column], column.options, obj),
+      );
+
+      // Convert into group objects
+      const groups = map(grouped, (list, key) => {
+        const instance = {
+          isGroup: true,
+          groupColumn: group.column,
+          groupValue: list[0],
+          hash: `${parent.hash}.${group.column}[${key}]`,
+          key,
+
+          // Use custom column settings for the aggregates
+          columns: {},
+          row: {},
+        };
+
+        // 2. Use aggregates to create a displayable row
+        each(this.columnsOptimized, (column) => {
+          if (column.name === group.column) {
+            return;
+          }
+
+          // TODO inherit value from grouped parent
+
+          // Otherwise try to determine an aggregated value
+          const aggregate = column.formatter.defaultAggregator;
+          const aggregator = column.formatter.aggregates[aggregate];
+
+          if (aggregator === undefined) {
+            instance.columns[column.name] = {
+              width: column.width,
+            }
+            return;
+          }
+
+          const value = aggregator.calculate(map(list, column.name));
+          const format = aggregator.format;
+
+          instance.row[column.name] = value;
+          instance.columns[column.name] = {
+            ...column,
+            formatter: formatters[format],
+            format,
+          };
+        });
+
+        // Do the same recursively
+        instance.values = this.mapGroup(list, sub, instance);
+        return instance;
+      });
+
+      // 3. Sort groups by their aggregate (using the group order)
+      return this.sortValues(groups, group.sort, (col) => {
+        // If it's the column we're grouping by, use the actual value
+        if (group.column === col) {
+          const formatter = this.columnsByName[col].formatter;
+          return obj => {
+            // Take nested groups into account
+            const val = obj.values[0];
+            return formatter.orderBy((val.isGroup ? val.groupValue : val)[col]);
+          };
+        }
+
+        // Otherwise, use the aggregate
+        return obj => obj.columns[col].formatter.orderBy(obj.row[col]);
+      });
+    },
+  },
+};

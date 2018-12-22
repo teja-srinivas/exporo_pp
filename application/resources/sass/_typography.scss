@@ -25,6 +25,10 @@ h1, h2, .h1 {
   letter-spacing: 0.04rem;
 }
 
+.leading-sm {
+  line-height: 1;
+}
+
 ::selection {
   background: $primary;
   color: $white;
