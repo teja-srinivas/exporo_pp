@@ -54,6 +54,7 @@
         <!-- Group contents -->
         <tr
           v-if="showDetails(row)"
+          :class="$style.innerTable"
           :key="`${row.key}-contents`"
         >
           <td
@@ -62,8 +63,7 @@
             class="p-0"
           >
             <table
-              :class="{ 'table-hover': row.values[0].isGroup === undefined }"
-              class="table table-sm table-striped bg-transparent m-0 table-fixed table-striped"
+              class="table table-sm table-striped bg-transparent m-0 table-fixed"
             >
               <table-group v-bind="buildChildProps(row)" />
             </table>
@@ -208,6 +208,10 @@ export default {
 </script>
 
 <style lang="scss" module>
+  .innerTable {
+    background-color: transparent !important;
+  }
+
   .trChildStart {
     box-shadow: inset 0 6px 5px -5px rgba(black, 0.1);
   }

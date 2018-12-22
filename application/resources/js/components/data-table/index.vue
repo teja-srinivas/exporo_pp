@@ -1,7 +1,7 @@
 <template>
   <table
-    :class="localGroups.length === 0 ? ['table-hover', 'table-striped'] : []"
-    class="table table-sm bg-white shadow-sm accent-primary table-sticky table-borderless table-fixed"
+    class="table table-sm bg-white shadow-sm accent-primary table-sticky
+           table-borderless table-hover table-striped table-fixed"
   >
     <!-- Column settings -->
     <thead>
