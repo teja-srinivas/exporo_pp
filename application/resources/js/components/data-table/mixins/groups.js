@@ -27,6 +27,12 @@ export default {
     bus.$on(TOGGLE_DETAILS, this.toggleGroupDetails);
   },
 
+  computed: {
+    groupCount() {
+      return this.localGroups.length;
+    },
+  },
+
   methods: {
     /**
      * Indicates if our content is already being grouped by

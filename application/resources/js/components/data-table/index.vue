@@ -113,6 +113,7 @@
       :rows="rootRows"
       :columns="columnsOptimized"
       :column-count="columnCount"
+      :group-count="groupCount"
       :selectable="selectable"
       :expanded="expanded"
       :primary="primary"

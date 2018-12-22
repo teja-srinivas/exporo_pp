@@ -9,6 +9,8 @@
           :class="{
             'border-bottom': depth === 0 || index < rows.length - 1 || showDetails(row),
             'border-top': index > 0 && (!rows[index - 1].isGroup || !showDetails(rows[index - 1])),
+            [$style.trChildStart]: index === 0,
+            [$style.trChildEnd]: depth > 0 && index === rows.length - 1,
           }"
           class="font-weight-bold"
           @click="toggleDetails(row)"
@@ -73,7 +75,10 @@
       <tr
         v-else
         :key="row[primary]"
-        :class="{ [$style.trChild]: index === 0 }"
+        :class="{
+          [$style.trChildStart]: index === 0,
+          [$style.trChildEnd]: depth > 0 && index === rows.length - 1,
+        }"
       >
         <td
           v-if="depth > 0"
@@ -87,8 +92,8 @@
         />
 
         <td
-          v-if="depth === 0 || containsGroups"
-          :width="containsGroups ? 32 : 0"
+          v-if="(groupCount - depth) > 0"
+          width="32"
         />
 
         <cell
@@ -104,7 +109,6 @@
 
 <script>
 import isArray from 'lodash/isArray';
-import findIndex from 'lodash/findIndex';
 
 import bus, { TOGGLE_DETAILS } from './events';
 
@@ -140,6 +144,11 @@ export default {
       required: true,
     },
 
+    groupCount: {
+      type: Number,
+      required: true,
+    },
+
     rows: {
       type: [Array, Object],
       required: true,
@@ -158,7 +167,7 @@ export default {
 
   computed: {
     containsGroups() {
-      return findIndex(this.rows, ({ isGroup }) => isGroup === true) >= 0;
+      return (this.depth - this.groupCount) > 0;
     },
   },
 
@@ -199,8 +208,12 @@ export default {
 </script>
 
 <style lang="scss" module>
-  .trChild {
+  .trChildStart {
     box-shadow: inset 0 6px 5px -5px rgba(black, 0.1);
+  }
+
+  .trChildEnd {
+    box-shadow: inset 0 -6px 5px -5px rgba(black, 0.1);
   }
 
   .chevron {
