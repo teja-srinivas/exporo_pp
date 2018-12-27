@@ -20,6 +20,7 @@
                 'options' => [
                     'name' => 'displayName',
                 ],
+                'link' => 'links.self',
             ],
             [
                 'name' => 'user',

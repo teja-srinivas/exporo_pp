@@ -100,7 +100,7 @@
           v-for="column in columns"
           :key="column.name"
           :column="column"
-          :value="formatValue(row, column)"
+          :value="formatValue(row, column, true)"
         />
       </tr>
     </template>
@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import get from 'lodash/get';
 import isArray from 'lodash/isArray';
 
 import bus, { TOGGLE_DETAILS } from './events';
@@ -178,15 +179,19 @@ export default {
       return this.expanded.indexOf(group.hash) >= 0;
     },
 
-    formatValue(row, column = {}) {
-      const value = row[column.name];
+    formatValue(row, column = {}, allowLinks = false) {
+      let value = row[column.name];
 
       if (value === undefined || column === undefined) {
         return '';
       }
 
       if (column.formatter && column.formatter.format) {
-        return column.formatter.format(value, column.options, row);
+        value = column.formatter.format(value, column.options, row);
+      }
+
+      if (allowLinks && column.link !== undefined) {
+        return `<a href="${get(row, column.link)}">${value}</a>`;
       }
 
       return value;
