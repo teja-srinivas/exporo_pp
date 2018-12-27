@@ -5,6 +5,8 @@ import map from 'lodash/map';
 import orderBy from 'lodash/orderBy';
 import reject from 'lodash/reject';
 
+import toggleInArray from '../../../utils/toggleInArray';
+
 import formatters from '../formatters';
 import bus, { TOGGLE_DETAILS } from '../events';
 
@@ -25,6 +27,10 @@ export default {
 
   created() {
     bus.$on(TOGGLE_DETAILS, this.toggleGroupDetails);
+  },
+
+  destroyed() {
+    bus.$off(TOGGLE_DETAILS, this.toggleGroupDetails);
   },
 
   computed: {
@@ -100,14 +106,7 @@ export default {
      * @param group
      */
     toggleGroupDetails(group) {
-      const index = this.expanded.indexOf(group.hash);
-
-      if (index >= 0) {
-        this.expanded.splice(index, 1);
-        return;
-      }
-
-      this.expanded.push(group.hash);
+      toggleInArray(this.expanded, group.hash);
     },
 
     /**

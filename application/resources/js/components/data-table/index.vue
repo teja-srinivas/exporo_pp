@@ -8,8 +8,11 @@
       <tr>
         <select-box
           v-if="selectable"
+          :size="rows.length"
+          :count="selection.length"
           element="th"
           key="#global-select"
+          @change="toggleGlobalSelection"
         />
 
         <th
@@ -121,6 +124,7 @@
       :group-count="groupCount"
       :selectable="selectable"
       :expanded="expanded"
+      :selection="selection"
       :primary="primary"
       :depth="0"
       key="#table-contents"
@@ -147,11 +151,17 @@
 </template>
 
 <script>
+import difference from 'lodash/difference';
 import map from 'lodash/map';
+import filter from 'lodash/filter';
 import mapToDict from '../../utils/mapToDict';
+import toggleInArray from '../../utils/toggleInArray';
+
+import bus, { TOGGLE_SELECTION_ITEM, TOGGLE_SELECTION_GROUP } from './events';
 
 import formatters from './formatters';
 import groups from './mixins/groups';
+import selection from './mixins/selection';
 
 import FilterButton from '../FilterButton.vue';
 import SelectBox from './select-box';
@@ -160,6 +170,7 @@ import Row from './row.vue';
 export default {
   mixins: [
     groups,
+    selection,
   ],
 
   components: {
@@ -205,6 +216,15 @@ export default {
     };
   },
 
+  created() {
+    bus.$on(TOGGLE_SELECTION_ITEM, this.toggleItemSelection);
+    bus.$on(TOGGLE_SELECTION_GROUP, this.toggleGroupSelection);
+  },
+
+  destroyed() {
+    bus.$on(TOGGLE_SELECTION_ITEM, this.toggleItemSelection);
+    bus.$on(TOGGLE_SELECTION_GROUP, this.toggleGroupSelection);
+  },
 
   computed: {
     /**
@@ -267,6 +287,33 @@ export default {
      */
     rootRows() {
       return this.mapGroup(this.filtered, this.localGroups);
+    },
+  },
+
+  methods: {
+    toggleItemSelection(item) {
+      toggleInArray(this.selection, item[this.primary]);
+    },
+
+    toggleGroupSelection(group) {
+      const isFullySelected = this.isFullySelected(group);
+      const selectionIds = this.getSelectionKeysInGroup(group);
+
+      if (isFullySelected) {
+        this.selection = difference(this.selection, selectionIds);
+        return;
+      }
+
+      this.selection.push(...filter(selectionIds, id => this.selection.indexOf(id) < 0));
+    },
+
+    toggleGlobalSelection() {
+      if (this.selection.length === this.rows.length) {
+        this.selection = [];
+        return;
+      }
+
+      this.selection = map(this.rows, value => value[this.primary]);
     },
   },
 };

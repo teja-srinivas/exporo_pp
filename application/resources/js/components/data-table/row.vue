@@ -22,6 +22,9 @@
 
           <select-box
             v-if="selectable"
+            :size="getNonGroupValueCount(row)"
+            :count="getSelectedValueCount(row)"
+            @change="toggleGroupSelection(row)"
           />
 
           <td
@@ -92,7 +95,10 @@
 
         <select-box
           v-if="selectable"
+          :size="1"
+          :count="itemIsSelected(row) ? 1 : 0"
           element="td"
+          @change="toggleItemSelection(row)"
         />
 
         <td
@@ -115,13 +121,23 @@
 import get from 'lodash/get';
 import isArray from 'lodash/isArray';
 
-import bus, { TOGGLE_DETAILS } from './events';
+import SelectionMixin from './mixins/selection';
+
+import bus, {
+  TOGGLE_DETAILS,
+  TOGGLE_SELECTION_GROUP,
+  TOGGLE_SELECTION_ITEM,
+} from './events';
 
 import SelectBox from './select-box';
 import Cell from "./cell";
 
 export default {
   name: 'table-group',
+
+  mixins: [
+    SelectionMixin,
+  ],
 
   components: {
     Cell,
@@ -164,15 +180,14 @@ export default {
       required: true,
     },
 
-    expanded: {
+    selection: {
       type: Array,
       required: true,
     },
-  },
 
-  computed: {
-    containsGroups() {
-      return (this.depth - this.groupCount) > 0;
+    expanded: {
+      type: Array,
+      required: true,
     },
   },
 
@@ -211,6 +226,14 @@ export default {
 
     toggleDetails(group) {
       bus.$emit(TOGGLE_DETAILS, group);
+    },
+
+    toggleGroupSelection(group) {
+      bus.$emit(TOGGLE_SELECTION_GROUP, group);
+    },
+
+    toggleItemSelection(row) {
+      bus.$emit(TOGGLE_SELECTION_ITEM, row);
     },
   },
 };
