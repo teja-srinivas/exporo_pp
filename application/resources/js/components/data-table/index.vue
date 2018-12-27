@@ -145,6 +145,41 @@
 
     <!-- Total Aggregates -->
     <tfoot>
+      <tr v-if="selectable && actions.length > 0">
+        <td :colspan="columnCount" class="pr-1">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="text-nowrap">
+              <span class="text-muted">Auswahl:</span>
+              <span class="text-dark">
+              <strong>{{ selection.length }}</strong>
+              <template v-if="selection.length === 1">Eintrag</template>
+              <template v-else>Einträge</template>
+            </span>
+            </div>
+            <div>
+              <form
+                v-for="action in actions"
+                :key="action.label"
+                :action="action.action"
+                :method="action.method"
+              >
+                <input
+                  v-for="item in selection"
+                  :key="item"
+                  type="hidden"
+                  name="selection[]"
+                  :value="item"
+                >
+                <button
+                  :disabled="selection.length === 0"
+                  class="btn btn-sm btn-outline-primary"
+                  v-text="action.label"
+                />
+              </form>
+            </div>
+          </div>
+        </td>
+      </tr>
     </tfoot>
   </table>
 </template>
@@ -200,6 +235,11 @@ export default {
     },
 
     rows: {
+      type: Array,
+      default: () => [],
+    },
+
+    actions: {
       type: Array,
       default: () => [],
     },

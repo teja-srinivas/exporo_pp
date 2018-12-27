@@ -57,6 +57,13 @@
             ],
         ],
         'rows' => $bills->values(),
+        'actions' => [
+            [
+                'label' => 'XLSX Herunterladen',
+                'action' => route('bills.export'),
+                'method' => 'get',
+            ],
+        ],
     ])
 
     <vue data-is="data-table" data-props='@json($data)'></vue>

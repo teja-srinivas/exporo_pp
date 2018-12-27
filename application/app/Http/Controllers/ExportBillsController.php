@@ -18,6 +18,8 @@ class ExportBillsController extends Controller
     {
         abort_unless($request->user()->can(BillPolicy::PERMISSION), 403);
 
-        return (new BillsExport)->download('Abrechnungen.xlsx');
+        $export = new BillsExport($request->get('selection', []));
+
+        return $export->download('Abrechnungen.xlsx');
     }
 }
