@@ -29,7 +29,7 @@
 
           <td
             :class="$style.tdChevron"
-            width="32"
+            :width="localDepth * 32"
             @click="toggleDetails(row)"
           >
             <font-awesome-icon
@@ -102,8 +102,7 @@
         />
 
         <td
-          v-if="(groupCount - depth) > 0"
-          width="32"
+          :width="localDepth * 32"
         />
 
         <cell
@@ -188,6 +187,12 @@ export default {
     expanded: {
       type: Array,
       required: true,
+    },
+  },
+
+  computed: {
+    localDepth() {
+      return Math.min(0, this.groupCount - this.depth);
     },
   },
 

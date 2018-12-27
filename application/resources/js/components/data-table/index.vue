@@ -16,7 +16,6 @@
         />
 
         <th
-          v-if="groupCount > 0"
           :width="localGroups.length * 32"
           key="#delimiter"
         />
