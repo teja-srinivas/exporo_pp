@@ -13,7 +13,6 @@
             [$style.trChildEnd]: depth > 0 && index === rows.length - 1,
           }"
           class="font-weight-bold"
-          @click="toggleDetails(row)"
         >
           <td
             v-if="depth > 0"
@@ -25,9 +24,14 @@
             v-if="selectable"
           />
 
-          <td width="32">
+          <td
+            :class="$style.tdChevron"
+            width="32"
+            @click="toggleDetails(row)"
+          >
             <font-awesome-icon
-              :icon="showDetails(row) ? 'chevron-down' : 'chevron-right'"
+              icon="chevron-right"
+              :rotation="showDetails(row) ? 90 : undefined"
               :class="$style.chevron"
             />
           </td>
@@ -227,5 +231,19 @@ export default {
 
   .chevron {
     width: 1em !important;
+  }
+
+  .tdChevron {
+    cursor: pointer;
+    transition: background-color 150ms ease;
+
+    &:hover {
+      background-color: rgba(black, 0.05);
+      box-shadow: inset 0 2px 6px -1px rgba(black, 0.1);
+    }
+
+    > svg {
+      transition: transform 200ms ease;
+    }
   }
 </style>
