@@ -14,7 +14,7 @@ table-sticky position-relative">
         <tr>
             @php($showUserLink = route('users.show', $user))
             <td><a href="{{ $showUserLink }}" class="text-muted">#{{ $user->id }}</a></td>
-            <td><a href="{{ $showUserLink }}">{{ $user->last_name . ', ' . $user->first_name}}</a></td>
+            <td><a href="{{ $showUserLink }}">{{ $user->getDisplayName() }}</a></td>
             <td><a href="{{ $showUserLink }}">{{ $user->details->company }}</a></td>
             <td class="text-right">
                 @if($user->rejected())
