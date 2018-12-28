@@ -22,6 +22,7 @@
                 <th>Projekt</th>
                 <th>Provisionstyp</th>
                 <th class="text-right">Betrag</th>
+                <th class="text-right">Investmentdatum</th>
                 <th class="text-right">Bezahldatum</th>
             </tr>
         </thead>
@@ -37,6 +38,9 @@
                     @unless($cancelled)
                     {{ format_money($investment->amount) }}
                     @endif
+                </td>
+                <td class="text-right">
+                    {{ ($investment->created_at)->format('d.m.Y') }}
                 </td>
                 <td class="text-right">
                     @if($cancelled)
