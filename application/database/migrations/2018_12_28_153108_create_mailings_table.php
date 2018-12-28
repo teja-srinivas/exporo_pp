@@ -1,27 +1,29 @@
-@extends('layouts.sidebar')
+<?php
 
-@section('title')
-    @breadcrumps([
-        'Werbemittel',
-        'Mailings',
-    ])
-@endsection
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-@section('main-content')
-    @card
-        @slot('title', 'Kunden per E-Mail Vorlage einladen')
+class CreateMailingsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('mailings', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->longText('text')->nullable();
+            $table->timestamps();
+        });
 
-        <p>
-            Hier findest du verschiedene E-Mail-Vorlagen, die du verwenden und ergänzen kannst um auf Exporo
-            und die aktuellen Immobilienprojekte aufmerksam zu machen. Du kannst den Text einfach kopieren
-            und über Dein E-Mail Programm versenden.
-        </p>
-
-        @php($user = auth()->user())
-        @php($suffix = "?a_aid=" . $user->id)
-
-        <textarea class="form-control" rows="30" readonly>
-Lieber Interessent,
+        \App\Models\Mailing::query()->create([
+            'title' => 'Begrüßung für Interessenten',
+            'text' => 'Lieber Interessent,
 
 eine innovative Anlageform hat sich in den letzten Jahren zu einer aufstrebenden Alternative im Investmentsektor entwickelt. Die Rede ist von Digitalen Immobilieninvestments.
 
@@ -34,15 +36,25 @@ Mit der Exporo AG, dem deutschen Marktführer dieser Anlageform, können Sie ber
 Exporo ist für Anleger kostenfrei - durch die schlanken Strukturen der Onlineabwicklung entsteht ein Kostenvorteil, welcher zu dem geringen Mindestinvestment und zu attraktiven Renditen führt.
 
 Hier können Sie sich unverbindlich für weitere Informationen registrieren:
-https://p.exporo.de/registrierung/{{ $suffix }}
+https://p.exporo.de/registrierung/#reflink
 
 Bei Fragen zur Plattform oder zu aktuellen Immobilienprojekten ist das Team von Exporo telefonisch unter 040 210 91 73 -00 oder E-Mail über info@exporo.de zu erreichen.
 
 Viele Grüße
-{{ $user->first_name }} {{ $user->last_name }}
+#partnername
 
 P.S.: Die Presse hat bereits mehrfach über Exporo berichtet:
-https://exporo.de/presse/{{ $suffix }}
-        </textarea>
-    @endcard
-@endsection
+https://exporo.de/presse/#reflink'
+        ]);
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('mailings');
+    }
+}

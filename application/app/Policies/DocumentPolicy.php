@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-class DocumentPolcy extends BasePolicy
+class DocumentPolicy extends BasePolicy
 {
     const PERMISSION = 'manage documents';
 

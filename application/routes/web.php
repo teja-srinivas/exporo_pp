@@ -63,7 +63,7 @@ Route::middleware(['verified'])->group(function () {
         Route::get('commission-details', 'User\CommissionDetails')->name('commission-details');
         Route::view('affiliate/child-users', 'affiliate/child-users')->name('affiliate.child-users');
         Route::view('affiliate/links', 'affiliate/links')->name('affiliate.links');
-        Route::view('affiliate/mails', 'affiliate/mails')->name('affiliate.mails');
+        Route::resource('affiliate/mails', 'MailingController')->names('affiliate.mails');
     });
 });
 

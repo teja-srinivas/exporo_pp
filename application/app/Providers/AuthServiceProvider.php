@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App;
+use App\Models;
 use App\Policies;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -15,17 +15,18 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        App\Models\Agb::class => Policies\AgbPolicy::class,
-        App\Models\Bill::class => Policies\BillPolicy::class,
-        App\Models\BonusBundle::class => Policies\BonusBundlePolicy::class,
-        App\Models\Commission::class => Policies\BillPolicy::class, // TODO
-        App\Models\Document::class => Policies\DocumentPolcy::class,
-        App\Models\Permission::class => Policies\PermissionPolicy::class,
-        App\Models\Project::class => Policies\ProjectPolicy::class,
-        App\Models\Role::class => Policies\RolePolicy::class,
-        App\Models\Schema::class => Policies\SchemaPolicy::class,
-        App\Models\User::class => Policies\UserPolicy::class,
-        App\Models\CommissionType::class => Policies\CommissionTypePolicy::class,
+        Models\Agb::class => Policies\AgbPolicy::class,
+        Models\Bill::class => Policies\BillPolicy::class,
+        Models\BonusBundle::class => Policies\BonusBundlePolicy::class,
+        Models\Commission::class => Policies\BillPolicy::class, // TODO
+        Models\Document::class => Policies\DocumentPolicy::class,
+        Models\Mailing::class => Policies\MailingPolicy::class,
+        Models\Permission::class => Policies\PermissionPolicy::class,
+        Models\Project::class => Policies\ProjectPolicy::class,
+        Models\Role::class => Policies\RolePolicy::class,
+        Models\Schema::class => Policies\SchemaPolicy::class,
+        Models\User::class => Policies\UserPolicy::class,
+        Models\CommissionType::class => Policies\CommissionTypePolicy::class,
     ];
 
     /**
@@ -37,8 +38,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('view partner dashboard', function (App\Models\User $user) {
-            return $user->hasAnyRole(App\Models\Role::ADMIN, App\Models\Role::PARTNER);
+        Gate::define('view partner dashboard', function (Models\User $user) {
+            return $user->hasAnyRole(Models\Role::ADMIN, Models\Role::PARTNER);
         });
     }
 }
