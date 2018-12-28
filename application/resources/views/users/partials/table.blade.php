@@ -3,8 +3,8 @@ table-sticky position-relative">
     <thead>
     <tr>
         <th>ID</th>
-        <th>Nachname</th>
-        <th>Vorname</th>
+        <th>Name</th>
+        <th>Firma</th>
         <th class="text-right">Status</th>
         <th width="160">Datum</th>
     </tr>
@@ -14,8 +14,8 @@ table-sticky position-relative">
         <tr>
             @php($showUserLink = route('users.show', $user))
             <td><a href="{{ $showUserLink }}" class="text-muted">#{{ $user->id }}</a></td>
-            <td><a href="{{ $showUserLink }}">{{ $user->last_name }}</a></td>
-            <td><a href="{{ $showUserLink }}">{{ $user->first_name }}</a></td>
+            <td><a href="{{ $showUserLink }}">{{ $user->last_name . ', ' . $user->first_name}}</a></td>
+            <td><a href="{{ $showUserLink }}">{{ $user->details->company }}</a></td>
             <td class="text-right">
                 @if($user->rejected())
                     <div class="badge badge-danger">Abgelehnt</div>
