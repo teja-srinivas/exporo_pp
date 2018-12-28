@@ -3,7 +3,7 @@
 @section('title', 'Dokumente')
 
 @section('main-content')
-    <table class="table bg-white table-borderless table-striped shadow-sm" style="line-height: 1rem">
+    <table class="table bg-white table-borderless table-striped shadow-sm leading-sm">
         <tbody>
         @forelse($documents as $document)
             <tr>
