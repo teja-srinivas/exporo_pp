@@ -52,7 +52,7 @@ class MailingController extends Controller
 
         Mailing::query()->create($data);
 
-        return redirect()->route('affiliate.mailings.index');
+        return redirect()->route('affiliate.mails.index');
     }
 
     /**
@@ -124,6 +124,6 @@ class MailingController extends Controller
 
         flash_success('Eintrag wurde gelöscht');
 
-        return redirect()->to('affiliate.mails.index');
+        return redirect()->route('affiliate.mails.index');
     }
 }
