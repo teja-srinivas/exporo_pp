@@ -34,7 +34,7 @@ table-sticky position-relative">
         </tr>
     @empty
         <tr class="text-center text-muted">
-            <td colspan="4">Noch keine Benuzer angelegt</td>
+            <td colspan="5">Noch keine Benuzer angelegt</td>
         </tr>
     @endforelse
     </tbody>
