@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.overflowHidden" class="border rounded">
-    <table class="table table-borderless table-hover table-sm table-striped mb-0" style="table-layout: fixed">
+    <table class="table table-borderless table-hover table-sm table-striped table-fixed mb-0">
       <colgroup>
         <col width="40%">
         <col width="40%">

@@ -491,7 +491,7 @@ import BTooltip from 'bootstrap-vue/es/directives/tooltip/tooltip';
 import { confirm } from '../../alert';
 
 import CorrectionEntryForm from './CorrectionEntryForm';
-import FilterButton from './FilterButton';
+import FilterButton from '../FilterButton';
 import RadioSwitch from '../RadioSwitch';
 import Schema from './Schema.vue';
 

@@ -9,7 +9,6 @@ use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
 use App\Jobs\SendMail;
-use App\Policies\BillPolicy;
 use App\Services\ApiTokenService;
 use App\Traits\Encryptable;
 use App\Traits\Person;
@@ -34,21 +33,18 @@ class BillController extends Controller
         return view('bills.index', [
             'bills' => Bill::getDetailsPerUser()->with('user')->get()->map(function (Bill $bill) use ($request) {
                 return [
-                    'name' => $bill->getDisplayName(),
-                    'date' => $bill->created_at,
+                    'id' => $bill->getKey(),
+                    'name' => $bill->created_at->format('Y-m'),
+                    'displayName' => $bill->getDisplayName(),
+                    'date' => $bill->created_at->format('Y-m-d'),
                     'user' => UserResource::make($bill->user)->toArray($request),
-                    'meta' => [
-                        'net' => format_money($bill->net),
-                        'commissions' => $bill->commissions,
-                    ],
+                    'gross' => $bill->gross,
+                    'commissions' => $bill->commissions,
                     'links' => [
                         'self' => route('bills.download', $bill),
                     ],
                 ];
-            })->sortBy(function (array $bill) {
-                // Sort bills by date, but ignore the creation time, just use the date
-                return $bill['date']->format('Ymd');
-            })->sortNatural('user.lastName'),
+            }),
         ]);
     }
 

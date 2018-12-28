@@ -12,6 +12,17 @@ class BillsExport implements FromCollection, WithHeadings, WithMapping
 {
     use Exportable;
 
+    /** @var int[] */
+    private $ids;
+
+    /**
+     * @param int[] $ids
+     */
+    public function __construct(array $ids)
+    {
+        $this->ids = $ids;
+    }
+
     /**
     * @return \Illuminate\Support\Collection
     */
@@ -24,6 +35,7 @@ class BillsExport implements FromCollection, WithHeadings, WithMapping
             ->selectRaw('sum(commissions.net) as totalNet')
             ->selectRaw('sum(commissions.gross) as totalGross')
             ->groupBy('bills.id')
+            ->whereIn('bills.id', $this->ids)
             ->get();
     }
 
