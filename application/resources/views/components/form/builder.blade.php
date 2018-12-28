@@ -11,6 +11,10 @@
 
         <div class="col-sm-{{ $colWidthInput }} {{ in_array($type, ['radio', 'checkbox']) ? 'col-form-label' : '' }}">
             @includeFirst(["components.form.{$type}", 'components.form.input'], $input)
+
+            @isset($input['help'])
+                <small class="form-text text-muted">{!! $input['help'] !!}</small>
+            @endisset
         </div>
     </div>
 @endforeach
