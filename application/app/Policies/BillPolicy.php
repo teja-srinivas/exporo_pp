@@ -8,9 +8,6 @@ class BillPolicy extends BasePolicy
 {
     const PERMISSION = 'manage bills';
 
-    /**
-     * AgbPolicy constructor.
-     */
     public function __construct()
     {
         parent::__construct(self::PERMISSION);
@@ -19,9 +16,10 @@ class BillPolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\User $user
      * @param  \App\Models\Bill $model
      * @return mixed
+     * @throws \Exception
      */
     public function view(User $user, $model)
     {

@@ -50,6 +50,7 @@ class BasePolicy
      *
      * @param User $user
      * @return bool
+     * @throws \Exception
      */
     public function list(User $user)
     {
@@ -62,6 +63,7 @@ class BasePolicy
      * @param User $user
      * @param Model $model
      * @return mixed
+     * @throws \Exception
      */
     public function view(User $user, $model)
     {
@@ -71,8 +73,9 @@ class BasePolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param User  $user
+     * @param User $user
      * @return mixed
+     * @throws \Exception
      */
     public function create(User $user)
     {
@@ -82,9 +85,10 @@ class BasePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param User  $user
+     * @param User $user
      * @param Model $model
      * @return mixed
+     * @throws \Exception
      */
     public function update(User $user, $model)
     {
@@ -94,9 +98,10 @@ class BasePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param User  $user
+     * @param User $user
      * @param Model $model
      * @return mixed
+     * @throws \Exception
      */
     public function delete(User $user, $model)
     {

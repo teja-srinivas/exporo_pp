@@ -17,9 +17,6 @@ class UserPolicy extends BasePolicy
 {
     const PERMISSION = 'manage users';
 
-    /**
-     * UserPolicy constructor.
-     */
     public function __construct()
     {
         parent::__construct(self::PERMISSION);
@@ -31,6 +28,7 @@ class UserPolicy extends BasePolicy
      * @param User $user
      * @param User|null $model
      * @return bool
+     * @throws \Exception
      */
     public function process(User $user, ?User $model)
     {
@@ -40,23 +38,12 @@ class UserPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
-     * @return mixed
-     */
-    public function view(User $user, $model)
-    {
-        return parent::view($user, $model);
-    }
-
-    /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\User $user
+     * @param  \App\Models\User $model
      * @return mixed
+     * @throws \Exception
      */
     public function update(User $user, $model)
     {
