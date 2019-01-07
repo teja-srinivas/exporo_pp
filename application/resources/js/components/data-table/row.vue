@@ -102,6 +102,7 @@
         />
 
         <td
+          v-if="localDepth > 0"
           :width="localDepth * 32"
         />
 

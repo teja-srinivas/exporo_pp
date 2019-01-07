@@ -16,7 +16,8 @@
         />
 
         <th
-          :width="localGroups.length * 32"
+          v-if="groupCount > 0"
+          :width="groupCount * 32"
           key="#delimiter"
         />
 
@@ -61,7 +62,7 @@
 
     <!-- Group settings -->
     <tbody
-      v-show="localGroups.length > 0"
+      v-show="groupCount > 0"
       key="#group-settings"
     >
       <tr>
@@ -283,7 +284,7 @@ export default {
      * @return {*}
      */
     columnCount() {
-      return this.columns.length + (this.selectable ? 1 : 0) + 1; // +1 for the depth offset
+      return this.columns.length + (this.selectable ? 1 : 0);
     },
 
     columnsOptimized() {

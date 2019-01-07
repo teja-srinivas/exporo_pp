@@ -20,7 +20,7 @@ export default {
 
   data() {
     return {
-      localGroups: this.groups,
+      localGroups: this.groupable ? this.groups : [],
       expanded: [],
     };
   },
