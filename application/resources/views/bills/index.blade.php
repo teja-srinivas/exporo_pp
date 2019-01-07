@@ -11,6 +11,7 @@
 @section('main-content')
     @include('components.table', ['data' => [
         'selectable' => true,
+        'groupable' => true,
         'primary' => 'id',
         'columns' => [
             [
@@ -44,7 +45,7 @@
                 'label' => 'Erstellt',
                 'groupBy' => false,
                 'format' => 'date',
-                'width' => 100,
+                'width' => 75,
             ],
         ],
         'groups' => [
