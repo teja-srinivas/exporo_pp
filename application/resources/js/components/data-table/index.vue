@@ -288,7 +288,7 @@ export default {
 
     columnsOptimized() {
       // Make all columns equal-sized by default
-      const width = `${(1 / this.columns.length) * 100}%`;
+      const equalWidth = `${((1 / this.columns.length) * 100).toFixed(3)}%`;
 
       return map(this.columns, (column) => {
         const defaultFormat = 'default';
@@ -299,13 +299,12 @@ export default {
         // Auto-expand column widths so we don't have to worry about button sizes
         const width = typeof column.width === 'number'
           ? column.width + (groupBy ? 25 : 0) + (this.sortable ? 25 : 0)
-          : column.width
+          : equalWidth
 
         return {
           // Defaults
           format: defaultFormat,
           options: {},
-          width,
 
           // User settings
           ...column,
