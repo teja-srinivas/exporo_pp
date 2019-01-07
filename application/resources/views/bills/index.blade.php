@@ -9,7 +9,7 @@
 @endsection
 
 @section('main-content')
-    @php($data = [
+    @include('components.table', ['data' => [
         'selectable' => true,
         'primary' => 'id',
         'columns' => [
@@ -64,7 +64,5 @@
                 'method' => 'get',
             ],
         ],
-    ])
-
-    <vue data-is="data-table" data-props='@json($data)'></vue>
+    ]])
 @endsection
