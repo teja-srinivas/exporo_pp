@@ -13,37 +13,50 @@
 @endsection
 
 @section('main-content')
-    <table class="bg-white shadow-sm accent-primary table table-borderless table-sm
-                  table-hover table-striped table-sticky position-relative">
-        <thead>
-        <tr>
-            <th class="text-right">ID</th>
-            <th>Name</th>
-            <th class="text-right">Kunden</th>
-            <th class="text-right">Investments</th>
-            <th class="text-right">Volumen</th>
-            <th class="text-right">Provision</th>
-            <th class="text-right">Angenommen am</th>
-        </tr>
-        </thead>
-        <tbody>
-        @forelse($children as $child)
-            <tr>
-                <td class="text-right text-muted small align-middle">{{ $child->id }}</td>
-                <td>{{ $child->display_name }}</td>
-                <td class="text-right">{{ $child->investors }}</td>
-                <td class="text-right">{{ $child->investments }}</td>
-                <td class="text-right">{{ format_money($child->amount) }}</td>
-                <td class="text-right">{{ format_money($child->commissions) }}</td>
-                <td class="text-right">
-                    {{ optional($child->accepted_at)->format('d.m.Y') }}
-                </td>
-            </tr>
-        @empty
-            <tr class="text-center text-muted">
-                <td colspan="7">Es wurden noch keine Subpartner geworben</td>
-            </tr>
-        @endforelse
-        </tbody>
-    </table>
+    @include('components.table', ['data' => [
+        'primary' => 'id',
+        'rows' => $children,
+        'columns' => [
+            [
+                'name' => 'user',
+                'label' => 'Name',
+                'groupBy' => false,
+                'format' => 'user',
+                'width' => '50%',
+            ],
+            [
+                'name' => 'investors',
+                'label' => 'Kunden',
+                'format' => 'number',
+                'width' => 110,
+            ],
+            [
+                'name' => 'investments',
+                'label' => 'Investments',
+                'format' => 'number',
+                'width' => 140,
+            ],
+            [
+                'name' => 'amount',
+                'label' => 'Volumen',
+                'groupBy' => false,
+                'format' => 'currency',
+                'width' => '130',
+            ],
+            [
+                'name' => 'commissions',
+                'label' => 'Provisionen',
+                'groupBy' => false,
+                'format' => 'currency',
+                'width' => '115',
+            ],
+            [
+                'name' => 'acceptedAt',
+                'label' => 'Angenommen am',
+                'groupBy' => false,
+                'format' => 'date',
+                'width' => 160,
+            ],
+        ],
+    ]])
 @endsection

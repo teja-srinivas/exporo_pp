@@ -4,8 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Commission;
 use App\Models\User;
+use App\Policies\UserPolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -17,6 +19,8 @@ class UserController extends Controller
     public function index(User $user, Request $request)
     {
         $this->authorizeViewingUser($user, $request);
+
+        $canViewUsers = Gate::allows('create', User::class);
 
         return view('users.users.index', [
             'user' => $user,
@@ -43,7 +47,24 @@ class UserController extends Controller
                 })
                 ->whereDate('investments.acknowledged_at', '>', LEGACY_NULL)
                 ->groupBy('users.id')
-                ->get(),
+                ->get()
+                ->map(function (User $user) use ($canViewUsers) {
+                    return [
+                        'user' => [
+                            'id' => (int) $user->getKey(),
+                            'firstName' => (string) $user->display_name,
+                            'lastName' => null,
+                            'links' => $canViewUsers ? [
+                                'self' => route('users.show', $user),
+                            ] : [],
+                        ],
+                        'acceptedAt' => optional($user->accepted_at)->format('Y-m-d'),
+                        'investments' => (int) $user->investments,
+                        'investors' => (int) $user->investors,
+                        'amount' => (float) $user->amount,
+                        'commissions' => (float) $user->commissions,
+                    ];
+                }),
         ]);
     }
 }
