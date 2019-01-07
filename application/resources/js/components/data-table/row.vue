@@ -214,7 +214,7 @@ export default {
         value = column.formatter.format(value, column.options, row);
       }
 
-      if (allowLinks && column.link !== undefined) {
+      if (allowLinks && column.link) {
         return `<a href="${get(row, column.link)}">${value}</a>`;
       }
 
