@@ -53,6 +53,7 @@
               :class="$style.input"
               class="form-control form-control-sm mt-1"
               type="text"
+              v-model="filters[column.name]"
               @click.stop
             >
           </template>
@@ -187,14 +188,16 @@
 
 <script>
 import difference from 'lodash/difference';
-import map from 'lodash/map';
 import filter from 'lodash/filter';
+import map from 'lodash/map';
 import mapToDict from '../../utils/mapToDict';
 import toggleInArray from '../../utils/toggleInArray';
 
 import bus, { TOGGLE_SELECTION_ITEM, TOGGLE_SELECTION_GROUP } from './events';
 
 import formatters from './formatters';
+
+import filters from './mixins/filters';
 import groups from './mixins/groups';
 import selection from './mixins/selection';
 
@@ -204,6 +207,7 @@ import Row from './row.vue';
 
 export default {
   mixins: [
+    filters,
     groups,
     selection,
   ],
@@ -227,7 +231,7 @@ export default {
 
     filterable: {
       type: Boolean,
-      default: false,
+      default: true,
     },
 
     sortable: {
@@ -326,15 +330,6 @@ export default {
      */
     columnsByName() {
       return mapToDict(this.columnsOptimized, 'name');
-    },
-
-    /**
-     * Filters all rows based on the queries per column.
-     *
-     * @return {default.props.rows|{default, type}}
-     */
-    filtered() {
-      return this.filterable ? this.rows : this.rows;
     },
 
     /**

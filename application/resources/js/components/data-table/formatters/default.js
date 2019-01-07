@@ -1,3 +1,5 @@
+import escapeRegExp from 'lodash/escapeRegExp';
+
 const passthrough = val => val;
 
 export default {
@@ -30,6 +32,17 @@ export default {
    * Returns a value that can be used when ordering rows.
    */
   orderBy: val => (typeof val === 'string' ? val.toLowerCase() : val),
+
+  /**
+   * Returns a function that we can filter values by.
+   *
+   * @param {string} query
+   * @return {function(*): boolean}
+   */
+  filterFunction: query => {
+    const regex = new RegExp(escapeRegExp(query), 'i');
+    return val => regex.test(val);
+  },
 
   /**
    * A dictionary of possible aggregates that his formatter can display.
