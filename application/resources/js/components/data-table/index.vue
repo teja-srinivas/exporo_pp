@@ -229,6 +229,11 @@ export default {
       default: false,
     },
 
+    sortable: {
+      type: Boolean,
+      default: true,
+    },
+
     groupable: {
       type: Boolean,
       default: false,
@@ -291,6 +296,11 @@ export default {
 
         const groupBy = this.groupable && column.groupBy;
 
+        // Auto-expand column widths so we don't have to worry about button sizes
+        const width = typeof column.width === 'number'
+          ? column.width + (groupBy ? 25 : 0) + (this.sortable ? 25 : 0)
+          : column.width
+
         return {
           // Defaults
           format: defaultFormat,
@@ -300,6 +310,7 @@ export default {
           // User settings
           ...column,
           groupBy,
+          width,
 
           // Custom fields
           formatter,
