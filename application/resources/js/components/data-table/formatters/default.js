@@ -29,7 +29,7 @@ export default {
   /**
    * Returns a value that can be used when ordering rows.
    */
-  orderBy: passthrough,
+  orderBy: val => (typeof val === 'string' ? val.toLowerCase() : val),
 
   /**
    * A dictionary of possible aggregates that his formatter can display.
