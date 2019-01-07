@@ -68,7 +68,13 @@
                             @elseif(is_bool($row[$key]))
                                 {!! $row[$key] ? '✔' : '-' !!}
                             @else
-                                {{ App\Traits\Encryptable::decrypt($row[$key]) }}
+                                @php($value = App\Traits\Encryptable::decrypt($row[$key]))
+
+                                @if(starts_with($value, 'eyJpdiI6'))
+                                    <span class="text-muted">(verschlüsselt)</span>
+                                @else
+                                    {{ $value }}
+                                @endif
                             @endif
                         </td>
                     @endforeach
