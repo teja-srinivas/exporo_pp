@@ -129,7 +129,7 @@ import bus, {
 } from './events';
 
 import SelectBox from './select-box';
-import Cell from "./cell";
+import Cell from './cell.js';
 
 export default {
   name: 'table-group',
@@ -218,7 +218,7 @@ export default {
         return `<a href="${get(row, column.link)}">${value}</a>`;
       }
 
-      return value;
+      return `${value}`;
     },
 
     buildChildProps(group) {
