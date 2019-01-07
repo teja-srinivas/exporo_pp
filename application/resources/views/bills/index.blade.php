@@ -12,7 +12,6 @@
     @include('components.table', ['data' => [
         'selectable' => true,
         'groupable' => true,
-        'primary' => 'id',
         'columns' => [
             [
                 'name' => 'name',

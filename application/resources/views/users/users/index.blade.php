@@ -14,7 +14,6 @@
 
 @section('main-content')
     @include('components.table', ['data' => [
-        'primary' => 'id',
         'rows' => $children,
         'columns' => [
             [

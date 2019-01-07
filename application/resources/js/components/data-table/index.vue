@@ -216,7 +216,7 @@ export default {
   props: {
     primary: {
       type: String,
-      required: true,
+      default: 'id',
     },
 
     selectable: {
