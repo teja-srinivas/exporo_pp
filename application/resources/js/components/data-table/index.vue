@@ -229,6 +229,11 @@ export default {
       default: false,
     },
 
+    groupable: {
+      type: Boolean,
+      default: false,
+    },
+
     columns: {
       type: Array,
       required: true,
@@ -284,6 +289,8 @@ export default {
         const defaultFormat = 'default';
         const formatter = formatters[column.format || defaultFormat];
 
+        const groupBy = this.groupable && column.groupBy;
+
         return {
           // Defaults
           format: defaultFormat,
@@ -292,6 +299,7 @@ export default {
 
           // User settings
           ...column,
+          groupBy,
 
           // Custom fields
           formatter,
