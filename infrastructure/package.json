@@ -8,7 +8,7 @@
     "aws": "npx exporo-cloud aws-x"
   },
   "dependencies": {
-    "exporo-cloud": "git+ssh://git@bitbucket.org/exporodev/exporo_infrastructure.git#2.0.0"
+    "exporo-cloud": "git+ssh://git@bitbucket.org/exporodev/exporo_infrastructure.git#2.2.0-dev"
   },
   "author": "Exporo Partner Program Team team.partnerprogramm@exporo.com",
   "license": "UNLICENSED"
