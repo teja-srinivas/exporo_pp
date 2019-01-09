@@ -15,8 +15,8 @@
 
 @section('main-content')
     @card
-        Hier findest du verschiedene E-Mail-Vorlagen, die Sie verwenden und ergänzen kannst um auf Exporo
-        und die aktuellen Immobilienprojekte aufmerksam zu machen. Sie können den Text einfach kopieren
+        Hier finden Sie verschiedene E-Mail-Vorlagen, die Sie verwenden und ergänzen können um auf Exporo
+        auf die aktuellen Immobilienprojekte aufmerksam zu machen. Sie können den Text einfach kopieren
         und über Ihr E-Mail Programm versenden.
     @endcard
 

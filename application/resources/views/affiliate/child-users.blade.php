@@ -24,9 +24,9 @@
     @slot('title', 'Subpartner einladen')
 
     <p>
-        Lade weitere Partner zu unserem Exporo Partnerprogramm ein - auf jeden erfolgreich geworbenen Partner
-        erhältst Du Deinen Overhead-Anspruch als Key-Account. Hier findest Du eine E-Mail Vorlage,
-        die Du verwenden kannst um auf das Exporo Partnerprogramm aufmerksam zu machen.
+        Laden Sie weitere Partner zu unserem Exporo Partnerprogramm ein - für jeden erfolgreich geworbenen Partner
+        erhalten Sie einen Overhead-Anspruch als Key-Account. Hier finden Sie eine E-Mail Vorlage,
+        die Sie verwenden können um auf das Exporo Partnerprogramm aufmerksam zu machen.
         Die Zuordnung des Partners zum Key-Account erfolgt basierend auf der eingegebenen Email
         bzw. ergänzend durch den Partner-Link.
     </p>

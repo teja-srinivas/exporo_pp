@@ -152,13 +152,7 @@ class BillController extends Controller
      */
     public function show(Bill $bill)
     {
-        $bill->load('user');
-
-        return view('bills.show', $this->mapForView($bill->commissions()) + [
-                'bill' => $bill,
-                'user' => $bill->user,
-                'company' => optional($bill->user->company),
-            ]);
+       return $this->downloadBillFromS3($bill);
     }
 
     public function billPdf(Bill $bill, $token, ApiTokenService $service)
