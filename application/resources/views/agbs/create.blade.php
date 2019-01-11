@@ -34,6 +34,12 @@
                         'name' => 'name',
                         'required' => true,
                     ],
+                    [
+                        'type' => 'date',
+                        'label' => 'Gültig ab',
+                        'name' => 'effective_from',
+                        'required' => true,
+                    ]
                 ]
             ])
             <div class="form-group row">

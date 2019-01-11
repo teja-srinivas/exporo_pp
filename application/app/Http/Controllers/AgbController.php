@@ -59,6 +59,7 @@ class AgbController extends Controller
         $data = $request->validate([
             'type' => ['required', Rule::in(Agb::TYPES)],
             'name' => 'required|string',
+            'effective_from' => 'required|date',
             'file' => 'required|mimes:pdf',
         ]);
 

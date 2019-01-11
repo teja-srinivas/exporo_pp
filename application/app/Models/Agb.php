@@ -29,8 +29,12 @@ class Agb extends Model implements AuditableContract, FileReference
         'is_default' => 'bool',
     ];
 
+    protected $dates = [
+        'effective_from'
+    ];
+
     protected $fillable = [
-        'type', 'name', 'is_default'
+        'type', 'name', 'is_default', 'effective_from'
     ];
 
     /**
