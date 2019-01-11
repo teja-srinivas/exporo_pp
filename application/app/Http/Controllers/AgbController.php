@@ -55,7 +55,6 @@ class AgbController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create', Agb::class);
-
         $data = $request->validate([
             'type' => ['required', Rule::in(Agb::TYPES)],
             'name' => 'required|string',
@@ -122,7 +121,9 @@ class AgbController extends Controller
         $data = $request->validate([
             'type' => ['required', Rule::in(Agb::TYPES)],
             'name' => 'required|string',
+            'effective_from' => 'required|date',
             'file' => 'nullable|mimes:pdf',
+
         ]);
 
         // Replace the old file, if exists

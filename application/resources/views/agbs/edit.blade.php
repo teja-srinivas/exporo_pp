@@ -37,6 +37,12 @@
                         'required' => true,
                         'default' => $agb->name,
                     ],
+                    [
+                        'type' => 'date',
+                        'label' => 'Gültig ab',
+                        'name' => 'effective_from',
+                        'required' => true,
+                    ]
                 ]
             ])
             <div class="form-group row">
