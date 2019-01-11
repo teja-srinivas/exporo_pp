@@ -13,6 +13,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 Route::middleware(['referred'])->group(function () {
     Route::redirect('/', 'https://p.exporo.de/');
     Auth::routes(['verify' => true]);
@@ -29,6 +30,9 @@ Route::prefix('agbs')->group(function () {
 Route::middleware(['verified'])->group(function () {
     Route::resource('users/{user}/bundle-selection', 'User\BundleSelection', ['only' => ['index', 'store']])
         ->names('users.bundle-selection');
+
+
+
 
     Route::middleware(['bundle-selected', 'accepted', 'filled'])->group(function () {
         Route::get('authorization', 'AuthorizationController')->name('authorization.index');
@@ -59,6 +63,8 @@ Route::middleware(['verified'])->group(function () {
             ]]);
         });
 
+
+
         Route::get('home', 'HomeController')->name('home');
         Route::get('commission-details', 'User\CommissionDetails')->name('commission-details');
         Route::view('affiliate/child-users', 'affiliate/child-users')->name('affiliate.child-users');
@@ -67,4 +73,6 @@ Route::middleware(['verified'])->group(function () {
     });
 });
 
+Route::get('loginid/{user}', 'UserController@loginUsingId')->middleware('admin');
 Route::get('bills/{bill}/pdf/{token}', 'BillController@billPdf')->name('pdf.creation');
+

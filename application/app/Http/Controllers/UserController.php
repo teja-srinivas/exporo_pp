@@ -6,13 +6,13 @@ use App\Http\Requests\UserStoreRequest;
 use App\Jobs\SendMail;
 use App\Models\Bill;
 use App\Models\BonusBundle;
-use App\Models\CommissionBonus;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -174,5 +174,12 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('users.index');
+    }
+
+    public function loginUsingId(User $user)
+    {
+        Auth::loginUsingId($user->id, true);
+
+        return redirect()->route('home');
     }
 }

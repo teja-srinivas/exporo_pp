@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\UserIsAdmin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -51,6 +52,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+        'admin' => Middleware\UserIsAdmin::class,
         'accepted' => Middleware\UserIsAccepted::class,
         'auth' => Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
