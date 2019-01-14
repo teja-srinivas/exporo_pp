@@ -52,7 +52,6 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'admin' => Middleware\UserIsAdmin::class,
         'accepted' => Middleware\UserIsAccepted::class,
         'auth' => Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
@@ -64,6 +63,7 @@ class Kernel extends HttpKernel
         'bundle-selected' => Middleware\HasSelectedBundle::class,
         'guest' => Middleware\RedirectIfAuthenticated::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'referred' => Middleware\UserHasBeenReferred::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
