@@ -3,7 +3,7 @@
         @csrf
         @method('PUT')
 
-        <div class="border bg-white p-3 d-flex align-items-center">
+        <div class="border bg-white p-3 d-flex align-items-baseline">
             <div class="flex-fill">
                 <strong>Offene Anfrage:</strong>
                 Diese Benutzer-Anfrage wurde noch nicht bestätigt.

@@ -13,7 +13,7 @@
             @csrf
             @method('PUT')
 
-            <div class="border bg-white p-3 d-flex align-items-start">
+            <div class="border bg-white p-3 d-flex align-items-baseline">
                 <div class="flex-fill">
                     <strong>Offenes Projekt:</strong>
                     Damit Provisionen berechnet und ausgezahlt werden können,
