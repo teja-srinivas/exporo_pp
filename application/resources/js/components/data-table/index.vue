@@ -120,7 +120,7 @@
     <!-- Table contents -->
     <row
       v-if="filtered.length > 0"
-      :rows="rootRows"
+      :rows="paginated"
       :columns="columnsOptimized"
       :column-count="columnCount"
       :group-count="groupCount"
@@ -148,6 +148,18 @@
 
     <!-- Total Aggregates -->
     <tfoot>
+      <tr v-if="pageSize > 0 && rootRows.length > pageSize">
+        <td :colspan="columnCount">
+          <b-pagination
+            size="sm"
+            class="justify-content-center mb-0"
+            v-model="page"
+            :total-rows="rootRows.length"
+            :per-page="pageSize"
+            :limit="10"
+          />
+        </td>
+      </tr>
       <tr v-if="selectable && actions.length > 0">
         <td :colspan="columnCount" class="pr-1">
           <div class="d-flex align-items-center justify-content-between">
@@ -194,6 +206,7 @@ import map from 'lodash/map';
 import isNumber from 'lodash/isNumber';
 import mapToDict from '../../utils/mapToDict';
 import toggleInArray from '../../utils/toggleInArray';
+import paginate from '../../utils/paginate';
 
 import bus, { TOGGLE_SELECTION_ITEM, TOGGLE_SELECTION_GROUP } from './events';
 
@@ -251,6 +264,11 @@ export default {
       required: true,
     },
 
+    pageSize: {
+      type: Number,
+      default: 100,
+    },
+
     rows: {
       type: Array,
       default: () => [],
@@ -274,6 +292,7 @@ export default {
     return {
       selection: [],
       sort: this.defaultSort,
+      page: 1,
     };
   },
 
@@ -348,6 +367,10 @@ export default {
     rootRows() {
       return this.mapGroup(this.filtered, this.localGroups);
     },
+
+    paginated() {
+      return this.pageSize > 0 ? paginate(this.rootRows, this.pageSize, this.page) : this.rootRows;
+    }
   },
 
   methods: {
