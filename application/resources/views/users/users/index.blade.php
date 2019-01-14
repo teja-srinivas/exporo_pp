@@ -31,16 +31,19 @@
                 'name' => 'investments',
                 'label' => 'Investments',
                 'format' => 'number',
+                'width' => 90,
             ],
             [
                 'name' => 'amount',
                 'label' => 'Volumen',
                 'format' => 'currency',
+                'width' => 120,
             ],
             [
                 'name' => 'commissions',
                 'label' => 'Provisionen',
                 'format' => 'currency',
+                'width' => 85,
             ],
             [
                 'name' => 'acceptedAt',
