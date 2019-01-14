@@ -34,13 +34,22 @@ class InvestmentController extends Controller
                 ->selectRaw('schemas.name as type')
                 ->selectRaw('investments.created_at')
                 ->latest('investments.created_at')
-                ->get()->each(function (Investment $investment) {
-                    $investment->name = Person::anonymizeName(
-                        Encryptable::decrypt($investment->first_name),
-                        Encryptable::decrypt($investment->last_name)
-                    );
+                ->get()
+                ->map(function (Investment $investment) {
+                    $cancelled = $investment->isCancelled();
 
-                    return $investment;
+                    return [
+                        'id' => $investment->id,
+                        'name' => Person::anonymizeName(
+                            Encryptable::decrypt($investment->first_name),
+                            Encryptable::decrypt($investment->last_name)
+                        ),
+                        'projectName' => $investment->project_name,
+                        'type' => $investment->type,
+                        'amount' => $cancelled ? null : $investment->amount,
+                        'paidAt' => $cancelled ? null : optional($investment->paid_at)->format('Y-m-d'),
+                        'createdAt' => optional($investment->created_at)->format('Y-m-d'),
+                    ];
                 }),
         ]);
     }
