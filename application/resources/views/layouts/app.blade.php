@@ -106,6 +106,21 @@
             </div>
         </nav>
 
+        @if(session('adminLoginLink'))
+            <div class="alert alert-danger m-0">
+                <div class="container d-flex justify-content-between align-items-baseline">
+                    <div>
+                        <b>Achtung: Admin-Login wird genutzt!</b>
+                        Sie befinden Sich in einem Profil-Bereich eines anderen Users.
+                    </div>
+
+                    <a href="{{ session('adminLoginLink') }}" class="btn btn-outline-dark btn-sm">
+                        Zurückkehren
+                    </a>
+                </div>
+            </div>
+        @endif
+
         <main class="flex-fill @yield('content-class', 'py-4')">
             @yield('content')
         </main>

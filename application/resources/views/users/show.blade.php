@@ -17,7 +17,7 @@
     @endcan
 
     @role('admin')
-        <a href="{{ route('users.login', $user) }}" class="btn btn-outline-primary btn-sm mr-2">Login</a>
+        <a href="{{ $user->getLoginLink() }}" class="btn btn-outline-primary btn-sm mr-2">Login</a>
     @endrole
 
     @can('update', $user)

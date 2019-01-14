@@ -9,10 +9,11 @@ use App\Models\BonusBundle;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Auth\Passwords\PasswordBroker;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -175,8 +176,26 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    public function loginUsingId(User $user)
+    public function loginUsingId(User $user, Session $session)
     {
+        static $id = 'adminOriginalId';
+        static $link = 'adminLoginLink';
+
+        $originalId = $session->get($id);
+
+        if ((string)$originalId === (string)$user->getAuthIdentifier()) {
+            // We've returned to our original user account, remove the warning(s)
+            $session->remove($link);
+            $session->remove($id);
+        } else {
+            // Remember a link to return to our profile and keep the "original" user ID for reference
+            $session->put($link, auth()->user()->getLoginLink());
+
+            if ($originalId === null) {
+                $session->put($id, auth()->user()->getAuthIdentifier());
+            }
+        }
+
         Auth::loginUsingId($user->id, true);
 
         return redirect()->route('home');

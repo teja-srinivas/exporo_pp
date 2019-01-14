@@ -224,6 +224,11 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return implode(' ', $greeting);
     }
 
+    public function getLoginLink()
+    {
+        return \Illuminate\Support\Facades\Url::signedRoute('users.login', $this);
+    }
+
     public static function getRoleColor(Role $role)
     {
         switch ($role->name ?? '') {

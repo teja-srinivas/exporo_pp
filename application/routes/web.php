@@ -45,7 +45,6 @@ Route::middleware(['verified'])->group(function () {
         Route::resource('schemas', 'SchemaController');
         Route::resource('users/documents', 'UserDocumentController'); // TODO move this under the user namespace
         Route::resource('users', 'UserController');
-        Route::get('users/{user}/login', 'UserController@loginUsingId')->middleware('role:admin')->name('users.login');
 
         Route::get('documents/{document}/download', 'UserDocumentController@download')
             ->name('documents.download')
@@ -69,3 +68,4 @@ Route::middleware(['verified'])->group(function () {
 });
 
 Route::get('bills/{bill}/pdf/{token}', 'BillController@billPdf')->name('pdf.creation');
+Route::get('users/{user}/login', 'UserController@loginUsingId')->middleware(['signed'])->name('users.login');
