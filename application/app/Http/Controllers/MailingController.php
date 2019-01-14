@@ -15,7 +15,7 @@ class MailingController extends Controller
     public function index()
     {
         return view('affiliate.mailings.index', [
-            'mailings' => Mailing::all(),
+            'mailings' => Mailing::query()->orderBy('title')->get(),
         ]);
     }
 
