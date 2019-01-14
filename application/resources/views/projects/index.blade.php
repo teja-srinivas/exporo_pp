@@ -27,7 +27,7 @@
                 'name' => 'status',
                 'label' => 'Status',
                 'groupBy' => true,
-                'width' => 25,
+                'width' => 40,
                 'align' => 'center',
             ],
             [
