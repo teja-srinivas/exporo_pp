@@ -14,7 +14,7 @@ export default {
 
     getSelectedValueCount(group) {
       return sumBy(group.values, (value) => (
-          !value.isGroup && this.itemIsSelected(value) ? 1 : 0
+          value.isGroup ? this.getSelectedValueCount(value) : (this.itemIsSelected(value) ? 1 : 0)
       ));
     },
 
