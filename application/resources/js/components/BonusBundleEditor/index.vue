@@ -14,7 +14,7 @@
         <th class="text-right">Wert</th>
         <th class="text-right" v-if="editable">
           <button
-            class="btn btn-sm btn-link p-0"
+            class="btn btn-sm btn-link p-0 text-nowrap"
             type="button"
             @click="showCreateItem"
           >

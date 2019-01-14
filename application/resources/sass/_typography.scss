@@ -35,7 +35,7 @@ h1, h2, .h1 {
 }
 
 .text-reset {
-    color: $body-color;
-    text-transform: none;
-    font-family: $font-family-base;
+  color: $body-color !important;
+  text-transform: none;
+  font-family: $font-family-base;
 }
