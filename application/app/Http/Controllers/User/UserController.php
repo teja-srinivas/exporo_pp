@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\Commission;
+use App\Models\Investment;
 use App\Models\User;
 use App\Policies\UserPolicy;
 use Illuminate\Database\Eloquent\Builder;
@@ -28,7 +29,10 @@ class UserController extends Controller
                 ->whereNotNull('accepted_at')
                 ->join('user_details', 'user_details.id', 'users.id')
                 ->leftJoin('investors', 'investors.user_id', 'users.id')
-                ->leftJoin('investments', 'investments.investor_id', 'investors.id')
+                ->leftJoinSub(Investment::query()
+                    ->select('id', 'investor_id', 'amount')
+                    ->whereDate('investments.acknowledged_at', '>', LEGACY_NULL)
+                    ->uncancelled(), 'investments', 'investments.investor_id', 'investors.id')
                 ->leftJoinSub(Commission::query()
                     ->selectRaw('sum(net) as net')
                     ->selectRaw('child_user_id as user_id')
@@ -40,11 +44,6 @@ class UserController extends Controller
                 ->selectRaw('count(distinct(investors.id)) as investors')
                 ->selectRaw('sum(investments.amount) as amount')
                 ->selectRaw('commissions.net as commissions')
-                ->where(function (Builder $query) {
-                    $query->whereDate('investments.cancelled_at', '<=', LEGACY_NULL);
-                    $query->orWhereNull('investments.cancelled_at');
-                })
-                ->whereDate('investments.acknowledged_at', '>', LEGACY_NULL)
                 ->groupBy('users.id')
                 ->get()
                 ->map(function (User $user) use ($canViewUsers) {

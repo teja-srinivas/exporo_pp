@@ -26,31 +26,27 @@
                 'name' => 'investors',
                 'label' => 'Kunden',
                 'format' => 'number',
-                'width' => 70,
             ],
             [
                 'name' => 'investments',
                 'label' => 'Investments',
                 'format' => 'number',
-                'width' => 100,
             ],
             [
                 'name' => 'amount',
                 'label' => 'Volumen',
                 'format' => 'currency',
-                'width' => '130',
             ],
             [
                 'name' => 'commissions',
                 'label' => 'Provisionen',
                 'format' => 'currency',
-                'width' => '115',
             ],
             [
                 'name' => 'acceptedAt',
-                'label' => 'Angenommen am',
+                'label' => 'Angenommen',
                 'format' => 'date',
-                'width' => 130,
+                'width' => 100,
             ],
         ],
     ]])
