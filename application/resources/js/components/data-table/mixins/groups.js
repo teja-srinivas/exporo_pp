@@ -62,7 +62,7 @@ export default {
      * @return {boolean}
      */
     canBeGroupedBy(column) {
-      return !this.hasGroupBy(column) && column.groupBy !== false;
+      return !this.hasGroupBy(column) && column.groupBy === true;
     },
 
     /**
