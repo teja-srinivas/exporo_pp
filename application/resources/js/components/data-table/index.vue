@@ -260,15 +260,20 @@ export default {
       type: Array,
       default: () => [],
     },
+
+    defaultSort: {
+      type: Object,
+      default: () => ({
+        name: '',
+        order: 'asc',
+      }),
+    },
   },
 
   data() {
     return {
       selection: [],
-      sort: {
-        name: '',
-        order: 'asc',
-      },
+      sort: this.defaultSort,
     };
   },
 
