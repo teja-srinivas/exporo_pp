@@ -62,7 +62,7 @@ class SchemaController extends Controller
      */
     public function show(Schema $schema)
     {
-        $projects = $schema->projects()->orderBy('name')->get()->map(function (Project $project) {
+        $projects = $schema->projects()->get()->map(function (Project $project) {
             return [
                 'id' => $project->id,
                 'project' => $project->description,

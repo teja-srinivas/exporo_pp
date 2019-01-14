@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CommissionType;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class CommissionTypeController extends Controller
@@ -57,7 +58,16 @@ class CommissionTypeController extends Controller
     public function show(CommissionType $type)
     {
         $projects = $type->is_project_type
-            ? $type->projects()->orderBy('name')->get()
+            ? $type->projects()->get()->map(function (Project $project) {
+                return [
+                    'id' => $project->id,
+                    'project' => $project->description,
+                    'createdAt' => optional($project->created_at)->format('Y-m-d'),
+                    'links' => [
+                        'self' => route('projects.show', $project),
+                    ],
+                ];
+            })->values()
             : [];
 
         return view('commissions.types.show', compact('type', 'projects'));
