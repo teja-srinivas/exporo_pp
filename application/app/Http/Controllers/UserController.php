@@ -100,8 +100,7 @@ class UserController extends Controller
                     $query->where('investments.cancelled_at', LEGACY_NULL);
                     $query->orWhereNull('investments.cancelled_at');
                 })
-                ->selectRaw('sum(amount)')
-            , 'amount')
+                ->selectRaw('sum(amount)'), 'amount')
             ->first();
 
         $bonusBundles = BonusBundle::all()->mapWithKeys(function (BonusBundle $bundle) {

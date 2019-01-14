@@ -26,7 +26,7 @@ class Mailing extends Model implements AuditableContract
     public function getTextForUser(User $user)
     {
         $replacements = [
-            '#partnername' => implode(' ' , array_filter([trim($user->first_name), trim($user->last_name)])),
+            '#partnername' => implode(' ', array_filter([trim($user->first_name), trim($user->last_name)])),
             '#reflink' => '?a_aid=' . $user->id,
         ];
 

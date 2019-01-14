@@ -19,7 +19,7 @@ class RenameProvisionTables extends Migration
         Schema::rename('provisions', 'commission_bonuses');
         Schema::rename('provision_types', 'commission_types');
 
-        Schema::table('projects', function (Blueprint $table){
+        Schema::table('projects', function (Blueprint $table) {
             $table->renameColumn('provision_type', 'commission_type');
         });
 
@@ -43,7 +43,7 @@ class RenameProvisionTables extends Migration
         Schema::rename('commission_bonuses', 'provisions');
         Schema::rename('commission_types', 'provision_types');
 
-        Schema::table('projects', function (Blueprint $table){
+        Schema::table('projects', function (Blueprint $table) {
             $table->renameColumn('commission_type', 'provision_type');
         });
 

@@ -13,11 +13,11 @@ class CreateProvisionTypes extends Migration
      */
     public function up()
     {
-       Schema::create('provision_types', function (Blueprint $table){
-           $table->increments('id');
-           $table->string('name');
-           $table->timestamps();
-       });
+        Schema::create('provision_types', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
+        });
     }
 
     /**

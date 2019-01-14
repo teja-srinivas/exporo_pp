@@ -207,7 +207,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
         if ($salutation === 'male') {
             $greeting[] = 'Sehr geehrter Herr';
-        } else if ($salutation === 'female') {
+        } elseif ($salutation === 'female') {
             $greeting[] = 'Sehr geehrte Frau';
         } else {
             $greeting[] = 'Sehr geehrte Damen und Herren';

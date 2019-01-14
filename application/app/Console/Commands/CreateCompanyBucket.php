@@ -39,10 +39,10 @@ class CreateCompanyBucket extends Command
      */
     public function handle()
     {
-       $company = Company::find($this->option('company'));
-       Storage::disk('s3')->makeDirectory($company['id'] . '/banners');
-       Storage::disk('s3')->makeDirectory($company['id'] . '/agbs');
-       Storage::disk('s3')->makeDirectory($company['id'] . '/preview');
-       Storage::disk('s3')->makeDirectory($company['id'] . '/statements');
+        $company = Company::find($this->option('company'));
+        Storage::disk('s3')->makeDirectory($company['id'] . '/banners');
+        Storage::disk('s3')->makeDirectory($company['id'] . '/agbs');
+        Storage::disk('s3')->makeDirectory($company['id'] . '/preview');
+        Storage::disk('s3')->makeDirectory($company['id'] . '/statements');
     }
 }

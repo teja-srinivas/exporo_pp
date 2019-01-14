@@ -15,12 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->name('api.')->namespace('Api')->group(function () {
     Route::apiResource(
-        'commissions/bonuses', 'CommissionBonusController', ['except' => ['index']]
+        'commissions/bonuses',
+        'CommissionBonusController',
+        ['except' => ['index']]
     )->names('commissions.bonuses');
 
     Route::apiResource('commissions', 'CommissionController');
 
     Route::put(
-        'commissions', 'CommissionController@updateMultiple'
+        'commissions',
+        'CommissionController@updateMultiple'
     )->name('commissions.updateBatch');
 });

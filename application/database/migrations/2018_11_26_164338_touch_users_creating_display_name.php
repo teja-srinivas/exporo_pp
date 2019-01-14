@@ -14,7 +14,7 @@ class TouchUsersCreatingDisplayName extends Migration
     {
         $users = User::all();
 
-        foreach($users as $user){
+        foreach ($users as $user) {
             $user->touch();
         }
     }

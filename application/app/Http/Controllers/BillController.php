@@ -152,7 +152,7 @@ class BillController extends Controller
      */
     public function show(Bill $bill)
     {
-       return $this->downloadBillFromS3($bill);
+        return $this->downloadBillFromS3($bill);
     }
 
     public function billPdf(Bill $bill, $token, ApiTokenService $service)

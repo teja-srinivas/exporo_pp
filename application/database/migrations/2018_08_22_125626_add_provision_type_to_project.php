@@ -13,8 +13,8 @@ class AddProvisionTypeToProject extends Migration
      */
     public function up()
     {
-        Schema::table('projects', function (Blueprint $table){
-           $table->string('provision_type')->nullable();
+        Schema::table('projects', function (Blueprint $table) {
+            $table->string('provision_type')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddProvisionTypeToProject extends Migration
      */
     public function down()
     {
-        Schema::table('projects', function (Blueprint $table){
-           $table->dropColumn('provision_type');
+        Schema::table('projects', function (Blueprint $table) {
+            $table->dropColumn('provision_type');
         });
     }
 }

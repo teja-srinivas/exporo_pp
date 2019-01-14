@@ -185,7 +185,6 @@ class InitialMigration extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->timestamps();
-
         });
 
         Schema::create('investors', function (Blueprint $table) {
