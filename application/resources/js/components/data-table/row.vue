@@ -215,7 +215,7 @@ export default {
       let value = row[column.name];
 
       if (value === undefined || value === null) {
-        return '';
+        return column.fallback || '';
       }
 
       if (column.formatter && column.formatter.format) {
