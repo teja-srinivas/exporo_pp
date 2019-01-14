@@ -31,7 +31,11 @@ export default {
   /**
    * Returns a value that can be used when ordering rows.
    */
-  orderBy: val => (typeof val === 'string' ? val.toLowerCase() : val),
+  orderBy: val => (typeof val === 'string' ? val.toLowerCase()
+      .replace('ä', 'ae')
+      .replace('ö', 'oe')
+      .replace('ü', 'ue')
+      : val),
 
   /**
    * Returns a function that we can filter values by.
