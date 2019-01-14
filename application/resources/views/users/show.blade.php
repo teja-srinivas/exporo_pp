@@ -9,12 +9,16 @@
 
 @section('actions')
     @can('delete', $user)
-        <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline-flex">
+        <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline-flex mr-2">
             @method('DELETE')
             @csrf
-            <button class="btn btn-outline-danger btn-sm mr-2">Löschen</button>
+            <button class="btn btn-outline-danger btn-sm">Löschen</button>
         </form>
     @endcan
+
+    @role('admin')
+        <a href="{{ route('users.login', $user) }}" class="btn btn-outline-primary btn-sm mr-2">Login</a>
+    @endrole
 
     @can('update', $user)
         <a href="{{ route('users.edit', $user) }}" class="btn btn-primary btn-sm">Bearbeiten</a>
