@@ -13,38 +13,38 @@
 @endsection
 
 @section('main-content')
-    <table class="bg-white shadow-sm accent-primary table table-borderless table-sm
-                  table-hover table-striped table-sticky position-relative">
-        <thead>
-            <tr>
-                <th class="text-right">ID</th>
-                <th>Name</th>
-                <th class="text-right">Investments</th>
-                <th class="text-right">Volumen</th>
-                <th class="text-right">Aktiviert am</th>
-            </tr>
-        </thead>
-        <tbody>
-        @forelse($investors as $investor)
-            <tr>
-                <td class="text-right text-muted small align-middle">{{ $investor->id }}</td>
-                <td>
-                    {{\App\Traits\Person::anonymizeName(
-                        $investor->first_name,
-                        $investor->last_name
-                    )}}
-                </td>
-                <td class="text-right">{{ $investor->investments }}</td>
-                <td class="text-right">{{ format_money($investor->amount) }}</td>
-                <td class="text-right">
-                    {{ optional($investor->activation_at)->format('d.m.Y') }}
-                </td>
-            </tr>
-        @empty
-            <tr class="text-center text-muted">
-                <td colspan="6">Es wurden noch keine Kunden geworben</td>
-            </tr>
-        @endforelse
-        </tbody>
-    </table>
+    @include('components.table', ['data' => [
+        'rows' => $investors->values(),
+        'columns' => [
+            [
+                'name' => 'id',
+                'label' => 'ID',
+                'align' => 'right',
+                'small' => true,
+                'width' => 35,
+            ],
+            [
+                'name' => 'name',
+                'label' => 'Name',
+            ],
+            [
+                'name' => 'investments',
+                'label' => 'Investments',
+                'format' => 'number',
+                'width' => 55,
+            ],
+            [
+                'name' => 'amount',
+                'label' => 'Volumen',
+                'format' => 'currency',
+                'width' => 75,
+            ],
+            [
+                'name' => 'activationAt',
+                'label' => 'Aktiviert am',
+                'format' => 'date',
+                'width' => 55,
+            ],
+        ],
+    ]])
 @endsection

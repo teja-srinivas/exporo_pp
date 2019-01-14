@@ -27,6 +27,16 @@ trait Person
     }
 
     /**
+     * Creates a displayable, anonymous name for this person.
+     *
+     * @return string
+     */
+    public function getAnonymousName(): string
+    {
+        return self::anonymizeName($this->first_name, $this->last_name);
+    }
+
+    /**
      * Returns an anonymized first name in the form of their initial.
      *
      * @return string

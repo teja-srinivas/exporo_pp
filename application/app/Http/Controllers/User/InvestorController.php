@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\Investment;
+use App\Models\Investor;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -36,7 +37,16 @@ class InvestorController extends Controller
                 ->select('investors.id', 'first_name', 'last_name', 'activation_at')
                 ->selectRaw('ifnull(investments.investments, 0) as investments')
                 ->selectRaw('ifnull(investments.amount, 0) as amount')
-                ->get(),
+                ->get()
+                ->map(function (Investor $investor) {
+                    return [
+                        'id' => $investor->id,
+                        'name' => $investor->getAnonymousName(),
+                        'investments' => (float)$investor->investments,
+                        'amount' => (float)$investor->amount,
+                        'activationAt' => $investor->activation_at->format('Y-m-d'),
+                    ];
+                }),
         ]);
     }
 }
