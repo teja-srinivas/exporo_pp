@@ -20,22 +20,16 @@
         und über Ihr E-Mail Programm versenden.
     @endcard
 
-    <table class="table bg-white table-borderless table-striped shadow-sm leading-sm">
-        <tbody>
-        @forelse($mailings as $mailing)
-            <tr>
-                <td>
-                    <div class="lead font-weight-bold mb-1">
-                        <a href="{{ route('affiliate.mails.show', $mailing) }}">{{ $mailing['title'] }}</a>
-                    </div>
-                    <span class="small text-muted">{{ $mailing['description'] }}</span>
-                </td>
-            </tr>
-        @empty
-            <tr>
-                <td class="text-muted text-center">Keine Mailings zur Auswahl</td>
-            </tr>
-        @endforelse
-        </tbody>
-    </table>
+    @forelse($mailings as $mailing)
+        <div class="p-3 rounded bg-white shadow-sm my-2">
+            <div class="lead font-weight-bold mb-2 leading-sm">
+                <a href="{{ route('affiliate.mails.show', $mailing) }}">{{ $mailing['title'] }}</a>
+            </div>
+            <span class="leading-sm text-muted">{{ $mailing['description'] }}</span>
+        </div>
+    @empty
+        <div class="p-3 rounded bg-white shadow-sm my-2 text-muted text-center">
+            Keine Mailings zur Auswahl
+        </div>
+    @endforelse
 @endsection

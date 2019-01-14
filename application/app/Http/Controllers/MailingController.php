@@ -71,8 +71,9 @@ class MailingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Mailing  $mail
+     * @param  \App\Models\Mailing $mail
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Mailing $mail)
     {
@@ -113,7 +114,7 @@ class MailingController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Mailing $mail
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
     public function destroy(Mailing $mail)
