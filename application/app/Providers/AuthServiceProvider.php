@@ -20,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
         Models\BonusBundle::class => Policies\BonusBundlePolicy::class,
         Models\Commission::class => Policies\BillPolicy::class, // TODO
         Models\Document::class => Policies\DocumentPolicy::class,
+        Models\Link::class => Policies\LinkPolicy::class,
         Models\Mailing::class => Policies\MailingPolicy::class,
         Models\Permission::class => Policies\PermissionPolicy::class,
         Models\Project::class => Policies\ProjectPolicy::class,
