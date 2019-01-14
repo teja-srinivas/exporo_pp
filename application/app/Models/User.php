@@ -227,7 +227,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function getLoginLink()
     {
-        return \Illuminate\Support\Facades\Url::signedRoute('users.login', $this);
+        return URL::signedRoute('users.login', [$this]);
     }
 
     public function sendEmailVerificationNotification()
