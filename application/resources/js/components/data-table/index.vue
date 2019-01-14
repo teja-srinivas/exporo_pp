@@ -191,6 +191,7 @@
 import difference from 'lodash/difference';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
+import isNumber from 'lodash/isNumber';
 import mapToDict from '../../utils/mapToDict';
 import toggleInArray from '../../utils/toggleInArray';
 
@@ -303,9 +304,9 @@ export default {
         const groupBy = this.groupable && column.groupBy;
 
         // Auto-expand column widths so we don't have to worry about button sizes
-        const width = typeof column.width === 'number'
-          ? column.width + (groupBy ? 25 : 0) + (this.sortable ? 25 : 0)
-          : equalWidth
+        const width = isNumber(column.width)
+          ? column.width + (groupBy ? 28 : 0) + (this.sortable ? 28 : 0)
+          : column.width !== undefined ? column.width : equalWidth;
 
         return {
           // Defaults
