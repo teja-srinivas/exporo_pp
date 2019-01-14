@@ -19,8 +19,20 @@ class ProjectController extends Controller
         return view('projects.index', [
             'projects' => Project::query()
                 ->with('commissionType', 'schema')
-                ->orderBy('name')
-                ->get(),
+                ->get()
+                ->map(function (Project $project) {
+                    return [
+                        'id' => $project->id,
+                        'name' => $project->description,
+                        'schema' => optional($project->schema)->name,
+                        'type' => optional($project->commissionType)->name,
+                        'status' => $project->wasApproved() ? null : '<div class="badge badge-warning">Ausstehend</div>',
+                        'createdAt' => optional($project->created_at)->format('Y-m-d'),
+                        'links' => [
+                            'self' => route('projects.show', $project),
+                        ],
+                    ];
+                }),
         ]);
     }
 

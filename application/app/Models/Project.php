@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * @property int $id
  * @property string $name
  * @property string $description
  * @property int $runtime
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property float $margin
  * @property User $approved
  * @property Schema $schema;
+ * @property CommissionType $commissionType;
  * @property Carbon $payback_min_at
  * @property Carbon $payback_max_at
  * @property Carbon $launched_at
