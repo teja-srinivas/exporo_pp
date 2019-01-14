@@ -45,8 +45,8 @@
                 <td>{{ $project->margin }}%</td>
             </tr>
             <tr>
-                <td>Gestartet</td>
-                <td>@timeago($project->launched_at)</td>
+                <td>Fundingstart</td>
+                <td>{{ optional($project->launched_at)->format('d.m.Y') ?? '(keine Angabe)' }}</td>
             </tr>
             <tr>
                 <td>Laufzeit</td>
@@ -55,8 +55,8 @@
             <tr>
                 <td>Rückzahlung</td>
                 <td>
-                    vom {{ optional($project->payback_min_at)->format('d.m.Y') ?? '(keine Angabe)' }}<br>
-                    bis {{ optional($project->payback_max_at)->format('d.m.Y') ?? '(keine Angabe)' }}
+                    Minimallaufzeit: <b>{{ optional($project->payback_min_at)->format('d.m.Y') ?? '(keine Angabe)' }}</b><br>
+                    Maximallaufzeit: <b>{{ optional($project->payback_max_at)->format('d.m.Y') ?? '(keine Angabe)' }}</b>
                 </td>
             </tr>
             </tbody>
