@@ -14,7 +14,7 @@ const formatUser = (user) => {
     : content;
 };
 
-const replaceExtras = name => name.replace(/^(von|van)\s/, '');
+const replaceExtras = name => name.replace(/^(von|van|v\.)\s/, '');
 
 export default {
   ...defaults,
