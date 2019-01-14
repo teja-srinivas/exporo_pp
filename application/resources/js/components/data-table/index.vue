@@ -18,6 +18,7 @@
         <th
           v-if="groupCount > 0"
           :width="groupCount * 32"
+          :colspan="groupCount"
           key="#delimiter"
         />
 
@@ -288,7 +289,7 @@ export default {
      * @return {*}
      */
     columnCount() {
-      return this.columns.length + (this.selectable ? 1 : 0);
+      return this.columns.length + (this.selectable ? 1 : 0) + this.groupCount;
     },
 
     columnsOptimized() {

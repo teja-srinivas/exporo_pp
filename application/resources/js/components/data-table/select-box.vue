@@ -3,6 +3,7 @@
     class="leading-sm py-0 align-middle"
     width="32"
     :is="element"
+    v-bind="$attrs"
   >
     <div class="d-flex align-items-center">
       <div class="custom-control custom-checkbox custom-control-inline m-0">

@@ -1,5 +1,5 @@
 <template>
-  <tbody v-if="true">
+  <tbody>
     <template v-for="(row, index) in rows">
       <!-- Groups -->
       <template v-if="row.isGroup">
@@ -29,6 +29,7 @@
 
           <td
             :class="$style.tdChevron"
+            :colspan="localDepth"
             :width="localDepth * 32"
             @click="toggleDetails(row)"
           >
@@ -84,13 +85,14 @@
         :key="row[primary]"
         :class="{
           [$style.trChildStart]: index === 0,
-          [$style.trChildEnd]: depth > 0 && index === rows.length - 1,
+          [$style.trChildEnd]: index === rows.length - 1,
         }"
       >
         <td
           v-if="depth > 0"
-          :width="depth * 32"
           class="bg-light border-right"
+          :width="depth * 32"
+          :colspan="depth"
         />
 
         <select-box
@@ -102,8 +104,9 @@
         />
 
         <td
-          v-if="localDepth > 0"
+          v-if="depth < groupCount"
           :width="localDepth * 32"
+          :colspan="localDepth"
         />
 
         <cell
@@ -193,7 +196,7 @@ export default {
 
   computed: {
     localDepth() {
-      return Math.min(0, this.groupCount - this.depth);
+      return Math.max(0, this.groupCount - this.depth);
     },
   },
 
