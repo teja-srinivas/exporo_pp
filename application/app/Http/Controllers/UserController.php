@@ -8,6 +8,7 @@ use App\Models\Bill;
 use App\Models\BonusBundle;
 use App\Models\Company;
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Database\Query\Builder;
@@ -23,13 +24,13 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index()
+    public function index(UserRepository $userRepository)
     {
         $this->authorize('list', User::class);
 
-        $users = User::query()->latest()->with('roles')->get()->sortNatural('last_name');
-
-        return response()->view('users.index', compact('users'));
+        return response()->view('users.index', [
+            'users' => $userRepository->forTableView(User::query()),
+        ]);
     }
 
     /**

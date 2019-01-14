@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Permission;
 use App\Models\Role;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -49,18 +50,17 @@ class RoleController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Role $role
+     * @param UserRepository $userRepository
      * @return void
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(Role $role)
+    public function show(Role $role, UserRepository $userRepository)
     {
         $this->authorize('view', Role::class);
 
-        $role->load(['users' => function ($q) {
-            $q->latest()->with('roles');
-        }]);
+        $users = $userRepository->forTableView($role->users()->getQuery());
 
-        return response()->view('roles.show', compact('role'));
+        return response()->view('roles.show', compact('role', 'users'));
     }
 
     /**

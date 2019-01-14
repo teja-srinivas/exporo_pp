@@ -34,6 +34,6 @@
         @endforelse
     @endcard
 
-    @include('users.partials.table', ['users' => $role->users])
+    @include('users.partials.table', ['users' => $users])
     @include('roles.partials.details')
 @endsection

@@ -38,6 +38,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property Collection $bonuses
  * @property Collection $bills
  * @property Collection $documents
+ * @property Collection $roles
  * @property Collection $agbs
  * @property Company $company
  */
@@ -227,18 +228,6 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     public function getLoginLink()
     {
         return \Illuminate\Support\Facades\Url::signedRoute('users.login', $this);
-    }
-
-    public static function getRoleColor(Role $role)
-    {
-        switch ($role->name ?? '') {
-            case Role::ADMIN:
-                return 'primary';
-            case Role::INTERNAL:
-                return 'success';
-            default:
-                return 'light';
-        }
     }
 
     public function sendEmailVerificationNotification()

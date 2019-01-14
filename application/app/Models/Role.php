@@ -43,4 +43,16 @@ class Role extends \Spatie\Permission\Models\Role
     {
         return ucfirst($this->name);
     }
+
+    public function getColor()
+    {
+        switch ($this->name ?? '') {
+            case Role::ADMIN:
+                return 'primary';
+            case Role::INTERNAL:
+                return 'success';
+            default:
+                return 'light';
+        }
+    }
 }
