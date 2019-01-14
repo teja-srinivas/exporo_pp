@@ -86,21 +86,17 @@
                 @method('PUT')
                 @csrf
 
-                @include('components.form.builder', [
-                    'inputs' => [
-                        [
-                            'type' => 'select',
-                            'label' => __('Schema'),
-                            'name' => 'schema',
-                            'required' => true,
-                            'default' => $project->schema_id,
-                            'values' => $schemas,
-                            'assoc' => true,
-                        ],
-                    ],
+                @include('components.form.select', [
+                    'type' => 'select',
+                    'label' => __('Schema'),
+                    'name' => 'schema',
+                    'required' => true,
+                    'default' => $project->schema_id,
+                    'values' => $schemas,
+                    'assoc' => true,
                 ])
 
-                <button class="btn btn-primary">Schema Ändern</button>
+                <button class="btn btn-primary ml-2">Schema Ändern</button>
             </form>
         @endslot
     @endcard
@@ -125,21 +121,17 @@
             @method('PUT')
             @csrf
 
-            @include('components.form.builder', [
-                'inputs' => [
-                    [
-                        'type' => 'select',
-                        'label' => __('Typ'),
-                        'name' => 'commissionType',
-                        'required' => true,
-                        'default' => $project->commission_type,
-                        'values' => $commissionTypes,
-                        'assoc' => true,
-                    ],
-                ],
+            @include('components.form.select', [
+                'type' => 'select',
+                'label' => __('Typ'),
+                'name' => 'commissionType',
+                'required' => true,
+                'default' => $project->commission_type,
+                'values' => $commissionTypes,
+                'assoc' => true,
             ])
 
-            <button class="btn btn-primary">Typ Ändern</button>
+            <button class="btn btn-primary ml-2">Typ Ändern</button>
         </form>
         @endslot
     @endcard
