@@ -68,10 +68,10 @@ class UserDocumentController extends Controller
         $user = User::find($request->get('user_id'));
 
         $users = User::query()
-            ->get(['id', 'first_name', 'last_name'])
-            ->sortNatural('last_name')
-            ->mapWithKeys(function (User $user) {
-                return [$user->id => $user->last_name . ', ' . $user->first_name . ' (#' . $user->id . ')'];
+            ->orderBy('id')
+            ->pluck('id')
+            ->mapWithKeys(function (int $id) {
+                return [$id => '#' . $id];
             });
 
         return response()->view('documents.create', compact('user', 'users'));
