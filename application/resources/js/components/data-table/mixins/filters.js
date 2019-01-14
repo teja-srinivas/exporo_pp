@@ -40,7 +40,8 @@ export default {
       }
 
       return filter(this.rows, row => every(this.filterFunctions, (column, name) => {
-        return column.matches(column.value(row[name], column.options, row));
+        const value = row[name];
+        return value !== null && column.matches(column.value(value, column.options, row));
       }));
     },
   },

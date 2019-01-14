@@ -205,9 +205,13 @@ export default {
     },
 
     formatValue(row, column = {}, allowLinks = false) {
+      if (column === undefined) {
+        return '';
+      }
+
       let value = row[column.name];
 
-      if (value === undefined || column === undefined) {
+      if (value === undefined || value === null) {
         return '';
       }
 
