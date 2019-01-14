@@ -66,7 +66,7 @@
           :key="`${row.key}-contents`"
         >
           <td
-            :colspan="columnCount + (depth > 0 ? 1 : 0)"
+            :colspan="columnCount"
             :class="{ 'border-bottom': depth === 0 || index < rows.length - 1 }"
             class="p-0"
           >
