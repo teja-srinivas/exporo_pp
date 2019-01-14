@@ -4,6 +4,14 @@ const passthrough = val => val;
 
 export default {
   /**
+   * Initial call for this column to initialize on page load.
+   * Typically used to configure any subsequent calls.
+   *
+   * @param {object} options
+   */
+  initialize: null,
+
+  /**
    * Formats the given value as appropiate by this type.
    *
    * @param obj

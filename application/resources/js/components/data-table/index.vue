@@ -325,6 +325,10 @@ export default {
         const defaultFormat = 'default';
         const formatter = formatters[column.format || defaultFormat];
 
+        if (formatter.initialize) {
+          formatter.initialize(column.options);
+        }
+
         const groupBy = this.groupable && column.groupBy;
 
         // Auto-expand column widths so we don't have to worry about button sizes
