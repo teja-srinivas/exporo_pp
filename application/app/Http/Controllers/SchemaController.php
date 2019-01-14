@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Schema;
 use Illuminate\Http\Request;
 
@@ -61,7 +62,16 @@ class SchemaController extends Controller
      */
     public function show(Schema $schema)
     {
-        $projects = $schema->projects()->orderBy('name')->get();
+        $projects = $schema->projects()->orderBy('name')->get()->map(function (Project $project) {
+            return [
+                'id' => $project->id,
+                'project' => $project->description,
+                'createdAt' => optional($project->created_at)->format('Y-m-d'),
+                'links' => [
+                    'self' => route('projects.show', $project),
+                ],
+            ];
+        });
 
         return view('schemas.show', compact('schema', 'projects'));
     }
