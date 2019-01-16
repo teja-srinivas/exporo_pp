@@ -30,7 +30,7 @@
             <div class="col-md-9 col-xl-10">
                 <div class="d-flex justify-content-between align-items-center
                             @if($__env->hasSection('actions') || $__env->hasSection('title')) mb-3 @endif">
-                    <div class="flex-fill mr-2">
+                    <div class="flex-fill @hasSection('actions') mr-2 @endif">
                         @hasSection('title')
                             <h3 class="mb-0">@yield('title')</h3>
                         @endif
