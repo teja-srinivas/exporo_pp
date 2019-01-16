@@ -55,7 +55,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     new Vue({
       el,
-      render: createElement => createElement(component, { props }),
+      render: createElement => createElement(component, {
+        class: el.className,
+        props,
+      }),
     });
 
     usesVue = true;
