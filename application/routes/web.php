@@ -36,6 +36,8 @@ Route::middleware(['verified'])->group(function () {
         Route::get('bills/preview/{user?}', 'BillController@preview')->name('bills.preview');
         Route::get('bills/download/{bill}', 'BillController@downloadBillFromS3')->name('bills.download');
         Route::resource('agbs', 'AgbController');
+        Route::resource('banner-sets', 'BannerSetController')->names('banners.sets')->parameter('banner-sets', 'set');
+        Route::resource('banner-sets/{set}/banners', 'BannerController')->names('banners')->only('store', 'destroy');
         Route::resource('bills', 'BillController');
         Route::resource('commissions/bundles', 'BonusBundleController')->names('commissions.bundles');
         Route::resource('commissions/types', 'CommissionTypeController')->names('commissions.types');
