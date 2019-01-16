@@ -25,6 +25,7 @@ import Pagination from 'bootstrap-vue/es/components/pagination';
 import Popover from 'bootstrap-vue/es/components/popover';
 import Notifications from 'vue-notification';
 import velocity from 'velocity-animate';
+import VueDropzone from 'vue2-dropzone';
 
 import App from './components/App.vue';
 import DataTable from './components/data-table/index.vue';
@@ -41,6 +42,7 @@ Vue.component('bonus-bundle-editor', () => import('./components/BonusBundleEdito
 Vue.component('commission-approval', () => import('./components/CommissionApproval/index.vue'));
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('data-table', DataTable);
+Vue.component('vue-dropzone', VueDropzone);
 
 document.addEventListener('DOMContentLoaded', () => {
   let usesVue;
