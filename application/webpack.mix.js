@@ -17,6 +17,9 @@ mix.webpackConfig({
     alias: {
       // Use slim build to exclude the ajax stuff (we use axios)
       jquery$: 'jquery/dist/jquery.slim.js',
+
+      // Use runtime-only version of vue
+      vue$: 'vue/dist/vue.runtime.esm.js',
     },
   },
 });
