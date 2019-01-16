@@ -28,6 +28,7 @@ class ProjectController extends Controller
                         'type' => optional($project->commissionType)->name,
                         'status' => $project->wasApproved() ? null : '<div class="badge badge-warning">Ausstehend</div>',
                         'createdAt' => optional($project->created_at)->format('Y-m-d'),
+                        'launchedAt' => optional($project->launched_at)->format('Y-m-d'),
                         'links' => [
                             'self' => route('projects.show', $project),
                         ],

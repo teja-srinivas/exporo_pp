@@ -31,7 +31,13 @@
                 'align' => 'center',
             ],
             [
-                'name' => 'date',
+                'name' => 'launchedAt',
+                'label' => 'Fundingstart',
+                'format' => 'date',
+                'width' => 90,
+            ],
+            [
+                'name' => 'createdAt',
                 'label' => 'Erstellt',
                 'format' => 'date',
                 'width' => 75,
