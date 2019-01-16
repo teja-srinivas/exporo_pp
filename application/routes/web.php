@@ -27,7 +27,7 @@ Route::prefix('agbs')->group(function () {
 });
 
 Route::middleware(['verified'])->group(function () {
-    Route::resource('users/{user}/bundle-selection', 'User\BundleSelection', ['only' => ['index', 'store']])
+    Route::resource('users/{user}/bundle-selection', 'User\BundleSelection')->only('index', 'store')
         ->names('users.bundle-selection');
 
     Route::middleware(['bundle-selected', 'accepted', 'filled'])->group(function () {
@@ -39,9 +39,9 @@ Route::middleware(['verified'])->group(function () {
         Route::resource('bills', 'BillController');
         Route::resource('commissions/bundles', 'BonusBundleController')->names('commissions.bundles');
         Route::resource('commissions/types', 'CommissionTypeController')->names('commissions.types');
-        Route::resource('commissions', 'CommissionController', ['only' => ['index']]);
-        Route::resource('projects', 'ProjectController', ['only' => ['index', 'show', 'update']]);
-        Route::resource('roles', 'RoleController', ['except' => ['index']]);
+        Route::resource('commissions', 'CommissionController')->only('index');
+        Route::resource('projects', 'ProjectController')->only('index', 'show', 'update');
+        Route::resource('roles', 'RoleController')->except('index');
         Route::resource('schemas', 'SchemaController');
         Route::resource('users/documents', 'UserDocumentController'); // TODO move this under the user namespace
         Route::resource('users', 'UserController');
@@ -51,12 +51,10 @@ Route::middleware(['verified'])->group(function () {
             ->middleware('signed');
 
         Route::prefix('users/{user}')->name('users.')->namespace('User')->group(function () {
-            Route::resource('investments', 'InvestmentController', ['only' => ['index']]);
-            Route::resource('investors', 'InvestorController', ['only' => ['index']]);
-            Route::resource('users', 'UserController', ['only' => ['index']]);
-            Route::resource('commission-bonuses', 'CommissionBonusController', ['only' => [
-                'store', 'update', 'destroy'
-            ]]);
+            Route::resource('investments', 'InvestmentController')->only('index');
+            Route::resource('investors', 'InvestorController')->only('index');
+            Route::resource('users', 'UserController')->only('index');
+            Route::resource('commission-bonuses', 'CommissionBonusController')->only('store', 'update', 'destroy');
         });
 
         Route::get('home', 'HomeController')->name('home');
