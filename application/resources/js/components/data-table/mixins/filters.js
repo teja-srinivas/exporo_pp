@@ -32,17 +32,17 @@ export default {
     /**
      * Filters all rows based on the queries per column.
      *
-     * @return {default.props.rows|{default, type}}
+     * @return {ReadonlyArray}
      */
     filtered() {
       if (!this.filterable) {
-        return this.rows;
+        return Object.freeze(this.rows);
       }
 
-      return filter(this.rows, row => every(this.filterFunctions, (column, name) => {
+      return Object.freeze(filter(this.rows, row => every(this.filterFunctions, (column, name) => {
         const value = row[name];
         return value !== null && column.matches(column.value(value, column.options, row));
-      }));
+      })));
     },
   },
 };

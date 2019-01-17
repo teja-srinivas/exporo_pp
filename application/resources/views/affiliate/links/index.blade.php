@@ -33,7 +33,7 @@
                 @endif
 
                 @can('update', $link)
-                    <a href="{{ route('affiliate.links.edit', $link) }}" class="btn btn-primary btn-sm mx-1">Bearbeiten</a>
+                    <a href="{{ route('affiliate.links.edit', $link) }}" class="btn btn-outline-primary btn-sm mx-1">Bearbeiten</a>
                 @endcan
             </div>
             <span class="leading-sm text-muted">{{ $link['description'] }}</span>

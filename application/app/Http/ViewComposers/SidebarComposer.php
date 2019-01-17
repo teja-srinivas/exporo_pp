@@ -3,6 +3,7 @@
 namespace App\Http\ViewComposers;
 
 use App\Models\Agb;
+use App\Models\BannerSet;
 use App\Models\Bill;
 use App\Models\BonusBundle;
 use App\Models\CommissionType;
@@ -182,6 +183,14 @@ class SidebarComposer
                 'title' => 'Projekte',
                 'url' => route('projects.index'),
                 'isActive' => $this->request->routeIs('projects.*'),
+            ];
+        }
+
+        if ($this->canList(BannerSet::class)) {
+            $links[] = [
+                'title' => 'Banner',
+                'url' => route('banners.sets.index'),
+                'isActive' => $this->request->routeIs('banners.*'),
             ];
         }
 

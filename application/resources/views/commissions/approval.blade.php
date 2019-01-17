@@ -20,7 +20,7 @@
             'api' => route('api.commissions.index'),
             'totals' => $totals,
         ])
-        <vue data-is="commission-approval" data-props='@json($vueData)' />
+        <vue data-is="commission-approval" data-props='@json($vueData)'></vue>
     @else
         @card
             <div class="lead text-center text-muted">

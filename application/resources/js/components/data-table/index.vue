@@ -369,7 +369,7 @@ export default {
      * @return {Object}
      */
     rootRows() {
-      return this.mapGroup(this.filtered, this.localGroups);
+      return Object.freeze(this.mapGroup(this.filtered, this.localGroups));
     },
 
     paginated() {
