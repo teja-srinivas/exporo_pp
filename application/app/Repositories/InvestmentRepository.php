@@ -29,6 +29,7 @@ final class InvestmentRepository
             ->whereNull('users.rejected_at')
             ->whereNotNull('projects.approved_at')
             ->whereNotNull('investments.paid_at')
+            ->where('investments.paid_at', '>', LEGACY_NULL)
             ->where('investments.acknowledged_at', '>', LEGACY_NULL)
             ->where('investments.acknowledged_at', '<', now()->subDays(14))
             ->select(['investments.*'])
