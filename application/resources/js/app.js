@@ -27,7 +27,7 @@ import Notifications from 'vue-notification';
 import velocity from 'velocity-animate';
 import VueDropzone from 'vue2-dropzone';
 
-import ArrayInput from './components/ArrayInput.vue';
+import UrlInput from './components/url-input/index.vue';
 import App from './components/App.vue';
 import DataTable from './components/data-table/index.vue';
 
@@ -44,7 +44,7 @@ Vue.component('commission-approval', () => import('./components/CommissionApprov
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('data-table', DataTable);
 Vue.component('vue-dropzone', VueDropzone);
-Vue.component('array-input', ArrayInput);
+Vue.component('url-input', UrlInput);
 
 document.addEventListener('DOMContentLoaded', () => {
   let usesVue;

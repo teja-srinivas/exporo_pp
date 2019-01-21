@@ -50,7 +50,8 @@ class BannerSetController extends Controller
 
         $data = $this->validate($request, [
             'title' => 'required|string',
-            'urls.*' => 'url'
+            'urls.*.key' => 'string',
+            'urls.*.value' => 'url',
         ]);
 
         $set = new BannerSet($data);
@@ -107,7 +108,8 @@ class BannerSetController extends Controller
 
         $data = $this->validate($request, [
             'title' => 'required|string',
-            'urls.*' => 'url'
+            'urls.*.key' => 'string',
+            'urls.*.value' => 'url',
         ]);
 
         $set->update($data);

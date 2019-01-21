@@ -16,7 +16,7 @@
 
         @card
             @include('components.form.builder', [
-                'labelWidth' => 3,
+                'labelWidth' => 1,
                 'inputs' => [
                     [
                         'type' => 'text',
@@ -26,9 +26,9 @@
                         'default' => $set->title,
                     ],
                     [
-                        'type' => 'text',
-                        'label' => 'URL',
-                        'name' => 'urls[]',
+                        'type' => 'urls',
+                        'label' => 'URLs',
+                        'name' => 'urls',
                         'required' => true,
                         'default' => $set->urls,
                         'help' => 'Folgende Textbausteine stehen zur verfügung:<br><code>#reflink</code> für "?a_aid=&lt;benutzerid&gt;"'

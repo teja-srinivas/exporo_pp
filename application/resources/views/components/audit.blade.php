@@ -67,6 +67,8 @@
                                 <span class="text-muted">(versteckt)</span>
                             @elseif(is_bool($row[$key]))
                                 {!! $row[$key] ? '✔' : '-' !!}
+                            @elseif(is_array($row[$key]))
+                                <pre class="m-0">{{ var_export($row[$key], true) }}</pre>
                             @else
                                 @php($value = App\Traits\Encryptable::decrypt($row[$key]))
 
