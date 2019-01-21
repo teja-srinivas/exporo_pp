@@ -37,10 +37,16 @@
     <vue data-is="vue-dropzone" data-props='@json($dropzone)'
          class="border-0 shadow-sm rounded p-2"></vue>
 
-    @foreach($set->banners as $banner)
+    @foreach($set->banners->chunk(2) as $chunk)
         <div class="my-3">
-            <img src="{{ $banner->getDownloadUrl() }}" class="img-thumbnail bg-white">
-            <div class="small text-center text-muted">{{ $banner->width }}x{{ $banner->height }}</div>
+            <div class="row">
+                @foreach($chunk as $banner)
+                <div class="col-md-6">
+                    <img src="{{ $banner->getDownloadUrl() }}" class="img-thumbnail bg-white">
+                    <div class="small text-center text-muted">{{ $banner->width }}x{{ $banner->height }}</div>
+                </div>
+                @endforeach
+            </div>
         </div>
     @endforeach
 
