@@ -2,7 +2,7 @@
 
 @section('title')
     @breadcrumps([
-        'Werbemittel',
+        'Verwaltung',
         'Banner',
     ])
 @endsection

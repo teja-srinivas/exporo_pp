@@ -2,7 +2,7 @@
 
 @section('title')
     @breadcrumps([
-        'Werbemittel',
+        'Verwaltung',
         route('banners.sets.index') => 'Banner',
         $set->title,
     ])
