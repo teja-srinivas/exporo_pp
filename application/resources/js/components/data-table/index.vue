@@ -160,18 +160,25 @@
           />
         </td>
       </tr>
-      <tr v-if="selectable && actions.length > 0">
+      <tr>
         <td :colspan="columnCount" class="pr-1">
           <div class="d-flex align-items-center justify-content-between">
-            <div class="text-nowrap">
+            <div v-if="selectable" class="text-nowrap">
               <span class="text-muted">Auswahl:</span>
               <span class="text-dark">
-              <strong>{{ selection.length }}</strong>
-              <template v-if="selection.length === 1">Eintrag</template>
-              <template v-else>Einträge</template>
-            </span>
+                <strong>{{ selection.length }}</strong>
+                <template v-if="selection.length === 1">Eintrag</template>
+                <template v-else>Einträge</template>
+              </span>
             </div>
-            <div>
+            <div v-else class="text-nowrap">
+              <span class="text-dark">
+                <strong>{{ filtered.length }}</strong>
+                <template v-if="filtered.length === 1">Eintrag</template>
+                <template v-else>Einträge</template>
+              </span>
+            </div>
+            <div v-if="actions.length > 0">
               <form
                 v-for="action in actions"
                 :key="action.label"
