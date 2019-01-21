@@ -109,6 +109,11 @@ class SidebarComposer
                 'title' => 'Werbemittel',
                 'links' => [
                     [
+                        'title' => 'Banner',
+                        'url' => route('affiliate.banners.index'),
+                        'isActive' => $this->request->routeIs('affiliate.banners.*'),
+                    ],
+                    [
                         'title' => 'Links',
                         'url' => route('affiliate.links.index'),
                         'isActive' => $this->request->routeIs('affiliate.links.*'),

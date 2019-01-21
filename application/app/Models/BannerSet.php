@@ -36,4 +36,17 @@ class BannerSet extends Model implements AuditableContract
     {
         return $this->hasMany(Banner::class, 'set_id');
     }
+
+    public function getUrlForUser(string $url, User $user): string
+    {
+        $replacements = [
+            '#reflink' => '?a_aid=' . $user->id,
+        ];
+
+        return str_replace(
+            array_keys($replacements),
+            array_values($replacements),
+            $url
+        );
+    }
 }

@@ -7,6 +7,7 @@ library.add(
   require('@fortawesome/free-solid-svg-icons/faEuroSign').definition,
   require('@fortawesome/free-solid-svg-icons/faFlag').definition,
   require('@fortawesome/free-solid-svg-icons/faHome').definition,
+  require('@fortawesome/free-solid-svg-icons/faPaste').definition,
   require('@fortawesome/free-solid-svg-icons/faPen').definition,
   require('@fortawesome/free-solid-svg-icons/faPlus').definition,
   require('@fortawesome/free-solid-svg-icons/faShareSquare').definition,

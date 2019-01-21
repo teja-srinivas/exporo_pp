@@ -61,6 +61,8 @@ Route::middleware(['verified'])->group(function () {
 
         Route::get('home', 'HomeController')->name('home');
         Route::get('commission-details', 'User\CommissionDetails')->name('commission-details');
+
+        Route::get('affiliate/banners', 'BannerController@index')->name('affiliate.banners.index');
         Route::view('affiliate/child-users', 'affiliate/child-users')->name('affiliate.child-users');
         Route::resource('affiliate/links', 'LinkController')->except('show')->names('affiliate.links');
         Route::resource('affiliate/mails', 'MailingController')->names('affiliate.mails');

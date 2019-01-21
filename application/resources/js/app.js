@@ -43,6 +43,7 @@ Vue.component('bonus-bundle-editor', () => import('./components/BonusBundleEdito
 Vue.component('commission-approval', () => import('./components/CommissionApproval/index.vue'));
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('data-table', DataTable);
+Vue.component('banner-viewer', () => import('./components/banner-viewer.vue'));
 Vue.component('vue-dropzone', VueDropzone);
 Vue.component('url-input', UrlInput);
 

@@ -4,12 +4,50 @@ namespace App\Http\Controllers;
 
 use App\Models\Banner;
 use App\Models\BannerSet;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
+    public function index(Request $request)
+    {
+        /** @var User $user */
+        $user = $request->user();
+        $sets = $user->company->bannerSets()
+            ->with('banners')
+            ->get()
+            ->reject(function (BannerSet $set) {
+                return empty($set->urls);
+            })
+            ->reject(function (BannerSet $set) {
+                return $set->banners->isEmpty();
+            })
+            ->map(function (BannerSet $set) use ($user) {
+                return [
+                    'name' => $set->title,
+                    'banners' => $set->banners->map(function (Banner $banner) {
+                        return [
+                            'height' => $banner->height,
+                            'width' => $banner->width,
+                            'url' => $banner->getDownloadUrl(),
+                        ];
+                    }),
+                    'urls' => collect($set->urls)->map(function (array $url) use ($set, $user) {
+                        return [
+                            'key' => $url['key'],
+                            'value' => $set->getUrlForUser($url['value'], $user),
+                        ];
+                    }),
+                ];
+            })->values();
+
+        return view('affiliate.banners.index', [
+            'sets' => $sets,
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
