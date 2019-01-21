@@ -171,9 +171,9 @@
 
       <tr>
         <td :colspan="columnCount" class="pr-1">
-          <div class="d-flex align-items-center justify-content-between">
-            <div class="text-nowrap">
-              <template v-if="selectable">
+          <div class="row align-items-center">
+            <div class="col text-nowrap">
+              <template v-if="selectable && selection.length > 0">
                 <span class="text-muted">Auswahl:</span>
                 <span class="text-dark">
                   <strong>{{ selection.length }}</strong>
@@ -187,26 +187,25 @@
                 <strong>{{ filtered.length }}</strong>
                 <template v-if="filtered.length === 1">Eintrag</template>
                 <template v-else>
-                  Einträge<template v-if="selectable">n</template>
+                  Einträge<template v-if="selectable && selection.length > 0">n</template>
                 </template>
               </span>
             </div>
 
-
             <!-- Pagination -->
-            <div>
-                <b-pagination
-                  v-if="pageSize > 0 && rootRows.length > pageSize"
-                  size="sm"
-                  class="justify-content-center mb-0"
-                  v-model="page"
-                  :total-rows="rootRows.length"
-                  :per-page="pageSize"
-                  :limit="10"
-                />
+            <div class="col">
+              <b-pagination
+                v-if="pageSize > 0 && rootRows.length > pageSize"
+                size="sm"
+                class="justify-content-center mb-0"
+                v-model="page"
+                :total-rows="rootRows.length"
+                :per-page="pageSize"
+                :limit="10"
+              />
             </div>
 
-            <div>
+            <div class="col text-right">
               <template v-if="actions.length > 0">
                 <form
                   v-for="action in actions"
