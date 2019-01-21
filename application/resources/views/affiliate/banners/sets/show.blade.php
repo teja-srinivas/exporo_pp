@@ -27,7 +27,10 @@
         'id' => 'banner-upload',
         'duplicateCheck' => true,
         'options' => [
-            'url' => route('banners.store', $set),
+            'url' => route('banners.store'),
+            'params' => [
+                'set_id' => $set->getKey(),
+            ],
             'headers' => [
                 'X-CSRF-TOKEN' => csrf_token(),
             ],
@@ -42,8 +45,18 @@
             <div class="row">
                 @foreach($chunk as $banner)
                 <div class="col-md-6">
-                    <img src="{{ $banner->getDownloadUrl() }}" class="img-thumbnail bg-white">
-                    <div class="small text-center text-muted">{{ $banner->width }}x{{ $banner->height }}</div>
+                    <img src="{{ $banner->getDownloadUrl() }}" class="img-thumbnail bg-white mb-1">
+                    <div class="small d-flex justify-content-between text-muted">
+                        <span>{{ $banner->width }}x{{ $banner->height }}</span>
+                        <form action="{{ route('banners.destroy', $banner) }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+
+                            <button class="btn btn-outline-danger btn-sm">
+                                Löschen
+                            </button>
+                        </form>
+                    </div>
                 </div>
                 @endforeach
             </div>

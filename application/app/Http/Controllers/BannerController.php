@@ -13,19 +13,22 @@ class BannerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param BannerSet $set
      * @param  \Illuminate\Http\Request $request
      * @return void
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(BannerSet $set, Request $request)
+    public function store(Request $request)
     {
         $this->authorize('create', Banner::class);
 
-        $this->validate($request, [
-            'file' => 'mimes:jpeg,gif,png'
+        $data = $this->validate($request, [
+            'set_id' => 'exists:banner_sets,id',
+            'file' => 'mimes:jpeg,gif,png',
         ]);
+
+        /** @var BannerSet $set */
+        $set = BannerSet::query()->findOrFail($data['set_id']);
 
         // Fetch image dimensions
         $image = $request->file('file');
@@ -46,7 +49,7 @@ class BannerController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  Banner $banner
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
     public function destroy(Banner $banner)
@@ -54,5 +57,7 @@ class BannerController extends Controller
         $this->authorize('delete', $banner);
 
         $banner->delete();
+
+        return back();
     }
 }
