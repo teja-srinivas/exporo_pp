@@ -26,6 +26,7 @@ class HomeController extends Controller
             'total' => Commission::query()
                 ->forUser($user)
                 ->whereNull('rejected_at')
+                ->afterLaunch()
                 ->sum('gross'),
 
             'approved' => Commission::query()
@@ -33,12 +34,14 @@ class HomeController extends Controller
                     $query->whereNotNull('reviewed_at');
                 })
                 ->forUser($user)
+                ->afterLaunch()
                 ->sum('gross'),
 
             'paid' => Commission::query()
                 ->join('bills', 'bill_id', 'bills.id')
                 ->forUser($user)
                 ->where('released_at', '<=', now())
+                ->afterLaunch()
                 ->sum('gross'),
         ]);
     }

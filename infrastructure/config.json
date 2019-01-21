@@ -4,7 +4,7 @@
   "serviceName": "pp",
   "appImageName": "webapp",
   "appContainerName": "webapp",
-  "environmentDefault": "prod",
+  "environmentDefault": "stage",
   "awsAccountId": 432488122699,
   "cidrBlockSegment2": 102
 }
