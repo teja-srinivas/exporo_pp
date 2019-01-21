@@ -37,6 +37,32 @@ export default {
     groupCount() {
       return this.localGroups.length;
     },
+
+    totalAggregateValues() {
+      if (!this.totalAggregates) {
+        return {};
+      }
+
+      return map(this.columnsOptimized, (column) => {
+        const aggregate = column.formatter.defaultAggregator;
+        const aggregator = column.formatter.aggregates[aggregate];
+
+        let value = null;
+
+        if (aggregator !== undefined) {
+          value = formatters[aggregator.format].format(
+              aggregator.calculate(map(this.filtered, column.name)),
+              column.options,
+          );
+        }
+
+        return {
+          name: column.name,
+          align: column.formatter.align,
+          value,
+        }
+      });
+    },
   },
 
   methods: {

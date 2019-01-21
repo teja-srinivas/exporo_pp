@@ -26,6 +26,7 @@
 
     @include('components.table', ['data' => [
         'rows' => $projects->values(),
+        'totalAggregates' => false,
         'columns' => [
             [
                 'name' => 'project',

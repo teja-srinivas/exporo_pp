@@ -146,58 +146,88 @@
       </tr>
     </tbody>
 
-    <!-- Total Aggregates -->
-    <tfoot>
-      <tr v-if="pageSize > 0 && rootRows.length > pageSize">
-        <td :colspan="columnCount">
-          <b-pagination
-            size="sm"
-            class="justify-content-center mb-0"
-            v-model="page"
-            :total-rows="rootRows.length"
-            :per-page="pageSize"
-            :limit="10"
-          />
-        </td>
+    <!-- Table footer -->
+    <tfoot :class="$style.tFoot">
+      <!-- Total aggregates of the filtered table -->
+      <tr
+        v-if="totalAggregates && filtered.length > 1"
+        class="font-weight-bold"
+      >
+        <td
+          v-if="columns.length < columnCount"
+          :colspan="columnCount - columns.length"
+        />
+
+        <td
+          v-for="aggregate in totalAggregateValues"
+          :key="aggregate.name"
+          :class="{
+            'text-right': aggregate.align === 'right',
+            'text-center': aggregate.align === 'center',
+          }"
+          v-text="aggregate.value"
+        />
       </tr>
+
       <tr>
         <td :colspan="columnCount" class="pr-1">
           <div class="d-flex align-items-center justify-content-between">
-            <div v-if="selectable" class="text-nowrap">
-              <span class="text-muted">Auswahl:</span>
-              <span class="text-dark">
-                <strong>{{ selection.length }}</strong>
-                <template v-if="selection.length === 1">Eintrag</template>
-                <template v-else>Einträge</template>
-              </span>
-            </div>
-            <div v-else class="text-nowrap">
+            <div class="text-nowrap">
+              <template v-if="selectable">
+                <span class="text-muted">Auswahl:</span>
+                <span class="text-dark">
+                  <strong>{{ selection.length }}</strong>
+                  <template v-if="selection.length === 1">Eintrag</template>
+                  <template v-else>Einträge</template>
+                </span>
+                <span class="text-muted">von</span>
+              </template>
+
               <span class="text-dark">
                 <strong>{{ filtered.length }}</strong>
                 <template v-if="filtered.length === 1">Eintrag</template>
-                <template v-else>Einträge</template>
+                <template v-else>
+                  Einträge<template v-if="selectable">n</template>
+                </template>
               </span>
             </div>
-            <div v-if="actions.length > 0">
-              <form
-                v-for="action in actions"
-                :key="action.label"
-                :action="action.action"
-                :method="action.method"
-              >
-                <input
-                  v-for="item in selection"
-                  :key="item"
-                  type="hidden"
-                  name="selection[]"
-                  :value="item"
-                >
-                <button
-                  :disabled="selection.length === 0"
-                  class="btn btn-sm btn-outline-primary"
-                  v-text="action.label"
+
+
+            <!-- Pagination -->
+            <div>
+                <b-pagination
+                  v-if="pageSize > 0 && rootRows.length > pageSize"
+                  size="sm"
+                  class="justify-content-center mb-0"
+                  v-model="page"
+                  :total-rows="rootRows.length"
+                  :per-page="pageSize"
+                  :limit="10"
                 />
-              </form>
+            </div>
+
+            <div>
+              <template v-if="actions.length > 0">
+                <form
+                  v-for="action in actions"
+                  :key="action.label"
+                  :action="action.action"
+                  :method="action.method"
+                >
+                  <input
+                    v-for="item in selection"
+                    :key="item"
+                    type="hidden"
+                    name="selection[]"
+                    :value="item"
+                  >
+                  <button
+                    :disabled="selection.length === 0"
+                    class="btn btn-sm btn-outline-primary"
+                    v-text="action.label"
+                  />
+                </form>
+              </template>
             </div>
           </div>
         </td>
@@ -264,6 +294,11 @@ export default {
     groupable: {
       type: Boolean,
       default: false,
+    },
+
+    totalAggregates: {
+      type: Boolean,
+      default: true,
     },
 
     columns: {
@@ -465,5 +500,37 @@ export default {
 
   .groupSelect {
     appearance: none;
+  }
+
+  .tFoot tr {
+    td {
+      vertical-align: middle;
+      height: 31px;
+      padding-top: 0;
+      padding-bottom: 0;
+      background-clip: padding-box;
+      transform: scale(0.999);
+
+      /*box-shadow: none;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        border-bottom: 1px solid rgba(black, 0.12);
+      }*/
+    }
+
+    &:nth-last-child(2) td {
+      bottom: 31px;
+      z-index: 1;
+    }
+
+    &:nth-last-child(3) td {
+      bottom: 62px;
+      z-index: 2;
+    }
   }
 </style>

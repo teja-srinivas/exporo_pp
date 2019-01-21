@@ -5,6 +5,7 @@
 @section('main-content')
     @include('components.table', ['data' => [
         'groupable' => true,
+        'totalAggregates' => false,
         'rows' => $projects->values(),
         'columns' => [
             [

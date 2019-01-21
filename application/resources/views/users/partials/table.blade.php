@@ -1,5 +1,6 @@
 @include('components.table', ['data' => [
     'rows' => $users->values(),
+    'totalAggregates' => false,
     'columns' => [
         [
             'name' => 'user',
