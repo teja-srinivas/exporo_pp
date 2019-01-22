@@ -15,7 +15,7 @@
                 </td>
                 <td class="align-middle text-right" width="200">
                     <p class="small text-muted mb-1">Erstellt</p>
-                    @timeago($document['created_at'])
+                    {{ $document['created_at']->format('d.m.Y') }}
                 </td>
             </tr>
         @empty

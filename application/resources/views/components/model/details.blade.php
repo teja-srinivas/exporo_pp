@@ -3,10 +3,10 @@
     {{ $slot ?? '' }}
 
     @component('components.model.detail', ['title' => 'Erstellt'])
-        @timeago($model->created_at)
+        {{ $model->created_at->format('d.m.Y') }}
     @endcomponent
 
     @component('components.model.detail', ['title' => 'Aktualisiert', 'class' => ''])
-        @timeago($model->updated_at)
+       {{ $model->updated_at->format('d.m.Y') }}
     @endcomponent
 </div>

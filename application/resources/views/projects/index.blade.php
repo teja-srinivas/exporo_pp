@@ -43,6 +43,12 @@
                 'format' => 'date',
                 'width' => 75,
             ],
+            [
+                'name' => 'updatedAt',
+                'label' => 'Updated',
+                'format' => 'date',
+                'width' => 75,
+            ],
         ],
         'defaultSort' => [
             'name' => 'name',
