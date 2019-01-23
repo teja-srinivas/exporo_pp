@@ -13,8 +13,8 @@
         'name' => 'salutation',
         'label' => __('Salutation'),
         'values' => [
-            'female' => 'female',
-            'male' => 'male',
+            'female' => 'Frau',
+            'male' => 'Herr',
         ],
     ],
     [
