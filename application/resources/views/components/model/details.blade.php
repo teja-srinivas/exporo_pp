@@ -7,6 +7,6 @@
     @endcomponent
 
     @component('components.model.detail', ['title' => 'Aktualisiert', 'class' => ''])
-       {{ $model->updated_at->format('d.m.Y') }}
+       {{ $model->updated_at ? $model->updated_at->format('d.m.Y') : ''}}
     @endcomponent
 </div>
