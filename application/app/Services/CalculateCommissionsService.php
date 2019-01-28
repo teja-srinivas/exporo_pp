@@ -34,10 +34,10 @@ final class CalculateCommissionsService
             $userId = $investment->investor->user_id;
             $userDetails = $investment->investor->details;
             $bonus = $this->calculateBonus($investment, $investment->investor->user);
-        }
 
-        if ($bonus === null) {
-            return null;
+            if ($bonus === null) {
+                return null;
+            }
         }
 
         $sum = $investment->project->schema->calculate([

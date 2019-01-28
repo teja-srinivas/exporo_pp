@@ -9,13 +9,6 @@ use Illuminate\Database\Query\JoinClause;
 
 final class InvestmentRepository
 {
-    public function getOpenForInvestor($investorId): Builder
-    {
-        return Investment::query()
-            ->where('investor_id', $investorId)
-            ->whereNull('cancelled_at');
-    }
-
     public function withoutCommissionQuery(): Builder
     {
         return Investment::query()
