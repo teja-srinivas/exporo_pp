@@ -17,6 +17,7 @@ class Role extends \Spatie\Permission\Models\Role
     use OptimusEncodedRouteKey;
 
     const PARTNER = 'partner';
+    const LOCKED = 'gesperrt';
     const INTERNAL = 'internal';
     const ADMIN = 'admin';
 

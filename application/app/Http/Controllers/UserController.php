@@ -7,7 +7,9 @@ use App\Jobs\SendMail;
 use App\Models\Bill;
 use App\Models\BonusBundle;
 use App\Models\Company;
+use App\Models\Role;
 use App\Models\User;
+use App\Policies\UserPolicy;
 use App\Repositories\UserRepository;
 use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Contracts\Session\Session;
@@ -123,7 +125,10 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
 
-        return response()->view('users.edit', compact('user'));
+        return response()->view('users.edit', [
+            'user' => $user,
+            'roles' => Role::all(),
+        ]);
     }
 
     /**
@@ -157,6 +162,10 @@ class UserController extends Controller
 
         if (isset($attributes['bonusBundle'])) {
             $user->switchToBundle(BonusBundle::query()->findOrFail($attributes['bonusBundle']));
+        }
+
+        if (isset($attributes['roles']) && $request->user()->can(UserPolicy::PERMISSION)) {
+            $user->syncRoles(array_keys($attributes['roles']));
         }
 
         $user->fill($attributes)->saveOrFail();

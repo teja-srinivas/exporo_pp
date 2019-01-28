@@ -83,6 +83,8 @@
                 @method('PUT')
                 @csrf
 
+                <input type="hidden" name="redirect" value="back">
+
                 @include('components.form.select', [
                     'type' => 'select',
                     'name' => 'bonusBundle',
@@ -138,8 +140,19 @@
         </table>
 
         @slot('footer')
-            <div class="d-flex justify-content-end">
-                <a href="{{ route('bills.preview', $user) }}" class="btn btn-sm btn-primary">
+            <div class="d-flex justify-content-between">
+                @if($user->canBeBilled())
+                    <span class="text-muted">Erhält Abrechnungen</span>
+                @elseif($user->hasValidBankDetails())
+                    <b class="text-danger">Blockiert durch Status</b>
+                @else
+                    <div class="text-danger small">
+                        <b>Keine gültige Bankdaten angegeben.</b><br>
+                        Benutzer wird nicht abgerechnet.
+                    </div>
+                @endif
+
+                <a href="{{ route('bills.preview', $user) }}" class="btn btn-sm btn-primary align-self-center">
                     Vorschau der nächsten Abrechnung
                 </a>
             </div>

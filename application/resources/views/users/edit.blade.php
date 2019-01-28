@@ -33,6 +33,21 @@
             @include('users.partials.forms.user_details')
         @endcard
 
+        @can(\App\Policies\UserPolicy::PERMISSION)
+        @card
+            @slot('title', 'Benutzerrolle')
+            @slot('info', 'Liste von Rollen, zu denen dieser Benutzer zugehörig ist.')
+
+            @foreach(($roles ?? []) as $role)
+                @include('components.form.checkbox', [
+                    'label' => $role->getDisplayName(),
+                    'name' => "roles[{$role->id}]",
+                    'default' => $user->hasRole($role),
+                ])
+            @endforeach
+        @endcard
+        @endcan
+
         <div class="text-right my-3">
             <button class="btn btn-primary">Änderungen Speichern</button>
         </div>

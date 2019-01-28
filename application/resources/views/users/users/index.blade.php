@@ -15,6 +15,7 @@
 @section('main-content')
     @include('components.table', ['data' => [
         'rows' => $children,
+        'hasDetails' => true,
         'columns' => [
             [
                 'name' => 'user',

@@ -7,6 +7,7 @@ use App\Models\User;
 class BillPolicy extends BasePolicy
 {
     const PERMISSION = 'manage bills';
+    const CAN_BE_BILLED_PERMISSION = 'can be billed';
     const DOWNLOAD_PERMISSION = 'download bills';
 
     public function __construct()

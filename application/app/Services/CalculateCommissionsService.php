@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Models\CommissionBonus;
 use App\Models\Investment;
 use App\Models\User;
+use App\Policies\BillPolicy;
 
 final class CalculateCommissionsService
 {
@@ -30,6 +31,7 @@ final class CalculateCommissionsService
             }
 
             $bonus = $parentBonus - $childBonus;
+            $canBeBilled = $parent->canBeBilled();
         } else {
             $userId = $investment->investor->user_id;
             $userDetails = $investment->investor->details;
@@ -38,6 +40,8 @@ final class CalculateCommissionsService
             if ($bonus === null) {
                 return null;
             }
+
+            $canBeBilled = $investment->investor->user->canBeBilled();
         }
 
         $sum = $investment->project->schema->calculate([
@@ -50,6 +54,7 @@ final class CalculateCommissionsService
         return $this->calculateNetAndGross($userDetails->vat_included, $sum) + [
             'bonus' => $bonus,
             'user_id' => $userId,
+            'on_hold' => !$canBeBilled,
         ];
     }
 

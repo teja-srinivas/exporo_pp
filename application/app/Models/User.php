@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Jobs\SendMail;
+use App\Policies\BillPolicy;
 use App\Traits\Encryptable;
 use App\Traits\HasRoles;
 use App\Traits\Person;
@@ -254,5 +255,20 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
                 return $copy;
             });
         });
+    }
+
+    public function hasValidBankDetails()
+    {
+        // Directly access attributes to not call any decryption logic
+        return !empty($this->details->attributes['bic']) && !empty($this->details->attributes['iban']);
+    }
+
+    public function canBeBilled()
+    {
+        if (!$this->hasValidBankDetails()) {
+            return false;
+        }
+
+        return $this->hasPermissionTo(BillPolicy::CAN_BE_BILLED_PERMISSION);
     }
 }

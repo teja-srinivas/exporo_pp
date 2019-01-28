@@ -9,6 +9,7 @@ use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
 use App\Jobs\SendMail;
+use App\Policies\BillPolicy;
 use App\Services\ApiTokenService;
 use App\Traits\Encryptable;
 use App\Traits\Person;
@@ -121,6 +122,10 @@ class BillController extends Controller
 
         // Create bills for each user and assign it to their commissions
         $users->each(function (User $user) use ($commissionIds, $releaseAt) {
+            if (!$user->canBeBilled()) {
+                return;
+            }
+
             /** @var Bill $bill */
             $bill = Bill::query()->forceCreate([
                 'user_id' => $user->id,
