@@ -83,6 +83,11 @@ class Bill extends Model implements AuditableContract
         $query->whereNotNull('released_at')->where('released_at', '<=', $now ?? now());
     }
 
+    public function getBillingMonth(): Carbon
+    {
+        return $this->released_at->startOfMonth()->subMonth(1);
+    }
+
     /**
      * Generates a human readable name for this bill, to be used for link texts.
      *
@@ -90,8 +95,7 @@ class Bill extends Model implements AuditableContract
      */
     public function getDisplayName(): string
     {
-        // TODO is there a better way to decide on a name for a bill?
-        return $this->created_at->startOfMonth()->subMonth(1)->format('F Y');
+        return $this->getBillingMonth()->format('F Y');
     }
 
     /**

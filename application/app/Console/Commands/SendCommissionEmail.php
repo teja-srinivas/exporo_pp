@@ -28,8 +28,9 @@ class SendCommissionEmail extends Command
      */
     public function handle()
     {
+        /** @var Bill $bill */
         foreach ($this->getReleasedBills() as $bill) {
-            $date = now()->subMonth(1);
+            $date = $bill->getBillingMonth();
 
             SendMail::dispatch([
                 'Provision' => format_money($bill->getTotalNet()),
@@ -37,7 +38,7 @@ class SendCommissionEmail extends Command
                 'billing_month' => $date->format('F'),
                 'billing_year' => $date->format('Y'),
             ], $bill->user, config('mail.templateIds.commissionCreated'))->onQueue('emails');
-        };
+        }
     }
 
     private function getReleasedBills()
