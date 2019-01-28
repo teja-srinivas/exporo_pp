@@ -35,8 +35,11 @@ final class CalculateCommissions extends Command
 
     private function calculate(string $type, Builder $query, callable $calculate, bool $flatten = false): void
     {
+        $this->line("Calculating $type commissions...");
+        $this->getOutput()->progressStart($query->count());
+
         $query->chunkSimple(self::PER_CHUNK, function (Collection $chunk) use ($type, $calculate, $flatten) {
-            $this->line("Calculating {$chunk->count()} $type commissions...");
+            $this->getOutput()->progressAdvance($chunk->count());
 
             $rows = $chunk->map($calculate);
 
@@ -55,6 +58,8 @@ final class CalculateCommissions extends Command
                     ];
             })->all());
         });
+
+        $this->getOutput()->progressFinish();
     }
 
     /**
