@@ -214,14 +214,20 @@ export default {
 
       let value = row[column.name];
 
-      if (!column.formatter.isValid(value)) {
-        return typeof column.fallback === 'object'
-          ? column.fallback[`${value}`]
-          : (column.fallback || '');
+      if (value === undefined) {
+        return '';
       }
 
-      if (column.formatter && column.formatter.format) {
-        value = column.formatter.format(value, column.options, row);
+      if (column.formatter) {
+        if (!column.formatter.isValid(value)) {
+          return typeof column.fallback === 'object'
+            ? column.fallback[`${value}`]
+            : (column.fallback || '');
+        }
+
+        if (column.formatter.format) {
+          value = column.formatter.format(value, column.options, row);
+        }
       }
 
       if (allowLinks && column.link) {
