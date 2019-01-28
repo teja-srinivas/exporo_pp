@@ -40,7 +40,7 @@
                     [
                         'type' => 'date',
                         'label' => 'Gültig ab',
-                        'default' => $agb->effective_from ? $agb->effective_from->format('Y-m-d') : null,
+                        'default' => optional($agb->effective_from)->format('Y-m-d'),
                         'name' => 'effective_from',
                         'required' => true,
                     ]
