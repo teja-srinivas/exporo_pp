@@ -26,7 +26,7 @@
                         {{ $document->user->getDisplayName() }}
                     </a>
                 </td>
-                <td>{{ $document->created_at->format('d.m.Y') }}</td>
+                <td>{{ optional($document->created_at)->format('d.m.Y') }}</td>
             </tr>
         @empty
             <tr class="text-center text-muted">

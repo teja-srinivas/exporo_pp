@@ -43,7 +43,7 @@
                             <strong>{{ $audit->event }}</strong>
                             <br>
                         @endunless
-                        {{ $audit->created_at->format('d.m.Y') }}
+                        {{ optional($audit->created_at)->format('d.m.Y') }}
                     </td>
                     @foreach($audit->getModified() as $title => $row)
                         @unless($loop->first)

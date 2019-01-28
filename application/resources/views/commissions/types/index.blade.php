@@ -28,7 +28,7 @@
                     <div class="badge badge-info">Projektbezogen</div>
                     @endif
                 </td>
-                <td>{{ $type->created_at->format('d.m.Y') }}</td>
+                <td>{{ optional($type)->created_at->format('d.m.Y') }}</td>
             </tr>
         @empty
             <tr class="text-center text-muted">

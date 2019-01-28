@@ -22,7 +22,7 @@
             <tr>
                 <td><a href="{{ route('schemas.show', $schema) }}">{{ $schema->name }}</a></td>
                 <td>{{ $schema->formula }}</td>
-                <td>{{ $schema->created_at->format('d.m.Y') }}</td>
+                <td>{{ optional($schema->created_at)->format('d.m.Y') }}</td>
             </tr>
         @empty
             <tr class="text-center text-muted">

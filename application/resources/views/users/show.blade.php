@@ -117,7 +117,7 @@
                     </td>
                     <td class="text-right">{{ $bill->commissions }}</td>
                     <td class="text-right">{{ format_money($bill->gross) }}</td>
-                    <td>{{ $bill->created_at->format('d.m.Y') }}</td>
+                    <td>{{ optional($bill->created_at)->format('d.m.Y') }}</td>
                 </tr>
             @empty
                 <tr class="text-center text-muted">
@@ -161,7 +161,7 @@
             @forelse($user->agbs as $agb)
                 <tr>
                     <td><a href="{{ route('agbs.show', $agb) }}">{{ $agb->name }}</a></td>
-                    <td>{{ $agb->pivot->created_at->format('d.m.Y') }}</td>
+                    <td>{{ optional($agb->pivot->created_at)->format('d.m.Y') }}</td>
                 </tr>
             @empty
                 <tr class="text-center text-muted">
@@ -193,7 +193,7 @@
 
                         <small style="line-height: 1rem">{{ $document->description }}</small>
                     </td>
-                    <td>{{ $document->created_at->format('d.m.Y') }}</td>
+                    <td>{{ optional($document->created_at)->format('d.m.Y') }}</td>
                 </tr>
             @empty
                 <tr class="text-center text-muted">

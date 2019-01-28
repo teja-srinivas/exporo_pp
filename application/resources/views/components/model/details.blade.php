@@ -3,10 +3,10 @@
     {{ $slot ?? '' }}
 
     @component('components.model.detail', ['title' => 'Erstellt'])
-        {{ $model->created_at->format('d.m.Y') }}
+        {{ optional($model->created_at)->format('d.m.Y') }}
     @endcomponent
 
     @component('components.model.detail', ['title' => 'Aktualisiert', 'class' => ''])
-       {{ $model->updated_at ? $model->updated_at->format('d.m.Y') : ''}}
+       {{ optional($model->updated_at)->format('d.m.Y') }}
     @endcomponent
 </div>

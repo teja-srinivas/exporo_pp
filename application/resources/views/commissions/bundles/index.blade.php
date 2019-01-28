@@ -45,7 +45,7 @@
             @foreach($bundles[false] as $bundle)
             <tr>
                 <td>{{ $bundle->name }}</td>
-                <td>{{ $bundle->created_at->format('d.m.Y') }}</td>
+                <td>{{ optional($bundle->created_at)->format('d.m.Y') }}</td>
             </tr>
             @endforeach
         @else
