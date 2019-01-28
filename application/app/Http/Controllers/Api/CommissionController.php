@@ -133,12 +133,12 @@ class CommissionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Commission  $commission
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Commission $commission
+     * @return CommissionResource
      */
     public function show(Commission $commission)
     {
-        //
+        return CommissionResource::make($commission);
     }
 
     /**
