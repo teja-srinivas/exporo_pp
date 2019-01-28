@@ -13,7 +13,7 @@ class CreateCompanyBucket extends Command
      *
      * @var string
      */
-    protected $signature = 'create:companybucket {--company=}';
+    protected $signature = 'create:companybucket {company}';
 
     /**
      * The console command description.
@@ -22,15 +22,6 @@ class CreateCompanyBucket extends Command
      */
     protected $description = 'Creates a bucket for specified Company';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Execute the console command.
@@ -39,10 +30,12 @@ class CreateCompanyBucket extends Command
      */
     public function handle()
     {
-        $company = Company::find($this->option('company'));
-        Storage::disk('s3')->makeDirectory($company['id'] . '/banners');
-        Storage::disk('s3')->makeDirectory($company['id'] . '/agbs');
-        Storage::disk('s3')->makeDirectory($company['id'] . '/preview');
-        Storage::disk('s3')->makeDirectory($company['id'] . '/statements');
+        $companyId = Company::query()->whereKey($this->argument('company'))->value('id');
+        $s3 = Storage::disk('s3');
+
+        $s3->makeDirectory($companyId . '/banners');
+        $s3->makeDirectory($companyId . '/agbs');
+        $s3->makeDirectory($companyId . '/preview');
+        $s3->makeDirectory($companyId . '/statements');
     }
 }
