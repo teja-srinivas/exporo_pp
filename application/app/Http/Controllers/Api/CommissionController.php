@@ -100,9 +100,12 @@ class CommissionController extends Controller
      * @param  CalculateCommissionsService $service
      * @return void
      * @throws \Illuminate\Validation\ValidationException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request, CalculateCommissionsService $service)
     {
+        $this->authorize('create', Commission::class);
+
         $data = $this->validate($request, [
             'userId' => ['required', 'exists:users,id'],
             'amount' => ['required', 'numeric'],
@@ -141,11 +144,14 @@ class CommissionController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\Commission $commission
+     * @param CalculateCommissionsService $service
      * @return void
      * @throws \Throwable
      */
     public function update(Request $request, Commission $commission, CalculateCommissionsService $service)
     {
+        $this->authorize('update', $commission);
+
         static $lookup = [
             'note.public' => 'note_public',
             'note.private' => 'note_private',
@@ -180,6 +186,8 @@ class CommissionController extends Controller
 
     public function updateMultiple(Request $request)
     {
+        $this->authorize('update', Commission::class);
+
         $userId = $request->user()->id;
 
         $now = now();
@@ -227,11 +235,15 @@ class CommissionController extends Controller
      *
      * @param  \App\Models\Commission $commission
      * @return void
-     * @throws \Exception
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Commission $commission)
     {
-        $commission->delete();
+        $this->authorize('delete', Commission::class);
+
+        if ($commission->exists) {
+            $commission->delete();
+        }
     }
 
     /**
