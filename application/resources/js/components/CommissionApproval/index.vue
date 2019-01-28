@@ -457,6 +457,11 @@
             reset: true,
           }))"
         >Zurücksetzen</button>
+
+        <button
+          class="btn btn-sm btn-outline-dark"
+          @click="confirm('Wirklich alle neu berechnen?', refreshAll)"
+        >Neu berechnen</button>
       </div>
 
       <div class="p-1 bg-white shadow-sm">
@@ -742,6 +747,25 @@ export default {
       } catch (e) {
         this.$notify({
           title: 'Fehler beim Löschen des Eintrags',
+          text: e.message,
+          type: 'error',
+        });
+
+        throw e;
+      }
+    },
+
+    async refreshAll() {
+      try {
+        this.$notify('Einträge werden neu berechnet');
+        await axios.delete(`${this.api}/0`);
+
+        this.$notify('Einträge wurden neu berechnet');
+        this.getPage(this.currentPage);
+
+      } catch (e) {
+        this.$notify({
+          title: 'Fehler bei Neuberechnung der Einträge',
           text: e.message,
           type: 'error',
         });

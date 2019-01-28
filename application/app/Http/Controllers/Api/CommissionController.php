@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Console\Commands\CalculateCommissions;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Commission as CommissionResource;
 use App\Models\Commission;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class CommissionController extends Controller
@@ -233,17 +235,23 @@ class CommissionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Commission $commission
+     * @param int $commission
+     * @param Request $request
      * @return void
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy(Commission $commission)
+    public function destroy(int $commission, Request $request)
     {
         $this->authorize('delete', Commission::class);
 
-        if ($commission->exists) {
-            $commission->delete();
+        if ($commission > 0) {
+            Commission::query()->toBase()->delete(Commission::getDecodedId($commission));
+            return;
         }
+
+        // Delete and refresh commissions
+        $this->applyFilter(Commission::query(), $request)->delete();
+        Artisan::call(CalculateCommissions::class);
     }
 
     /**
