@@ -34,7 +34,7 @@ class BillController extends Controller
             'bills' => Bill::getDetailsPerUser()->with('user')->get()->map(function (Bill $bill) use ($request) {
                 return [
                     'id' => $bill->getKey(),
-                    'name' => $bill->created_at->format('Y-m'),
+                    'name' => $bill->getBillingMonth()->format('Y-m'),
                     'displayName' => $bill->getDisplayName(),
                     'date' => $bill->created_at->format('Y-m-d'),
                     'user' => UserResource::make($bill->user)->toArray($request),

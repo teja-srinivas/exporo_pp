@@ -132,7 +132,7 @@ class Bill extends Model implements AuditableContract
         return self::query()
             ->join('commissions', 'commissions.bill_id', 'bills.id')
             ->groupBy('bills.id')
-            ->select('bills.id', 'bills.user_id', 'bills.created_at')
+            ->select('bills.id', 'bills.user_id', 'bills.created_at', 'bills.released_at')
             ->selectRaw('COUNT(commissions.id) as commissions')
             ->selectRaw('SUM(commissions.gross) as gross')
             ->selectRaw('SUM(commissions.net) as net')

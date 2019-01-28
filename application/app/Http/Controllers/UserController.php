@@ -90,7 +90,7 @@ class UserController extends Controller
             },
         ]);
 
-        $user->bills = Bill::getDetailsPerUser($user->id)->get();
+        $user->bills = Bill::getDetailsPerUser($user->id)->latest()->get();
 
         $investors = $user->investors()
             ->leftJoin('investments', 'investments.investor_id', 'investors.id')
