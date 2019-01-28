@@ -23,7 +23,7 @@ class InvalidateInvestmentCommissionsOnSchemaChanges
                 ->join('schemas', 'schemas.id', 'projects.schema_id')
                 ->where('schemas.id', $event->schema->id)
                 ->select('investments.id'))
-            ->whereNull('bill_id')
+            ->isRecalculatable()
             ->delete();
     }
 }

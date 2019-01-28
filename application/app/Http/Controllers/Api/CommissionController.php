@@ -268,6 +268,7 @@ class CommissionController extends Controller
         $columns = $this->parseSortAndFilter($request);
 
         return $query
+            ->where('commissions.user_id', '>', 0)
             ->where('on_hold', $columns->has('onHold'))
             ->when(true, function (Builder $query) use ($columns) {
                 if ($columns->has('rejected')) {

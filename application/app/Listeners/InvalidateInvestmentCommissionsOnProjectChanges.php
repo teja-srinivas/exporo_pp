@@ -21,7 +21,7 @@ class InvalidateInvestmentCommissionsOnProjectChanges
             ->join('investments', 'investments.id', 'commissions.model_id')
             ->where('model_type', Investment::MORPH_NAME)
             ->where('investments.project_id', $event->project->getKey())
-            ->whereNull('bill_id')
+            ->isRecalculatable()
             ->delete();
     }
 }

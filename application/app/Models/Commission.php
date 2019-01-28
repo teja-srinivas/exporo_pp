@@ -178,6 +178,16 @@ class Commission extends Model implements AuditableContract
         });
     }
 
+    public function scopeIsRecalculatable(Builder $query)
+    {
+        $query->whereNull('bill_id');
+        $query->whereNull('reviewed_at');
+        $query->whereNull('reviewed_by');
+        $query->whereNull('rejected_at');
+        $query->whereNull('rejected_by');
+        $query->where('on_hold', false);
+    }
+
     public function scopeForUser(Builder $query, $user)
     {
         if ($user === null) {

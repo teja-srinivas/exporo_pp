@@ -8,6 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class Commission extends JsonResource
 {
     private const RESOURCES = [
+        \App\Models\Investment::LEGACY_MORPH_NAME => Investment::class,
         \App\Models\Investment::MORPH_NAME => Investment::class,
         \App\Models\Investor::MORPH_NAME => Investor::class,
     ];

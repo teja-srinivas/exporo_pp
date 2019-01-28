@@ -26,7 +26,9 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Relation::morphMap([
+            // DO NOT CHANGE THE ORDER OF THIS MAP - STUFF _WILL_ BREAK
             \App\Models\Investment::MORPH_NAME => \App\Models\Investment::class,
+            \App\Models\Investment::LEGACY_MORPH_NAME => \App\Models\Investment::class,
             \App\Models\Investor::MORPH_NAME => \App\Models\Investor::class,
             \App\Models\Commission::TYPE_CORRECTION => \App\Models\Commission::class,
         ]);

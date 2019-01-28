@@ -12,6 +12,7 @@ use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
+ * @property int $id
  * @property string $name
  * @property string $formula
  */

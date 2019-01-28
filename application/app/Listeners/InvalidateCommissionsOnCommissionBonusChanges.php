@@ -21,7 +21,7 @@ class InvalidateCommissionsOnCommissionBonusChanges
 
         Commission::query()
             ->where('user_id', $event->commissionBonus->user_id)
-            ->whereNull('bill_id')
+            ->isRecalculatable()
             ->delete();
     }
 }
