@@ -148,10 +148,12 @@ class BillController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Bill $bill
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Bill $bill)
     {
+        $this->authorize('download', $bill);
         return $this->downloadBillFromS3($bill);
     }
 
@@ -175,8 +177,6 @@ class BillController extends Controller
 
     public function downloadBillFromS3(Bill $bill)
     {
-        $this->authorize('view', $bill);
-
         $disk = Storage::disk('s3');
         $filePath = 'statements/' . $bill->id;
 
