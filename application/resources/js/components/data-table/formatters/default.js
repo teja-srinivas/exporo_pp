@@ -37,6 +37,14 @@ export default {
   groupFormat: 'default',
 
   /**
+   * Indicates whether the given value can be displayed by this formatter.
+   *
+   * @param value
+   * @return {boolean}
+   */
+  isValid: (value) => (value !== undefined && value !== null),
+
+  /**
    * Returns a value that can be used when ordering rows.
    */
   orderBy: val => (typeof val === 'string' ? val.toLowerCase()

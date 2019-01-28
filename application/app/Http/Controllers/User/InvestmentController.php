@@ -47,7 +47,7 @@ class InvestmentController extends Controller
                         'projectName' => $investment->project_name,
                         'type' => $investment->type,
                         'amount' => $cancelled ? null : $investment->amount,
-                        'paidAt' => $cancelled ? '<small class="small text-muted">(Storniert)</small>' : optional($investment->paid_at)->format('d.m.Y'),
+                        'paidAt' => $cancelled ? '' : optional($investment->paid_at)->format('Y-m-d'),
                         'createdAt' => optional($investment->created_at)->format('Y-m-d'),
                     ];
                 }),

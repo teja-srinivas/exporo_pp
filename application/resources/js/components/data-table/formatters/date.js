@@ -8,6 +8,7 @@ const formatDate = (value) => {
 export default {
   ...defaults,
 
+  isValid: value => (typeof value === 'string' && value.length > 0),
   align: 'right',
   format: formatDate,
 };

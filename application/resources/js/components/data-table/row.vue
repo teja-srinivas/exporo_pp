@@ -214,8 +214,10 @@ export default {
 
       let value = row[column.name];
 
-      if (value === undefined || value === null) {
-        return column.fallback || '';
+      if (!column.formatter.isValid(value)) {
+        return typeof column.fallback === 'object'
+          ? column.fallback[`${value}`]
+          : (column.fallback || '');
       }
 
       if (column.formatter && column.formatter.format) {

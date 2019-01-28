@@ -50,8 +50,13 @@
             [
                 'name' => 'paidAt',
                 'label' => 'Bezahlt',
+                'format' => 'date',
                 'width' => 55,
-                'fallback' => ''
+                'align' => 'right',
+                'fallback' => [
+                    'null' => '',
+                    '' => '<small class="small text-muted">(Storniert)</small>',
+                ],
             ],
         ],
     ]])
