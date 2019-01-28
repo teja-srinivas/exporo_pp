@@ -9,12 +9,6 @@
                     @foreach($menu as $group)
                         <h6 class="text-muted text-uppercase tracking-wide sidebar-header @unless($loop->first) mt-4 @endif">
                             {{ $group['title'] }}
-
-                            @unless(empty($group['help'] ?? ''))
-                                <a href="{{ $group['help'] }}" class="small text-primary ml-2 align-self-end">
-                                    Hilfe?
-                                </a>
-                            @endif
                         </h6>
 
                         @foreach($group['links'] as $link)
