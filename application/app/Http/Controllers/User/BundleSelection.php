@@ -82,20 +82,7 @@ class BundleSelection extends Controller
      */
     private function selectAndRedirect(User $user, BonusBundle $bundle): \Illuminate\Http\RedirectResponse
     {
-        DB::transaction(function () use ($user, $bundle) {
-            $userId = $user->getKey();
-
-            $user->bonuses()->delete();
-
-            $bundle->bonuses->each(function (CommissionBonus $bonus) use ($userId) {
-                $copy = $bonus->replicate(['user_id']);
-                $copy->user_id = $userId;
-                $copy->accepted_at = now();
-                $copy->saveOrFail();
-
-                return $copy;
-            });
-        });
+        $user->switchToBundle($bundle);
 
         return redirect()->home();
     }

@@ -28,7 +28,8 @@ class UserStoreRequest extends FormRequest
     {
         return array_merge(
             self::getUserValidationRules($this->route('user')),
-            self::getDetailValidationRules(false)
+            self::getDetailValidationRules(false),
+            ['bonusBundle' => ['sometimes']]
         );
     }
 

@@ -132,14 +132,15 @@ class UserController extends Controller
      * @param UserStoreRequest $request
      * @param User $user
      * @return void
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Throwable
      */
     public function update(UserStoreRequest $request, User $user)
     {
         $attributes = $request->validated();
+
         if (isset($attributes['accept'])) {
             $field = $attributes['accept'] ? 'accepted_at' : 'rejected_at';
+
             if ($field === 'accepted_at') {
                 /** @var PasswordBroker $broker */
                 $broker = app(PasswordBroker::class);
@@ -150,13 +151,22 @@ class UserController extends Controller
                 SendMail::dispatch([
                 ], $user, config('mail.templateIds.declined'))->onQueue('emails');
             }
+
             $user->setAttribute($field, now());
+        }
+
+        if (isset($attributes['bonusBundle'])) {
+            $user->switchToBundle(BonusBundle::query()->findOrFail($attributes['bonusBundle']));
         }
 
         $user->fill($attributes)->saveOrFail();
         $user->details->fill($attributes)->saveOrFail();
 
         flash_success();
+
+        if ($request->get('redirect') === 'back') {
+            return back();
+        }
 
         return redirect()->route('users.edit', $user);
     }

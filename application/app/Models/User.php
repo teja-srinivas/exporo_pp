@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -235,5 +236,23 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         SendMail::dispatch([
             'Activationhash' => URL::signedRoute('verification.verify', [$this->id]),
         ], $this, config('mail.templateIds.registration'))->onQueue('emails');
+    }
+
+    public function switchToBundle(BonusBundle $bundle)
+    {
+        DB::transaction(function () use ($bundle) {
+            $userId = $this->getKey();
+
+            $this->bonuses()->delete();
+
+            $bundle->bonuses->each(function (CommissionBonus $bonus) use ($userId) {
+                $copy = $bonus->replicate(['user_id']);
+                $copy->user_id = $userId;
+                $copy->accepted_at = now();
+                $copy->saveOrFail();
+
+                return $copy;
+            });
+        });
     }
 }
