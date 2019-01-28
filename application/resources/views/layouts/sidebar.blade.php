@@ -16,12 +16,6 @@
                                 </a>
                             @endif
                         </h6>
-
-                        @foreach($group['links'] as $link)
-                            <a href="{{ $link['url'] }}"
-                               class="sidebar-item @if($link['isActive'] ?? false)shadow-sm active @endif"
-                            >{{ $link['title'] }}</a>
-                        @endforeach
                     @endforeach
                 </div>
             </div>
