@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Bill;
 use App\Jobs\SendMail;
-use Carbon\Carbon;
 
 class SendCommissionEmail extends Command
 {
@@ -23,34 +22,26 @@ class SendCommissionEmail extends Command
      */
     protected $description = 'Sends commission email for created bills';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $bills = $this->getReleasedBills();
-        foreach ($bills as $bill) {
+        foreach ($this->getReleasedBills() as $bill) {
+            $date = now()->subMonth(1);
+
             SendMail::dispatch([
                 'Provision' => format_money($bill->getTotalNet()),
                 'Link' => 'p.exporo.com',
-                'billing_month' => Carbon::now()->subMonth(1)->format('F'),
-                'billing_year' => Carbon::now()->format('Y'),
+                'billing_month' => $date->format('F'),
+                'billing_year' => $date->format('Y'),
             ], $bill->user, config('mail.templateIds.commissionCreated'))->onQueue('emails');
         };
     }
 
     private function getReleasedBills()
     {
-        return (Bill::where('released_at', now()->subDay(1)->format('Y-m-d'))->get());
+        return Bill::where('released_at', now()->subDay()->format('Y-m-d'))->get();
     }
 }
