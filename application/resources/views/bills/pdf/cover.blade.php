@@ -87,7 +87,7 @@
     'Umsatz' => $investmentNetSum,
     'Umsatz Subpartner' => $overheadNetSum,
     'Registrierungen' => $investorsNetSum,
-    'Korrekturbuchungen' => $customNetSum,
+    'Sonderbuchung' => $customNetSum,
 ])
 
 <p>

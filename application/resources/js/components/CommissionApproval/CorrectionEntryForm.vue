@@ -1,7 +1,7 @@
 <template>
   <div class="shadow-sm bg-white accent-primary my-4">
     <div class="card-body">
-      <h5 class="card-title">Korrekturzahlung anlegen</h5>
+      <h5 class="card-title">Sonderbuchung anlegen</h5>
       <form @submit.prevent="submit">
         <div class="my-1 row align-items-center">
           <div class="col-sm-2">
@@ -62,7 +62,7 @@
         </div>
 
         <div class="text-right mt-3">
-          <button class="btn btn-primary">Korrekturzahlung Anlegen</button>
+          <button class="btn btn-primary">Sonderbuchung Anlegen</button>
         </div>
       </form>
     </div>

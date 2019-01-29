@@ -41,7 +41,7 @@ class Project extends Model
     ];
 
     protected $fillable = [
-        'id', 'name', 'type', 'created_at', 'updated_at', 'launched_at',
+        'id', 'name', 'created_at', 'updated_at', 'launched_at',
         'payback_min_at', 'payback_max_at', 'approved_at', 'approved_by', 'schema_id', 'capital_cost',
         'interest_rate', 'runtime', 'commission_type'
     ];

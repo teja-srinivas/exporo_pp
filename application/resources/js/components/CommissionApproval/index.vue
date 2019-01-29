@@ -114,7 +114,7 @@
                     <option value="investment">Projektinvestment</option>
                     <option value="first-investment">Erstinvestment</option>
                     <option value="further-investment">Folgeinvestment</option>
-                    <option value="correction">Korrekturzahlung</option>
+                    <option value="correction">Sonderbuchung</option>
                   </select>
 
                   <select
@@ -226,7 +226,7 @@
                     <schema :value="commission.model.project.schema" :commission="commission" />
                   </div>
                   <div v-else-if="commission.type === 'correction'" class="flex-fill">
-                    <strong>Korrektur:</strong> {{ commission.note.public}}
+                    <strong>Sonderbuchung:</strong> {{ commission.note.public}}
                   </div>
                   <div v-else class="row flex-fill">
                     <div class="col-5" v-text="displayNameUser(commission.user)" />
@@ -251,7 +251,7 @@
                   <div v-else-if="commission.type === 'investor'" title="Registrierung">
                     <font-awesome-icon icon="user" fixed-width size="sm" class="align-baseline text-success" />
                   </div>
-                  <div v-else-if="commission.type === 'correction'" title="Korrekturzahlung">
+                  <div v-else-if="commission.type === 'correction'" title="Sonderbuchung">
                     <font-awesome-icon icon="euro-sign" fixed-width size="sm" class="align-baseline text-dark" />
                   </div>
                 </div>

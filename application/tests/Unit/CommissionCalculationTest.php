@@ -32,7 +32,6 @@ final class CommissionCalculationTest extends TestCase
                 'name' => 'Drosselgarten',
                 'interest_rate' => 5,
                 'margin' => 10,
-                'type' => 'project',
                 'commission_type' => 1,
                 'schema_id' => 1,
                 'created_at' => '2015-05-06 21:22:39',
@@ -73,8 +72,6 @@ final class CommissionCalculationTest extends TestCase
         factory(UserDetails::class)->create(
             [
                 'id' => 1,
-                'first_investment_bonus' => 2,
-                'further_investment_bonus' => 1.5,
                 'vat_included' => 0
             ]
         );
@@ -82,8 +79,6 @@ final class CommissionCalculationTest extends TestCase
         factory(UserDetails::class)->create(
             [
                 'id' => 2,
-                'first_investment_bonus' => 2,
-                'further_investment_bonus' => 1.5,
                 'vat_included' => 1,
             ]
         );
@@ -99,7 +94,6 @@ final class CommissionCalculationTest extends TestCase
             [
                 'id' => 1,
                 'user_id' => 1,
-                'type_id' => 1,
                 'first_investment' => 1.25,
                 'further_investment' => 0.75,
                 'registration' => 10,
@@ -110,7 +104,6 @@ final class CommissionCalculationTest extends TestCase
             [
                 'id' => 2,
                 'user_id' => 2,
-                'type_id' => 1,
                 'first_investment' => 1.15,
                 'further_investment' => 0.65,
                 'registration' => 10,
