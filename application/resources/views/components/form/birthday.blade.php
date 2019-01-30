@@ -1,7 +1,7 @@
 <div>
     @include('components.form.select', [
         'name' => 'birth_day',
-        'emptyText' => '(' . __('Day') . ')',
+        'emptyText' =>  __('Day'),
         'autocomplete' => 'bday-day',
         'required' => $required ?? false,
         'error' => false,
@@ -11,7 +11,7 @@
     @include('components.form.select', [
         'name' => 'birth_month',
         'assoc' => true,
-        'emptyText' => '(' . __('Month') . ')',
+        'emptyText' => __('Month'),
         'autocomplete' => 'bday-month',
         'required' => $required ?? false,
         'error' => false,
@@ -22,7 +22,7 @@
     ])
     @include('components.form.select', [
         'name' => 'birth_year',
-        'emptyText' => '(' . __('Year') . ')',
+        'emptyText' => __('Year'),
         'autocomplete' => 'bday-year',
         'required' => $required ?? false,
         'error' => false,
