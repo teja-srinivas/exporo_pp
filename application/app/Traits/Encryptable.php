@@ -91,9 +91,20 @@ trait Encryptable
      */
     public function setAttribute($key, $value)
     {
-        if ($this->encryptable($key) && !empty($value)) {
-            $value = $this->encryptAttribute($value);
+        if (empty($value) || !$this->encryptable($key)) {
+            return parent::setAttribute($key, $value);
         }
+
+        // Set the value only if it differs from the previous one
+        // as encryption always returns different results even
+        // if the value stays the same (because of security).
+        $previous = parent::getAttribute($key);
+
+        if ($this->decryptAttribute($previous) === $value) {
+            return $previous;
+        }
+
+        $value = $this->encryptAttribute($value);
 
         return parent::setAttribute($key, $value);
     }
