@@ -4,6 +4,12 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ],
     "require": {
         "php": "^7.1.3",
         "cybercog/laravel-optimus": "^3.0",
@@ -15,17 +21,20 @@
         "intervention/validation": "^1.2",
         "itsgoingd/clockwork": "^3.0",
         "laravel/framework": "5.7.*",
+        "laravel/nova": "~1.0",
         "laravel/tinker": "^1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "maatwebsite/excel": "^3.1",
         "mossadal/math-parser": "^1.3",
         "overtrue/laravel-lang": "~3.0",
         "owen-it/laravel-auditing": "^8.0",
+        "pragmarx/nova-boolean-datetime-field": "^1.0",
         "predis/predis": "^1.1",
         "psy/psysh": "^0.9.9",
         "s-ichikawa/laravel-sendgrid-driver": "^2.0",
         "sentry/sentry-laravel": "^0.11.0",
-        "spatie/laravel-permission": "^2.12"
+        "spatie/laravel-permission": "^2.12",
+        "vyuldashev/nova-permission": "^1.4"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
