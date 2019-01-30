@@ -842,14 +842,17 @@ export default {
 
     .custom-control-input:checked ~ .custom-control-label::before {
       background-color: $green !important;
+      border-color: mix($green, black, 80%);
     }
   }
 
   .yellow :global .custom-control-input:checked ~ .custom-control-label::before {
     background-color: $yellow !important;
+    border-color: mix($yellow, black, 80%);
   }
 
   .red :global .custom-control-input:checked ~ .custom-control-label::before {
     background-color: $red !important;
+    border-color: mix($red, black, 80%);
   }
 </style>
