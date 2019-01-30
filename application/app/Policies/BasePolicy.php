@@ -54,7 +54,7 @@ class BasePolicy
      */
     public function list(User $user)
     {
-        return $user->hasPermissionTo($this->permission);
+        return $this->hasPermission($user);
     }
 
     /**
@@ -67,7 +67,7 @@ class BasePolicy
      */
     public function view(User $user, $model)
     {
-        return $user->hasPermissionTo($this->permission);
+        return $this->hasPermission($user);
     }
 
     /**
@@ -79,7 +79,7 @@ class BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo($this->permission);
+        return $this->hasPermission($user);
     }
 
     /**
@@ -92,7 +92,20 @@ class BasePolicy
      */
     public function update(User $user, $model)
     {
-        return $user->hasPermissionTo($this->permission);
+        return $this->hasPermission($user);
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param User $user
+     * @param Model $model
+     * @return mixed
+     * @throws \Exception
+     */
+    public function manage(User $user, $model)
+    {
+        return $this->hasPermission($user);
     }
 
     /**
@@ -104,6 +117,16 @@ class BasePolicy
      * @throws \Exception
      */
     public function delete(User $user, $model)
+    {
+        return $this->hasPermission($user);
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     * @throws \Exception
+     */
+    protected function hasPermission(User $user): bool
     {
         return $user->hasPermissionTo($this->permission);
     }

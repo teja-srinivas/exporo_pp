@@ -143,7 +143,7 @@ class UserController extends Controller
     {
         $attributes = $request->validated();
 
-        if ($request->filled('accept') && $user->canBeAccepted()) {
+        if (isset($attributes['accept']) && $user->canBeAccepted()) {
             $field = $attributes['accept'] ? 'accepted_at' : 'rejected_at';
 
             if ($field === 'accepted_at') {
@@ -160,11 +160,11 @@ class UserController extends Controller
             $user->setAttribute($field, now());
         }
 
-        if ($request->filled('bonusBundle')) {
+        if (isset($attributes['bonusBundle'])) {
             $user->switchToBundle(BonusBundle::query()->findOrFail($attributes['bonusBundle']));
         }
 
-        if ($request->filled('roles') && $request->user()->can(UserPolicy::PERMISSION)) {
+        if (isset($attributes['roles'])) {
             $user->syncRoles(array_keys($attributes['roles']));
         }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
+use App\Policies\UserPolicy;
 use App\Rules\VatId;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,13 +27,15 @@ class UserStoreRequest extends FormRequest
      */
     public function rules()
     {
+        $user = $this->route('user');
+
         return array_merge(
-            self::getUserValidationRules($this->route('user')),
-            self::getDetailValidationRules(false),
-            [
+            self::getUserValidationRules($user),
+            self::getDetailValidationRules(false, $user),
+            $this->user()->can('manage', $user) ? [
                 'bonusBundle' => ['sometimes'],
                 'roles' => ['sometimes'],
-            ]
+            ] : []
         );
     }
 
@@ -102,7 +105,9 @@ class UserStoreRequest extends FormRequest
         ];
 
         // Only allow acceptance status if it's a user already
-        if (auth()->check() && auth()->user()->can('process', $updating)) {
+        $guard = auth();
+
+        if ($guard->check() && $guard->user()->can('process', $updating)) {
             $rules['accept'] = 'nullable|boolean';
         }
 
@@ -113,9 +118,10 @@ class UserStoreRequest extends FormRequest
      * Additional rules for the user details.
      *
      * @param bool $required
+     * @param User|null $updating
      * @return array
      */
-    public static function getDetailValidationRules($required = true)
+    public static function getDetailValidationRules($required = true, User $updating = null)
     {
         $prefix = $required ? 'required' : 'nullable';
         $datePrefix = $required ? 'required' : 'required_with:birth_day,birth_month,birth_year|nullable';

@@ -20,10 +20,10 @@ class BillPolicy extends BasePolicy
      *
      * @param  \App\Models\User $user
      * @param  \App\Models\Bill $model
-     * @return mixed
+     * @return bool
      * @throws \Exception
      */
-    public function view(User $user, $model)
+    public function view(User $user, $model): bool
     {
         return parent::view($user, $model) || $model->user_id === $user->id;
     }
@@ -33,11 +33,23 @@ class BillPolicy extends BasePolicy
      *
      * @param  \App\Models\User $user
      * @param  \App\Models\Bill $model
-     * @return mixed
+     * @return bool
      * @throws \Exception
      */
-    public function download(User $user, $model)
+    public function download(User $user, $model): bool
     {
         return $user->hasPermissionTo(self::DOWNLOAD_PERMISSION) || $model->user_id === $user->id;
+    }
+
+    /**
+     * Checks whether the user can export bills.
+     *
+     * @param User $user
+     * @return bool
+     * @throws \Exception
+     */
+    public function export(User $user): bool
+    {
+        return $this->hasPermission($user);
     }
 }

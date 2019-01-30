@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewComposers;
 
+use App\Models\BonusBundle;
 use App\Models\CommissionBonus;
 use App\Models\CommissionType;
 use Illuminate\View\View;
@@ -25,7 +26,7 @@ class BundleEditorComposer
             return $this->defaults;
         }
 
-        $editable = auth()->user()->can(\App\Policies\BonusBundlePolicy::PERMISSION);
+        $editable = auth()->user()->can('create', BonusBundle::class);
 
         return $this->defaults = [
             'calculationTypes' => CommissionBonus::DISPLAY_NAMES,
