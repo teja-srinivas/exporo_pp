@@ -40,9 +40,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Gate::define('view partner dashboard', function (Models\User $user) {
-            return $user->hasAnyRole(Models\Role::ADMIN, Models\Role::PARTNER);
-        });
     }
 }
