@@ -159,6 +159,7 @@
             <!-- Main Info -->
             <tr
               :key="commission.id"
+              :class="{ 'table-warning': hasDifferingInterestRate(commission) }"
               @click="commission.showDetails = !commission.showDetails"
             >
               <td class="text-muted pl-1 align-middle">
@@ -288,34 +289,52 @@
                   </div>
                 </div>
 
-                <div v-if="commission.type === 'investment' && commission.model" class="py-2 row align-items-center">
-                  <div class="col-sm-2"><strong>Projekt:</strong></div>
-                  <div class="col-sm-10 d-flex align-items-center">
-                      <a :href="commission.model.project.links.self" target="_blank" class="mr-1" @click.stop style="line-height: 0">
-                          <font-awesome-icon icon="share-square" size="xs" />
-                      </a>
+                <template v-if="commission.type === 'investment' && commission.model">
+                  <div class="py-2 row align-items-center">
+                    <div class="col-sm-2"><strong>Projekt:</strong></div>
+                    <div class="col-sm-10 d-flex align-items-center">
+                        <a :href="commission.model.project.links.self" target="_blank" class="mr-1" @click.stop style="line-height: 0">
+                            <font-awesome-icon icon="share-square" size="xs" />
+                        </a>
 
-                      <a href="#" class="text-body" @click.prevent="filter.model = `${commission.model.project.name}`">
-                          {{ commission.model.project.name }}
-                      </a>
+                        <a href="#" class="text-body" @click.prevent="filter.model = `${commission.model.project.name}`">
+                            {{ commission.model.project.name }}
+                        </a>
+                    </div>
                   </div>
-                </div>
 
-                <div v-if="commission.type === 'investment' && commission.model" class="py-1 row align-items-center">
-                  <div class="col-sm-2"><strong>Investor:</strong></div>
-                  <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext"
-                           :value="`#${commission.model.investor.id} ${displayNameUser(commission.model.investor)}`">
+                  <div class="py-1 row align-items-center">
+                    <div class="col-sm-2"><strong>Investor:</strong></div>
+                    <div class="col-sm-10">
+                      <input type="text" readonly class="form-control-plaintext"
+                             :value="`#${commission.model.investor.id} ${displayNameUser(commission.model.investor)}`">
+                    </div>
                   </div>
-                </div>
 
-                <div v-if="commission.type === 'investment' && commission.model" class="py-1 row align-items-center">
-                  <div class="col-sm-2"><strong>Investmentdatum:</strong></div>
-                  <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext"
-                           :value="commission.model.createdAt">
+                  <div class="py-1 row align-items-center">
+                    <div class="col-sm-2"><strong>Investmentdatum:</strong></div>
+                    <div class="col-sm-10">
+                      <input type="text" readonly class="form-control-plaintext"
+                             :value="commission.model.createdAt">
+                    </div>
                   </div>
-                </div>
+
+                  <div class="py-1 row align-items-center">
+                    <div class="col-sm-2"><strong>Investmentzins:</strong></div>
+                    <div class="col-sm-10">
+                      <input type="text" readonly class="form-control-plaintext"
+                             :value="commission.model.interestRate">
+                    </div>
+                  </div>
+
+                  <div class="py-1 row align-items-center">
+                    <div class="col-sm-2"><strong>Projektzins:</strong></div>
+                    <div class="col-sm-10">
+                      <input type="text" readonly class="form-control-plaintext"
+                             :value="commission.model.project.interestRate">
+                    </div>
+                  </div>
+                </template>
 
                 <div v-if="commission.type === 'correction'" class="my-1 row align-items-center">
                   <div class="col-sm-2">
@@ -632,6 +651,14 @@ export default {
 
     displayNameUser({ firstName, lastName }) {
       return `${lastName}, ${firstName}`;
+    },
+
+    hasDifferingInterestRate(commission) {
+      if (commission.type !== 'investment' || !commission.model) {
+        return false;
+      }
+
+      return commission.model.interestRate !== commission.model.project.interestRate;
     },
 
     async updateValue(commission, key, value) {

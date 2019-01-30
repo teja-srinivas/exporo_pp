@@ -76,7 +76,7 @@ export default {
   }
 
   .label {
-    background-color: $primary-light;
+    background-color: rgba($primary-lighter, 0.333);
     color: $primary;
     border-radius: $border-radius;
     padding: 2px 3px 2px 5px;

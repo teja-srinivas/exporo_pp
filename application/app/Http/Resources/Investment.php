@@ -21,12 +21,14 @@ class Investment extends JsonResource
             'id' => $this->getKey(),
             'investor' => Investor::make($investment->investor),
             'investment' => $investment->amount,
+            'interestRate' => number_format($investment->interest_rate, 2, ',', '') . '%',
             'isFirst' => $investment->is_first_investment,
             'createdAt' => $investment->created_at->format('d.m.Y'),
             'project' => [
                 'name' => $investment->project->description,
                 'schema' => $investment->project->schema->formula,
                 'margin' => $investment->project->marginPercentage(),
+                'interestRate' => number_format($investment->project->interest_rate, 2, ',', '') . '%',
                 'runtimeFactor' => $investment->project->runtimeFactor(),
                 'links' => [
                     'self' => route('projects.show', $investment->project),
