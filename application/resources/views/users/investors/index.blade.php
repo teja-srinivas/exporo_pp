@@ -26,6 +26,10 @@
             [
                 'name' => 'name',
                 'label' => 'Name',
+                'format' => 'display',
+                'options' => [
+                    'name' => 'displayName',
+                ],
             ],
             [
                 'name' => 'investments',

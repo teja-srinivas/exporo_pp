@@ -6,7 +6,6 @@ use App\Models\Investment;
 use App\Models\User;
 use App\Traits\Encryptable;
 use App\Traits\Person;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class InvestmentController extends Controller
@@ -37,13 +36,13 @@ class InvestmentController extends Controller
                 ->get()
                 ->map(function (Investment $investment) {
                     $cancelled = $investment->isCancelled();
+                    $firstName = Encryptable::decrypt($investment->first_name);
+                    $lastName = Encryptable::decrypt($investment->last_name);
 
                     return [
                         'id' => $investment->id,
-                        'name' => Person::anonymizeName(
-                            Encryptable::decrypt($investment->first_name),
-                            Encryptable::decrypt($investment->last_name)
-                        ),
+                        'name' => $lastName . ' ' . Person::anonymizeFirstName($firstName),
+                        'displayName' => Person::anonymizeName($firstName, $lastName),
                         'projectName' => $investment->project_name,
                         'type' => $investment->type,
                         'amount' => $cancelled ? null : $investment->amount,
