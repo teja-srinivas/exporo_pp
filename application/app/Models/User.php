@@ -271,4 +271,13 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
         return $this->hasPermissionTo(BillPolicy::CAN_BE_BILLED_PERMISSION);
     }
+
+    public function canBeAccepted()
+    {
+        if ($this->relationLoaded('bonuses')) {
+            return $this->bonuses->isNotEmpty();
+        }
+
+        return $this->bonuses()->count() > 0;
+    }
 }
