@@ -44,7 +44,7 @@
 
     <div class="shadow-sm my-3 bg-white">
         <div class="p-2">
-            <div class="row text-center">
+            <div class="row text-center text-nowrap">
                 <div class="col-sm border-sm-right mb-3 mb-sm-0">
                     <a href="{{ route('users.investors.index', $user) }}" class="btn btn-outline-light p-0 btn-block">
                         <span class="text-reset">Meine Kunden</span>
@@ -102,7 +102,7 @@
         @slot('title', 'Abrechnungen')
         @slot('info', 'der bereits erfolgten Provisionsansprüchen.')
 
-        <table class="table table-sm table-hover table-striped mb-0 table-borderless">
+        <table class="table table-sm table-hover table-striped mb-0 table-borderless text-nowrap">
             <thead>
             <tr>
                 <th>Zeitraum</th>
@@ -140,7 +140,7 @@
         </table>
 
         @slot('footer')
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between align-items-baseline">
                 @if($user->canBeBilled())
                     <span class="text-muted">Erhält Abrechnungen</span>
                 @elseif($user->hasValidBankDetails())
@@ -152,7 +152,7 @@
                     </div>
                 @endif
 
-                <a href="{{ route('bills.preview', $user) }}" class="btn btn-sm btn-primary align-self-center">
+                <a href="{{ route('bills.preview', $user) }}" class="btn btn-sm btn-primary">
                     Vorschau der nächsten Abrechnung
                 </a>
             </div>
