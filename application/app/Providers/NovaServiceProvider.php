@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Role;
+use App\Models\User;
 use App\Nova\Metrics;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Cards\Help;
@@ -42,10 +44,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function gate()
     {
-        Gate::define('viewNova', function ($user) {
-            return in_array($user->email, [
-                //
-            ]);
+        Gate::define('viewNova', function (User $user) {
+            return $user->hasRole(Role::ADMIN);
         });
     }
 
