@@ -6,6 +6,12 @@
             {{-- Sidebar --}}
             <div class="col-md-3 col-xl-2">
                 <div class="sidebar sticky-top mb-3">
+                    @role('admin')
+                        <a href="{{ config('nova.path') }}" class="btn btn-outline-primary btn-block mb-3">
+                            Admin-Panel
+                        </a>
+                    @endrole
+
                     @foreach($menu as $group)
                         <h6 class="text-muted text-uppercase tracking-wide sidebar-header @unless($loop->first) mt-4 @endif">
                             {{ $group['title'] }}
