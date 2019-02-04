@@ -193,6 +193,6 @@ class UserDocumentController extends Controller
 
         abort_unless($disk->exists($document->filename), Response::HTTP_NOT_FOUND);
 
-        return $disk->download($document->filename, $document->getReadableFilename());
+        return $disk->response($document->filename, $document->getReadableFilename());
     }
 }
