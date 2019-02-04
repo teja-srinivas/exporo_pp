@@ -33,6 +33,16 @@
             @include('users.partials.forms.user_details')
         @endcard
 
+        <div class="text-right my-3">
+            <button class="btn btn-primary">Änderungen Speichern</button>
+        </div>
+    </form>
+
+
+    <form action="{{ route('users.update', $user) }}" method="POST" class="mt-4">
+        @method('PUT')
+        @csrf
+
         @can(\App\Policies\UserPolicy::PERMISSION)
         @card
             @slot('title', 'Benutzerrolle')
