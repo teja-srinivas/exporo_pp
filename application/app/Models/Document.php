@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\URL;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
+/**
+ * @property string $name
+ * @property string $filename
+ * @property string $description
+ */
 class Document extends Model implements FileReference, AuditableContract
 {
     use Auditable;
@@ -48,6 +53,10 @@ class Document extends Model implements FileReference, AuditableContract
     {
         $expiration = now()->addHour();
 
-        return Storage::disk($this->disk)->temporaryUrl($this->filename, $expiration);
+        $extension = pathinfo($this->filename, PATHINFO_EXTENSION);
+
+        return Storage::disk($this->disk)->temporaryUrl($this->filename, $expiration, [
+            'ResponseContentDisposition' => "inline; filename=\"{$this->name}.{$extension}\"",
+        ]);
     }
 }
