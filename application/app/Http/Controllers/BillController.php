@@ -263,8 +263,8 @@ class BillController extends Controller
 
         $investmentsNew = $this->mapInvestments($collection->get(Investment::MORPH_NAME));
         $investmentsLegacy =  $this->mapInvestments($collection->get(Investment::LEGACY_MORPH_NAME));
-        $investments = !$investmentsLegacy->isEmpty() && !$investmentsNew->isEmpty() ?
-            (!$investmentsLegacy->isEmpty() ? $investmentsLegacy : !$investmentsNew->isEmpty() ? $investmentsNew : '') : $investmentsNew->merge($investmentsLegacy);
+        $investments = $investmentsNew->merge($investmentsLegacy);
+
         $investors = $this->mapInvestors($collection->get(Investor::MORPH_NAME));
         $overhead = $this->mapOverhead($collection->get(Investment::MORPH_NAME));
         $custom = $collection->get(Commission::TYPE_CORRECTION) ?? collect();

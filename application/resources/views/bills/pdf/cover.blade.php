@@ -102,7 +102,7 @@
     <table class="table table-sm mx-auto w-50 table-foot-totals">
         <tbody>
         @foreach($sums as $title => $sum)
-            @continue($sum <= 0)
+            @continue($sum === 0)
             <tr>
                 <th scope="row">{{ $title }}</td>
                 <td class="text-right">{{ format_money($sum) }}</td>
