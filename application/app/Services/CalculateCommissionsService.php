@@ -54,8 +54,10 @@ final class CalculateCommissionsService
         return $this->calculateNetAndGross($userDetails->vat_included, $sum) + [
             'bonus' => $bonus,
             'user_id' => $userId,
-            'on_hold' => !$canBeBilled,
-        ];
+        ] + ($canBeBilled ? [] : [
+            'on_hold' => true,
+            'note_private' => 'Abrechnung gesperrt (' . now()->format('d.m.Y') . ')',
+        ]);
     }
 
     public function calculateNetAndGross(?bool $includeVat, float $sum): array
