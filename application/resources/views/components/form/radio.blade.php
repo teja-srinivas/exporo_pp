@@ -6,7 +6,7 @@
 
     <div class="custom-control {{ $inlineClass }} custom-radio">
         <input type="radio" id="{{ $id }}" name="{{ $name }}" value="{{ $key }}" class="custom-control-input"
-                {{ old($name, $default ?? null) === $key ? 'checked' : '' }}>
+                {{ old($name, $default ?? null) == $key ? 'checked' : '' }}>
         <label class="custom-control-label" for="{{ $id }}">{{ $label }}</label>
     </div>
 @endforeach

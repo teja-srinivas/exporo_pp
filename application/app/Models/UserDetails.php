@@ -10,6 +10,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @property bool $vat_included
+ * @property float $vat_amount
  * @property string $iban
  * @property string $bic
  */
@@ -21,9 +22,7 @@ class UserDetails extends Model implements AuditableContract
     public $incrementing = false;
 
     protected $casts = [
-        'first_investment_bonus' => 'float',
-        'further_investment_bonus' => 'float',
-        'registration_bonus' => 'float',
+        'vat_amount' => 'float',
         'vat_included' => 'bool',
     ];
 
@@ -43,6 +42,8 @@ class UserDetails extends Model implements AuditableContract
         'phone',
         'website',
         'vat_id',
+        'vat_amount',
+        'vat_included',
         'tax_office',
         'registration_bonus',
         'first_investment_bonus',

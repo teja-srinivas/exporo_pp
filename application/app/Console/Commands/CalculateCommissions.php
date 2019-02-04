@@ -9,6 +9,7 @@ use App\Models\CommissionBonus;
 use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
+use App\Models\UserDetails;
 use App\Repositories\InvestmentRepository;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Console\Command;
@@ -82,11 +83,11 @@ final class CalculateCommissions extends Command
             ->join('users', 'users.id', 'investors.user_id')
             ->leftJoin('commissions', function (JoinClause $join) {
                 $join->on('investors.id', 'commissions.model_id');
-                $join->where('commissions.model_type', '=', Investor::MORPH_NAME);
+                $join->where('commissions.model_type', Investor::MORPH_NAME);
             })
             ->leftJoin('commission_bonuses', function (JoinClause $join) {
                 $join->on('commission_bonuses.user_id', 'user_details.id');
-                $join->where('commission_bonuses.calculation_type', '=', CommissionBonus::TYPE_REGISTRATION);
+                $join->where('commission_bonuses.calculation_type', CommissionBonus::TYPE_REGISTRATION);
             })
             ->where('commission_bonuses.value', '>', 0)
             ->whereNull('commissions.id')
@@ -96,7 +97,7 @@ final class CalculateCommissions extends Command
         $callback = function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
                 // Temp values that come from the query (not actually from the Investor's table)
-                (bool)$investor->vat_included,
+                new UserDetails($investor->only('vat_included', 'vat_amount')),
                 (float)$investor->value
             );
 
@@ -122,8 +123,8 @@ final class CalculateCommissions extends Command
     ): void {
         $query = $repository->withoutCommissionQuery()->with([
             'project.schema',
-            'investor.details',
             'investor.user.bonuses',
+            'investor.user.details',
         ]);
 
         $userCache = [];

@@ -118,7 +118,7 @@ class CommissionController extends Controller
         /** @var UserDetails $userDetails */
         $userDetails = UserDetails::query()->findOrFail($data['userId']);
 
-        $sums = $service->calculateNetAndGross($userDetails->vat_included, (float) $data['amount']);
+        $sums = $service->calculateNetAndGross($userDetails, (float) $data['amount']);
 
         Commission::query()->forceCreate($sums + [
             'model_type' => Commission::TYPE_CORRECTION,
@@ -178,7 +178,7 @@ class CommissionController extends Controller
 
         if (isset($remapped['amount'])) {
             $commission->fill($service->calculateNetAndGross(
-                $commission->userDetails->vat_included,
+                $commission->userDetails,
                 (float) $remapped['amount']
             ));
         }

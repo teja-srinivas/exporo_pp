@@ -160,14 +160,14 @@ final class CommissionCalculationTest extends TestCase
                 'value' => 10,
                 'expected' => [
                     'net' => 10,
-                    'gross' => 10 * CalculateCommissionsService::VAT,
+                    'gross' => 10 * 1.19,
                 ],
             ],
             [
                 'included' => true,
                 'value' => 10,
                 'expected' => [
-                    'net' => 10 / CalculateCommissionsService::VAT,
+                    'net' => 10 / 1.19,
                     'gross' => 10,
                 ],
             ],
