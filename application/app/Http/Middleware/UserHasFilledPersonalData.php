@@ -42,7 +42,7 @@ class UserHasFilledPersonalData
 
     private function hasFilledAllData($user): bool
     {
-        if ($user->details->birth_date === "1970-01-01 00:00:00") {
+        if ($user->details->birth_date === LEGACY_NULL || $user->details === null) {
             return false;
         }
 
