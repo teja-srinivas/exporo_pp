@@ -6,6 +6,7 @@ use App\Interfaces\FileReference;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -45,11 +46,8 @@ class Document extends Model implements FileReference, AuditableContract
 
     public function getDownloadUrl(): string
     {
-        $expiration = now()->addMinutes(15);
+        $expiration = now()->addHour();
 
-        // TODO enable when we switch to S3
-        // Storage::temporaryUrl($this->filename, $expiration);
-
-        return URL::temporarySignedRoute('documents.download', $expiration, $this);
+        return Storage::disk($this->disk)->temporaryUrl($this->filename, $expiration);
     }
 }

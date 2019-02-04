@@ -48,10 +48,6 @@ Route::middleware(['verified'])->group(function () {
         Route::resource('users/documents', 'UserDocumentController'); // TODO move this under the user namespace
         Route::resource('users', 'UserController');
 
-        Route::get('documents/{document}/download', 'UserDocumentController@download')
-            ->name('documents.download')
-            ->middleware('signed');
-
         Route::prefix('users/{user}')->name('users.')->namespace('User')->group(function () {
             Route::resource('investments', 'InvestmentController')->only('index');
             Route::resource('investors', 'InvestorController')->only('index');

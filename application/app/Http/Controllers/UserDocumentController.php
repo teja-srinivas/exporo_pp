@@ -186,13 +186,4 @@ class UserDocumentController extends Controller
 
         //
     }
-
-    public function download(Document $document)
-    {
-        $disk = Storage::disk('s3');
-
-        abort_unless($disk->exists($document->filename), Response::HTTP_NOT_FOUND);
-
-        return $disk->response($document->filename, $document->getReadableFilename());
-    }
 }
