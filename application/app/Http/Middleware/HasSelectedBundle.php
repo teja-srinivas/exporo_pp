@@ -19,7 +19,7 @@ class HasSelectedBundle
         /** @var User $user */
         $user = $request->user();
 
-        if ($user->canBeProcessed() && !$user->bonuses()->exists()) {
+        if ($user->canBeProcessed() && !$user->hasBundleSelected()) {
             return redirect()->route('users.bundle-selection.index', $user);
         }
 

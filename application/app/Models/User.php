@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -148,7 +149,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasMany(Investor::class, 'user_id');
     }
 
-    public function investments()
+    public function investments(): HasManyThrough
     {
         return $this->hasManyThrough(Investment::class, Investor::class);
     }
@@ -163,37 +164,37 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasMany(User::class, 'parent_id', 'id');
     }
 
-    public function canBeProcessed()
+    public function canBeProcessed(): bool
     {
-        return $this->roles->isEmpty() || $this->hasRole(Role::PARTNER);
+        return $this->hasPermissionTo('can be billed');
     }
 
-    public function hasBeenProcessed()
+    public function hasBeenProcessed(): bool
     {
         return $this->canBeProcessed() && ($this->rejected_at !== null || $this->accepted_at !== null);
     }
 
-    public function hasNotBeenProcessed()
+    public function hasNotBeenProcessed(): bool
     {
         return $this->canBeProcessed() && ($this->rejected_at === null && $this->accepted_at === null);
     }
 
-    public function rejected()
+    public function rejected(): bool
     {
         return $this->canBeProcessed() && $this->rejected_at !== null;
     }
 
-    public function cancelled()
+    public function cancelled(): bool
     {
         return $this->term_cancelled_at !== null;
     }
 
-    public function accepted()
+    public function accepted(): bool
     {
         return $this->canBeProcessed() && $this->accepted_at !== null;
     }
 
-    public function notYetAccepted()
+    public function notYetAccepted(): bool
     {
         return $this->canBeProcessed() && $this->accepted_at === null;
     }
@@ -227,19 +228,19 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return implode(' ', $greeting);
     }
 
-    public function getLoginLink()
+    public function getLoginLink(): string
     {
         return URL::signedRoute('users.login', [$this]);
     }
 
-    public function sendEmailVerificationNotification()
+    public function sendEmailVerificationNotification(): void
     {
         SendMail::dispatch([
             'Activationhash' => URL::signedRoute('verification.verify', [$this->id]),
         ], $this, config('mail.templateIds.registration'))->onQueue('emails');
     }
 
-    public function switchToBundle(BonusBundle $bundle)
+    public function switchToBundle(BonusBundle $bundle): void
     {
         DB::transaction(function () use ($bundle) {
             $userId = $this->getKey();
@@ -257,13 +258,13 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         });
     }
 
-    public function hasValidBankDetails()
+    public function hasValidBankDetails(): bool
     {
         // Directly access attributes to not call any decryption logic
         return !empty($this->details->attributes['bic']) && !empty($this->details->attributes['iban']);
     }
 
-    public function canBeBilled()
+    public function canBeBilled(): bool
     {
         if (!$this->hasValidBankDetails()) {
             return false;
@@ -272,7 +273,15 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasPermissionTo(BillPolicy::CAN_BE_BILLED_PERMISSION);
     }
 
-    public function canBeAccepted()
+    public function canBeAccepted(): bool
+    {
+        return $this->hasBundleSelected();
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasBundleSelected(): bool
     {
         if ($this->relationLoaded('bonuses')) {
             return $this->bonuses->isNotEmpty();

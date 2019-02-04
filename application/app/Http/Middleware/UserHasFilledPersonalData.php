@@ -19,11 +19,13 @@ class UserHasFilledPersonalData
         /** @var User $user */
         $user = $request->user();
 
-        if (!$user->canBeProcessed()) {
+        // Do not check anything when we're already on the edit page
+        if (request()->routeIs('users.edit', 'users.update')) {
             return $next($request);
         }
 
-        if (request()->routeIs('users.edit', 'users.update')) {
+        // Let internals and admins through
+        if (!$user->canBeProcessed()) {
             return $next($request);
         }
 
