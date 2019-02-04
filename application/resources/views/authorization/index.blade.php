@@ -20,9 +20,9 @@
                     <td>
                         <a href="{{ route('roles.show', $role) }}">{{ $role->getDisplayName() }}</a>
 
-                        @if(in_array($role->name,\App\Models\Role::ROLES))
+                        @unless($role->canBeDeleted())
                             <div class="badge badge-info">System</div>
-                        @endif
+                        @endunless
                     </td>
                     <td class="text-right">
                         <a href="{{ route('roles.edit', $role) }}"
