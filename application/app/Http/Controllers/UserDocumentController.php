@@ -157,10 +157,11 @@ class UserDocumentController extends Controller
         // Replace the old file, if exists
         if ($request->has('file')) {
             $oldFilename = $document->filename;
-            $document->filename = $request->file('file')->store(Document::DIRECTORY);
+            $document->filename = $document->name;
+            Storage::disk('s3')->put(Document::DIRECTORY . '/' . $document->filename, $request->file('file')->get());
 
             if (!empty($oldFilename)) {
-                Storage::delete($oldFilename);
+                Storage::disk('s3')->delete($oldFilename);
             }
         }
 
