@@ -91,6 +91,7 @@
                     'required' => true,
                     'values' => $bonusBundles,
                     'assoc' => true,
+                    'groups' => true,
                 ])
 
                 <button class="btn btn-primary ml-2">Ersetzen</button>
