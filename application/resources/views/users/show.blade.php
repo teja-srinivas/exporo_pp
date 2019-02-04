@@ -140,7 +140,7 @@
         </table>
 
         @slot('footer')
-            <div class="d-flex justify-content-between align-items-baseline">
+            <div class="d-flex justify-content-between align-items-center">
                 @if($user->canBeBilled())
                     <span class="text-muted">Erhält Abrechnungen</span>
                 @elseif($user->hasValidBankDetails())
