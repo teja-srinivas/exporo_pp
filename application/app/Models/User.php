@@ -266,10 +266,6 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function canBeBilled(): bool
     {
-        if (!$this->hasValidBankDetails()) {
-            return false;
-        }
-
         return $this->hasPermissionTo(BillPolicy::CAN_BE_BILLED_PERMISSION);
     }
 
