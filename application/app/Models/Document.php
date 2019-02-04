@@ -17,6 +17,8 @@ class Document extends Model implements FileReference, AuditableContract
 
     const DIRECTORY = 'documents';
 
+    public $disk = 's3';
+
     protected $fillable = [
         'name', 'description',
     ];
