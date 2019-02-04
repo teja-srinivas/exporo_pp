@@ -126,9 +126,30 @@
         'name' => 'iban',
         'label' => __('IBAN'),
     ],
-     [
+    [
         'type' => 'text',
         'name' => 'bic',
         'label' => __('BIC'),
     ],
 ])])
+
+@if(auth()->user()->can('manage', $user))
+    <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Mehrwertsteuer</h6>
+
+    @include('components.form.builder', ['inputs' => $decorate([
+        [
+            'type' => 'number',
+            'name' => 'vat_amount',
+            'label' => 'Betrag in Prozent',
+        ],
+        [
+            'type' => 'radio',
+            'name' => 'vat_included',
+            'label' => 'Berechnung',
+            'values' => [
+                false => 'On Top',
+                true => 'Inkludiert',
+            ],
+        ],
+    ])])
+@endif

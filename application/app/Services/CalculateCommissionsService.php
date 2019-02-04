@@ -6,42 +6,42 @@ namespace App\Services;
 use App\Models\CommissionBonus;
 use App\Models\Investment;
 use App\Models\User;
+use App\Models\UserDetails;
 use App\Policies\BillPolicy;
 
 final class CalculateCommissionsService
 {
-    const VAT = 1 + (19 / 100);
-
+    /**
+     * Calculates a commission entry for the given investment, parent user
+     * and the actual user we do the calculation for.
+     *
+     * @param Investment $investment
+     * @param User|null $parent
+     * @param User|null $child
+     * @return array|null Either the final entry array or null, if we should skip the investment alltogether
+     * @throws \Exception
+     */
     public function calculate(Investment $investment, User $parent = null, User $child = null): ?array
     {
         if ($parent && $child) {
-            $userId = $parent->id;
-            $userDetails = $parent->details;
+            // Calculate an overhead commission
+            $user = $parent;
 
             $parentBonus = $this->calculateBonus($investment, $parent);
-
-            if ($parentBonus === null) {
-                return null;
-            }
+            if ($parentBonus === null) return null;
 
             $childBonus = $this->calculateBonus($investment, $child);
-
-            if ($childBonus === null) {
-                return null;
-            }
+            if ($childBonus === null) return null;
 
             $bonus = $parentBonus - $childBonus;
-            $canBeBilled = $parent->canBeBilled();
         } else {
-            $userId = $investment->investor->user_id;
-            $userDetails = $investment->investor->details;
-            $bonus = $this->calculateBonus($investment, $investment->investor->user);
+            // No overhead, calculate as usual
+            $user = $investment->investor->user;
+            $bonus = $this->calculateBonus($investment, $user);
 
             if ($bonus === null) {
                 return null;
             }
-
-            $canBeBilled = $investment->investor->user->canBeBilled();
         }
 
         $sum = $investment->project->schema->calculate([
@@ -51,37 +51,47 @@ final class CalculateCommissionsService
             'marge' => $investment->project->marginPercentage(),
         ]);
 
-        return $this->calculateNetAndGross($userDetails->vat_included, $sum) + [
+        return $this->calculateNetAndGross($user->details, $sum) + [
             'bonus' => $bonus,
-            'user_id' => $userId,
-        ] + ($canBeBilled ? [] : [
+            'user_id' => $user->getKey(),
+        ] + ($user->canBeBilled() ? [] : [
             'on_hold' => true,
             'note_private' => 'Abrechnung gesperrt (' . now()->format('d.m.Y') . ')',
         ]);
     }
 
-    public function calculateNetAndGross(?bool $includeVat, float $sum): array
+    public function calculateNetAndGross(UserDetails $details, float $sum): array
     {
-        if ($includeVat === false) {
+        $vatAmount = $details->vat_amount;
+
+        if ($vatAmount <= 0) {
             return [
                 'net' => $sum,
-                'gross' => $sum * self::VAT,
-            ];
-        }
-
-        if ($includeVat === true) {
-            return [
-                'net' => $sum / self::VAT,
                 'gross' => $sum,
             ];
         }
 
-        return [
-            'net' => $sum,
-            'gross' => $sum,
-        ];
+        $vatAmount = 1 + ($vatAmount / 100);
+
+        return $details->vat_included
+            ? [
+                'net' => $sum,
+                'gross' => $sum * $vatAmount,
+            ]
+            : [
+                'net' => $sum / $vatAmount,
+                'gross' => $sum,
+            ];
     }
 
+    /**
+     * Calculates the bonus value or percentage for the given investment and user.
+     *
+     * @param Investment $investment The investment we get the commission type from
+     * @param User $user The user we grab the bonus entry from
+     * @return float|null Either a value or null if there's no bonus.
+     *                    Yes, there can be values of 0 for which we should create a commission entry.
+     */
     public function calculateBonus(Investment $investment, User $user): ?float
     {
         $bonuses = $user->bonuses
