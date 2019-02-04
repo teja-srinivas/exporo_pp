@@ -98,11 +98,11 @@ class UserDocumentController extends Controller
 
         $document = new Document($request->only('name', 'description'));
         $document->user()->associate($request->get('user'));
-        $document->filename = $request->file('file')->store(Document::DIRECTORY);
+        $document->filename = $document->name;
+        Storage::disk('s3')->put(Document::DIRECTORY . '/' . $document->filename, $request->file('file')->get());
         $document->saveOrFail();
 
         flash_success('Dokument wurde angelegt');
-
         return redirect()->route('documents.show', [$document, 'user' => true]);
     }
 
@@ -187,8 +187,8 @@ class UserDocumentController extends Controller
 
     public function download(Document $document)
     {
-        abort_unless(Storage::exists($document->filename), Response::HTTP_NOT_FOUND);
+        abort_unless(Storage::disk('s3')->exists(Document::DIRECTORY . '/' . $document->filename), Response::HTTP_NOT_FOUND);
 
-        return Storage::download($document->filename, $document->getReadableFilename());
+        return Storage::disk('s3')->download(Document::DIRECTORY . '/' . $document->filename, $document->getReadableFilename());
     }
 }
