@@ -94,6 +94,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     ];
 
     protected $auditExclude = [
+        'api_token',
         'remember_token',
     ];
 
