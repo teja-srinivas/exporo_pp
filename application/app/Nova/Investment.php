@@ -4,10 +4,10 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 
 class Investment extends Resource
 {
@@ -47,7 +47,9 @@ class Investment extends Resource
             BelongsTo::make('Investor')->searchable(),
             BelongsTo::make('Project')->searchable(),
             // BelongsTo::make('User', 'user')->searchable(),
-            Currency::make('Amount')->sortable(),
+            Number::make('Amount', 'amount', function ($value) {
+                return format_money($value);
+            })->sortable(),
             Date::make('Created At')->sortable(),
             Date::make('Paid At')->sortable(),
             Date::make('Acknowledged At')->sortable(),
@@ -86,7 +88,9 @@ class Investment extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new Lenses\InvestmentsWithoutProject,
+        ];
     }
 
     /**
