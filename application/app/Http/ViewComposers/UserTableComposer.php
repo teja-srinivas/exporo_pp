@@ -13,7 +13,7 @@ class UserTableComposer
             return [
                 'id' => $role->id,
                 'link' => route('roles.show', $role),
-                'name' => studly_case($role->name),
+                'name' => $role->getDisplayName(),
                 'color' => $role->getColor(),
             ];
         }));

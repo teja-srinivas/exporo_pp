@@ -64,7 +64,7 @@
                     <td>
                         @foreach($permission->roles as $role)
                             <a href="{{ route('roles.show', $role) }}" class="badge badge-primary">{{
-                                studly_case($role->name)
+                                $role->getDisplayName()
                             }}</a>
                         @endforeach
                     </td>

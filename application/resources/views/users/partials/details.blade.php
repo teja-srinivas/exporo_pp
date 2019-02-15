@@ -3,7 +3,7 @@
         @foreach ($user->roles as $role)
             <a href="{{ route('roles.show', $role) }}"
                class="badge badge-pill badge-{{ $role->getColor() }}">
-                {{ studly_case($role->name) }}
+                {{ $role->getDisplayName() }}
             </a>
         @endforeach
     @endcomponent
