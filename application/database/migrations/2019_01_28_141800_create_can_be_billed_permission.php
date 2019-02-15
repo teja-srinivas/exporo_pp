@@ -9,6 +9,8 @@ use Spatie\Permission\PermissionRegistrar;
 
 class CreateCanBeBilledPermission extends Migration
 {
+    const NAME = 'gesperrt';
+
     /**
      * Run the migrations.
      *
@@ -18,7 +20,7 @@ class CreateCanBeBilledPermission extends Migration
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        Role::create(['name' => Role::LOCKED])->givePermissionTo(
+        Role::create(['name' => self::NAME])->givePermissionTo(
             'view partner dashboard'
         );
 
@@ -34,7 +36,7 @@ class CreateCanBeBilledPermission extends Migration
      */
     public function down()
     {
-        Role::query()->where('name', Role::LOCKED)->delete();
+        Role::query()->where('name', self::NAME)->delete();
         Permission::query()->where('name', BillPolicy::CAN_BE_BILLED_PERMISSION)->delete();
 
         app(PermissionRegistrar::class)->forgetCachedPermissions();
