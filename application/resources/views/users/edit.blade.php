@@ -39,6 +39,8 @@
     </form>
 
     @can(\App\Policies\UserPolicy::PERMISSION)
+    <h4>Berechtigungen</h4>
+
     <form action="{{ route('users.update', $user) }}" method="POST" class="mt-4">
         @method('PUT')
         @csrf
@@ -48,12 +50,68 @@
             @slot('info', 'Liste von Rollen, zu denen dieser Benutzer zugehörig ist.')
 
             @foreach(($roles ?? []) as $role)
-                @include('components.form.checkbox', [
-                    'label' => $role->getDisplayName(),
-                    'name' => "roles[{$role->id}]",
-                    'default' => $user->hasRole($role),
-                ])
+            <input type="hidden" name="roles[{{ $role->getKey() }}]">
+
+            @include('components.form.checkbox', [
+                'label' => $role->getDisplayName(),
+                'name' => "roles[{$role->getKey()}]",
+                'default' => $user->hasRole($role),
+            ])
             @endforeach
+        @endcard
+
+        @card
+            @slot('title', 'Fähigkeiten')
+            @slot('info')
+                <p>Liste von Fähigkeiten, zu denen dieser Benutzer berechtigt ist.</p>
+                Einige Fähigkeiten können durch die Vergabe von Rollen stammen,
+                in welchem Fall die Änderung direkt an der Rolle getätigt werden muss
+                (welches dann alle zugewiesenen Nutzer betrifft!).
+            @endslot
+
+            @php($skipPermissions = collect())
+
+            @foreach($user->roles->load('permissions')->sortBy('name') as $role)
+                <div class="form-group">
+                    <b>
+                        Rolle:
+                        <a href="{{ route('roles.show', $role) }}">
+                            {{ $role->getDisplayName() }}
+                        </a>
+                    </b>
+
+                    <ul class="small pl-4">
+                        @foreach($role->permissions->sortBy('name') as $permission)
+                            <li
+                                @if($skipPermissions->contains($permission->getKey()))
+                                    class="text-muted"
+                                    style="text-decoration: line-through"
+                                @endif
+                            >
+                                {{ $permission->name }}
+                            </li>
+
+                            @php($skipPermissions->push($permission->getKey()))
+                        @endforeach
+                    </ul>
+                </div>
+            @endforeach
+
+            <div class="form-group">
+                <b>Eigene:</b>
+
+                <div class="pl-2">
+                    @foreach($permissions->whereNotIn('id', $skipPermissions) as $permission)
+                        <input type="hidden" name="permissions[{{ $permission->getKey() }}]">
+
+                        @include('components.form.checkbox', [
+                            'label' => $permission->name,
+                            'name' => "permissions[{$permission->getKey()}]",
+                            'default' => $user->can($permission->name),
+                        ])
+                    @endforeach
+                </div>
+            </div>
         @endcard
 
         <div class="text-right my-3">

@@ -1,4 +1,5 @@
 <div class="custom-control custom-checkbox {{ $class ?? '' }}">
+    @php($name = $name ?? uniqid('input'))
     @php($id = 'input' . studly_case($name))
     <input
         type="checkbox"
@@ -7,6 +8,7 @@
         name="{{ $name }}"
         {{ old($name, $default ?? null) ? 'checked' : '' }}
         @if($required ?? false) required @endif
+        @if($disabled ?? false) disabled @endif
     >
     <label class="custom-control-label" for="{{ $id }}">
         {{ $description ?? $label ?? $slot ?? '' }}

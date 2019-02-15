@@ -7,6 +7,7 @@ use App\Jobs\SendMail;
 use App\Models\Bill;
 use App\Models\BonusBundle;
 use App\Models\Company;
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use App\Policies\UserPolicy;
@@ -123,14 +124,16 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function edit(User $user)
+    public function edit(User $user, Request $request)
     {
         $this->authorize('update', $user);
 
         return response()->view('users.edit', [
             'user' => $user,
-            'roles' => Role::all(),
-        ]);
+        ] + ($request->user()->can(UserPolicy::PERMISSION) ? [
+            'roles' => Role::query()->orderBy('name')->get(),
+            'permissions' => Permission::query()->orderBy('name')->get(),
+        ] : []));
     }
 
     /**
@@ -138,7 +141,7 @@ class UserController extends Controller
      *
      * @param UserStoreRequest $request
      * @param User $user
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Throwable
      */
     public function update(UserStoreRequest $request, User $user)
@@ -166,8 +169,12 @@ class UserController extends Controller
             $user->switchToBundle(BonusBundle::query()->findOrFail($attributes['bonusBundle']));
         }
 
-        if (isset($attributes['roles'])) {
-            $user->syncRoles(array_keys($attributes['roles']));
+        if ($request->has('roles')) {
+            $user->syncRoles(array_keys(array_filter($attributes['roles'])));
+        }
+
+        if ($request->has('permissions')) {
+            $user->syncPermissions(array_keys(array_filter($attributes['permissions'])));
         }
 
         $user->fill($attributes)->saveOrFail();

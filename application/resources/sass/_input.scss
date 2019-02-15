@@ -16,3 +16,7 @@
 .custom-select {
   border-radius: $custom-select-border-radius;
 }
+
+.custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
+  border-color: transparent;
+}

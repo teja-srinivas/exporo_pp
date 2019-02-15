@@ -35,6 +35,7 @@ class UserStoreRequest extends FormRequest
             $this->user()->can('manage', $user) ? [
                 'bonusBundle' => ['sometimes'],
                 'roles' => ['sometimes'],
+                'permissions' => ['sometimes'],
             ] : []
         );
     }
