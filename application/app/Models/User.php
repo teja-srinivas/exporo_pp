@@ -181,7 +181,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function rejected(): bool
     {
-        return $this->canBeProcessed() && $this->rejected_at !== null;
+        return $this->rejected_at !== null;
     }
 
     public function cancelled(): bool
@@ -191,12 +191,12 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function accepted(): bool
     {
-        return $this->canBeProcessed() && $this->accepted_at !== null;
+        return $this->accepted_at !== null;
     }
 
     public function notYetAccepted(): bool
     {
-        return $this->canBeProcessed() && $this->accepted_at === null;
+        return $this->accepted_at === null;
     }
 
     /**
