@@ -116,7 +116,7 @@ class User extends Resource
 
     public function title()
     {
-        return $this->first_name . ' ' . $this->last_name . ' (' . $this->id . ')';
+        return $this->details->display_name . ' (' . $this->id . ')';
     }
 
     /**
