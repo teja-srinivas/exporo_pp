@@ -38,7 +38,7 @@ class BillPolicy extends BasePolicy
      */
     public function download(User $user, $model): bool
     {
-        return $user->hasPermissionTo(self::DOWNLOAD_PERMISSION) || $model->user_id === $user->id;
+        return $user->can(self::DOWNLOAD_PERMISSION) || $model->user_id === $user->id;
     }
 
     /**

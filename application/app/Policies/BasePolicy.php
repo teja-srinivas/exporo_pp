@@ -128,6 +128,6 @@ class BasePolicy
      */
     protected function hasPermission(User $user): bool
     {
-        return $user->hasPermissionTo($this->permission);
+        return $user->can($this->permission);
     }
 }

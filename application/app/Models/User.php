@@ -166,7 +166,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function canBeProcessed(): bool
     {
-        return $this->hasPermissionTo('can be billed');
+        return $this->can(BillPolicy::CAN_BE_BILLED_PERMISSION);
     }
 
     public function hasBeenProcessed(): bool
@@ -266,7 +266,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function canBeBilled(): bool
     {
-        return $this->hasPermissionTo(BillPolicy::CAN_BE_BILLED_PERMISSION);
+        return $this->can(BillPolicy::CAN_BE_BILLED_PERMISSION);
     }
 
     public function canBeAccepted(): bool

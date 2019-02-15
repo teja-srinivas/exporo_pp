@@ -32,7 +32,7 @@ class UserPolicy extends BasePolicy
      */
     public function process(User $user, ?User $model)
     {
-        return $user->hasPermissionTo('process partners');
+        return $user->can('process partners');
     }
 
     /**
