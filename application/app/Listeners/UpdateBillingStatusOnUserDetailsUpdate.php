@@ -27,6 +27,8 @@ class UpdateBillingStatusOnUserDetailsUpdate
     protected function hasValidBankDetails(UserDetails $details): bool
     {
         // Directly access attributes to not call any decryption logic
-        return !empty($details->attributes['bic']) && !empty($details->attributes['iban']);
+        $attributes = $details->getAttributes();
+
+        return !empty($attributes['bic']) && !empty($attributes['iban']);
     }
 }
