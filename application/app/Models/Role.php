@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * Extension to the spatie role model to add timestamp support
@@ -34,17 +35,25 @@ class Role extends \Spatie\Permission\Models\Role
         return parent::permissions()->withTimestamps();
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function users(): MorphToMany
+    {
+        return parent::users()->withTimestamps();
+    }
+
     public function canBeDeleted(): bool
     {
         return !in_array($this->name, self::ROLES);
     }
 
-    public function getDisplayName()
+    public function getDisplayName(): string
     {
         return ucfirst($this->name);
     }
 
-    public function getColor()
+    public function getColor(): string
     {
         switch ($this->name ?? '') {
             case Role::ADMIN:
