@@ -54,6 +54,9 @@ final class CalculateCommissions extends Command
                 return $entry + [
                         'child_user_id' => 0,
                         'model_type' => $type,
+                        'note_private' => null,
+                        'note_public' => null,
+                        'on_hold' => false,
                         'created_at' => $now,
                         'updated_at' => $now,
                     ];
