@@ -38,12 +38,11 @@
         </div>
     </form>
 
-
+    @can(\App\Policies\UserPolicy::PERMISSION)
     <form action="{{ route('users.update', $user) }}" method="POST" class="mt-4">
         @method('PUT')
         @csrf
 
-        @can(\App\Policies\UserPolicy::PERMISSION)
         @card
             @slot('title', 'Benutzerrolle')
             @slot('info', 'Liste von Rollen, zu denen dieser Benutzer zugehörig ist.')
@@ -56,12 +55,12 @@
                 ])
             @endforeach
         @endcard
-        @endcan
 
         <div class="text-right my-3">
             <button class="btn btn-primary">Änderungen Speichern</button>
         </div>
     </form>
+    @endcan
 
     @include('users.partials.details')
 

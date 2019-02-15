@@ -184,6 +184,8 @@ class UserDocumentController extends Controller
     {
         $this->authorize('delete', $document);
 
-        //
+        $document->delete();
+
+        return redirect()->route('documents.index');
     }
 }

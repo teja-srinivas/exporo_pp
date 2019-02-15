@@ -115,6 +115,7 @@
         'type' => 'text',
         'name' => 'vat_id',
         'label' => __('VAT ID'),
+        'class' => 'text-monospace',
     ],
     [
         'type' => 'text',
@@ -125,11 +126,13 @@
         'type' => 'text',
         'name' => 'iban',
         'label' => __('IBAN'),
+        'class' => 'text-monospace',
     ],
     [
         'type' => 'text',
         'name' => 'bic',
         'label' => __('BIC'),
+        'class' => 'text-monospace',
     ],
 ])])
 
