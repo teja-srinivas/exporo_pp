@@ -98,7 +98,7 @@
     @php($total = array_sum($sums))
     @php($totalGross = $investmentGrossSum + $overheadGrossSum + $investorsGrossSum + $customGrossSum)
 
-    @if($totalGross > 0)
+    @if(count(array_filter($sums)) > 0)
     <table class="table table-sm mx-auto w-50 table-foot-totals">
         <tbody>
         @foreach($sums as $title => $sum)

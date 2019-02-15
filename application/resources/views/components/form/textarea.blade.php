@@ -8,4 +8,7 @@
     @if($autofocus ?? false) autofocus @endif
 >{{ old($name, $default ?? null) }}</textarea>
 
-@include('components.form.error', compact('name', 'error'))
+@include('components.form.error', [
+    'name' => $name,
+    'error' => $error ?? null,
+])

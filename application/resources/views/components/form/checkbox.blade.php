@@ -13,6 +13,8 @@
     </label>
 </div>
 
-@include('components.form.error', compact('name', 'error') + [
+@include('components.form.error', [
+    'name' => $name,
+    'error' => $error ?? null,
     'class' => $errors->has($name) ? 'd-block' : '',
 ])

@@ -322,7 +322,7 @@ class BillController extends Controller
                 'projectFactor' => $project->runtimeFactor(),
                 'note' => $row->note_public,
             ];
-        });
+        })->toBase();
     }
 
     private function mapInvestors(?Collection $investors): ?BaseCollection

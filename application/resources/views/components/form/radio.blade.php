@@ -11,7 +11,8 @@
     </div>
 @endforeach
 
-@include('components.form.error', array_merge(
-    compact('error', 'name'),
-    ['class' => $errors->has($name) ? 'd-block' : '']
-))
+@include('components.form.error', [
+    'name' => $name,
+    'error' => $error ?? null,
+    'class' => $errors->has($name) ? 'd-block' : ''
+])

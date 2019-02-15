@@ -75,12 +75,12 @@ final class CalculateCommissionsService
 
         return $details->vat_included
             ? [
-                'net' => $sum,
-                'gross' => $sum * $vatAmount,
-            ]
-            : [
                 'net' => $sum / $vatAmount,
                 'gross' => $sum,
+            ]
+            : [
+                'net' => $sum,
+                'gross' => $sum * $vatAmount,
             ];
     }
 

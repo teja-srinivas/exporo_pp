@@ -37,4 +37,7 @@
     @endif
 </select>
 
-@include('components.form.error', compact('name', 'error'))
+@include('components.form.error', [
+    'name' => $name,
+    'error' => $error ?? null,
+])

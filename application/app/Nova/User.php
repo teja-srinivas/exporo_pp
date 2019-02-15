@@ -110,7 +110,7 @@ class User extends Resource
                     ];
                 }),
 
-            MorphToMany::make('Roles', 'roles', \Vyuldashev\NovaPermission\Role::class),
+            // MorphToMany::make('Roles', 'roles', \Vyuldashev\NovaPermission\Role::class),
         ];
     }
 
