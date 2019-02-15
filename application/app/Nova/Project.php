@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -65,6 +67,13 @@ class Project extends Resource
             Number::make('Investments', 'investments_count')
                 ->onlyOnIndex()
                 ->sortable(),
+
+            Number::make('Interest Rate')->hideFromIndex(),
+            Number::make('Margin')->hideFromIndex(),
+            Number::make('Capital Cost')->hideFromIndex(),
+            Date::make('Payback Min At')->hideFromIndex(),
+            Date::make('Payback Max At')->hideFromIndex(),
+            Number::make('Runtime')->hideFromIndex(),
 
             HasMany::make('Investments'),
         ];
