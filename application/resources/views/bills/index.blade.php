@@ -22,7 +22,7 @@
                     'name' => 'displayName',
                 ],
                 'link' => 'links.self',
-                'width' => 100,
+                'width' => 80,
             ],
             [
                 'name' => 'user',
@@ -42,13 +42,13 @@
                 'groupBy' => true,
                 'label' => 'Provisionen',
                 'format' => 'number',
-                'width' => 80,
+                'width' => 75,
             ],
             [
                 'name' => 'date',
                 'label' => 'Erstellt',
                 'format' => 'date',
-                'width' => 75,
+                'width' => 70,
             ],
         ],
         'groups' => [
