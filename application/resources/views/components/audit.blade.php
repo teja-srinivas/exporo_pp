@@ -11,15 +11,15 @@
             </tr>
             </thead>
             <tbody>
-            @php($models = collect(array_wrap($model)))
+            @php($models = collect(\Illuminate\Support\Arr::wrap($model)))
             @php($models->each->loadMissing('audits.auditable', 'audits.user'))
             @php($audits = $models->pluck('audits')->flatten(1)->filter(function($audit) {
                 return !empty($audit->new_values) || !empty($audit->old_values);
             }))
 
             @forelse($audits->sortByDesc('event')->sortByDesc('created_at') as $audit)
-                @php($_modifications = $audit->getModified())
-                @php($entity = $audit->auditable)
+                @php($_modifications = $audit->getFilteredModifications())
+                @continue($_modifications->isEmpty())
 
                 <tr>
                     <td width="130" class="border-right" rowspan="{{ count($_modifications) }}">
@@ -27,10 +27,10 @@
                             @empty($audit->user)
                                 <span class="text-muted">
                                 @if($audit->user_id === null)
-                                        System
-                                    @else
-                                        Unbekannt (@json($audit->user))
-                                    @endif
+                                    System
+                                @else
+                                    Unbekannt (@json($audit->user))
+                                @endif
                             </span>
                             @else
                                 <a href="{{ route('users.show', $audit->user) }}">
@@ -45,7 +45,7 @@
                         @endunless
                         {{ optional($audit->created_at)->format('d.m.Y') }}
                     </td>
-                    @foreach($audit->getModified() as $title => $row)
+                    @foreach($_modifications as $title => $row)
                         @unless($loop->first)
                 </tr>
                 <tr>
@@ -61,22 +61,18 @@
                                 @continue
                             @endif
 
-                            @if($row[$key] === null)
-                                <code class="text-muted small">NULL</code>
-                            @elseif($entity !== null && in_array($title, $entity->getHidden()))
-                                <span class="text-muted">(versteckt)</span>
-                            @elseif(is_bool($row[$key]))
-                                {!! $row[$key] ? '✔' : '-' !!}
-                            @elseif(is_array($row[$key]))
-                                <pre class="m-0">{{ var_export($row[$key], true) }}</pre>
-                            @else
-                                @php($value = App\Traits\Encryptable::decrypt($row[$key]))
+                            @php($value = $row[$key])
 
-                                @if(starts_with($value, 'eyJpdiI6'))
-                                    <span class="text-muted">(verschlüsselt)</span>
-                                @else
-                                    {{ $value }}
-                                @endif
+                            @if($value === null)
+                                <code class="text-muted small">NULL</code>
+                            @elseif(is_bool($value))
+                                {!! $value ? '✔' : '-' !!}
+                            @elseif(is_array($value))
+                                <pre class="m-0">{{ var_export($value, true) }}</pre>
+                            @elseif(starts_with($value, 'eyJpdiI6'))
+                                <span class="text-muted">(verschlüsselt)</span>
+                            @else
+                                {{ $value }}
                             @endif
                         </td>
                     @endforeach

@@ -62,10 +62,6 @@ class UserDetails extends Model implements AuditableContract
         'birth_date',
     ];
 
-    protected $hidden = [
-        'vat_id',
-    ];
-
     protected $encryptable = [
         'vat_id',
         'company',
