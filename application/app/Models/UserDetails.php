@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\UserDetailsUpdated;
 use App\Traits\Encryptable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,6 +10,7 @@ use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
+ * @property User $user
  * @property bool $vat_included
  * @property float $vat_amount
  * @property string $iban
@@ -20,6 +22,10 @@ class UserDetails extends Model implements AuditableContract
     use Auditable;
 
     public $incrementing = false;
+
+    protected $dispatchesEvents = [
+        'updated' => UserDetailsUpdated::class,
+    ];
 
     protected $casts = [
         'vat_amount' => 'float',

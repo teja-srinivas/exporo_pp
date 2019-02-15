@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Events\CommissionBonusUpdated;
 use App\Events\ProjectUpdated;
 use App\Events\SchemaUpdated;
+use App\Events\UserDetailsUpdated;
 use App\Listeners\InvalidateCommissionsOnCommissionBonusChanges;
 use App\Listeners\InvalidateInvestmentCommissionsOnProjectChanges;
 use App\Listeners\InvalidateInvestmentCommissionsOnSchemaChanges;
+use App\Listeners\UpdateBillingStatusOnUserDetailsUpdate;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -31,6 +33,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SchemaUpdated::class => [
             InvalidateInvestmentCommissionsOnSchemaChanges::class,
+        ],
+        UserDetailsUpdated::class => [
+            UpdateBillingStatusOnUserDetailsUpdate::class,
         ],
     ];
 

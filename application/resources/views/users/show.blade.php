@@ -144,13 +144,8 @@
             <div class="d-flex justify-content-between align-items-center">
                 @if($user->canBeBilled())
                     <span class="text-muted">Erhält Abrechnungen</span>
-                @elseif($user->hasValidBankDetails())
-                    <b class="text-danger">Blockiert durch Status</b>
                 @else
-                    <div class="text-danger small">
-                        <b>Keine gültige Bankdaten angegeben.</b><br>
-                        Benutzer wird nicht abgerechnet.
-                    </div>
+                    <b class="text-danger">Blockiert durch Status</b>
                 @endif
 
                 <a href="{{ route('bills.preview', $user) }}" class="btn btn-sm btn-primary">

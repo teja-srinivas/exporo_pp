@@ -258,12 +258,6 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         });
     }
 
-    public function hasValidBankDetails(): bool
-    {
-        // Directly access attributes to not call any decryption logic
-        return !empty($this->details->attributes['bic']) && !empty($this->details->attributes['iban']);
-    }
-
     public function canBeBilled(): bool
     {
         return $this->can(BillPolicy::CAN_BE_BILLED_PERMISSION);
