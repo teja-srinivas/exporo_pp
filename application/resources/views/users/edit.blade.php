@@ -69,60 +69,7 @@
                 (welches dann alle zugewiesenen Nutzer betrifft!).
             @endslot
 
-            @php($skipPermissions = collect())
-
-            @foreach($user->roles->load('permissions')->sortBy('name') as $role)
-                <div class="form-group">
-                    <b>
-                        Rolle:
-                        <a href="{{ route('roles.show', $role) }}">
-                            {{ $role->getDisplayName() }}
-                        </a>
-                    </b>
-
-                    <ul class="small pl-4">
-                        @foreach($role->permissions->sortBy('name') as $permission)
-                            <li
-                                @if($skipPermissions->contains($permission->getKey()))
-                                    class="text-muted"
-                                    style="text-decoration: line-through"
-                                @endif
-                            >
-                                {{ $permission->name }}
-                            </li>
-
-                            @php($skipPermissions->push($permission->getKey()))
-                        @endforeach
-                    </ul>
-                </div>
-            @endforeach
-
-            <div class="form-group">
-                <b>Eigene:</b>
-
-                <div class="pl-2">
-                    @php($directPermissions = $user->getDirectPermissions())
-                    @foreach($directPermissions as $permission)
-                        @php($skipPermissions->push($permission->getKey()))
-
-                        @include('components.form.checkbox', [
-                            'label' => $permission->name,
-                            'default' => true,
-                            'disabled' => true,
-                        ])
-                    @endforeach
-
-                    @foreach($permissions->whereNotIn('id', $skipPermissions) as $permission)
-                        <input type="hidden" name="permissions[{{ $permission->getKey() }}]">
-
-                        @include('components.form.checkbox', [
-                            'label' => $permission->name,
-                            'name' => "permissions[{$permission->getKey()}]",
-                            'default' => $user->can($permission->name),
-                        ])
-                    @endforeach
-                </div>
-            </div>
+            @include('components.permissions', ['model' => $user])
         @endcard
 
         <div class="text-right my-3">
