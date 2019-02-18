@@ -91,37 +91,35 @@ class BillController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'release_at' => 'required|date',
+        $data = $this->validate($request, [
+            'release_at' => ['required', 'date'],
         ]);
 
         $releaseAt = Carbon::parse($data['release_at']);
 
-        // Fetch all users that can be billed
-        $users = User::query()->whereKey(Commission::query()
-            ->isBillable()
-            ->distinct()
-            ->pluck('commissions.user_id'));
-
-        // Pre-select all valid commission IDs
-        // Doing the isBillable check for each updates eats up DB time
-        $commissionIds = Commission::query()
-            ->select('user_id', 'id')
+        // Pre-select all valid commissions
+        /** @var Collection $byUser */
+        $byUser = Commission::query()
+            ->whereHas('user')
+            ->select('user_id', 'id', 'net')
+            ->with('user.details', 'user.permissions')
             ->isBillable()
             ->get()
-            ->mapToGroups(function ($row) {
-                return [
-                    $row['user_id'] => $row['id'],
-                ];
-            });
+            ->groupBy('user_id');
 
         Bill::disableAuditing();
 
         // Create bills for each user and assign it to their commissions
-        $users->each(function (User $user) use ($commissionIds, $releaseAt) {
+        $count = 0;
+
+        $byUser->each(function (Collection $commissions) use ($releaseAt, &$count) {
+            /** @var User $user */
+            $user = $commissions->first()->user;
+
             if (!$user->canBeBilled()) {
                 return;
             }
@@ -132,19 +130,19 @@ class BillController extends Controller
                 'released_at' => $releaseAt,
             ]);
 
-            Commission::query()->whereIn('id', $commissionIds[$user->id])->update([
+            Commission::query()->whereIn('id', $commissions->pluck('id'))->update([
                 'bill_id' => $bill->getKey(),
             ]);
 
             SendMail::dispatch([
-                'Provision' => format_money($bill->getTotalNet()),
+                'Provision' => format_money($commissions->sum('net')),
                 'Link' => 'exporo.com'
             ], $user, config('mail.templateIds.commissionCreated'))->onQueue('emailsLow');
+
+            $count++;
         });
 
-        Bill::enableAuditing();
-
-        flash_success($users->count() . ' Rechnung(en) wurden erstellt');
+        flash_success("$count Rechnung(en) wurden erstellt");
 
         return redirect('/bills/create');
     }
