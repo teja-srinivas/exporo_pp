@@ -101,6 +101,17 @@
                 <b>Eigene:</b>
 
                 <div class="pl-2">
+                    @php($directPermissions = $user->getDirectPermissions())
+                    @foreach($directPermissions as $permission)
+                        @php($skipPermissions->push($permission->getKey()))
+
+                        @include('components.form.checkbox', [
+                            'label' => $permission->name,
+                            'default' => true,
+                            'disabled' => true,
+                        ])
+                    @endforeach
+
                     @foreach($permissions->whereNotIn('id', $skipPermissions) as $permission)
                         <input type="hidden" name="permissions[{{ $permission->getKey() }}]">
 
