@@ -20,7 +20,7 @@ jobs:
             - composer-cache-
       - restore_cache:
           keys:
-            - vendor-{{ checksum "./composer.lock" }}
+            - vendor-{{ checksum "./application/composer.lock" }}
             - vendor-
       - run:
           name: install dependencies with composer
