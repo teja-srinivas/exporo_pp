@@ -43,6 +43,6 @@ class SendCommissionEmail extends Command
 
     private function getReleasedBills()
     {
-        return Bill::where('released_at', now()->subDay()->format('Y-m-d'))->get();
+        return Bill::query()->whereDate('released_at', now()->subDay())->get();
     }
 }

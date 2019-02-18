@@ -15,8 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('create:billpdf -live=1')->dailyAt('23:59:00');
-        $schedule->command('send:commissionEmail')->dailyAt('08:00:00');
+        $schedule->command(Commands\CreateBillPdf::class, ['--live'])->dailyAt('23:59:00');
+        $schedule->command(Commands\SendCommissionEmail::class)->dailyAt('08:00:00');
     }
 
     /**

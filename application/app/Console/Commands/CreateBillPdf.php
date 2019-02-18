@@ -13,7 +13,7 @@ class CreateBillPdf extends Command
      *
      * @var string
      */
-    protected $signature = 'create:billpdf {--live=}' ;
+    protected $signature = 'create:billpdf {--live}' ;
 
     /**
      * The console command description.
@@ -22,26 +22,18 @@ class CreateBillPdf extends Command
      */
     protected $description = 'Creates the bills for released commissions';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function handle()
     {
         $bills = $this->getReleasedBills();
+
         foreach ($bills as $bill) {
-            CreateBillPdfJob::dispatch($bill, $this->option('live') ?? null)->onQueue('createBillPdf');
+            CreateBillPdfJob::dispatch($bill, $this->hasOption('live'))->onQueue('createBillPdf');
         }
     }
 
     private function getReleasedBills()
     {
-        return (Bill::where('released_at', now()->format('Y-m-d'))->get());
+        return Bill::query()->whereDate('released_at', now())->get();
     }
 }
