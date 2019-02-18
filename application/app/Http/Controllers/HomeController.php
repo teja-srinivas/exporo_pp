@@ -23,25 +23,25 @@ class HomeController extends Controller
             'bills' => Bill::getDetailsPerUser($user->id)->released()->latest()->get(),
 
             // Stats
-            'total' => Commission::query()
-                ->forUser($user)
+            'pending' => Commission::query()
+                ->whereNull('reviewed_at')
                 ->whereNull('rejected_at')
+                ->whereNull('bill_id')
+                ->forUser($user)
                 ->afterLaunch()
                 ->sum('gross'),
 
             'approved' => Commission::query()
-                ->where(function (Builder $query) {
-                    $query->whereNotNull('reviewed_at');
-                })
+                ->whereNotNull('reviewed_at')
+                ->whereNull('bill_id')
                 ->forUser($user)
                 ->afterLaunch()
                 ->sum('gross'),
 
             'paid' => Commission::query()
                 ->join('bills', 'bill_id', 'bills.id')
-                ->forUser($user)
                 ->where('released_at', '<=', now())
-                ->afterLaunch()
+                ->forUser($user)
                 ->sum('gross'),
         ]);
     }

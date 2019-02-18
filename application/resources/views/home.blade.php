@@ -8,11 +8,11 @@
             <div class="row text-center">
                 <div class="col-sm border-sm-right mb-3 mb-sm-0">
                     Ausstehend
-                    <div class="h2 mb-1">{{ format_money(max(0, $total - $approved - $paid)) }}</div>
+                    <div class="h2 mb-1">{{ format_money(max(0, $pending)) }}</div>
                 </div>
                 <div class="col-sm border-sm-right mb-3 mb-sm-0">
                     Freigegeben
-                    <div class="h2 mb-1">{{ format_money($approved - $paid) }}</div>
+                    <div class="h2 mb-1">{{ format_money($approved) }}</div>
                 </div>
                 <div class="col-sm">
                     Ausgezahlt
