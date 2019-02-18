@@ -1,6 +1,6 @@
 <!-- Page Header -->
 <div class="row justify-content-between mb-5">
-    <div class="col-5 pt-5 mt-5">
+    <div class="col-6 pt-5 mt-5">
         <div class="mb-2 small pt-5">
             {{ $company->name }}&ensp;&bull;&ensp;{{ $company->street }}
             {{ $company->street_no }}&ensp;&bull;&ensp;{{ $company->postal_code }}
@@ -19,7 +19,7 @@
             {{ $user->details->address_zipcode }} {{ $user->details->address_city }}<br>
         </div>
     </div>
-    <div class="col-5 text-right small">
+    <div class="col-6 text-right small">
         <h3>{{ $company->name }}</h3>
 
         @unless(empty($company->phone_number))
