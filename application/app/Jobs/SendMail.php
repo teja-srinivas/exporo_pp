@@ -16,25 +16,36 @@ class SendMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $templateData;
-    protected $templateId;
-
-    /** @var User */
-    protected $user;
+    /** @var array */
+    protected $data;
 
     /** @var string */
     protected $mail;
 
-    public function __construct(array $templateData, $user, $templateId)
+    public function __construct(array $templateData, User $user, string $templateId)
     {
-        $this->user = $user;
-        $this->templateData = array_merge($templateData, [
-            'Anrede' => implode(' ', [$this->user->details->salutation === "male" ? 'Herr' : 'Frau', $this->user->details->title]),
-            'AnredeLang' => implode('', [$this->user->details->salutation === "male" ? 'Sehr geehrter Herr' : 'Sehr geehrte Frau', $this->user->details->title]),
-            'Vorname' => $this->user->first_name,
-            'Nachname' => $this->user->last_name,
-        ]);
-        $this->templateId = $templateId;
+        if (app()->environment() !== 'prod') {
+            $this->mail = 'stageapp@exporo.com';
+        } else {
+            $this->mail = $user->email;
+        }
+
+        $this->data = [
+            'personalizations' => [
+                [
+                    'dynamic_template_data' => array_merge($templateData, [
+                        'Anrede' => implode(' ', [
+                            $user->details->salutation === "male" ? 'Herr' : 'Frau',
+                            $user->details->title
+                        ]),
+                        'AnredeLang' => $user->getGreeting(),
+                        'Vorname' => $user->first_name,
+                        'Nachname' => $user->last_name,
+                    ]),
+                ],
+            ],
+            'template_id' => $templateId,
+        ];
     }
 
     /**
@@ -45,26 +56,11 @@ class SendMail implements ShouldQueue
      */
     public function handle(Mailer $mailer)
     {
-        if (env('APP_ENV') !== 'prod') {
-            $this->mail = 'stageapp@exporo.com';
-        } else {
-            $this->mail = $this->user->email;
-        }
-
         $mailer->raw(null, function (Message $message) {
             $message->to($this->mail);
             $message->from('partnerprogramm@exporo.com');
-
-            $data = [
-                'personalizations' => [
-                    [
-                        'dynamic_template_data' => $this->templateData
-                    ],
-                ],
-                'template_id' => $this->templateId,
-            ];
             $message->embedData(
-                config('mail.driver') === 'sendgrid' ? $data : json_encode($data),
+                config('mail.driver') === 'sendgrid' ? $this->data : json_encode($this->data),
                 SendgridTransport::SMTP_API_NAME
             );
         });
