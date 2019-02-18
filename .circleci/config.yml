@@ -23,12 +23,8 @@ jobs:
             - vendor-{{ checksum "./application/composer.lock" }}
             - vendor-
       - run:
-          name: set nova auth paramter
-          command: |
-            sed -i \
-              -e 's/CI_NOVA_USERNAME/${NOVA_USERNAME}/' \
-              -e 's/CI_NOVA_PASSWORD/${NOVA_PASSWORD}/' \
-              ./application/auth.json
+          name: set nova auth parameter
+          command: echo "{\"http-basic\":{\"nova.laravel.com\":{\"username\":\"${NOVA_USERNAME}\",\"password\":\"${NOVA_PASSWORD}\"}}}" > ./application/auth.json
       - run:
           name: install dependencies with composer
           command: cd application && composer install --no-dev --classmap-authoritative --no-progress --no-interaction
