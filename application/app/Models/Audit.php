@@ -35,7 +35,7 @@ class Audit extends \OwenIt\Auditing\Models\Audit
             ->map(function (array $entry) {
                 return array_map(function ($value) {
                     return is_string($value) ? Encryptable::decrypt($value) : $value;
-                },$entry);
+                }, $entry);
             })
 
             // Filter out those that are the same, because we encrypted them beforehand

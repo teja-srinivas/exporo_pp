@@ -28,10 +28,14 @@ final class CalculateCommissionsService
             $user = $parent;
 
             $parentBonus = $this->calculateBonus($investment, $parent);
-            if ($parentBonus === null) return null;
+            if ($parentBonus === null) {
+                return null;
+            }
 
             $childBonus = $this->calculateBonus($investment, $child);
-            if ($childBonus === null) return null;
+            if ($childBonus === null) {
+                return null;
+            }
 
             $bonus = $parentBonus - $childBonus;
         } else {
