@@ -37,6 +37,6 @@ jobs:
           paths:
             - ./cache/composer
       - save_cache:
-          key: vendor-{{ checksum "./composer.lock" }}
+          key: vendor-{{ checksum "./application/composer.lock" }}
           paths:
-            - ./vendor
+            - ./application/vendor
