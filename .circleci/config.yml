@@ -36,3 +36,7 @@ jobs:
           key: vendor-{{ checksum "./application/composer.lock" }}
           paths:
             - ./application/vendor
+
+      - run:
+          name: Install npm packages and build frontend assets
+          command: cd ./application && npm install && npm run production
