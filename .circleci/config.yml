@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  buildAndDeployStage:
     docker:
       - image: registry.gitlab.com/exporo/circleci-stretch-php-cli-node-awscli
     working_directory: ~/pp
@@ -54,3 +54,32 @@ jobs:
       - run:
           name: Update aws infrastructure - reload/restart services
           command: cd ./infrastructure && npm run aws
+
+  upsertAndDeployProd:
+    docker:
+      - image: registry.gitlab.com/exporo/circlecici-stretch-php-cli-node-awscli
+    working_directory: ~/pp
+    steps:
+      - checkout
+      - run:
+          name: configuring aws cli profile
+          command: |
+            aws configure set region eu-central-1 --profile pp-admin && \
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile pp-admin && \
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile pp-admin
+      - run:
+          name: update aws infrastructure - reload/restart services
+          command: cd ./infrastructure && npm install && npm run aws-prod
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - buildAndDeployStage
+      - hold:
+          type: approval
+          requires:
+            - buildAndDeployStage
+      - upsertAndDeployProd:
+          requires:
+            - hold

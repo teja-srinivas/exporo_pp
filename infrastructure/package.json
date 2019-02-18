@@ -5,7 +5,8 @@
   "version": "1.0.0",
   "scripts": {
     "docker": "npx exporo-cloud docker-x",
-    "aws": "npx exporo-cloud aws-x"
+    "aws": "npx exporo-cloud aws-x",
+    "aws-prod": "npx exporo-cloud aws-x --env prod"
   },
   "dependencies": {
     "exporo-cloud": "git+ssh://git@bitbucket.org/exporodev/exporo_infrastructure.git#2.2.0-dev1"
