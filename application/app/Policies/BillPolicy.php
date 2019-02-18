@@ -25,7 +25,7 @@ class BillPolicy extends BasePolicy
      */
     public function view(User $user, $model): bool
     {
-        return parent::view($user, $model) || $model->user_id === $user->id;
+        return parent::view($user, $model) || ($model->exists && $model->user_id === $user->id);
     }
 
     /**

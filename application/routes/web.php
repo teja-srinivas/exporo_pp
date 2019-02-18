@@ -33,7 +33,7 @@ Route::middleware(['verified'])->group(function () {
     Route::middleware(['bundle-selected', 'accepted', 'filled'])->group(function () {
         Route::get('authorization', 'AuthorizationController')->name('authorization.index');
         Route::get('bills/export', 'ExportBillsController')->name('bills.export');
-        Route::get('bills/preview/{user?}', 'BillController@preview')->name('bills.preview');
+        Route::get('bills/preview/{user}', 'BillController@preview')->name('bills.preview');
         Route::get('bills/download/{bill}', 'BillController@downloadBillFromS3')->name('bills.download');
         Route::resource('agbs', 'AgbController');
         Route::resource('banner-sets', 'BannerSetController')->names('banners.sets')->parameter('banner-sets', 'set');

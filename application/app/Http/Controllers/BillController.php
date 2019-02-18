@@ -49,20 +49,21 @@ class BillController extends Controller
         ]);
     }
 
-    public function preview(User $user = null, Request $request)
+    /**
+     * @param User $user
+     * @return Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function preview(User $user)
     {
-        if ($user === null) {
-            $user = $request->user();
-        }
-
         $this->authorize('view', new Bill(['user_id' => $user->id]));
 
         $investments = $this->mapForView($this->getBillableCommissionsForUser($user));
 
         return response()->view('bills.pdf.bill', $investments + [
-                'user' => $user,
-                'company' => optional($user->company),
-            ]);
+            'user' => $user,
+            'company' => optional($user->company),
+        ]);
     }
 
     /**
