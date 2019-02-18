@@ -25,7 +25,7 @@ class CreateBillsPdfs extends Command
 
     public function handle()
     {
-        $bills = $this->getReleasedBills();
+        $bills = $this->getBillsWithoutPDFs();
         $live = $this->hasOption('live');
 
         foreach ($bills as $bill) {
@@ -33,11 +33,8 @@ class CreateBillsPdfs extends Command
         }
     }
 
-    private function getReleasedBills()
+    private function getBillsWithoutPDFs()
     {
-        return Bill::query()
-            ->whereDate('released_at', now())
-            ->where('pdf_created', false)
-            ->get();
+        return Bill::query()->where('pdf_created', false)->get();
     }
 }

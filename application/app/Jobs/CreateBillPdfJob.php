@@ -28,7 +28,7 @@ class CreateBillPdfJob implements ShouldQueue
     /** @var array */
     protected $globalsParams;
 
-    public function __construct($bill, bool $live = false, string $type = 'pdf')
+    public function __construct(Bill $bill, bool $live = false, string $type = 'pdf')
     {
         $this->live = $live;
         $this->bill = $bill;
