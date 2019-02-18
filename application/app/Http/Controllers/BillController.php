@@ -130,7 +130,7 @@ class BillController extends Controller
                 'released_at' => $releaseAt,
             ]);
 
-            Commission::query()->whereIn('id', $commissions->pluck('id'))->update([
+            Commission::query()->whereKey($commissions->pluck('id'))->update([
                 'bill_id' => $bill->getKey(),
             ]);
 
