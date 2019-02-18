@@ -40,7 +40,7 @@ class ApiTokenService
      * @param array $params
      * @return string
      */
-    private function getIdentifier(string $service, array $params): string
+    protected function getIdentifier(string $service, array $params): string
     {
         return $service . '.' . implode('-', $params);
     }

@@ -16,6 +16,9 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  *
  * @property int $id
  * @property int $user_id
+ * @property bool $pdf_created
+ * @property float $net (Dynamic column for joins)
+ * @property float $gross (Dynamic column for joins)
  * @property User $user
  * @property Carbon|null $released_at
  * @property Carbon $created_at
@@ -37,6 +40,8 @@ class Bill extends Model implements AuditableContract
     ];
 
     protected $casts = [
+        'pdf_created' => 'bool',
+
         // They're dynamic columns, but if they exist - cast them
         'net' => 'float',
         'gross' => 'float',

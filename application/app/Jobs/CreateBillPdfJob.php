@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Bill;
 use App\Services\ApiTokenService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -15,12 +16,19 @@ class CreateBillPdfJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /** @var Bill */
     protected $bill;
+
+    /** @var bool */
     protected $live;
+
+    /** @var string */
     protected $type;
+
+    /** @var array */
     protected $globalsParams;
 
-    public function __construct($bill, $live = null, $type = 'pdf')
+    public function __construct($bill, bool $live = false, string $type = 'pdf')
     {
         $this->live = $live;
         $this->bill = $bill;
@@ -42,6 +50,7 @@ class CreateBillPdfJob implements ShouldQueue
     /**
      * @param ApiTokenService $service
      * @return void
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function handle(ApiTokenService $service)
     {
@@ -57,7 +66,12 @@ class CreateBillPdfJob implements ShouldQueue
         }
     }
 
-    private function getRequest(string $url)
+    /**
+     * @param string $url
+     * @return string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function getRequest(string $url): string
     {
         $client = new Client();
         $url = $url . '?' . http_build_query($this->globalsParams);
@@ -65,7 +79,7 @@ class CreateBillPdfJob implements ShouldQueue
         return $res->getBody()->getContents();
     }
 
-    private function storeInS3($result)
+    private function storeInS3(string $result): void
     {
         $folder = $this->live ? 'statements' : 'preview';
 

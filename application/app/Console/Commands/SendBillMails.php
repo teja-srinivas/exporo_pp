@@ -6,14 +6,14 @@ use Illuminate\Console\Command;
 use App\Models\Bill;
 use App\Jobs\SendMail;
 
-class SendCommissionEmail extends Command
+class SendBillMails extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'send:commissionEmail';
+    protected $signature = 'bill:mail';
 
     /**
      * The console command description.
@@ -33,7 +33,7 @@ class SendCommissionEmail extends Command
             $date = $bill->getBillingMonth();
 
             SendMail::dispatch([
-                'Provision' => format_money($bill->getTotalNet()),
+                'Provision' => format_money($bill->net),
                 'Link' => 'p.exporo.com',
                 'billing_month' => $date->format('F'),
                 'billing_year' => $date->format('Y'),
@@ -43,6 +43,13 @@ class SendCommissionEmail extends Command
 
     private function getReleasedBills()
     {
-        return Bill::query()->whereDate('released_at', now()->subDay())->get();
+        return Bill::query()
+            ->whereDate('released_at', now())
+            ->where('pdf_created', true)
+            ->join('commissions', 'bills.id', 'commissions.bill_id')
+            ->groupBy('bills.id')
+            ->select('bills.*')
+            ->selectRaw('sum(net) as net')
+            ->get();
     }
 }
