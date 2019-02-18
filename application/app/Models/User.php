@@ -29,6 +29,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $salutation
  * @property string $first_name
  * @property string $last_name
+ * @property string $email
  * @property Carbon $accepted_at
  * @property Carbon $rejected_at
  * @property Carbon $term_cancelled_at
