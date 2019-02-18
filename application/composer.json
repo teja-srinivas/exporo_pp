@@ -34,7 +34,8 @@
         "s-ichikawa/laravel-sendgrid-driver": "^2.0",
         "sentry/sentry-laravel": "^0.11.0",
         "spatie/laravel-permission": "^2.12",
-        "vyuldashev/nova-permission": "^1.4"
+        "vyuldashev/nova-permission": "^1.4",
+        "ext-json": "*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
