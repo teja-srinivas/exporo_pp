@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(Commands\CreateBillsPdfs::class, ['--live'])->hourlyAt(15);
+        $schedule->command(Commands\CreateBillsPdfs::class, ['--live'])->everyMinute();
         $schedule->command(Commands\SendBillMails::class)->hourly();
     }
 
