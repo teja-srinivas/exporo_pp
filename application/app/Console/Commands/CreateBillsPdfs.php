@@ -27,6 +27,9 @@ class CreateBillsPdfs extends Command
     {
         $bills = $this->getBillsWithoutPDFs();
         $live = $this->hasOption('live');
+        
+        $this->line("Creating PDFs for {$bills->count()} bill(s)");
+        $this->line("Running in live mode: " . ($live ? 'YES' : 'NO'));
 
         foreach ($bills as $bill) {
             CreateBillPdfJob::dispatch($bill, $live)->onQueue('createBillPdf');
