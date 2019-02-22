@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Bill;
 use App\Models\Commission;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class HomeController extends Controller
 {
@@ -17,10 +19,14 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request)
     {
+        /** @var User $user */
         $user = $request->user();
 
+        /** @var Collection $bills */
+        $bills = Bill::getDetailsPerUser($user->id)->released()->visible()->latest()->get();
+
         return response()->view('home', [
-            'bills' => Bill::getDetailsPerUser($user->id)->released()->latest()->get(),
+            'bills' => $bills,
 
             // Stats
             'pending' => Commission::query()
@@ -39,8 +45,7 @@ class HomeController extends Controller
                 ->sum('gross'),
 
             'paid' => Commission::query()
-                ->join('bills', 'bill_id', 'bills.id')
-                ->where('released_at', '<=', now())
+                ->whereIn('bill_id', $bills->pluck('id'))
                 ->forUser($user)
                 ->sum('gross'),
         ]);

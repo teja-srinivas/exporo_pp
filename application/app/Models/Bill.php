@@ -88,6 +88,11 @@ class Bill extends Model implements AuditableContract
         $query->whereNotNull('released_at')->where('released_at', '<=', $now ?? now());
     }
 
+    public function scopeVisible(Builder $query)
+    {
+        $query->where('pdf_created', true);
+    }
+
     public function getBillingMonth(): Carbon
     {
         return $this->released_at->startOfMonth()->subMonth(1);
