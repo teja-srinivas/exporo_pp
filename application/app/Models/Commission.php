@@ -40,6 +40,14 @@ class Commission extends Model implements AuditableContract
     use Auditable;
     use OptimusEncodedRouteKey;
 
+    /**
+     * The launch date of this application, before which
+     * we won't calculate any commissions.
+     *
+     * @var string
+     */
+    const LAUNCH_DATE = '2018-11-01';
+
     const TYPE_CORRECTION = 'correction';
 
     protected $casts = [
@@ -228,7 +236,7 @@ class Commission extends Model implements AuditableContract
 
         // Then only match against the legacy stuff
         $query->where(function (Builder $query) {
-            $startDate = Carbon::createFromDate(2018, 11, 1);
+            $startDate = Carbon::createFromFormat('Y-m-d', self::LAUNCH_DATE);
 
             $query->where(function (Builder $query) use ($startDate) {
                 $query->where('model_type', Investment::MORPH_NAME);
