@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\User as UserResource;
+use App\Jobs\SendMail;
 use App\Models\Bill;
 use App\Models\Commission;
 use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
-use App\Jobs\SendMail;
-use App\Policies\BillPolicy;
 use App\Services\ApiTokenService;
 use App\Traits\Encryptable;
 use App\Traits\Person;
@@ -31,7 +30,7 @@ class BillController extends Controller
      */
     public function index(Request $request)
     {
-        return view('bills.index', [
+        return response()->view('bills.index', [
             'bills' => Bill::getDetailsPerUser()->with('user')->get()->map(function (Bill $bill) use ($request) {
                 return [
                     'id' => $bill->getKey(),
@@ -91,7 +90,7 @@ class BillController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)

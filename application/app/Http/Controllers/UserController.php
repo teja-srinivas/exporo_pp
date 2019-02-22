@@ -14,6 +14,7 @@ use App\Policies\UserPolicy;
 use App\Repositories\UserRepository;
 use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,23 +54,24 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
         $this->authorize('create', User::class);
 
-        $data = $request->validate([
+        $data = $this->validate($request, [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'email' => 'required|unique:users,email',
         ]);
 
         $data['password'] = Hash::make(str_random());
-        $data['company_id'] = Company::first()->getKey();
+        $data['company_id'] = Company::query()->first()->getKey();
 
-        $user = User::forceCreate($data);
+        $user = User::query()->forceCreate($data);
 
         return redirect()->route('users.show', $user);
     }
@@ -88,7 +90,7 @@ class UserController extends Controller
         $user->load([
             'bonuses.type',
             'documents',
-            'agbs' => function ($query) {
+            'agbs' => function (BelongsToMany $query) {
                 $query->latest();
             },
         ]);
@@ -121,6 +123,7 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  User $user
+     * @param Request $request
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -193,8 +196,9 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param User $user
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Exception
      */
     public function destroy(User $user)
     {

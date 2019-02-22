@@ -21,7 +21,7 @@ class BonusBundleController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('commissions.bundles.index', [
+        return response()->view('commissions.bundles.index', [
             'bundles' => $bundles->groupBy('selectable'),
             'count' => $bundles->count(),
         ]);
@@ -34,14 +34,14 @@ class BonusBundleController extends Controller
      */
     public function create()
     {
-        return view('commissions.bundles.create');
+        return response()->view('commissions.bundles.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      * @throws \Throwable
      */

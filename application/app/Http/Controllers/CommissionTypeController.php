@@ -26,14 +26,14 @@ class CommissionTypeController extends Controller
      */
     public function create()
     {
-        return view('commissions.types.create');
+        return response()->view('commissions.types.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
@@ -44,7 +44,7 @@ class CommissionTypeController extends Controller
 
         $data['is_project_type'] = $request->has('is_project_type');
 
-        CommissionType::create($data);
+        CommissionType::query()->create($data);
 
         flash_success('Provisionstyp wurde angelegt');
 
@@ -53,7 +53,7 @@ class CommissionTypeController extends Controller
 
     /**
      * @param CommissionType $type
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Http\Response
      */
     public function show(CommissionType $type)
     {
@@ -70,7 +70,7 @@ class CommissionTypeController extends Controller
             })->values()
             : [];
 
-        return view('commissions.types.show', compact('type', 'projects'));
+        return response()->view('commissions.types.show', compact('type', 'projects'));
     }
 
     /**
@@ -81,7 +81,7 @@ class CommissionTypeController extends Controller
      */
     public function edit(CommissionType $type)
     {
-        return view('commissions.types.edit', compact('type'));
+        return response()->view('commissions.types.edit', compact('type'));
     }
 
     /**
@@ -89,7 +89,7 @@ class CommissionTypeController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  CommissionType $type
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, CommissionType $type)

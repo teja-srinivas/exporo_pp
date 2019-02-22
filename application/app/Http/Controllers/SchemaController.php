@@ -18,7 +18,7 @@ class SchemaController extends Controller
     {
         $this->authorize('list', Schema::class);
 
-        return view('schemas.index', [
+        return response()->view('schemas.index', [
             'schemas' => Schema::all(),
         ]);
     }
@@ -30,14 +30,14 @@ class SchemaController extends Controller
      */
     public function create()
     {
-        return view('schemas.create');
+        return response()->view('schemas.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
@@ -73,7 +73,7 @@ class SchemaController extends Controller
             ];
         });
 
-        return view('schemas.show', compact('schema', 'projects'));
+        return response()->view('schemas.show', compact('schema', 'projects'));
     }
 
     /**
@@ -84,7 +84,7 @@ class SchemaController extends Controller
      */
     public function edit(Schema $schema)
     {
-        return view('schemas.edit', compact('schema'));
+        return response()->view('schemas.edit', compact('schema'));
     }
 
     /**
@@ -92,7 +92,7 @@ class SchemaController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\Schema $schema
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Schema $schema)
@@ -113,7 +113,7 @@ class SchemaController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Schema $schema
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
     public function destroy(Schema $schema)

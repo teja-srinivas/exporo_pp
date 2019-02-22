@@ -79,7 +79,7 @@ class AgbController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Agb $agb
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Agb $agb)

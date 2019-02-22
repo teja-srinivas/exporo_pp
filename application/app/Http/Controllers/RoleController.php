@@ -52,7 +52,7 @@ class RoleController extends Controller
      *
      * @param  \App\Models\Role $role
      * @param UserRepository $userRepository
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Role $role, UserRepository $userRepository)
@@ -68,7 +68,7 @@ class RoleController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Role $role
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Role $role)
