@@ -18,7 +18,7 @@ final class CalculateCommissionsService
      * @param Investment $investment
      * @param User|null $parent
      * @param User|null $child
-     * @return array|null Either the final entry array or null, if we should skip the investment alltogether
+     * @return array|null Either the final entry array or null, if we should skip the investment altogether
      * @throws \Exception
      */
     public function calculate(Investment $investment, User $parent = null, User $child = null): ?array
