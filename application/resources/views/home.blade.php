@@ -24,28 +24,37 @@
 
     <h4 class="mt-4">Auszahlungen</h4>
 
-    <table class="bg-white shadow-sm accent-primary table table-borderless table-striped table-sm">
-        <thead>
-        <tr>
-            <th>Monat</th>
-            <th class="text-right">Summe</th>
-            <th class="text-right">Provisionen</th>
-            <th class="text-right" width="140">Erstellt</th>
-        </tr>
-        </thead>
-        <tbody>
-        @forelse($bills as $bill)
-            <tr>
-                <td><a href="{{ route('bills.download', $bill) }}">{{ $bill->getDisplayName() }}</a></td>
-                <td class="text-right">{{ format_money($bill->gross) }}</td>
-                <td class="text-right">{{ $bill->commissions }}</td>
-                <td class="text-right">{{ optional($bill->created_at)->format('d.m.Y') }}</td>
-            </tr>
-        @empty
-            <tr class="text-center text-muted">
-                <td colspan="5">Es wurden noch keine Abrechnungen ausgezahlt</td>
-            </tr>
-        @endforelse
-        </tbody>
-    </table>
+    @include('components.table', ['data' => [
+        'rows' => $bills->values(),
+        'columns' => [
+            [
+                'name' => 'name',
+                'label' => 'Name',
+                'format' => 'display',
+                'options' => [
+                    'name' => 'displayName',
+                ],
+                'link' => 'links.download',
+                'width' => 80,
+            ],
+            [
+                'name' => 'gross',
+                'label' => 'Summe',
+                'format' => 'currency',
+                'width' => 100,
+            ],
+            [
+                'name' => 'commissions',
+                'label' => 'Provisionen',
+                'format' => 'number',
+                'width' => 75,
+            ],
+            [
+                'name' => 'date',
+                'label' => 'Erstellt',
+                'format' => 'date',
+                'width' => 70,
+            ],
+        ],
+    ]])
 @endsection

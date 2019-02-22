@@ -26,7 +26,20 @@ class HomeController extends Controller
         $bills = Bill::getDetailsPerUser($user->id)->released()->visible()->latest('bills.created_at')->get();
 
         return response()->view('home', [
-            'bills' => $bills,
+            'bills' => $bills->map(function (Bill $bill) {
+                $date = optional($bill->released_at)->format('Y-m-d');
+
+                return [
+                    'displayName' => $bill->getDisplayName(),
+                    'gross' => $bill->gross,
+                    'commissions' => $bill->commissions,
+                    'name' => $date,
+                    'date' => $date,
+                    'links' => [
+                        'download' => route('bills.download', $bill),
+                    ],
+                ];
+            }),
 
             // Stats
             'pending' => Commission::query()
