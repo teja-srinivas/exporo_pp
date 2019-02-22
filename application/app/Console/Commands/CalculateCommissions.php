@@ -39,7 +39,7 @@ final class CalculateCommissions extends Command
         $this->line("Calculating $type commissions...");
         $this->getOutput()->progressStart($query->count());
 
-        $query->chunkSimple(self::PER_CHUNK, function (Collection $chunk) use ($type, $calculate, $flatten) {
+        $this->chunk($query, self::PER_CHUNK, function (Collection $chunk) use ($type, $calculate, $flatten) {
             $this->getOutput()->progressAdvance($chunk->count());
 
             $rows = $chunk->map($calculate);
@@ -101,7 +101,7 @@ final class CalculateCommissions extends Command
             $sums = $commissionsService->calculateNetAndGross(
                 // Temp values that come from the query (not actually from the Investor's table)
                 new UserDetails($investor->only('vat_included', 'vat_amount')),
-                (float)$investor->value
+                (float) $investor->value
             );
 
             return $sums + [
@@ -182,5 +182,30 @@ final class CalculateCommissions extends Command
         };
 
         $this->calculate(Investment::MORPH_NAME, $query, $callback, true);
+    }
+
+    /**
+     * Chunking that does not break with where clauses.
+     *
+     * @param Builder $query
+     * @param int $size
+     * @param callable $callable
+     * @return bool
+     */
+    protected function chunk(Builder $query, int $size, callable $callable)
+    {
+        $page = 1;
+
+        while (($chunk = $query->limit($size)->get())->count() > 0) {
+            if ($callable($chunk, $page++) === false) {
+                return false;
+            }
+
+            if ($chunk->count() < $size) {
+                break;
+            }
+        }
+
+        return true;
     }
 }

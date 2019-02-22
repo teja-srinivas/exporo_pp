@@ -46,23 +46,6 @@ class AppServiceProvider extends ServiceProvider
             return "<?php echo render_breadcrumps($exp); ?>";
         });
 
-        // Chunking that does not break with where clauses
-        Builder::macro('chunkSimple', function (int $size, callable $callable) {
-            $page = 1;
-
-            while (($chunk = $this->limit($size)->get())->count() > 0) {
-                if ($callable($chunk, $page++) === false) {
-                    return false;
-                }
-
-                if ($chunk->count() < $size) {
-                    break;
-                }
-            }
-
-            return true;
-        });
-
         Collection::macro('sortNatural', function ($callback) {
             return $this->sortBy($callback, SORT_NATURAL | SORT_FLAG_CASE);
         });
