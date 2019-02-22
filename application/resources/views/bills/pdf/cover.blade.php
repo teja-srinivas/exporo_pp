@@ -128,6 +128,15 @@
     @endif
 </div>
 
+@if(abs($totalGross - $total) === 0)
+<p class="text-justify mb-4">
+    Die vergütete Provision ist gem. § 4 Nr. 8a UStG ein steuerfreier Umsatz.
+    Für den Fall, dass die seitens der {{ $company->name }} gezahlten Provisionen als
+    umsatzsteuerpflichtig bewertet werden sollten, so gilt die oben abgerechnete
+    Provision als Bruttobetrag inkl. der zu zahlenden Umsatzsteuer.
+</p>
+@endif
+
 <p class="text-justify mb-4">
     Die Abrechnung ist sofort nach Erhalt auf Richtigkeit hin zu überprüfen.
     Sie gilt als anerkannt, sofern nicht innerhalb von 4 Wochen nach dem Erhalt,
