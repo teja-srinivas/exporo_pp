@@ -17,16 +17,4 @@ class AddEmailVerificationToUsers extends Migration
             $table->timestamp('email_verified_at')->nullable();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('email_verified_at');
-        });
-    }
 }

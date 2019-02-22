@@ -17,16 +17,4 @@ class AddBonusIdToInvestments extends Migration
             $table->string('bonus_id')->after('bonus')->nullable();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('investments', function (Blueprint $table) {
-            $table->removeColumn('bonus_id');
-        });
-    }
 }

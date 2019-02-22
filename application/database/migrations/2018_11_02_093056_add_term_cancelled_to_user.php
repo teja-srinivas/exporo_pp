@@ -18,16 +18,4 @@ class AddTermCancelledToUser extends Migration
                 ->after('rejected_at');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('term_cancelled_at');
-        });
-    }
 }

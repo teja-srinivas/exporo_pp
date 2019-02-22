@@ -21,16 +21,4 @@ class AddManageProjectsPermission extends Migration
             Permission::create(['name' => ProjectPolicy::PERMISSION])
         );
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Permission::query()->where('name', ProjectPolicy::PERMISSION)->delete();
-
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-    }
 }

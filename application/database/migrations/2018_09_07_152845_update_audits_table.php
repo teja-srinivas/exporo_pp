@@ -18,17 +18,4 @@ class UpdateAuditsTable extends Migration
             $table->index(['user_id', 'user_type']);
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('audits', function (Blueprint $table) {
-            $table->dropIndex(['user_id', 'user_type']);
-            $table->dropColumn('user_type');
-        });
-    }
 }

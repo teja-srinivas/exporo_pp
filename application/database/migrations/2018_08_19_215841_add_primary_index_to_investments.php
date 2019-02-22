@@ -17,16 +17,4 @@ class AddPrimaryIndexToInvestments extends Migration
             $table->index('id');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('investments', function (Blueprint $table) {
-            //$table->dropIndex('id');
-        });
-    }
 }

@@ -17,16 +17,4 @@ class AddIbanToUserDetails extends Migration
             $table->string('iban')->nullable();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('user_details', function (Blueprint $table) {
-            $table->dropColumn('iban');
-        });
-    }
 }

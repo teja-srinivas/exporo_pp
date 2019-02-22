@@ -24,16 +24,4 @@ class AddDetailsToCompanies extends Migration
             $table->string('website')->nullable();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('companies', function (Blueprint $table) {
-            $table->dropColumn(['street', 'street_no', 'postal_code', 'city', 'phone_number', 'fax_number', 'email', 'website' ]);
-        });
-    }
 }

@@ -31,14 +31,4 @@ class CreateLinksTable extends Migration
             'url' => 'https://p.exporo.de/registrierung/#reflink'
         ]);
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('links');
-    }
 }

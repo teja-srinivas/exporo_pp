@@ -17,16 +17,4 @@ class AddEffectiveFromAgb extends Migration
                 $table->date('effective_from')->after('is_default')->nullable();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('agbs', function (Blueprint $table) {
-            //not revertable
-        });
-    }
 }

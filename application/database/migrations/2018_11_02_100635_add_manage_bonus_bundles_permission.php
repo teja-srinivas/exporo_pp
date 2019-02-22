@@ -21,16 +21,4 @@ class AddManageBonusBundlesPermission extends Migration
             Permission::create(['name' => BonusBundlePolicy::PERMISSION])
         );
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Permission::query()->where('name', BonusBundlePolicy::PERMISSION)->delete();
-
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-    }
 }

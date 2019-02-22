@@ -17,14 +17,4 @@ class AddPrimaryToProjects extends Migration
             $table->primary('id');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        //
-    }
 }

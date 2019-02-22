@@ -48,14 +48,4 @@ class CopyOverheadCommissionBonuses extends Migration
 
         CommissionBonus::query()->insert($inserts->all());
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        CommissionBonus::query()->where('is_overhead', true)->delete();
-    }
 }

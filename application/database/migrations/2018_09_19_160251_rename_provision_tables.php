@@ -32,25 +32,4 @@ class RenameProvisionTables extends Migration
             // We're running a fresh migration, ignore this
         }
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::rename('commission_bonuses', 'provisions');
-        Schema::rename('commission_types', 'provision_types');
-
-        Schema::table('projects', function (Blueprint $table) {
-            $table->renameColumn('commission_type', 'provision_type');
-        });
-
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-
-        $permission = Permission::findByName(CommissionTypePolicy::PERMISSION);
-        $permission->name = 'manage provisionTypes';
-        $permission->save();
-    }
 }

@@ -19,16 +19,6 @@ class ChangeVatIncludedNullable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        //not revertable
-    }
-
     protected function fixEnumSupport(): void
     {
         // Fix for renaming/updating a column inside a table that has enums

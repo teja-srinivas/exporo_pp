@@ -17,16 +17,4 @@ class AddIsProjectTypeToCommissionTypes extends Migration
             $table->boolean('is_project_type')->default(false)->after('name');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('commission_types', function (Blueprint $table) {
-            $table->dropColumn('is_project_type');
-        });
-    }
 }

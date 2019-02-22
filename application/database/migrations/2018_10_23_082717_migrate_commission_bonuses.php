@@ -40,16 +40,6 @@ class MigrateCommissionBonuses extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        // Irreversable
-    }
-
     private function migrateBonusData()
     {
         $instance = new CommissionBonus();

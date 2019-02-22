@@ -17,16 +17,4 @@ class AddBonusAmountToCommissions extends Migration
             $table->decimal('bonus', 10, 4)->after('gross')->default(0);
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('commissions', function (Blueprint $table) {
-            $table->dropColumn('bonus');
-        });
-    }
 }

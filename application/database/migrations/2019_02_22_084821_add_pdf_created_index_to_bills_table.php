@@ -17,16 +17,4 @@ class AddPdfCreatedIndexToBillsTable extends Migration
             $table->index('pdf_created');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('bills', function (Blueprint $table) {
-            $table->dropIndex(['pdf_created']);
-        });
-    }
 }

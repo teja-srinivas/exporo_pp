@@ -22,16 +22,4 @@ class AddManageBannersPermission extends Migration
             Role::findByName(Role::INTERNAL)
         );
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Permission::query()->where('name', BannerPolicy::PERMISSION)->delete();
-
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-    }
 }

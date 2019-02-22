@@ -17,16 +17,4 @@ class AddWhitelistingToCommissionBundles extends Migration
             $table->boolean('child_user_selectable')->default(true)->after('selectable');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('bundles', function (Blueprint $table) {
-            $table->removeColumn('child_user_selectable');
-        });
-    }
 }

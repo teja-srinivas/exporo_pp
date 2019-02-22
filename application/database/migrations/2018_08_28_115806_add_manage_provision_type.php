@@ -21,16 +21,4 @@ class AddManageProvisionType extends Migration
             Permission::create(['name' => CommissionTypePolicy::PERMISSION])
         );
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Permission::query()->where('name', CommissionTypePolicy::PERMISSION)->delete();
-
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-    }
 }

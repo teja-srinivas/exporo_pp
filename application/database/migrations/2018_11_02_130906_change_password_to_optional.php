@@ -17,14 +17,4 @@ class ChangePasswordToOptional extends Migration
             $table->string('password')->nullable()->default(null)->change();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-       //not revertable
-    }
 }

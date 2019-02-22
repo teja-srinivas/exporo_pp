@@ -44,19 +44,6 @@ class MigrateMorphTosAfterModelNamespaceChange extends Migration
         app(PermissionRegistrar::class)->forgetCachedPermissions();
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        $this->migrateTable('audits', ['user_type', 'auditable_type'], self::TO, self::FROM);
-        $this->migrateTable('model_has_roles', ['model_type'], self::TO, self::FROM);
-
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-    }
-
     private function migrateTable(string $table, array $columns, string $fromPrefix, string $toPrefix)
     {
         foreach ($columns as $column) {

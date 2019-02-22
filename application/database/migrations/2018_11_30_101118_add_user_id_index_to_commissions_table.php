@@ -17,16 +17,4 @@ class AddUserIdIndexToCommissionsTable extends Migration
             $table->index('user_id');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('commissions', function (Blueprint $table) {
-            $table->dropIndex(['user_id']);
-        });
-    }
 }

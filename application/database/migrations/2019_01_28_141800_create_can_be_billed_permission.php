@@ -28,17 +28,4 @@ class CreateCanBeBilledPermission extends Migration
             Role::findByName(Role::PARTNER)
         );
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Role::query()->where('name', self::NAME)->delete();
-        Permission::query()->where('name', BillPolicy::CAN_BE_BILLED_PERMISSION)->delete();
-
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-    }
 }

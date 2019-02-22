@@ -32,18 +32,4 @@ class AddInitialRoles extends Migration
             Permission::create(['name' => 'view partner dashboard'])
         );
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Permission::query()->delete();
-        Role::query()->delete();
-
-        // Reset cached roles and permissions
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-    }
 }

@@ -22,16 +22,4 @@ class AddDownloadBillsPermissions extends Migration
             Role::findByName(Role::INTERNAL)
         );
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Permission::query()->where('name', BillPolicy::PERMISSION)->delete();
-
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-    }
 }

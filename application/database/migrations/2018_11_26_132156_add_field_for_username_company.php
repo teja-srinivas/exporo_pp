@@ -17,16 +17,4 @@ class AddFieldForUsernameCompany extends Migration
             $table->string('display_name')->nullable()->after('company');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('user_details', function (Blueprint $table) {
-            $table->dropColumn('display_name');
-        });
-    }
 }

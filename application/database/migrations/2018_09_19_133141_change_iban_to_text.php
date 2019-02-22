@@ -20,20 +20,6 @@ class ChangeIbanToText extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        $this->fixEnumSupport();
-
-        Schema::table('user_details', function (Blueprint $table) {
-            $table->string('iban')->change();
-        });
-    }
-
     protected function fixEnumSupport(): void
     {
         // Fix for renaming/updating a column inside a table that has enums

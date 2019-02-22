@@ -17,16 +17,4 @@ class AddProvisionTypeToProject extends Migration
             $table->string('provision_type')->nullable();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('projects', function (Blueprint $table) {
-            $table->dropColumn('provision_type');
-        });
-    }
 }

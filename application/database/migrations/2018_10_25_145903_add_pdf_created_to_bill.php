@@ -17,16 +17,4 @@ class AddPdfCreatedToBill extends Migration
             $table->boolean('pdf_created')->after('released_at')->default(0);
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('bills', function (Blueprint $table) {
-            $table->dropColumn('pdf_created');
-        });
-    }
 }

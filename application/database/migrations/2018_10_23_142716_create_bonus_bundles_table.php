@@ -29,15 +29,4 @@ class CreateBonusBundlesTable extends Migration
             $table->unique(['bonus_id', 'bundle_id']);
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('bundles');
-        Schema::dropIfExists('bonus_bundle');
-    }
 }

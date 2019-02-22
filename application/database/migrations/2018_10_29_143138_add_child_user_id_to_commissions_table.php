@@ -20,16 +20,4 @@ class AddChildUserIdToCommissionsTable extends Migration
                 ->index();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('commissions', function (Blueprint $table) {
-            $table->dropColumn('child_user_id');
-        });
-    }
 }

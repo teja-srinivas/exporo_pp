@@ -17,16 +17,4 @@ class AddRuntimeToProjects extends Migration
             $table->integer('runtime')->nullable();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('projects', function (Blueprint $table) {
-            $table->dropColumn('runtime');
-        });
-    }
 }

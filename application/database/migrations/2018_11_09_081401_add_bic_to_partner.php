@@ -17,16 +17,4 @@ class AddBicToPartner extends Migration
             $table->string('bic')->nullable()->after('iban');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('user_details', function (Blueprint $table) {
-            $table->dropColumn('bic');
-        });
-    }
 }

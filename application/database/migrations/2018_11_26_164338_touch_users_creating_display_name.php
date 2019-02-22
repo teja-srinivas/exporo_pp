@@ -18,14 +18,4 @@ class TouchUsersCreatingDisplayName extends Migration
             $user->touch();
         }
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        //not revertable
-    }
 }

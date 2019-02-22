@@ -21,16 +21,4 @@ class AddManageSchemasPermission extends Migration
             Permission::create(['name' => SchemaPolicy::PERMISSION])
         );
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Permission::query()->where('name', SchemaPolicy::PERMISSION)->delete();
-
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-    }
 }
