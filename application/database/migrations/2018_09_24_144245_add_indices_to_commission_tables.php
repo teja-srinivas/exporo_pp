@@ -27,8 +27,8 @@ class AddIndicesToCommissionTables extends Migration
     public function down()
     {
         Schema::table('commission_bonuses', function (Blueprint $table) {
-            $table->dropIndex('type_id');
-            $table->dropIndex('user_id');
+            $table->dropIndex(['type_id']);
+            $table->dropIndex(['user_id']);
         });
     }
 }

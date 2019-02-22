@@ -26,7 +26,7 @@ class AddUserIdIndexToCommissionsTable extends Migration
     public function down()
     {
         Schema::table('commissions', function (Blueprint $table) {
-            $table->dropIndex('user_id');
+            $table->dropIndex(['user_id']);
         });
     }
 }

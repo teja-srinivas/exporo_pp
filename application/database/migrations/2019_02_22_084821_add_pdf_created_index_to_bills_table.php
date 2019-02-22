@@ -26,7 +26,7 @@ class AddPdfCreatedIndexToBillsTable extends Migration
     public function down()
     {
         Schema::table('bills', function (Blueprint $table) {
-            $table->dropIndex('pdf_created');
+            $table->dropIndex(['pdf_created']);
         });
     }
 }
