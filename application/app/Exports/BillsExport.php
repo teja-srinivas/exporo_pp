@@ -32,8 +32,8 @@ class BillsExport implements FromCollection, WithHeadings, WithMapping
             ->with('user.details')
             ->join('commissions', 'bills.id', 'commissions.bill_id')
             ->select('bills.*')
-            ->selectRaw('sum(commissions.net) as totalNet')
-            ->selectRaw('sum(commissions.gross) as totalGross')
+            ->selectRaw('sum(commissions.net) as net')
+            ->selectRaw('sum(commissions.gross) as gross')
             ->groupBy('bills.id')
             ->whereIn('bills.id', $this->ids)
             ->get();
@@ -66,8 +66,8 @@ class BillsExport implements FromCollection, WithHeadings, WithMapping
      */
     public function map($bill): array
     {
-        $totalGross = (float) $bill->totalGross;
-        $totalNet = (float) $bill->totalNet;
+        $totalGross = $bill->gross;
+        $totalNet = $bill->net;
 
         return [
             $bill->user_id,
