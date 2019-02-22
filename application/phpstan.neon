@@ -1,0 +1,19 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+parameters:
+    level: 5
+    excludes_analyse:
+        - %rootDir%/../../../app/Nova/*
+    ignoreErrors:
+        - '#Access to an undefined property Illuminate\\Pagination\\LengthAwarePaginator::\$totalGross#'
+        - '#Call to an undefined method App\\Providers\\AppServiceProvider::sortBy()#'
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::forUser()#'
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::isBillable()#'
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::isOpen()#'
+        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::forUser()#'
+        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::isBillable()#'
+        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::isOpen()#'
+        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::uncancelled()#'
+        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::with()#'
+        - '#Parameter \#2 $contents of method Illuminate\\Contracts\\Filesystem\\Filesystem::put() expects resource|string, array<Illuminate\\Http\\UploadedFile>|Illuminate\\Http\\UploadedFile|null given\.#'
+        - '#PHPDoc tag @throws with type GuzzleHttp\\Exception\\GuzzleException is not subtype of Throwable#'
