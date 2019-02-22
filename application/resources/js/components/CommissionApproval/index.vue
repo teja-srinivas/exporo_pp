@@ -494,7 +494,7 @@
       <a class="btn btn-primary" href="/bills/create">Rechnungen Erstellen</a>
     </div>
 
-    <correction-entry-form @submit="createCustomEntry" />
+    <correction-entry-form :api="userDetailsApi" @submit="createCustomEntry" />
   </div>
 </template>
 
@@ -540,6 +540,10 @@ export default {
     },
     totals: {
       type: Object,
+      required: true,
+    },
+    userDetailsApi: {
+      type: String,
       required: true,
     },
   },
@@ -627,7 +631,7 @@ export default {
             sort: this.sortParams,
             ...this.filterParams,
           },
-        })
+        });
 
         this.meta = data.meta;
         this.commissions = map(data.data, commission => ({

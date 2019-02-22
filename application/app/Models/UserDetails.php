@@ -16,6 +16,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $iban
  * @property string $bic
  * @property string $title
+ * @property string $display_name
  * @property string $salutation
  */
 class UserDetails extends Model implements AuditableContract

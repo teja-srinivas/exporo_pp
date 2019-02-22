@@ -26,4 +26,6 @@ Route::middleware('auth:api')->name('api.')->namespace('Api')->group(function ()
         'commissions',
         'CommissionController@updateMultiple'
     )->name('commissions.updateBatch');
+
+    Route::get('users/details', 'UserDetailsController@index')->name('users.details.index');
 });

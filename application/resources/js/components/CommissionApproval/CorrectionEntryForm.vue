@@ -5,21 +5,30 @@
       <form @submit.prevent="submit">
         <div class="my-1 row align-items-center">
           <div class="col-sm-2">
-            <strong>Partner (ID):</strong>
+            <strong>Partner:</strong>
           </div>
-          <div class="col-sm-10">
-            <input
+          <div v-if="userDetails === null" class="text-muted col-sm-10 col-form-label">
+            Partner werden geladen...
+          </div>
+          <div v-else class="col-sm-10">
+            <select
               v-model.number="entry.userId"
-              type="text"
-              class="form-control form-control-sm mr-2"
-              placeholder="Partner-ID"
+              class="form-control form-control-sm"
             >
+              <option
+                v-for="(user, id) in userDetails"
+                :key="id"
+                :value="id"
+              >
+                {{ id }} - {{ user.displayName }}
+              </option>
+            </select>
           </div>
         </div>
 
         <div class="my-1 row align-items-center">
           <div class="col-sm-2 pr-1">
-            <strong>Betrag in EUR:</strong>
+            <strong>Brutto in EUR:</strong>
           </div>
           <div class="col-sm-10 d-flex">
             <input
@@ -29,8 +38,9 @@
               class="form-control form-control-sm mr-2"
               placeholder="Betrag in EUR"
             >
-            <strong class="text-danger text-nowrap align-self-center">
-              MwSt. ist partnerabhängig!
+            <strong class="text-nowrap align-self-center w-50">
+              Netto:
+              {{ net }}
             </strong>
           </div>
         </div>
@@ -70,16 +80,48 @@
 </template>
 
 <script>
+import axios from 'axios';
+
+import { formatMoney } from "../../utils/formatters";
+
 export default {
+  props: {
+    api: {
+      type: String,
+      required: true,
+    },
+  },
+
   data: () => ({
     entry: {},
+    userDetails: null,
   }),
 
+  computed: {
+    net() {
+      if (!this.entry.userId) {
+        return '';
+      }
+
+      const details = this.userDetails[this.entry.userId];
+      const { amount } = this.entry;
+      const factor = 1 + (details.vatAmount / 100);
+
+      return formatMoney(details.vatIncluded ? amount / factor : amount * factor);
+    },
+  },
+
   created() {
+    this.getUserDetails();
     this.createNewEntry();
   },
 
   methods: {
+    async getUserDetails() {
+      const { data } = await axios.get(this.api);
+      this.userDetails = data;
+    },
+
     submit() {
       this.$emit('submit', this.entry);
       this.createNewEntry();

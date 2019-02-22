@@ -19,6 +19,7 @@
         @php($vueData = [
             'api' => route('api.commissions.index'),
             'totals' => $totals,
+            'userDetailsApi' => route('api.users.details.index'),
         ])
         <vue data-is="commission-approval" data-props='@json($vueData)'></vue>
     @else
