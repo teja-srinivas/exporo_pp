@@ -8,19 +8,19 @@ use Tests\TestCase;
 class InvestmentTest extends TestCase
 {
     /** @test */
-    public function can_be_refunded()
+    public function it_is_refundable()
     {
         $investment = new Investment();
-        $this->assertEquals(true, $investment->isRefundable());
+        $this->assertTrue($investment->isRefundable());
 
         $investment = new Investment(['acknowledged_at' => now()]);
-        $this->assertEquals(true, $investment->isRefundable());
+        $this->assertTrue($investment->isRefundable());
 
         $investment = new Investment(['acknowledged_at' => now()->subDays(10)]);
-        $this->assertEquals(true, $investment->isRefundable());
+        $this->assertTrue($investment->isRefundable());
 
         $investment = new Investment(['acknowledged_at' => now()->subWeeks(2)]);
-        $this->assertEquals(false, $investment->isRefundable());
+        $this->assertFalse($investment->isRefundable());
 
         // TODO
     }
