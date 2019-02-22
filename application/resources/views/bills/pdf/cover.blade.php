@@ -144,11 +144,11 @@
     <i>{{ $company->name }}, {{ $company->street }}
     {{ $company->street_no }},
     {{ $company->postal_code }} {{ $company->city }}</i>
-    oder per Email an <a href="mailto:abrechnung@exporo.com">abrechnung@exporo.com</a>
+    oder per Email an <a href="mailto:{{ $company->email }}">{{ $company->email }}</a>
     widersprochen wurde.
 </p>
 
 <p>
     Fragen zur Abrechnung richten Sie bitte schriftlich an
-    <a href="mailto:abrechnung@exporo.com">abrechnung@exporo.com</a>.
+    <a href="mailto:{{ $company->email }}">{{ $company->email }}</a>.
 </p>
