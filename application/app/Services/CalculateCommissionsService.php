@@ -124,6 +124,8 @@ final class CalculateCommissionsService
                 case CommissionBonus::TYPE_FURTHER_INVESTMENT:
                     return !$investment->is_first_investment;
             }
+
+            return false;
         });
 
         return $bonus !== null ? $bonus->value : null;
