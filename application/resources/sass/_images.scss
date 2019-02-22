@@ -8,10 +8,6 @@
 
 @each $name, $url in (
   exporo-logo-blue: 'logo_exporo_blue.svg',
-  user-engagement: 'user_engagement.png',
-  werbemittel-einbinden: 'werbemittel_einbinden.png',
-  registrierung: 'registrierung.png',
-  provision: 'provision.png',
 ) {
   .image-#{$name} {
     background-image: url('../../images/#{$url}');
