@@ -23,7 +23,7 @@ class HomeController extends Controller
         $user = $request->user();
 
         /** @var Collection $bills */
-        $bills = Bill::getDetailsPerUser($user->id)->released()->visible()->latest()->get();
+        $bills = Bill::getDetailsPerUser($user->id)->released()->visible()->latest('bills.created_at')->get();
 
         return response()->view('home', [
             'bills' => $bills,
