@@ -7,7 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="api-token" content="{{ optional(auth()->user())->api_token ?? '' }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="@csrf">
 
     <title>
         {{ config('app.name')}}
@@ -136,8 +136,11 @@
         </footer>
     </div>
 
-    {{-- Transition flickering fix (https://github.com/twbs/bootstrap/issues/22014) --}}
-    <script>var __flickerFix = true;</script>
-    @section('scripts')
+    @hasSection('scripts')
+        @section('scripts')
+    @else
+        {{-- Transition flickering fix (https://github.com/twbs/bootstrap/issues/22014) --}}
+        <script>var __flickerFix = true;</script>
+    @endif
 </body>
 </html>
