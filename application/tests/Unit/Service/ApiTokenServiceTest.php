@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Service;
 
 use App\Services\ApiTokenService;
 use Tests\TestCase;
