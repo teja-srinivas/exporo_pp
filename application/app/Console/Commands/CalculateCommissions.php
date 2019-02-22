@@ -13,7 +13,7 @@ use App\Models\UserDetails;
 use App\Repositories\InvestmentRepository;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Console\Command;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Collection;
 
