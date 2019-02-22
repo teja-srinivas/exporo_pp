@@ -6,7 +6,6 @@ use App\Policies\BillPolicy;
 use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\PermissionRegistrar;
 
-
 class AddDownloadBillsPermissions extends Migration
 {
     /**

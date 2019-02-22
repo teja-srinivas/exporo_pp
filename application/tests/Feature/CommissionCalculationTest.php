@@ -130,7 +130,6 @@ final class CommissionCalculationTest extends TestCase
         );
     }
 
-
     public function testCommissionCalculation()
     {
         /** @var $service CalculateCommissionsService */
@@ -141,49 +140,11 @@ final class CommissionCalculationTest extends TestCase
         $this->assertEquals(375, $returnValue['gross']);
     }
 
-    public function testVatIncluded()
-    {
-        /** @var $service CalculateCommissionsService */
-        $service = $this->app->make(CalculateCommissionsService::class);
-
-        $tests = [
-            [
-                'included' => null,
-                'value' => 10,
-                'expected' => [
-                    'net' => 10,
-                    'gross' => 10,
-                ],
-            ],
-            [
-                'included' => false,
-                'value' => 10,
-                'expected' => [
-                    'net' => 10,
-                    'gross' => 10 * 1.19,
-                ],
-            ],
-            [
-                'included' => true,
-                'value' => 10,
-                'expected' => [
-                    'net' => 10 / 1.19,
-                    'gross' => 10,
-                ],
-            ],
-        ];
-
-        foreach ($tests as $entry) {
-            $result = $service->calculateNetAndGross($entry['included'], $entry['value']);
-            $this->assertEquals($entry['expected'], $result, 'Vat included is: ' . var_export($entry['included'], true));
-        }
-    }
-
     public function testParentIsCalculated()
     {
         $service = $this->app->make(CalculateCommissionsService::class);
-        $returnValue = $service->calculate(Investment::find(2), User::find(1), User::find(2));
-        $this->assertEquals( 202.5 ,$returnValue['net']);
-        $this->assertEquals( 250 ,$returnValue['gross']);
+        $returnValue = $service->calculate(Investment::query()->find(2), User::query()->find(1), User::query()->find(2));
+        $this->assertEquals(202.5, $returnValue['net']);
+        $this->assertEquals(250, $returnValue['gross']);
     }
 }

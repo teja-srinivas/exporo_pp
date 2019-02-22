@@ -28,8 +28,7 @@ class ConvertVatIncludedToVatStatus extends Migration
         $dbPlatform = $doctrine->getSchemaManager()->getDatabasePlatform();
         $dbPlatform->registerDoctrineTypeMapping('enum', 'string');
 
-        Schema::table('user_details', function(Blueprint $table)
-        {
+        Schema::table('user_details', function (Blueprint $table) {
             $table->decimal('vat_amount', 8, 2)->default(0)->change();
             $table->boolean('vat_included')->nullable(false)->default(false)->change();
         });
