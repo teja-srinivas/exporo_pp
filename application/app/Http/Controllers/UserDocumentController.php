@@ -49,7 +49,7 @@ class UserDocumentController extends Controller
 
         $this->authorize('list', Document::class);
 
-        $documents = Document::orderBy('name')->get();
+        $documents = Document::query()->orderBy('name')->get();
 
         return response()->view('documents.index', compact('documents'));
     }
@@ -65,14 +65,14 @@ class UserDocumentController extends Controller
     {
         $this->authorize('create', Document::class);
 
-        $user = User::find($request->get('user_id'));
-
         $users = User::query()
             ->orderBy('id')
             ->pluck('id')
             ->mapWithKeys(function (int $id) {
                 return [$id => '#' . $id];
             });
+
+        $user = $users->get($request->get('user_id'));
 
         return response()->view('documents.create', compact('user', 'users'));
     }
@@ -81,7 +81,7 @@ class UserDocumentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Throwable
      */
@@ -89,7 +89,7 @@ class UserDocumentController extends Controller
     {
         $this->authorize('create', Document::class);
 
-        $request->validate([
+        $this->validate($request, [
             'user' => 'required|exists:users,id',
             'name' => 'required|string',
             'file' => 'required|mimes:pdf',
@@ -139,14 +139,14 @@ class UserDocumentController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\Document $document
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Throwable
      */
     public function update(Request $request, Document $document)
     {
         $this->authorize('update', $document);
 
-        $data = $request->validate([
+        $data = $this->validate($request, [
             'name' => 'required|string',
             'file' => 'nullable|mimes:pdf',
             'description' => 'nullable|string',
@@ -177,7 +177,7 @@ class UserDocumentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Document $document
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Document $document)

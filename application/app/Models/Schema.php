@@ -49,10 +49,13 @@ class Schema extends Model implements AuditableContract
      * This caches the node tree as well as
      * the variable replacement done via regex.
      *
-     * @var Node
+     * @var Node|null
      */
     protected $parsedFormula;
 
+    /**
+     * @var array|null
+     */
     protected $variableNames;
 
 

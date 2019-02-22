@@ -25,7 +25,7 @@ class BasePolicy
     /**
      * BasePolicy constructor.
      *
-     * @param $permission
+     * @param string $permission
      */
     protected function __construct(string $permission)
     {

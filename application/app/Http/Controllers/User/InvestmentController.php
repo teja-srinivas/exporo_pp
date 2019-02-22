@@ -21,7 +21,7 @@ class InvestmentController extends Controller
     {
         $this->authorizeViewingUser($user, $request);
 
-        return view('users.investments.index', [
+        return response()->view('users.investments.index', [
             'user' => $user,
             'investments' => $user->investments()
                 ->join('projects', 'projects.id', 'investments.project_id')

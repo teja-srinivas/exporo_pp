@@ -9,20 +9,9 @@ use App\Traits\Person;
 class UserObserver
 {
     /**
-     * Handle the user "created" event.
-     *
-     * @param App\Models\User  $user
-     * @return void
-     */
-    public function created(User $user)
-    {
-        //
-    }
-
-    /**
      * Handle the user "updated" event.
      *
-     * @param  App\Models\User $user
+     * @param  \App\Models\User $user
      * @return void
      */
     public function updated(User $user)
@@ -40,44 +29,10 @@ class UserObserver
 
     private function getNewDisplayName(UserDetails $userDetails, User $user): string
     {
-
         if ($userDetails->company) {
             return $userDetails->company;
         }
 
         return Person::anonymizeName($user->first_name, $user->last_name);
-    }
-
-    /**
-     * Handle the user "deleted" event.
-     *
-     * @param  \App\User  $user
-     * @return void
-     */
-    public function deleted(User $user)
-    {
-        //
-    }
-
-    /**
-     * Handle the user "restored" event.
-     *
-     * @param  App\Models\User $user
-     * @return void
-     */
-    public function restored(User $user)
-    {
-        //
-    }
-
-    /**
-     * Handle the user "force deleted" event.
-     *
-     * @param  App\Models\User $user
-     * @return void
-     */
-    public function forceDeleted(User $user)
-    {
-        //
     }
 }

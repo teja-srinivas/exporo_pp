@@ -3,12 +3,13 @@
 namespace App\Http\ViewComposers;
 
 use App\Models\Agb;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class RegisterComposer
 {
     /**
-     * @var Agb
+     * @var Collection
      */
     private $agbs;
 

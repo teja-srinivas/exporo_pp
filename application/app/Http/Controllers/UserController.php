@@ -32,7 +32,7 @@ class UserController extends Controller
         $this->authorize('list', User::class);
 
         return response()->view('users.index', [
-            'users' => $userRepository->forTableView(User::query()),
+            'users' => $userRepository->forTableView(),
         ]);
     }
 

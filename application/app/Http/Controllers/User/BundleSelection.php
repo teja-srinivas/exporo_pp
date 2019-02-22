@@ -30,7 +30,7 @@ class BundleSelection extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function index(Request $request)
     {
@@ -47,7 +47,7 @@ class BundleSelection extends Controller
             return $this->selectAndRedirect($user, $bundles->first());
         }
 
-        return view('users.bundle-selection', [
+        return response()->view('users.bundle-selection', [
             'bundles' => $bundles,
         ]);
     }
@@ -56,7 +56,7 @@ class BundleSelection extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
@@ -66,7 +66,7 @@ class BundleSelection extends Controller
             'bundle' => ['required', Rule::exists(
                 (new BonusBundle)->getTable(),
                 'id'
-            )->where('selectable', true)],
+            )->where('selectable', '1')],
         ]);
 
         return $this->selectAndRedirect(

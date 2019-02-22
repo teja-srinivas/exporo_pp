@@ -11,7 +11,7 @@ class BannerSetController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
@@ -26,7 +26,7 @@ class BannerSetController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
@@ -81,7 +81,7 @@ class BannerSetController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  BannerSet $set
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(BannerSet $set)
@@ -121,7 +121,7 @@ class BannerSetController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  BannerSet $set
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(BannerSet $set)

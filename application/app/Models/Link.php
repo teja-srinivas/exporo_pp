@@ -11,7 +11,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property int $id
  * @property string $title
  * @property string $description
- * @property string url
+ * @property string $url
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */

@@ -18,7 +18,7 @@ class CommissionDetails extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        return view('users.commission-details', [
+        return response()->view('users.commission-details', [
             'bonuses' => $user->bonuses->where('is_overhead', false),
         ]);
     }

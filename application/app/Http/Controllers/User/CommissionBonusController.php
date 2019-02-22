@@ -25,7 +25,7 @@ class CommissionBonusController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param User $user
      * @param  \App\Models\CommissionBonus $commissionBonus
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, User $user, CommissionBonus $commissionBonus)
     {
@@ -40,7 +40,7 @@ class CommissionBonusController extends Controller
      *
      * @param User $user
      * @param  \App\Models\CommissionBonus $commissionBonus
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
     public function destroy(User $user, CommissionBonus $commissionBonus)

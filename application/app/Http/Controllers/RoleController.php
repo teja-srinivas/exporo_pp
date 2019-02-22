@@ -28,20 +28,21 @@ class RoleController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
         $this->authorize('create', Role::class);
 
-        $data = $request->validate([
+        $data = $this->validate($request, [
             'name' => 'required|unique:roles,name',
             'permissions' => 'nullable|array',
         ]);
 
         $role = Role::create(['name' => $data['name']]);
-        $role->givePermissionTo(Permission::whereIn('id', array_keys($data['permissions']))->get());
+        $role->givePermissionTo(Permission::query()->whereIn('id', array_keys($data['permissions']))->get());
 
         return redirect()->route('roles.show', $role);
     }
@@ -51,7 +52,7 @@ class RoleController extends Controller
      *
      * @param  \App\Models\Role $role
      * @param UserRepository $userRepository
-     * @return void
+     * @return \Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Role $role, UserRepository $userRepository)
@@ -67,7 +68,7 @@ class RoleController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Role $role
-     * @return void
+     * @return \Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Role $role)
@@ -84,14 +85,15 @@ class RoleController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\Role $role
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Role $role)
     {
         $this->authorize('update', Role::class);
 
-        $data = $request->validate([
+        $data = $this->validate($request, [
             'name' => 'unique:roles,name,' . $role->id,
             'permissions' => 'nullable|array',
         ]);
@@ -100,7 +102,7 @@ class RoleController extends Controller
             $role->fill(['name' => $data['name']])->save();
         }
 
-        $role->syncPermissions(Permission::whereIn('id', array_keys($data['permissions']))->get());
+        $role->syncPermissions(Permission::query()->whereIn('id', array_keys($data['permissions']))->get());
 
         flash_success();
 
@@ -111,8 +113,9 @@ class RoleController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Role $role
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Exception
      */
     public function destroy(Role $role)
     {
@@ -127,6 +130,6 @@ class RoleController extends Controller
 
     protected function getPermissions()
     {
-        return Permission::orderBy('name')->get(['id', 'name']);
+        return Permission::query()->orderBy('name')->get(['id', 'name']);
     }
 }

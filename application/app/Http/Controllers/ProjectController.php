@@ -12,7 +12,7 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -42,7 +42,7 @@ class ProjectController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function show(Project $project)
     {
@@ -60,7 +60,7 @@ class ProjectController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\Project $project
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Project $project)

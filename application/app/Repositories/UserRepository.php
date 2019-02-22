@@ -9,8 +9,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 class UserRepository
 {
-    public function forTableView(Builder $query)
+    public function forTableView(Builder $query = null)
     {
+        if ($query === null) {
+            $query = User::query();
+        }
+
         return $query
             ->leftJoin('user_details', 'user_details.id', 'users.id')
             ->addSelect('company')

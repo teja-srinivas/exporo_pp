@@ -12,19 +12,19 @@ use App\Models\Project;
 use App\Models\Role;
 use App\Models\Schema;
 use App\Models\User;
+use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class SidebarComposer
 {
     /**
-     * @var \App\Models\User|null
+     * @var \Illuminate\Contracts\Auth\Authenticatable|\App\Models\User|null
      */
     private $user;
 
     /**
-     * @var \Illuminate\Contracts\Auth\Access\Gate
+     * @var Gate
      */
     private $gate;
 
@@ -34,10 +34,10 @@ class SidebarComposer
     private $request;
 
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, Gate $gate)
     {
-        $this->user = auth()->user();
-        $this->gate = Gate::forUser($this->user);
+        $this->user = $request->user();
+        $this->gate = $gate->forUser($this->user);
         $this->request = $request;
     }
 

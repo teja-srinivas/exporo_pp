@@ -48,7 +48,7 @@ class AgbController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Throwable
      */
@@ -79,7 +79,7 @@ class AgbController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Agb $agb
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Agb $agb)
@@ -110,7 +110,7 @@ class AgbController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\Agb $agb
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Throwable
      */
@@ -151,7 +151,7 @@ class AgbController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Agb $agb
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
     public function destroy(Agb $agb)
@@ -172,17 +172,20 @@ class AgbController extends Controller
      *
      * @param Agb $agb
      * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function download(Agb $agb)
     {
         abort_unless(Storage::disk('s3')->exists(Agb::DIRECTORY . '/' . $agb->name), Response::HTTP_NOT_FOUND);
+
         $file = Storage::disk('s3')->get(Agb::DIRECTORY . '/' . $agb->name);
-            return response($file, 200, [
-                'Content-Type' => 'application/pdf',
-                'Content-Description' => 'File Transfer',
-                'Content-Disposition' => 'attachment; filename=' . $agb->getReadableFilename(),
-                'filename' => $agb->getReadableFilename(),
-            ]);
+
+        return response($file, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Description' => 'File Transfer',
+            'Content-Disposition' => 'attachment; filename=' . $agb->getReadableFilename(),
+            'filename' => $agb->getReadableFilename(),
+        ]);
     }
 
     /**

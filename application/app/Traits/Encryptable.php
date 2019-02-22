@@ -20,7 +20,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 trait Encryptable
 {
     /**
-     * @param $key
+     * @param mixed $key
      *
      * @return bool
      */
@@ -33,7 +33,7 @@ trait Encryptable
     /**
      * Decrypt a value.
      *
-     * @param $value
+     * @param mixed $value
      *
      * @return string
      */
@@ -46,7 +46,7 @@ trait Encryptable
     /**
      * Encrypt a value.
      *
-     * @param $value
+     * @param mixed $value
      *
      * @return string
      */
@@ -64,7 +64,7 @@ trait Encryptable
      * Extend the Eloquent method so properties present in
      * $encrypt are decrypted when directly accessed.
      *
-     * @param $key  The attribute key
+     * @param mixed $key  The attribute key
      *
      * @return string
      */
@@ -84,8 +84,8 @@ trait Encryptable
      * Extend the Eloquent method so properties present in
      * $encrypt are encrypted whenever they are set.
      *
-     * @param $key      The attribute key
-     * @param $value    Attribute value to set
+     * @param mixed $key The attribute key
+     * @param mixed $value Attribute value to set
      *
      * @return mixed
      */
@@ -115,7 +115,7 @@ trait Encryptable
      * $encrypt are decrypted when toArray()
      * or toJson() is called.
      *
-     * @return mixed
+     * @return array
      */
     public function getArrayableAttributes()
     {
@@ -134,7 +134,7 @@ trait Encryptable
      * Decrypts the given value, but silently fails
      * in case we got legacy data.
      *
-     * @param $value
+     * @param mixed $value
      * @return mixed
      */
     public static function decrypt($value)

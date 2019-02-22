@@ -10,7 +10,7 @@ class LinkController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -22,7 +22,7 @@ class LinkController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
@@ -36,7 +36,7 @@ class LinkController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -59,7 +59,7 @@ class LinkController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Link $link
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Link $link)
@@ -76,7 +76,7 @@ class LinkController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\Link $link
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      * @throws \Throwable
      */
