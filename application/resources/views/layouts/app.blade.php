@@ -7,7 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="api-token" content="{{ optional(auth()->user())->api_token ?? '' }}">
-    <meta name="csrf-token" content="@csrf">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>
         {{ config('app.name')}}
