@@ -11,12 +11,12 @@ class BillTest extends TestCase
     public function bills_can_be_released()
     {
         $bill = new Bill(['released_at' => now()->addWeek()]);
-        $this->assertEquals(false, $bill->isReleased());
+        $this->assertFalse($bill->isReleased());
 
         $bill = new Bill(['released_at' => now()->startOfDay()]);
-        $this->assertEquals(true, $bill->isReleased());
+        $this->assertTrue($bill->isReleased());
 
         $bill = new Bill();
-        $this->assertEquals(false, $bill->isReleased());
+        $this->assertFalse($bill->isReleased());
     }
 }
