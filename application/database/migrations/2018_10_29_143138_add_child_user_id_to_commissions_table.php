@@ -15,6 +15,7 @@ class AddChildUserIdToCommissionsTable extends Migration
     {
         Schema::table('commissions', function (Blueprint $table) {
             $table->unsignedInteger('child_user_id')
+                ->default(0)
                 ->after('user_id')
                 ->index();
         });

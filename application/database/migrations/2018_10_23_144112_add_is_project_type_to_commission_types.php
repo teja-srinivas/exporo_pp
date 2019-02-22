@@ -14,7 +14,7 @@ class AddIsProjectTypeToCommissionTypes extends Migration
     public function up()
     {
         Schema::table('commission_types', function (Blueprint $table) {
-            $table->boolean('is_project_type')->after('name');
+            $table->boolean('is_project_type')->default(false)->after('name');
         });
     }
 

@@ -14,7 +14,7 @@ class AddIsOverheadToCommissionTypes extends Migration
     public function up()
     {
         Schema::table('commission_bonuses', function (Blueprint $table) {
-            $table->boolean('is_overhead')->after('is_percentage');
+            $table->boolean('is_overhead')->default(false)->after('is_percentage');
         });
     }
 

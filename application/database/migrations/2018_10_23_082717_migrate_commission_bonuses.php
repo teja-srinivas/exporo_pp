@@ -20,9 +20,9 @@ class MigrateCommissionBonuses extends Migration
         });
 
         Schema::table('commission_bonuses', function (Blueprint $table) {
-            $table->string('calculation_type')->after('user_id');
-            $table->decimal('value', 10, 4)->after('calculation_type');
-            $table->boolean('is_percentage')->after('value');
+            $table->string('calculation_type')->default('')->after('user_id');
+            $table->decimal('value', 10, 4)->default(0)->after('calculation_type');
+            $table->boolean('is_percentage')->default(false)->after('value');
             $table->timestamp('accepted_at')->nullable()->after('is_percentage');
             $table->softDeletes();
 
