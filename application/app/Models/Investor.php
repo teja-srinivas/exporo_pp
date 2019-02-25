@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Carbon;
 use App\Traits\Encryptable;
-use App\Traits\Importable;
 use App\Traits\Person;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
@@ -29,7 +28,6 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 class Investor extends Model implements AuditableContract
 {
     use Auditable;
-    use Importable;
     use OptimusEncodedRouteKey;
     use Encryptable;
     use Person;

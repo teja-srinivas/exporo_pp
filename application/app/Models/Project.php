@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Events\ProjectUpdated;
-use App\Traits\Importable;
 use Carbon\Carbon;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Model;
@@ -29,7 +28,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Project extends Model
 {
-    use Importable;
     use OptimusEncodedRouteKey;
 
     public $incrementing = false;
