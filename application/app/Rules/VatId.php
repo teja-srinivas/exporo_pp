@@ -2,11 +2,20 @@
 
 namespace App\Rules;
 
-use DvK\Laravel\Vat\Facades\Validator;
+use DvK\Vat\Validator;
 use Illuminate\Contracts\Validation\Rule;
 
 class VatId implements Rule
 {
+    /** @var Validator */
+    private $validator;
+
+
+    public function __construct(Validator $validator)
+    {
+        $this->validator = $validator;
+    }
+
     /**
      * Determine if the validation rule passes.
      *
@@ -16,7 +25,7 @@ class VatId implements Rule
      */
     public function passes($attribute, $value)
     {
-        return Validator::validateFormat($value);
+        return $this->validator->validateFormat($value);
     }
 
     /**
