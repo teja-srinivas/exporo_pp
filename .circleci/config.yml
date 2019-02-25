@@ -21,8 +21,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - composer-cache-dev-{{ .Environment.CIRCLE_SHA1 }}
-            - composer-cache-dev-
+            - composer-cache-{{ .Environment.CIRCLE_SHA1 }}
+            - composer-cache-
 
       - restore_cache:
           keys:
@@ -38,19 +38,9 @@ jobs:
           command: cd application && ./vendor/bin/phpunit
 
       - save_cache:
-          key: composer-cache-dev-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - ./cache/composer
-
-      - save_cache:
           key: vendor-dev-{{ checksum "./application/composer.lock" }}
           paths:
             - ./application/vendor
-
-      - restore_cache:
-          keys:
-            - composer-cache-{{ .Environment.CIRCLE_SHA1 }}
-            - composer-cache-
 
       - restore_cache:
           keys:
