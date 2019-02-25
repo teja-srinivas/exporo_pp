@@ -1,4 +1,5 @@
 .php_cs.cache
 /.idea
+/application/data/redis/dump.rdb
 /application/node_modules
 /infrastructure/node_modules
