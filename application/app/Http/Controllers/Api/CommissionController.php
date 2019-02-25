@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Console\Commands\CalculateCommissions;
 use App\Http\Controllers\Controller;
+use App\Http\Helper\Request\FieldParser;
 use App\Http\Resources\Commission as CommissionResource;
 use App\Models\Commission;
 use App\Models\Investment;
@@ -62,37 +63,6 @@ class CommissionController extends Controller
                 'totalGross' => $results->totalGross,
             ],
         ]);
-    }
-
-    private function parseSortAndFilter(Request $request)
-    {
-        // Filter is a simple array
-        $filters = $request->get('filter', []);
-
-        // Sort works via column names, descending marked via "-" prefix
-        // http://jsonapi.org/format/#fetching-sorting
-        $sort = collect(explode(',', $request->get('sort', '')))
-            ->filter()
-            ->mapWithKeys(function ($column) {
-                $descending = strpos($column, '-') === 0;
-                $name = $descending ? substr($column, 1) : $column;
-
-                return [
-                    $name => $descending ? 'desc' : 'asc',
-                ];
-            });
-
-        return collect(array_unique(array_merge(
-            array_keys($filters),
-            array_keys($sort->all())
-        )))->mapWithKeys(function ($column) use ($filters, $sort) {
-            return [
-                $column => [
-                    'filter' => $filters[$column] ?? '',
-                    'order' => $sort[$column] ?? '',
-                ],
-            ];
-        });
     }
 
     /**
@@ -265,38 +235,38 @@ class CommissionController extends Controller
         Request $request,
         bool $forUpdate = false
     ): Builder {
-        $columns = $this->parseSortAndFilter($request);
+        $fields = FieldParser::fromRequest($request);
 
         return $query
             ->where('commissions.user_id', '>', 0)
-            ->where('on_hold', $columns->has('onHold'))
-            ->when(true, function (Builder $query) use ($columns) {
-                if ($columns->has('rejected')) {
+            ->where('on_hold', $fields->has('onHold'))
+            ->when(true, function (Builder $query) use ($fields) {
+                if ($fields->filters('rejected')) {
                     $query->whereNotNull('rejected_at');
                     $query->whereNull('bill_id');
                 } else {
                     $query->whereNull('rejected_at');
                 }
 
-                if ($columns->has('reviewed')) {
+                if ($fields->filters('reviewed')) {
                     $query->whereNotNull('reviewed_at');
                 } else {
                     $query->whereNull('reviewed_at');
                 }
             })
-            ->when($columns->has('user'), function (Builder $query) use ($columns, $forUpdate) {
-                $user = $columns['user'];
+            ->when($fields->has('user'), function (Builder $query) use ($fields, $forUpdate) {
+                $user = $fields->get('user');
 
-                if (!empty($user['filter'])) {
-                    $query->forUser($user['filter']);
+                if (!empty($user->filter)) {
+                    $query->forUser($user->filter);
                 }
 
-                if (!$forUpdate && !empty($user['order'])) {
-                    $query->orderBy('commissions.user_id', $user['order']);
+                if (!$forUpdate && !empty($user->order)) {
+                    $query->orderBy('commissions.user_id', $user->order);
                 }
             })
-            ->when($columns->has('model'), function (Builder $query) use ($columns) {
-                $lowercaseName = mb_convert_case($columns['model']['filter'], MB_CASE_LOWER);
+            ->when($fields->filters('model'), function (Builder $query) use ($fields) {
+                $lowercaseName = mb_convert_case($fields->get('model')->filter, MB_CASE_LOWER);
                 $quotedName = DB::connection()->getPdo()->quote('%' . $lowercaseName . '%');
 
                 $projectIds = Project::query()
@@ -305,48 +275,44 @@ class CommissionController extends Controller
 
                 $query->whereIn('investments.project_id', $projectIds);
             })
-            ->when($columns->has('money'), function (Builder $query) use ($forUpdate, $columns) {
-                if (!$forUpdate && !empty($columns['money']['order'])) {
-                    $query->orderBy('net', $columns['money']['order']);
+            ->when($fields->has('money'), function (Builder $query) use ($forUpdate, $fields) {
+                $money = $fields->get('money');
+
+                if (!$forUpdate && !empty($money->order)) {
+                    $query->orderBy('net', $money->order);
                 }
 
                 // Match any valid where clause for SQL
-                if (preg_match('/(>=|>|=|<|<=|!=)?\s*(\d+)/', $columns['money']['filter'], $matches) > 0) {
+                if (preg_match('/(>=|>|=|<|<=|!=)?\s*(\d+)/', $money->filter, $matches) > 0) {
                     $query->where('gross', $matches[1] ?: '=', $matches[2]);
                 }
             })
-            ->when(!$columns->has('rejected'), function (Builder $query) {
+            ->when(!$fields->filters('rejected'), function (Builder $query) {
                 $query->isOpen();
             })
-            ->when(
-                $columns->has('overhead') && !empty($columns['overhead']['filter']),
-                function (Builder $query) use ($columns) {
-                    $query->where('child_user_id', $columns['overhead']['filter'] === 'true' ? '>' : '=', 0);
+            ->when($fields->filters('overhead'), function (Builder $query) use ($fields) {
+                $query->where('child_user_id', $fields->get('overhead')->filter === 'true' ? '>' : '=', 0);
+            })
+            ->when($fields->filters('type'), function (Builder $query) use ($fields) {
+                $type = $fields->get('type')->filter;
+
+                switch ($type) {
+                    case 'first-investment':
+                        $query->where('model_type', Investment::MORPH_NAME);
+                        $query->where('investments.is_first_investment', true);
+                        break;
+
+                    case 'further-investment':
+                        $query->where('model_type', Investment::MORPH_NAME);
+                        $query->where('investments.is_first_investment', false);
+                        break;
+
+                    default:
+                        $query->where('model_type', $type);
                 }
-            )
-            ->when(
-                $columns->has('type') && !empty($columns['type']['filter']),
-                function (Builder $query) use ($columns) {
-                    $type = $columns['type']['filter'];
-
-                    switch ($type) {
-                        case 'first-investment':
-                            $query->where('model_type', Investment::MORPH_NAME);
-                            $query->where('investments.is_first_investment', true);
-                            break;
-
-                        case 'further-investment':
-                            $query->where('model_type', Investment::MORPH_NAME);
-                            $query->where('investments.is_first_investment', false);
-                            break;
-
-                        default:
-                            $query->where('model_type', $type);
-                    }
-                }
-            )
-            ->when($columns->has('id'), function (Builder $query) use ($columns) {
-                $query->where('commissions.model_id', $columns['id']['filter']);
+            })
+            ->when($fields->filters('id'), function (Builder $query) use ($fields) {
+                $query->where('commissions.model_id', $fields->get('id')->filter);
             })
             ->afterLaunch()
             ->select('commissions.*');
