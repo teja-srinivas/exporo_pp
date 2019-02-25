@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\UserDetails;
 
 class UserDetailsController extends Controller
@@ -10,10 +11,13 @@ class UserDetailsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('list', User::class);
+
         return UserDetails::query()
             ->get(['id', 'display_name', 'vat_amount', 'vat_included'])
             ->mapWithKeys(function (UserDetails $details) {

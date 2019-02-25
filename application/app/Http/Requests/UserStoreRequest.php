@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
-use App\Policies\UserPolicy;
 use App\Rules\VatId;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
