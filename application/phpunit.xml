@@ -24,6 +24,7 @@
         </whitelist>
     </filter>
     <php>
+        <env name="APP_DEBUG" value="true"/>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_KEY" value="base64:962+nvRu/e8kPd28duP362GF0cTh7EuwShirC36HNhg="/>
         <env name="DB_CONNECTION" value="sqlite"/>
