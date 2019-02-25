@@ -1,4 +1,4 @@
-<h3>Sonderbuchungen</h3>
+<h4>Sonderbuchungen</h4>
 
 <table class="table table-sm table-bordered border-left-0 border-right-0 mb-5 table-foot-totals bg-white">
     <thead>

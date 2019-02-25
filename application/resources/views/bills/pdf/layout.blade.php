@@ -5,37 +5,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    @isset($bill)
+    <title>{{ $bill->getFileName() }}</title>
+    @else
     <title>{{ config('app.name') }}</title>
+    @endif
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 
     <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-
     <style>
+        {!! @file_get_contents(public_path('css/app.css')) !!}
+
         @page {
-            margin: 20mm 0;
+            size: A4;
+            margin: 10mm 0;
         }
 
         body {
-            width: 240mm;
             margin: 0 auto;
-            font-size: 12pt;
             padding-top: 3rem;
+            width: 210mm;
         }
 
         .sheet {
             overflow: hidden;
             position: relative;
-            box-sizing: border-box;
             page-break-after: always;
+        }
+
+        .table-sm td,
+        .table-sm th {
+            padding-top: 0.125rem;
+            padding-bottom: 0.125rem;
+        }
+
+        h5 {
+            font-size: inherit;
+            font-family: inherit;
+            font-weight: bold;
+            line-height: inherit;
         }
 
         @media print {
             body {
-                padding: 0 12mm;
-                width: 210mm;
+                padding: 0 20mm;
+                font-size: 10pt;
             }
 
             a {

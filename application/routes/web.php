@@ -65,5 +65,5 @@ Route::middleware(['verified'])->group(function () {
     });
 });
 
-Route::get('bills/{bill}/pdf/{token}', 'BillController@billPdf')->name('pdf.creation');
-Route::get('users/{user}/login', 'UserController@loginUsingId')->middleware(['signed'])->name('users.login');
+Route::get('bills/{bill}/pdf', 'BillController@billPdf')->middleware('signed')->name('bills.pdf');
+Route::get('users/{user}/login', 'UserController@loginUsingId')->middleware('signed')->name('users.login');

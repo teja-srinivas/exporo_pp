@@ -1,4 +1,4 @@
-<h3>Registrierungen</h3>
+<h4>Registrierungen</h4>
 
 <div class="bg-white mb-5 shadow-sm print-break-avoid">
     <table class="table table-sm mb-0 table-foot-totals">

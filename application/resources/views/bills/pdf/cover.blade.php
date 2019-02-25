@@ -6,7 +6,7 @@
             {{ $company->street_no }}&ensp;&bull;&ensp;{{ $company->postal_code }}
             {{ $company->city }}
         </div>
-        <div class="lead">
+        <div>
             @php($fullName = trim($user->first_name . ' ' . $user->last_name))
             @php($userCompany = trim($user->details->company))
 
@@ -66,7 +66,7 @@
 </div>
 
 <!-- Page Content -->
-<h3 class="mb-4">Provisionsgutschrift</h3>
+<h4 class="mb-4">Provisionsgutschrift</h4>
 
 <p>{{ $user->getGreeting() }},</p>
 <p>
@@ -94,7 +94,7 @@
     Die Provisionsgutschrift stellt sich wie folgt zusammen:
 </p>
 
-<div class="my-5">
+<div class="my-4">
     @php($total = array_sum($sums))
     @php($totalGross = $investmentGrossSum + $overheadGrossSum + $investorsGrossSum + $customGrossSum)
 
