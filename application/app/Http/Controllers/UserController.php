@@ -209,23 +209,24 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    public function loginUsingId(User $user, Session $session)
+    public function loginUsingId(User $user, Session $session, Request $request)
     {
         static $id = 'adminOriginalId';
         static $link = 'adminLoginLink';
 
         $originalId = $session->get($id);
+        $originalUser = $request->user();
 
         if ((string)$originalId === (string)$user->getAuthIdentifier()) {
             // We've returned to our original user account, remove the warning(s)
             $session->remove($link);
             $session->remove($id);
-        } else {
+        } else if ($originalUser !== null) {
             // Remember a link to return to our profile and keep the "original" user ID for reference
-            $session->put($link, auth()->user()->getLoginLink());
+            $session->put($link, $originalUser->getLoginLink());
 
             if ($originalId === null) {
-                $session->put($id, auth()->user()->getAuthIdentifier());
+                $session->put($id, $originalUser->getAuthIdentifier());
             }
         }
 
