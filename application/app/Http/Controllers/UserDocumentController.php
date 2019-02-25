@@ -6,6 +6,7 @@ use App\Models\Agb;
 use App\Models\Document;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -152,7 +153,7 @@ class UserDocumentController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $document->fill(array_only($data, ['name', 'description']));
+        $document->fill(Arr::only($data, ['name', 'description']));
 
         // Replace the old file, if exists
         if ($request->has('file')) {

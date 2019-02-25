@@ -13,12 +13,14 @@ use App\Models\User;
 use App\Policies\UserPolicy;
 use App\Repositories\UserRepository;
 use Illuminate\Auth\Passwords\PasswordBroker;
+use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -54,11 +56,12 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     * @param Hasher $hasher
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request, Hasher $hasher)
     {
         $this->authorize('create', User::class);
 
@@ -68,7 +71,7 @@ class UserController extends Controller
             'email' => 'required|unique:users,email',
         ]);
 
-        $data['password'] = Hash::make(str_random());
+        $data['password'] = $hasher->make(Str::random());
         $data['company_id'] = Company::query()->first()->getKey();
 
         $user = User::query()->forceCreate($data);

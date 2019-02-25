@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Arr;
+
 define('LEGACY_NULL', '1970-01-01 00:00:00');
 
 if (!function_exists('format_money')) {
@@ -28,7 +30,7 @@ if (!function_exists('render_breadcrumps')) {
     {
         static $divider = '<span class="text-muted"> / </span>';
 
-        $last = array_last($breadcrumps);
+        $last = Arr::last($breadcrumps);
 
         return join($divider, array_map(function ($name, $link) use ($last) {
             $class = $name === $last ? '' : 'text-muted';

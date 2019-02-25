@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
@@ -95,8 +96,8 @@ class CommissionController extends Controller
             'user_id' => $userDetails->getKey(),
             'child_user_id' => 0,
             'bonus' => 0,
-            'note_public' => array_get($data, 'note.public', null),
-            'note_private' => array_get($data, 'note.private', null),
+            'note_public' => Arr::get($data, 'note.public', null),
+            'note_private' => Arr::get($data, 'note.private', null),
         ]);
     }
 

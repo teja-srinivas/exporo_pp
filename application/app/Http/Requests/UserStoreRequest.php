@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\User;
 use App\Rules\VatId;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class UserStoreRequest extends FormRequest
@@ -52,7 +53,7 @@ class UserStoreRequest extends FormRequest
         $data = $this->addCustomData(parent::validated());
 
         if (empty($this->route('user')->api_token)) {
-            $data['api_token'] = str_random(64);
+            $data['api_token'] = Str::random(64);
         }
 
         return $data;
