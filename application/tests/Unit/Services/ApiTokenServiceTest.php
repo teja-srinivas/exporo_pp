@@ -12,6 +12,7 @@ class ApiTokenServiceTest extends TestCase
     {
         /** @var ApiTokenService $service */
         $service = $this->app->make(ApiTokenService::class);
+
         $app = 'phpunit';
 
         $this->assertTrue($service->isValid($app, $service->forService($app)));

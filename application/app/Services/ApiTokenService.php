@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Hashing\Hasher;
 
 /**
  * Service that creates unique api tokens based on a service identifier
@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Hash;
  */
 class ApiTokenService
 {
+    /** @var Hasher */
+    protected $hash;
+
+    /**
+     * Creates a new service instance.
+     *
+     * @param Hasher $hash
+     */
+    public function __construct(Hasher $hash)
+    {
+        $this->hash = $hash;
+    }
+
     /**
      * Creates an api token for the given service with the given parameters.
      *
@@ -19,7 +32,7 @@ class ApiTokenService
      */
     public function forService(string $service, ...$params): string
     {
-        return base64_encode(Hash::make($this->getIdentifier($service, $params)));
+        return base64_encode($this->hash->make($this->getIdentifier($service, $params)));
     }
 
     /**
@@ -32,7 +45,7 @@ class ApiTokenService
      */
     public function isValid(string $service, string $token, ...$params): bool
     {
-        return Hash::check($this->getIdentifier($service, $params), base64_decode($token));
+        return $this->hash->check($this->getIdentifier($service, $params), base64_decode($token));
     }
 
     /**
