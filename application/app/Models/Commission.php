@@ -288,7 +288,7 @@ class Commission extends Model implements AuditableContract
     public static function getDecodedId(int $encoded): int
     {
         /** @var \Jenssegers\Optimus\Optimus $optimus */
-        $optimus = (new Commission)->getOptimus()->connection();
+        $optimus = (new Commission)->getOptimus();
 
         return $optimus->decode($encoded);
     }

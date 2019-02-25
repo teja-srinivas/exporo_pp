@@ -42,6 +42,6 @@ class UserObserver
             return $details->company;
         }
 
-        return Person::anonymizeName($user->first_name, $user->last_name);
+        return $user->getAnonymousName();
     }
 }
