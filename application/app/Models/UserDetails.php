@@ -13,6 +13,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property User $user
  * @property bool $vat_included
  * @property float $vat_amount
+ * @property string $company
  * @property string $iban
  * @property string $bic
  * @property string $title

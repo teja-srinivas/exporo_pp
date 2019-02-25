@@ -11,78 +11,38 @@ class UserDetailsObserver
     /**
      * Handle the user details "created" event.
      *
-     * @param  \App\Models\UserDetails  $userDetails
+     * @param  \App\Models\UserDetails  $details
      * @return void
      */
-    public function created(UserDetails $userDetails)
+    public function created(UserDetails $details)
     {
-        $newDisplayName = $this->getNewDisplayName($userDetails);
-        if ($userDetails->display_name === $newDisplayName) {
-            return;
-        }
-
-        $userDetails->display_name = $newDisplayName;
-        $userDetails->save();
+        $this->updated($details);
     }
 
     /**
      * Handle the user details "updated" event.
      *
-     * @param  \App\Models\UserDetails  $userDetails
+     * @param  \App\Models\UserDetails  $details
      * @return void
      */
-    public function updated(UserDetails $userDetails)
+    public function updated(UserDetails $details)
     {
-        $newDisplayName = $this->getNewDisplayName($userDetails);
-
-        if ($userDetails->display_name === $newDisplayName) {
+        if (!$details->isDirty(['company']) || $details->isDirty(['display_name'])) {
             return;
         }
 
-        $userDetails->display_name = $newDisplayName;
-        $userDetails->save();
+        $details->display_name = $this->getNewDisplayName($details);
+        $details->save();
     }
 
-    private function getNewDisplayName(UserDetails $userDetails): string
+    private function getNewDisplayName(UserDetails $details): string
     {
-        $user = $userDetails->user;
-
-        if ($userDetails->company) {
-            return $userDetails->company;
+        if ($details->company) {
+            return $details->company;
         }
 
+        $user = $details->user;
 
         return Person::anonymizeName($user->first_name, $user->last_name);
-    }
-
-    /**
-     * Handle the user details "deleted" event.
-     *
-     * @param  \App\Models\UserDetails $userDetails
-     * @return void
-     */
-    public function deleted(UserDetails $userDetails)
-    {
-    }
-
-    /**
-     * Handle the user details "restored" event.
-     *
-     * @param  \App\Models\UserDetails  $userDetails
-     * @return void
-     */
-    public function restored(UserDetails $userDetails)
-    {
-    }
-
-    /**
-     * Handle the user details "force deleted" event.
-     *
-     * @param  \App\Models\UserDetails  $userDetails
-     * @return void
-     */
-    public function forceDeleted(UserDetails $userDetails)
-    {
-        //
     }
 }

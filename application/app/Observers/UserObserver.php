@@ -14,23 +14,32 @@ class UserObserver
      * @param  \App\Models\User $user
      * @return void
      */
+    public function created(User $user)
+    {
+        $this->updated($user);
+    }
+
+    /**
+     * Handle the user "updated" event.
+     *
+     * @param  \App\Models\User $user
+     * @return void
+     */
     public function updated(User $user)
     {
-        $userDetails = $user->details;
-        $newDisplayName = $this->getNewDisplayName($userDetails, $user);
-
-        if ($userDetails->display_name === $newDisplayName) {
+        if (!$user->isDirty(['first_name', 'last_name'])) {
             return;
         }
 
-        $userDetails->display_name = $newDisplayName;
-        $userDetails->save();
+        $details = $user->details;
+        $details->display_name = $this->getNewDisplayName($details, $user);
+        $details->save();
     }
 
-    private function getNewDisplayName(UserDetails $userDetails, User $user): string
+    private function getNewDisplayName(UserDetails $details, User $user): string
     {
-        if ($userDetails->company) {
-            return $userDetails->company;
+        if ($details->company) {
+            return $details->company;
         }
 
         return Person::anonymizeName($user->first_name, $user->last_name);
