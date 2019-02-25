@@ -19,6 +19,8 @@ class CommissionBonusController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', CommissionBonus::class);
+
         $data = $this->validate($request, $this->validationRules());
 
         $bonus = new CommissionBonus($data);
@@ -38,6 +40,8 @@ class CommissionBonusController extends Controller
      */
     public function update(Request $request, CommissionBonus $bonus)
     {
+        $this->authorize('update', $bonus);
+
         $data = $this->validate($request, $this->validationRules());
 
         $bonus->fill($data)->saveOrFail();
@@ -52,6 +56,8 @@ class CommissionBonusController extends Controller
      */
     public function destroy(CommissionBonus $bonus)
     {
+        $this->authorize('delete', $bonus);
+
         $bonus->delete();
     }
 
