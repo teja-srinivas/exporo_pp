@@ -19,6 +19,10 @@ jobs:
           name: set nova auth parameter
           command: echo "{\"http-basic\":{\"nova.laravel.com\":{\"username\":\"${NOVA_USERNAME}\",\"password\":\"${NOVA_PASSWORD}\"}}}" > ./application/auth.json
 
+      - run:
+          name: Install npm packages and build frontend assets
+          command: cd ./application && npm install && npm run production
+
       - restore_cache:
           keys:
             - composer-cache
@@ -59,10 +63,6 @@ jobs:
           key: vendor-{{ checksum "./application/composer.lock" }}
           paths:
             - ./application/vendor
-
-      - run:
-          name: Install npm packages and build frontend assets
-          command: cd ./application && npm install && npm run production
 
       - run:
           name: Configuring aws cli profile
