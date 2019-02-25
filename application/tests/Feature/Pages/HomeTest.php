@@ -32,7 +32,7 @@ class HomeTest extends TestCase
         $this->be($this->user);
 
         $response = $this->get(route('home'));
-
+        dump($response->getContent());
         $response->assertOk();
 
         $response->assertSee($bill->getDisplayName());
