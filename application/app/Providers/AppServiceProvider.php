@@ -47,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Collection::macro('sortNatural', function ($callback) {
+            /** @var Collection $this */
             return $this->sortBy($callback, SORT_NATURAL | SORT_FLAG_CASE);
         });
 
