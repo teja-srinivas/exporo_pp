@@ -10,6 +10,7 @@ use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
 use App\Services\ApiTokenService;
+use App\Services\BillGenerator;
 use App\Traits\Encryptable;
 use App\Traits\Person;
 use Carbon\Carbon;
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Collection as BaseCollection;
 use Illuminate\Support\Facades\Storage;
 
@@ -89,62 +91,23 @@ class BillController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     * @param Redirector $redirect
+     * @param BillGenerator $bills
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request, Redirector $redirect, BillGenerator $bills)
     {
         $data = $this->validate($request, [
             'release_at' => ['required', 'date'],
         ]);
 
-        $releaseAt = Carbon::parse($data['release_at']);
-
-        // Pre-select all valid commissions
-        /** @var Collection $byUser */
-        $byUser = Commission::query()
-            ->whereHas('user')
-            ->select('user_id', 'id', 'net')
-            ->with('user.details', 'user.permissions')
-            ->isBillable()
-            ->get()
-            ->groupBy('user_id');
-
-        Bill::disableAuditing();
-
-        // Create bills for each user and assign it to their commissions
-        $count = 0;
-
-        $byUser->each(function (Collection $commissions) use ($releaseAt, &$count) {
-            /** @var User $user */
-            $user = $commissions->first()->user;
-
-            if (!$user->canBeBilled()) {
-                return;
-            }
-
-            /** @var Bill $bill */
-            $bill = Bill::query()->forceCreate([
-                'user_id' => $user->id,
-                'released_at' => $releaseAt,
-            ]);
-
-            Commission::query()->whereKey($commissions->pluck('id'))->update([
-                'bill_id' => $bill->getKey(),
-            ]);
-
-            SendMail::dispatch([
-                'Provision' => format_money($commissions->sum('net')),
-                'Link' => 'exporo.com'
-            ], $user, config('mail.templateIds.commissionCreated'))->onQueue('emailsLow');
-
-            $count++;
-        });
+        $count = $bills->generate(Carbon::parse($data['release_at']))->count();
 
         flash_success("$count Rechnung(en) wurden erstellt");
 
-        return redirect('/bills/create');
+        return $redirect->to('/bills/create');
     }
 
     /**
