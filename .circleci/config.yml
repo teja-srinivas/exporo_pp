@@ -21,8 +21,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - composer-cache-{{ .Environment.CIRCLE_SHA1 }}
-            - composer-cache-
+            - composer-cache
 
       - restore_cache:
           keys:
@@ -52,7 +51,7 @@ jobs:
           command: cd application && composer install --prefer-dist --no-progress --no-interaction --no-dev --no-suggest --classmap-authoritative
 
       - save_cache:
-          key: composer-cache-{{ .Environment.CIRCLE_SHA1 }}
+          key: composer-cache
           paths:
             - ./cache/composer
 
