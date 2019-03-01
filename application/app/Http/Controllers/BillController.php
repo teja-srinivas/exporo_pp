@@ -123,22 +123,17 @@ class BillController extends Controller
         return $this->downloadBillFromS3($bill);
     }
 
-    public function billPdf(Bill $bill, $token, ApiTokenService $service)
+    public function billPdf(Bill $bill)
     {
-        abort_unless(
-            $service->isValid('urlbox', $token, $bill->user_id, $bill->id),
-            Response::HTTP_FORBIDDEN
-        );
-
         $bill->load('user');
 
         $investments = $this->mapForView($bill->commissions());
 
         return response()->view('bills.pdf.bill', $investments + [
-                'bill' => $bill,
-                'user' => $bill->user,
-                'company' => optional($bill->user->company),
-            ]);
+            'bill' => $bill,
+            'user' => $bill->user,
+            'company' => optional($bill->user->company),
+        ]);
     }
 
     public function downloadBillFromS3(Bill $bill)
