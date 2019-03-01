@@ -58,7 +58,7 @@ class SendMail implements ShouldQueue
     {
         $mailer->raw(null, function (Message $message) {
             $message->to($this->mail);
-            $message->from('partnerprogramm@exporo.com');
+            $message->from('info@partner.exporo.de');
             $message->embedData(
                 config('mail.driver') === 'sendgrid' ? $this->data : json_encode($this->data),
                 SendgridTransport::SMTP_API_NAME
