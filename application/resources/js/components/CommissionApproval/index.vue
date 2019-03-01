@@ -260,14 +260,28 @@
 
               <td v-if="commission.showDetails" class="text-right" rowspan="2">
                 <strong>Netto</strong>: {{ formatEuro(commission.net) }}<br>
-                <strong>Brutto</strong>: {{ formatEuro(commission.gross) }}
+                <strong>Brutto</strong>: {{ formatEuro(commission.gross) }}<br>
+                <font-awesome-icon
+                  v-if="commission.modified"
+                  v-b-tooltip.left="'Betrag wurde manuell angepasst'"
+                  icon="exclamation-circle"
+                  class="text-info"
+                />
               </td>
 
               <td
                 v-else
                 class="text-right"
-                v-text="formatEuro(commission.vatIncluded ? commission.gross : commission.net)"
-              />
+              >
+                <font-awesome-icon
+                  v-if="commission.modified"
+                  v-b-tooltip.left="'Betrag wurde manuell angepasst'"
+                  icon="exclamation-circle"
+                  class="text-info"
+                />
+
+                {{ formatEuro(commission.vatIncluded ? commission.gross : commission.net) }}
+              </td>
             </tr>
 
             <!-- Commission Details -->
@@ -346,6 +360,34 @@
                       @change="e => updateValue(commission, 'amount', e.target.value.trim())"
                       class="form-control form-control-sm"
                       placeholder="MwSt. ist partnerabhängig"
+                    />
+                  </div>
+                </div>
+
+                <div class="my-1 row align-items-center">
+                  <div class="col-sm-2">
+                    <strong>Netto:</strong>
+                  </div>
+                  <div class="col-sm-10">
+                    <input
+                      :value="commission.net"
+                      @change="e => updateValue(commission, 'net', parseInt(e.target.value.trim(), 10))"
+                      class="form-control form-control-sm"
+                      type="number"
+                    />
+                  </div>
+                </div>
+
+                <div class="my-1 row align-items-center">
+                  <div class="col-sm-2 pr-1">
+                    <strong>Brutto:</strong>
+                  </div>
+                  <div class="col-sm-10">
+                    <input
+                      :value="commission.gross"
+                      @change="e => updateValue(commission, 'gross', parseInt(e.target.value.trim()))"
+                      class="form-control form-control-sm"
+                      type="number"
                     />
                   </div>
                 </div>
@@ -668,13 +710,22 @@ export default {
     async updateValue(commission, key, value) {
       const needsUpdate = key === 'amount';
 
+      const wasModifiedBefore = commission.modified;
+      commission.modified = true;
+
       const prev = get(commission, key);
       set(commission, key, value);
 
       await this.updateOrRollBack(
         commission,
         { [key]: value },
-        () => set(commission, key, prev)
+        () => {
+          set(commission, key, prev);
+
+          if (!wasModifiedBefore) {
+            commission.modified = false;
+          }
+        }
       );
 
       if (needsUpdate) {

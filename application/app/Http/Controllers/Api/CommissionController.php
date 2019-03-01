@@ -129,6 +129,8 @@ class CommissionController extends Controller
             'note.public' => 'note_public',
             'note.private' => 'note_private',
             'onHold' => 'on_hold',
+            'net' => 'net',
+            'gross' => 'gross',
         ];
 
         // Remap keys using the lookup table

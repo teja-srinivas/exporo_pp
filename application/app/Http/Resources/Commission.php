@@ -46,6 +46,7 @@ class Commission extends JsonResource
             'model' => $this->when(isset(self::RESOURCES[$model->model_type]), function () use ($model) {
                 return (self::RESOURCES[$model->model_type])::make($model->model);
             }, null),
+            'modified' => $model->updated_at > $model->created_at,
         ];
     }
 }
