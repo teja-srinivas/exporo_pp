@@ -521,7 +521,7 @@
 
         <button
           class="btn btn-sm btn-outline-dark"
-          @click="confirm('Wirklich alle neu berechnen?', refreshAll)"
+          @click="confirm(`Jetzige Auswahl (${meta.total} Stk.) wirklich neu berechnen ?`, refreshAll)"
         >Neu berechnen</button>
       </div>
 
