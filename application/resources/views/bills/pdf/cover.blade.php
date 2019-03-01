@@ -119,7 +119,7 @@
         @endif
             <tr>
                 <th scope="row" class="text-right">Summe Gutschrift</th>
-                <td class="font-weight-bold text-right">{{ format_money($totalGross) }}</td>
+                <td class="font-weight-bold text-right">{{ format_money(max(0, $totalGross)) }}</td>
             </tr>
         </tfoot>
     </table>
