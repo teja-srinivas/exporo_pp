@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command(Commands\CalculateCommissions::class)->everyMinute();
         $schedule->command(Commands\CreateBillsPdfs::class, ['--live'])->everyMinute();
         $schedule->command(Commands\SendBillMails::class)->hourly();
     }
