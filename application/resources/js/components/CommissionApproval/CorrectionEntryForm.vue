@@ -54,6 +54,7 @@
               v-model="entry.note.public"
               class="form-control form-control-sm"
               placeholder="Steht auf der Rechnung"
+              maxlength="191"
             />
           </div>
         </div>
@@ -67,6 +68,7 @@
               v-model="entry.note.private"
               class="form-control form-control-sm"
               placeholder="Privat, nur für die Buchhaltung"
+              maxlength="191"
             />
           </div>
         </div>

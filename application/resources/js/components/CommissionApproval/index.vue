@@ -402,6 +402,7 @@
                       @change="e => updateValue(commission, 'note.public', e.target.value.trim())"
                       class="form-control form-control-sm"
                       placeholder="Steht auf der Rechnung"
+                      maxlength="191"
                     />
                   </div>
                 </div>
@@ -416,6 +417,7 @@
                       @change="e => updateValue(commission, 'note.private', e.target.value.trim())"
                       class="form-control form-control-sm"
                       placeholder="Privat, nur für die Buchhaltung"
+                      maxlength="191"
                     />
                   </div>
                 </div>
