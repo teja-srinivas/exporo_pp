@@ -129,8 +129,12 @@
             <div class="container text-center text-white">
                 <h5 class="text-uppercase text-white">Copyright &copy; Exporo AG {{ now()->format('Y') }}</h5>
                 <ul class="list-inline mb-0 small">
-                    <li class="list-inline-item"><a href="#" class="text-white">Impressum</a></li>
-                    <li class="list-inline-item"><a href="#" class="text-white">Datenschutz</a></li>
+                    <li class="list-inline-item">
+                        <a href="https://exporo.de/impressum/" class="text-white">Impressum</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://exporo.de/datenschutz/" class="text-white">Datenschutz</a>
+                    </li>
                 </ul>
             </div>
         </footer>
