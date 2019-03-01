@@ -128,7 +128,7 @@
     @endif
 </div>
 
-@if(abs($totalGross - $total) === 0)
+@if(bccomp(abs($totalGross - $total), 0, 2) === 0)
 <p class="text-justify mb-4">
     Die vergütete Provision ist gem. § 4 Nr. 8a UStG ein steuerfreier Umsatz.
     Für den Fall, dass die seitens der {{ $company->name }} gezahlten Provisionen als

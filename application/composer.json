@@ -12,6 +12,7 @@
     ],
     "require": {
         "php": "^7.1.3",
+        "ext-bcmath": "*",
         "ext-json": "*",
         "cybercog/laravel-optimus": "^3.0",
         "dannyvankooten/laravel-vat": "dev-master",
