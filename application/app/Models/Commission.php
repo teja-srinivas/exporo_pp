@@ -213,6 +213,15 @@ class Commission extends Model implements AuditableContract
      */
     public function scopeAfterLaunch(Builder $query)
     {
+        $this->scopeWithinRange($query, self::LAUNCH_DATE);
+    }
+
+    public function scopeWithinRange(Builder $query, ?string $from = null, ?string $to = null)
+    {
+        if ($from === null && $to === null) {
+            return;
+        }
+
         // Determine if we need to join the related tables
         $joins = $query->toBase()->joins ?? [];
 
@@ -235,17 +244,32 @@ class Commission extends Model implements AuditableContract
         }
 
         // Then only match against the legacy stuff
-        $query->where(function (Builder $query) {
-            $startDate = Carbon::createFromFormat('Y-m-d', self::LAUNCH_DATE);
+        $query->where(function (Builder $query) use ($from, $to) {
+            $startDate = $from !== null ? Carbon::createFromFormat('Y-m-d', $from) : null;
+            $endDate = $to !== null ? Carbon::createFromFormat('Y-m-d', $to) : null;
 
-            $query->where(function (Builder $query) use ($startDate) {
+            $query->where(function (Builder $query) use ($startDate, $endDate) {
                 $query->where('model_type', Investment::MORPH_NAME);
-                $query->whereDate('investments.created_at', '>=', $startDate);
+
+                if ($startDate !== null) {
+                    $query->whereDate('investments.created_at', '>=', $startDate);
+                }
+
+                if ($endDate !== null) {
+                    $query->whereDate('investments.created_at', '<=', $endDate);
+                }
             });
 
-            $query->orWhere(function (Builder $query) use ($startDate) {
+            $query->orWhere(function (Builder $query) use ($startDate, $endDate) {
                 $query->where('model_type', Investor::MORPH_NAME);
-                $query->whereDate('investors.activation_at', '>=', $startDate);
+
+                if ($startDate !== null) {
+                    $query->whereDate('investors.activation_at', '>=', $startDate);
+                }
+
+                if ($endDate !== null) {
+                    $query->whereDate('investors.activation_at', '<=', $endDate);
+                }
             });
 
             $query->orWhereNotIn('model_type', [

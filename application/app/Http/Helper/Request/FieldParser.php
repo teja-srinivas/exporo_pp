@@ -34,12 +34,28 @@ class FieldParser
     /**
      * Gets the parsed entry for the given field (if any)
      *
+     * If any default filter or sort value has been provided,
+     * this will create a temporary instance of that field
+     * and return that one instead (even if it doesn't exist).
+     *
      * @param string $field
+     * @param string|null $filter
+     * @param string|null $sort
      * @return Field|null
      */
-    public function get(string $field): ?Field
+    public function get(string $field, string $filter = null, string $sort = null): ?Field
     {
-        return $this->fields[$field];
+        $field = $this->fields[$field] ?? null;
+
+        if ($field !== null) {
+            return $field;
+        }
+
+        if ($filter === null && $sort === null) {
+            return null;
+        }
+
+        return new Field($filter ?? '', $sort ?? '');
     }
 
     /**

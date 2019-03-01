@@ -4,23 +4,20 @@
 -->
 <template>
   <div :class="{[$style.disabled]: isLoading}">
-    <!-- Filter -->
-    <div class="card border-0 shadow-sm mb-2 rounded align-items-center">
-      <div class="p-1">
-        <strong>Legende:</strong>
-
-        <b-form-checkbox class="mx-2" :class="$style.green" :checked="true" disabled>
-          Überprüft
-        </b-form-checkbox>
-
-        <b-form-checkbox class="mx-2" :class="$style.yellow" :checked="true" disabled>
-          Zurückhalten
-        </b-form-checkbox>
-
-        <b-form-checkbox class="mx-2" :class="$style.red" :checked="true" disabled>
-          Ablehnen
-        </b-form-checkbox>
-      </div>
+    <div class="card border-0 shadow-sm my-3 rounded p-2 flex-row align-items-center">
+      <b class="ml-1">Zeitraum</b>
+      <span class="ml-3 mr-2">von</span>
+      <flat-pickr
+        v-model="filter.rangeFrom"
+        :config="flatpickrConfigFrom"
+        class="form-control shadow-none border-0"
+      />
+      <span class="ml-3 mr-2">bis</span>
+      <flat-pickr
+        v-model="filter.rangeTo"
+        :config="flatpickrConfigTo"
+        class="form-control shadow-none border-0"
+      />
     </div>
 
     <!-- Content -->
@@ -554,7 +551,14 @@ import mapValues from 'lodash/mapValues';
 import reduce from 'lodash/reduce';
 import set from 'lodash/set';
 
+import formatDate from 'date-fns/format';
+import startOfMonth from 'date-fns/start_of_month';
+import subMonths from 'date-fns/sub_months';
+
 import BTooltip from 'bootstrap-vue/es/directives/tooltip/tooltip';
+import FlatPickr from 'vue-flatpickr-component';
+import { German } from 'flatpickr/dist/l10n/de';
+import 'flatpickr/dist/flatpickr.css';
 
 import { confirm } from '../../alert';
 
@@ -569,6 +573,7 @@ export default {
   components: {
     CorrectionEntryForm,
     FilterButton,
+    FlatPickr,
     RadioSwitch,
     Schema,
   },
@@ -608,6 +613,16 @@ export default {
         onHold: false,
         rejected: false,
         money: '',
+        rangeFrom: formatDate(startOfMonth(subMonths(new Date(), 1)), 'YYYY-MM-DD'),
+        rangeTo: formatDate(new Date(), 'YYYY-MM-DD'),
+      },
+
+      flatpickrConfig: {
+        altFormat: 'd.m.Y',
+        altInput: true,
+        locale: German,
+        weekNumbers: true,
+        maxDate: 'today',
       },
 
       sort: {
@@ -618,6 +633,20 @@ export default {
   },
 
   computed: {
+    flatpickrConfigFrom() {
+      return {
+        ...this.flatpickrConfig,
+        maxDate: this.filter.rangeTo || this.flatpickrConfig.maxDate,
+      };
+    },
+
+    flatpickrConfigTo() {
+      return {
+        ...this.flatpickrConfig,
+        minDate: this.filter.rangeFrom || this.flatpickrConfig.minDate,
+      };
+    },
+
     filteredTotal() {
       return this.meta.totalGross || this.totals.gross;
     },
@@ -639,7 +668,7 @@ export default {
 
     filterParams() {
       return reduce(this.filter, (map, val, key) => {
-        map[`filter[${key}]`] = val === true || val.length > 0 ? val : undefined;
+        map[`filter[${key}]`] = (val === true || val.length > 0) ? val : undefined;
         return map;
       }, {});
     },

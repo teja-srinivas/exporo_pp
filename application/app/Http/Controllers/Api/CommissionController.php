@@ -317,7 +317,10 @@ class CommissionController extends Controller
             ->when($fields->filters('id'), function (Builder $query) use ($fields) {
                 $query->where('commissions.model_id', $fields->get('id')->filter);
             })
-            ->afterLaunch()
+            ->withinRange(
+                $fields->get('rangeFrom', Commission::LAUNCH_DATE)->filter,
+                $fields->filters('rangeTo') ? $fields->get('rangeTo')->filter : null
+            )
             ->select('commissions.*');
     }
 
