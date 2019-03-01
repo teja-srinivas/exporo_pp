@@ -28,7 +28,7 @@
 
         <div class="my-1 row align-items-center">
           <div class="col-sm-2 pr-1">
-            <strong>Brutto in EUR:</strong>
+            <strong>Betrag in EUR:</strong>
           </div>
           <div class="col-sm-10 d-flex">
             <input
@@ -36,11 +36,14 @@
               type="number"
               step="0.01"
               class="form-control form-control-sm mr-2"
-              placeholder="Betrag in EUR"
             >
             <strong class="text-nowrap align-self-center w-50">
               Netto:
-              {{ net }}
+              {{ netGross.net }}
+            </strong>
+            <strong class="text-nowrap align-self-center w-50">
+              Brutto:
+              {{ netGross.gross }}
             </strong>
           </div>
         </div>
@@ -100,16 +103,28 @@ export default {
   }),
 
   computed: {
-    net() {
+    netGross() {
       if (!this.entry.userId) {
-        return '';
+        return { net: '', gross: '' };
       }
 
       const details = this.userDetails[this.entry.userId];
       const { amount } = this.entry;
       const factor = 1 + (details.vatAmount / 100);
 
-      return formatMoney(details.vatIncluded ? amount / factor : amount * factor);
+      let net = amount;
+      let gross = amount;
+
+      if (details.vatIncluded) {
+        net = amount / factor;
+      } else {
+        gross = amount * factor;
+      }
+
+      return {
+        net: formatMoney(net),
+        gross: formatMoney(gross),
+      };
     },
   },
 
