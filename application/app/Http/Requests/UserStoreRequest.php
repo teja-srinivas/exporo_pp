@@ -146,7 +146,7 @@ class UserStoreRequest extends FormRequest
             'address_city' => 'nullable|string|max:100',
             'phone' => "{$prefix}|string|max:100",
             'website' => 'nullable|string|max:100',
-            'vat_id' => ['nullable', new VatId()],
+            'vat_id' => ['nullable', app(VatId::class)],
             'tax_office' => 'nullable|string|max:100',
             'iban' => 'sometimes|iban',
             'bic' =>'sometimes|bic',

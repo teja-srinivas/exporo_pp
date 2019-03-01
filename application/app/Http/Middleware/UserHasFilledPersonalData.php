@@ -35,6 +35,7 @@ class UserHasFilledPersonalData
 
         return redirect()->route('users.edit', $user)->withErrors([
             'iban' => 'Bitte füllen Sie Ihre IBAN aus um fortfahren zu können',
+            'bic' => 'Bitte füllen Sie Ihre BIC aus um fortfahren zu können',
         ])->with([
             'error-message' => 'Wir benötigen noch ein paar Daten von Ihnen',
         ]);

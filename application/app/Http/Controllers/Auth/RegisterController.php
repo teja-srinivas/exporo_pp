@@ -90,7 +90,7 @@ class RegisterController extends Controller
                 'parent_id' => request()->cookie(UserHasBeenReferred::COOKIE_NAME, '0'),
             ]);
 
-            $user->details()->create([
+            $user->details->fill([
                 'company' => $data['company'],
                 'title' => $data['title'],
                 'salutation' => $data['salutation'],
@@ -102,7 +102,7 @@ class RegisterController extends Controller
                 'address_city' => $data['address_city'],
                 'phone' => $data['phone'],
                 'website' => $data['website'],
-            ]);
+            ])->saveOrFail();
 
             $user->assignRole(Role::PARTNER);
             $user->agbs()->attach($agbs);

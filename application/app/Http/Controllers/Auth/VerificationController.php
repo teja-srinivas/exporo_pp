@@ -33,10 +33,12 @@ class VerificationController extends Controller
 
     public function verify(Request $request)
     {
-        $user = User::findOrFail($request->route('id'));
+        /** @var User $user */
+        $user = User::query()->findOrFail($request->route('id'));
+
         auth()->login($user);
 
-        return $this->traitverify($request);
+        return $this->traitVerify($request);
     }
 
     /**

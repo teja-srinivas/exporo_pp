@@ -168,7 +168,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function canBeProcessed(): bool
     {
-        return $this->can(BillPolicy::CAN_BE_BILLED_PERMISSION);
+        return $this->hasRole(Role::PARTNER);
     }
 
     public function hasBeenProcessed(): bool

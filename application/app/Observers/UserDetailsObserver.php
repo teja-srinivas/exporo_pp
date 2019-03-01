@@ -32,7 +32,10 @@ class UserDetailsObserver
         }
 
         $details->display_name = $this->getNewDisplayName($details);
-        $details->save();
+
+        if ($details->isDirty(['display_name'])) {
+            $details->save();
+        }
     }
 
     private function getNewDisplayName(UserDetails $details): string
