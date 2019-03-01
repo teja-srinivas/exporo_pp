@@ -31,8 +31,6 @@ class HomeController extends Controller
 
                 return [
                     'displayName' => $bill->getDisplayName(),
-                    'gross' => $bill->gross,
-                    'commissions' => $bill->commissions,
                     'name' => $date,
                     'date' => $date,
                     'links' => [

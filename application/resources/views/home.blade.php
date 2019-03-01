@@ -35,19 +35,6 @@
                     'name' => 'displayName',
                 ],
                 'link' => 'links.download',
-                'width' => 80,
-            ],
-            [
-                'name' => 'gross',
-                'label' => 'Summe',
-                'format' => 'currency',
-                'width' => 100,
-            ],
-            [
-                'name' => 'commissions',
-                'label' => 'Provisionen',
-                'format' => 'number',
-                'width' => 75,
             ],
             [
                 'name' => 'date',
