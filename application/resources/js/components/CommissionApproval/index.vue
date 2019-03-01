@@ -553,6 +553,7 @@ import set from 'lodash/set';
 
 import formatDate from 'date-fns/format';
 import startOfMonth from 'date-fns/start_of_month';
+import endOfMonth from 'date-fns/end_of_month';
 import subMonths from 'date-fns/sub_months';
 
 import BTooltip from 'bootstrap-vue/es/directives/tooltip/tooltip';
@@ -614,7 +615,7 @@ export default {
         rejected: false,
         money: '',
         rangeFrom: formatDate(startOfMonth(subMonths(new Date(), 1)), 'YYYY-MM-DD'),
-        rangeTo: formatDate(new Date(), 'YYYY-MM-DD'),
+        rangeTo: formatDate(endOfMonth(subMonths(new Date(), 1)), 'YYYY-MM-DD'),
       },
 
       flatpickrConfig: {
