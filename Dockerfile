@@ -8,6 +8,7 @@ RUN curl -L https://download.newrelic.com/php_agent/archive/8.2.0.221/newrelic-p
     rm -rf /tmp/newrelic-php5-* /tmp/nrinstall*
 
 ADD ./application/ /var/www/html
+RUN crontab /var/www/html/config/crons/app.cron
 RUN chmod -R 777 /var/www/html/
 COPY ./infrastructure/docker/manifest/ /
 RUN chmod 755 /entrypoint.sh

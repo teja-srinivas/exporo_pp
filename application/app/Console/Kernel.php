@@ -15,9 +15,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(Commands\CalculateCommissions::class)->everyMinute();
-        $schedule->command(Commands\CreateBillsPdfs::class, ['--live'])->everyMinute();
-        $schedule->command(Commands\SendBillMails::class)->hourly();
+        // Send all outputs to stdout using its alias
+        $out = '/proc/1/fd/1';
+
+        $schedule->command(Commands\CalculateCommissions::class)->everyMinute()->appendOutputTo($out);
+        $schedule->command(Commands\CreateBillsPdfs::class)->everyMinute()->appendOutputTo($out);
+        $schedule->command(Commands\SendBillMails::class)->hourly()->appendOutputTo($out);
     }
 
     /**

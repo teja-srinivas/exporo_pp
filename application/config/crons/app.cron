@@ -1,1 +1,1 @@
-* * * * * php /var/www/html/artisan schedule:run
+* * * * * cd /var/www/html && php artisan schedule:run
