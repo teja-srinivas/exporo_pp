@@ -87,4 +87,22 @@ class UserDetails extends Model implements AuditableContract
     {
         return $this->belongsTo(User::class, 'id');
     }
+
+    /**
+     * Formats the IBAN by placing a space after every 4th character.
+     *
+     * @return string|null The formatted IBAN or null
+     */
+    public function getFormattedIban(): ?string
+    {
+        $iban = $this->iban;
+
+        if ($iban === null) {
+            return null;
+        }
+
+        $concat = str_replace(' ', '', $iban);
+
+        return wordwrap($concat, 4, ' ', true);
+    }
 }

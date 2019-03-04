@@ -78,7 +78,7 @@
     <tbody>
     <tr>
         <th scope="row">IBAN</th>
-        <td>{{ $user->details->iban }}</td>
+        <td>{{ $user->details->getFormattedIban() }}</td>
     </tr>
     </tbody>
 </table>
