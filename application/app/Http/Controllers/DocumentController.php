@@ -10,44 +10,16 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserDocumentController extends Controller
+class DocumentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(Request $request)
+    public function index()
     {
-        /** @var User $user */
-        $user = $request->user();
-
-        // TODO maybe extract this to a different route?
-        if ($user->cannot('list', Document::class)) {
-            $documents =
-                ($user->documents->map(function (Document $document) {
-                    return [
-                        'type' => 'Dokument',
-                        'title' => $document->name,
-                        'link' => $document->getDownloadUrl(),
-                        'created_at' => $document->created_at,
-                    ];
-                }))->toBase() // important, the eloquent collection merges differently
-                ->merge($user->agbs->map(function (Agb $agb) {
-                    return [
-                        'type' => __('AGB'),
-                        'title' => $agb->name,
-                        'link' => $agb->getDownloadUrl(),
-                        'created_at' => $agb->pivot->created_at,
-                    ];
-                }))
-                ->sortByDesc('created_at');
-
-            return response()->view('users.documents', compact('documents'));
-        }
-
         $this->authorize('list', Document::class);
 
         $documents = Document::query()->orderBy('name')->get();

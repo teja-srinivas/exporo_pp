@@ -72,8 +72,8 @@ class SidebarComposer
                     ],
                     [
                         'title' => 'Dokumente',
-                        'url' => route('documents.index'),
-                        'isActive' => $this->request->routeIs('documents.index'),
+                        'url' => route('users.documents.index', $this->user),
+                        'isActive' => $this->request->routeIs('users.documents.index'),
                     ],
                     [
                         'title' => 'Provisionsschema',

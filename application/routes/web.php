@@ -45,10 +45,11 @@ Route::middleware(['verified'])->group(function () {
         Route::resource('projects', 'ProjectController')->only('index', 'show', 'update');
         Route::resource('roles', 'RoleController')->except('index');
         Route::resource('schemas', 'SchemaController');
-        Route::resource('users/documents', 'UserDocumentController'); // TODO move this under the user namespace
+        Route::resource('documents', 'DocumentController');
         Route::resource('users', 'UserController');
 
         Route::prefix('users/{user}')->name('users.')->namespace('User')->group(function () {
+            Route::resource('documents', 'DocumentController')->only('index');
             Route::resource('investments', 'InvestmentController')->only('index');
             Route::resource('investors', 'InvestorController')->only('index');
             Route::resource('users', 'UserController')->only('index');
