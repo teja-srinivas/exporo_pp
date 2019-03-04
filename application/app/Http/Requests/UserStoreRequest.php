@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
+use App\Rules\PhoneNumber;
 use App\Rules\VatId;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
@@ -144,7 +145,7 @@ class UserStoreRequest extends FormRequest
             'address_addition' => 'nullable|string|max:100',
             'address_zipcode' => "{$prefix}|string|max:20",
             'address_city' => 'nullable|string|max:100',
-            'phone' => "{$prefix}|string|max:100",
+            'phone' => [$prefix, 'string', new PhoneNumber],
             'website' => 'nullable|string|max:100',
             'vat_id' => ['nullable', app(VatId::class)],
             'tax_office' => 'nullable|string|max:100',
