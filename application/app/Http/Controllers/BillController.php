@@ -9,6 +9,7 @@ use App\Models\Commission;
 use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
+use App\Repositories\BillRepository;
 use App\Services\ApiTokenService;
 use App\Services\BillGenerator;
 use App\Traits\Encryptable;
@@ -30,10 +31,10 @@ class BillController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, BillRepository $bills)
     {
         return response()->view('bills.index', [
-            'bills' => Bill::getDetailsPerUser()->with('user')->get()->map(function (Bill $bill) use ($request) {
+            'bills' => $bills->getDetails()->load('user')->map(function (Bill $bill) use ($request) {
                 return [
                     'id' => $bill->getKey(),
                     'name' => $bill->getBillingMonth()->format('Y-m'),

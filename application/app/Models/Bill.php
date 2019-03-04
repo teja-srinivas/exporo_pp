@@ -121,34 +121,9 @@ class Bill extends Model implements AuditableContract
     {
         return implode('_', [
             'Exporo_Provisionsabrechnung_vom',
-            $this->created_at->format('d.m.Y'),
+            ($this->created_at ?? now())->format('d.m.Y'),
             'für ',
             $this->user_id,
         ]) . '.pdf';
-    }
-
-    /**
-     * Returns a simplified bill model that contains
-     * - the id,
-     * - the total sum of the bill
-     * - the amount of commissions contained in the bill
-     *
-     * Optionally, a specific user can be provided.
-     *
-     * @param int|null $forUser The user ID
-     * @return Builder
-     */
-    public static function getDetailsPerUser(?int $forUser = null): Builder
-    {
-        return self::query()
-            ->join('commissions', 'commissions.bill_id', 'bills.id')
-            ->groupBy('bills.id')
-            ->select('bills.id', 'bills.user_id', 'bills.created_at', 'bills.released_at')
-            ->selectRaw('COUNT(commissions.id) as commissions')
-            ->selectRaw('SUM(commissions.gross) as gross')
-            ->selectRaw('SUM(commissions.net) as net')
-            ->when($forUser !== null, function (Builder $query) use ($forUser) {
-                $query->where('bills.user_id', $forUser);
-            });
     }
 }

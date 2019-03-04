@@ -11,6 +11,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use App\Policies\UserPolicy;
+use App\Repositories\BillRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Contracts\Hashing\Hasher;
@@ -83,10 +84,11 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param User $user
+     * @param BillRepository $bills
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(User $user)
+    public function show(User $user, BillRepository $bills)
     {
         $this->authorize('view', $user);
 
@@ -98,7 +100,7 @@ class UserController extends Controller
             },
         ]);
 
-        $user->bills = Bill::getDetailsPerUser($user->id)->latest()->get();
+        $user->bills = $bills->getDetails($user->id)->sortByDesc('created_at');
 
         $investors = $user->investors()
             ->leftJoin('investments', 'investments.investor_id', 'investors.id')

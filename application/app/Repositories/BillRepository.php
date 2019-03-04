@@ -8,6 +8,8 @@ use App\Models\Bill;
 use App\Models\Commission;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
 
 class BillRepository
@@ -37,4 +39,31 @@ class BillRepository
         return $bill;
     }
 
+    /**
+     * Returns a simplified bill model that contains
+     * - the id,
+     * - the total sum of the bill
+     * - the amount of commissions contained in the bill
+     *
+     * Optionally, a specific user can be provided.
+     *
+     * @param int|null $forUser The user ID
+     * @param callable|null $modifier
+     * @return EloquentCollection
+     */
+    public function getDetails(?int $forUser = null, ?callable $modifier = null): EloquentCollection
+    {
+        return Bill::query()
+            ->join('commissions', 'commissions.bill_id', 'bills.id')
+            ->groupBy('bills.id')
+            ->select('bills.id', 'bills.user_id', 'bills.created_at', 'bills.released_at')
+            ->selectRaw('COUNT(commissions.id) as commissions')
+            ->selectRaw('SUM(commissions.gross) as gross')
+            ->selectRaw('SUM(commissions.net) as net')
+            ->when($forUser !== null, function (Builder $query) use ($forUser) {
+                $query->where('bills.user_id', $forUser);
+            })
+            ->when($modifier !== null, $modifier)
+            ->get();
+    }
 }
