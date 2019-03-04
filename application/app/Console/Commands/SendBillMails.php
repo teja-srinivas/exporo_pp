@@ -28,8 +28,12 @@ class SendBillMails extends Command
      */
     public function handle()
     {
+        $bills = $this->getReleasedBills();
+
+        $this->line("Sending mails for {$bills->count()} bill(s)");
+
         /** @var Bill $bill */
-        foreach ($this->getReleasedBills() as $bill) {
+        foreach ($bills as $bill) {
             $date = $bill->getBillingMonth();
 
             SendMail::dispatch([
