@@ -18,9 +18,20 @@ class Kernel extends ConsoleKernel
         // Send all outputs to stdout using its alias
         $out = '/proc/1/fd/1';
 
-        $schedule->command(Commands\CalculateCommissions::class)->everyMinute()->appendOutputTo($out);
-        $schedule->command(Commands\CreateBillsPdfs::class)->everyMinute()->appendOutputTo($out);
-        $schedule->command(Commands\SendBillMails::class)->hourly()->appendOutputTo($out);
+        $schedule->command(Commands\CalculateCommissions::class)
+            ->everyMinute()
+            ->onOneServer()
+            ->appendOutputTo($out);
+
+        $schedule->command(Commands\CreateBillsPdfs::class)
+            ->everyMinute()
+            ->onOneServer()
+            ->appendOutputTo($out);
+
+        $schedule->command(Commands\SendBillMails::class)
+            ->hourly()
+            ->onOneServer()
+            ->appendOutputTo($out);
     }
 
     /**
