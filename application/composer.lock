@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c0e57c270994848cd443c868fdaaa6b2",
+    "content-hash": "33aca6f65aec4049d63f656282999d89",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.87.16",
+            "version": "3.87.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "b6954b03e1c212b849ecf103e5f593b15b06b058"
+                "reference": "266641679eea15075ea13c088f9737460351f7ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b6954b03e1c212b849ecf103e5f593b15b06b058",
-                "reference": "b6954b03e1c212b849ecf103e5f593b15b06b058",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/266641679eea15075ea13c088f9737460351f7ab",
+                "reference": "266641679eea15075ea13c088f9737460351f7ab",
                 "shasum": ""
             },
             "require": {
@@ -86,7 +86,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-02-21T19:16:06+00:00"
+            "time": "2019-02-28T20:02:04+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -190,22 +190,22 @@
         },
         {
             "name": "cybercog/laravel-optimus",
-            "version": "3.2.0",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cybercog/laravel-optimus.git",
-                "reference": "9d5d43393cdb3238a48a5c207b6253a3bf42e90b"
+                "reference": "9935567b6c29dfac66c57eb1756bce4e5112899b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cybercog/laravel-optimus/zipball/9d5d43393cdb3238a48a5c207b6253a3bf42e90b",
-                "reference": "9d5d43393cdb3238a48a5c207b6253a3bf42e90b",
+                "url": "https://api.github.com/repos/cybercog/laravel-optimus/zipball/9935567b6c29dfac66c57eb1756bce4e5112899b",
+                "reference": "9935567b6c29dfac66c57eb1756bce4e5112899b",
                 "shasum": ""
             },
             "require": {
                 "graham-campbell/manager": "^4.0",
-                "illuminate/contracts": "~5.5|~5.6|~5.7",
-                "illuminate/support": "~5.5|~5.6|~5.7",
+                "illuminate/contracts": "5.5.*|5.6.*|5.7.*|5.8.*",
+                "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*",
                 "jenssegers/optimus": "^0.2.2",
                 "php": "^7.1.3"
             },
@@ -259,7 +259,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2018-11-10T20:38:22+00:00"
+            "time": "2019-02-26T20:58:32+00:00"
         },
         {
             "name": "dannyvankooten/laravel-vat",
@@ -1361,16 +1361,16 @@
         },
         {
             "name": "itsgoingd/clockwork",
-            "version": "v3.1.2",
+            "version": "v3.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itsgoingd/clockwork.git",
-                "reference": "e230c8aed72b3c0bc49e99a144c0d6315e71c4f7"
+                "reference": "cac35c865d768d3e4e7a86155f4fa0eabfefc94e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/e230c8aed72b3c0bc49e99a144c0d6315e71c4f7",
-                "reference": "e230c8aed72b3c0bc49e99a144c0d6315e71c4f7",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/cac35c865d768d3e4e7a86155f4fa0eabfefc94e",
+                "reference": "cac35c865d768d3e4e7a86155f4fa0eabfefc94e",
                 "shasum": ""
             },
             "require": {
@@ -1415,7 +1415,7 @@
                 "profiling",
                 "slim"
             ],
-            "time": "2018-12-23T12:18:26+00:00"
+            "time": "2019-02-26T21:59:22+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1564,16 +1564,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.7.27",
+            "version": "v5.7.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "688fbfa889d43f392825b381ad3981847120fdfa"
+                "reference": "8e69728f1c80a024588adbd24c65c4fcf9aa9192"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/688fbfa889d43f392825b381ad3981847120fdfa",
-                "reference": "688fbfa889d43f392825b381ad3981847120fdfa",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/8e69728f1c80a024588adbd24c65c4fcf9aa9192",
+                "reference": "8e69728f1c80a024588adbd24c65c4fcf9aa9192",
                 "shasum": ""
             },
             "require": {
@@ -1646,7 +1646,7 @@
                 "mockery/mockery": "^1.0",
                 "moontoast/math": "^1.1",
                 "orchestra/testbench-core": "3.7.*",
-                "pda/pheanstalk": "^3.0",
+                "pda/pheanstalk": "^3.0|^4.0",
                 "phpunit/phpunit": "^7.5",
                 "predis/predis": "^1.1.1",
                 "symfony/css-selector": "^4.1",
@@ -1668,7 +1668,7 @@
                 "league/flysystem-sftp": "Required to use the Flysystem SFTP driver (^1.0).",
                 "moontoast/math": "Required to use ordered UUIDs (^1.1).",
                 "nexmo/client": "Required to use the Nexmo transport (^1.0).",
-                "pda/pheanstalk": "Required to use the beanstalk queue driver (^3.0).",
+                "pda/pheanstalk": "Required to use the beanstalk queue driver (^3.0|^4.0).",
                 "predis/predis": "Required to use the redis cache and queue drivers (^1.0).",
                 "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^3.0).",
                 "symfony/css-selector": "Required to use some of the crawler integration testing tools (^4.1).",
@@ -1706,7 +1706,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-02-19T14:37:47+00:00"
+            "time": "2019-02-26T15:41:34+00:00"
         },
         {
             "name": "laravel/nexmo-notification-channel",
@@ -2145,29 +2145,30 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "3.1.7",
+            "version": "3.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "b9bf4ca1ec698010192fbe1694df65ecef3b2502"
+                "reference": "e115760c879a7b647adf38006be015badd2ffbdd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/b9bf4ca1ec698010192fbe1694df65ecef3b2502",
-                "reference": "b9bf4ca1ec698010192fbe1694df65ecef3b2502",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/e115760c879a7b647adf38006be015badd2ffbdd",
+                "reference": "e115760c879a7b647adf38006be015badd2ffbdd",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*",
+                "opis/closure": "^3.1",
                 "php": "^7.0",
                 "phpoffice/phpspreadsheet": "^1.6"
             },
             "require-dev": {
                 "mockery/mockery": "^1.1",
-                "orchestra/database": "^3.7",
-                "orchestra/testbench": "^3.7",
-                "phpunit/phpunit": "^7.5",
+                "orchestra/database": "^3.8",
+                "orchestra/testbench": "^3.8",
+                "phpunit/phpunit": "^8.0",
                 "predis/predis": "^1.1"
             },
             "type": "library",
@@ -2208,7 +2209,7 @@
                 "php",
                 "phpspreadsheet"
             ],
-            "time": "2019-02-14T18:17:58+00:00"
+            "time": "2019-02-28T14:43:36+00:00"
         },
         {
             "name": "markbaker/complex",
@@ -2763,16 +2764,16 @@
         },
         {
             "name": "opis/closure",
-            "version": "3.1.5",
+            "version": "3.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opis/closure.git",
-                "reference": "41f5da65d75cf473e5ee582df8fc7f2c733ce9d6"
+                "reference": "ccb8e3928c5c8181c76cdd0ed9366c5bcaafd91b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opis/closure/zipball/41f5da65d75cf473e5ee582df8fc7f2c733ce9d6",
-                "reference": "41f5da65d75cf473e5ee582df8fc7f2c733ce9d6",
+                "url": "https://api.github.com/repos/opis/closure/zipball/ccb8e3928c5c8181c76cdd0ed9366c5bcaafd91b",
+                "reference": "ccb8e3928c5c8181c76cdd0ed9366c5bcaafd91b",
                 "shasum": ""
             },
             "require": {
@@ -2820,7 +2821,7 @@
                 "serialization",
                 "serialize"
             ],
-            "time": "2019-01-14T14:45:33+00:00"
+            "time": "2019-02-22T10:30:00+00:00"
         },
         {
             "name": "overtrue/laravel-lang",
@@ -3929,16 +3930,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "2.33.0",
+            "version": "2.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "9da0a1618b0c85f71ef7e11b942d5f6f92d2c063"
+                "reference": "10f6b2e19cce79936e42b65f08549cbf564c052e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/9da0a1618b0c85f71ef7e11b942d5f6f92d2c063",
-                "reference": "9da0a1618b0c85f71ef7e11b942d5f6f92d2c063",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/10f6b2e19cce79936e42b65f08549cbf564c052e",
+                "reference": "10f6b2e19cce79936e42b65f08549cbf564c052e",
                 "shasum": ""
             },
             "require": {
@@ -3990,7 +3991,7 @@
                 "security",
                 "spatie"
             ],
-            "time": "2019-02-20T15:56:22+00:00"
+            "time": "2019-02-26T21:25:08+00:00"
         },
         {
             "name": "spatie/once",
@@ -5892,33 +5893,33 @@
         },
         {
             "name": "nette/finder",
-            "version": "v2.4.2",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/finder.git",
-                "reference": "ee951a656cb8ac622e5dd33474a01fd2470505a0"
+                "reference": "6be1b83ea68ac558aff189d640abe242e0306fe2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/finder/zipball/ee951a656cb8ac622e5dd33474a01fd2470505a0",
-                "reference": "ee951a656cb8ac622e5dd33474a01fd2470505a0",
+                "url": "https://api.github.com/repos/nette/finder/zipball/6be1b83ea68ac558aff189d640abe242e0306fe2",
+                "reference": "6be1b83ea68ac558aff189d640abe242e0306fe2",
                 "shasum": ""
             },
             "require": {
-                "nette/utils": "~2.4",
-                "php": ">=5.6.0"
+                "nette/utils": "^2.4 || ~3.0.0",
+                "php": ">=7.1"
             },
             "conflict": {
                 "nette/nette": "<2.2"
             },
             "require-dev": {
-                "nette/tester": "~2.0",
+                "nette/tester": "^2.0",
                 "tracy/tracy": "^2.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.5-dev"
                 }
             },
             "autoload": {
@@ -5950,7 +5951,7 @@
                 "iterator",
                 "nette"
             ],
-            "time": "2018-06-28T11:49:23+00:00"
+            "time": "2019-02-28T18:13:25+00:00"
         },
         {
             "name": "nette/neon",
@@ -7956,6 +7957,7 @@
     "prefer-lowest": false,
     "platform": {
         "php": "^7.1.3",
+        "ext-bcmath": "*",
         "ext-json": "*"
     },
     "platform-dev": []
