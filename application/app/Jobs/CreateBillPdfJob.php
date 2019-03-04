@@ -39,7 +39,7 @@ class CreateBillPdfJob implements ShouldQueue
 
         $this->store($filesystem->cloud(), $pdf);
 
-        $this->bill->pdf_created = true;
+        $this->bill->pdf_created_at = now();
         $this->bill->save();
     }
 

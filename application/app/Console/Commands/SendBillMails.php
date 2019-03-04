@@ -42,6 +42,9 @@ class SendBillMails extends Command
                 'billing_month' => $date->format('F'),
                 'billing_year' => $date->format('Y'),
             ], $bill->user, config('mail.templateIds.commissionCreated'))->onQueue('emails');
+
+            $bill->mail_sent_at = now();
+            $bill->save();
         }
     }
 
@@ -49,7 +52,8 @@ class SendBillMails extends Command
     {
         return Bill::query()
             ->whereDate('released_at', now())
-            ->where('pdf_created', true)
+            ->whereNotNull('pdf_created_at')
+            ->whereNull('mail_sent_at')
             ->join('commissions', 'bills.id', 'commissions.bill_id')
             ->groupBy('bills.id')
             ->select('bills.*')

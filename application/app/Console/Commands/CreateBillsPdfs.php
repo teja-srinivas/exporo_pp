@@ -36,6 +36,6 @@ class CreateBillsPdfs extends Command
 
     private function getBillsWithoutPDFs()
     {
-        return Bill::query()->where('pdf_created', false)->get();
+        return Bill::query()->whereNull('pdf_created_at')->get();
     }
 }

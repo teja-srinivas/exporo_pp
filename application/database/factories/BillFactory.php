@@ -13,6 +13,6 @@ $factory->define(\App\Models\Bill::class, function (Faker $faker) {
 $factory->state(\App\Models\Bill::class, 'released', function (Faker $faker) {
     return [
         'released_at' => $faker->dateTimeBetween(\App\Models\Commission::LAUNCH_DATE)->format('Y-m-d'),
-        'pdf_created' => true,
+        'pdf_created_at' => $faker->dateTimeBetween(\App\Models\Commission::LAUNCH_DATE)->format('Y-m-d'),
     ];
 });

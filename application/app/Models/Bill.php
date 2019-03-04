@@ -16,7 +16,8 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  *
  * @property int $id
  * @property int $user_id
- * @property bool $pdf_created
+ * @property Carbon $pdf_created_at
+ * @property Carbon $mail_sent_at
  * @property float $net (Dynamic column for joins)
  * @property float $gross (Dynamic column for joins)
  * @property User $user
@@ -31,6 +32,8 @@ class Bill extends Model implements AuditableContract
 
     protected $dates = [
         'released_at',
+        'pdf_created_at',
+        'mail_sent_at',
     ];
 
     protected $fillable = [
@@ -40,8 +43,6 @@ class Bill extends Model implements AuditableContract
     ];
 
     protected $casts = [
-        'pdf_created' => 'bool',
-
         // They're dynamic columns, but if they exist - cast them
         'net' => 'float',
         'gross' => 'float',
@@ -90,7 +91,7 @@ class Bill extends Model implements AuditableContract
 
     public function scopeVisible(Builder $query)
     {
-        $query->where('pdf_created', true);
+        $query->whereNotNull('pdf_created_at');
     }
 
     public function getBillingMonth(): Carbon

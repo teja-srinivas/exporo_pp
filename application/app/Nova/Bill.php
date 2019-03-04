@@ -54,6 +54,8 @@ class Bill extends Resource
         return [
             ID::make()->sortable(),
             Date::make('Released At')->sortable(),
+            Date::make('Pdf Created At')->sortable(),
+            Date::make('Mail Sent At')->sortable(),
 
             Text::make('Name', function () {
                 return $this->resource->getDisplayName();

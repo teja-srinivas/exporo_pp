@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(Commands\CalculateCommissions::class)->everyMinute()->appendOutputTo($out);
         $schedule->command(Commands\CreateBillsPdfs::class)->everyMinute()->appendOutputTo($out);
+        $schedule->command(Commands\SendBillMails::class)->hourly()->appendOutputTo($out);
     }
 
     /**
