@@ -9,7 +9,7 @@
     @else
         @breadcrumps([
             route('users.index') => 'Benutzer',
-            route('users.show', $user) => $user->getDisplayName(),
+            route('users.show', $user) => $user->details->display_name,
             'Dokument Anlegen'
         ])
     @endif

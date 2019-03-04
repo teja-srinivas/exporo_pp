@@ -67,13 +67,15 @@ class UserDocumentController extends Controller
         $this->authorize('create', Document::class);
 
         $users = User::query()
+            ->with('details')
             ->orderBy('id')
-            ->pluck('id')
-            ->mapWithKeys(function (int $id) {
-                return [$id => '#' . $id];
-            });
+            ->get(['id']);
 
         $user = $users->get($request->get('user_id'));
+
+        $users = $users->mapWithKeys(function (User $user) {
+            return [$user->getKey() => $user->getKey() . ' - ' . $user->details->display_name];
+        });
 
         return response()->view('documents.create', compact('user', 'users'));
     }

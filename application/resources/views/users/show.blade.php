@@ -109,7 +109,7 @@
                 <th>Zeitraum</th>
                 <th class="text-right">Provisionen</th>
                 <th class="text-right">Summe</th>
-                <th width="140">Datum</th>
+                <th width="100">Datum</th>
             </tr>
             </thead>
             <tbody>
