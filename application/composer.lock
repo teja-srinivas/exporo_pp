@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "33aca6f65aec4049d63f656282999d89",
+    "content-hash": "aea70343569aefdce60d9fe9dd9ed1ac",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -2504,51 +2504,43 @@
             "time": "2017-02-16T16:54:46+00:00"
         },
         {
-            "name": "mossadal/math-parser",
-            "version": "v1.3.16",
+            "name": "mormat/php-formula-interpreter",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mossadal/math-parser.git",
-                "reference": "981b03ca603fd281049e092d75245ac029e13dec"
+                "url": "https://github.com/mormat/php-formula-interpreter.git",
+                "reference": "b8cf925e6543d99e9f5f1817746c1223a4035df6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mossadal/math-parser/zipball/981b03ca603fd281049e092d75245ac029e13dec",
-                "reference": "981b03ca603fd281049e092d75245ac029e13dec",
+                "url": "https://api.github.com/repos/mormat/php-formula-interpreter/zipball/b8cf925e6543d99e9f5f1817746c1223a4035df6",
+                "reference": "b8cf925e6543d99e9f5f1817746c1223a4035df6",
                 "shasum": ""
             },
-            "require": {
-                "php": ">=5.4.0"
-            },
             "require-dev": {
-                "phpdocumentor/phpdocumentor": "2.*",
-                "phpunit/php-code-coverage": "6.0.*",
-                "phpunit/phpunit": "7.3.*"
+                "symfony/class-loader": "2.1.*"
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "MathParser\\": "src/MathParser"
+                "psr-0": {
+                    "FormulaInterpreter": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-3.0"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Frank Wikström",
-                    "email": "frank@mossadal.se",
-                    "role": "Developer"
+                    "name": "mormat",
+                    "email": "mormat@free.fr"
                 }
             ],
-            "description": "PHP parser for mathematical expressions, including elementary functions, variables and implicit multiplication. Also supports symbolic differentiation.",
-            "homepage": "https://github.com/mossadal/math-parser",
+            "description": "Formula interpreter for PHP",
             "keywords": [
-                "mathematics",
-                "parser"
+                "php"
             ],
-            "time": "2018-09-15T22:20:34+00:00"
+            "time": "2015-10-08T10:51:31+00:00"
         },
         {
             "name": "mtdowling/jmespath.php",

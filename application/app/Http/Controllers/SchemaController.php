@@ -38,14 +38,15 @@ class SchemaController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     * @param Formula $formula
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request, Formula $formula)
     {
         $data = $this->validate($request, [
             'name' => 'required',
-            'formula' => ['required', new Formula],
+            'formula' => ['required', $formula],
         ]);
 
         Schema::query()->create($data);
@@ -93,14 +94,15 @@ class SchemaController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\Schema $schema
+     * @param Formula $formula
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, Schema $schema)
+    public function update(Request $request, Schema $schema, Formula $formula)
     {
         $data = $this->validate($request, [
             'name' => 'required',
-            'formula' => ['required', new Formula],
+            'formula' => ['required', $formula],
         ]);
 
         $schema->fill($data)->save();

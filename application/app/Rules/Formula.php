@@ -3,11 +3,20 @@
 namespace App\Rules;
 
 use Exception;
+use FormulaInterpreter\Compiler;
 use Illuminate\Contracts\Validation\Rule;
-use MathParser\StdMathParser;
 
 class Formula implements Rule
 {
+    /** @var Compiler */
+    private $compiler;
+
+
+    public function __construct(Compiler $compiler)
+    {
+        $this->compiler = $compiler;
+    }
+
     /**
      * Determine if the validation rule passes.
      *
@@ -18,7 +27,7 @@ class Formula implements Rule
     public function passes($attribute, $value)
     {
         try {
-            (new StdMathParser())->parse($value);
+            $this->compiler->compile($value);
             return true;
         } catch (Exception $e) {
             return false;

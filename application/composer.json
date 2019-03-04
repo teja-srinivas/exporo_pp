@@ -28,7 +28,7 @@
         "laravel/tinker": "^1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "maatwebsite/excel": "^3.1",
-        "mossadal/math-parser": "^1.3",
+        "mormat/php-formula-interpreter": "^1.0",
         "overtrue/laravel-lang": "~3.0",
         "owen-it/laravel-auditing": "^8.0",
         "pragmarx/nova-boolean-datetime-field": "^1.0",

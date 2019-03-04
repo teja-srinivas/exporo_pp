@@ -4,10 +4,9 @@ namespace App\Models;
 
 use App\Events\SchemaUpdated;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
+use FormulaInterpreter\Compiler;
+use FormulaInterpreter\Executable;
 use Illuminate\Database\Eloquent\Model;
-use MathParser\Interpreting\Evaluator;
-use MathParser\Parsing\Nodes\Node;
-use MathParser\StdMathParser;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
@@ -20,18 +19,6 @@ class Schema extends Model implements AuditableContract
 {
     use Auditable;
     use OptimusEncodedRouteKey;
-
-    // Almost the full alphabet, without reserved ones like "e"
-    const POSSIBLE_VARIABLE_LETTERS = 'abcdfghijklmnopqrstuvwxyz';
-    const RESERVED_NAMES = [
-        'pi', 'sin', 'cos', 'tan',  'cot',
-        'sind', 'cosd', 'tand', 'cotd',
-        'arcsin', 'arccos', 'arctan', 'arccot',
-        'exp', 'log', 'lg', 'sqrt',
-        'sinh', 'cosh', 'tanh', 'coth',
-        'arsinh', 'arcosh', 'artanh', 'arcoth',
-        'abs', 'sgn', 'e', 'nan', 'inf',
-    ];
 
     protected $fillable = [
         'name',
@@ -49,14 +36,9 @@ class Schema extends Model implements AuditableContract
      * This caches the node tree as well as
      * the variable replacement done via regex.
      *
-     * @var Node|null
+     * @var Executable|null
      */
-    protected $parsedFormula;
-
-    /**
-     * @var array|null
-     */
-    protected $variableNames;
+    protected $compiledFormula;
 
 
     public function projects()
@@ -66,8 +48,7 @@ class Schema extends Model implements AuditableContract
 
     public function setFormulaAttribute(string $formula)
     {
-        $this->parsedFormula = null;
-        $this->variableNames = null;
+        $this->compiledFormula = null;
 
         $this->attributes['formula'] = $formula;
     }
@@ -80,52 +61,22 @@ class Schema extends Model implements AuditableContract
      * @return float
      * @throws \Exception
      */
-    public function calculate(array $variables): float
+    public function calculate(array $variables = []): float
     {
-        // We cache the AST for faster lookups
-        $ast = $this->getOrReparseFormula();
+        $variables = array_change_key_case($variables, CASE_LOWER);
 
-        // Only fill in the values from our known variables from the formula,
-        // we do not care about any others that have been provided
-        $replacedVariables = array_map(function ($name) use ($variables) {
-            return $variables[$name];
-        }, array_flip($this->variableNames));
-
-        return $ast->accept(new Evaluator($replacedVariables));
+        return $this->getCompiledFormula()->run($variables);
     }
 
-    protected function getOrReparseFormula(): Node
+    protected function getCompiledFormula(): Executable
     {
-        if ($this->parsedFormula !== null) {
-            return $this->parsedFormula;
+        if ($this->compiledFormula !== null) {
+            return $this->compiledFormula;
         }
 
-        $parser = new StdMathParser();
+        /** @var Compiler $compiler */
+        $compiler = app(Compiler::class);
 
-        return $this->parsedFormula = $parser->parse($this->replaceVariablesWithLetters());
-    }
-
-    protected function replaceVariablesWithLetters(): string
-    {
-        // Replace all variables with temporary single-letter equivalents
-        // as the parser does not support multi-letter names
-        $this->variableNames = [];
-
-        return preg_replace_callback('/[a-z]+/i', function (array $matches) {
-            $name = $matches[0];
-
-            if (in_array($name, self::RESERVED_NAMES)) {
-                return $name;
-            }
-
-            if (isset($this->variableNames[$name])) {
-                return $this->variableNames[$name];
-            }
-
-            $replacement = self::POSSIBLE_VARIABLE_LETTERS[count($this->variableNames)];
-            $this->variableNames[$name] = $replacement;
-
-            return $replacement;
-        }, $this->formula);
+        return $this->compiledFormula = $compiler->compile(strtolower($this->formula));
     }
 }

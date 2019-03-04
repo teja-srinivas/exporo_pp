@@ -6,6 +6,7 @@ use App\Models\UserDetails;
 use App\Models\User;
 use App\Observers\UserDetailsObserver;
 use App\Observers\UserObserver;
+use FormulaInterpreter\Compiler;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
@@ -57,6 +58,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(Compiler::class, function () {
+            $compiler = new Compiler();
+            $compiler->functionCommandFactory->registerFunction('min', 'min');
+            $compiler->functionCommandFactory->registerFunction('max', 'max');
+
+            return $compiler;
+        });
     }
 }

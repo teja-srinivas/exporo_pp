@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Schema;
+use FormulaInterpreter\Compiler;
 use Tests\TestCase;
 
 class SchemaTest extends TestCase
@@ -20,11 +21,11 @@ class SchemaTest extends TestCase
             'z' => 0,
         ]));
 
-        $schema->formula = 'bonus * 2 + investment';
+        $schema->formula = '(bonus * 2) + Investment';
 
         $this->assertEquals(143, $schema->calculate([
             'bonus' => 10,
-            'investment' => 123,
+            'InVesTmEnT' => 123,
             'foo' => 42,
         ]));
 
@@ -32,5 +33,9 @@ class SchemaTest extends TestCase
             'bonus' => 5,
             'investment' => 10,
         ]));
+
+        $schema->formula = 'min(max(pow(sqrt(4), 2), 5), 3)';
+
+        $this->assertEquals(3, $schema->calculate());
     }
 }
