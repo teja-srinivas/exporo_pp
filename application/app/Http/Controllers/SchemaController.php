@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Schema;
+use App\Rules\Formula;
 use Illuminate\Http\Request;
 
 class SchemaController extends Controller
@@ -44,10 +45,10 @@ class SchemaController extends Controller
     {
         $data = $this->validate($request, [
             'name' => 'required',
-            'formula' => 'required',
+            'formula' => ['required', new Formula],
         ]);
 
-        Schema::create($data);
+        Schema::query()->create($data);
 
         flash_success('Schema wurde angelegt');
 
@@ -99,7 +100,7 @@ class SchemaController extends Controller
     {
         $data = $this->validate($request, [
             'name' => 'required',
-            'formula' => 'required',
+            'formula' => ['required', new Formula],
         ]);
 
         $schema->fill($data)->save();
