@@ -121,6 +121,21 @@
             </div>
         @endif
 
+        @if(session(\App\Http\Middleware\UserHasFilledPersonalData::USER_HAS_MISSING_DATA))
+            <div class="alert alert-info m-0">
+                <div class="container d-flex justify-content-between align-items-baseline">
+                    <div>
+                        <b>Bitte hinterlegen Sie eine IBAN und BIC.</b>
+                        Es werden keine Provisionen ausgezahlt, wenn diese fehlen.
+                    </div>
+
+                    <a href="{{ route('users.edit', request()->user()) }}" class="btn btn-outline-dark btn-sm">
+                        Jetzt eintragen
+                    </a>
+                </div>
+            </div>
+        @endif
+
         <main class="flex-fill @yield('content-class', 'py-4')">
             @yield('content')
         </main>

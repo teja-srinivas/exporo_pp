@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\UserDetailsUpdated;
 use App\Traits\Encryptable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OwenIt\Auditing\Auditable;
@@ -19,6 +20,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $title
  * @property string $display_name
  * @property string $salutation
+ * @property Carbon $birth_date
  */
 class UserDetails extends Model implements AuditableContract
 {
