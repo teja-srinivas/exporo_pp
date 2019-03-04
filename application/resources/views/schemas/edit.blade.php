@@ -35,6 +35,8 @@
                 ]
             ])
 
+            @include('schemas.partials.hint')
+
             @slot('footer')
                 <div class="text-right">
                     <button class="btn btn-primary">Änderungen Speichern</button>
