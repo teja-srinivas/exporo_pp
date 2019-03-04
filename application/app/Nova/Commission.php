@@ -44,11 +44,11 @@ class Commission extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make('Partner', 'user', User::class),
+            BelongsTo::make('Partner', 'user', User::class)->searchable(),
             Currency::make('Netto', 'net'),
             Currency::make('Brutto', 'gross'),
-            BelongsTo::make('Bill')->nullable(),
-            MorphTo::make('Model'),
+            BelongsTo::make('Bill')->nullable()->searchable(),
+            MorphTo::make('Model')->nullable()->searchable(),
             Text::make('Notiz (Rechnung)', 'note_public'),
             Text::make('Notiz (Privat)', 'note_private'),
         ];
