@@ -15,8 +15,10 @@ use App\Services\BillGenerator;
 use App\Traits\Encryptable;
 use App\Traits\Person;
 use Carbon\Carbon;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
@@ -115,13 +117,15 @@ class BillController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Bill $bill
+     * @param  FilesystemManager $storage
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(Bill $bill)
+    public function show(Bill $bill, FilesystemManager $storage)
     {
         $this->authorize('download', $bill);
-        return $this->downloadBillFromS3($bill);
+
+        return $this->downloadBillFromS3($bill, $storage->cloud());
     }
 
     public function billPdf(Bill $bill)
@@ -137,9 +141,8 @@ class BillController extends Controller
         ]);
     }
 
-    public function downloadBillFromS3(Bill $bill)
+    public function downloadBillFromS3(Bill $bill, Filesystem $disk)
     {
-        $disk = Storage::disk('s3');
         $filePath = 'statements/' . $bill->id;
 
         abort_unless($disk->exists($filePath), Response::HTTP_NOT_FOUND);
