@@ -23,17 +23,19 @@ $functions = Closure::bind(
             können ebenso wie Klammern
             (<span class="badge badge-light">(</span>, <span class="badge badge-light">)</span>)
             verwendet werden.
+            Kommawerte werden durch einen Punkt getrennt (z.B. <span class="badge badge-light">3.14</span>)
         </p>
 
         <p>
             Unterstützte Funktionen:
 
-            @foreach(\Illuminate\Support\Arr::sort($functions()) as $function => $callback)
+            @foreach(\Illuminate\Support\Arr::sort(array_keys($functions())) as $function)
                 <span class="badge badge-light">
                 {{ $function }}<span class="text-muted">()</span>
             </span>
-            @endforeach
-            .
+            @endforeach.
+
+            <br>
 
             Der jeweilige Parameter gehört ans Ende der Funktion
             (z.B. <span class="badge badge-light">max(pow(4, 2) * laufzeit, 3)</span>)
@@ -41,8 +43,13 @@ $functions = Closure::bind(
 
         Unterstützte Variablen:
 
-        @foreach(['investment', 'bonus', 'laufzeit', 'marge'] as $entry)
-            <span class="badge badge-info">{{ $entry }}</span>
+        @foreach(\Illuminate\Support\Arr::sort([
+            'bonus',
+            'investment',
+            'laufzeit',
+            'marge',
+        ]) as $entry)
+            <span class="badge badge-info">{{ ucfirst($entry) }}</span>
         @endforeach
 
         (Groß-/Kleinschreibung egal).
