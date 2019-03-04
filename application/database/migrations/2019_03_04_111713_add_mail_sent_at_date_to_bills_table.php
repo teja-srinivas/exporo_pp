@@ -29,6 +29,9 @@ class AddMailSentAtDateToBillsTable extends Migration
 
         Schema::table('bills', function (Blueprint $table) {
             $table->dropColumn('pdf_created');
+        });
+
+        Schema::table('bills', function (Blueprint $table) {
             $table->timestamp('mail_send_at')->nullable()->after('pdf_created_at');
         });
     }
