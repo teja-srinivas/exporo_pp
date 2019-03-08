@@ -23,6 +23,11 @@ class Kernel extends ConsoleKernel
             ->onOneServer()
             ->appendOutputTo($out);
 
+        $schedule->command(Commands\CleanEmptyFields::class)
+            ->everyMinute()
+            ->onOneServer()
+            ->appendOutputTo($out);
+
         $schedule->command(Commands\CreateBillsPdfs::class)
             ->everyMinute()
             ->onOneServer()
