@@ -7,7 +7,9 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Investor extends Resource
 {
@@ -31,6 +33,11 @@ class Investor extends Resource
         'user',
     ];
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return parent::indexQuery($request, $query)->withCount('investments');
+    }
+
     /**
      * Get the fields displayed by the resource.
      *
@@ -44,6 +51,7 @@ class Investor extends Resource
             Text::make('Vorname', 'first_name'),
             Text::make('Nachname', 'last_name'),
             Date::make('Aktiviert', 'activation_at')->sortable(),
+            Number::make('Investments', 'investments_count')->sortable(),
 
             BelongsTo::make('Partner', 'user', User::class)
                 ->searchable()
