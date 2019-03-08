@@ -5,6 +5,7 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphTo;
 use Laravel\Nova\Fields\Text;
@@ -47,10 +48,11 @@ class Commission extends Resource
             BelongsTo::make('Partner', 'user', User::class)->searchable(),
             Currency::make('Netto', 'net'),
             Currency::make('Brutto', 'gross'),
-            BelongsTo::make('Bill')->nullable()->searchable(),
-            MorphTo::make('Model')->nullable()->searchable(),
+            BelongsTo::make('Bill')->nullable()->searchable()->exceptOnForms(),
+            MorphTo::make('Model')->nullable()->searchable()->exceptOnForms(),
             Text::make('Notiz (Rechnung)', 'note_public'),
             Text::make('Notiz (Privat)', 'note_private'),
+            Date::make('Created At')->exceptOnForms(),
         ];
     }
 
