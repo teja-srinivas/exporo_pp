@@ -50,6 +50,7 @@ class Investment extends Resource
             Number::make('Amount', 'amount', function ($value) {
                 return format_money($value);
             })->sortable(),
+            Number::make('Interest Rate'),
             Date::make('Created At')->sortable(),
             Date::make('Paid At')->sortable(),
             Date::make('Acknowledged At')->sortable(),
