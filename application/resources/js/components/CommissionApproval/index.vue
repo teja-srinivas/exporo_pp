@@ -256,8 +256,8 @@
               </td>
 
               <td v-if="commission.showDetails" class="text-right" rowspan="2">
-                <strong>Netto</strong>: {{ formatEuro(commission.net) }}<br>
-                <strong>Brutto</strong>: {{ formatEuro(commission.gross) }}<br>
+                <strong>Netto</strong>: {{ formatMoney(commission.net) }}<br>
+                <strong>Brutto</strong>: {{ formatMoney(commission.gross) }}<br>
                 <font-awesome-icon
                   v-if="commission.modified"
                   v-b-tooltip.left="'Betrag wurde manuell angepasst'"
@@ -277,7 +277,7 @@
                   class="text-info"
                 />
 
-                {{ formatEuro(commission.vatIncluded ? commission.gross : commission.net) }}
+                {{ formatMoney(commission.vatIncluded ? commission.gross : commission.net) }}
               </td>
             </tr>
 
@@ -473,7 +473,7 @@
             </div>
           </td>
           <td class="text-right lead font-weight-bold">
-            {{ formatEuro(filteredTotal || 0) }}
+            {{ formatMoney(filteredTotal || 0) }}
           </td>
         </tr>
         </tfoot>
@@ -562,6 +562,7 @@ import { German } from 'flatpickr/dist/l10n/de';
 import 'flatpickr/dist/flatpickr.css';
 
 import { confirm } from '../../alert';
+import { formatMoney } from '../../utils/formatters';
 
 import CorrectionEntryForm from './CorrectionEntryForm';
 import FilterButton from '../FilterButton';
@@ -685,10 +686,7 @@ export default {
 
   methods: {
     confirm,
-
-    formatEuro(number) {
-      return number.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
-    },
+    formatMoney,
 
     async getPage(number = 1) {
       if (this.isLoading) {

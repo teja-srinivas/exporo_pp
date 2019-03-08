@@ -1,6 +1,26 @@
 import mapValues from 'lodash/mapValues';
 import number from './number';
 
+const formatters = {};
+
+const getFormatter = currency => {
+  const ucCurrency = currency.toUpperCase();
+  let formatter = formatters[ucCurrency];
+
+  if (formatter === undefined) {
+    formatter = new Intl.NumberFormat('de-DE', {
+      style: 'currency',
+      currency: ucCurrency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
+    formatters[ucCurrency] = formatter;
+  }
+
+  return formatter;
+};
+
 // Inherit from our number formatter
 export default {
   ...number,
@@ -12,10 +32,5 @@ export default {
   })),
 
   // Format currency in tables always with 2 fractions
-  format: (val, options) => val.toLocaleString('de-DE', {
-    style: 'currency',
-    currency: (options.currency || 'EUR').toUpperCase(),
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }),
+  format: (val, options) => getFormatter(options.currency || 'EUR').format(val),
 };
