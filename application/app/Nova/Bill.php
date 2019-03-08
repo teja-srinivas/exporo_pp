@@ -37,6 +37,10 @@ class Bill extends Resource
         'id',
     ];
 
+    public static $with = [
+        'userDetails',
+    ];
+
     public static function indexQuery(NovaRequest $request, $query)
     {
         return parent::indexQuery($request, $query)->withCount('commissions');
@@ -61,7 +65,9 @@ class Bill extends Resource
                 return $this->resource->getDisplayName();
             })->onlyOnIndex(),
 
-            Number::make('Commissions', 'commissions_count')->sortable(),
+            Number::make('Commissions', 'commissions_count')
+                ->onlyOnIndex()
+                ->sortable(),
 
             Currency::make('Amount', function () {
                 return $this->resource->getTotalGross();
@@ -76,7 +82,7 @@ class Bill extends Resource
     {
         /** @var \App\Models\Bill $bill */
         $bill = $this->resource;
-        return $bill->getDisplayName();
+        return '#' . $bill->user_id . ' ' . $bill->userDetails->display_name . ': ' . $bill->getDisplayName();
     }
 
 

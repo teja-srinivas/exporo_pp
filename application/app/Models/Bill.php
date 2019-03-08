@@ -21,6 +21,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property float $net (Dynamic column for joins)
  * @property float $gross (Dynamic column for joins)
  * @property User $user
+ * @property UserDetails $userDetails
  * @property Carbon|null $released_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -52,6 +53,11 @@ class Bill extends Model implements AuditableContract
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function userDetails(): BelongsTo
+    {
+        return $this->belongsTo(UserDetails::class, 'user_id');
     }
 
     public function commissions(): HasMany
