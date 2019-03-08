@@ -62,7 +62,7 @@
                 <tr>
                     <td>{{ $permission->name }}</td>
                     <td>
-                        @foreach($permission->roles as $role)
+                        @foreach($permission->roles->sortBy('name') as $role)
                             <a href="{{ route('roles.show', $role) }}" class="badge badge-primary">{{
                                 $role->getDisplayName()
                             }}</a>

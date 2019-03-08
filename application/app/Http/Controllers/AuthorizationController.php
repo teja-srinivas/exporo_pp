@@ -11,11 +11,12 @@ class AuthorizationController extends Controller
     {
         $this->authorize('viewAny', Role::class);
 
-        $roles = Role::orderBy('name')->get(['id', 'name']);
+        $roles = Role::query()->orderBy('name')->get(['id', 'name']);
 
-        $permissions = Permission::orderBy('name')->with(['roles' => function ($q) {
-            $q->orderBy('name');
-        }])->get(['id', 'name']);
+        $permissions = Permission::query()
+            ->orderBy('name')
+            ->with('roles')
+            ->get(['id', 'name']);
 
         return response()->view('authorization.index', compact('roles', 'permissions'));
     }
