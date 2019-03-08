@@ -63,9 +63,10 @@
         </div>
         <nav class="navbar navbar-expand-md navbar-light navbar-exporo sticky-top">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ asset('images/logo_exporo_blue.svg') }}" alt="{{ config('app.name', 'Laravel') }}">
+                <a class="navbar-brand text-dark" href="{{ route('home') }}">
+                    @include('vendor.nova.partials.logo', ['color' => '#333'])
                 </a>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
