@@ -16,7 +16,7 @@ class UserDetailsController extends Controller
      */
     public function index()
     {
-        $this->authorize('list', User::class);
+        $this->authorize('viewAny', User::class);
 
         return UserDetails::query()
             ->get(['id', 'display_name', 'vat_amount', 'vat_included'])

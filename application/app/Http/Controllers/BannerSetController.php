@@ -16,7 +16,7 @@ class BannerSetController extends Controller
      */
     public function index()
     {
-        $this->authorize('list', BannerSet::class);
+        $this->authorize('viewAny', BannerSet::class);
 
         return view('affiliate.banners.sets.index', [
             'sets' => BannerSet::query()->withCount('banners')->get(),

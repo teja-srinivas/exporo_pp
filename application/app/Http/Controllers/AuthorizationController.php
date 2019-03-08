@@ -9,7 +9,7 @@ class AuthorizationController extends Controller
 {
     public function __invoke()
     {
-        $this->authorize('list', Role::class);
+        $this->authorize('viewAny', Role::class);
 
         $roles = Role::orderBy('name')->get(['id', 'name']);
 

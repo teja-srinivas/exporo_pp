@@ -23,7 +23,7 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        $this->authorize('list', Document::class);
+        $this->authorize('viewAny', Document::class);
 
         $documents = Document::query()->orderBy('name')->get();
 

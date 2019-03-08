@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Nova\Nova;
 
 /**
  * Base class that all our policies should derive from.
@@ -20,6 +21,10 @@ class BasePolicy
 {
     use HandlesAuthorization;
 
+    /** @var null|bool */
+    protected static $runsInNova;
+
+    /** @var string */
     protected $permission;
 
     /**
@@ -30,6 +35,10 @@ class BasePolicy
     protected function __construct(string $permission)
     {
         $this->permission = $permission;
+
+        if (is_null(static::$runsInNova)) {
+            static::$runsInNova = request()->routeIs('nova.*');
+        }
     }
 
     /**
@@ -52,7 +61,7 @@ class BasePolicy
      * @return bool
      * @throws \Exception
      */
-    public function list(User $user)
+    public function viewAny(User $user)
     {
         return $this->hasPermission($user);
     }
@@ -79,7 +88,7 @@ class BasePolicy
      */
     public function create(User $user)
     {
-        return $this->hasPermission($user);
+        return !static::$runsInNova && $this->hasPermission($user);
     }
 
     /**
@@ -92,7 +101,7 @@ class BasePolicy
      */
     public function update(User $user, $model)
     {
-        return $this->hasPermission($user);
+        return !static::$runsInNova && $this->hasPermission($user);
     }
 
     /**
@@ -118,7 +127,7 @@ class BasePolicy
      */
     public function delete(User $user, $model)
     {
-        return $this->hasPermission($user);
+        return !static::$runsInNova && $this->hasPermission($user);
     }
 
     /**

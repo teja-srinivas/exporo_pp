@@ -17,7 +17,7 @@ class SchemaController extends Controller
      */
     public function index()
     {
-        $this->authorize('list', Schema::class);
+        $this->authorize('viewAny', Schema::class);
 
         return response()->view('schemas.index', [
             'schemas' => Schema::all(),

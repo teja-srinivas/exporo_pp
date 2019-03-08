@@ -13,13 +13,14 @@ use App\Models\Role;
 use App\Models\Schema;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class SidebarComposer
 {
     /**
-     * @var \Illuminate\Contracts\Auth\Authenticatable|\App\Models\User|null
+     * @var Authenticatable|User|null
      */
     private $user;
 
@@ -29,7 +30,7 @@ class SidebarComposer
     private $gate;
 
     /**
-     * @var \Illuminate\Http\Request
+     * @var Request
      */
     private $request;
 
@@ -43,11 +44,15 @@ class SidebarComposer
 
     public function compose(View $view)
     {
+        clock()->startEvent('app.sidebar', 'Rendering sidebar');
+
         $view->with('menu', $this->user === null ? [] : array_filter(array_merge(
             $this->getInternal(),
             $this->getCommissions(),
             $this->getPartner()
         )));
+
+        clock()->endEvent('app.sidebar');
     }
 
     protected function getPartner()
@@ -253,6 +258,6 @@ class SidebarComposer
 
     protected function canList(string $resource): bool
     {
-        return $this->gate->any('list', $resource);
+        return $this->gate->check('viewAny', $resource);
     }
 }

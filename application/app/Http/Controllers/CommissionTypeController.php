@@ -12,7 +12,7 @@ class CommissionTypeController extends Controller
 
     public function index()
     {
-        $this->authorize('list', CommissionType::class);
+        $this->authorize('viewAny', CommissionType::class);
 
         return view('commissions.types.index', [
             'types' => CommissionType::all(),

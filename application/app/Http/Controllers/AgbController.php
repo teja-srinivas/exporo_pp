@@ -18,7 +18,7 @@ class AgbController extends Controller
      */
     public function index()
     {
-        $this->authorize('list', Agb::class);
+        $this->authorize('viewAny', Agb::class);
 
         $list = Agb::query()
             ->join('agb_user', 'agb_user.agb_id', 'agbs.id')

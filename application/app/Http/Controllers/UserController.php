@@ -33,7 +33,7 @@ class UserController extends Controller
      */
     public function index(UserRepository $userRepository)
     {
-        $this->authorize('list', User::class);
+        $this->authorize('viewAny', User::class);
 
         return response()->view('users.index', [
             'users' => $userRepository->forTableView(),

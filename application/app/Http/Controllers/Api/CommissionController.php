@@ -33,7 +33,7 @@ class CommissionController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('list', Commission::class);
+        $this->authorize('viewAny', Commission::class);
 
         $query = Commission::query()->with([
             'user:id,last_name,first_name',
