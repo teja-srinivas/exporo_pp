@@ -6,24 +6,12 @@ use App\Models\Investment;
 use App\Models\Investor;
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class CleanNullDates extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'maintenance:clean-null-dates';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Replaces all "legacy dates" with NULL where possible';
 
     /**
