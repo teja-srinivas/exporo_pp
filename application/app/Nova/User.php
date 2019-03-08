@@ -49,11 +49,13 @@ class User extends Resource
             ID::make()->sortable(),
 
             Date::make('Created At')->sortable(),
-            Date::make('Email Verified At')->onlyOnDetail(),
-            Date::make('Accepted At')->onlyOnDetail(),
-            Date::make('Declined At')->onlyOnDetail(),
+            Date::make('Email Verified At')->hideFromIndex(),
+            Date::make('Accepted At')->hideFromIndex(),
+            Date::make('Rejected At')->hideFromIndex(),
 
-            BelongsTo::make('Parent User', 'parent', User::class)->searchable(),
+            BelongsTo::make('Parent User', 'parent', User::class)
+                ->searchable()
+                ->nullable(),
 
             HasMany::make('Child User', 'children', User::class),
 
