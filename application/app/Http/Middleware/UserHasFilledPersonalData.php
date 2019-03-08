@@ -19,15 +19,16 @@ class UserHasFilledPersonalData
      */
     public function handle($request, Closure $next)
     {
+        $session = $request->session();
+
         /** @var User $user */
         $user = $request->user();
 
         // Let internals and admins through
         if (!$user->canBeProcessed()) {
+            $session->remove(self::USER_HAS_MISSING_DATA);
             return $next($request);
         }
-
-        $session = $request->session();
 
         // Do not check anything when we're already on doing an edit
         // and remove the session hint in case customer support filled them in for us
