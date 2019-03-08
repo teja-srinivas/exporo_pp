@@ -151,6 +151,9 @@ class UserStoreRequest extends FormRequest
             'tax_office' => 'nullable|string|max:100',
             'iban' => 'sometimes|iban',
             'bic' =>'sometimes|bic',
-        ];
+        ] + ($updating !== null ? [
+            'vat_included' => 'boolean',
+            'vat_amount' => 'numeric',
+        ] : []);
     }
 }
