@@ -50,8 +50,8 @@ class User extends Resource
 
             Date::make('Created At')->sortable(),
             Date::make('Email Verified At')->hideFromIndex(),
-            Date::make('Accepted At')->hideFromIndex(),
-            Date::make('Rejected At')->hideFromIndex(),
+            Date::make('Accepted At'),
+            Date::make('Rejected At'),
 
             BelongsTo::make('Parent User', 'parent', User::class)
                 ->searchable()
@@ -59,11 +59,15 @@ class User extends Resource
 
             HasMany::make('Child User', 'children', User::class),
 
+            Text::make('Name', 'details.display_name')->onlyOnIndex(),
+
             Text::make('Vorname', 'first_name')
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255')
+                ->hideFromIndex(),
 
             Text::make('Nachname', 'last_name')
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255')
+                ->hideFromIndex(),
 
             Text::make('Email')
                 ->sortable()
@@ -85,7 +89,7 @@ class User extends Resource
                 ->onlyOnForms()
                 ->options(UserModel::TITLES),
 
-            Text::make('Firma', 'details.company'),
+            Text::make('Firma', 'details.company')->hideFromIndex(),
 
             Heading::make('Herkunft'),
 
