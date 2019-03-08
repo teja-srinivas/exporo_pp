@@ -57,7 +57,7 @@ class RoleController extends Controller
      */
     public function show(Role $role, UserRepository $userRepository)
     {
-        $this->authorize('view', Role::class);
+        $this->authorize('view', $role);
 
         $users = $userRepository->forTableView($role->users()->getQuery());
 
@@ -73,7 +73,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        $this->authorize('update', Role::class);
+        $this->authorize('update', $role);
 
         $permissions = $this->getPermissions();
 
@@ -91,7 +91,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $this->authorize('update', Role::class);
+        $this->authorize('update', $role);
 
         $data = $this->validate($request, [
             'name' => 'unique:roles,name,' . $role->id,
@@ -119,7 +119,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $this->authorize('delete', Role::class);
+        $this->authorize('delete', $role);
 
         abort_unless($role->canBeDeleted(), 409, 'Role is a system resource');
 
