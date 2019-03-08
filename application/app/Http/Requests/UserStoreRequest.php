@@ -135,9 +135,9 @@ class UserStoreRequest extends FormRequest
             'display_name' => 'nullable|string',
             'title' => ['nullable', Rule::in(User::TITLES)],
             'salutation' => "{$prefix}|in:male,female",
-            "birth_day" => "{$prefix}|numeric|min:1|max:31",
-            "birth_month" => "{$prefix}|numeric|min:1|max:12",
-            "birth_year" => "{$prefix}|numeric|min:". now()->subYears(120)->year . '|max:' . $adultYear->year,
+            'birth_day' => "{$prefix}|numeric|min:1|max:31",
+            'birth_month' => "{$prefix}|numeric|min:1|max:12",
+            'birth_year' => "{$prefix}|numeric|min:". now()->subYears(120)->year . '|max:' . $adultYear->year,
             'birth_date' => "{$datePrefix}|date|before_or_equal:" . $adultYear, // needs to be an adult
             'birth_place' => 'nullable|string|max:100',
             'address_street' => "{$prefix}|string|max:100",
@@ -149,8 +149,8 @@ class UserStoreRequest extends FormRequest
             'website' => 'nullable|string|max:100',
             'vat_id' => ['nullable', app(VatId::class)],
             'tax_office' => 'nullable|string|max:100',
-            'iban' => 'sometimes|iban',
-            'bic' =>'sometimes|bic',
+            'iban' => 'nullable|iban',
+            'bic' =>'nullable|bic',
         ] + ($updating !== null ? [
             'vat_included' => 'boolean',
             'vat_amount' => 'numeric',
