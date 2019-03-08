@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Agb;
 use App\Models\Document;
 use App\Models\User;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class DocumentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return Response
+     * @throws AuthorizationException
      */
     public function index()
     {
@@ -31,8 +34,8 @@ class DocumentController extends Controller
      * Show the form for creating a new resource.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return Response
+     * @throws AuthorizationException
      */
     public function create(Request $request)
     {
@@ -55,10 +58,10 @@ class DocumentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     * @throws \Throwable
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws AuthorizationException
+     * @throws Throwable
      */
     public function store(Request $request)
     {
@@ -84,9 +87,9 @@ class DocumentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Document $document
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @param Document $document
+     * @return Response
+     * @throws AuthorizationException
      */
     public function show(Document $document)
     {
@@ -98,9 +101,9 @@ class DocumentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Document $document
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @param Document $document
+     * @return Response
+     * @throws AuthorizationException
      */
     public function edit(Document $document)
     {
@@ -112,10 +115,10 @@ class DocumentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Document $document
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Throwable
+     * @param Request $request
+     * @param Document $document
+     * @return RedirectResponse
+     * @throws Throwable
      */
     public function update(Request $request, Document $document)
     {
@@ -151,9 +154,10 @@ class DocumentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Document $document
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @param Document $document
+     * @return RedirectResponse
+     * @throws AuthorizationException
+     * @throws Exception
      */
     public function destroy(Document $document)
     {
