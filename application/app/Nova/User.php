@@ -10,8 +10,6 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\MorphToMany;
-use Laravel\Nova\Fields\Place;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 

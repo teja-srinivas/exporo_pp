@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * Policy for accessing user models.
@@ -15,6 +16,8 @@ use App\Models\User;
  */
 class UserPolicy extends BasePolicy
 {
+    use HandlesAuthorization;
+
     const PERMISSION = 'management.users';
 
     public function __construct()
@@ -38,13 +41,18 @@ class UserPolicy extends BasePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User $user
-     * @param  \App\Models\User $model
+     * @param  User $user
+     * @param  User $model
      * @return mixed
      * @throws \Exception
      */
     public function update(User $user, $model)
     {
         return $user->is($model) || parent::update($user, $model);
+    }
+
+    public function attachAnyAgb(User $user, \App\Models\Agb $agb)
+    {
+        return $user->can('manage', $agb);
     }
 }
