@@ -8,7 +8,7 @@
         }) !== null)
     @endif
 
-    <details {{ ($doOpen ?? $isOpen) ? 'open' : '' }} class="my-1">
+    <details {{ ($doOpen ?? $isOpen) ? 'open' : '' }} class="mb-1">
         <summary>
             <strong>{{ __("permissions.$key") }}</strong>
         </summary>
