@@ -4,7 +4,7 @@ namespace App\Policies;
 
 class MailingPolicy extends BasePolicy
 {
-    const PERMISSION = 'manage mailings';
+    const PERMISSION = 'management.mailings';
 
     public function __construct()
     {

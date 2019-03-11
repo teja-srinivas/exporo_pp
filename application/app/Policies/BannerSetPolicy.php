@@ -4,7 +4,7 @@ namespace App\Policies;
 
 class BannerSetPolicy extends BasePolicy
 {
-    const PERMISSION = 'manage banner sets';
+    const PERMISSION = 'management.banner-sets';
 
     public function __construct()
     {

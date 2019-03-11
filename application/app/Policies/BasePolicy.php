@@ -45,6 +45,8 @@ class BasePolicy
         if ($user->hasRole(Role::ADMIN)) {
             return true;
         }
+
+        return null;
     }
 
     /**
@@ -125,12 +127,12 @@ class BasePolicy
     }
 
     /**
+     * @param string $action
      * @param User $user
      * @return bool
-     * @throws \Exception
      */
     protected function hasPermission(string $action, User $user): bool
     {
-        return $user->can(str_replace('manage', $action, $this->permission));
+        return $user->can("{$this->permission}.$action");
     }
 }

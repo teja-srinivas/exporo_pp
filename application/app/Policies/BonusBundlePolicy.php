@@ -4,7 +4,7 @@ namespace App\Policies;
 
 class BonusBundlePolicy extends BasePolicy
 {
-    const PERMISSION = 'manage commission bonus bundles';
+    const PERMISSION = 'management.commission-bonus-bundles';
 
     public function __construct()
     {

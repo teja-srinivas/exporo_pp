@@ -4,7 +4,7 @@ namespace App\Policies;
 
 class AgbPolicy extends BasePolicy
 {
-    const PERMISSION = 'manage agbs';
+    const PERMISSION = 'management.agbs';
 
     public function __construct()
     {

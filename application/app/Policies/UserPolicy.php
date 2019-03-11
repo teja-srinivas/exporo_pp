@@ -15,7 +15,7 @@ use App\Models\User;
  */
 class UserPolicy extends BasePolicy
 {
-    const PERMISSION = 'manage users';
+    const PERMISSION = 'management.users';
 
     public function __construct()
     {

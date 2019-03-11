@@ -21,6 +21,8 @@ class AuthServiceProvider extends ServiceProvider
         Models\Bill::class => Policies\BillPolicy::class,
         Models\BonusBundle::class => Policies\BonusBundlePolicy::class,
         Models\Commission::class => Policies\BillPolicy::class, // TODO
+        Models\CommissionBonus::class => Policies\CommissionBonusPolicy::class,
+        Models\CommissionType::class => Policies\CommissionTypePolicy::class,
         Models\Document::class => Policies\DocumentPolicy::class,
         Models\Investment::class => Policies\InvestmentPolicy::class,
         Models\Investor::class => Policies\InvestorPolicy::class,
@@ -31,7 +33,6 @@ class AuthServiceProvider extends ServiceProvider
         Models\Role::class => Policies\RolePolicy::class,
         Models\Schema::class => Policies\SchemaPolicy::class,
         Models\User::class => Policies\UserPolicy::class,
-        Models\CommissionType::class => Policies\CommissionTypePolicy::class,
     ];
 
     /**
