@@ -14,10 +14,11 @@ class ExportBillsController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function __invoke(Request $request)
     {
-        abort_unless($request->user()->can('export', Bill::class), 403);
+        $this->authorize('export', Bill::class);
 
         $export = new BillsExport($request->get('selection', []));
 

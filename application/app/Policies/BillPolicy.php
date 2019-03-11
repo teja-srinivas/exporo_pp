@@ -50,6 +50,6 @@ class BillPolicy extends BasePolicy
      */
     public function export(User $user): bool
     {
-        return $this->hasPermission($user);
+        return $this->hasPermission('export', $user);
     }
 }

@@ -8,10 +8,12 @@ return [
     'update' => 'bearbeiten',
     'delete' => 'löschen',
     'view' => 'anzeigen',
-    'download' => 'herunterladen',
-    'receive' => 'erhalten',
-    'process' => 'annehmen/ablehnen',
+
     'dashboard' => 'Dashboard anzeigen',
+    'download' => 'herunterladen',
+    'export' => 'exportieren',
+    'process' => 'annehmen/ablehnen',
+    'receive' => 'erhalten',
 
     'affiliate' => 'Werbemittel',
     'agbs' => 'AGBs',

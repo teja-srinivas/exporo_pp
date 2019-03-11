@@ -32,6 +32,8 @@ class SplitUpPermissionsIntoResources extends Migration
             $this->rename('process partners', 'features.users.process');
             $this->rename('view audits', 'features.audits.view');
             $this->rename('view partner dashboard', 'features.users.dashboard');
+
+            Permission::create(['name' => 'features.bills.export']);
         });
     }
 
