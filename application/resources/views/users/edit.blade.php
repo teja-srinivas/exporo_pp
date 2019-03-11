@@ -38,7 +38,7 @@
         </div>
     </form>
 
-    @can('update', $user)
+    @can('manage', $user)
     <h4>Berechtigungen</h4>
 
     <form action="{{ route('users.update', $user) }}" method="POST" class="mt-4">
