@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'viewNova' => 'Nova',
+
     'features' => 'Funktionen',
     'management' => 'Verwaltung',
 

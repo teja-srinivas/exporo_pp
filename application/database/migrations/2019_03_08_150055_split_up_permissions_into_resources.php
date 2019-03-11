@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Permission;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -32,9 +32,15 @@ class SplitUpPermissionsIntoResources extends Migration
             $this->rename('process partners', 'features.users.process');
             $this->rename('view audits', 'features.audits.view');
             $this->rename('view partner dashboard', 'features.users.dashboard');
-
-            Permission::create(['name' => 'features.bills.export']);
         });
+
+        Permission::create(['name' => 'features.bills.export'])->assignRole(
+            Role::findByName(Role::ADMIN)
+        );
+
+        Permission::create(['name' => 'viewNova'])->assignRole(
+            Role::findByName(Role::ADMIN)
+        );
     }
 
     protected function convertManaged(string $prefix, array $replacements = [])
