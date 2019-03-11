@@ -57,19 +57,17 @@ class SidebarComposer
 
     protected function getPartner()
     {
-        if (!$this->gate->check('view partner dashboard')) {
-            return [];
-        }
+        $dashboard = $this->gate->check('features.users.dashboard');
 
         return [
             [
                 'title' => 'Meine Daten',
-                'links' => [
-                    [
+                'links' => array_filter([
+                    $dashboard ? [
                         'title' => 'Abrechnungen',
                         'url' => route('home'),
                         'isActive' => $this->request->routeIs('home'),
-                    ],
+                    ] : null,
                     [
                         'title' => 'Einstellungen',
                         'url' => route('users.edit', $this->user),
@@ -80,14 +78,14 @@ class SidebarComposer
                         'url' => route('users.documents.index', $this->user),
                         'isActive' => $this->request->routeIs('users.documents.index'),
                     ],
-                    [
+                    $dashboard ? [
                         'title' => 'Provisionsschema',
                         'url' => route('commission-details'),
                         'isActive' => $this->request->routeIs('commission-details'),
-                    ],
-                ],
+                    ] : null,
+                ]),
             ],
-            [
+            $dashboard ? [
                 'title' => 'Meine Kunden',
                 'links' => [
                     [
@@ -109,8 +107,8 @@ class SidebarComposer
                         ), 1)),
                     ],
                 ],
-            ],
-            [
+            ] : [],
+            $dashboard ? [
                 'title' => 'Werbemittel',
                 'links' => [
                     [
@@ -129,7 +127,7 @@ class SidebarComposer
                         'isActive' => $this->request->routeIs('affiliate.mails.*'),
                     ],
                 ],
-            ],
+            ] : [],
             $this->user->bonuses()->where('is_overhead', true)->count() > 0 ? [
                 'title' => 'Meine Subpartner',
                 'links' => [
