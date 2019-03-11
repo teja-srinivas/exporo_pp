@@ -30,7 +30,7 @@
     @include('components.form.checkbox', [
         'label' => __("permissions.$key"),
         'name' => "permissions[{$permission->getKey()}]",
-        'default' => $model->hasDirectPermission($permission->name),
+        'default' => $model !== null && $model->hasDirectPermission($permission->name),
         'design' => 'switch',
     ])
 @endif
