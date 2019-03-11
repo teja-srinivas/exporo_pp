@@ -61,12 +61,12 @@
             ],
         ],
         'rows' => $bills->values(),
-        'actions' => [
+        'actions' => auth()->user()->can('export', \App\Models\Bill::class) ? [
             [
                 'label' => 'XLSX Herunterladen',
                 'action' => route('bills.export'),
                 'method' => 'get',
             ],
-        ],
+        ] : [],
     ]])
 @endsection
