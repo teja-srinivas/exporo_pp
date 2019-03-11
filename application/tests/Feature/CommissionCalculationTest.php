@@ -13,12 +13,12 @@ use App\Models\Schema;
 use App\Models\User;
 use App\Models\UserDetails;
 use App\Services\CalculateCommissionsService;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 final class CommissionCalculationTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     public function setUp()
     {
