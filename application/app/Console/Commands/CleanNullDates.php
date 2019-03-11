@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class CleanNullDates extends Command
 {
-    protected $signature = 'maintenance:clean-null-dates';
+    protected $signature = 'clean:null-dates';
     protected $description = 'Replaces all "legacy dates" with NULL where possible';
 
     /**

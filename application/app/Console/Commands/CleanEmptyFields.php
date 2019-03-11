@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class CleanEmptyFields extends Command
 {
-    protected $signature = 'maintenance:clean-empty-fields';
+    protected $signature = 'clean:empty-fields';
     protected $description = 'Replaces all seemingly empty fields with a proper NULL value';
 
     /**
