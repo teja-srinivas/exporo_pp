@@ -226,7 +226,7 @@ class UserController extends Controller
             // We've returned to our original user account, remove the warning(s)
             $session->remove($link);
             $session->remove($id);
-        } else if ($originalUser !== null) {
+        } elseif ($originalUser !== null) {
             // Remember a link to return to our profile and keep the "original" user ID for reference
             $session->put($link, $originalUser->getLoginLink());
 

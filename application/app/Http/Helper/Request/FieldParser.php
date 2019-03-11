@@ -16,7 +16,8 @@ class FieldParser
     protected function __construct(array $filters, array $sorts)
     {
         $this->fields = $this->parseFields(
-            $filters, $this->parseSorts($sorts)
+            $filters,
+            $this->parseSorts($sorts)
         );
     }
 

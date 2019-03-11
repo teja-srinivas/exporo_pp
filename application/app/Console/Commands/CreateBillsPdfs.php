@@ -13,7 +13,7 @@ class CreateBillsPdfs extends Command
      *
      * @var string
      */
-    protected $signature = 'bill:pdf' ;
+    protected $signature = 'bill:pdf';
 
     /**
      * The console command description.
