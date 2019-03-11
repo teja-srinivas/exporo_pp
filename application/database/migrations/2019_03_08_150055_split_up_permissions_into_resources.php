@@ -5,6 +5,7 @@ use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\PermissionRegistrar;
 
 class SplitUpPermissionsIntoResources extends Migration
@@ -77,8 +78,12 @@ class SplitUpPermissionsIntoResources extends Migration
 
     protected function rename(string $from, string $to)
     {
-        /** @var Permission $permission */
-        $permission = Permission::findByName($from);
-        $permission->update(['name' => $to]);
+        try {
+            /** @var Permission $permission */
+            $permission = Permission::findByName($from);
+            $permission->update(['name' => $to]);
+        } catch (PermissionDoesNotExist $ignore) {
+            // Most likely because of a unit test
+        }
     }
 }
