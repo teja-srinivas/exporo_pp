@@ -138,7 +138,7 @@ class UserController extends Controller
 
         return response()->view('users.edit', [
             'user' => $user,
-        ] + ($request->user()->can(UserPolicy::PERMISSION) ? [
+        ] + ($request->user()->can('manage', User::class) ? [
             'roles' => Role::query()->orderBy('name')->get(),
             'permissions' => Permission::query()->orderBy('name')->get(),
         ] : []));

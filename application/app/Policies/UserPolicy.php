@@ -45,10 +45,6 @@ class UserPolicy extends BasePolicy
      */
     public function update(User $user, $model)
     {
-        if (static::$runsInNova) {
-            return false;
-        }
-
         return $user->is($model) || parent::update($user, $model);
     }
 }

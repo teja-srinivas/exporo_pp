@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * Extension to the spatie permission model to add timestamp support
  * to its roles relationship.
  *
- * @package App
+ * @property string $name
  */
 class Permission extends \Spatie\Permission\Models\Permission
 {
     /**
-     * @inheritdoc
+     * @return BelongsToMany
      */
     public function roles(): BelongsToMany
     {
@@ -22,7 +22,7 @@ class Permission extends \Spatie\Permission\Models\Permission
     }
 
     /**
-     * @inheritdoc
+     * @return MorphToMany
      */
     public function users(): MorphToMany
     {

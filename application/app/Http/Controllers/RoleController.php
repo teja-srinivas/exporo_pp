@@ -130,6 +130,6 @@ class RoleController extends Controller
 
     protected function getPermissions()
     {
-        return Permission::query()->orderBy('name')->get(['id', 'name']);
+        return Permission::query()->get(['id', 'name']);
     }
 }

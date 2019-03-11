@@ -1,29 +1,37 @@
 @php($skipPermissions = collect())
 
 @foreach($model->roles->load('permissions')->sortBy('name') as $role)
-    <div class="form-group">
-        <b>
+    <details {!! $loop->last ? 'class="form-group"' : '' !!}>
+        <summary class="font-weight-bold">
             Rolle:
             <a href="{{ route('roles.show', $role) }}">
                 {{ $role->getDisplayName() }}
             </a>
-        </b>
+        </summary>
 
         <ul class="small pl-4">
-            @foreach($role->permissions->sortBy('name') as $permission)
+            @php($displayNames = $role->permissions->mapWithKeys(function (\App\Models\Permission $permission) {
+                $key = join(' › ', array_map(function (string $key) {
+                    return __("permissions.$key");
+                }, explode('.', $permission->name)));
+
+                return [$key => $permission];
+            })->sortKeys())
+
+            @foreach($displayNames as $displayName => $permission)
                 <li
                     @if($skipPermissions->contains($permission->getKey()))
                     class="text-muted"
                     style="text-decoration: line-through"
                     @endif
                 >
-                    {{ $permission->name }}
+                    {{ $displayName }}
                 </li>
 
                 @php($skipPermissions->push($permission->getKey()))
             @endforeach
         </ul>
-    </div>
+    </details>
 @endforeach
 
 <div class="form-group">
@@ -33,14 +41,10 @@
         {{-- Do not skip the permissions we have access to --}}
         @php($skipPermissions = $skipPermissions->diff($model->getDirectPermissions()->modelKeys()))
 
-        @foreach($permissions->whereNotIn('id', $skipPermissions) as $permission)
-            <input type="hidden" name="permissions[{{ $permission->getKey() }}]">
-
-            @include('components.form.checkbox', [
-                'label' => $permission->name,
-                'name' => "permissions[{$permission->getKey()}]",
-                'default' => $model->can($permission->name),
-            ])
-        @endforeach
+        @include('components.permissions.tree', [
+            'hidden' => true,
+            'model' => $model,
+            'permissions' => $permissions->whereNotIn('id', $skipPermissions),
+        ])
     </div>
 </div>
