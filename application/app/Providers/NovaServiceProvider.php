@@ -42,7 +42,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             new Metrics\UsersPerDay(),
-            new Metrics\ProjectsMissing(),
         ];
     }
 }
