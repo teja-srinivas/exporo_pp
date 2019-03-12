@@ -56,7 +56,14 @@ class Project extends Resource
     {
         return [
             ID::make()->sortable(),
+            Number::make('Financing Entity ID')->sortable(),
+            Number::make('Immo Project ID')->sortable(),
             Text::make('Description'),
+            Text::make('Legal Setup')->sortable(),
+            Text::make('Schema', 'schema.name')->sortable(),
+            Text::make('Status')->sortable(),
+            Date::make('Funding Start', 'launched_at')->sortable(),
+            Date::make('Updated At')->sortable(),
 
             File::make('Image')
                 ->disableDownload()
@@ -69,7 +76,7 @@ class Project extends Resource
             Number::make('Investments', 'investments_count')
                 ->onlyOnIndex()
                 ->sortable(),
-
+            Text::make('Legal Setup')->hideFromIndex(),
             Number::make('Interest Rate')->hideFromIndex()->step(0.01),
             Number::make('Margin')->hideFromIndex()->step(0.01),
             Number::make('Capital Cost')->hideFromIndex(),
