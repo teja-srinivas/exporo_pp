@@ -61,7 +61,7 @@ class Project extends Resource
             Text::make('Description'),
             Text::make('Legal Setup')->sortable(),
             Text::make('Schema', 'schema.name')->sortable(),
-            Text::make('Status', 'approved_at')->sortable(),
+            Text::make('Approved At', 'approved_at')->sortable(),
             Date::make('Funding Start', 'launched_at')->sortable(),
             Date::make('Updated At')->sortable(),
 
