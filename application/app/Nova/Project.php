@@ -8,6 +8,8 @@ use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use AwesomeNova\Cards\FilterCard;
+use App\Nova\Filters\IsApprovedProject;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -47,7 +49,7 @@ class Project extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function fields(Request $request)
@@ -68,8 +70,8 @@ class Project extends Resource
                 ->onlyOnIndex()
                 ->sortable(),
 
-            Number::make('Interest Rate')->hideFromIndex(),
-            Number::make('Margin')->hideFromIndex(),
+            Number::make('Interest Rate')->hideFromIndex()->step(0.01),
+            Number::make('Margin')->hideFromIndex()->step(0.01),
             Number::make('Capital Cost')->hideFromIndex(),
             Date::make('Payback Min At')->hideFromIndex(),
             Date::make('Payback Max At')->hideFromIndex(),
@@ -93,7 +95,9 @@ class Project extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new FilterCard(new IsApprovedProject()),
+        ];
     }
 
     /**
@@ -104,13 +108,15 @@ class Project extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new IsApprovedProject(),
+        ];
     }
 
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function lenses(Request $request)
@@ -121,7 +127,7 @@ class Project extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function actions(Request $request)
