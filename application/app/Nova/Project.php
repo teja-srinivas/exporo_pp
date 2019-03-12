@@ -8,6 +8,8 @@ use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use AwesomeNova\Cards\FilterCard;
+use App\Nova\Filters\IsApprovedProject;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -47,14 +49,21 @@ class Project extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function fields(Request $request)
     {
         return [
             ID::make()->sortable(),
+            Number::make('Financing Entity ID')->sortable(),
+            Number::make('Immo Project ID')->sortable(),
             Text::make('Description'),
+            Text::make('Legal Setup')->sortable(),
+            Text::make('Schema', 'schema.name')->sortable(),
+            Text::make('Status')->sortable(),
+            Date::make('Funding Start', 'launched_at')->sortable(),
+            Date::make('Updated At')->sortable(),
 
             File::make('Image')
                 ->disableDownload()
@@ -67,9 +76,9 @@ class Project extends Resource
             Number::make('Investments', 'investments_count')
                 ->onlyOnIndex()
                 ->sortable(),
-
-            Number::make('Interest Rate')->hideFromIndex(),
-            Number::make('Margin')->hideFromIndex(),
+            Text::make('Legal Setup')->hideFromIndex(),
+            Number::make('Interest Rate')->hideFromIndex()->step(0.01),
+            Number::make('Margin')->hideFromIndex()->step(0.01),
             Number::make('Capital Cost')->hideFromIndex(),
             Date::make('Payback Min At')->hideFromIndex(),
             Date::make('Payback Max At')->hideFromIndex(),
@@ -93,7 +102,9 @@ class Project extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new FilterCard(new IsApprovedProject()),
+        ];
     }
 
     /**
@@ -104,13 +115,15 @@ class Project extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new IsApprovedProject(),
+        ];
     }
 
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function lenses(Request $request)
@@ -121,7 +134,7 @@ class Project extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function actions(Request $request)

@@ -4,8 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7326aa874914e5749b2024ed81b65680",
+    "content-hash": "68f29d904a00c50bba37b03a5a34cb41",
     "packages": [
+        {
+            "name": "awesome-nova/filter-card",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/awesome-nova/filter-card.git",
+                "reference": "42102edf75504712bd0cbdefc5badec3963a0a08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/awesome-nova/filter-card/zipball/42102edf75504712bd0cbdefc5badec3963a0a08",
+                "reference": "42102edf75504712bd0cbdefc5badec3963a0a08",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "AwesomeNova\\FilterCardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AwesomeNova\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova card.",
+            "keywords": [
+                "card",
+                "filter",
+                "laravel",
+                "nova"
+            ],
+            "time": "2019-02-10T23:42:44+00:00"
+        },
         {
             "name": "aws/aws-sdk-php",
             "version": "3.89.0",
@@ -190,7 +233,7 @@
         },
         {
             "name": "cybercog/laravel-optimus",
-            "version": "v3.3.0",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cybercog/laravel-optimus.git",
@@ -259,7 +302,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2019-02-26T20:58:32+00:00"
+            "time": "2019-02-26T21:03:30+00:00"
         },
         {
             "name": "dannyvankooten/laravel-vat",
