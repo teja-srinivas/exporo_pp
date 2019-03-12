@@ -14,7 +14,7 @@ class AddsFinancingEntityId extends Migration
     public function up()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->string('financing_entity_id')->after('id');
+            $table->string('financing_entity_id')->after('id')->nullable();
         });
     }
 }
