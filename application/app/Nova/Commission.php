@@ -32,7 +32,7 @@ class Commission extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'model_id', 'model_type', 'user_id', 'child_user_id',
     ];
 
     /**
