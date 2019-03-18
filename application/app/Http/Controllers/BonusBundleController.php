@@ -142,11 +142,16 @@ class BonusBundleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\BonusBundle  $bonusBundle
+     * @param  \App\Models\BonusBundle $bundle
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy(BonusBundle $bonusBundle)
+    public function destroy(BonusBundle $bundle)
     {
-        //
+        $this->authorize('delete', $bundle);
+
+        $bundle->delete();
+
+        return redirect()->route('commissions.bundles.index');
     }
 }

@@ -7,6 +7,16 @@
     ])
 @endsection
 
+@section('actions')
+    @can('delete', $bundle)
+        <form action="{{ route('commissions.bundles.destroy', $bundle) }}" method="POST">
+            @method('DELETE')
+            @csrf
+            <button class="btn btn-outline-danger btn-sm mr-2">Löschen</button>
+        </form>
+    @endcan
+@endsection
+
 @section('main-content')
     <div class="rounded shadow-sm bg-white">
         @include('components.bundle-editor', [
