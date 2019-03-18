@@ -21,8 +21,16 @@
         @isset($bundles[1])
             @foreach($bundles[true] as $bundle)
             <div class="p-2 shadow-sm border rounded @unless($loop->first) mt-3 @endunless">
-                <h5 class="text-dark">{{ $bundle->name }}</h5>
-                @include('components.bundle-editor', ['bonuses' => $bundle->bonuses])
+                <h5 class="text-dark">
+                    @can('update', $bundle)
+                        <a href="{{ route('commissions.bundles.edit', $bundle) }}">
+                            {{ $bundle->name }}
+                        </a>
+                    @else
+                        {{ $bundle->name }}
+                    @endcan
+                </h5>
+                @include('components.bundle-editor', ['bonuses' => $bundle->bonuses, 'editable' => false])
             </div>
             @endforeach
         @else
@@ -44,7 +52,15 @@
         @isset($bundles[0])
             @foreach($bundles[false] as $bundle)
             <tr>
-                <td>{{ $bundle->name }}</td>
+                <td>
+                    @can('update', $bundle)
+                        <a href="{{ route('commissions.bundles.edit', $bundle) }}">
+                            {{ $bundle->name }}
+                        </a>
+                    @else
+                        {{ $bundle->name }}
+                    @endcan
+                </td>
                 <td>{{ optional($bundle->created_at)->format('d.m.Y') }}</td>
             </tr>
             @endforeach
@@ -57,5 +73,4 @@
         @endisset
         </tbody>
     </table>
-
 @endsection

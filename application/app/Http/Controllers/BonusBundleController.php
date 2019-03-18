@@ -13,9 +13,12 @@ class BonusBundleController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('viewAny', BonusBundle::class);
+
         $bundles = BonusBundle::query()
             ->with('bonuses')
             ->orderBy('name')
@@ -31,9 +34,12 @@ class BonusBundleController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
+        $this->authorize('create', BonusBundle::class);
+
         return response()->view('commissions.bundles.create');
     }
 
@@ -47,6 +53,8 @@ class BonusBundleController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', BonusBundle::class);
+
         $data = $this->validate($request, [
             'name' => 'required',
             'bonuses.*.type_id' => Rule::exists('commission_types', 'id'),
@@ -92,24 +100,43 @@ class BonusBundleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\BonusBundle  $bonusBundle
+     * @param  \App\Models\BonusBundle $bundle
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function edit(BonusBundle $bonusBundle)
+    public function edit(BonusBundle $bundle)
     {
-        //
+        $this->authorize('update', BonusBundle::class);
+
+        return view('commissions.bundles.edit', [
+            'bundle' => $bundle,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\BonusBundle  $bonusBundle
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\BonusBundle $bundle
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, BonusBundle $bonusBundle)
+    public function update(Request $request, BonusBundle $bundle)
     {
-        //
+        $this->authorize('create', BonusBundle::class);
+
+        $data = $this->validate($request, [
+            'name' => 'required|string',
+        ]);
+
+        $bundle->update($data + [
+            'selectable' => $request->has('selectable'),
+        ]);
+
+        flash_success();
+
+        return back();
     }
 
     /**
