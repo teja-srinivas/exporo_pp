@@ -46,7 +46,7 @@ class BillController extends Controller
                     'gross' => $bill->gross,
                     'commissions' => $bill->commissions,
                     'links' => [
-                        'self' => route('bills.download', $bill),
+                        'self' => route('bills.show', $bill),
                     ],
                 ];
             }),
@@ -141,7 +141,7 @@ class BillController extends Controller
         ]);
     }
 
-    public function downloadBillFromS3(Bill $bill, Filesystem $disk)
+    protected function downloadBillFromS3(Bill $bill, Filesystem $disk)
     {
         $filePath = 'statements/' . $bill->id;
 
