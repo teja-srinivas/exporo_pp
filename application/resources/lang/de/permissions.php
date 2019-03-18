@@ -28,6 +28,8 @@ return [
     'commission-bonuses' => 'Vergütungsschemata',
     'commission-types' => 'Provisionstypen',
     'documents' => 'Dokumente',
+    'investments' => 'Investments',
+    'investors' => 'Investoren',
     'links' => 'Links',
     'mailings' => 'Mailings',
     'projects' => 'Projekte',
