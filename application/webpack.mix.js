@@ -33,7 +33,7 @@ mix.purgeCss({
   // Dropdowns and animated JS content
   whitelist: [
     'arrow', 'show', 'fade', 'collapse', 'collapsing',
-    'form-group', 'form-row', 'fieldset', 'legend',
+    'form-group', 'form-row', 'fieldset', 'legend', 'custom-switch',
   ],
 
   whitelistPatterns: [

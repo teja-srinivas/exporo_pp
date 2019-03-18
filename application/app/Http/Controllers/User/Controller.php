@@ -17,6 +17,6 @@ class Controller extends BaseController
     {
         $viewer = $request->user();
 
-        abort_if($user->isNot($viewer) && $viewer->cannot(UserPolicy::PERMISSION), 404);
+        abort_if($user->isNot($viewer) && $viewer->cannot('view', $user), 404);
     }
 }

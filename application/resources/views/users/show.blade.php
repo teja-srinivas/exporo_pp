@@ -212,12 +212,14 @@
             </tbody>
         </table>
 
-        @slot('footer')
-            <div class="text-right">
-                <a href="{{ route('documents.create', ['user_id' => $user]) }}"
-                   class="btn btn-primary btn-sm">Dokument Hochladen</a>
-            </div>
-        @endslot
+        @can('create', \App\Models\Document::class)
+            @slot('footer')
+                <div class="text-right">
+                    <a href="{{ route('documents.create', ['user_id' => $user]) }}"
+                       class="btn btn-primary btn-sm">Dokument Hochladen</a>
+                </div>
+            @endslot
+        @endcan
     @endcard
 
     @include('users.partials.details')

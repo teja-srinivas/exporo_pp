@@ -4,7 +4,7 @@ namespace App\Policies;
 
 class RolePolicy extends BasePolicy
 {
-    const PERMISSION = 'manage authorization';
+    const PERMISSION = 'management.authorization';
 
     public function __construct()
     {

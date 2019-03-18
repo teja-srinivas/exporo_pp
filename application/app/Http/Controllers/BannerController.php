@@ -11,8 +11,15 @@ use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function index(Request $request)
     {
+        $this->authorize('view', Banner::class);
+
         /** @var User $user */
         $user = $request->user();
         $sets = $user->company->bannerSets()

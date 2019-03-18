@@ -6,9 +6,9 @@ use App\Models\User;
 
 class BillPolicy extends BasePolicy
 {
-    const PERMISSION = 'manage bills';
-    const CAN_BE_BILLED_PERMISSION = 'can be billed';
-    const DOWNLOAD_PERMISSION = 'download bills';
+    const PERMISSION = 'management.bills';
+    const CAN_BE_BILLED_PERMISSION = 'features.bills.receive';
+    const DOWNLOAD_PERMISSION = 'features.bills.download';
 
     public function __construct()
     {
@@ -50,6 +50,6 @@ class BillPolicy extends BasePolicy
      */
     public function export(User $user): bool
     {
-        return $this->hasPermission($user);
+        return $this->hasPermission('export', $user);
     }
 }

@@ -21,9 +21,6 @@ class BasePolicy
 {
     use HandlesAuthorization;
 
-    /** @var null|bool */
-    protected static $runsInNova;
-
     /** @var string */
     protected $permission;
 
@@ -35,10 +32,6 @@ class BasePolicy
     protected function __construct(string $permission)
     {
         $this->permission = $permission;
-
-        if (is_null(static::$runsInNova)) {
-            static::$runsInNova = request()->routeIs('nova.*');
-        }
     }
 
     /**
@@ -52,6 +45,8 @@ class BasePolicy
         if ($user->hasRole(Role::ADMIN)) {
             return true;
         }
+
+        return null;
     }
 
     /**
@@ -63,7 +58,7 @@ class BasePolicy
      */
     public function viewAny(User $user)
     {
-        return $this->hasPermission($user);
+        return $this->hasPermission('view', $user);
     }
 
     /**
@@ -76,7 +71,7 @@ class BasePolicy
      */
     public function view(User $user, $model)
     {
-        return $this->hasPermission($user);
+        return $this->hasPermission('view', $user);
     }
 
     /**
@@ -88,7 +83,7 @@ class BasePolicy
      */
     public function create(User $user)
     {
-        return !static::$runsInNova && $this->hasPermission($user);
+        return $this->hasPermission('create', $user);
     }
 
     /**
@@ -101,20 +96,21 @@ class BasePolicy
      */
     public function update(User $user, $model)
     {
-        return !static::$runsInNova && $this->hasPermission($user);
+        return $this->hasPermission('update', $user);
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can update the model in general
+     * (without any owner checks - this is for internal purposes).
      *
      * @param User $user
-     * @param Model $model
+     * @param Model|null $model
      * @return mixed
      * @throws \Exception
      */
-    public function manage(User $user, $model)
+    public function manage(User $user, $model = null)
     {
-        return $this->hasPermission($user);
+        return $this->hasPermission('update', $user);
     }
 
     /**
@@ -127,16 +123,16 @@ class BasePolicy
      */
     public function delete(User $user, $model)
     {
-        return !static::$runsInNova && $this->hasPermission($user);
+        return $this->hasPermission('delete', $user);
     }
 
     /**
+     * @param string $action
      * @param User $user
      * @return bool
-     * @throws \Exception
      */
-    protected function hasPermission(User $user): bool
+    protected function hasPermission(string $action, User $user): bool
     {
-        return $user->can($this->permission);
+        return $user->can("{$this->permission}.$action");
     }
 }

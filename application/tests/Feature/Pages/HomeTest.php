@@ -4,13 +4,13 @@ namespace Tests\Feature\Pages;
 
 use App\Models\Bill;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class HomeTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
     use WithoutMiddleware;
 
     /** @var User */

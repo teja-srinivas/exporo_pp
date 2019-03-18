@@ -4,7 +4,7 @@ namespace App\Policies;
 
 class DocumentPolicy extends BasePolicy
 {
-    const PERMISSION = 'manage documents';
+    const PERMISSION = 'management.documents';
 
     public function __construct()
     {

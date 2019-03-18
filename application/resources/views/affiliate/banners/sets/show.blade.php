@@ -23,6 +23,7 @@
 @endsection
 
 @section('main-content')
+    @can('create', \App\Models\Banner::class)
     @php($dropzone = [
         'id' => 'banner-upload',
         'duplicateCheck' => true,
@@ -39,6 +40,7 @@
 
     <vue data-is="vue-dropzone" data-props='@json($dropzone)'
          class="border-0 shadow-sm rounded p-2"></vue>
+    @endcan
 
     @foreach($set->banners->chunk(2) as $chunk)
         <div class="my-3">
@@ -48,6 +50,8 @@
                     <img src="{{ $banner->getDownloadUrl() }}" class="img-thumbnail bg-white mb-1">
                     <div class="small d-flex justify-content-between text-muted">
                         <span>{{ $banner->width }}x{{ $banner->height }}</span>
+
+                        @can('delete', $banner)
                         <form action="{{ route('banners.destroy', $banner) }}" method="POST">
                             @method('DELETE')
                             @csrf
@@ -56,6 +60,7 @@
                                 Löschen
                             </button>
                         </form>
+                        @endcan
                     </div>
                 </div>
                 @endforeach

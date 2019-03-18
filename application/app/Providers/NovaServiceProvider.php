@@ -12,17 +12,6 @@ use Laravel\Nova\NovaApplicationServiceProvider;
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
-     * @inheritdoc
-     */
-    public function boot()
-    {
-        parent::boot();
-
-        // Adds the "viewNova" gate to all requests so we can add the button to the sidebar
-        $this->gate();
-    }
-
-    /**
      * Register the Nova routes.
      *
      * @return void
@@ -41,9 +30,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function gate()
     {
-        Gate::define('viewNova', function (User $user) {
-            return $user->hasAnyRole([Role::ADMIN, Role::INTERNAL]);
-        });
+        // Do not use a custom gate, we use a permission system for this
     }
 
     /**

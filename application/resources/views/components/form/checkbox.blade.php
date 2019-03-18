@@ -1,4 +1,4 @@
-<div class="custom-control custom-checkbox {{ $class ?? '' }}">
+<div class="custom-control custom-{{ $design ?? 'checkbox' }} {{ $class ?? '' }}">
     @php($name = $name ?? uniqid('input'))
     @php($id = 'input' . studly_case($name))
     <input

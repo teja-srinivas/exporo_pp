@@ -4,12 +4,12 @@ namespace Tests\Unit\Models;
 
 use App\Models\User;
 use App\Models\UserDetails;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UserDetailsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /** @test */
     public function it_updates_the_display_name()

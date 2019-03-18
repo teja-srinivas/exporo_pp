@@ -136,7 +136,7 @@
     ],
 ])])
 
-@if(auth()->user()->can('manage', $user))
+@can('manage', $user)
     <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Mehrwertsteuer</h6>
 
     @include('components.form.builder', ['inputs' => $decorate([
@@ -155,4 +155,4 @@
             ],
         ],
     ])])
-@endif
+@endcan

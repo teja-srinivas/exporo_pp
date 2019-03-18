@@ -4,7 +4,7 @@ namespace App\Policies;
 
 class InvestmentPolicy extends BasePolicy
 {
-    const PERMISSION = 'manage investments';
+    const PERMISSION = 'management.investments';
 
     public function __construct()
     {

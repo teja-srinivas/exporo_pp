@@ -4,7 +4,7 @@ namespace App\Policies;
 
 class CommissionTypePolicy extends BasePolicy
 {
-    const PERMISSION = 'manage commission types';
+    const PERMISSION = 'management.commission-types';
 
     public function __construct()
     {

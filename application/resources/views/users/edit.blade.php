@@ -38,7 +38,7 @@
         </div>
     </form>
 
-    @can(\App\Policies\UserPolicy::PERMISSION)
+    @can('manage', $user)
     <h4>Berechtigungen</h4>
 
     <form action="{{ route('users.update', $user) }}" method="POST" class="mt-4">
@@ -56,6 +56,7 @@
                 'label' => $role->getDisplayName(),
                 'name' => "roles[{$role->getKey()}]",
                 'default' => $user->hasRole($role),
+                'design' => 'switch',
             ])
             @endforeach
         @endcard

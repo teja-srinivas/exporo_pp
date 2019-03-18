@@ -14,7 +14,6 @@ class AuthorizationController extends Controller
         $roles = Role::query()->orderBy('name')->get(['id', 'name']);
 
         $permissions = Permission::query()
-            ->orderBy('name')
             ->with('roles')
             ->get(['id', 'name']);
 

@@ -6,12 +6,12 @@ use App\Models\Bill;
 use App\Models\Commission;
 use App\Models\User;
 use App\Policies\BillPolicy;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class BillGeneratorTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /** @test */
     public function it_generates_bills()

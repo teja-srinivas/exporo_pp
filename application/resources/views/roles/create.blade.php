@@ -29,12 +29,9 @@
             <div class="form-group row mb-0">
                 <label class="col-sm-2 col-form-label">Fähigkeiten:</label>
                 <div class="col-sm-10 pt-1">
-                    @foreach($permissions as $permission)
-                        @include('components.form.checkbox', [
-                            'label' => $permission->name,
-                            'name' => "permissions[{$permission->id}]",
-                        ])
-                    @endforeach
+                    @include('components.permissions.tree', [
+                        'permissions' => $permissions,
+                    ])
                 </div>
             </div>
 
