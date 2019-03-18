@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\CommissionBonus;
 use App\Models\Investment;
 use App\Models\Investor;
 use Exception;
@@ -26,6 +27,8 @@ class CleanNullDates extends Command
         DB::reconnect();
 
         DB::transaction(function () {
+            $this->clean(CommissionBonus::class, 'accepted_at', 'timestamp');
+            $this->clean(CommissionBonus::class, 'deleted_at', 'timestamp');
             $this->clean(Investment::class, 'acknowledged_at', 'datetime');
             $this->clean(Investment::class, 'cancelled_at', 'datetime');
             $this->clean(Investment::class, 'paid_at', 'datetime');
