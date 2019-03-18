@@ -30,7 +30,7 @@ class Investor extends Resource
     ];
 
     public static $with = [
-        'user',
+        'user.details',
     ];
 
     public static function indexQuery(NovaRequest $request, $query)

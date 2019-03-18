@@ -281,4 +281,9 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
         return $this->bonuses()->count() > 0;
     }
+
+    public function getDisplayName(): string
+    {
+        return $this->details->display_name;
+    }
 }
