@@ -44,4 +44,15 @@ class Contract extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function fromTemplate(ContractTemplate $template): self
+    {
+        return new Contract([
+            'template_id' => $template->getKey(),
+            'vat_amount' => $template->vat_amount,
+            'vat_included' => $template->vat_included,
+            'cancellation_days' => $template->cancellation_days,
+            'claim_years' => $template->claim_years,
+        ]);
+    }
 }

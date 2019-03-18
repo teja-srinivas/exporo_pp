@@ -7,6 +7,8 @@ use App\Http\Middleware\UserHasBeenReferred;
 use App\Http\Requests\UserStoreRequest;
 use App\Models\Agb;
 use App\Models\Company;
+use App\Models\Contract;
+use App\Models\ContractTemplate;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -106,6 +108,10 @@ class RegisterController extends Controller
 
             $user->assignRole(Role::PARTNER);
             $user->agbs()->attach($agbs);
+
+            $user->contracts()->save(
+                Contract::fromTemplate(ContractTemplate::query()->where('company_id', $companyId)->first())
+            );
 
             return $user;
         });
