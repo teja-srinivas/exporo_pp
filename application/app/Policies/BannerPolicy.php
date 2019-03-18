@@ -4,7 +4,7 @@ namespace App\Policies;
 
 class BannerPolicy extends BasePolicy
 {
-    const PERMISSION = 'management.banners';
+    const PERMISSION = 'management.affiliate.banners';
 
     public function __construct()
     {
