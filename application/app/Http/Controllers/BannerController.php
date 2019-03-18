@@ -18,7 +18,7 @@ class BannerController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('view', Banner::class);
+        $this->authorize('viewAny', Banner::class);
 
         /** @var User $user */
         $user = $request->user();
