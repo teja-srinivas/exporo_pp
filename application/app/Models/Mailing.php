@@ -27,7 +27,8 @@ class Mailing extends Model implements AuditableContract
     {
         $replacements = [
             '#partnername' => implode(' ', array_filter([trim($user->first_name), trim($user->last_name)])),
-            '#reflink' => '?a_aid=' . $user->id,
+            '#partnerid' => (string) $user->id,
+            '#reflink' => "?a_aid={$user->id}",
         ];
 
         return str_replace(
