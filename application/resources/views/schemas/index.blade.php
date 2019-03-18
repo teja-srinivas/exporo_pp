@@ -21,7 +21,11 @@
         @forelse($schemas as $schema)
             <tr>
                 <td><a href="{{ route('schemas.show', $schema) }}">{{ $schema->name }}</a></td>
-                <td>{{ $schema->formula }}</td>
+                <td>{!!
+                    preg_replace_callback('/[\s0-9]*([a-z]+)[\s0-9]*/i', function (array $match) {
+                        return str_replace($match[1], '<span class="badge badge-light">' . ucfirst($match[1]) . '</span>', $match[0]);
+                    }, str_replace('*', '×', e($schema->formula)));
+                !!}</td>
                 <td>{{ optional($schema->created_at)->format('d.m.Y') }}</td>
             </tr>
         @empty
