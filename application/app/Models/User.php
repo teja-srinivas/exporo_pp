@@ -109,6 +109,18 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasOne(UserDetails::class, 'id')->withDefault();
     }
 
+    public function contract(): HasOne
+    {
+        return $this->hasOne(Contract::class)
+            ->whereNotNull('accepted_at')
+            ->latest();
+    }
+
+    public function contracts(): HasMany
+    {
+        return $this->hasMany(Contract::class);
+    }
+
     /**
      * @return BelongsTo
      */
