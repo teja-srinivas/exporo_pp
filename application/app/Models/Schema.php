@@ -50,7 +50,7 @@ class Schema extends Model implements AuditableContract
     {
         $this->compiledFormula = null;
 
-        $this->attributes['formula'] = str_replace(',', '.', $formula);
+        $this->attributes['formula'] = $formula;
     }
 
     /**
