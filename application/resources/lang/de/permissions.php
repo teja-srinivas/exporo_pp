@@ -17,6 +17,8 @@ return [
     'process' => 'annehmen/ablehnen',
     'receive' => 'erhalten',
 
+    'update-special-agreement' => 'Sondervereinbarung ändern',
+
     'affiliate' => 'Werbemittel',
     'agbs' => 'AGBs',
     'audits' => 'Änderungsprotokoll',
@@ -27,6 +29,7 @@ return [
     'commission-bonus-bundles' => 'Provisionspakete',
     'commission-bonuses' => 'Vergütungsschemata',
     'commission-types' => 'Provisionstypen',
+    'contracts' => 'Verträge',
     'documents' => 'Dokumente',
     'investments' => 'Investments',
     'investors' => 'Investoren',
@@ -34,5 +37,6 @@ return [
     'mailings' => 'Mailings',
     'projects' => 'Projekte',
     'schemas' => 'Provisionsschemata',
+    'templates' => 'Vorlagen',
     'users' => 'Benutzer',
 ];
