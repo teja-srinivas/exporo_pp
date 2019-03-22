@@ -103,6 +103,6 @@ class BannerController extends Controller
 
         $banner->delete();
 
-        return back();
+        return redirect()->to('banners.sets.show', $banner->set);
     }
 }
