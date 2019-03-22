@@ -3,11 +3,14 @@
 namespace App\Http\ViewComposers;
 
 use App\Models\Agb;
+use App\Models\Banner;
 use App\Models\BannerSet;
 use App\Models\Bill;
 use App\Models\BonusBundle;
 use App\Models\CommissionType;
 use App\Models\Document;
+use App\Models\Link;
+use App\Models\Mailing;
 use App\Models\Project;
 use App\Models\Role;
 use App\Models\Schema;
@@ -46,28 +49,101 @@ class SidebarComposer
     {
         clock()->startEvent('app.sidebar', 'Rendering sidebar');
 
-        $view->with('menu', $this->user === null ? [] : array_filter(array_merge(
-            $this->getInternal(),
-            $this->getCommissions(),
-            $this->getPartner()
-        )));
+        $view->with('menu', $this->filter($this->buildMenu()));
 
         clock()->endEvent('app.sidebar');
     }
 
-    protected function getPartner()
+    protected function buildMenu()
     {
+        if ($this->user === null) {
+            return [];
+        }
+
         $dashboard = $this->gate->check('features.users.dashboard');
 
         return [
             [
+                'title' => 'Verwaltung',
+                'links' => [
+                    [
+                        'title' => 'AGBs',
+                        'url' => route('agbs.index'),
+                        'isActive' => $this->request->routeIs('agbs.*'),
+                        'isAllowed' => $this->canList(Agb::class),
+                    ],
+                    [
+                        'title' => 'Benutzer',
+                        'url' => route('users.index'),
+                        'isActive' => $this->request->routeIs('users.*'),
+                        'isAllowed' => $this->canList(User::class),
+                    ],
+                    [
+                        'title' => 'Berechtigungen',
+                        'url' => route('authorization.index'),
+                        'isActive' => $this->request->routeIs('authorization.*', 'roles.*', 'permissions.*'),
+                        'isAllowed' => $this->canList(Role::class),
+                    ],
+                    [
+                        'title' => 'Dokumente',
+                        'url' => route('documents.index'),
+                        'isActive' => $this->request->routeIs('documents.*'),
+                        'isAllowed' => $this->canList(Document::class),
+                    ],
+                    [
+                        'title' => 'Projekte',
+                        'url' => route('projects.index'),
+                        'isActive' => $this->request->routeIs('projects.*'),
+                        'isAllowed' => $this->canList(Project::class),
+                    ],
+                    [
+                        'title' => 'Banner',
+                        'url' => route('banners.sets.index'),
+                        'isActive' => $this->request->routeIs('banners.*'),
+                        'isAllowed' => $this->canList(BannerSet::class),
+                    ],
+                ],
+            ],
+
+            [
+                'title' => 'Provisionen',
+                'links' => [
+                    [
+                        'title' => 'Abrechnungen',
+                        'url' => route('bills.index'),
+                        'isActive' => $this->request->routeIs('bills.*', 'commissions.index'),
+                        'isAllowed' => $this->canList(Bill::class),
+                    ],
+                    [
+                        'title' => 'Schemata',
+                        'url' => route('schemas.index'),
+                        'isActive' => $this->request->routeIs('schemas.*'),
+                        'isAllowed' => $this->canList(Schema::class),
+                    ],
+                    [
+                        'title' => 'Typen',
+                        'url' => route('commissions.types.index'),
+                        'isActive' => $this->request->routeIs('commissions.types.*'),
+                        'isAllowed' => $this->canList(CommissionType::class),
+                    ],
+                    [
+                        'title' => 'Pakete',
+                        'url' => route('commissions.bundles.index'),
+                        'isActive' => $this->request->routeIs('commissions.bundles.*'),
+                        'isAllowed' => $this->canList(BonusBundle::class),
+                    ],
+                ],
+            ],
+
+            [
                 'title' => 'Meine Daten',
                 'links' => array_filter([
-                    $dashboard ? [
+                    [
                         'title' => 'Abrechnungen',
                         'url' => route('home'),
                         'isActive' => $this->request->routeIs('home'),
-                    ] : null,
+                        'isAllowed' => $dashboard,
+                    ],
                     [
                         'title' => 'Einstellungen',
                         'url' => route('users.edit', $this->user),
@@ -78,15 +154,18 @@ class SidebarComposer
                         'url' => route('users.documents.index', $this->user),
                         'isActive' => $this->request->routeIs('users.documents.index'),
                     ],
-                    $dashboard ? [
+                    [
                         'title' => 'Provisionsschema',
                         'url' => route('commission-details'),
                         'isActive' => $this->request->routeIs('commission-details'),
-                    ] : null,
+                        'isAllowed' => $dashboard,
+                    ],
                 ]),
             ],
-            $dashboard ? [
+
+            [
                 'title' => 'Meine Kunden',
+                'isAllowed' => $dashboard,
                 'links' => [
                     [
                         'title' => 'Meine Kunden',
@@ -107,29 +186,11 @@ class SidebarComposer
                         ), 1)),
                     ],
                 ],
-            ] : [],
-            $dashboard ? [
-                'title' => 'Werbemittel',
-                'links' => [
-                    [
-                        'title' => 'Banner',
-                        'url' => route('affiliate.banners.index'),
-                        'isActive' => $this->request->routeIs('affiliate.banners.*'),
-                    ],
-                    [
-                        'title' => 'Links',
-                        'url' => route('affiliate.links.index'),
-                        'isActive' => $this->request->routeIs('affiliate.links.*'),
-                    ],
-                    [
-                        'title' => 'Mailings',
-                        'url' => route('affiliate.mails.index'),
-                        'isActive' => $this->request->routeIs('affiliate.mails.*'),
-                    ],
-                ],
-            ] : [],
-            $this->user->bonuses()->where('is_overhead', true)->count() > 0 ? [
+            ],
+
+            [
                 'title' => 'Meine Subpartner',
+                'isAllowed' => $this->user->bonuses()->where('is_overhead', true)->exists(),
                 'links' => [
                     [
                         'title' => 'Meine Subpartner',
@@ -146,110 +207,30 @@ class SidebarComposer
                         'isActive' => $this->request->routeIs('affiliate.child-users'),
                     ],
                 ],
-            ] : [],
-        ];
-    }
-
-    protected function getInternal()
-    {
-        $links = [];
-
-        if ($this->canList(Agb::class)) {
-            $links[] = [
-                'title' => 'AGBs',
-                'url' => route('agbs.index'),
-                'isActive' => $this->request->routeIs('agbs.*'),
-            ];
-        }
-
-        if ($this->canList(User::class)) {
-            $links[] = [
-                'title' => 'Benutzer',
-                'url' => route('users.index'),
-                'isActive' => $this->request->routeIs('users.*'),
-            ];
-        }
-
-        if ($this->canList(Role::class)) {
-            $links[] = [
-                'title' => 'Berechtigungen',
-                'url' => route('authorization.index'),
-                'isActive' => $this->request->routeIs('authorization.*', 'roles.*', 'permissions.*'),
-            ];
-        }
-
-        if ($this->canList(Document::class)) {
-            $links[] = [
-                'title' => 'Dokumente',
-                'url' => route('documents.index'),
-                'isActive' => $this->request->routeIs('documents.*'),
-            ];
-        }
-
-        if ($this->canList(Project::class)) {
-            $links[] = [
-                'title' => 'Projekte',
-                'url' => route('projects.index'),
-                'isActive' => $this->request->routeIs('projects.*'),
-            ];
-        }
-
-        if ($this->canList(BannerSet::class)) {
-            $links[] = [
-                'title' => 'Banner',
-                'url' => route('banners.sets.index'),
-                'isActive' => $this->request->routeIs('banners.*'),
-            ];
-        }
-
-        return empty($links) ? [] : [
-            [
-                'title' => 'Verwaltung',
-                'links' => $links,
             ],
-        ];
-    }
 
-    private function getCommissions()
-    {
-        $links = [];
-
-        if ($this->canList(Bill::class)) {
-            $links[] = [
-                'title' => 'Abrechnungen',
-                'url' => route('bills.index'),
-                'isActive' => $this->request->routeIs('bills.*', 'commissions.index'),
-            ];
-        }
-
-        if ($this->canList(Schema::class)) {
-            $links[] = [
-                'title' => 'Schemata',
-                'url' => route('schemas.index'),
-                'isActive' => $this->request->routeIs('schemas.*'),
-            ];
-        }
-
-        if ($this->canList(CommissionType::class)) {
-            $links[] = [
-                'title' => 'Typen',
-                'url' => route('commissions.types.index'),
-                'isActive' => $this->request->routeIs('commissions.types.*'),
-            ];
-        }
-
-        if ($this->canList(BonusBundle::class)) {
-            $links[] = [
-                'title' => 'Pakete',
-                'url' => route('commissions.bundles.index'),
-                'isActive' => $this->request->routeIs('commissions.bundles.*'),
-            ];
-        }
-
-        return empty($links) ? [] : [
             [
-                'title' => 'Provisionen',
-                'links' => $links,
+                'title' => 'Werbemittel',
+                'links' => [
+                    [
+                        'title' => 'Banner',
+                        'url' => route('affiliate.banners.index'),
+                        'isActive' => $this->request->routeIs('affiliate.banners.*'),
+                        'isAllowed' => $this->canList(Banner::class),
+                    ],
+                    [
+                        'title' => 'Links',
+                        'url' => route('affiliate.links.index'),
+                        'isActive' => $this->request->routeIs('affiliate.links.*'),
+                        'isAllowed' => $this->canList(Link::class),
+                    ],
+                    [
+                        'title' => 'Mailings',
+                        'url' => route('affiliate.mails.index'),
+                        'isActive' => $this->request->routeIs('affiliate.mails.*'),
+                        'isAllowed' => $this->canList(Mailing::class),
+                    ],
+                ],
             ],
         ];
     }
@@ -257,5 +238,26 @@ class SidebarComposer
     protected function canList(string $resource): bool
     {
         return $this->gate->check('viewAny', $resource);
+    }
+
+    protected function filter(array $buildMenu): array
+    {
+        return array_filter(array_map(function ($menu) {
+            if (!($menu['isAllowed'] ?? true)) {
+                return null;
+            }
+
+            if (!isset($menu['links'])) {
+                return $menu;
+            }
+
+            $menu['links'] = $this->filter($menu['links']);
+
+            if (empty($menu['links'])) {
+                return null;
+            }
+
+            return $menu;
+        }, $buildMenu));
     }
 }
