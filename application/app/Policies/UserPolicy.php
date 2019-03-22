@@ -19,6 +19,7 @@ class UserPolicy extends BasePolicy
     use HandlesAuthorization;
 
     const PERMISSION = 'management.users';
+    const PROCESS_PERMISSION = 'features.users.process';
 
     public function __construct()
     {
@@ -35,7 +36,7 @@ class UserPolicy extends BasePolicy
      */
     public function process(User $user, ?User $model)
     {
-        return $user->can('process partners');
+        return $user->can(self::PROCESS_PERMISSION);
     }
 
     /**
