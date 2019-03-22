@@ -26,10 +26,7 @@ class BannerController extends Controller
             ->with('banners')
             ->get()
             ->reject(function (BannerSet $set) {
-                return empty($set->urls);
-            })
-            ->reject(function (BannerSet $set) {
-                return $set->banners->isEmpty();
+                return empty($set->urls) || $set->banners->isEmpty();
             })
             ->map(function (BannerSet $set) use ($user) {
                 return [
