@@ -40,7 +40,8 @@ class Bill extends Model implements AuditableContract
     protected $fillable = [
         'user_id',
         'released_at',
-        'pdf_created_at'
+        'pdf_created_at',
+        'mail_sent_at',
     ];
 
     protected $casts = [
