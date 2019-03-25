@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Repositories\UserRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class RoleController extends Controller
 {
@@ -42,7 +45,8 @@ class RoleController extends Controller
         ]);
 
         $role = Role::create(['name' => $data['name']]);
-        $role->givePermissionTo(Permission::query()->whereIn('id', array_keys($data['permissions']))->get());
+
+        $this->syncPermissions($role,$data['permissions']);
 
         return redirect()->route('roles.show', $role);
     }
@@ -75,7 +79,7 @@ class RoleController extends Controller
     {
         $this->authorize('update', $role);
 
-        $permissions = $this->getPermissions();
+        $permissions = $this->getPermissions($role);
 
         return response()->view('roles.edit', compact('role', 'permissions'));
     }
@@ -94,15 +98,15 @@ class RoleController extends Controller
         $this->authorize('update', $role);
 
         $data = $this->validate($request, [
-            'name' => 'unique:roles,name,' . $role->id,
+            'name' => Rule::unique('roles', 'name')->ignoreModel($role),
             'permissions' => 'nullable|array',
         ]);
 
         if ($role->canBeDeleted() && isset($data['name'])) {
-            $role->fill(['name' => $data['name']])->save();
+            $role->update(['name' => $data['name']]);
         }
 
-        $role->syncPermissions(Permission::query()->whereIn('id', array_keys($data['permissions']))->get());
+        $this->syncPermissions($role, $data['permissions']);
 
         flash_success();
 
@@ -121,15 +125,25 @@ class RoleController extends Controller
     {
         $this->authorize('delete', $role);
 
-        abort_unless($role->canBeDeleted(), 409, 'Role is a system resource');
+        abort_unless($role->canBeDeleted(), Response::HTTP_FORBIDDEN, 'Role is a system resource');
 
         $role->delete();
 
         return redirect()->route('authorization.index');
     }
 
-    protected function getPermissions()
+    protected function getPermissions(Role $allowForRole = null): Collection
     {
-        return Permission::query()->get(['id', 'name']);
+        return Permission::all()->reject(function (Permission $permission) use ($allowForRole) {
+            return $permission->isProtected($allowForRole);
+        });
+    }
+
+    protected function syncPermissions(Role $role, array $permissions)
+    {
+        $available = $this->getPermissions($role)->modelKeys();
+        $attach = array_keys($permissions);
+
+        $role->syncPermissions(array_intersect($available, $attach));
     }
 }

@@ -22,23 +22,18 @@ class CleanNullDates extends Command
      */
     public function handle()
     {
-        $default = config('database.connections.mysql.strict', true);
-        config()->set('database.connections.mysql.strict', false);
-        DB::reconnect();
-
-        DB::transaction(function () {
-            $this->clean(CommissionBonus::class, 'accepted_at', 'timestamp');
-            $this->clean(CommissionBonus::class, 'deleted_at', 'timestamp');
-            $this->clean(Investment::class, 'acknowledged_at', 'datetime');
-            $this->clean(Investment::class, 'cancelled_at', 'datetime');
-            $this->clean(Investment::class, 'paid_at', 'datetime');
-            $this->clean(Investor::class, 'claim_end', 'date');
-            $this->clean(Investor::class, 'created_at', 'timestamp');
-            $this->clean(Investor::class, 'updated_at', 'timestamp');
+        $this->disableStrict(function () {
+            DB::transaction(function () {
+                $this->clean(CommissionBonus::class, 'accepted_at', 'timestamp');
+                $this->clean(CommissionBonus::class, 'deleted_at', 'timestamp');
+                $this->clean(Investment::class, 'acknowledged_at', 'datetime');
+                $this->clean(Investment::class, 'cancelled_at', 'datetime');
+                $this->clean(Investment::class, 'paid_at', 'datetime');
+                $this->clean(Investor::class, 'claim_end', 'date');
+                $this->clean(Investor::class, 'created_at', 'timestamp');
+                $this->clean(Investor::class, 'updated_at', 'timestamp');
+            });
         });
-
-        config()->set('database.connections.mysql.strict', $default);
-        DB::reconnect();
     }
 
     protected function clean(string $class, string $field, string $type)
@@ -66,5 +61,21 @@ class CleanNullDates extends Command
         }
 
         $query->update([$field => null]);
+    }
+
+    protected function disableStrict(\Closure $param)
+    {
+        $default = config('database.connections.mysql.strict', true);
+
+        try {
+            config()->set('database.connections.mysql.strict', false);
+            DB::reconnect();
+
+            $param();
+
+        } finally {
+            config()->set('database.connections.mysql.strict', $default);
+            DB::reconnect();
+        }
     }
 }

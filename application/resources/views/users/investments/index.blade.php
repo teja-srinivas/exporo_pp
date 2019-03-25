@@ -63,5 +63,9 @@
                 ],
             ],
         ],
+        'defaultSort' => [
+            'name' => 'createdAt',
+            'order' => 'desc',
+        ],
     ]])
 @endsection

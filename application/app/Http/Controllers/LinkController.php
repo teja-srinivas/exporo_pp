@@ -11,9 +11,12 @@ class LinkController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
+        $this->authorize('viewAny', Link::class);
+
         return view('affiliate.links.index', [
             'links' => Link::query()->orderBy('title')->get(),
         ]);

@@ -33,7 +33,7 @@
 
             <div class="form-group row mb-0">
                 <label class="col-sm-2 col-form-label">Fähigkeiten:</label>
-                <div class="col-sm-10 pt-1">
+                <div class="col-sm-10 py-1">
                     @include('components.permissions.tree', [
                         'permissions' => $permissions,
                         'model' => $role,

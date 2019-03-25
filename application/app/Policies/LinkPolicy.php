@@ -4,7 +4,7 @@ namespace App\Policies;
 
 class LinkPolicy extends BasePolicy
 {
-    const PERMISSION = 'management.links';
+    const PERMISSION = 'management.affiliate.links';
 
     public function __construct()
     {

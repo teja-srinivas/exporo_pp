@@ -8,12 +8,12 @@
         }) !== null)
     @endif
 
-    <details {{ ($doOpen ?? $isOpen) ? 'open' : '' }} class="mb-1">
+    <details {{ ($doOpen ?? $isOpen) ? 'open' : '' }} @unless($loop->last) class="mb-1" @endif>
         <summary>
             <strong>{{ __("permissions.$key") }}</strong>
         </summary>
 
-        <div class="ml-1 pl-3 border-left mb-3">
+        <div class="ml-1 pl-3 border-left @unless($loop->last) mb-3 @endif">
             @foreach(collect($permission)->sortBy(function ($_, string $key) {
                 return __("permissions.$key");
             }, SORT_NATURAL) as $key => $group)

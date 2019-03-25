@@ -24,15 +24,14 @@ class InvestmentController extends Controller
         return response()->view('users.investments.index', [
             'user' => $user,
             'investments' => $user->investments()
-                ->join('projects', 'projects.id', 'investments.project_id')
-                ->join('schemas', 'schemas.id', 'projects.schema_id')
+                ->leftJoin('projects', 'projects.id', 'investments.project_id')
+                ->leftJoin('schemas', 'schemas.id', 'projects.schema_id')
                 ->select('investments.id', 'paid_at', 'amount', 'cancelled_at')
                 ->selectRaw('investors.first_name')
                 ->selectRaw('investors.last_name')
                 ->selectRaw('projects.description as project_name')
                 ->selectRaw('schemas.name as type')
                 ->selectRaw('investments.created_at')
-                ->latest('investments.created_at')
                 ->get()
                 ->map(function (Investment $investment) {
                     $cancelled = $investment->isCancelled();

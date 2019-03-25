@@ -4,23 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserStoreRequest;
 use App\Jobs\SendMail;
-use App\Models\Bill;
 use App\Models\BonusBundle;
 use App\Models\Company;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
-use App\Policies\UserPolicy;
 use App\Repositories\BillRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -136,12 +134,16 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
 
-        return response()->view('users.edit', [
-            'user' => $user,
-        ] + ($request->user()->can('manage', User::class) ? [
-            'roles' => Role::query()->orderBy('name')->get(),
-            'permissions' => Permission::query()->orderBy('name')->get(),
-        ] : []));
+        $data['user'] = $user;
+
+        if ($request->user()->can('manage', User::class)) {
+            $data['roles'] = Role::query()->orderBy('name')->get();
+            $data['permissions'] = Permission::all()->reject(function (Permission $permission) use ($user) {
+                return $permission->isProtected($user->roles);
+            });
+        }
+
+        return response()->view('users.edit', $data);
     }
 
     /**

@@ -38,7 +38,7 @@ class HomeController extends Controller
                     'name' => $date,
                     'date' => $date,
                     'links' => [
-                        'download' => route('bills.download', $bill),
+                        'download' => route('bills.show', $bill),
                     ],
                 ];
             }),
