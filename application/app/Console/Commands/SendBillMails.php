@@ -2,38 +2,29 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Models\Bill;
 use App\Jobs\SendMail;
+use App\Models\Bill;
+use App\Repositories\BillRepository;
+use Illuminate\Console\Command;
 
 class SendBillMails extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'bill:mail';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Sends commission email for created bills';
 
-
     /**
-     * Execute the console command.
+     * Sends "bill released" emails to all users.
+     *
+     * @param BillRepository $repository
      */
-    public function handle()
+    public function handle(BillRepository $repository)
     {
-        $bills = $this->getReleasedBills();
+        $bills = $repository->unsentWithTotals();
 
         $this->line("Sending mails for {$bills->count()} bill(s)");
+        return;
 
-        /** @var Bill $bill */
-        foreach ($bills as $bill) {
+        $bills->each(function (Bill $bill) {
             $date = $bill->getBillingMonth();
 
             SendMail::dispatch([
@@ -45,19 +36,6 @@ class SendBillMails extends Command
 
             $bill->mail_sent_at = now();
             $bill->save();
-        }
-    }
-
-    private function getReleasedBills()
-    {
-        return Bill::query()
-            ->whereDate('released_at', now())
-            ->whereNotNull('pdf_created_at')
-            ->whereNull('mail_sent_at')
-            ->join('commissions', 'bills.id', 'commissions.bill_id')
-            ->groupBy('bills.id')
-            ->select('bills.*')
-            ->selectRaw('sum(net) as net')
-            ->get();
+        });
     }
 }

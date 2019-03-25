@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Jobs\CreateBillPdfJob;
 use App\Models\Bill;
+use App\Repositories\BillRepository;
 use Illuminate\Console\Command;
 
 class CreateBillsPdfs extends Command
@@ -23,19 +24,14 @@ class CreateBillsPdfs extends Command
     protected $description = 'Generates the bill PDF files';
 
 
-    public function handle()
+    public function handle(BillRepository $repository)
     {
-        $bills = $this->getBillsWithoutPDFs();
+        $bills = $repository->withoutPdf();
 
         $this->line("Creating PDFs for {$bills->count()} bill(s)");
 
         foreach ($bills as $bill) {
             CreateBillPdfJob::dispatch($bill)->onQueue('createBillPdf');
         }
-    }
-
-    private function getBillsWithoutPDFs()
-    {
-        return Bill::query()->whereNull('pdf_created_at')->get();
     }
 }

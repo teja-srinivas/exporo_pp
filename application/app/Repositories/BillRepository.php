@@ -39,6 +39,11 @@ class BillRepository
         return $bill;
     }
 
+    public function withoutPdf(): EloquentCollection
+    {
+        return Bill::query()->whereNull('pdf_created_at')->get();
+    }
+
     /**
      * Returns a simplified bill model that contains
      * - the id,
@@ -65,5 +70,26 @@ class BillRepository
             })
             ->when($modifier !== null, $modifier)
             ->get();
+    }
+
+    public function unsent($query = null): EloquentCollection
+    {
+        return Bill::query()
+            ->whereDate('released_at', '<=', now())
+            ->whereNotNull('pdf_created_at')
+            ->whereNull('mail_sent_at')
+            ->when($query !== null, $query)
+            ->get();
+    }
+
+    public function unsentWithTotals(): EloquentCollection
+    {
+        return $this->unsent(function (Builder $query) {
+            $query
+                ->join('commissions', 'bills.id', 'commissions.bill_id')
+                ->groupBy('bills.id')
+                ->select('bills.*')
+                ->selectRaw('sum(net) as net');
+        });
     }
 }
