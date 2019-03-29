@@ -44,6 +44,12 @@ Route::middleware(['verified'])->group(function () {
         Route::resource('documents', 'DocumentController');
         Route::resource('users', 'UserController');
 
+        Route::prefix('contracts')->namespace('Contract')->group(function () {
+            Route::resource('/', 'ContractController')->only('show', 'edit', 'update')->names('contracts')->parameter('', 'contract');
+            Route::get('{contract}/confirm', 'ConfirmationController@show');
+            Route::post('{contract}/confirm', 'ConfirmationController@store');
+        });
+
         Route::prefix('users/{user}')->name('users.')->namespace('User')->group(function () {
             Route::resource('documents', 'DocumentController')->only('index');
             Route::resource('investments', 'InvestmentController')->only('index');

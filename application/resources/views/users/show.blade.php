@@ -72,31 +72,62 @@
     </div>
 
     @card
-        @slot('title', 'Vergütungssschemata')
-        @slot('info', 'für die jeweiligen Produkttypen')
+        @slot('title', 'Verträge')
+        @slot('info', 'die von diesem Nutzer akzeptiert wurden.')
 
-        @include('components.bundle-editor', ['bonuses' => $user->bonuses])
+        <div class="list-group">
+            @forelse($user->contracts()->latest()->get() as $contract)
+                <a class="list-group-item list-group-item-action
+                          @if($contract->is($user->contract) || $loop->count === 1) active @endif"
+                   href="{{ route('contracts.show', $contract) }}">
+                    <div class="d-flex w-100 justify-content-between align-items-start">
+                        <b>
+                            {{ $contract->created_at->format('d.m.Y') }}
+                        </b>
 
-        @slot('footer')
-            <form action="{{ route('users.update', $user) }}" method="POST"
-                  class="d-flex justify-content-end form-inline">
-                @method('PUT')
-                @csrf
+                        @if($contract->rejected_at !== null)
+                            <span class="badge badge-danger badge-pill">Abgewiesen</span>
+                        @elseif($contract->accepted_at === null)
+                            <span class="badge badge-warning badge-pill">Ausstehend</span>
+                        @else
+                            <span class="badge badge-success badge-pill">
+                                Angenommen: <b>{{ $contract->accepted_at->format('d.m.Y') }}</b>
+                            </span>
+                        @endif
+                    </div>
 
-                <input type="hidden" name="redirect" value="back">
+                    <div class="small font-weight-bold">
+                        Kündigungsfrist: {{ trans_choice('time.days', $contract->cancellation_days) }}
 
-                @include('components.form.select', [
-                    'type' => 'select',
-                    'name' => 'bonusBundle',
-                    'required' => true,
-                    'values' => $bonusBundles,
-                    'assoc' => true,
-                    'groups' => true,
-                ])
+                        <span class="mx-1">&bull;</span>
 
-                <button class="btn btn-primary ml-2">Ersetzen</button>
-            </form>
-        @endslot
+                        Anspruch: {{ trans_choice('time.years', $contract->claim_years) }}
+
+                        <span class="mx-1">&bull;</span>
+
+                        Subpartner: {{ $contract->hasOverhead() ? 'Ja' : 'Nein' }}
+
+                        <span class="mx-1">&bull;</span>
+
+                        MwSt:
+                        @if ($contract->vat_amount > 0)
+                            {{ $contract->vat_amount }}%
+                            {{ $contract->vat_included ? 'Inkl.' : 'On Top' }}
+                        @else
+                            Nein
+                        @endif
+                    </div>
+
+                    @unless(empty($contract->special_agreement))
+                        <div class="small badge badge-primary">Sondervereinbarung</div>
+                    @endif
+                </a>
+            @empty
+                <div class="list-group-item text-center text-muted">
+                    Noch keine Verträge vorhanden
+                </div>
+            @endforelse
+        </div>
     @endcard
 
     @card
@@ -153,32 +184,6 @@
                 </a>
             </div>
         @endslot
-    @endcard
-
-    @card
-        @slot('title', 'AGBs')
-        @slot('info', 'die von diesem Nutzer akzeptiert wurden.')
-
-        <table class="table table-sm table-hover table-striped mb-0 table-borderless">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th width="140">Datum</th>
-            </tr>
-            </thead>
-            <tbody>
-            @forelse($user->agbs as $agb)
-                <tr>
-                    <td><a href="{{ route('agbs.show', $agb) }}">{{ $agb->name }}</a></td>
-                    <td>{{ optional($agb->pivot->created_at)->format('d.m.Y') }}</td>
-                </tr>
-            @empty
-                <tr class="text-center text-muted">
-                    <td colspan="4">Noch keine AGBs akzeptiert</td>
-                </tr>
-            @endforelse
-            </tbody>
-        </table>
     @endcard
 
     @card

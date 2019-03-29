@@ -90,13 +90,7 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
 
-        $user->load([
-            'bonuses.type',
-            'documents',
-            'agbs' => function (BelongsToMany $query) {
-                $query->latest();
-            },
-        ]);
+        $user->load(['documents']);
 
         $user->bills = $bills->getDetails($user->id)->sortByDesc('created_at');
 

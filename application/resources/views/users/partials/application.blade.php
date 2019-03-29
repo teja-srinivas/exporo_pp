@@ -17,7 +17,7 @@
     @else
         <div class="alert alert-warning">
             <strong>Offene Anfrage:</strong>
-            Benutzer kann erst akzeptiert werden, sobald ein Schema ausgewählt ist.
+            Benutzer kann erst akzeptiert werden, sobald ein Vertrag akzeptiert wurde.
         </div>
     @endif
 @endif
