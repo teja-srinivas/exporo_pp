@@ -2,6 +2,7 @@
 
 use App\Models\ContractTemplate;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -52,6 +53,11 @@ class AddContractsTable extends Migration
 
         User::query()
             ->whereNull('rejected_at') // Catch both, accepted and pending users
+            ->where(function (Builder $builder) {
+                // Also migrate legacy data where we do not know if they got verified
+                $builder->whereNotNull('email_verified_at');
+                $builder->orWhereNotNull('accepted_at');
+            })
             ->with('details')
             ->each(function (User $user) use ($template) {
                 $contract = $user->contracts()->forceCreate([
