@@ -219,14 +219,18 @@ class BillController extends Controller
         $query->selectRaw('commissions.bonus as cBonus');
         $query->selectRaw('commissions.created_at as created_at');
 
-        $collection = $query->get()->groupBy('model_type');
+        $collection = $query->get()->groupBy(function (Commission $commission) {
+            if ($commission->model_type === Investment::LEGACY_MORPH_NAME) {
+                return Investment::MORPH_NAME;
+            }
 
-        $investmentsNew = $this->mapInvestments($collection->get(Investment::MORPH_NAME));
-        $investmentsLegacy =  $this->mapInvestments($collection->get(Investment::LEGACY_MORPH_NAME));
-        $investments = $investmentsNew->merge($investmentsLegacy);
+            return $commission->model_type;
+        });
 
+        $investments = $this->mapInvestments($collection->get(Investment::MORPH_NAME));
         $investors = $this->mapInvestors($collection->get(Investor::MORPH_NAME));
         $overhead = $this->mapOverhead($collection->get(Investment::MORPH_NAME));
+
         $custom = $collection->get(Commission::TYPE_CORRECTION) ?? collect();
 
         return [

@@ -14,6 +14,8 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @property Investment $investment
+ * @property int $model_id
+ * @property string $model_type
  * @property float $net
  * @property float $gross
  * @property float $bonus
