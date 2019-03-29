@@ -109,10 +109,6 @@ class RegisterController extends Controller
             $user->assignRole(Role::PARTNER);
             $user->agbs()->attach($agbs);
 
-            $user->contracts()->save(
-                Contract::fromTemplate(ContractTemplate::query()->where('company_id', $companyId)->first())
-            );
-
             return $user;
         });
     }
