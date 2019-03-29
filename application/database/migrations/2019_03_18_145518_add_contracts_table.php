@@ -26,8 +26,9 @@ class AddContractsTable extends Migration
             $table->text('special_agreement')->nullable();
             $table->boolean('vat_included')->default(0);
             $table->decimal('vat_amount')->default(0);
-            $table->timestamp('accepted_at')->nullable();
-            $table->timestamp('declined_at')->nullable();
+            $table->timestamp('accepted_at')->nullable()->comment('the user accepted the conditions');
+            $table->timestamp('released_at')->nullable()->comment('if null, this contract is still a draft');
+            $table->timestamp('terminated_at')->nullable();
             $table->timestamps();
         });
 
@@ -68,11 +69,14 @@ class AddContractsTable extends Migration
                     'vat_included' => $user->details->vat_included,
                     'vat_amount' => $user->details->vat_amount,
                     'accepted_at' => $user->accepted_at,
+                    'released_at' => $user->accepted_at,
+                    'created_at' => $user->accepted_at,
+                    'updated_at' => $user->accepted_at,
                 ]);
 
                 $user->bonuses()->update([
                     'contract_id' => $contract->getKey(),
                 ]);
-            }, 100);
+            }, 250);
     }
 }

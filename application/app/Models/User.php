@@ -114,6 +114,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     {
         return $this->hasOne(Contract::class)
             ->whereNotNull('accepted_at')
+            ->whereNotNull('released_at')
             ->latest();
     }
 

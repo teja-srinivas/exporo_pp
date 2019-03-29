@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $claim_years
  * @property bool $vat_included
  * @property float $vat_amount
+ * @property Carbon $accepted_at
+ * @property Carbon $released_at
+ * @property Carbon $terminated_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
@@ -28,6 +31,12 @@ class Contract extends Model
         'claim_years' => 'int',
         'vat_included' => 'bool',
         'vat_amount' => 'float',
+    ];
+
+    protected $dates = [
+        'accepted_at',
+        'released_at',
+        'terminated_at',
     ];
 
     protected $fillable = [
