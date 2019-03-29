@@ -21,7 +21,7 @@ class AgbController extends Controller
         $this->authorize('viewAny', Agb::class);
 
         $list = Agb::query()
-            ->join('agb_user', 'agb_user.agb_id', 'agbs.id')
+            ->leftJoin('agb_user', 'agb_user.agb_id', 'agbs.id')
             ->latest()
             ->groupBy('agbs.id')
             ->selectRaw('count(user_id) as users')
