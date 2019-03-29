@@ -270,24 +270,6 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         ], $this, config('mail.templateIds.registration'))->onQueue('emails');
     }
 
-    public function switchToBundle(BonusBundle $bundle): void
-    {
-        DB::transaction(function () use ($bundle) {
-            $userId = $this->getKey();
-
-            $this->bonuses()->delete();
-
-            $bundle->bonuses->each(function (CommissionBonus $bonus) use ($userId) {
-                $copy = $bonus->replicate(['user_id']);
-                $copy->user_id = $userId;
-                $copy->accepted_at = now();
-                $copy->saveOrFail();
-
-                return $copy;
-            });
-        });
-    }
-
     public function canBeBilled(): bool
     {
         return $this->can(BillPolicy::CAN_BE_BILLED_PERMISSION);
@@ -303,11 +285,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
      */
     public function hasBundleSelected(): bool
     {
-        if ($this->relationLoaded('bonuses')) {
-            return $this->bonuses->isNotEmpty();
-        }
-
-        return $this->bonuses()->count() > 0;
+        return $this->contract !== null;
     }
 
     public function getDisplayName(): string

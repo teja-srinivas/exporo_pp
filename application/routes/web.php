@@ -27,9 +27,6 @@ Route::prefix('agbs')->group(function () {
 });
 
 Route::middleware(['verified'])->group(function () {
-    Route::resource('users/{user}/bundle-selection', 'User\BundleSelection')->only('index', 'store')
-        ->names('users.bundle-selection');
-
     Route::middleware(['bundle-selected', 'accepted', 'filled'])->group(function () {
         Route::get('authorization', 'AuthorizationController')->name('authorization.index');
         Route::get('bills/export', 'ExportBillsController')->name('bills.export');

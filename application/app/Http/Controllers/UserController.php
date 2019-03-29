@@ -175,10 +175,6 @@ class UserController extends Controller
             $user->setAttribute($field, now());
         }
 
-        if (isset($attributes['bonusBundle'])) {
-            $user->switchToBundle(BonusBundle::query()->findOrFail($attributes['bonusBundle']));
-        }
-
         if ($request->has('roles')) {
             $user->syncRoles(array_keys(array_filter($attributes['roles'])));
         }
