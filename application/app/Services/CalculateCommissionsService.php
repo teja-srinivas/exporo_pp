@@ -98,7 +98,7 @@ final class CalculateCommissionsService
      */
     public function calculateBonus(Investment $investment, User $user): ?float
     {
-        $bonuses = $user->bonuses
+        $bonuses = $user->contract->bonuses
             // Based on the type we determine the actual value
             ->where('type_id', $investment->project->commission_type)
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $updated_at
  *
  * @property ContractTemplate $template
+ * @property Collection $bonuses
  * @property User $user
  */
 class Contract extends Model
@@ -35,6 +37,11 @@ class Contract extends Model
         'vat_amount',
     ];
 
+    public function bonuses()
+    {
+        return $this->hasMany(CommissionBonus::class);
+    }
+
     public function template()
     {
         return $this->belongsTo(ContractTemplate::class);
@@ -43,6 +50,11 @@ class Contract extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function hasOverhead()
+    {
+        return $this->bonuses()->where('is_overhead', true)->exists();
     }
 
     public static function fromTemplate(ContractTemplate $template): self

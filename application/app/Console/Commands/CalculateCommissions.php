@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 
 use App\Models\Commission;
 use App\Models\CommissionBonus;
+use App\Models\Contract;
 use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
@@ -83,10 +84,13 @@ final class CalculateCommissions extends Command
                 $join->on('investors.id', 'commissions.model_id');
                 $join->where('commissions.model_type', Investor::MORPH_NAME);
             })
-            ->leftJoin('commission_bonuses', function (JoinClause $join) {
-                $join->on('commission_bonuses.user_id', 'user_details.id');
-                $join->where('commission_bonuses.calculation_type', CommissionBonus::TYPE_REGISTRATION);
-            })
+            ->leftJoinSub(Contract::query()
+                ->selectRaw('ANY_VALUE(id) as id')
+                ->addSelect('user_id')
+                ->selectRaw('MAX(accepted_at)')
+                ->groupBy('user_id')
+            , 'contracts', 'contracts.user_id', '=', 'investors.user_id')
+            ->leftJoin('commission_bonuses', 'commission_bonuses.contract_id', 'contracts.id')
             ->where('commission_bonuses.value', '>', 0)
             ->whereNull('commissions.id')
             ->whereNotNull('users.accepted_at')
@@ -121,7 +125,7 @@ final class CalculateCommissions extends Command
     ): void {
         $query = $repository->withoutCommissionQuery()->with([
             'project.schema',
-            'investor.user.bonuses',
+            'investor.user.contract.bonuses',
             'investor.user.details',
         ]);
 

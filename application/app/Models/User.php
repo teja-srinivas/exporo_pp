@@ -37,6 +37,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property UserDetails $details
+ * @property Contract $contract
  * @property Collection $investors
  * @property Collection $investments
  * @property Collection $bonuses
@@ -153,9 +154,24 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasMany(Document::class);
     }
 
+    /**
+     * Returns the commissions bonuses of the current contract.
+     *
+     * @return HasMany
+     */
     public function bonuses(): HasMany
     {
-        return $this->hasMany(CommissionBonus::class, 'user_id');
+        return $this->hasMany(CommissionBonus::class, 'contract_id', 'contract_id');
+    }
+
+    /**
+     * Returns the id of the currently active contract.
+     *
+     * @return int
+     */
+    public function getContractIdAttribute()
+    {
+        return optional($this->contract)->getKey();
     }
 
     public function investors(): HasMany

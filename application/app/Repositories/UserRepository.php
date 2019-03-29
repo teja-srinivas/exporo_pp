@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Http\Resources\User as UserResource;
+use App\Models\CommissionBonus;
+use App\Models\Contract;
 use App\Models\User;
 use App\Traits\Encryptable;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,9 +28,15 @@ class UserRepository
             ->addSelect('users.created_at')
             ->addSelect('users.accepted_at')
             ->addSelect('users.rejected_at')
-            ->selectRaw('CASE WHEN EXISTS(
-                SELECT * FROM commission_bonuses WHERE user_id = users.id AND is_overhead = true
-            ) THEN TRUE ELSE FALSE END as has_overhead')
+            ->selectRaw('CASE WHEN EXISTS(' . CommissionBonus::query()
+                ->joinSub(Contract::query()
+                    ->selectRaw('ANY_VALUE(id) as id')
+                    ->addSelect('user_id')
+                    ->selectRaw('MAX(accepted_at)')
+                    ->groupBy('user_id'), 'contracts', 'contracts.id', 'contract_id')
+                ->whereRaw('is_overhead = true')
+                ->whereRaw('user_id = users.id')
+                ->toSql() . ') THEN TRUE ELSE FALSE END as has_overhead')
             ->with('roles')
             ->get()
             ->map(function (User $user) {
