@@ -26,7 +26,6 @@ class UserController extends Controller
         return view('users.users.index', [
             'user' => $user,
             'children' => $user->children()
-                ->whereNotNull('accepted_at')
                 ->join('user_details', 'user_details.id', 'users.id')
                 ->leftJoin('investors', 'investors.user_id', 'users.id')
                 ->leftJoinSub(Investment::query()

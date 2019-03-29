@@ -51,6 +51,9 @@
                 'label' => 'Angenommen',
                 'format' => 'date',
                 'width' => 100,
+                'fallback' => [
+                    'null' => '<small class="small text-muted">(Ausstehend)</small>',
+                ],
             ],
         ],
     ]])
