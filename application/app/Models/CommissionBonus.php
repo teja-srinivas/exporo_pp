@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Relationships\BelongsToOne;
 use App\Events\CommissionBonusUpdated;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -17,6 +19,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $accepted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @property BonusBundle $bundle
+ * @property Collection $bundles
+ * @property CommissionType $type
+ * @property User $user
  */
 class CommissionBonus extends Model
 {
@@ -56,6 +63,17 @@ class CommissionBonus extends Model
     public function bundles()
     {
         return $this->belongsToMany(BonusBundle::class, 'bonus_bundle', 'bonus_id', 'bundle_id');
+    }
+
+    public function bundle()
+    {
+        $bundle = new BonusBundle();
+
+        return new BelongsToOne(
+            $bundle->newQuery(), $this,
+            'bonus_bundle', 'bonus_id', 'bundle_id',
+            $this->getKeyName(), $bundle->getKeyName()
+        );
     }
 
     public function type()

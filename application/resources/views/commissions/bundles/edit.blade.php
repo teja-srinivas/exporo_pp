@@ -21,6 +21,7 @@
     <div class="rounded shadow-sm bg-white">
         @include('components.bundle-editor', [
             'bonuses' => $bundle->bonuses,
+            'bundle' => $bundle,
         ])
     </div>
 

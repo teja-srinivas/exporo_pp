@@ -11,6 +11,10 @@ if (($editable ?? null) === false) {
 if (($legacy ?? null) === true) {
     $options['legacy'] = true;
 }
+
+if (($bundle ?? null) !== null) {
+    $options['bundle'] = is_object($bundle) ? $bundle->getKey() : $bundle;
+}
 ?>
 
 <vue

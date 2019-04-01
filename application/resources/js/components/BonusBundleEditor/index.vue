@@ -184,6 +184,11 @@ export default {
       default: () => [],
     },
 
+    bundle: {
+      type: Number,
+      default: 0,
+    },
+
     commissionTypes: {
       type: Object,
       required: true,
@@ -212,13 +217,11 @@ export default {
       });
     }
 
-    const data = {
+    return {
       editItem: null,
       editTarget: null,
       items: items,
     };
-
-    return data;
   },
 
   computed: {
@@ -307,7 +310,13 @@ export default {
       }
 
       try {
-        const { data } = await axios.post(this.api, toForeign(item));
+        const payload = toForeign(item);
+
+        if (this.bundle > 0) {
+          payload.bundle_id = this.bundle;
+        }
+
+        const { data } = await axios.post(this.api, payload);
 
         if (this.editItemId === itemId) {
           this.editItem.id = data.id;
@@ -324,7 +333,7 @@ export default {
       } catch (e) {
         this.$notify({
           title: 'Fehler beim Anlegen',
-          text: e.message + '. Eintrag wird wieder gelöscht.',
+          text: `${e.message}. Eintrag wird wieder gelöscht.`,
           type: 'error',
         });
 
