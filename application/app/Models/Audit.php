@@ -41,11 +41,15 @@ class Audit extends \OwenIt\Auditing\Models\Audit
             // Filter out those that are the same, because we encrypted them beforehand
             // and thus did not know that they're different
             ->reject(function (array $entry) {
-                if (is_array($entry)) {
+                if (!is_array($entry)) {
                     return false;
                 }
 
-                return count($entry) > 1 && count(array_unique(array_values($entry))) < count($entry);
+                if (($count = count($entry)) < 2) {
+                    return false;
+                }
+
+                return count(array_unique(array_values($entry), SORT_REGULAR)) < $count;
             });
     }
 
