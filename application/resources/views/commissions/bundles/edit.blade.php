@@ -41,10 +41,18 @@
                 ],
                 [
                     'type' => 'checkbox',
-                    'label' => __('Typ'),
+                    'label' => __('Auswahl'),
                     'name' => 'selectable',
                     'description' => 'Für Partner zur Auswahl möglich',
                     'default' => $bundle->selectable,
+                ],
+                [
+                    'type' => 'checkbox',
+                    'label' => __('Subpartner'),
+                    'name' => 'child_user_selectable',
+                    'description' => 'Für Sub-Partner zur Auswahl möglich',
+                    'default' => true,
+                    'help' => 'Partner, die geworben wurden und somit eine Subpartner-Beziehung haben, bekommen eine andere Auswahl.'
                 ],
             ]
         ])
