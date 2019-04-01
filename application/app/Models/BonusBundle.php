@@ -23,7 +23,7 @@ class BonusBundle extends Model
     ];
 
     protected $fillable = [
-        'name', 'selectable',
+        'name', 'selectable', 'child_user_selectable',
     ];
 
 
