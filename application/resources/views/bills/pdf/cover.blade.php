@@ -57,12 +57,12 @@
 </div>
 
 <div class="text-right my-4">
-    Hamburg, {{ now()->format('d.m.Y') }}
+    Hamburg, {{ optional($bill->released_at)->format('d.m.Y') }}
     <div class="lead font-weight-bold">Partner-ID: {{ $user->id }}</div>
 
-    @isset($bill)
-        Rechnungsnummer: {{ $bill->id }}
-    @endisset
+    @if($bill->exists)
+        Rechnungsnummer: {{ $bill->getKey() }}
+    @endif
 </div>
 
 <!-- Page Content -->
