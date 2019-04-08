@@ -62,6 +62,9 @@ class SidebarComposer
 
         $dashboard = $this->gate->check('features.users.dashboard');
 
+        /** @noinspection PhpParamsInspection */
+        $isCurrentUser = $this->user->is($this->request->route('user'));
+
         return [
             [
                 'title' => 'Verwaltung',
@@ -75,7 +78,7 @@ class SidebarComposer
                     [
                         'title' => 'Benutzer',
                         'url' => route('users.index'),
-                        'isActive' => $this->request->routeIs('users.*'),
+                        'isActive' => !$isCurrentUser && $this->request->routeIs('users.*'),
                         'isAllowed' => $this->canList(User::class),
                     ],
                     [
@@ -147,7 +150,7 @@ class SidebarComposer
                     [
                         'title' => 'Einstellungen',
                         'url' => route('users.edit', $this->user),
-                        'isActive' => $this->request->routeIs('users.edit'),
+                        'isActive' => $isCurrentUser && $this->request->routeIs('users.edit'),
                     ],
                     [
                         'title' => 'Dokumente',
