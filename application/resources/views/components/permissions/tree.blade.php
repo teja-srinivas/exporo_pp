@@ -1,10 +1,14 @@
 <?php
 
+use App\Models\Permission;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+
 $grouped = [];
 
-/** @var \Illuminate\Support\Collection $permissions */
-$permissions->each(function (\App\Models\Permission $permission) use (&$grouped) {
-    \Illuminate\Support\Arr::set($grouped, $permission->name, $permission);
+/** @var Collection $permissions */
+$permissions->each(function (Permission $permission) use (&$grouped) {
+    Arr::set($grouped, $permission->name, $permission);
 });
 
 ?>
