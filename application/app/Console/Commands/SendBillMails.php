@@ -22,7 +22,6 @@ class SendBillMails extends Command
         $bills = $repository->unsentWithTotals();
 
         $this->line("Sending mails for {$bills->count()} bill(s)");
-        return;
 
         $bills->each(function (Bill $bill) {
             $date = $bill->getBillingMonth();
