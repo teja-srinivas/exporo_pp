@@ -42,27 +42,6 @@ class HomeController extends Controller
                     ],
                 ];
             }),
-
-            // Stats
-            'pending' => Commission::query()
-                ->whereNull('reviewed_at')
-                ->whereNull('rejected_at')
-                ->whereNull('bill_id')
-                ->forUser($user)
-                ->afterLaunch()
-                ->sum('gross'),
-
-            'approved' => Commission::query()
-                ->whereNotNull('reviewed_at')
-                ->whereNull('bill_id')
-                ->forUser($user)
-                ->afterLaunch()
-                ->sum('gross'),
-
-            'paid' => Commission::query()
-                ->whereIn('bill_id', $bills->pluck('id'))
-                ->forUser($user)
-                ->sum('gross'),
         ]);
     }
 }
