@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Company;
 use App\Models\ContractTemplate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -24,8 +25,8 @@ class AddDefaultsToContractTemplatesTable extends Migration
             $table->decimal('vat_amount')->default(0)->after('vat_included');
         });
 
-        /** @var \App\Models\Company $company */
-        $company = \App\Models\Company::query()->first();
+        /** @var Company $company */
+        $company = Company::query()->first();
 
         ContractTemplate::query()->first()->forceFill([
             'name' => $company->name,
