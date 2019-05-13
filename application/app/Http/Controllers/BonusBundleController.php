@@ -64,11 +64,13 @@ class BonusBundleController extends Controller
             'bonuses.*.is_overhead' => 'boolean',
         ]);
 
-        $bundle = new BonusBundle();
-        $bundle->fill([
+        $bundle = new BonusBundle([
             'name' => $data['name'],
             'selectable' => $request->has('selectable'),
-        ])->saveOrFail();
+            'child_user_selectable' => $request->has('child_user_selectable'),
+        ]);
+
+        $bundle->saveOrFail();
 
         $bonusIds = [];
 
@@ -132,6 +134,7 @@ class BonusBundleController extends Controller
 
         $bundle->update($data + [
             'selectable' => $request->has('selectable'),
+            'child_user_selectable' => $request->has('child_user_selectable'),
         ]);
 
         flash_success();

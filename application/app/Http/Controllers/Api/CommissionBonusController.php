@@ -3,28 +3,35 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\BonusBundle;
 use App\Models\CommissionBonus;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
+use Throwable;
 
 class CommissionBonusController extends Controller
 {
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
      * @return CommissionBonus
-     * @throws \Illuminate\Validation\ValidationException
-     * @throws \Throwable
+     * @throws ValidationException
+     * @throws Throwable
      */
     public function store(Request $request)
     {
         $this->authorize('create', CommissionBonus::class);
 
         $data = $this->validate($request, $this->validationRules());
+        $bundle = $this->validateBundle($data['bundle_id'] ?? null, 'update');
 
         $bonus = new CommissionBonus($data);
         $bonus->saveOrFail();
+        $bonus->bundle()->attach($bundle);
 
         return $bonus;
     }
@@ -32,11 +39,11 @@ class CommissionBonusController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\CommissionBonus $bonus
+     * @param Request $request
+     * @param CommissionBonus $bonus
      * @return void
-     * @throws \Illuminate\Validation\ValidationException
-     * @throws \Throwable
+     * @throws ValidationException
+     * @throws Throwable
      */
     public function update(Request $request, CommissionBonus $bonus)
     {
@@ -50,13 +57,15 @@ class CommissionBonusController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\CommissionBonus $bonus
+     * @param CommissionBonus $bonus
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     public function destroy(CommissionBonus $bonus)
     {
         $this->authorize('delete', $bonus);
+
+        $bonus->bundle()->detach();
 
         $bonus->delete();
     }
@@ -73,6 +82,27 @@ class CommissionBonusController extends Controller
             'value' => ['required', 'numeric'],
             'is_percentage' => ['required', 'boolean'],
             'is_overhead' => ['required', 'boolean'],
+            'bundle_id' => ['sometimes', Rule::exists('bundles', 'id')],
         ];
+    }
+
+    /**
+     * @param string|int $bundleId
+     * @param string $ability
+     * @return BonusBundle|null
+     * @throws AuthorizationException
+     */
+    protected function validateBundle($bundleId, string $ability): ?BonusBundle
+    {
+        if ($bundleId === null) {
+            return null;
+        }
+
+        /** @var BonusBundle $bundle */
+        $bundle = BonusBundle::query()->findOrFail($bundleId);
+
+        $this->authorize($ability, $bundle);
+
+        return $bundle;
     }
 }

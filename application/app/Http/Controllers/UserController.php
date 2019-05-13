@@ -169,12 +169,11 @@ class UserController extends Controller
             $user->setAttribute($field, now());
         }
 
-        if ($request->has('roles')) {
-            $user->syncRoles(array_keys(array_filter($attributes['roles'])));
-        }
-
-        if ($request->has('permissions')) {
-            $user->syncPermissions(array_keys(array_filter($attributes['permissions'])));
+        // Check if we have a permissions update
+        // TODO this will still fail if we want to clear both, roles and permissions
+        if ($request->has('roles') || $request->has('permissions')) {
+            $user->syncPermissions(array_keys(array_filter($attributes['permissions'] ?? [])));
+            $user->syncRoles(array_keys(array_filter($attributes['roles'] ?? [])));
         }
 
         $user->fill($attributes)->saveOrFail();

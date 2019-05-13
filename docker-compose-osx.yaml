@@ -1,14 +1,28 @@
 version: '3.2'
 
 services:
+  # Replace normal mount driver with NFS
   webapp:
     volumes:
       - nfsmount:/var/www/html
 
+  # Faster queries thanks to native volume mounting
+  mysql:
+    volumes:
+    - mysql-storage:/var/lib/mysql
+
+  redis:
+    volumes:
+    - redis-storage:/data
+
 volumes:
- nfsmount:
+  nfsmount:
      driver: local
      driver_opts:
        type: nfs
        o: addr=host.docker.internal,rw,lock,hard,nointr,nfsvers=3
        device: ":${PWD}/application/"
+
+  # Volumes get stored in /var/lib/docker/volumes
+  mysql-storage:
+  redis-storage:

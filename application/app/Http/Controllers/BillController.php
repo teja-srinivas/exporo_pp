@@ -60,11 +60,17 @@ class BillController extends Controller
      */
     public function preview(User $user)
     {
-        $this->authorize('view', new Bill(['user_id' => $user->id]));
+        $bill = new Bill([
+            'user_id' => $user->id,
+            'released_at' => now(),
+        ]);
+
+        $this->authorize('view', $bill);
 
         $investments = $this->mapForView($this->getBillableCommissionsForUser($user));
 
         return response()->view('bills.pdf.bill', $investments + [
+            'bill' => $bill,
             'user' => $user,
             'company' => optional($user->company),
         ]);

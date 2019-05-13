@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\ProjectUpdated;
 use Carbon\Carbon;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
+use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -82,7 +83,7 @@ class Project extends Model
 
     public function runtimeInMonths(): int
     {
-        return $this->runtime ?? $this->diffInMonths($this->launched_at, $this->payback_max_at);
+        return $this->diffInMonths($this->launched_at, $this->payback_max_at);
     }
 
     public function runtimeFactor(): float
@@ -97,9 +98,13 @@ class Project extends Model
         return (float)($this->margin / 100);
     }
 
-    protected function diffInMonths(\DateTime $date1, \DateTime $date2)
+    protected function diffInMonths(?DateTime $date1, ?DateTime $date2)
     {
-        $diff =  $date1->diff($date2);
+        if ($date1 === null || $date2 === null) {
+            return 0;
+        }
+
+        $diff = $date1->diff($date2);
 
         $months = $diff->y * 12 + $diff->m + $diff->d / 30;
 
