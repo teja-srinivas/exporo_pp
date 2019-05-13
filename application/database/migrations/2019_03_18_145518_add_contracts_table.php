@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\CommissionBonus;
 use App\Models\ContractTemplate;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -74,7 +75,8 @@ class AddContractsTable extends Migration
                     'updated_at' => $user->accepted_at,
                 ]);
 
-                $user->bonuses()->update([
+                // We cannot use $user->bonuses() anymore since that already links to the contracts
+                CommissionBonus::query()->where('user_id', $user->getKey())->update([
                     'contract_id' => $contract->getKey(),
                 ]);
             }, 250);
