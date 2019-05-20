@@ -62,8 +62,6 @@ class AddContractsTable extends Migration
             })
             ->with('details')
             ->each(function (User $user) use ($template) {
-                $hasBeenAccepted = $user->accepted_at !== null;
-
                 $contract = $user->contracts()->forceCreate([
                     'user_id' => $user->getKey(),
                     'template_id' => $template->getKey(),
@@ -73,8 +71,8 @@ class AddContractsTable extends Migration
                     'vat_amount' => $user->details->vat_amount,
                     'accepted_at' => $user->accepted_at,
                     'released_at' => $user->accepted_at,
-                    'created_at' => $hasBeenAccepted ? $user->accepted_at : $user->created_at,
-                    'updated_at' => $hasBeenAccepted ? $user->accepted_at : $user->created_at,
+                    'created_at' => $user->created_at,
+                    'updated_at' => $user->accepted_at ?? $user->created_at,
                 ]);
 
                 // We cannot use $user->bonuses() anymore since that already links to the contracts
