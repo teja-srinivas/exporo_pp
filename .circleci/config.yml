@@ -1,9 +1,10 @@
 version: 2
 jobs:
   buildAndDeployStage:
-    branches:
-      only:
-        - master
+    filters:
+      branches:
+        only:
+          - master
     docker:
       - image: registry.gitlab.com/exporo/circleci-stretch-php-cli-node-awscli
     working_directory: ~/pp
