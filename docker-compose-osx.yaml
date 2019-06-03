@@ -11,6 +11,10 @@ services:
     volumes:
     - mysql-storage:/var/lib/mysql
 
+  mysql_test:
+    volumes:
+    - mysql-test-storage:/var/lib/mysql
+
   redis:
     volumes:
     - redis-storage:/data
@@ -25,4 +29,5 @@ volumes:
 
   # Volumes get stored in /var/lib/docker/volumes
   mysql-storage:
+  mysql-test-storage:
   redis-storage:
