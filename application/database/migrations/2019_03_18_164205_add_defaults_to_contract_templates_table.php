@@ -28,6 +28,10 @@ class AddDefaultsToContractTemplatesTable extends Migration
         /** @var Company $company */
         $company = Company::query()->first();
 
+        if ($company === null) {
+            return;
+        }
+
         ContractTemplate::query()->first()->forceFill([
             'name' => $company->name,
             'company_id' => $company->getKey(),
