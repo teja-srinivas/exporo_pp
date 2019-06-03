@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "68f29d904a00c50bba37b03a5a34cb41",
+    "content-hash": "5c1774c051d2c0eacc84628c47255cb7",
     "packages": [
         {
             "name": "awesome-nova/filter-card",
@@ -233,7 +233,7 @@
         },
         {
             "name": "cybercog/laravel-optimus",
-            "version": "3.3.0",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cybercog/laravel-optimus.git",
@@ -302,7 +302,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2019-02-26T21:03:30+00:00"
+            "time": "2019-02-26T20:58:32+00:00"
         },
         {
             "name": "dannyvankooten/laravel-vat",
@@ -5567,6 +5567,53 @@
                 "instantiate"
             ],
             "time": "2017-07-22T11:58:36+00:00"
+        },
+        {
+            "name": "drfraker/snipe-migrations",
+            "version": "1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/drfraker/snipe-migrations.git",
+                "reference": "fc7ff3c2b79039f0e0d3c6c315a3b5add2e5c38f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/drfraker/snipe-migrations/zipball/fc7ff3c2b79039f0e0d3c6c315a3b5add2e5c38f",
+                "reference": "fc7ff3c2b79039f0e0d3c6c315a3b5add2e5c38f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.7",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Drfraker\\SnipeMigrations\\SnipeMigrationsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Drfraker\\SnipeMigrations\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dustin Fraker",
+                    "email": "drfraker@gmail.com"
+                }
+            ],
+            "description": "Blazing fast database migrations for Laravel tests.",
+            "time": "2019-03-14T14:25:29+00:00"
         },
         {
             "name": "filp/whoops",
