@@ -308,7 +308,7 @@ class BillController extends Controller
             return [
                 'id' => $row->investor->id,
                 'firstName' => Person::anonymizeFirstName($row->investor->first_name),
-                'lastName' => trim($row->investor->last_name),
+                'lastName' => ucfirst(trim($row->investor->last_name)),
                 'activationAt' => $activationDate->format('d.m.Y'),
                 'note' => $row->note_public,
                 'net' => $row->net,
