@@ -12,9 +12,10 @@
 
             @if(!empty($userCompany) && $userCompany !== $fullName)
                 {{ $user->details->company }}<br>
+            @else
+                {{ $fullName }}<br>
             @endunless
 
-            {{ $fullName }}<br>
             {{ $user->details->address_street }} {{ $user->details->address_number }}<br>
             {{ $user->details->address_zipcode }} {{ $user->details->address_city }}<br>
         </div>
