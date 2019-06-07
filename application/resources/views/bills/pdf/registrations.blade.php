@@ -13,7 +13,9 @@
         @foreach($investors as $investor)
             <tr>
                 <td>
+                    <small class="mr-1">#{{ $investor['id'] }}</small>
                     {{ $investor['firstName'] }} {{ $investor['lastName'] }}
+
                     @unless(empty($investor['note']))
                     <br>
                     <div class="small">

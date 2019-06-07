@@ -306,12 +306,13 @@ class BillController extends Controller
             $activationDate = Carbon::make($row['activation_at'] ?? $row->investor->activation_at);
 
             return [
-                    'firstName' => Person::anonymizeFirstName($row->investor->first_name),
-                    'lastName' => trim($row->investor->last_name),
-                    'activationAt' => $activationDate->format('d.m.Y'),
-                    'note' => $row->note_public,
-                    'net' => $row->net,
-                    'gross' => $row->gross,
+                'id' => $row->investor->id,
+                'firstName' => Person::anonymizeFirstName($row->investor->first_name),
+                'lastName' => trim($row->investor->last_name),
+                'activationAt' => $activationDate->format('d.m.Y'),
+                'note' => $row->note_public,
+                'net' => $row->net,
+                'gross' => $row->gross,
             ];
         })->sortNatural('lastName');
     }
