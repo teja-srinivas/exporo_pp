@@ -278,6 +278,7 @@ class BillController extends Controller
             $project = $investment->project;
 
             return [
+                'id' => $investment->id,
                 'investorId' => $investor->id,
                 'firstName' => Person::anonymizeFirstName($investor->first_name),
                 'lastName' => trim($investor->last_name),

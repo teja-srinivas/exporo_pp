@@ -30,6 +30,7 @@
     @foreach($project as $investment)
         <tr class="bg-white">
             <td rowspan="{{ empty($investment['note']) ? 1 : 2 }}">
+                <small class="mr-1">#{{ $investment['id'] }}</small>
                 {{ $investment['firstName'] }} {{ $investment['lastName'] }}
             </td>
             <td class="text-right">{{ format_money($investment['investsum']) }}</td>
