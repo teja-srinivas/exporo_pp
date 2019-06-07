@@ -9,8 +9,9 @@
         <div>
             @php($fullName = trim($user->first_name . ' ' . $user->last_name))
             @php($userCompany = trim($user->details->company))
+            @php($isCompany = !empty($userCompany) && $userCompany !== $fullName)
 
-            @if(!empty($userCompany) && $userCompany !== $fullName)
+            @if($isCompany)
                 {{ $user->details->company }}<br>
             @else
                 {{ $fullName }}<br>
@@ -69,7 +70,13 @@
 <!-- Page Content -->
 <h4 class="mb-4">Provisionsgutschrift</h4>
 
-<p>{{ $user->getGreeting() }},</p>
+<p>
+    @if($isCompany)
+        Sehr geehrte Damen und Herren,
+    @else
+        {{ $user->getGreeting() }},
+    @endif
+</p>
 <p>
     sofern im Vormonat Provisionen angefallen sind, überweisen wir diese
     in den nächsten Tagen auf das von ihnen angegebene Konto:
