@@ -18,9 +18,20 @@
     <style>
         {!! @file_get_contents(public_path('css/app.css')) !!}
 
+        footer {
+            flow: static(footer);
+            font-size: 9pt !important;
+            color: #888 !important;
+        }
+
         @page {
             size: A4;
-            margin: 10mm 0;
+            margin: 10mm 0 55mm;
+
+            /* setup the footer */
+            @bottom {
+                content: flow(footer);
+            }
         }
 
         body {
@@ -61,6 +72,9 @@
     </style>
 </head>
 <body class="bg-white mt-5 ">
+    <footer class="bg-transparent text-muted">
+        @include('bills.pdf.footer', compact('company'))
+    </footer>
     <section class="sheet">
         @yield('cover')
     </section>
