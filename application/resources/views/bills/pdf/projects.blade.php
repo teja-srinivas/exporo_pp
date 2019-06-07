@@ -33,10 +33,10 @@
                 <small class="mr-1">#{{ $investment['id'] }}</small>
                 {{ $investment['firstName'] }} {{ $investment['lastName'] }}
             </td>
-            <td class="text-right">{{ format_money($investment['investsum']) }}</td>
-            <td class="text-right">{{ $investment['investDate'] }}</td>
-            <td class="text-right">{{ $investment['bonus'] * $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
-            <td class="text-right">{{ format_money($investment['net']) }}</td>
+            <td class="text-right text-nowrap">{{ format_money($investment['investsum']) }}</td>
+            <td class="text-right text-nowrap">{{ $investment['investDate'] }}</td>
+            <td class="text-right text-nowrap">{{ $investment['bonus'] * $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
+            <td class="text-right text-nowrap">{{ format_money($investment['net']) }}</td>
         </tr>
         @unless(empty($investment['note']))
         <tr class="bg-white">

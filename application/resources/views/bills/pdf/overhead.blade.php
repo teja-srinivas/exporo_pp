@@ -32,10 +32,10 @@
                 <td rowspan="{{ empty($investment['note']) ? 1 : 2 }}">
                     {{ $investment['partnerName'] }}
                 </td>
-                <td class="text-right">{{ format_money($investment['investsum']) }}</td>
-                <td class="text-right">{{ $investment['investDate'] }}</td>
-                <td class="text-right">{{ $investment['bonus'] * $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
-                <td class="text-right">{{ format_money($investment['net']) }}</td>
+                <td class="text-right text-nowrap">{{ format_money($investment['investsum']) }}</td>
+                <td class="text-right text-nowrap">{{ $investment['investDate'] }}</td>
+                <td class="text-right text-nowrap">{{ $investment['bonus'] * $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
+                <td class="text-right text-nowrap">{{ format_money($investment['net']) }}</td>
             </tr>
             @unless(empty($investment['note']))
                 <tr class="bg-white">
@@ -48,16 +48,16 @@
         @endforeach
 
         <tr class="font-weight-bold shadow-sm bg-white">
-            <td class="text-right">
+            <td class="text-right text-nowrap">
                 Betrag Total
             </td>
-            <td class="text-right border-left-0">
+            <td class="text-right text-nowrap border-left-0">
                 {{ format_money($project->sum('investsum')) }}
             </td>
-            <td class="text-right" colspan="2">
+            <td class="text-right text-nowrap" colspan="2">
                 Provision Total
             </td>
-            <td class="text-right border-left-0">
+            <td class="text-right text-nowrap border-left-0">
                 {{ format_money($project->sum('net')) }}
             </td>
         </tr>
