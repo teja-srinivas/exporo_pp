@@ -99,6 +99,7 @@
 ])
 
 <p>
+    Der Leistungszeitraum entspricht dem Investment- oder Registrierungsdatum.
     Die Provisionsgutschrift stellt sich wie folgt zusammen:
 </p>
 
