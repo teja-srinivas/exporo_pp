@@ -16,6 +16,10 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property float $vat_amount
  * @property string $company
  * @property string $iban
+ * @property string $address_zipcode
+ * @property string $address_city
+ * @property string $address_number
+ * @property string $address_street
  * @property string $bic
  * @property string $title
  * @property string $display_name

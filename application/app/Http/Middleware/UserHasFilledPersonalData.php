@@ -48,6 +48,10 @@ class UserHasFilledPersonalData
             'birth_date' => 'Bitte füllen Sie Ihr Geburtstag aus',
             'iban' => 'Bitte füllen Sie Ihre IBAN aus',
             'bic' => 'Bitte füllen Sie Ihre BIC aus',
+            'address_city' => 'Bitte füllen Sie Ihre Stadt aus',
+            'address_number' => 'Bitte füllen Sie Ihre Straßennummer aus',
+            'address_street' => 'Bitte füllen Sie Ihre Straße aus',
+            'address_zipcode' => 'Bitte füllen Sie Ihre PLZ aus',
         ]))->with([
             'error-message' => 'Wir benötigen noch ein paar Daten von Ihnen',
         ]);
@@ -59,11 +63,11 @@ class UserHasFilledPersonalData
             return false;
         }
 
-        if (empty($details->iban)) {
-            return false;
-        }
-
-        return true;
+        return !empty($details->iban)
+            && !empty($details->address_number)
+            && !empty($details->address_street)
+            && !empty($details->address_zipcode)
+            && !empty($details->address_number);
     }
 
     /**
