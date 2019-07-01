@@ -36,7 +36,7 @@
 
         @page {
             size: A4;
-            margin: 5mm 10mm 35mm 15mm;
+            margin: 5mm 10mm 32mm 15mm;
             padding: 0;
 
             /* setup the footer */
