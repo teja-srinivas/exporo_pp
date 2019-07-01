@@ -13,4 +13,5 @@
 @include('components.form.error', [
     'name' => $name,
     'error' => $error ?? null,
+    'class' => '',
 ])
