@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\User as UserResource;
-use App\Jobs\SendMail;
 use App\Models\Bill;
 use App\Models\Commission;
 use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
 use App\Repositories\BillRepository;
-use App\Services\ApiTokenService;
 use App\Services\BillGenerator;
 use App\Traits\Encryptable;
 use App\Traits\Person;
@@ -23,7 +21,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Collection as BaseCollection;
-use Illuminate\Support\Facades\Storage;
 
 class BillController extends Controller
 {
@@ -86,9 +83,11 @@ class BillController extends Controller
         $bills = $this->getBillableCommissions()->map(function (Commission $row) {
             return [
                 'userId' => $row->user_id,
+                'billable' => $row->user->canBeBilled(),
                 'firstName' => Encryptable::decrypt($row->first_name),
                 'lastName' => Encryptable::decrypt($row->last_name),
                 'sum' => $row->sum,
+                'firstTime' => $row->user->bills()->count() === 0,
             ];
         })->sortNatural('lastName');
 
@@ -206,6 +205,7 @@ class BillController extends Controller
             ->selectRaw('SUM(gross) as sum')
             ->groupBy('commissions.user_id')
             ->orderBy('commissions.user_id')
+            ->with('user')
             ->isBillable()
             ->get();
     }
@@ -278,6 +278,7 @@ class BillController extends Controller
             $project = $investment->project;
 
             return [
+                'id' => $investment->id,
                 'investorId' => $investor->id,
                 'firstName' => Person::anonymizeFirstName($investor->first_name),
                 'lastName' => trim($investor->last_name),
@@ -305,12 +306,13 @@ class BillController extends Controller
             $activationDate = Carbon::make($row['activation_at'] ?? $row->investor->activation_at);
 
             return [
-                    'firstName' => Person::anonymizeFirstName($row->investor->first_name),
-                    'lastName' => trim($row->investor->last_name),
-                    'activationAt' => $activationDate->format('d.m.Y'),
-                    'note' => $row->note_public,
-                    'net' => $row->net,
-                    'gross' => $row->gross,
+                'id' => $row->investor->id,
+                'firstName' => Person::anonymizeFirstName($row->investor->first_name),
+                'lastName' => ucfirst(trim($row->investor->last_name)),
+                'activationAt' => $activationDate->format('d.m.Y'),
+                'note' => $row->note_public,
+                'net' => $row->net,
+                'gross' => $row->gross,
             ];
         })->sortNatural('lastName');
     }

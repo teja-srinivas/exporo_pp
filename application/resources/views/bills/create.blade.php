@@ -39,10 +39,21 @@
         @foreach($bills as $bill)
             <tr>
                 <td>
-                    <a href="{{ route('users.show', $bill['userId']) }}">
-                        <span class="text-muted small mr-1">#{{ $bill['userId'] }}</span>
-                        {{ $bill['lastName'] }}, {{ $bill['firstName'] }}
-                    </a>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ route('users.show', $bill['userId']) }}">
+                            <span class="text-muted small mr-1">#{{ $bill['userId'] }}</span>
+                            {{ $bill['lastName'] }}, {{ $bill['firstName'] }}
+                        </a>
+
+                        <div>
+                            @if($bill['firstTime'])
+                                <div class="badge badge-primary">1. Abrechnung</div>
+                            @endif
+                            @unless($bill['billable'])
+                                <div class="badge badge-light">Abrechnung gesperrt</div>
+                            @endif
+                        </div>
+                    </div>
                 </td>
                 <td class="text-right">{{ format_money($bill['sum']) }}</td>
                 <td class="text-right" width="100">

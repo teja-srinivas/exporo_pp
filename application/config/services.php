@@ -40,10 +40,6 @@ return [
         'api_key' => env('SENDGRID_API_KEY'),
     ],
 
-    'urlbox' => [
-        'url' => "https://api.urlbox.io/v1/DyAbJzpLRnKGArR6/"
-    ],
-
     'docraptor' => [
         'api_key' => env('DOCRAPTOR_APP_KEY'),
         'test' => env('DOCRAPTOR_DEBUG', true),

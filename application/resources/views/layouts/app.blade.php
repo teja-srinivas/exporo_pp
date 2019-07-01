@@ -119,7 +119,7 @@
             <div class="alert alert-warning m-0">
                 <div class="container d-flex justify-content-between align-items-baseline">
                     <div>
-                        <b>Bitte hinterlegen Sie eine IBAN und BIC.</b>
+                        <b>Bitte hinterlegen Sie Ihre IBAN und BIC.</b>
                         Es werden keine Provisionen ausgezahlt, wenn diese fehlen.
                     </div>
 
