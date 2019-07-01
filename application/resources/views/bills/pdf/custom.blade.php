@@ -13,14 +13,14 @@
     @foreach($custom as $commission)
         <tr>
             <td>{{ $commission['note_public'] }}</td>
-            <td class="text-right">{{ $commission['created_at']->format('d.m.Y') }}</td>
-            <td class="text-right">{{ format_money($commission['net']) }}</td>
+            <td class="text-right text-nowrap">{{ $commission['created_at']->format('d.m.Y') }}</td>
+            <td class="text-right text-nowrap">{{ format_money($commission['net']) }}</td>
         </tr>
     @endforeach
 
     <tr>
-        <td class="text-right font-weight-bold" colspan="2">Provision Total</td>
-        <td class="text-right font-weight-bold">{{ format_money($customNetSum) }}</td>
+        <td class="text-right text-nowrap font-weight-bold" colspan="2">Provision Total</td>
+        <td class="text-right text-nowrap font-weight-bold">{{ format_money($customNetSum) }}</td>
     </tr>
     </tbody>
 </table>

@@ -129,7 +129,7 @@ class Bill extends Model implements AuditableContract
         return implode('_', [
             'Exporo_Provisionsabrechnung_vom',
             ($this->created_at ?? now())->format('d.m.Y'),
-            'für ',
+            'für',
             $this->user_id,
         ]) . '.pdf';
     }

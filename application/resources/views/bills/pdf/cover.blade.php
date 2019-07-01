@@ -1,5 +1,5 @@
 <!-- Page Header -->
-<div class="row justify-content-between mb-5">
+<div class="row justify-content-between">
     <div class="col-6 pt-5 mt-5">
         <div class="mb-2 small pt-5">
             {{ $company->name }}&ensp;&bull;&ensp;{{ $company->street }}
@@ -9,12 +9,14 @@
         <div>
             @php($fullName = trim($user->first_name . ' ' . $user->last_name))
             @php($userCompany = trim($user->details->company))
+            @php($isCompany = !empty($userCompany) && $userCompany !== $fullName)
 
-            @if(!empty($userCompany) && $userCompany !== $fullName)
+            @if($isCompany)
                 {{ $user->details->company }}<br>
+            @else
+                {{ $fullName }}<br>
             @endunless
 
-            {{ $fullName }}<br>
             {{ $user->details->address_street }} {{ $user->details->address_number }}<br>
             {{ $user->details->address_zipcode }} {{ $user->details->address_city }}<br>
         </div>
@@ -56,7 +58,7 @@
     </div>
 </div>
 
-<div class="text-right my-4">
+<div class="text-right">
     Hamburg, {{ optional($bill->released_at)->format('d.m.Y') }}
     <div class="lead font-weight-bold">Partner-ID: {{ $user->id }}</div>
 
@@ -68,13 +70,19 @@
 <!-- Page Content -->
 <h4 class="mb-4">Provisionsgutschrift</h4>
 
-<p>{{ $user->getGreeting() }},</p>
+<p>
+    @if($isCompany)
+        Sehr geehrte Damen und Herren,
+    @else
+        {{ $user->getGreeting() }},
+    @endif
+</p>
 <p>
     sofern im Vormonat Provisionen angefallen sind, überweisen wir diese
     in den nächsten Tagen auf das von ihnen angegebene Konto:
 </p>
 
-<table class="table table-sm table-borderless w-50 mx-auto mb-4">
+<table class="table table-sm table-borderless w-50 mx-auto mb-3">
     <tbody>
     <tr>
         <th scope="row">IBAN</th>
@@ -91,10 +99,11 @@
 ])
 
 <p>
+    Der Leistungszeitraum entspricht dem Investment- oder Registrierungsdatum.
     Die Provisionsgutschrift stellt sich wie folgt zusammen:
 </p>
 
-<div class="my-4">
+<div class="my-3">
     @php($total = array_sum($sums))
     @php($totalGross = $investmentGrossSum + $overheadGrossSum + $investorsGrossSum + $customGrossSum)
 
