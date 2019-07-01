@@ -73,8 +73,8 @@
             </div>
         </div>
 
-        @include('components.form.error', ['name' => 'address_street'])
-        @include('components.form.error', ['name' => 'address_number'])
+        @include('components.form.error', ['name' => 'address_street', 'class' => 'd-block'])
+        @include('components.form.error', ['name' => 'address_number', 'class' => 'd-block'])
     </div>
 </div>
 
