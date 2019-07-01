@@ -29,9 +29,12 @@ class BillController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request, BillRepository $bills)
     {
+        $this->authorize('viewAny', Bill::class);
+
         return response()->view('bills.index', [
             'bills' => $bills->getDetails()->load('user')->map(function (Bill $bill) use ($request) {
                 return [
@@ -77,9 +80,12 @@ class BillController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
+        $this->authorize('create', Bill::class);
+
         $bills = $this->getBillableCommissions()->map(function (Commission $row) {
             return [
                 'userId' => $row->user_id,
@@ -104,9 +110,12 @@ class BillController extends Controller
      * @param BillGenerator $bills
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request, Redirector $redirect, BillGenerator $bills)
     {
+        $this->authorize('create', Bill::class);
+
         $data = $this->validate($request, [
             'release_at' => ['required', 'date'],
         ]);
