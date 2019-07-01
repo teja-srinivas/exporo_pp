@@ -194,7 +194,7 @@ class AgbController extends Controller
      * @param string $type
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function latest(string $type)
+    public function latest(string $type = '')
     {
         $agb = Agb::current($type);
 

@@ -62,7 +62,8 @@ class Agb extends Model implements AuditableContract, FileReference
     public function scopeForType(Builder $query, string $type)
     {
         if (!in_array($type, self::TYPES)) {
-            throw new \Exception("$type needs to be one of ". implode(', ', self::TYPES));
+            // Silently fail the query in case it's not a valid type
+            $type = null;
         }
 
         $query->where('type', $type);
