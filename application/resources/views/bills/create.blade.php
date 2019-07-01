@@ -46,6 +46,9 @@
                         </a>
 
                         <div>
+                            @if($bill['firstTime'])
+                                <div class="badge badge-primary">1. Abrechnung</div>
+                            @endif
                             @unless($bill['billable'])
                                 <div class="badge badge-light">Abrechnung gesperrt</div>
                             @endif

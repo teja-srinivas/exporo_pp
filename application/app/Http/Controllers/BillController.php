@@ -87,6 +87,7 @@ class BillController extends Controller
                 'firstName' => Encryptable::decrypt($row->first_name),
                 'lastName' => Encryptable::decrypt($row->last_name),
                 'sum' => $row->sum,
+                'firstTime' => $row->user->bills()->count() === 0,
             ];
         })->sortNatural('lastName');
 
