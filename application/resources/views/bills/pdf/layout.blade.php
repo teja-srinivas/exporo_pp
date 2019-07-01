@@ -30,8 +30,7 @@
             }
 
             footer {
-                position: absolute;
-                bottom: 0;
+                display: none;
             }
         }
 
