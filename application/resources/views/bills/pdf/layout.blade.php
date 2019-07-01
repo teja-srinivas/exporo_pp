@@ -2,13 +2,11 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="{{ config('app.name') }}"/>
+    <meta name="date" content="{{ now()->toDateString() }}"/>
 
     @isset($bill)
     <title>{{ $bill->getFileName() }}</title>
-    @else
-    <title>{{ config('app.name') }}</title>
     @endif
 
     <!-- Fonts -->
@@ -16,17 +14,31 @@
 
     <!-- Styles -->
     <style>
-        {!! @file_get_contents(public_path('css/app.css')) !!}
+        {!! @file_get_contents(public_path('css/print.css')) !!}
 
         footer {
             flow: static(footer);
-            font-size: 9pt !important;
+            font-size: 7pt !important;
             color: #888 !important;
+            line-height: 1.2;
+        }
+
+        @media screen {
+            body {
+                margin: 0 auto;
+                width: 210mm;
+            }
+
+            footer {
+                position: absolute;
+                bottom: 0;
+            }
         }
 
         @page {
             size: A4;
-            margin: 10mm 0 55mm;
+            margin: 5mm 10mm 35mm 15mm;
+            padding: 0;
 
             /* setup the footer */
             @bottom {
@@ -35,14 +47,12 @@
         }
 
         body {
-            margin: 0 auto;
-            padding-top: 3rem;
-            width: 210mm;
+            font-family: 'Open Sans', Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.5;
         }
 
         .sheet {
-            overflow: hidden;
-            position: relative;
             page-break-after: always;
         }
 
@@ -50,6 +60,11 @@
         .table-sm th {
             padding-top: 0.125rem;
             padding-bottom: 0.125rem;
+            line-height: 1.3;
+        }
+
+        h4 {
+            prince-bookmark-level: 1;
         }
 
         h5 {
@@ -59,19 +74,12 @@
             line-height: inherit;
         }
 
-        @media print {
-            body {
-                padding: 0 20mm;
-                font-size: 10pt;
-            }
-
-            a {
-                text-decoration: none !important;
-            }
+        a {
+            text-decoration: none !important;
         }
     </style>
 </head>
-<body class="bg-white mt-5 ">
+<body class="bg-white mt-5">
     <footer class="bg-transparent text-muted">
         @include('bills.pdf.footer', compact('company'))
     </footer>

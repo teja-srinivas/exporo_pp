@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Kernel;
 use DocRaptor\Doc;
 use DocRaptor\DocApi;
 use DocRaptor\PrinceOptions;
@@ -22,9 +23,9 @@ class PdfGenerator
     protected $test;
 
 
-    public function __construct(Application $app, DocApi $api, Repository $config)
+    public function __construct(Kernel $kernel, DocApi $api, Repository $config)
     {
-        $this->app = $app;
+        $this->app = $kernel;
         $this->api = $api;
         $this->test = $config->get('services.docraptor.test');
     }
@@ -38,12 +39,10 @@ class PdfGenerator
     public function render(string $route): string
     {
         // Run an internal request to generate the raw HTML content
-        $request = Request::create($route);
-        $response = $this->app->handle($request);
+        $response = $this->app->handle(Request::create($route));
 
         // Send the request to DocRaptor - including the content
         $prince = new PrinceOptions();
-        $prince->setCssDpi(300);
         $prince->setDisallowModify(true);
         $prince->setOwnerPassword(Str::random());
 

@@ -1,5 +1,5 @@
 <!-- Page Header -->
-<div class="row justify-content-between mb-5">
+<div class="row justify-content-between">
     <div class="col-6 pt-5 mt-5">
         <div class="mb-2 small pt-5">
             {{ $company->name }}&ensp;&bull;&ensp;{{ $company->street }}
@@ -58,7 +58,7 @@
     </div>
 </div>
 
-<div class="text-right my-4">
+<div class="text-right">
     Hamburg, {{ optional($bill->released_at)->format('d.m.Y') }}
     <div class="lead font-weight-bold">Partner-ID: {{ $user->id }}</div>
 
@@ -82,7 +82,7 @@
     in den nächsten Tagen auf das von ihnen angegebene Konto:
 </p>
 
-<table class="table table-sm table-borderless w-50 mx-auto mb-4">
+<table class="table table-sm table-borderless w-50 mx-auto mb-3">
     <tbody>
     <tr>
         <th scope="row">IBAN</th>
@@ -103,7 +103,7 @@
     Die Provisionsgutschrift stellt sich wie folgt zusammen:
 </p>
 
-<div class="my-4">
+<div class="my-3">
     @php($total = array_sum($sums))
     @php($totalGross = $investmentGrossSum + $overheadGrossSum + $investorsGrossSum + $customGrossSum)
 

@@ -1,6 +1,6 @@
-<table class="small text-nowrap">
-    <tr class="align-top">
-        <td>
+<table class="text-nowrap w-100" style="color: #aaa">
+    <tr>
+        <td class="align-top">
             <table>
                 <tr>
                     <td colspan="2">
@@ -22,7 +22,7 @@
                     <td>{{ $company->fax_number }}</td>
                 </tr>
                 <tr>
-                    <td>E-Mail:</td>
+                    <td>E-Mail:&emsp;</td>
                     <td>{{ $company->email }}</td>
                 </tr>
                 <tr>
@@ -31,7 +31,8 @@
                 </tr>
             </table>
         </td>
-        <td>
+        <td style="width: 25px"></td>
+        <td class="align-top">
             <table>
                 <tr>
                     <td>Gesellschaftssitz:</td>
@@ -42,7 +43,7 @@
                     <td>Amtsgericht Hamburg</td>
                 </tr>
                 <tr>
-                    <td>Handelsregister:</td>
+                    <td>Handelsregister:&emsp;</td>
                     <td>HRB 134393</td>
                 </tr>
                 <tr>
@@ -53,9 +54,9 @@
                     <td>Aufsichtsrat:</td>
                     <td>Andreas Haug (Vorsitzender)</td>
                 </tr>
-                <tr class="align-top">
-                    <td>Vorstand:</td>
-                    <td>
+                <tr>
+                    <td class="align-top">Vorstand:</td>
+                    <td class="align-top">
                         Simon Brunke (Vorsitzender)<br>
                         Dr. Björn Maronde<br>
                         Julian Oertzen
@@ -63,7 +64,8 @@
                 </tr>
             </table>
         </td>
-        <td>
+        <td style="width: 25px"></td>
+        <td class="align-top">
             <table>
                 <tr>
                     <td colspan="2">Bankverbindung</td>
@@ -81,7 +83,7 @@
                     <td>HASPDEHHXXX</td>
                 </tr>
                 <tr>
-                    <td>Kto.-Nr.:</td>
+                    <td>Kto.-Nr.:&emsp;</td>
                     <td>1238196024</td>
                 </tr>
                 <tr>
@@ -90,17 +92,19 @@
                 </tr>
             </table>
         </td>
-        <td>
-            <div class="text-uppercase mb-3">Ausgezeichnet</div>
+        <td style="width: 25px"></td>
+        <td class="align-top" style="width: 80px">
+            <div class="text-uppercase mb-2">Ausgezeichnet</div>
             <img
-                src="{{ asset('/images/ekomi_seal.png') }}"
+                src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('/images/ekomi_seal.png'))) }}"
                 alt="eKomi Kundenauszeichnung"
                 class="w-100"
+                style="opacity: 0.5"
             >
         </td>
     </tr>
     <tr>
-        <td colspan="4 text-center py-3">
+        <td colspan="7" class="text-center">
             Rechtsverbindliche Aussagen sind nur mit der Unterschrift
             eines Vorstandsmitgliedes gültig.
         </td>
