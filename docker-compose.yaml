@@ -1,17 +1,16 @@
 version: '3.2'
 
 services:
-
   webapp:
     build: .
     volumes:
-      - ./application:/var/www/html
+    - ./application:/var/www/html:delegated
     ports:
     - "80:8080"
     depends_on:
-      - mysql
-      - mysql_test
-      - redis
+    - mysql
+    - mysql_test
+    - redis
 
   mysql:
     image: mysql:5.7.24
@@ -21,7 +20,7 @@ services:
       MYSQL_PASSWORD: secret
       MYSQL_ROOT_PASSWORD: root
     volumes:
-    - ./application/data/database:/var/lib/mysql
+    - mysql-storage:/var/lib/mysql
     ports:
     - "3306:3306"
 
@@ -33,13 +32,19 @@ services:
       MYSQL_PASSWORD: secret
       MYSQL_ROOT_PASSWORD: root
     volumes:
-    - ./application/data/database:/var/lib/mysql
+    - mysql-test-storage:/var/lib/mysql
     ports:
     - "3307:3306"
 
   redis:
     image: redis:4.0.11-alpine
     volumes:
-      - ./application/data/redis/:/data
+    - redis-storage:/data
     ports:
     - "6390:6379"
+
+volumes:
+  # Volumes get stored in /var/lib/docker/volumes
+  mysql-storage:
+  mysql-test-storage:
+  redis-storage:

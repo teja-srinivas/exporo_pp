@@ -23,7 +23,7 @@ Route::prefix('agbs')->group(function () {
         ->name('agbs.download')
         ->middleware('signed');
 
-    Route::get('latest/{type}', 'AgbController@latest')->name('agbs.latest');
+    Route::get('latest/{type?}', 'AgbController@latest')->name('agbs.latest');
 });
 
 Route::middleware(['verified'])->group(function () {
