@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\User as UserResource;
-use App\Jobs\SendMail;
 use App\Models\Bill;
 use App\Models\Commission;
 use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
 use App\Repositories\BillRepository;
-use App\Services\ApiTokenService;
 use App\Services\BillGenerator;
 use App\Traits\Encryptable;
 use App\Traits\Person;
@@ -23,7 +21,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Collection as BaseCollection;
-use Illuminate\Support\Facades\Storage;
 
 class BillController extends Controller
 {
@@ -86,6 +83,7 @@ class BillController extends Controller
         $bills = $this->getBillableCommissions()->map(function (Commission $row) {
             return [
                 'userId' => $row->user_id,
+                'billable' => $row->user->canBeBilled(),
                 'firstName' => Encryptable::decrypt($row->first_name),
                 'lastName' => Encryptable::decrypt($row->last_name),
                 'sum' => $row->sum,
@@ -206,6 +204,7 @@ class BillController extends Controller
             ->selectRaw('SUM(gross) as sum')
             ->groupBy('commissions.user_id')
             ->orderBy('commissions.user_id')
+            ->with('user')
             ->isBillable()
             ->get();
     }
