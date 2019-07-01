@@ -24,8 +24,9 @@ mix.webpackConfig({
   },
 });
 
-mix.js('resources/js/app.js', 'public/js')
-mix.sass('resources/sass/app.scss', 'public/css')
+mix.js('resources/js/app.js', 'public/js');
+mix.sass('resources/sass/app.scss', 'public/css');
+mix.sass('resources/sass/print.scss', 'public/css');
 mix.version();
 mix.sourceMaps();
 
