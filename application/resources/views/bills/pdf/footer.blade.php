@@ -103,10 +103,4 @@
             >
         </td>
     </tr>
-    <tr>
-        <td colspan="7" class="text-center">
-            Rechtsverbindliche Aussagen sind nur mit der Unterschrift
-            eines Vorstandsmitgliedes gültig.
-        </td>
-    </tr>
 </table>
