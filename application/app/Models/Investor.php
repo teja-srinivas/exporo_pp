@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Carbon;
 use App\Traits\Encryptable;
 use App\Traits\Person;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
@@ -10,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 

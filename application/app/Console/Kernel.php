@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CalculateInvestorsClaims;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,6 +18,11 @@ class Kernel extends ConsoleKernel
     {
         // Send all outputs to stdout using its alias
         $out = '/proc/1/fd/1';
+
+        $schedule->command(Commands\CalculateInvestorsClaims::class)
+            ->everyMinute()
+            ->onOneServer()
+            ->appendOutputTo($out);
 
         $schedule->command(Commands\CalculateCommissions::class)
             ->everyMinute()

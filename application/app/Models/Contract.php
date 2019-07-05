@@ -11,12 +11,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $user_id
  * @property int $template_id
  * @property int $cancellation_days
- * @property int $claim_years
+ * @property int $claim_years The number of years since accepted_at, we can generate commissions for
  * @property bool $vat_included
  * @property float $vat_amount
- * @property Carbon $accepted_at
- * @property Carbon $released_at
- * @property Carbon $terminated_at
+ * @property Carbon $accepted_at The date the user fully accepted the contract.
+ * @property Carbon $released_at The date we confirmed the contract, but has not yet been accepted by the user.
+ * @property Carbon $terminated_at The date the contract has been terminated (either by hand or automation).
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
@@ -64,6 +64,11 @@ class Contract extends Model
     public function hasOverhead()
     {
         return $this->bonuses()->where('is_overhead', true)->exists();
+    }
+
+    public function isActive()
+    {
+        return $this->terminated_at === null;
     }
 
     public static function fromTemplate(ContractTemplate $template): self
