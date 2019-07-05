@@ -77,8 +77,8 @@ final class CalculateCommissions extends Command
         $query = Investor::query()
             ->select('investors.id', 'investors.user_id')
             ->selectRaw('commission_bonuses.value')
-            ->selectRaw('user_details.vat_included')
-            ->join('user_details', 'user_details.id', 'investors.user_id')
+            ->selectRaw('contracts.vat_included')
+            ->selectRaw('contracts.vat_amount')
             ->join('users', 'users.id', 'investors.user_id')
             ->leftJoin('commissions', function (JoinClause $join) {
                 $join->on('investors.id', 'commissions.model_id');
@@ -86,15 +86,21 @@ final class CalculateCommissions extends Command
             })
             ->leftJoinSub(Contract::query()
                 ->selectRaw('ANY_VALUE(id) as id')
+                ->selectRaw('ANY_VALUE(vat_amount) as vat_amount')
+                ->selectRaw('ANY_VALUE(vat_included) as vat_included')
                 ->addSelect('user_id')
                 ->selectRaw('MAX(accepted_at)')
+                ->whereNotNull('accepted_at')
+                ->whereNotNull('released_at')
                 ->groupBy('user_id')
             , 'contracts', 'contracts.user_id', '=', 'investors.user_id')
             ->leftJoin('commission_bonuses', 'commission_bonuses.contract_id', 'contracts.id')
+            ->where('commission_bonuses.calculation_type', CommissionBonus::TYPE_REGISTRATION)
             ->where('commission_bonuses.value', '>', 0)
             ->whereNull('commissions.id')
             ->whereNotNull('users.accepted_at')
-            ->whereNull('users.rejected_at');
+            ->whereNull('users.rejected_at')
+            ->where('investors.claim_end', '>', now());
 
         $callback = function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
