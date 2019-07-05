@@ -73,6 +73,8 @@ final class CalculateCommissions extends Command
     {
         // Select essential information of investors where
         // - the partner actually has a registration bonus
+        //   - based on the current contract
+        //   - as long as they have a claim on the user
         // - the partner has not yet received a bonus
         $query = Investor::query()
             ->select('investors.id', 'investors.user_id')
@@ -80,26 +82,40 @@ final class CalculateCommissions extends Command
             ->selectRaw('contracts.vat_included')
             ->selectRaw('contracts.vat_amount')
             ->join('users', 'users.id', 'investors.user_id')
+
+            // Only for those we have not yet received a bonus for
+            ->whereNull('commissions.id')
             ->leftJoin('commissions', function (JoinClause $join) {
                 $join->on('investors.id', 'commissions.model_id');
                 $join->where('commissions.model_type', Investor::MORPH_NAME);
             })
-            ->leftJoinSub(Contract::query()
-                ->selectRaw('ANY_VALUE(id) as id')
-                ->selectRaw('ANY_VALUE(vat_amount) as vat_amount')
-                ->selectRaw('ANY_VALUE(vat_included) as vat_included')
-                ->addSelect('user_id')
-                ->selectRaw('MAX(accepted_at)')
-                ->whereNotNull('accepted_at')
-                ->whereNotNull('released_at')
-                ->groupBy('user_id')
+
+            // With the currently active contract
+            ->joinSub(Contract::query()
+                ->addSelect('contracts.id')
+                ->addSelect('contracts.user_id')
+                ->addSelect('vat_amount')
+                ->addSelect('vat_included')
+                ->joinSub(Contract::query()
+                    // Self join to get a list of users -> to their active contract ID
+                    ->addSelect('user_id')
+                    ->selectRaw('MAX(id) as id')
+                    ->whereNotNull('accepted_at')
+                    ->whereNotNull('released_at')
+                    ->groupBy('user_id')
+                , 'contracts_active', 'contracts_active.id', '=', 'contracts.id')
             , 'contracts', 'contracts.user_id', '=', 'investors.user_id')
             ->leftJoin('commission_bonuses', 'commission_bonuses.contract_id', 'contracts.id')
+
+            // Where we actually have a bonus
             ->where('commission_bonuses.calculation_type', CommissionBonus::TYPE_REGISTRATION)
             ->where('commission_bonuses.value', '>', 0)
-            ->whereNull('commissions.id')
+
+            // And the user is active (just a safety measure since the contract should cover this)
             ->whereNotNull('users.accepted_at')
             ->whereNull('users.rejected_at')
+
+            // And we have a claim on the investor still
             ->where('investors.claim_end', '>', now());
 
         $callback = function (Investor $investor) use ($commissionsService) {
