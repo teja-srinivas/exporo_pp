@@ -134,7 +134,7 @@ final class CommissionCalculationTest extends TestCase
     {
         /** @var $service CalculateCommissionsService */
         $service = $this->app->make(CalculateCommissionsService::class);
-        $returnValue = $service->calculate(Investment::first());
+        $returnValue = $service->calculate(Investment::query()->first());
 
         $this->assertEquals(303.75, $returnValue['net']);
         $this->assertEquals(375, $returnValue['gross']);
