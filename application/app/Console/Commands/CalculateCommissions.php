@@ -96,14 +96,7 @@ final class CalculateCommissions extends Command
                 ->addSelect('contracts.user_id')
                 ->addSelect('vat_amount')
                 ->addSelect('vat_included')
-                ->joinSub(Contract::query()
-                    // Self join to get a list of users -> to their active contract ID
-                    ->addSelect('user_id')
-                    ->selectRaw('MAX(id) as id')
-                    ->whereNotNull('accepted_at')
-                    ->whereNotNull('released_at')
-                    ->groupBy('user_id')
-                , 'contracts_active', 'contracts_active.id', '=', 'contracts.id')
+                ->joinActive()
             , 'contracts', 'contracts.user_id', '=', 'investors.user_id')
             ->leftJoin('commission_bonuses', 'commission_bonuses.contract_id', 'contracts.id')
 

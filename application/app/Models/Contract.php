@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Builders\ContractBuilder;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -23,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property ContractTemplate $template
  * @property Collection $bonuses
  * @property User $user
+ * @method static ContractBuilder query()
  */
 class Contract extends Model
 {
@@ -46,29 +50,34 @@ class Contract extends Model
         'vat_amount',
     ];
 
-    public function bonuses()
+    public function bonuses(): HasMany
     {
         return $this->hasMany(CommissionBonus::class);
     }
 
-    public function template()
+    public function template(): BelongsTo
     {
         return $this->belongsTo(ContractTemplate::class);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function hasOverhead()
+    public function hasOverhead(): bool
     {
         return $this->bonuses()->where('is_overhead', true)->exists();
     }
 
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->terminated_at === null;
+    }
+
+    public function newEloquentBuilder($query): ContractBuilder
+    {
+        return new ContractBuilder($query);
     }
 
     public static function fromTemplate(ContractTemplate $template): self
