@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * @method static ContractBuilder query()
+ *
  * @property int $id
  * @property int $user_id
  * @property int $template_id
@@ -26,7 +28,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property ContractTemplate $template
  * @property Collection $bonuses
  * @property User $user
- * @method static ContractBuilder query()
  */
 class Contract extends Model
 {

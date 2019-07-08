@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services;
@@ -8,8 +9,7 @@ use App\Models\Contract;
 use App\Models\Investment;
 use App\Models\Schema;
 use App\Models\User;
-use App\Models\UserDetails;
-use App\Policies\BillPolicy;
+use Exception;
 
 final class CalculateCommissionsService
 {
@@ -21,7 +21,7 @@ final class CalculateCommissionsService
      * @param User|null $parent
      * @param User|null $child
      * @return array|null Either the final entry array or null, if we should skip the investment altogether
-     * @throws \Exception
+     * @throws Exception
      */
     public function calculate(Investment $investment, User $parent = null, User $child = null): ?array
     {
@@ -58,6 +58,8 @@ final class CalculateCommissionsService
         ]);
 
         return $this->calculateNetAndGross($user->contract, $sum) + [
+            'model_type' => Investment::MORPH_NAME,
+            'model_id' => $investment->getKey(),
             'bonus' => $bonus,
             'user_id' => $user->getKey(),
         ] + ($user->canBeBilled() ? [] : [

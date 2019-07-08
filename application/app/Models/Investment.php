@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Builders\InvestmentBuilder;
 use Carbon\Carbon;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,6 +14,8 @@ use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
+ * @method static InvestmentBuilder query()
+ *
  * @property int $id
  * @property int $bonus
  * @property float $amount
@@ -88,30 +91,19 @@ class Investment extends Model implements AuditableContract
     /**
      * @param Builder|\Illuminate\Database\Query\Builder $query
      */
-    public function scopeRefundable($query)
-    {
-        $query->where('acknowledged_at', '<=', now()->subWeeks(2));
-    }
-
-    /**
-     * @param Builder|\Illuminate\Database\Query\Builder $query
-     */
     public function scopeBillable($query)
     {
         $this->scopeRefundable($query);
         $query->whereNotNull('paid_at');
     }
 
-    public function scopeUncancelled(Builder $query)
-    {
-        $query->where(function (Builder $query) {
-            $query->where('investments.cancelled_at', LEGACY_NULL);
-            $query->orWhereNull('investments.cancelled_at');
-        });
-    }
-
     public function getPaidAtAttribute($value)
     {
         return $value !== LEGACY_NULL ? Carbon::make($value) : null;
+    }
+
+    public function newEloquentBuilder($query): InvestmentBuilder
+    {
+        return new InvestmentBuilder($query);
     }
 }

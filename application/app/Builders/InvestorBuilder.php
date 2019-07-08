@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Builders;
 
 use App\Models\CommissionBonus;
@@ -9,6 +11,8 @@ use Illuminate\Database\Query\JoinClause;
 
 class InvestorBuilder extends Builder
 {
+    use Traits\HasUser;
+
     /**
      * Only returns investors that meet the criteria for which
      * we're allowed to calculate commissions for.
@@ -18,7 +22,7 @@ class InvestorBuilder extends Builder
     public function commissionable(): self
     {
         // Make sure we only get what we need
-        if (is_null($this->columns)) {
+        if (is_null($this->query->columns)) {
             $this->select('investors.*');
         }
 
@@ -47,19 +51,6 @@ class InvestorBuilder extends Builder
                 $join->on('investors.id', 'commissions.model_id');
                 $join->where('commissions.model_type', Investor::MORPH_NAME);
             });
-    }
-
-    /**
-     * Only returns investors that also have an associated, active partner user.
-     *
-     * @return self
-     */
-    public function whereHasActiveUser(): self
-    {
-        return $this
-            ->join('users', 'users.id', 'investors.user_id')
-            ->whereNotNull('users.accepted_at')
-            ->whereNull('users.rejected_at');
     }
 
     /**

@@ -1,9 +1,15 @@
 <?php
 
+use App\Models\Project;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
-$factory->define(\App\Models\Project::class, function (Faker $faker) {
+/** @var Factory $factory */
+
+$factory->define(Project::class, function (Faker $faker) {
     $paybackMin = $faker->date();
+
     return [
         'id' => $faker->unique()->numberBetween(),
         'name' => $faker->streetAddress,
@@ -11,9 +17,8 @@ $factory->define(\App\Models\Project::class, function (Faker $faker) {
         'margin' => $faker->randomFloat(2, 1, 3),
         'image' => $faker->imageUrl(800, 600, 'city'),
         'description' => $faker->text,
-        'capital_cost' => $faker->randomFloat(2, 1000, 2000),
         'launched_at' => $faker->randomDigit > 6 ? $faker->date() : null,
         'payback_min_at' => $paybackMin,
-        'payback_max_at' => \Carbon\Carbon::parse($paybackMin)->addWeeks(2),
+        'payback_max_at' => Carbon::parse($paybackMin)->addWeeks(2),
     ];
 });

@@ -15,6 +15,8 @@ use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
+ * @method static InvestorBuilder query()
+ *
  * @property int $id
  * @property User $user
  * @property int $user_id
@@ -25,7 +27,6 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property Carbon $updated_at
  * @property Carbon $activation_at
  * @property Carbon $claim_end
- * @method static InvestorBuilder query()
  */
 class Investor extends Model implements AuditableContract
 {
