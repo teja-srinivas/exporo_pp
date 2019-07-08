@@ -43,12 +43,7 @@ $functions = Closure::bind(
 
         Unterstützte Variablen:
 
-        @foreach(\Illuminate\Support\Arr::sort([
-            'bonus',
-            'investment',
-            'laufzeit',
-            'marge',
-        ]) as $entry)
+        @foreach(\Illuminate\Support\Arr::sort(\App\Models\Schema::VARS) as $entry)
             <span class="badge badge-info">{{ ucfirst($entry) }}</span>
         @endforeach
 

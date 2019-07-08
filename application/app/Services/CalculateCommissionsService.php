@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Models\CommissionBonus;
 use App\Models\Contract;
 use App\Models\Investment;
+use App\Models\Schema;
 use App\Models\User;
 use App\Models\UserDetails;
 use App\Policies\BillPolicy;
@@ -50,10 +51,10 @@ final class CalculateCommissionsService
         }
 
         $sum = $investment->project->schema->calculate([
-            'investment' => (int)$investment->amount,
-            'bonus' => $bonus,
-            'laufzeit' => $investment->project->runtimeFactor(),
-            'marge' => $investment->project->marginPercentage(),
+            Schema::VAR_AMOUNT => (int) $investment->amount,
+            Schema::VAR_BONUS => $bonus,
+            Schema::VAR_RUNTIME => $investment->project->runtimeFactor(),
+            Schema::VAR_MARGIN => $investment->project->marginPercentage(),
         ]);
 
         return $this->calculateNetAndGross($user->contract, $sum) + [

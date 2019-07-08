@@ -20,6 +20,18 @@ class Schema extends Model implements AuditableContract
     use Auditable;
     use OptimusEncodedRouteKey;
 
+    const VAR_AMOUNT = 'investment';
+    const VAR_BONUS = 'bonus';
+    const VAR_MARGIN = 'marge';
+    const VAR_RUNTIME = 'laufzeit';
+
+    const VARS = [
+        self::VAR_AMOUNT,
+        self::VAR_BONUS,
+        self::VAR_MARGIN,
+        self::VAR_RUNTIME,
+    ];
+
     protected $fillable = [
         'name',
         'formula',
@@ -32,9 +44,6 @@ class Schema extends Model implements AuditableContract
     /**
      * Cached formula object so we can execute the calculation
      * multiple times during a data import.
-     *
-     * This caches the node tree as well as
-     * the variable replacement done via regex.
      *
      * @var Executable|null
      */
