@@ -8,6 +8,7 @@ use App\Events\CommissionBonusUpdated;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 
 /**
  * @property int $type_id
@@ -94,5 +95,55 @@ class CommissionBonus extends Model
     public function getDisplayName()
     {
         return self::DISPLAY_NAMES[$this->calculation_type];
+    }
+
+
+    /**
+     * Creates the attributes required for a "value" bonus.
+     *
+     * @param string $type
+     * @param float $value
+     * @return array
+     */
+    public static function value(string $type, float $value): array
+    {
+        self::validateType($type);
+
+        return [
+            'calculation_type' => $type,
+            'value' => $value,
+            'is_percentage' => false,
+        ];
+    }
+
+    /**
+     * Creates the attributes required for a "percentage" bonus.
+     *
+     * @param string $type
+     * @param float $value
+     * @return array
+     */
+    public static function percentage(string $type, float $value): array
+    {
+        self::validateType($type);
+
+        return [
+            'calculation_type' => $type,
+            'value' => $value,
+            'is_percentage' => true,
+        ];
+    }
+
+    /**
+     * Checks if the given type is in our list of allowed values.
+     *
+     * @param string $type
+     * @throws InvalidArgumentException
+     */
+    protected static function validateType(string $type): void
+    {
+        if (! in_array($type, self::TYPES)) {
+            throw new InvalidArgumentException("Invalid bonus type: $type");
+        }
     }
 }
