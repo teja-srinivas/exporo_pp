@@ -3,7 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Bill;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class BillTest extends TestCase
 {
