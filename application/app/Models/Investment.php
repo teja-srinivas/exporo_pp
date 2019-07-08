@@ -72,7 +72,7 @@ class Investment extends Model implements AuditableContract
 
     public function isRefundable(): bool
     {
-        return $this->acknowledged_at >= now()->subWeeks(2) || $this->acknowledged_at === null || $this->acknowledged_at === LEGACY_NULL;
+        return $this->acknowledged_at === null || $this->acknowledged_at >= now()->subWeeks(2);
     }
 
     public function isBillable(): bool
@@ -82,7 +82,7 @@ class Investment extends Model implements AuditableContract
 
     public function isCancelled(): bool
     {
-        return $this->cancelled_at !== null && $this->cancelled_at->year > 1970;
+        return $this->cancelled_at !== null;
     }
 
     /**
