@@ -53,7 +53,7 @@ final class CommissionCalculationTest extends TestCase
             'schema_id' => factory(Schema::class)->create(['formula' => 'investment * laufzeit * marge * bonus']),
             // Use a runtime factor of 1 (12 months)
             'launched_at' => '2017-07-11',
-            'payback_min_at' => '2018-07-11',
+            'payback_max_at' => '2019-07-11',
             'interest_rate' => 5,
             'margin' => 2,
         ]);
