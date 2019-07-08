@@ -103,9 +103,10 @@ class CommissionBonus extends Model
      *
      * @param string $type
      * @param float $value
+     * @param bool $overhead
      * @return array
      */
-    public static function value(string $type, float $value): array
+    public static function value(string $type, float $value, bool $overhead = false): array
     {
         self::validateType($type);
 
@@ -113,6 +114,7 @@ class CommissionBonus extends Model
             'calculation_type' => $type,
             'value' => $value,
             'is_percentage' => false,
+            'is_overhead' => $overhead,
         ];
     }
 
@@ -121,9 +123,10 @@ class CommissionBonus extends Model
      *
      * @param string $type
      * @param float $value
+     * @param bool $overhead
      * @return array
      */
-    public static function percentage(string $type, float $value): array
+    public static function percentage(string $type, float $value, bool $overhead = false): array
     {
         self::validateType($type);
 
@@ -131,6 +134,7 @@ class CommissionBonus extends Model
             'calculation_type' => $type,
             'value' => $value,
             'is_percentage' => true,
+            'is_overhead' => $overhead,
         ];
     }
 

@@ -20,6 +20,12 @@ final class CommissionCalculationTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @var CalculateCommissionsService */
+    protected $service;
+
+    /** @var CommissionType */
+    protected $commissionType;
+
     /** @var User */
     protected $parent;
 
@@ -32,47 +38,41 @@ final class CommissionCalculationTest extends TestCase
     /** @var Investment */
     protected $childInvestment;
 
-    /** @var CalculateCommissionsService */
-    protected $service;
-
-    /** @var CommissionType */
-    protected $commissionType;
-
     public function setUp()
     {
         parent::setUp();
+
+        $this->service = $this->app->make(CalculateCommissionsService::class);
 
         /** @var CommissionType $commissionType */
         $this->commissionType = factory(CommissionType::class)->create();
 
         /** @var Project $project */
         $project = factory(Project::class)->create([
-            'interest_rate' => 5,
-            'margin' => 2,
             'commission_type' => $this->commissionType->getKey(),
             'schema_id' => factory(Schema::class)->create(['formula' => 'investment * laufzeit * marge * bonus']),
-            'created_at' => '2015-05-06 21:22:39',
-            'updated_at' => '2018-07-16 12:56:06',
-            'approved_at' => '2015-05-06 21:22:39',
             // Use a runtime factor of 1 (12 months)
             'launched_at' => '2017-07-11',
             'payback_min_at' => '2018-07-11',
+            'interest_rate' => 5,
+            'margin' => 2,
         ]);
 
-        $this->parent = factory(User::class)
-            ->states('accepted', 'billable')
-            ->create();
+        // Create the parent
+        $this->parent = factory(User::class)->create();
         $this->parentInvestment = $this->createInvestment($this->parent, $project, false);
 
-        $this->child = factory(User::class)
-            ->states('accepted', 'billable')
-            ->create(['parent_id' => $this->parent->getKey()]);
+        $this->createContract($this->parent, [
+            CommissionBonus::percentage(CommissionBonus::TYPE_FURTHER_INVESTMENT, 0.75),
+        ]);
+
+        // Create the child
+        $this->child = factory(User::class)->create(['parent_id' => $this->parent->getKey()]);
         $this->childInvestment = $this->createInvestment($this->child, $project, true);
 
-        $this->createContract($this->parent, 1.25, 0.75, 10);
-        $this->createContract($this->child, 1.15, 0.65, 9); // 10% less
-
-        $this->service = $this->app->make(CalculateCommissionsService::class);
+        $this->createContract($this->child, [
+            CommissionBonus::percentage(CommissionBonus::TYPE_FIRST_INVESTMENT, 1.15),
+        ]);
     }
 
     /**
@@ -89,53 +89,43 @@ final class CommissionCalculationTest extends TestCase
      * @test
      * @throws
      */
-    public function it_calculates_parent_child_hierarchies()
+    public function it_calculates_overhead_hierarchies()
     {
-        $result = $this->service->calculate($this->childInvestment, $this->parent, $this->child);
-
         // First time fails as we have no overhead bonus on the contract
+        $result = $this->service->calculate($this->childInvestment, $this->parent, $this->child);
         $this->assertNull($result['net'], 'No overhead bonuses should result in no money');
 
         // Add overhead bonuses and try again
         $this->createBonuses($this->parent->contract, [
-            CommissionBonus::percentage(CommissionBonus::TYPE_FIRST_INVESTMENT, 2.15),
-        ], true);
-
-        $this->parent->contract->refresh(); // Update cached relationships
+            CommissionBonus::percentage(CommissionBonus::TYPE_FIRST_INVESTMENT, 2.15, true),
+        ]);
 
         $result = $this->service->calculate($this->childInvestment, $this->parent, $this->child);
         $this->assertEquals(1000, $result['net']);
     }
 
-    protected function createContract(
-        User $user,
-        float $firstInvestment,
-        float $furtherInvestment,
-        float $registration
-    ): Contract {
+    protected function createContract(User $user, array $bonuses): Contract
+    {
         /** @var Contract $contract */
         $contract = factory(Contract::class)->state('active')->create([
             'user_id' => $user->getKey(),
             'vat_included' => false,
         ]);
 
-        $this->createBonuses($contract, [
-            CommissionBonus::percentage(CommissionBonus::TYPE_FIRST_INVESTMENT, $firstInvestment),
-            CommissionBonus::percentage(CommissionBonus::TYPE_FURTHER_INVESTMENT, $furtherInvestment),
-            CommissionBonus::value(CommissionBonus::TYPE_REGISTRATION, $registration),
-        ]);
+        $this->createBonuses($contract, $bonuses);
 
         return $contract;
     }
 
-    protected function createBonuses(Contract $contract, array $bonuses, bool $overhead = false)
+    protected function createBonuses(Contract $contract, array $bonuses)
     {
         foreach($bonuses as $bonus) {
             $contract->bonuses()->create($bonus + [
                 'type_id' => $this->commissionType->getKey(),
-                'is_overhead' => $overhead,
             ]);
         }
+
+        $contract->refresh();
     }
 
     protected function createInvestment(User $user, Project $project, bool $firstInvestment): Investment
