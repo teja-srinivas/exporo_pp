@@ -77,38 +77,10 @@ final class CalculateCommissions extends Command
         // - the partner has not yet received a bonus
         $query = Investor::query()
             ->select('investors.id', 'investors.user_id')
-            ->selectRaw('commission_bonuses.value')
-            ->selectRaw('contracts.vat_included')
-            ->selectRaw('contracts.vat_amount')
-            ->join('users', 'users.id', 'investors.user_id')
-
-            // Only for those we have not yet received a bonus for
-            ->whereNull('commissions.id')
-            ->leftJoin('commissions', function (JoinClause $join) {
-                $join->on('investors.id', 'commissions.model_id');
-                $join->where('commissions.model_type', Investor::MORPH_NAME);
-            })
-
-            // With the currently active contract
-            ->joinSub(Contract::query()
-                ->addSelect('contracts.id')
-                ->addSelect('contracts.user_id')
-                ->addSelect('vat_amount')
-                ->addSelect('vat_included')
-                ->joinActive()
-            , 'contracts', 'contracts.user_id', '=', 'investors.user_id')
-            ->leftJoin('commission_bonuses', 'commission_bonuses.contract_id', 'contracts.id')
-
-            // Where we actually have a bonus
-            ->where('commission_bonuses.calculation_type', CommissionBonus::TYPE_REGISTRATION)
-            ->where('commission_bonuses.value', '>', 0)
-
-            // And the user is active (just a safety measure since the contract should cover this)
-            ->whereNotNull('users.accepted_at')
-            ->whereNull('users.rejected_at')
-
-            // And we have a claim on the investor still
-            ->where('investors.claim_end', '>', now());
+            ->addSelect('commission_bonuses.value')
+            ->addSelect('contracts.vat_included')
+            ->addSelect('contracts.vat_amount')
+            ->commissionable();
 
         $callback = function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(

@@ -3,7 +3,6 @@
 namespace App\Builders;
 
 use App\Models\Contract;
-use Illuminate\Database\Eloquent\Builder;
 
 class ContractBuilder extends Builder
 {
@@ -41,7 +40,7 @@ class ContractBuilder extends Builder
      *
      * @return ContractBuilder
      */
-    public function joinActive(): self
+    public function onlyActive(): self
     {
         return $this->joinSub(
             Contract::query()->activeByUserId(),
@@ -51,5 +50,4 @@ class ContractBuilder extends Builder
             'contracts.id'
         );
     }
-
 }
