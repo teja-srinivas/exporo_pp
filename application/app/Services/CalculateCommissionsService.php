@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\CommissionBonus;
+use App\Models\Contract;
 use App\Models\Investment;
 use App\Models\User;
 use App\Models\UserDetails;
@@ -55,7 +56,7 @@ final class CalculateCommissionsService
             'marge' => $investment->project->marginPercentage(),
         ]);
 
-        return $this->calculateNetAndGross($user->details, $sum) + [
+        return $this->calculateNetAndGross($user->contract, $sum) + [
             'bonus' => $bonus,
             'user_id' => $user->getKey(),
         ] + ($user->canBeBilled() ? [] : [
@@ -64,9 +65,9 @@ final class CalculateCommissionsService
         ]);
     }
 
-    public function calculateNetAndGross(UserDetails $details, float $sum): array
+    public function calculateNetAndGross(Contract $contract, float $sum): array
     {
-        $vatAmount = $details->vat_amount;
+        $vatAmount = $contract->vat_amount;
 
         if ($vatAmount <= 0) {
             return [
@@ -77,7 +78,7 @@ final class CalculateCommissionsService
 
         $vatAmount = 1 + ($vatAmount / 100);
 
-        return $details->vat_included
+        return $contract->vat_included
             ? [
                 'net' => $sum / $vatAmount,
                 'gross' => $sum,

@@ -10,7 +10,6 @@ use App\Models\Contract;
 use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
-use App\Models\UserDetails;
 use App\Repositories\InvestmentRepository;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Console\Command;
@@ -114,7 +113,7 @@ final class CalculateCommissions extends Command
         $callback = function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
                 // Temp values that come from the query (not actually from the Investor's table)
-                new UserDetails($investor->only('vat_included', 'vat_amount')),
+                new Contract($investor->only('vat_included', 'vat_amount')),
                 (float) $investor->value
             );
 
