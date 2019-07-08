@@ -100,35 +100,29 @@ final class CalculateCommissionsService
      */
     public function calculateBonus(Investment $investment, User $user): ?float
     {
-        $bonuses = $user->contract->bonuses
-            // Based on the type we determine the actual value
+        /** @var CommissionBonus|null $bonus */
+        $bonus = $user->contract->bonuses
             ->where('type_id', $investment->project->commission_type)
+            ->where(
+                'calculation_type',
+                $investment->is_first_investment
+                    ? CommissionBonus::TYPE_FIRST_INVESTMENT
+                    : CommissionBonus::TYPE_FURTHER_INVESTMENT
+            )
 
             // If the investor is linked to the given user, it's a direct commission
             // If not, it's an overhead and thus we always need to pick that "branch"
             //
             //               Regular   Overhead
             //     Partner     1.25       [1.5]
-            //        ↑                      ↓
+            //        ↑                     ↓
             //     Partner     1.25       [1.5]
             //        ↑               ↙
             //     Partner    [1.25]       1.5
             //        ↑     ↙
             //     Investor
             //
-            ->where('is_overhead', $investment->investor->user_id !== $user->id);
-
-        $bonus = $bonuses->first(function (CommissionBonus $bonus) use ($investment) {
-            switch ($bonus->calculation_type) {
-                case CommissionBonus::TYPE_FIRST_INVESTMENT:
-                    return $investment->is_first_investment;
-
-                case CommissionBonus::TYPE_FURTHER_INVESTMENT:
-                    return !$investment->is_first_investment;
-            }
-
-            return false;
-        });
+            ->firstWhere('is_overhead', $investment->investor->user_id !== $user->getKey());
 
         return $bonus !== null ? $bonus->value : null;
     }
