@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Builders\ContractBuilder;
 use Carbon\Carbon;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,6 +32,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Contract extends Model
 {
+    use OptimusEncodedRouteKey;
+
     protected $casts = [
         'cancellation_days' => 'int',
         'claim_years' => 'int',
