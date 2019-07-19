@@ -22,3 +22,7 @@ $factory->define(Project::class, function (Faker $faker) {
         'payback_max_at' => Carbon::parse($paybackMin)->addWeeks(2),
     ];
 });
+
+$factory->state(Project::class, 'approved', [
+    'approved_at' => now(),
+]);

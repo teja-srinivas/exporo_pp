@@ -26,6 +26,11 @@ $factory->state(Investment::class, 'paid', [
     'acknowledged_at' => now(),
 ]);
 
+$factory->state(Investment::class, 'nonRefundable', [
+    'paid_at' => now(),
+    'acknowledged_at' => now()->subWeeks(3),
+]);
+
 $factory->state(Investment::class, 'cancelled', [
     'cancelled_at' => now(),
 ]);
