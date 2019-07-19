@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Contract;
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
@@ -31,7 +32,7 @@ class ContractController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Contract $contract
-     * @return Response
+     * @return Response|RedirectResponse
      * @throws AuthorizationException
      */
     public function edit(Contract $contract)
@@ -52,7 +53,7 @@ class ContractController extends Controller
      *
      * @param Request $request
      * @param Contract $contract
-     * @return Response
+     * @return Response|RedirectResponse
      * @throws AuthorizationException
      * @throws ValidationException
      */
@@ -79,9 +80,9 @@ class ContractController extends Controller
 
     /**
      * @param Contract $contract
-     * @return Response
+     * @return RedirectResponse
      */
-    protected function redirectWithLockedError(Contract $contract): Response
+    protected function redirectWithLockedError(Contract $contract): RedirectResponse
     {
         return redirect()->route('contracts.show', $contract)->with([
             'error-message' => 'Dieser Vertrag kann nicht mehr bearbeitet werden.',
