@@ -6,6 +6,8 @@
             <div class="col-md-8">
                 <h4>Ihr persönlicher Partnervertrag mit Exporo</h4>
 
+                @include('components.status')
+
                 @card
                     @include('contracts.partials.header', ['user' => $contract->user])
                 @endcard

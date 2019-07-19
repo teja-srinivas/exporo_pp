@@ -24,7 +24,7 @@ use InvalidArgumentException;
  * @property BonusBundle $bundle
  * @property Collection $bundles
  * @property CommissionType $type
- * @property User $user
+ * @property Contract $contract
  */
 class CommissionBonus extends Model
 {
@@ -47,7 +47,7 @@ class CommissionBonus extends Model
     protected $table = 'commission_bonuses';
 
     protected $fillable = [
-        'id', 'type_id', 'calculation_type', 'value', 'is_overhead', 'is_percentage', 'user_id',
+        'id', 'type_id', 'calculation_type', 'value', 'is_overhead', 'is_percentage', 'contract_id',
     ];
 
     protected $casts = [
@@ -82,9 +82,9 @@ class CommissionBonus extends Model
         return $this->belongsTo(CommissionType::class, 'type_id', 'id');
     }
 
-    public function user()
+    public function contract()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id', 'user');
+        return $this->belongsTo(Contract::class, 'contract_id', 'id', 'contract');
     }
 
     public function getDisplayValue()

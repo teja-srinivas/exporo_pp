@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Contract;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class ContractController extends Controller
 {
@@ -12,8 +15,8 @@ class ContractController extends Controller
      * Display the specified resource.
      *
      * @param Contract $contract
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return Response
+     * @throws AuthorizationException
      */
     public function show(Contract $contract)
     {
@@ -28,12 +31,16 @@ class ContractController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Contract $contract
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return Response
+     * @throws AuthorizationException
      */
     public function edit(Contract $contract)
     {
         $this->authorize('update', $contract);
+
+        if (! $contract->isEditable()) {
+            return $this->redirectWithLockedError($contract);
+        }
 
         return view('contracts.edit', [
             'contract' => $contract,
@@ -43,15 +50,19 @@ class ContractController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param Contract $contract
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     * @throws \Illuminate\Validation\ValidationException
+     * @return Response
+     * @throws AuthorizationException
+     * @throws ValidationException
      */
     public function update(Request $request, Contract $contract)
     {
         $this->authorize('update', $contract);
+
+        if (! $contract->isEditable()) {
+            return $this->redirectWithLockedError($contract);
+        }
 
         $data = $this->validate($request, [
             'cancellation_days' => ['required', 'numeric', 'min:14', 'max:365'],
@@ -64,5 +75,16 @@ class ContractController extends Controller
         flash_success();
 
         return back();
+    }
+
+    /**
+     * @param Contract $contract
+     * @return Response
+     */
+    protected function redirectWithLockedError(Contract $contract): Response
+    {
+        return redirect()->route('contracts.show', $contract)->with([
+            'error-message' => 'Dieser Vertrag kann nicht mehr bearbeitet werden.',
+        ]);
     }
 }

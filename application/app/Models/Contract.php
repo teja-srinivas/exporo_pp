@@ -80,6 +80,11 @@ class Contract extends Model
         return $this->terminated_at === null;
     }
 
+    public function isEditable(): bool
+    {
+        return $this->accepted_at === null;
+    }
+
     public function newEloquentBuilder($query): ContractBuilder
     {
         return new ContractBuilder($query);

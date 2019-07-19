@@ -1,5 +1,5 @@
 {{-- Validation Errors --}}
-@if(isset($errors) && $errors->any())
+@if((isset($errors) && $errors->any()) || !empty(session('error-message')))
     <div class="alert alert-warning">
         {{ session('error-message') ?? 'Es sind Fehler beim Speichern aufgetreten' }}
     </div>
