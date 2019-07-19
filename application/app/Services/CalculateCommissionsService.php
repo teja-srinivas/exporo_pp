@@ -68,6 +68,16 @@ final class CalculateCommissionsService
         ]);
     }
 
+    /**
+     * Calculates the net and gross amounts based on the given sum.
+     *
+     * If the given contract contains no VAT details, this will simply return
+     * the initial value for both, net and gross.
+     *
+     * @param Contract $contract
+     * @param float $sum
+     * @return array
+     */
     public function calculateNetAndGross(Contract $contract, float $sum): array
     {
         $vatAmount = $contract->vat_amount;
