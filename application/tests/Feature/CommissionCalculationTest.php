@@ -83,8 +83,8 @@ final class CommissionCalculationTest extends TestCase
      */
     public function it_calculates_commissions()
     {
-        $this->assertEquals(750, $this->service->calculate($this->parentInvestment)['net']);
-        $this->assertEquals(1150, $this->service->calculate($this->childInvestment)['net']);
+        $this->assertEquals(75, $this->service->calculate($this->parentInvestment)['net']);
+        $this->assertEquals(115, $this->service->calculate($this->childInvestment)['net']);
     }
 
     /**
@@ -103,7 +103,7 @@ final class CommissionCalculationTest extends TestCase
         ]);
 
         $result = $this->service->calculate($this->childInvestment, $this->parent, $this->child);
-        $this->assertEquals(1000, $result['net']);
+        $this->assertEquals(100, $result['net']);
     }
 
     protected function createContract(User $user, array $bonuses): Contract
