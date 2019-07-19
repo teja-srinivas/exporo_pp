@@ -11,11 +11,14 @@ class ContractController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Contract  $contract
+     * @param Contract $contract
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Contract $contract)
     {
+        $this->authorize('view', $contract);
+
         return view('contracts.show', [
             'contract' => $contract,
         ]);
