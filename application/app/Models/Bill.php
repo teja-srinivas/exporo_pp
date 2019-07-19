@@ -31,7 +31,7 @@ class Bill extends Model implements AuditableContract
     use Auditable;
     use OptimusEncodedRouteKey;
 
-    protected $dateFormat = 'Y-m-d';
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     protected $dates = [
         'released_at',
