@@ -15,10 +15,12 @@ use App\Models\User;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tests\TestsContracts;
 
 final class CommissionCalculationTest extends TestCase
 {
     use RefreshDatabase;
+    use TestsContracts;
 
     /** @var CalculateCommissionsService */
     protected $service;
@@ -50,7 +52,7 @@ final class CommissionCalculationTest extends TestCase
         /** @var Project $project */
         $project = factory(Project::class)->create([
             'commission_type' => $this->commissionType->getKey(),
-            'schema_id' => factory(Schema::class)->create(['formula' => 'investment * laufzeit * marge * bonus']),
+            'schema_id' => $this->createSchema(),
             // Use a runtime factor of 1 (12 months)
             'launched_at' => '2017-07-11',
             'payback_max_at' => '2019-07-11',
@@ -96,7 +98,7 @@ final class CommissionCalculationTest extends TestCase
         $this->assertNull($result['net'], 'No overhead bonuses should result in no money');
 
         // Add overhead bonuses and try again
-        $this->createBonuses($this->parent->contract, [
+        $this->createBonuses($this->parent->contract, $this->commissionType, [
             CommissionBonus::percentage(CommissionBonus::TYPE_FIRST_INVESTMENT, 2.15, true),
         ]);
 
@@ -112,29 +114,24 @@ final class CommissionCalculationTest extends TestCase
             'vat_included' => false,
         ]);
 
-        $this->createBonuses($contract, $bonuses);
+        $this->createBonuses($contract, $this->commissionType, $bonuses);
 
         return $contract;
     }
 
-    protected function createBonuses(Contract $contract, array $bonuses)
-    {
-        foreach($bonuses as $bonus) {
-            $contract->bonuses()->create($bonus + [
-                'type_id' => $this->commissionType->getKey(),
-            ]);
-        }
-
-        $contract->refresh();
-    }
-
+    /**
+     * @param User $user
+     * @param Project $project
+     * @param bool $firstInvestment
+     * @return Investment
+     */
     protected function createInvestment(User $user, Project $project, bool $firstInvestment): Investment
     {
         return factory(Investment::class)->create([
             'investor_id' => factory(Investor::class)->create(['user_id' => $user->getKey()]),
             'is_first_investment' => $firstInvestment,
             'project_id' => $project->getKey(),
-            'amount' => 50000,
+            'amount' => 5000,
         ]);
     }
 }
