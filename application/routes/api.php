@@ -28,4 +28,6 @@ Route::middleware('auth:api')->name('api.')->namespace('Api')->group(function ()
     )->name('commissions.updateBatch');
 
     Route::get('users/details', 'UserDetailsController@index')->name('users.details.index');
+
+    Route::post('actions/decrypt', 'Actions\DecryptController');
 });
