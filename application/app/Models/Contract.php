@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $claim_years The number of years since accepted_at, we can generate commissions for
  * @property bool $vat_included
  * @property float $vat_amount
+ * @property string $special_agreement
  * @property Carbon $accepted_at The date the user fully accepted the contract.
  * @property Carbon $released_at The date we confirmed the contract, but has not yet been accepted by the user.
  * @property Carbon $terminated_at The date the contract has been terminated (either by hand or automation).
