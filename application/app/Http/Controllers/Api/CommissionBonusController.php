@@ -8,8 +8,10 @@ use App\Models\CommissionBonus;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class CommissionBonusController extends Controller
@@ -27,9 +29,11 @@ class CommissionBonusController extends Controller
         $this->authorize('create', CommissionBonus::class);
 
         $data = $this->validate($request, $this->validationRules());
-        $bundle = $this->validateBundle($data['bundle_id'] ?? null, 'update');
+        $bundle = $this->validateBundle($data['bundle_id'] ?? null);
 
         $bonus = new CommissionBonus($data);
+        $this->checkIfLocked($bonus);
+
         $bonus->saveOrFail();
         $bonus->bundle()->attach($bundle);
 
@@ -49,6 +53,8 @@ class CommissionBonusController extends Controller
     {
         $this->authorize('update', $bonus);
 
+        $this->checkIfLocked($bonus);
+
         $data = $this->validate($request, $this->validationRules());
 
         $bonus->fill($data)->saveOrFail();
@@ -65,6 +71,8 @@ class CommissionBonusController extends Controller
     {
         $this->authorize('delete', $bonus);
 
+        $this->checkIfLocked($bonus);
+
         $bonus->bundle()->detach();
 
         $bonus->delete();
@@ -77,7 +85,7 @@ class CommissionBonusController extends Controller
     {
         return [
             'type_id' => ['required', Rule::exists('commission_types', 'id')],
-            'user_id' => ['required'],
+            'contract_id' => ['required'],
             'calculation_type' => ['required', Rule::in(CommissionBonus::TYPES)],
             'value' => ['required', 'numeric'],
             'is_percentage' => ['required', 'boolean'],
@@ -88,11 +96,10 @@ class CommissionBonusController extends Controller
 
     /**
      * @param string|int $bundleId
-     * @param string $ability
      * @return BonusBundle|null
      * @throws AuthorizationException
      */
-    protected function validateBundle($bundleId, string $ability): ?BonusBundle
+    protected function validateBundle($bundleId): ?BonusBundle
     {
         if ($bundleId === null) {
             return null;
@@ -101,8 +108,17 @@ class CommissionBonusController extends Controller
         /** @var BonusBundle $bundle */
         $bundle = BonusBundle::query()->findOrFail($bundleId);
 
-        $this->authorize($ability, $bundle);
+        $this->authorize('update', $bundle);
 
         return $bundle;
+    }
+
+    protected function checkIfLocked(CommissionBonus $bonus)
+    {
+        if ($bonus->contract === null || $bonus->contract->isEditable()) {
+            return;
+        }
+
+        throw new HttpException(Response::HTTP_LOCKED, 'The contract can no longer be edited');
     }
 }
