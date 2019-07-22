@@ -278,7 +278,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function canBeAccepted(): bool
     {
-        return $this->hasBundleSelected();
+        return $this->email_verified_at !== null;
     }
 
     /**
