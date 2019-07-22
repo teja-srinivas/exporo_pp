@@ -80,12 +80,13 @@ class RegisterController extends Controller
             return Agb::current($type);
         })->filter()->pluck('id');
 
-        $companyId = Company::query()->first()->getKey();
+        /** @var Company $company */
+        $company = Company::query()->first();
 
-        return DB::transaction(function () use ($companyId, $data, $agbs) {
+        return DB::transaction(function () use ($company, $data, $agbs) {
             /** @var User $user */
             $user = User::query()->forceCreate([
-                'company_id' => $companyId,
+                'company_id' => $company->getKey(),
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
                 'email' => $data['email'],
@@ -106,8 +107,9 @@ class RegisterController extends Controller
                 'website' => $data['website'],
             ])->saveOrFail();
 
-            $user->assignRole(Role::PARTNER);
             $user->agbs()->attach($agbs);
+            $user->assignRole(Role::PARTNER);
+            $user->contract()->save(Contract::fromTemplate($company->contractTemplate));
 
             return $user;
         });

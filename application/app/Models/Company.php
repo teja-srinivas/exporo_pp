@@ -7,6 +7,7 @@ use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
@@ -23,6 +24,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string|null $street_no
  * @property string|null $website
  *
+ * @property ContractTemplate $contractTemplate
  * @property Collection $bannerSets
  * @property Collection $users
  */
@@ -34,6 +36,11 @@ class Company extends Model implements AuditableContract
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    public function contractTemplate(): HasOne
+    {
+        return $this->hasOne(ContractTemplate::class);
     }
 
     public function bannerSets(): HasMany
