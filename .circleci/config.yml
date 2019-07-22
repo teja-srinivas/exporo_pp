@@ -104,6 +104,7 @@ workflows:
             branches:
               only:
                 - master
+                - feature/contracts
       - hold:
           type: approval
           requires:
