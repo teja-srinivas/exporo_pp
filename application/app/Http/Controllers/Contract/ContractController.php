@@ -67,6 +67,8 @@ class ContractController extends Controller
             'cancellation_days' => ['required', 'numeric', 'min:14', 'max:365'],
             'claim_years' => ['required', 'numeric', 'min:1', 'max:10'],
             'special_agreement' => ['nullable'],
+            'vat_amount' => ['numeric'],
+            'vat_included' => ['boolean'],
         ]);
 
         $contract->update($data);
