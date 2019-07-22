@@ -1,33 +1,30 @@
-@extends('layouts.app')
+@extends('layouts.sidebar')
 
-@section('content')
+@section('title')
+    @breadcrumps([
+        route('users.index') => 'Benutzer',
+        route('users.show', $contract->user) => $contract->user->getDisplayName(),
+        'Verträge',
+        $contract->getKey(),
+        'Bearbeiten'
+    ])
+@endsection
 
-    <form action="{{ route('contracts.update', $contract) }}" method="POST" class="container">
-        @method('PUT')
-        @csrf
+@section('main-content')
+    <div class="row">
+        <div class="col-lg-6">
+            @card
+            @include('contracts.partials.header', ['user' => $contract->user])
+            @endcard
+        </div>
+        <div class="col-lg-6">
+            @card
+            <form action="{{ route('contracts.update', $contract) }}" method="POST">
+                @method('PUT')
+                @csrf
 
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <a href="{{ route('users.show', $contract->user) }}" class="btn btn-outline-primary btn-sm mb-4">
-                    ◀ Zurück zum Nutzer
-                </a>
-
-                <h4 class="mb-4">Vertragsbedingungen festlegen</h4>
-
-                @include('components.status')
-
-                @card
-                @include('contracts.partials.header', ['user' => $contract->user])
-                @endcard
-
-                <div class="rounded bg-white shadow-sm p-3">
-                    @include('components.bundle-editor', [
-                        'bonuses' => $contract->bonuses,
-                    ])
-                </div>
-
-                @card
                 @include('components.form.builder', [
+                    'labelWidth' => 6,
                     'inputs' => [
                         [
                             'type' => 'number',
@@ -35,6 +32,7 @@
                             'name' => 'claim_years',
                             'required' => true,
                             'default' => $contract->claim_years,
+                            'help' => 'In Jahren'
                         ],
                         [
                             'type' => 'number',
@@ -42,23 +40,51 @@
                             'name' => 'cancellation_days',
                             'required' => true,
                             'default' => $contract->cancellation_days,
-                        ],
-                        [
-                            'type' => 'textarea',
-                            'label' => __('Sondervereinbarung'),
-                            'name' => 'special_agreement',
-                            'default' => $contract->special_agreement,
+                            'help' => 'In Tagen'
                         ],
                     ],
                 ])
-                @endcard
 
-                <div class="text-right">
+                <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Mehrwertsteuer</h6>
+
+                @include('components.form.builder', [
+                    'labelWidth' => 6,
+                    'inputs' => [
+                        [
+                            'type' => 'number',
+                            'name' => 'vat_amount',
+                            'label' => 'Betrag in Prozent',
+                        ],
+                        [
+                            'type' => 'radio',
+                            'name' => 'vat_included',
+                            'label' => 'Berechnung',
+                            'values' => [
+                                false => 'On Top',
+                                true => 'Inkludiert',
+                            ],
+                        ],
+                    ],
+                ])
+
+                <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Sondervereinbarung</h6>
+                <textarea name="special_agreement" class="form-control" rows="3">{{
+                    old('special_agreement', $contract->special_agreement)
+                }}</textarea>
+
+                <div class="text-right mt-3">
                     <button type="submit" class="btn btn-primary">
                         Änderungen speichern
                     </button>
                 </div>
-            </div>
+            </form>
+            @endcard
         </div>
-    </form>
+    </div>
+
+    <div class="rounded bg-white shadow-sm p-3 my-3">
+        @include('components.bundle-editor', [
+            'bonuses' => $contract->bonuses,
+        ])
+    </div>
 @endsection
