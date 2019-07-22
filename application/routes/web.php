@@ -27,9 +27,7 @@ Route::prefix('agbs')->group(function () {
 });
 
 Route::middleware(['verified'])->group(function () {
-    Route::get('{contract}/confirm', 'ConfirmationController@show')->name('contracts.confirm');
-
-    Route::middleware(['active-contract', 'filled'])->group(function () {
+    Route::middleware(['accepted', 'filled'])->group(function () {
         Route::get('authorization', 'AuthorizationController')->name('authorization.index');
         Route::get('bills/export', 'ExportBillsController')->name('bills.export');
         Route::get('bills/preview/{user}', 'BillController@preview')->name('bills.preview');
@@ -49,7 +47,6 @@ Route::middleware(['verified'])->group(function () {
         Route::prefix('contracts')->namespace('Contract')->group(function () {
             Route::resource('/', 'ContractController')->only('show', 'edit', 'update')->names('contracts')->parameter('', 'contract');
             Route::put('{contract}/status', 'ContractStatusController@update')->name('contract-status.update');
-            Route::post('{contract}/confirm', 'ConfirmationController@store');
         });
 
         Route::prefix('users/{user}')->name('users.')->namespace('User')->group(function () {

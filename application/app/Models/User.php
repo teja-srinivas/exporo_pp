@@ -235,7 +235,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function notYetAccepted(): bool
     {
-        return $this->accepted_at === null;
+        return $this->accepted_at === null || !$this->hasActiveContract();
     }
 
     /**

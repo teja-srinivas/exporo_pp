@@ -58,7 +58,6 @@ class Kernel extends HttpKernel
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'filled' => Middleware\UserHasFilledPersonalData::class,
-        'active-contract' => Middleware\HasActiveContract::class,
         'guest' => Middleware\RedirectIfAuthenticated::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
