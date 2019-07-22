@@ -93,12 +93,15 @@ class Contract extends Model
 
     public static function fromTemplate(ContractTemplate $template): self
     {
-        return new Contract([
+        $contract = new Contract();
+        $contract->forceFill([
             'template_id' => $template->getKey(),
             'vat_amount' => $template->vat_amount,
             'vat_included' => $template->vat_included,
             'cancellation_days' => $template->cancellation_days,
             'claim_years' => $template->claim_years,
         ]);
+
+        return $contract;
     }
 }
