@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Middleware\UserHasBeenReferred;
 use App\Http\Requests\UserStoreRequest;
 use App\Models\Agb;
+use App\Models\BonusBundle;
+use App\Models\CommissionBonus;
 use App\Models\Company;
 use App\Models\Contract;
 use App\Models\ContractTemplate;
@@ -109,7 +111,19 @@ class RegisterController extends Controller
 
             $user->agbs()->attach($agbs);
             $user->assignRole(Role::PARTNER);
-            $user->contract()->save(Contract::fromTemplate($company->contractTemplate));
+
+            $contract = Contract::fromTemplate($company->contractTemplate);
+            $user->contract()->save($contract);
+
+            $bundle = BonusBundle::query()->selectable($user->parent_id > 0)->first();
+            $bundle->bonuses->each(function (CommissionBonus $bonus) use ($contract) {
+                $copy = $bonus->replicate(['contract_id']);
+                $copy->contract()->associate($contract);
+                $copy->accepted_at = now();
+                $copy->saveOrFail();
+
+                return $copy;
+            });
 
             return $user;
         });
