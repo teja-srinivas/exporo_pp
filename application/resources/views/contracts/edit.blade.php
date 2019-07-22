@@ -71,11 +71,13 @@
                             'type' => 'number',
                             'name' => 'vat_amount',
                             'label' => 'Betrag in Prozent',
+                            'default' => $contract->vat_amount,
                         ],
                         [
                             'type' => 'radio',
                             'name' => 'vat_included',
                             'label' => 'Berechnung',
+                            'default' => $contract->vat_included,
                             'values' => [
                                 false => 'On Top',
                                 true => 'Inkludiert',
