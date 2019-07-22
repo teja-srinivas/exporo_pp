@@ -1,25 +1,24 @@
-@extends('layouts.app')
+@extends('layouts.sidebar')
 
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <h4>Ihr persönlicher Partnervertrag mit Exporo</h4>
+@section('title')
+    @breadcrumps([
+    route('users.index') => 'Benutzer',
+    route('users.show', $contract->user) => $contract->user->getDisplayName(),
+    'Verträge',
+    $contract->getKey(),
+    ])
+@endsection
 
-                @include('components.status')
+@section('main-content')
+    @card
+        @include('contracts.partials.header', ['user' => $contract->user])
+    @endcard
 
-                @card
-                    @include('contracts.partials.header', ['user' => $contract->user])
-                @endcard
-
-                <div class="rounded bg-white shadow-sm p-3">
-                    @include('components.bundle-editor', [
-                        'bonuses' => $contract->bonuses,
-                        'editable' => false,
-                        'legacy' => true,
-                    ])
-                </div>
-            </div>
-        </div>
+    <div class="rounded bg-white shadow-sm p-3">
+        @include('components.bundle-editor', [
+            'bonuses' => $contract->bonuses,
+            'editable' => false,
+            'legacy' => true,
+        ])
     </div>
 @endsection
