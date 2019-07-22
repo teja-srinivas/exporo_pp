@@ -12,6 +12,8 @@ use Illuminate\Validation\ValidationException;
 
 class ContractController extends Controller
 {
+    use ValidatesContracts;
+
     /**
      * Display the specified resource.
      *
@@ -39,9 +41,7 @@ class ContractController extends Controller
     {
         $this->authorize('update', $contract);
 
-        if (! $contract->isEditable()) {
-            return $this->redirectWithLockedError($contract);
-        }
+        $this->checkIfContractIsEditable($contract);
 
         return view('contracts.edit', [
             'contract' => $contract,
@@ -61,9 +61,7 @@ class ContractController extends Controller
     {
         $this->authorize('update', $contract);
 
-        if (! $contract->isEditable()) {
-            return $this->redirectWithLockedError($contract);
-        }
+        $this->checkIfContractIsEditable($contract);
 
         $data = $this->validate($request, [
             'cancellation_days' => ['required', 'numeric', 'min:14', 'max:365'],
@@ -76,16 +74,5 @@ class ContractController extends Controller
         flash_success();
 
         return back();
-    }
-
-    /**
-     * @param Contract $contract
-     * @return RedirectResponse
-     */
-    protected function redirectWithLockedError(Contract $contract): RedirectResponse
-    {
-        return redirect()->route('contracts.show', $contract)->with([
-            'error-message' => 'Dieser Vertrag kann nicht mehr bearbeitet werden.',
-        ]);
     }
 }

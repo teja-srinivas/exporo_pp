@@ -10,6 +10,23 @@
     ])
 @endsection
 
+@section('actions')
+    <form action="{{ route('contract-status.update', $contract) }}" method="POST" class="d-inline-flex">
+        @method('PUT')
+        @csrf
+
+        @if($contract->released_at === null)
+            <button type="submit" name="release" value="1" class="btn btn-success py-1 px-3">
+                Für Partner freigeben
+            </button>
+        @else
+            <button type="submit" name="release" value="0" class="btn btn-danger py-1 px-3">
+                Freigabe zurücknehmen
+            </button>
+        @endif
+    </form>
+@endsection
+
 @section('main-content')
     <div class="row">
         <div class="col-lg-6">

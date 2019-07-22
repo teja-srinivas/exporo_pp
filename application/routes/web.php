@@ -46,6 +46,7 @@ Route::middleware(['verified'])->group(function () {
 
         Route::prefix('contracts')->namespace('Contract')->group(function () {
             Route::resource('/', 'ContractController')->only('show', 'edit', 'update')->names('contracts')->parameter('', 'contract');
+            Route::put('{contract}/status', 'ContractStatusController@update')->name('contract-status.update');
             Route::get('{contract}/confirm', 'ConfirmationController@show');
             Route::post('{contract}/confirm', 'ConfirmationController@store');
         });

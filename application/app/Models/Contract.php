@@ -53,6 +53,7 @@ class Contract extends Model
         'claim_years',
         'vat_included',
         'vat_amount',
+        'released_at',
     ];
 
     public function bonuses(): HasMany
