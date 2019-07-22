@@ -38,6 +38,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property Carbon $updated_at
  * @property UserDetails $details
  * @property Contract $contract
+ * @property Contract $draftContract
  * @property Collection $investors
  * @property Collection $investments
  * @property Collection $bonuses
@@ -115,6 +116,13 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasOne(Contract::class)
             ->whereNotNull('accepted_at')
             ->whereNotNull('released_at')
+            ->latest();
+    }
+
+    public function draftContract(): HasOne
+    {
+        return $this->hasOne(Contract::class)
+            ->whereNull('accepted_at')
             ->latest();
     }
 
