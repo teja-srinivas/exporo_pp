@@ -299,6 +299,8 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function getDisplayName(): string
     {
-        return $this->details->display_name;
+        $name = trim($this->details->display_name);
+
+        return $name ?: $this->getAnonymousName();
     }
 }
