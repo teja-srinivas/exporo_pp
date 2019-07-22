@@ -64,7 +64,7 @@ class ContractController extends Controller
         $this->checkIfContractIsEditable($contract);
 
         $data = $this->validate($request, [
-            'cancellation_days' => ['required', 'numeric', 'min:14', 'max:365'],
+            'cancellation_days' => ['required', 'numeric', 'min:1', 'max:365'],
             'claim_years' => ['required', 'numeric', 'min:1', 'max:10'],
             'special_agreement' => ['nullable'],
             'vat_amount' => ['numeric'],
