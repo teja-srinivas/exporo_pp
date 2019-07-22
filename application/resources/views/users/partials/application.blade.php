@@ -1,18 +1,22 @@
 @if($user->hasNotBeenProcessed())
     @if($user->canBeAccepted())
         <div class="alert alert-light">
-            <form action="{{ route('users.update', $user) }}" method="POST" class="d-flex align-items-baseline">
-                @csrf
-                @method('PUT')
-
+            <div class="d-flex align-items-baseline">
                 <div class="flex-fill">
                     <strong>Offene Anfrage:</strong>
                     Diese Benutzer-Anfrage wurde noch nicht bestätigt.
                 </div>
 
-                <button type="submit" name="accept" value="1" class="btn btn-sm btn-success mx-2">Annehmen</button>
-                <button type="submit" name="accept" value="0" class="btn btn-sm btn-danger">Ablehnen</button>
-            </form>
+                <a href="{{ route('contracts.edit', $user->draftContract) }}" class="btn btn-sm btn-success mx-2">
+                    Annehmen
+                </a>
+
+                <form action="{{ route('users.update', $user) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <button type="submit" name="accept" value="0" class="btn btn-sm btn-danger">Ablehnen</button>
+                </form>
+            </div>
         </div>
     @else
         <div class="alert alert-warning">
