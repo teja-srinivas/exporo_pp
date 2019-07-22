@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\User;
 use Closure;
 
-class HasSelectedBundle
+class HasActiveContract
 {
     /**
      * Handle an incoming request.
@@ -19,8 +19,8 @@ class HasSelectedBundle
         /** @var User $user */
         $user = $request->user();
 
-        if ($user->canBeProcessed() && !$user->hasBundleSelected()) {
-            return redirect()->route('users.bundle-selection.index', $user);
+        if ($user->canBeProcessed() && !$user->hasActiveContract()) {
+            return redirect()->route('contracts.confirm', $user->contract);
         }
 
         return $next($request);

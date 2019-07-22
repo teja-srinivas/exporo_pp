@@ -292,7 +292,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     /**
      * @return bool
      */
-    public function hasBundleSelected(): bool
+    public function hasActiveContract(): bool
     {
         return $this->contract !== null;
     }

@@ -12,7 +12,7 @@ use InvalidArgumentException;
 
 /**
  * @property int $type_id
- * @property int $user_id
+ * @property int $contract_id
  * @property float $value
  * @property bool $is_overhead
  * @property bool $is_percentage
