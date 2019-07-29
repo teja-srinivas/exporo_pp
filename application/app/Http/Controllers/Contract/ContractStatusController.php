@@ -7,6 +7,7 @@ use App\Models\Contract;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ContractStatusController extends Controller
 {
@@ -17,6 +18,7 @@ class ContractStatusController extends Controller
      * @param Contract $contract
      * @return RedirectResponse
      * @throws AuthorizationException
+     * @throws ValidationException
      */
     public function update(Request $request, Contract $contract): RedirectResponse
     {
