@@ -25,6 +25,14 @@ class InvestmentBuilder extends Builder
             ->whereNotNull('projects.approved_at');
     }
 
+    public function billable(): self
+    {
+        $this->refundable();
+        $this->whereNotNull('paid_at');
+
+        return $this;
+    }
+
     public function refundable(): self
     {
         return $this->where('acknowledged_at', '<=', now()->subWeeks(2));

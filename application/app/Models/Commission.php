@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Builders\InvestmentBuilder;
 use Carbon\Carbon;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Builder;
@@ -151,7 +152,7 @@ class Commission extends Model implements AuditableContract
             $join->where('commissions.model_type', '=', 'investment');
             $join->on('commissions.model_id', $investment->getTable() . '.id');
 
-            $investment->scopeBillable($join);
+            (new InvestmentBuilder($join))->billable();
         });
 
         // Investors

@@ -88,15 +88,6 @@ class Investment extends Model implements AuditableContract
         return $this->cancelled_at !== null;
     }
 
-    /**
-     * @param Builder|\Illuminate\Database\Query\Builder $query
-     */
-    public function scopeBillable($query)
-    {
-        $this->scopeRefundable($query);
-        $query->whereNotNull('paid_at');
-    }
-
     public function getPaidAtAttribute($value)
     {
         return $value !== LEGACY_NULL ? Carbon::make($value) : null;
