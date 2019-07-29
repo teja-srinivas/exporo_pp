@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserStoreRequest;
-use App\Jobs\SendMail;
 use App\Models\BonusBundle;
 use App\Models\Company;
 use App\Models\Permission;
@@ -11,11 +10,8 @@ use App\Models\Role;
 use App\Models\User;
 use App\Repositories\BillRepository;
 use App\Repositories\UserRepository;
-use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Contracts\Session\Session;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -154,18 +150,6 @@ class UserController extends Controller
 
         if (isset($attributes['accept']) && $user->canBeAccepted()) {
             $field = $attributes['accept'] ? 'accepted_at' : 'rejected_at';
-
-            if ($field === 'accepted_at') {
-                /** @var PasswordBroker $broker */
-                $broker = app(PasswordBroker::class);
-                SendMail::dispatch([
-                    'Login' => route('password.reset', $broker->createToken($user)),
-                ], $user, config('mail.templateIds.approved'))->onQueue('emails');
-            } elseif ($field === 'rejected_at') {
-                SendMail::dispatch([
-                ], $user, config('mail.templateIds.declined'))->onQueue('emails');
-            }
-
             $user->setAttribute($field, now());
         }
 

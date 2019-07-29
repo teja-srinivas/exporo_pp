@@ -6,9 +6,11 @@ use App\Events\CommissionBonusUpdated;
 use App\Events\ProjectUpdated;
 use App\Events\SchemaUpdated;
 use App\Events\UserDetailsUpdated;
+use App\Events\UserUpdated;
 use App\Listeners\InvalidateCommissionsOnCommissionBonusChanges;
 use App\Listeners\InvalidateInvestmentCommissionsOnProjectChanges;
 use App\Listeners\InvalidateInvestmentCommissionsOnSchemaChanges;
+use App\Listeners\SendUserAcceptOrRejectMailOnUpdate;
 use App\Listeners\UpdateBillingStatusOnUserDetailsUpdate;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -33,6 +35,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SchemaUpdated::class => [
             InvalidateInvestmentCommissionsOnSchemaChanges::class,
+        ],
+        UserUpdated::class => [
+            SendUserAcceptOrRejectMailOnUpdate::class,
         ],
         UserDetailsUpdated::class => [
             UpdateBillingStatusOnUserDetailsUpdate::class,

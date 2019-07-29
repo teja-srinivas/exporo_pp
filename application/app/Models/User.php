@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\UserUpdated;
 use App\Jobs\SendMail;
 use App\Policies\BillPolicy;
 use App\Traits\Encryptable;
@@ -67,6 +68,10 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         'Prof.',
     ];
 
+    protected $dispatchesEvents = [
+        'updated' => UserUpdated::class,
+    ];
+
     protected $encryptable = [
         'first_name',
         'last_name',
@@ -78,7 +83,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'id', 'first_name', 'last_name', 'email', 'password', 'api_token',
+        'id', 'first_name', 'last_name', 'email', 'password', 'api_token', 'accepted_at', 'rejected_at',
     ];
 
     /**
