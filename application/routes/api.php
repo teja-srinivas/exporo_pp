@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,22 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->name('api.')->namespace('Api')->group(function () {
+Route::middleware('auth:api')->name('api.')->group(function () {
     Route::apiResource(
         'commissions/bonuses',
-        'CommissionBonusController',
+        Api\CommissionBonusController::class,
         ['except' => ['index']]
     )->names('commissions.bonuses');
 
-    Route::apiResource('commissions', 'CommissionController');
+    Route::apiResource('commissions', Api\CommissionController::class);
 
     Route::put(
         'commissions',
-        'CommissionController@updateMultiple'
+        [Api\CommissionController::class, 'updateMultiple']
     )->name('commissions.updateBatch');
 
-    Route::get('users/details', 'UserDetailsController@index')->name('users.details.index');
+    Route::get('users/details', [Api\UserDetailsController::class, 'index'])->name('users.details.index');
 
-    Route::post('actions/decrypt', 'Actions\DecryptController');
-    Route::post('actions/encrypt', 'Actions\EncryptController');
+    Route::post('actions/decrypt', Api\Actions\DecryptController::class);
+    Route::post('actions/encrypt', Api\Actions\EncryptController::class);
 });
