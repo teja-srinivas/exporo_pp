@@ -7,9 +7,6 @@ $factory->define(\App\Models\CommissionBonus::class, function (Faker $faker) {
     return [
         'id' => $faker->unique()->numberBetween(),
         'type_id' => $faker->randomNumber(),
-        'user_id' => $faker->randomNumber(),
-        'first_investment' => $faker->randomNumber(),
-        'further_investment' => $faker->randomNumber(),
         'registration' => $faker->randomNumber(),
     ];
 });

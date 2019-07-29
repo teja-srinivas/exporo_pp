@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -18,7 +19,7 @@ class AddProtectedStatusToPermissionsTable extends Migration
             $table->string('protected')->nullable()->after('guard_name');
         });
 
-        $this->protectFromRole(\App\Models\Role::PARTNER, [
+        $this->protectFromRole(Role::PARTNER, [
             'features.audits.view',
             'features.bills.download',
             'features.bills.export',

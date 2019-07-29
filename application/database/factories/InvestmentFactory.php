@@ -1,8 +1,12 @@
 <?php
 
+use App\Models\Investment;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
-$factory->define(\App\Models\Investment::class, function (Faker $faker) {
+/** @var Factory $factory */
+
+$factory->define(Investment::class, function (Faker $faker) {
     $paidAt = $faker->randomDigit > 3 ? $faker->dateTimeBetween('-5 years') : null;
 
     return [
@@ -16,3 +20,17 @@ $factory->define(\App\Models\Investment::class, function (Faker $faker) {
         'cancelled_at' => $faker->randomDigit > 9 ? $faker->dateTime : null,
     ];
 });
+
+$factory->state(Investment::class, 'paid', [
+    'paid_at' => now(),
+    'acknowledged_at' => now(),
+]);
+
+$factory->state(Investment::class, 'nonRefundable', [
+    'paid_at' => now(),
+    'acknowledged_at' => now()->subWeeks(3),
+]);
+
+$factory->state(Investment::class, 'cancelled', [
+    'cancelled_at' => now(),
+]);

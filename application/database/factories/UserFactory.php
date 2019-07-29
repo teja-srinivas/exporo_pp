@@ -1,22 +1,14 @@
 <?php
 
+use App\Models\User;
+use App\Policies;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Str;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
-
-$factory->define(\App\Models\User::class, function (Faker $faker) {
+$factory->define(User::class, function (Faker $faker) {
     return [
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
@@ -24,7 +16,29 @@ $factory->define(\App\Models\User::class, function (Faker $faker) {
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'api_token' => Str::random(64),
         'remember_token' => Str::random(10),
-        'accepted_at' => $faker->randomDigit > 2 ? $faker->dateTime : null,
-        'rejected_at' => $faker->randomDigit > 8 ? $faker->dateTime : null,
     ];
+});
+
+$factory->state(User::class, 'verified', function (Faker $faker) {
+    return [
+        'email_verified_at' => $faker->dateTime,
+    ];
+});
+
+$factory->state(User::class, 'accepted',function (Faker $faker) {
+    return [
+        'email_verified_at' => $faker->dateTime,
+        'accepted_at' => $faker->dateTime,
+    ];
+});
+
+$factory->state(User::class, 'rejected',function (Faker $faker) {
+    return [
+        'email_verified_at' => $faker->dateTime,
+        'rejected_at' => $faker->dateTime,
+    ];
+});
+
+$factory->afterCreatingState(User::class, 'billable', function (User $user) {
+    $user->givePermissionTo(Policies\BillPolicy::CAN_BE_BILLED_PERMISSION);
 });

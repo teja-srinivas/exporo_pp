@@ -15,12 +15,12 @@ class InvalidateCommissionsOnCommissionBonusChanges
      */
     public function handle(CommissionBonusUpdated $event)
     {
-        if ($event->commissionBonus->user_id === 0) {
+        if ($event->commissionBonus->contract_id === null) {
             return;
         }
 
         Commission::query()
-            ->where('user_id', $event->commissionBonus->user_id)
+            ->where('user_id', $event->commissionBonus->contract->user_id)
             ->isRecalculatable()
             ->delete();
     }

@@ -23,6 +23,8 @@ class AuthServiceProvider extends ServiceProvider
         Models\Commission::class => Policies\BillPolicy::class, // TODO
         Models\CommissionBonus::class => Policies\CommissionBonusPolicy::class,
         Models\CommissionType::class => Policies\CommissionTypePolicy::class,
+        Models\Contract::class => Policies\ContractPolicy::class,
+        Models\ContractTemplate::class => Policies\ContractTemplatePolicy::class,
         Models\Document::class => Policies\DocumentPolicy::class,
         Models\Investment::class => Policies\InvestmentPolicy::class,
         Models\Investor::class => Policies\InvestorPolicy::class,

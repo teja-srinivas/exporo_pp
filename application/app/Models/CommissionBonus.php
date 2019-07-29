@@ -8,10 +8,11 @@ use App\Events\CommissionBonusUpdated;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 
 /**
  * @property int $type_id
- * @property int $user_id
+ * @property int $contract_id
  * @property float $value
  * @property bool $is_overhead
  * @property bool $is_percentage
@@ -23,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property BonusBundle $bundle
  * @property Collection $bundles
  * @property CommissionType $type
- * @property User $user
+ * @property Contract $contract
  */
 class CommissionBonus extends Model
 {
@@ -46,7 +47,7 @@ class CommissionBonus extends Model
     protected $table = 'commission_bonuses';
 
     protected $fillable = [
-        'id', 'type_id', 'calculation_type', 'value', 'is_overhead', 'is_percentage', 'user_id',
+        'id', 'type_id', 'calculation_type', 'value', 'is_overhead', 'is_percentage', 'contract_id',
     ];
 
     protected $casts = [
@@ -81,9 +82,9 @@ class CommissionBonus extends Model
         return $this->belongsTo(CommissionType::class, 'type_id', 'id');
     }
 
-    public function user()
+    public function contract()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id', 'user');
+        return $this->belongsTo(Contract::class, 'contract_id', 'id', 'contract');
     }
 
     public function getDisplayValue()
@@ -94,5 +95,59 @@ class CommissionBonus extends Model
     public function getDisplayName()
     {
         return self::DISPLAY_NAMES[$this->calculation_type];
+    }
+
+
+    /**
+     * Creates the attributes required for a "value" bonus.
+     *
+     * @param string $type
+     * @param float $value
+     * @param bool $overhead
+     * @return array
+     */
+    public static function value(string $type, float $value, bool $overhead = false): array
+    {
+        self::validateType($type);
+
+        return [
+            'calculation_type' => $type,
+            'value' => $value,
+            'is_percentage' => false,
+            'is_overhead' => $overhead,
+        ];
+    }
+
+    /**
+     * Creates the attributes required for a "percentage" bonus.
+     *
+     * @param string $type
+     * @param float $value
+     * @param bool $overhead
+     * @return array
+     */
+    public static function percentage(string $type, float $value, bool $overhead = false): array
+    {
+        self::validateType($type);
+
+        return [
+            'calculation_type' => $type,
+            'value' => $value,
+            'is_percentage' => true,
+            'is_overhead' => $overhead,
+        ];
+    }
+
+    /**
+     * Checks if the given type is in our list of allowed values.
+     *
+     * @param string $type
+     * @throws InvalidArgumentException
+     */
+    protected static function validateType(string $type): void
+    {
+        if (! in_array($type, self::TYPES)) {
+            throw new InvalidArgumentException("Invalid bonus type: $type");
+        }
     }
 }

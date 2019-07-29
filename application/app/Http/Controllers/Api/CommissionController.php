@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Helper\Request\FieldParser;
 use App\Http\Resources\Commission as CommissionResource;
 use App\Models\Commission;
+use App\Models\Contract;
 use App\Models\Investment;
 use App\Models\Project;
+use App\Models\User;
 use App\Models\UserDetails;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Container\Container;
@@ -86,14 +88,17 @@ class CommissionController extends Controller
             'note.private' => ['sometimes'],
         ]);
 
-        /** @var UserDetails $userDetails */
-        $userDetails = UserDetails::query()->findOrFail($data['userId']);
+        /** @var User $user */
+        $user = $request->user();
 
-        $sums = $service->calculateNetAndGross($userDetails, (float) $data['amount']);
+        /** @var Contract $contract */
+        $contract = $user->contract()->firstOrFail();
+
+        $sums = $service->calculateNetAndGross($contract, (float) $data['amount']);
 
         Commission::query()->forceCreate($sums + [
             'model_type' => Commission::TYPE_CORRECTION,
-            'user_id' => $userDetails->getKey(),
+            'user_id' => $user->getKey(),
             'child_user_id' => 0,
             'bonus' => 0,
             'note_public' => Arr::get($data, 'note.public', null),
@@ -151,7 +156,7 @@ class CommissionController extends Controller
 
         if (isset($remapped['amount'])) {
             $commission->fill($service->calculateNetAndGross(
-                $commission->userDetails,
+                $commission->user->contract,
                 (float) $remapped['amount']
             ));
         }

@@ -2,12 +2,11 @@
 
 namespace App\Providers;
 
-use App\Models\UserDetails;
-use App\Models\User;
+use App\Models;
 use App\Observers\UserDetailsObserver;
 use App\Observers\UserObserver;
+use App\Services\CalculateCommissionsService;
 use FormulaInterpreter\Compiler;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
@@ -28,10 +27,10 @@ class AppServiceProvider extends ServiceProvider
 
         Relation::morphMap([
             // DO NOT CHANGE THE ORDER OF THIS MAP - STUFF _WILL_ BREAK
-            \App\Models\Investment::MORPH_NAME => \App\Models\Investment::class,
-            \App\Models\Investment::LEGACY_MORPH_NAME => \App\Models\Investment::class,
-            \App\Models\Investor::MORPH_NAME => \App\Models\Investor::class,
-            \App\Models\Commission::TYPE_CORRECTION => \App\Models\Commission::class,
+            Models\Investment::MORPH_NAME => Models\Investment::class,
+            Models\Investment::LEGACY_MORPH_NAME => Models\Investment::class,
+            Models\Investor::MORPH_NAME => Models\Investor::class,
+            Models\Commission::TYPE_CORRECTION => Models\Commission::class,
         ]);
 
         // Accented card with its title and content in the body
@@ -47,8 +46,8 @@ class AppServiceProvider extends ServiceProvider
             return $this->sortBy($callback, SORT_NATURAL | SORT_FLAG_CASE);
         });
 
-        User::observe(UserObserver::class);
-        UserDetails::observe(UserDetailsObserver::class);
+        Models\User::observe(UserObserver::class);
+        Models\UserDetails::observe(UserDetailsObserver::class);
     }
 
     /**
@@ -58,7 +57,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(Compiler::class, function () {
+        $this->app->singleton(CalculateCommissionsService::class);
+
+        $this->app->singleton(Compiler::class, function () {
             $compiler = new Compiler();
             $compiler->functionCommandFactory->registerFunction('min', 'min');
             $compiler->functionCommandFactory->registerFunction('max', 'max');

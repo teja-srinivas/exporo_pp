@@ -9,6 +9,7 @@ services:
     - "80:8080"
     depends_on:
     - mysql
+    - mysql_test
     - redis
 
   mysql:
@@ -23,6 +24,18 @@ services:
     ports:
     - "3306:3306"
 
+  mysql_test:
+    image: mysql:5.7.24
+    environment:
+      MYSQL_DATABASE: forge
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+    - mysql-test-storage:/var/lib/mysql
+    ports:
+    - "3307:3306"
+
   redis:
     image: redis:4.0.11-alpine
     volumes:
@@ -33,4 +46,5 @@ services:
 volumes:
   # Volumes get stored in /var/lib/docker/volumes
   mysql-storage:
+  mysql-test-storage:
   redis-storage:

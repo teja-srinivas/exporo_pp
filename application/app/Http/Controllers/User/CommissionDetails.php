@@ -19,7 +19,7 @@ class CommissionDetails extends Controller
         $user = $request->user();
 
         return response()->view('users.commission-details', [
-            'bonuses' => $user->bonuses->where('is_overhead', false),
+            'bonuses' => $user->bonuses,
         ]);
     }
 }

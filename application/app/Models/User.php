@@ -37,6 +37,8 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property UserDetails $details
+ * @property Contract $contract
+ * @property Contract $draftContract
  * @property Collection $investors
  * @property Collection $investments
  * @property Collection $bonuses
@@ -109,6 +111,26 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasOne(UserDetails::class, 'id')->withDefault();
     }
 
+    public function contract(): HasOne
+    {
+        return $this->hasOne(Contract::class)
+            ->whereNotNull('accepted_at')
+            ->whereNotNull('released_at')
+            ->latest();
+    }
+
+    public function draftContract(): HasOne
+    {
+        return $this->hasOne(Contract::class)
+            ->whereNull('accepted_at')
+            ->latest();
+    }
+
+    public function contracts(): HasMany
+    {
+        return $this->hasMany(Contract::class);
+    }
+
     /**
      * @return BelongsTo
      */
@@ -141,9 +163,24 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasMany(Document::class);
     }
 
+    /**
+     * Returns the commissions bonuses of the current contract.
+     *
+     * @return HasMany
+     */
     public function bonuses(): HasMany
     {
-        return $this->hasMany(CommissionBonus::class, 'user_id');
+        return $this->hasMany(CommissionBonus::class, 'contract_id', 'contract_id');
+    }
+
+    /**
+     * Returns the id of the currently active contract.
+     *
+     * @return int
+     */
+    public function getContractIdAttribute()
+    {
+        return optional($this->contract)->getKey();
     }
 
     public function investors(): HasMany
@@ -198,7 +235,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function notYetAccepted(): bool
     {
-        return $this->accepted_at === null;
+        return $this->accepted_at === null || !$this->hasActiveContract();
     }
 
     /**
@@ -242,24 +279,6 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         ], $this, config('mail.templateIds.registration'))->onQueue('emails');
     }
 
-    public function switchToBundle(BonusBundle $bundle): void
-    {
-        DB::transaction(function () use ($bundle) {
-            $userId = $this->getKey();
-
-            $this->bonuses()->delete();
-
-            $bundle->bonuses->each(function (CommissionBonus $bonus) use ($userId) {
-                $copy = $bonus->replicate(['user_id']);
-                $copy->user_id = $userId;
-                $copy->accepted_at = now();
-                $copy->saveOrFail();
-
-                return $copy;
-            });
-        });
-    }
-
     public function canBeBilled(): bool
     {
         return $this->can(BillPolicy::CAN_BE_BILLED_PERMISSION);
@@ -267,23 +286,21 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function canBeAccepted(): bool
     {
-        return $this->hasBundleSelected();
+        return $this->email_verified_at !== null;
     }
 
     /**
      * @return bool
      */
-    public function hasBundleSelected(): bool
+    public function hasActiveContract(): bool
     {
-        if ($this->relationLoaded('bonuses')) {
-            return $this->bonuses->isNotEmpty();
-        }
-
-        return $this->bonuses()->count() > 0;
+        return $this->contract !== null;
     }
 
     public function getDisplayName(): string
     {
-        return $this->details->display_name;
+        $name = trim($this->details->display_name);
+
+        return $name ?: $this->getAnonymousName();
     }
 }

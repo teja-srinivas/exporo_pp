@@ -26,16 +26,22 @@ class CreateCompanyBucket extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
      */
     public function handle()
     {
-        $companyId = Company::query()->whereKey($this->argument('company'))->value('id');
-        $s3 = Storage::disk('s3');
+        $id = $this->argument('company');
 
-        $s3->makeDirectory($companyId . '/agbs');
-        $s3->makeDirectory($companyId . '/banners');
-        $s3->makeDirectory($companyId . '/preview');
-        $s3->makeDirectory($companyId . '/statements');
+        if (Company::query()->whereKey($id)->doesntExist()) {
+            $this->error('Company does not seem to exist');
+            $this->setCode(1);
+            return;
+        }
+
+        $s3 = Storage::disk('s3');
+        $s3->makeDirectory("{$id}/agbs");
+        $s3->makeDirectory("{$id}/banners");
+        $s3->makeDirectory("{$id}/preview");
+        $s3->makeDirectory("{$id}/statements");
     }
 }

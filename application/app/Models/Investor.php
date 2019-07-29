@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Carbon;
+use App\Builders\InvestorBuilder;
 use App\Traits\Encryptable;
 use App\Traits\Person;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
@@ -10,10 +10,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
+ * @method static InvestorBuilder query()
+ *
  * @property int $id
  * @property User $user
  * @property int $user_id
@@ -77,5 +80,10 @@ class Investor extends Model implements AuditableContract
     public function commissions(): MorphOne
     {
         return $this->morphOne(Commission::class, 'model');
+    }
+
+    public function newEloquentBuilder($query): InvestorBuilder
+    {
+        return new InvestorBuilder($query);
     }
 }

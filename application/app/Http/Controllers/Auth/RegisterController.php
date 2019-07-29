@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Middleware\UserHasBeenReferred;
 use App\Http\Requests\UserStoreRequest;
 use App\Models\Agb;
+use App\Models\BonusBundle;
+use App\Models\CommissionBonus;
 use App\Models\Company;
+use App\Models\Contract;
+use App\Models\ContractTemplate;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -78,12 +82,13 @@ class RegisterController extends Controller
             return Agb::current($type);
         })->filter()->pluck('id');
 
-        $companyId = Company::query()->first()->getKey();
+        /** @var Company $company */
+        $company = Company::query()->first();
 
-        return DB::transaction(function () use ($companyId, $data, $agbs) {
+        return DB::transaction(function () use ($company, $data, $agbs) {
             /** @var User $user */
             $user = User::query()->forceCreate([
-                'company_id' => $companyId,
+                'company_id' => $company->getKey(),
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
                 'email' => $data['email'],
@@ -104,8 +109,21 @@ class RegisterController extends Controller
                 'website' => $data['website'],
             ])->saveOrFail();
 
-            $user->assignRole(Role::PARTNER);
             $user->agbs()->attach($agbs);
+            $user->assignRole(Role::PARTNER);
+
+            $contract = Contract::fromTemplate($company->contractTemplate);
+            $user->contract()->save($contract);
+
+            $bundle = BonusBundle::query()->selectable($user->parent_id > 0)->first();
+            $bundle->bonuses->each(function (CommissionBonus $bonus) use ($contract) {
+                $copy = $bonus->replicate(['contract_id']);
+                $copy->contract()->associate($contract);
+                $copy->accepted_at = now();
+                $copy->saveOrFail();
+
+                return $copy;
+            });
 
             return $user;
         });

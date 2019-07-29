@@ -3,25 +3,30 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Investment;
+use Carbon\Carbon;
 use Tests\TestCase;
 
 class InvestmentTest extends TestCase
 {
-    /** @test */
-    public function it_is_refundable()
+    /**
+     * @param bool $refundable
+     * @param $date
+     * @dataProvider refunds
+     * @test
+     */
+    public function it_can_be_refunded_within_a_time_frame(bool $refundable, ?Carbon $date)
     {
-        $investment = new Investment();
-        $this->assertTrue($investment->isRefundable());
+        $investment = new Investment(['acknowledged_at' => $date]);
+        $this->assertSame($refundable, $investment->isRefundable());
+    }
 
-        $investment = new Investment(['acknowledged_at' => now()]);
-        $this->assertTrue($investment->isRefundable());
-
-        $investment = new Investment(['acknowledged_at' => now()->subDays(10)]);
-        $this->assertTrue($investment->isRefundable());
-
-        $investment = new Investment(['acknowledged_at' => now()->subWeeks(2)]);
-        $this->assertFalse($investment->isRefundable());
-
-        // TODO
+    public function refunds()
+    {
+        return [
+            'fresh' => [true, null],
+            'acknowledged' => [true, now()],
+            'within range' => [true, now()->subDays(10)],
+            'too old' => [false, now()->subDays(15)],
+        ];
     }
 }

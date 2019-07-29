@@ -29,24 +29,6 @@ jobs:
 
       - restore_cache:
           keys:
-            - vendor-dev-{{ checksum "./application/composer.lock" }}
-            - vendor-dev-
-
-      - run:
-          name: install dependencies with composer
-          command: cd application && composer install --no-progress --no-interaction
-
-      - run:
-          name: run unit tests
-          command: cd application && ./vendor/bin/phpunit
-
-      - save_cache:
-          key: vendor-dev-{{ checksum "./application/composer.lock" }}
-          paths:
-            - ./application/vendor
-
-      - restore_cache:
-          keys:
             - vendor-{{ checksum "./application/composer.lock" }}
             - vendor-
 
@@ -99,7 +81,12 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - buildAndDeployStage
+      - buildAndDeployStage:
+          filters:
+            branches:
+              only:
+                - master
+                - feature/contracts
       - hold:
           type: approval
           requires:

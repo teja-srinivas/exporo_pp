@@ -77,7 +77,7 @@ class BonusBundleController extends Controller
         foreach ($data['bonuses'] ?? [] as $id => $values) {
             $bonus = $id > 0 ? CommissionBonus::query()->findOrFail($id) : new CommissionBonus();
             $bonus->fill($values);
-            $bonus->user_id = 0; // Marks this as "not attached"
+            $bonus->contract_id = 0; // Marks this as "not attached"
             $bonus->saveOrFail();
 
             $bonusIds[] = $bonus->getKey();

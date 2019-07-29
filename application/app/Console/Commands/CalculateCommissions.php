@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Builders\Builder;
 use App\Models\Commission;
-use App\Models\CommissionBonus;
+use App\Models\Contract;
 use App\Models\Investment;
 use App\Models\Investor;
 use App\Models\User;
-use App\Models\UserDetails;
-use App\Repositories\InvestmentRepository;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Collection;
 
 final class CalculateCommissions extends Command
@@ -26,19 +23,17 @@ final class CalculateCommissions extends Command
     const PER_CHUNK = 2500;
 
     protected $signature = 'calculate:commissions';
-    protected $description = 'Calculates commissions from existing investments';
+    protected $description = 'Calculates commissions';
 
-    public function handle(InvestmentRepository $repository, CalculateCommissionsService $commissionsService)
+    public function handle(CalculateCommissionsService $commissionsService)
     {
-        $this->calculateInvestments($repository, $commissionsService);
+        $this->calculateInvestments($commissionsService);
         $this->calculateInvestors($commissionsService);
     }
 
-    private function calculate(string $type, Builder $query, callable $calculate, bool $flatten = false): void
+    private function calculate(Builder $query, callable $calculate, bool $flatten = false): void
     {
-        $this->line("Calculating $type commissions...");
-
-        $this->chunk($query, self::PER_CHUNK, function (Collection $chunk) use ($type, $calculate, $flatten) {
+        $query->chunk(self::PER_CHUNK, function (Collection $chunk) use ($calculate, $flatten) {
             $rows = $chunk->map($calculate);
 
             if ($flatten) {
@@ -46,17 +41,19 @@ final class CalculateCommissions extends Command
             }
 
             $now = now()->toDateTimeString();
+            $instance = new Commission();
+            $timestamps = [
+                $instance->getCreatedAtColumn() => $now,
+                $instance->getUpdatedAtColumn() => $now,
+            ];
 
-            Commission::query()->insert($rows->map(function ($entry) use ($now, $type) {
-                return $entry + [
-                        'child_user_id' => 0,
-                        'model_type' => $type,
-                        'note_private' => null,
-                        'note_public' => null,
-                        'on_hold' => false,
-                        'created_at' => $now,
-                        'updated_at' => $now,
-                    ];
+            Commission::query()->insert($rows->map(function ($entry) use ($timestamps) {
+                return $entry + $timestamps + [
+                    'child_user_id' => 0,
+                    'note_private' => null,
+                    'note_public' => null,
+                    'on_hold' => false,
+                ];
             })->all());
         });
     }
@@ -70,59 +67,50 @@ final class CalculateCommissions extends Command
      */
     private function calculateInvestors(CalculateCommissionsService $commissionsService): void
     {
+        $this->line("Calculating investor commissions...");
+
         // Select essential information of investors where
         // - the partner actually has a registration bonus
+        //   - based on the current contract
+        //   - as long as they have a claim on the user
         // - the partner has not yet received a bonus
         $query = Investor::query()
             ->select('investors.id', 'investors.user_id')
-            ->selectRaw('commission_bonuses.value')
-            ->selectRaw('user_details.vat_included')
-            ->join('user_details', 'user_details.id', 'investors.user_id')
-            ->join('users', 'users.id', 'investors.user_id')
-            ->leftJoin('commissions', function (JoinClause $join) {
-                $join->on('investors.id', 'commissions.model_id');
-                $join->where('commissions.model_type', Investor::MORPH_NAME);
-            })
-            ->leftJoin('commission_bonuses', function (JoinClause $join) {
-                $join->on('commission_bonuses.user_id', 'user_details.id');
-                $join->where('commission_bonuses.calculation_type', CommissionBonus::TYPE_REGISTRATION);
-            })
-            ->where('commission_bonuses.value', '>', 0)
-            ->whereNull('commissions.id')
-            ->whereNotNull('users.accepted_at')
-            ->whereNull('users.rejected_at');
+            ->addSelect('commission_bonuses.value')
+            ->addSelect('contracts.vat_included')
+            ->addSelect('contracts.vat_amount')
+            ->commissionable();
 
         $callback = function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
                 // Temp values that come from the query (not actually from the Investor's table)
-                new UserDetails($investor->only('vat_included', 'vat_amount')),
+                new Contract($investor->only('vat_included', 'vat_amount')),
                 (float) $investor->value
             );
 
             return $sums + [
-                    'model_id' => $investor->id,
-                    'user_id' => $investor->user_id,
-                    'bonus' => 0,
-                ];
+                'model_type' => Investor::MORPH_NAME,
+                'model_id' => $investor->id,
+                'user_id' => $investor->user_id,
+                'bonus' => 0,
+            ];
         };
 
-        $this->calculate(Investor::MORPH_NAME, $query, $callback);
+        $this->calculate($query, $callback);
     }
 
     /**
      * Calculate commissions based on investments for all approved projects.
      *
-     * @param InvestmentRepository $repository
      * @param CalculateCommissionsService $commissions
      */
-    private function calculateInvestments(
-        InvestmentRepository $repository,
-        CalculateCommissionsService $commissions
-    ): void {
-        $query = $repository->withoutCommissionQuery()->with([
-            'project.schema',
-            'investor.user.bonuses',
+    private function calculateInvestments(CalculateCommissionsService $commissions): void {
+        $this->line("Calculating investment commissions...");
+
+        $query = Investment::query()->withoutCommissions()->with([
+            'investor.user.contract.bonuses',
             'investor.user.details',
+            'project.schema',
         ]);
 
         $userCache = [];
@@ -134,7 +122,7 @@ final class CalculateCommissions extends Command
                 $commission = $commissions->calculate($investment);
 
                 if ($commission !== null) {
-                    $entries[] = $commission + ['model_id' => $investment->id];
+                    $entries[] = $commission;
                 }
             }
 
@@ -166,41 +154,12 @@ final class CalculateCommissions extends Command
                     break;
                 }
 
-                $entries[] = $sums + [
-                        'model_type' => Investment::MORPH_NAME,
-                        'model_id' => $investment->id,
-                        'child_user_id' => $userId,
-                    ];
+                $entries[] = $sums + ['child_user_id' => $userId];
             }
 
             return $entries;
         };
 
-        $this->calculate(Investment::MORPH_NAME, $query, $callback, true);
-    }
-
-    /**
-     * Chunking that does not break with where clauses.
-     *
-     * @param Builder $query
-     * @param int $size
-     * @param callable $callable
-     * @return bool
-     */
-    protected function chunk(Builder $query, int $size, callable $callable)
-    {
-        $page = 1;
-
-        while (($chunk = $query->limit($size)->get())->count() > 0) {
-            if ($callable($chunk, $page++) === false) {
-                return false;
-            }
-
-            if ($chunk->count() < $size) {
-                break;
-            }
-        }
-
-        return true;
+        $this->calculate($query, $callback, true);
     }
 }
