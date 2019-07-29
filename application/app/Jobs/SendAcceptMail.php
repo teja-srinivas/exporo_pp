@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class SendAcceptMail implements ShouldQueue
+class SendAcceptMail
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
