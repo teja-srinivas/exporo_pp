@@ -65,7 +65,7 @@ class ContractController extends Controller
 
         $data = $this->validate($request, [
             'cancellation_days' => ['required', 'numeric', 'min:1', 'max:365'],
-            'claim_years' => ['required', 'numeric', 'min:1', 'max:10'],
+            'claim_years' => ['required', 'numeric', 'min:1', 'max:7'],
             'special_agreement' => ['nullable'],
             'vat_amount' => ['numeric'],
             'vat_included' => ['boolean'],
