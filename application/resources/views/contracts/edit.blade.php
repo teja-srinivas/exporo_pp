@@ -106,4 +106,6 @@
             'bonuses' => $contract->bonuses,
         ])
     </div>
+
+    @include('contracts.partials.details')
 @endsection

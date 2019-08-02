@@ -21,4 +21,6 @@
             'legacy' => true,
         ])
     </div>
+
+    @include('contracts.partials.details')
 @endsection
