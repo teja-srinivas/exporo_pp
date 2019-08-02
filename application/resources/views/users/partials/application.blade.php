@@ -7,9 +7,15 @@
                     Diese Benutzer-Anfrage wurde noch nicht bestätigt.
                 </div>
 
-                <a href="{{ route('contracts.edit', $user->draftContract) }}" class="btn btn-sm btn-success mx-2">
-                    Annehmen
-                </a>
+                <div class="mx-2">
+                    @empty($user->draftContract)
+                        (Ohne Vertrag)
+                    @else
+                        <a href="{{ route('contracts.edit', $user->draftContract) }}" class="btn btn-sm btn-success">
+                            Annehmen
+                        </a>
+                    @endempty
+                </div>
 
                 <form action="{{ route('users.update', $user) }}" method="POST">
                     @csrf
