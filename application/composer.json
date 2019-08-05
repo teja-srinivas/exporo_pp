@@ -1,7 +1,10 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "repositories": [
@@ -25,11 +28,11 @@
         "guzzlehttp/guzzle": "^6.3",
         "intervention/validation": "^1.2",
         "itsgoingd/clockwork": "^3.0",
-        "laravel/framework": "5.7.*",
-        "laravel/nova": "~1.0",
+        "laravel/framework": "5.8.*",
+        "laravel/nova": "^2.0",
         "laravel/tinker": "^1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
-        "maatwebsite/excel": "^3.1",
+        "maatwebsite/excel": "^3.1.8",
         "mormat/php-formula-interpreter": "^1.0",
         "overtrue/laravel-lang": "~3.0",
         "owen-it/laravel-auditing": "^8.0",
@@ -47,9 +50,9 @@
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^2.0",
+        "nunomaduro/collision": "^3.0",
         "nunomaduro/larastan": "^0.3.15",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.5"
     },
     "autoload": {
         "classmap": [
@@ -70,8 +73,7 @@
             "app/helpers.php"
         ],
         "laravel": {
-            "dont-discover": [
-            ]
+            "dont-discover": []
         }
     },
     "scripts": {
