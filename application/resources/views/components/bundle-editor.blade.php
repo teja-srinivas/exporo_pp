@@ -1,11 +1,15 @@
 <?php
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Support\Arrayable;
+
 $bonuses = $bonuses ?? [];
 $options = [
-    'bonuses' => is_array($bonuses) ? $bonuses : $bonuses->values(),
+    'bonuses' => ($bonuses instanceof Arrayable) ? $bonuses->toArray() : $bonuses,
 ];
 
-if (! empty($extras)) {
-    $options['extras'] = $extras;
+if (isset($api)) {
+    $options['api'] = $api;
 }
 
 if (($editable ?? null) === false) {
@@ -17,8 +21,9 @@ if (($legacy ?? null) === true) {
 }
 
 if (($bundle ?? null) !== null) {
-    $options['bundle'] = is_object($bundle) ? $bundle->getKey() : $bundle;
+    $options['bundle'] = ($bundle instanceof Model) ? $bundle->getKey() : $bundle;
 }
+
 ?>
 
 <vue

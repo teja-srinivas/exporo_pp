@@ -4,6 +4,7 @@ namespace App\Http\ViewComposers;
 
 use App\Models\Agb;
 use App\Models\Bill;
+use App\Models\ContractTemplate;
 use App\Models\Link;
 use App\Models\Role;
 use App\Models\User;
@@ -129,10 +130,10 @@ class SidebarComposer
                         'isAllowed' => $this->canList(CommissionType::class),
                     ],
                     [
-                        'title' => 'Pakete',
-                        'url' => route('commissions.bundles.index'),
-                        'isActive' => $this->request->routeIs('commissions.bundles.*'),
-                        'isAllowed' => $this->canList(BonusBundle::class),
+                        'title' => 'Vertragsvorlagen',
+                        'url' => route('contracts.templates.index'),
+                        'isActive' => $this->request->routeIs('contracts.templates.*'),
+                        'isAllowed' => $this->canList(ContractTemplate::class),
                     ],
                 ],
             ],

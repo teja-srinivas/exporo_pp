@@ -32,7 +32,7 @@ class CommissionBonusController extends Controller
         $bundle = $this->validateBundle($data['bundle_id'] ?? null);
 
         $bonus = new CommissionBonus($data);
-        $this->checkIfLocked($bonus);
+        $this->denyIfLocked($bonus);
 
         $bonus->saveOrFail();
         $bonus->bundle()->attach($bundle);
@@ -53,7 +53,7 @@ class CommissionBonusController extends Controller
     {
         $this->authorize('update', $bonus);
 
-        $this->checkIfLocked($bonus);
+        $this->denyIfLocked($bonus);
 
         $data = $this->validate($request, $this->validationRules());
 
@@ -71,7 +71,7 @@ class CommissionBonusController extends Controller
     {
         $this->authorize('delete', $bonus);
 
-        $this->checkIfLocked($bonus);
+        $this->denyIfLocked($bonus);
 
         $bonus->bundle()->detach();
 
@@ -113,7 +113,7 @@ class CommissionBonusController extends Controller
         return $bundle;
     }
 
-    protected function checkIfLocked(CommissionBonus $bonus)
+    protected function denyIfLocked(CommissionBonus $bonus)
     {
         if ($bonus->contract === null || $bonus->contract->isEditable()) {
             return;

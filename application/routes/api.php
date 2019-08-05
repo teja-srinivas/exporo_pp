@@ -22,6 +22,7 @@ Route::middleware('auth:api')->name('api.')->group(function () {
     )->names('commissions.bonuses');
 
     Route::apiResource('commissions', Api\CommissionController::class);
+    Route::apiResource('contracts/templates', Api\ContractTemplateController::class)->names('contracts.templates');
 
     Route::put(
         'commissions',
