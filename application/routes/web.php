@@ -50,6 +50,7 @@ Route::middleware(['verified'])->group(function () {
         });
 
         Route::prefix('users/{user}')->name('users.')->namespace('User')->group(function () {
+            Route::resource('contracts', 'ContractController')->only('store');
             Route::resource('documents', 'DocumentController')->only('index');
             Route::resource('investments', 'InvestmentController')->only('index');
             Route::resource('investors', 'InvestorController')->only('index');

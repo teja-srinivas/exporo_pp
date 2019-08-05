@@ -128,6 +128,28 @@
                 </div>
             @endforelse
         </div>
+
+        @can('create', \App\Models\Contract::class)
+            @slot('footer')
+                <div class="text-right">
+                    <form action="{{ route('users.contracts.store', $user) }}" method="POST">
+                        @csrf
+
+                        @include('components.form.select', [
+                            'type' => 'select',
+                            'name' => 'template',
+                            'required' => true,
+                            'values' => $contractTemplates,
+                            'assoc' => true,
+                        ])
+
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            Vertragsentwurf anlegen
+                        </button>
+                    </form>
+                </div>
+            @endslot
+        @endcan
     @endcard
 
     @card

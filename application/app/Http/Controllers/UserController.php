@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserStoreRequest;
-use App\Models\BonusBundle;
 use App\Models\Company;
+use App\Models\ContractTemplate;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
@@ -103,13 +103,9 @@ class UserController extends Controller
                 ->selectRaw('sum(amount)'), 'amount')
             ->first();
 
-        $bonusBundles = BonusBundle::all()->groupBy(function (BonusBundle $bundle) {
-            return $bundle->selectable ? 'Aktiv / Öffentlich' : 'Intern / Versteckt / Archiv';
-        })->map->mapWithKeys(function (BonusBundle $bundle) {
-            return [$bundle->getKey() => $bundle->name];
-        });
+        $contractTemplates = ContractTemplate::all()->pluck('name', 'id');
 
-        return response()->view('users.show', compact('user', 'investors', 'bonusBundles'));
+        return response()->view('users.show', compact('user', 'investors', 'contractTemplates'));
     }
 
     /**
