@@ -3,7 +3,7 @@
 
 <select
     class="custom-select{{ $errors->has($name) ? ' is-invalid' : '' }} w-auto"
-    id="input{{ studly_case($name) }}"
+    id="input{{ Str::studly($name) }}"
     name="{{ $name }}"
     @isset($autocomplete) autocomplete="{{ $autocomplete }}" @endif
     @if($required ?? false) required @endif

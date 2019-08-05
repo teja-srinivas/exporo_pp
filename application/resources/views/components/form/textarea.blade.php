@@ -1,5 +1,5 @@
 <textarea
-    id="input{{ studly_case($name) }}"
+    id="input{{ Str::studly($name) }}"
     class="form-control{{ $errors->has($name) ? ' is-invalid' : '' }} {{ $class ?? '' }}"
     name="{{ $name }}"
     @isset($rows) rows="{{ $rows }}" @endif

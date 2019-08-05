@@ -5,7 +5,7 @@
 
     <div class="form-group row {{ ($contained ?? true) && $loop->last ? 'mb-0' : '' }}">
         <label
-            for="input{{ studly_case($input['name']) }}"
+            for="input{{ Str::studly($input['name']) }}"
             class="col-sm-{{ $colWidthLabel }} col-form-label"
         >{{ $input['label'] }}:</label>
 

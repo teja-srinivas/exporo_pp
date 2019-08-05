@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Arr;
 use Carbon\Carbon;
 use OwenIt\Auditing\Auditable;
 use App\Builders\InvestmentBuilder;
@@ -228,7 +229,7 @@ class Commission extends Model implements AuditableContract
         // Determine if we need to join the related tables
         $joins = $query->toBase()->joins ?? [];
 
-        if (! array_first($joins, function (JoinClause $join) {
+        if (! Arr::first($joins, function (JoinClause $join) {
             return $join->table === 'investments';
         })) {
             $query->leftJoin('investments', function (JoinClause $join) {
@@ -237,7 +238,7 @@ class Commission extends Model implements AuditableContract
             });
         }
 
-        if (! array_first($joins, function (JoinClause $join) {
+        if (! Arr::first($joins, function (JoinClause $join) {
             return $join->table === 'investors';
         })) {
             $query->leftJoin('investors', function (JoinClause $join) {

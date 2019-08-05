@@ -69,7 +69,7 @@
                                 {!! $value ? '✔' : '-' !!}
                             @elseif(is_array($value))
                                 <pre class="m-0">{{ var_export($value, true) }}</pre>
-                            @elseif(starts_with($value, 'eyJpdiI6'))
+                            @elseif(Str::startsWith($value, 'eyJpdiI6'))
                                 <span class="text-muted">(verschlüsselt)</span>
                             @else
                                 {{ $value }}

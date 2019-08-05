@@ -1,4 +1,4 @@
-@php($prefix = 'input' . studly_case($name))
+@php($prefix = 'input' . Str::studly($name))
 @php($inlineClass = count($values) <= 3 ? 'custom-control-inline' : '')
 
 @foreach($values as $key => $label)

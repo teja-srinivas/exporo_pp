@@ -1,6 +1,6 @@
 <div class="custom-control custom-{{ $design ?? 'checkbox' }} {{ $class ?? '' }}">
     @php($name = $name ?? uniqid('input'))
-    @php($id = 'input' . studly_case($name))
+    @php($id = 'input' . Str::studly($name))
     <input
         type="checkbox"
         class="custom-control-input"

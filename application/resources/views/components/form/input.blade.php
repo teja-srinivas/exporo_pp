@@ -1,5 +1,5 @@
 <input
-    id="input{{ studly_case($name) }}"
+    id="input{{ Str::studly($name) }}"
     type="{{ $type ?? 'text' }}"
     class="form-control{{ $errors->has($name) ? ' is-invalid' : '' }} {{ $class ?? '' }}"
     name="{{ $name }}"
