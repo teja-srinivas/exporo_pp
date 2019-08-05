@@ -104,6 +104,9 @@
     <div class="rounded bg-white shadow-sm p-3 my-3">
         @include('components.bundle-editor', [
             'bonuses' => $contract->bonuses,
+            'extras' => [
+                'contract_id' => $contract->getKey(),
+            ],
         ])
     </div>
 

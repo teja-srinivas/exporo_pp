@@ -198,6 +198,11 @@ export default {
       type: Object,
       required: true,
     },
+
+    extras: {
+      type: Object,
+      default: () => {},
+    },
   },
 
   data() {
@@ -310,7 +315,7 @@ export default {
       }
 
       try {
-        const payload = toForeign(item);
+        const payload = {...toForeign(item), ...this.extras};
 
         if (this.bundle > 0) {
           payload.bundle_id = this.bundle;
@@ -361,7 +366,7 @@ export default {
       }
 
       try {
-        await axios.put(`${this.api}/${bonus.id}`, toForeign(bonus));
+        await axios.put(`${this.api}/${bonus.id}`, {...toForeign(bonus), ...this.extras});
         this.$notify('Änderungen gespeichert');
 
       } catch (e) {

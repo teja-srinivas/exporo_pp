@@ -4,6 +4,10 @@ $options = [
     'bonuses' => is_array($bonuses) ? $bonuses : $bonuses->values(),
 ];
 
+if (! empty($extras)) {
+    $options['extras'] = $extras;
+}
+
 if (($editable ?? null) === false) {
     $options['editable'] = false;
 }
