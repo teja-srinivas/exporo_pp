@@ -8,9 +8,6 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * Policy for accessing user models.
- *
- * If the requested model is the currently logged in user, we will be able to view
- * and edit it regardless of our permissions (it's us, afterall).
  */
 class UserPolicy extends BasePolicy
 {
@@ -40,6 +37,9 @@ class UserPolicy extends BasePolicy
 
     /**
      * Determine whether the user can update the model.
+     *
+     * If the requested model is the currently logged in user, we will be able to view
+     * and edit it regardless of our permissions (it's us, after all).
      *
      * @param  User $user
      * @param  User $model
