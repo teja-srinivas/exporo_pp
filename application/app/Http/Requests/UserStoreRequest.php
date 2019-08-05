@@ -34,7 +34,6 @@ class UserStoreRequest extends FormRequest
             self::getUserValidationRules($user),
             self::getDetailValidationRules(false, $user),
             $this->user()->can('manage', $user) ? [
-                'bonusBundle' => ['sometimes'],
                 'roles' => ['sometimes'],
                 'permissions' => ['sometimes'],
             ] : []
