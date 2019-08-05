@@ -23,12 +23,12 @@ class CreateLinksTable extends Migration
 
         \App\Models\Link::query()->create([
             'title' => 'Startseite',
-            'url' => 'https://exporo.de/#reflink'
+            'url' => 'https://exporo.de/#reflink',
         ]);
 
         \App\Models\Link::query()->create([
             'title' => 'Registrierungs-Landingpage',
-            'url' => 'https://p.exporo.de/registrierung/#reflink'
+            'url' => 'https://p.exporo.de/registrierung/#reflink',
         ]);
     }
 }

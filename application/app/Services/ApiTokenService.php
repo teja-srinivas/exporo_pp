@@ -55,6 +55,6 @@ class ApiTokenService
      */
     protected function getIdentifier(string $service, array $params): string
     {
-        return $service . '.' . implode('-', $params);
+        return $service.'.'.implode('-', $params);
     }
 }

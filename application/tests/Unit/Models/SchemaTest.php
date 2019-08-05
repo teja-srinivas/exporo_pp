@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Models;
 
+use Tests\TestCase;
 use App\Models\Schema;
 use FormulaInterpreter\Compiler;
-use Tests\TestCase;
 
 class SchemaTest extends TestCase
 {

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\Investment;
-use App\Models\Investor;
 use App\Models\User;
 use App\Traits\Person;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Investor;
+use App\Models\Investment;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 class InvestorController extends Controller
 {
@@ -42,10 +42,10 @@ class InvestorController extends Controller
                 ->map(function (Investor $investor) {
                     return [
                         'id' => $investor->id,
-                        'name' => $investor->last_name . ' ' . Person::anonymizeFirstName($investor->first_name),
+                        'name' => $investor->last_name.' '.Person::anonymizeFirstName($investor->first_name),
                         'displayName' => $investor->getAnonymousName(),
-                        'investments' => (float)$investor->investments,
-                        'amount' => (float)$investor->amount,
+                        'investments' => (float) $investor->investments,
+                        'amount' => (float) $investor->amount,
                         'activationAt' => $investor->activation_at->format('Y-m-d'),
                     ];
                 }),

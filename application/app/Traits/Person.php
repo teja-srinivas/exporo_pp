@@ -56,7 +56,7 @@ trait Person
     {
         $name = trim($firstName ?? '');
 
-        return strlen($name) > 0 ? mb_strtoupper(mb_substr($name, 0, 1)) . '.' : '';
+        return strlen($name) > 0 ? mb_strtoupper(mb_substr($name, 0, 1)).'.' : '';
     }
 
     /**
@@ -68,6 +68,6 @@ trait Person
      */
     public static function anonymizeName(?string $firstName, ?string $lastName): string
     {
-        return self::anonymizeFirstName($firstName) . ($lastName !== null ? ' ' . trim($lastName) : '');
+        return self::anonymizeFirstName($firstName).($lastName !== null ? ' '.trim($lastName) : '');
     }
 }

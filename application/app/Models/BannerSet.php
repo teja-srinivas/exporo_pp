@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
@@ -40,7 +40,7 @@ class BannerSet extends Model implements AuditableContract
     public function getUrlForUser(string $url, User $user): string
     {
         $replacements = [
-            '#reflink' => '?a_aid=' . $user->id,
+            '#reflink' => '?a_aid='.$user->id,
         ];
 
         return str_replace(

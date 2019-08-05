@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Events\UserDetailsUpdated;
-use App\Traits\Encryptable;
 use Carbon\Carbon;
+use App\Traits\Encryptable;
+use OwenIt\Auditing\Auditable;
+use App\Events\UserDetailsUpdated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
@@ -85,9 +85,8 @@ class UserDetails extends Model implements AuditableContract
         'website',
         'tax_office',
         'iban',
-        'bic'
+        'bic',
     ];
-
 
     public function user(): BelongsTo
     {

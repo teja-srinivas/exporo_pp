@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Interfaces\FileReference;
-use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Auditable;
+use App\Interfaces\FileReference;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
@@ -30,7 +30,6 @@ class Document extends Model implements FileReference, AuditableContract
         'name', 'description',
     ];
 
-
     /**
      * @return BelongsTo
      */
@@ -47,7 +46,7 @@ class Document extends Model implements FileReference, AuditableContract
      */
     public function getReadableFilename(): string
     {
-        return Str::slug($this->name, '_', app()->getLocale()) . '.pdf';
+        return Str::slug($this->name, '_', app()->getLocale()).'.pdf';
     }
 
     public function getDownloadUrl(): string

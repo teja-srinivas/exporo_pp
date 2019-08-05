@@ -4,7 +4,7 @@ use Illuminate\Support\Arr;
 
 define('LEGACY_NULL', '1970-01-01 00:00:00');
 
-if (!function_exists('format_money')) {
+if (! function_exists('format_money')) {
     /**
      * Get a formatted number.
      *
@@ -19,7 +19,7 @@ if (!function_exists('format_money')) {
     }
 }
 
-if (!function_exists('render_breadcrumps')) {
+if (! function_exists('render_breadcrumps')) {
     /**
      * Renders a list of breadcrumps (link => display name).
      *
@@ -32,7 +32,7 @@ if (!function_exists('render_breadcrumps')) {
 
         $last = Arr::last($breadcrumps);
 
-        return join($divider, array_map(function ($name, $link) use ($last) {
+        return implode($divider, array_map(function ($name, $link) use ($last) {
             $class = $name === $last ? '' : 'text-muted';
 
             return empty($link) || is_numeric($link)
@@ -42,7 +42,7 @@ if (!function_exists('render_breadcrumps')) {
     }
 }
 
-if (!function_exists('flash_success')) {
+if (! function_exists('flash_success')) {
     /**
      * Flashes a success message (usually after saving some data).
      *

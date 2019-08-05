@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserStoreRequest;
-use App\Models\Company;
-use App\Models\ContractTemplate;
-use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Company;
+use App\Models\Permission;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\ContractTemplate;
 use App\Repositories\BillRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Query\Builder;
+use App\Http\Requests\UserStoreRequest;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Contracts\Session\Session;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -193,7 +193,7 @@ class UserController extends Controller
         $originalId = $session->get($id);
         $originalUser = $request->user();
 
-        if ((string)$originalId === (string)$user->getAuthIdentifier()) {
+        if ((string) $originalId === (string) $user->getAuthIdentifier()) {
             // We've returned to our original user account, remove the warning(s)
             $session->remove($link);
             $session->remove($id);

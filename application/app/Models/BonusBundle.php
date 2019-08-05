@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @property bool $selectable
@@ -25,7 +25,6 @@ class BonusBundle extends Model
     protected $fillable = [
         'name', 'selectable', 'child_user_selectable',
     ];
-
 
     public function bonuses()
     {

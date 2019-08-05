@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Document;
-use App\Models\User;
 use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\RedirectResponse;
+use Throwable;
+use App\Models\User;
+use App\Models\Document;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Arr;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
-use Throwable;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class DocumentController extends Controller
 {
@@ -49,7 +49,7 @@ class DocumentController extends Controller
         $user = $users->get($request->get('user_id'));
 
         $users = $users->mapWithKeys(function (User $user) {
-            return [$user->getKey() => $user->getKey() . ' - ' . $user->details->display_name];
+            return [$user->getKey() => $user->getKey().' - '.$user->details->display_name];
         });
 
         return response()->view('documents.create', compact('user', 'users'));
@@ -139,7 +139,7 @@ class DocumentController extends Controller
             $disk = Storage::disk('s3');
             $document->filename = $disk->put(Document::DIRECTORY, $request->file('file'));
 
-            if (!empty($oldFilename)) {
+            if (! empty($oldFilename)) {
                 $disk->delete($oldFilename);
             }
         }

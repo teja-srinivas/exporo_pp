@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\Events\SchemaUpdated;
-use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
+use OwenIt\Auditing\Auditable;
 use FormulaInterpreter\Compiler;
 use FormulaInterpreter\Executable;
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Auditable;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
@@ -21,8 +21,11 @@ class Schema extends Model implements AuditableContract
     use OptimusEncodedRouteKey;
 
     const VAR_AMOUNT = 'investment';
+
     const VAR_BONUS = 'bonus';
+
     const VAR_MARGIN = 'marge';
+
     const VAR_RUNTIME = 'laufzeit';
 
     const VARS = [
@@ -48,7 +51,6 @@ class Schema extends Model implements AuditableContract
      * @var Executable|null
      */
     protected $compiledFormula;
-
 
     public function projects()
     {

@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\User;
 
-use App\Models\Contract;
-use App\Models\ContractTemplate;
 use App\Models\User;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Contract;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\ContractTemplate;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class ContractController extends Controller
 {
-
     /**
      * @param User $user
      * @param Request $request
@@ -41,5 +40,4 @@ class ContractController extends Controller
 
         return response()->redirectToRoute('contracts.edit', $contract);
     }
-
 }

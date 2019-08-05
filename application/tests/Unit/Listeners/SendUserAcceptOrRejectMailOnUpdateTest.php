@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Listeners;
 
+use Tests\TestCase;
+use App\Models\User;
 use App\Jobs\SendAcceptMail;
 use App\Jobs\SendRejectMail;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class SendUserAcceptOrRejectMailOnUpdateTest extends TestCase
 {

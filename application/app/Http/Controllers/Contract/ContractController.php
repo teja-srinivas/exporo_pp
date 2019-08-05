@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Contract;
 
-use App\Http\Controllers\Controller;
 use App\Models\Contract;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class ContractController extends Controller
 {

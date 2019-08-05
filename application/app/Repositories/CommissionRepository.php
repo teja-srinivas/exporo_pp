@@ -13,7 +13,7 @@ class CommissionRepository
      * Gets all commissions that are billable:
      * - Associated with a user account
      * - Not yet associated with a bill
-     * - Reviewed by the team
+     * - Reviewed by the team.
      *
      * @param array $columns
      * @return Collection

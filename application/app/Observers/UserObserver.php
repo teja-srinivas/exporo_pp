@@ -3,8 +3,8 @@
 namespace App\Observers;
 
 use App\Models\User;
-use App\Models\UserDetails;
 use App\Traits\Person;
+use App\Models\UserDetails;
 
 class UserObserver
 {
@@ -27,7 +27,7 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        if (!$user->isDirty(['first_name', 'last_name'])) {
+        if (! $user->isDirty(['first_name', 'last_name'])) {
             return;
         }
 

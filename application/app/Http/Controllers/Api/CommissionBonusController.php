@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\BonusBundle;
-use App\Models\CommissionBonus;
 use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
+use Throwable;
+use App\Models\BonusBundle;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\CommissionBonus;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Throwable;
 
 class CommissionBonusController extends Controller
 {

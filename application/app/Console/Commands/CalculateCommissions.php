@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Models\User;
+use App\Models\Contract;
+use App\Models\Investor;
 use App\Builders\Builder;
 use App\Models\Commission;
-use App\Models\Contract;
 use App\Models\Investment;
-use App\Models\Investor;
-use App\Models\User;
-use App\Services\CalculateCommissionsService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use App\Services\CalculateCommissionsService;
 
 final class CalculateCommissions extends Command
 {
@@ -23,6 +23,7 @@ final class CalculateCommissions extends Command
     const PER_CHUNK = 2500;
 
     protected $signature = 'calculate:commissions';
+
     protected $description = 'Calculates commissions';
 
     public function handle(CalculateCommissionsService $commissionsService)
@@ -67,7 +68,7 @@ final class CalculateCommissions extends Command
      */
     private function calculateInvestors(CalculateCommissionsService $commissionsService): void
     {
-        $this->line("Calculating investor commissions...");
+        $this->line('Calculating investor commissions...');
 
         // Select essential information of investors where
         // - the partner actually has a registration bonus
@@ -104,8 +105,9 @@ final class CalculateCommissions extends Command
      *
      * @param CalculateCommissionsService $commissions
      */
-    private function calculateInvestments(CalculateCommissionsService $commissions): void {
-        $this->line("Calculating investment commissions...");
+    private function calculateInvestments(CalculateCommissionsService $commissions): void
+    {
+        $this->line('Calculating investment commissions...');
 
         $query = Investment::query()->withoutCommissions()->with([
             'investor.user.contract.bonuses',
@@ -142,7 +144,7 @@ final class CalculateCommissions extends Command
                     $userCache[$parentId] = $parent;
                 }
 
-                if (!$parent) {
+                if (! $parent) {
                     break;
                 }
 

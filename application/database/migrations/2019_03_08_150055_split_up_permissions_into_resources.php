@@ -1,19 +1,19 @@
 <?php
 
-use App\Models\Permission;
 use App\Models\Role;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
+use App\Models\Permission;
 use Illuminate\Support\Str;
-use Spatie\Permission\Exceptions\PermissionDoesNotExist;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Database\Migrations\Migration;
+use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 
 class SplitUpPermissionsIntoResources extends Migration
 {
     /**
      * Updates our permissions to be "CRUDdy":
      * - manage is being split into "view", "create", "update" and "delete"
-     * - other permissions are being changed to fit into their proper category
+     * - other permissions are being changed to fit into their proper category.
      *
      * @return void
      */
@@ -56,7 +56,7 @@ class SplitUpPermissionsIntoResources extends Migration
             $name = Str::slug(substr($permission->name, strlen('manage')), '-', null);
 
             // Add support for replacing names
-            $name = "$prefix." . ($replacements[$name] ?? $name);
+            $name = "$prefix.".($replacements[$name] ?? $name);
 
             return [
                 "$name.view" => $permission,

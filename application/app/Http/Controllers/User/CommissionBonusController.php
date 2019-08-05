@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\CommissionBonus;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\CommissionBonus;
 
 class CommissionBonusController extends Controller
 {

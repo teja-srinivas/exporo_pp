@@ -1,14 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use InvalidArgumentException;
 use App\Relationships\BelongsToOne;
 use App\Events\CommissionBonusUpdated;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use InvalidArgumentException;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @property int $type_id
@@ -29,7 +30,9 @@ use InvalidArgumentException;
 class CommissionBonus extends Model
 {
     const TYPE_REGISTRATION = 'registration';
+
     const TYPE_FIRST_INVESTMENT = 'first_investment';
+
     const TYPE_FURTHER_INVESTMENT = 'further_investment';
 
     const TYPES = [
@@ -60,7 +63,6 @@ class CommissionBonus extends Model
         'updated' => CommissionBonusUpdated::class,
     ];
 
-
     public function bundles()
     {
         return $this->belongsToMany(BonusBundle::class, 'bonus_bundle', 'bonus_id', 'bundle_id');
@@ -89,14 +91,13 @@ class CommissionBonus extends Model
 
     public function getDisplayValue()
     {
-        return $this->is_percentage ? ($this->value * 100) . '%' : format_money($this->value);
+        return $this->is_percentage ? ($this->value * 100).'%' : format_money($this->value);
     }
 
     public function getDisplayName()
     {
         return self::DISPLAY_NAMES[$this->calculation_type];
     }
-
 
     /**
      * Creates the attributes required for a "value" bonus.

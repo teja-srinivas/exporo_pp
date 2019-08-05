@@ -2,10 +2,10 @@
 
 use App\Models\Permission;
 use App\Policies\CommissionTypePolicy;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Database\Migrations\Migration;
 
 class RenameProvisionTables extends Migration
 {

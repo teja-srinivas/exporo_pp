@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CommissionType;
-use App\Models\Project;
 use App\Models\Schema;
+use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Models\CommissionType;
 
 class ProjectController extends Controller
 {
@@ -68,7 +68,7 @@ class ProjectController extends Controller
         $data = $this->validate($request, [
             'accept' => 'nullable|boolean',
             'schema' => 'nullable|numeric|exists:schemas,id',
-            'commissionType' => 'nullable|numeric|exists:commission_types,id'
+            'commissionType' => 'nullable|numeric|exists:commission_types,id',
         ]);
 
         if (isset($data['accept'])) {

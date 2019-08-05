@@ -3,12 +3,11 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Contract;
-use App\Services\CalculateCommissionsService;
 use PHPUnit\Framework\TestCase;
+use App\Services\CalculateCommissionsService;
 
 class CalculateCommissionsServiceTest extends TestCase
 {
-
     /**
      * @param float $net
      * @param float $gross
@@ -36,7 +35,7 @@ class CalculateCommissionsServiceTest extends TestCase
     {
         return [
             [100, 100, 0, true, 100],
-            [100/1.19, 100, 19, true, 100],
+            [100 / 1.19, 100, 19, true, 100],
             [100, 119, 19, false, 100],
             [0, 0, 19, true, 0],
         ];

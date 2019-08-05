@@ -20,7 +20,7 @@ trait HasUser
     public function whereHasActiveUser(string $table = null): self
     {
         return $this
-            ->join('users', ($table ?? $this->query->from) . '.user_id', 'users.id')
+            ->join('users', ($table ?? $this->query->from).'.user_id', 'users.id')
             ->whereNotNull('users.accepted_at')
             ->whereNull('users.rejected_at');
     }

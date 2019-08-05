@@ -2,9 +2,9 @@
 
 namespace App\Nova\Filters;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\BooleanFilter;
+use Illuminate\Database\Eloquent\Builder;
 
 class HasPartner extends BooleanFilter
 {

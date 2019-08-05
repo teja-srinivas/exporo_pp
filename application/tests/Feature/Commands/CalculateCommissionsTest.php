@@ -2,19 +2,19 @@
 
 namespace Tests\Feature\Commands;
 
-use App\Console\Commands\CalculateCommissions;
-use App\Models\CommissionBonus;
-use App\Models\CommissionType;
-use App\Models\Contract;
-use App\Models\Investment;
-use App\Models\Investor;
-use App\Models\Project;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Project;
+use App\Models\Contract;
+use App\Models\Investor;
 use Tests\TestsContracts;
+use App\Models\Investment;
+use App\Models\CommissionType;
+use App\Models\CommissionBonus;
+use Illuminate\Support\Facades\Artisan;
+use App\Console\Commands\CalculateCommissions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CalculateCommissionsTest extends TestCase
 {
@@ -79,5 +79,4 @@ class CalculateCommissionsTest extends TestCase
     {
         Artisan::call(CalculateCommissions::class);
     }
-
 }

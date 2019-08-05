@@ -22,7 +22,6 @@ class Banner extends Model
         'filename', 'width', 'height',
     ];
 
-
     public function set()
     {
         return $this->belongsTo(BannerSet::class, 'set_id', null, 'banner_sets');

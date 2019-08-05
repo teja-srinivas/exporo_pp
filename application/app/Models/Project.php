@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Events\ProjectUpdated;
-use Carbon\Carbon;
-use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use DateTime;
+use Carbon\Carbon;
+use App\Events\ProjectUpdated;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 
 /**
  * @property int $id
@@ -42,7 +42,7 @@ class Project extends Model
     protected $fillable = [
         'id', 'name', 'created_at', 'updated_at', 'launched_at',
         'payback_min_at', 'payback_max_at', 'approved_at', 'approved_by', 'schema_id', 'capital_cost',
-        'interest_rate', 'runtime', 'commission_type'
+        'interest_rate', 'runtime', 'commission_type',
     ];
 
     protected $casts = [
@@ -54,7 +54,6 @@ class Project extends Model
     protected $dispatchesEvents = [
         'updated' => ProjectUpdated::class,
     ];
-
 
     public function schema(): BelongsTo
     {
@@ -95,7 +94,7 @@ class Project extends Model
 
     public function marginPercentage(): float
     {
-        return (float)($this->margin / 100);
+        return (float) ($this->margin / 100);
     }
 
     protected function diffInMonths(?DateTime $date1, ?DateTime $date2)

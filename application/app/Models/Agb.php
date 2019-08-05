@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Interfaces\FileReference;
-use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Auditable;
+use App\Interfaces\FileReference;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class Agb extends Model implements AuditableContract, FileReference
@@ -20,6 +20,7 @@ class Agb extends Model implements AuditableContract, FileReference
     const DIRECTORY = 'agbs';
 
     const TYPE_AG = 'ag';
+
     const TYPE_GMBH = 'gmbh';
 
     const TYPES = [self::TYPE_AG, self::TYPE_GMBH];
@@ -31,11 +32,11 @@ class Agb extends Model implements AuditableContract, FileReference
     ];
 
     protected $dates = [
-        'effective_from'
+        'effective_from',
     ];
 
     protected $fillable = [
-        'type', 'name', 'is_default', 'effective_from'
+        'type', 'name', 'is_default', 'effective_from',
     ];
 
     /**
@@ -54,14 +55,14 @@ class Agb extends Model implements AuditableContract, FileReference
      * @param string $type
      * @return Agb|null
      */
-    public static function current(string $type): ?Agb
+    public static function current(string $type): ?self
     {
         return self::isDefault()->forType($type)->latest()->first();
     }
 
     public function scopeForType(Builder $query, string $type)
     {
-        if (!in_array($type, self::TYPES)) {
+        if (! in_array($type, self::TYPES)) {
             // Silently fail the query in case it's not a valid type
             $type = null;
         }
@@ -82,7 +83,7 @@ class Agb extends Model implements AuditableContract, FileReference
      */
     public function getReadableFilename(): string
     {
-        return Str::slug($this->name ?: env('APP_NAME', 'AGB'), '_', app()->getLocale()) . '.pdf';
+        return Str::slug($this->name ?: env('APP_NAME', 'AGB'), '_', app()->getLocale()).'.pdf';
     }
 
     /**
@@ -106,7 +107,7 @@ class Agb extends Model implements AuditableContract, FileReference
      */
     public function canBeDeleted(): bool
     {
-        return $this->users->count() === 0 && (!$this->is_default || $this->numberOfAvailableDefaults() > 1);
+        return $this->users->count() === 0 && (! $this->is_default || $this->numberOfAvailableDefaults() > 1);
     }
 
     protected function numberOfAvailableDefaults()

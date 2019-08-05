@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Investment;
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\Investment;
 
 class InvestmentTest extends TestCase
 {

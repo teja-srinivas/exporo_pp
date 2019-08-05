@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Middleware\UserHasBeenReferred;
-use App\Http\Requests\UserStoreRequest;
 use App\Models\Agb;
-use App\Models\BonusBundle;
-use App\Models\CommissionBonus;
-use App\Models\Company;
-use App\Models\Contract;
-use App\Models\ContractTemplate;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\Company;
+use App\Models\Contract;
+use App\Models\BonusBundle;
+use App\Models\CommissionBonus;
+use App\Models\ContractTemplate;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UserStoreRequest;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Middleware\UserHasBeenReferred;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {

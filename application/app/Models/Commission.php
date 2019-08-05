@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use App\Builders\InvestmentBuilder;
 use Carbon\Carbon;
-use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Query\JoinClause;
 use OwenIt\Auditing\Auditable;
+use App\Builders\InvestmentBuilder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
@@ -150,7 +150,7 @@ class Commission extends Model implements AuditableContract
         $investment = new Investment();
         $query->leftJoin($investment->getTable(), function (JoinClause $join) use ($investment) {
             $join->where('commissions.model_type', '=', 'investment');
-            $join->on('commissions.model_id', $investment->getTable() . '.id');
+            $join->on('commissions.model_id', $investment->getTable().'.id');
 
             (new InvestmentBuilder($join))->billable();
         });
@@ -159,13 +159,13 @@ class Commission extends Model implements AuditableContract
         $investor = new Investor();
         $query->leftJoin($investor->getTable(), function (JoinClause $join) use ($investor) {
             $join->where('commissions.model_type', '=', 'investor');
-            $join->on('commissions.model_id', $investor->getTable() . '.id');
+            $join->on('commissions.model_id', $investor->getTable().'.id');
         });
     }
 
     public function isBillable(): bool
     {
-        return !$this->on_hold && $this->rejected_at === null && $this->isAcceptable();
+        return ! $this->on_hold && $this->rejected_at === null && $this->isAcceptable();
     }
 
     public function scopeIsBillable(Builder $query)
@@ -205,7 +205,7 @@ class Commission extends Model implements AuditableContract
             return;
         }
 
-        $query->where($this->getTable() . '.user_id', is_object($user) ? $user->id : $user);
+        $query->where($this->getTable().'.user_id', is_object($user) ? $user->id : $user);
     }
 
     /**
@@ -228,7 +228,7 @@ class Commission extends Model implements AuditableContract
         // Determine if we need to join the related tables
         $joins = $query->toBase()->joins ?? [];
 
-        if (!array_first($joins, function (JoinClause $join) {
+        if (! array_first($joins, function (JoinClause $join) {
             return $join->table === 'investments';
         })) {
             $query->leftJoin('investments', function (JoinClause $join) {
@@ -237,7 +237,7 @@ class Commission extends Model implements AuditableContract
             });
         }
 
-        if (!array_first($joins, function (JoinClause $join) {
+        if (! array_first($joins, function (JoinClause $join) {
             return $join->table === 'investors';
         })) {
             $query->leftJoin('investors', function (JoinClause $join) {
@@ -286,6 +286,7 @@ class Commission extends Model implements AuditableContract
         if ($user === null) {
             $this->rejected_by = null;
             $this->rejected_at = null;
+
             return;
         }
 
@@ -298,6 +299,7 @@ class Commission extends Model implements AuditableContract
         if ($user === null) {
             $this->reviewed_by = null;
             $this->reviewed_at = null;
+
             return;
         }
 
@@ -315,7 +317,7 @@ class Commission extends Model implements AuditableContract
     public static function getDecodedId(int $encoded): int
     {
         /** @var \Jenssegers\Optimus\Optimus $optimus */
-        $optimus = (new Commission)->getOptimus();
+        $optimus = (new self)->getOptimus();
 
         return $optimus->decode($encoded);
     }

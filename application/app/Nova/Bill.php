@@ -2,14 +2,14 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Currency;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Bill extends Resource
@@ -46,7 +46,6 @@ class Bill extends Resource
         return parent::indexQuery($request, $query)->withCount('commissions');
     }
 
-
     /**
      * Get the fields displayed by the resource.
      *
@@ -82,9 +81,9 @@ class Bill extends Resource
     {
         /** @var \App\Models\Bill $bill */
         $bill = $this->resource;
-        return '#' . $bill->user_id . ' ' . $bill->userDetails->display_name . ': ' . $bill->getDisplayName();
-    }
 
+        return '#'.$bill->user_id.' '.$bill->userDetails->display_name.': '.$bill->getDisplayName();
+    }
 
     /**
      * Get the cards available for the request.

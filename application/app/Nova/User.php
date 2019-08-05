@@ -2,16 +2,16 @@
 
 namespace App\Nova;
 
-use App\Models\User as UserModel;
+use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Heading;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
+use App\Models\User as UserModel;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
@@ -52,14 +52,14 @@ class User extends Resource
             Date::make('Accepted At'),
             Date::make('Rejected At'),
 
-            BelongsTo::make('Parent User', 'parent', User::class)
+            BelongsTo::make('Parent User', 'parent', self::class)
                 ->searchable()
                 ->nullable()
                 ->filled(function (NovaRequest $request, UserModel $model) {
                     $model->parent_id = $request->get('parent') ?? 0;
                 }),
 
-            HasMany::make('Child User', 'children', User::class),
+            HasMany::make('Child User', 'children', self::class),
 
             Text::make('Name', 'details.display_name')->onlyOnIndex(),
 
@@ -124,7 +124,7 @@ class User extends Resource
 
     public function title()
     {
-        return $this->details->display_name . ' (' . $this->id . ')';
+        return $this->details->display_name.' ('.$this->id.')';
     }
 
     /**

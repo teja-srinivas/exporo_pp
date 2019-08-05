@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\Company;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
 class CreateCompanyBucket extends Command
@@ -22,7 +22,6 @@ class CreateCompanyBucket extends Command
      */
     protected $description = 'Creates a bucket for specified Company';
 
-
     /**
      * Execute the console command.
      *
@@ -35,6 +34,7 @@ class CreateCompanyBucket extends Command
         if (Company::query()->whereKey($id)->doesntExist()) {
             $this->error('Company does not seem to exist');
             $this->setCode(1);
+
             return;
         }
 

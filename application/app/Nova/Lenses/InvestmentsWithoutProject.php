@@ -2,14 +2,14 @@
 
 namespace App\Nova\Lenses;
 
-use App\Models\Project;
 use App\Nova\Investor;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
+use App\Models\Project;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Http\Requests\LensRequest;
+use Illuminate\Http\Request;
 use Laravel\Nova\Lenses\Lens;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Http\Requests\LensRequest;
 
 class InvestmentsWithoutProject extends Lens
 {

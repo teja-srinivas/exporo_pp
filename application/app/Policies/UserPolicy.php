@@ -11,14 +11,13 @@ use Illuminate\Auth\Access\HandlesAuthorization;
  *
  * If the requested model is the currently logged in user, we will be able to view
  * and edit it regardless of our permissions (it's us, afterall).
- *
- * @package App\Policies
  */
 class UserPolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
     const PERMISSION = 'management.users';
+
     const PROCESS_PERMISSION = 'features.contracts.process';
 
     public function __construct()

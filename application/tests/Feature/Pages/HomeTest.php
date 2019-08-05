@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Pages;
 
+use Tests\TestCase;
 use App\Models\Bill;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Tests\TestCase;
 
 class HomeTest extends TestCase
 {

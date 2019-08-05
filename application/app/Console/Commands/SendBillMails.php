@@ -2,14 +2,15 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\SendMail;
 use App\Models\Bill;
-use App\Repositories\BillRepository;
+use App\Jobs\SendMail;
 use Illuminate\Console\Command;
+use App\Repositories\BillRepository;
 
 class SendBillMails extends Command
 {
     protected $signature = 'bill:mail';
+
     protected $description = 'Sends commission email for created bills';
 
     /**

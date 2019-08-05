@@ -11,7 +11,6 @@ class Formula implements Rule
     /** @var Compiler */
     private $compiler;
 
-
     public function __construct(Compiler $compiler)
     {
         $this->compiler = $compiler;
@@ -28,6 +27,7 @@ class Formula implements Rule
     {
         try {
             $this->compiler->compile($value);
+
             return true;
         } catch (Exception $e) {
             return false;

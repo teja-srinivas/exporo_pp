@@ -4,7 +4,7 @@ use App\Models\Investment;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
 
-/** @var Factory $factory */
+/* @var Factory $factory */
 
 $factory->define(Investment::class, function (Faker $faker) {
     $paidAt = $faker->randomDigit > 3 ? $faker->dateTimeBetween('-5 years') : null;

@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use App\Models\User;
 use App\Models\UserDetails;
-use Closure;
 
 class UserHasFilledPersonalData
 {
@@ -25,8 +25,9 @@ class UserHasFilledPersonalData
         $user = $request->user();
 
         // Let internals and admins through
-        if (!$user->canBeProcessed()) {
+        if (! $user->canBeProcessed()) {
             $session->remove(self::USER_HAS_MISSING_DATA);
+
             return $next($request);
         }
 
@@ -34,6 +35,7 @@ class UserHasFilledPersonalData
         // and remove the session hint in case customer support filled them in for us
         if ($request->routeIs('users.update') || $this->hasFilledAllData($user->details)) {
             $session->remove(self::USER_HAS_MISSING_DATA);
+
             return $next($request);
         }
 
@@ -63,11 +65,11 @@ class UserHasFilledPersonalData
             return false;
         }
 
-        return !empty($details->iban)
-            && !empty($details->address_number)
-            && !empty($details->address_street)
-            && !empty($details->address_zipcode)
-            && !empty($details->address_number);
+        return ! empty($details->iban)
+            && ! empty($details->address_number)
+            && ! empty($details->address_street)
+            && ! empty($details->address_zipcode)
+            && ! empty($details->address_number);
     }
 
     /**

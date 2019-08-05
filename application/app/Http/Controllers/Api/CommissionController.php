@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Console\Commands\CalculateCommissions;
-use App\Http\Controllers\Controller;
-use App\Http\Helper\Request\FieldParser;
-use App\Http\Resources\Commission as CommissionResource;
-use App\Models\Commission;
-use App\Models\Contract;
-use App\Models\Investment;
-use App\Models\Project;
 use App\Models\User;
+use App\Models\Project;
+use App\Models\Contract;
+use App\Models\Commission;
+use App\Models\Investment;
 use App\Models\UserDetails;
-use App\Services\CalculateCommissionsService;
-use Illuminate\Container\Container;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Container\Container;
+use App\Http\Controllers\Controller;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Helper\Request\FieldParser;
+use Illuminate\Database\Eloquent\Builder;
+use App\Services\CalculateCommissionsService;
+use App\Console\Commands\CalculateCommissions;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Http\Resources\Commission as CommissionResource;
 
 class CommissionController extends Controller
 {
@@ -172,8 +172,8 @@ class CommissionController extends Controller
 
         $now = now();
         $values = [
-            'commissions.' . Model::CREATED_AT => $now,
-            'commissions.' . Model::UPDATED_AT => $now,
+            'commissions.'.Model::CREATED_AT => $now,
+            'commissions.'.Model::UPDATED_AT => $now,
         ];
 
         if ($request->has('onHold')) {
@@ -224,6 +224,7 @@ class CommissionController extends Controller
 
         if ($commission > 0) {
             Commission::query()->toBase()->delete(Commission::getDecodedId($commission));
+
             return;
         }
 
@@ -265,20 +266,20 @@ class CommissionController extends Controller
             ->when($fields->has('user'), function (Builder $query) use ($fields, $forUpdate) {
                 $user = $fields->get('user');
 
-                if (!empty($user->filter)) {
+                if (! empty($user->filter)) {
                     $query->forUser($user->filter);
                 }
 
-                if (!$forUpdate && !empty($user->order)) {
+                if (! $forUpdate && ! empty($user->order)) {
                     $query->orderBy('commissions.user_id', $user->order);
                 }
             })
             ->when($fields->filters('model'), function (Builder $query) use ($fields) {
                 $lowercaseName = mb_convert_case($fields->get('model')->filter, MB_CASE_LOWER);
-                $quotedName = DB::connection()->getPdo()->quote('%' . $lowercaseName . '%');
+                $quotedName = DB::connection()->getPdo()->quote('%'.$lowercaseName.'%');
 
                 $projectIds = Project::query()
-                    ->whereRaw('LOWER(description) LIKE ' . $quotedName)
+                    ->whereRaw('LOWER(description) LIKE '.$quotedName)
                     ->select('id');
 
                 $query->whereIn('investments.project_id', $projectIds);
@@ -286,7 +287,7 @@ class CommissionController extends Controller
             ->when($fields->has('money'), function (Builder $query) use ($forUpdate, $fields) {
                 $money = $fields->get('money');
 
-                if (!$forUpdate && !empty($money->order)) {
+                if (! $forUpdate && ! empty($money->order)) {
                     $query->orderBy('net', $money->order);
                 }
 
@@ -295,7 +296,7 @@ class CommissionController extends Controller
                     $query->where('gross', $matches[1] ?: '=', $matches[2]);
                 }
             })
-            ->when(!$fields->filters('rejected'), function (Builder $query) {
+            ->when(! $fields->filters('rejected'), function (Builder $query) {
                 $query->isOpen();
             })
             ->when($fields->filters('overhead'), function (Builder $query) use ($fields) {
@@ -308,11 +309,13 @@ class CommissionController extends Controller
                     case 'first-investment':
                         $query->where('model_type', Investment::MORPH_NAME);
                         $query->where('investments.is_first_investment', true);
+
                         break;
 
                     case 'further-investment':
                         $query->where('model_type', Investment::MORPH_NAME);
                         $query->where('investments.is_first_investment', false);
+
                         break;
 
                     default:

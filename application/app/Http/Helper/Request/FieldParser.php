@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 /**
  * Parses Request fields based on the format described in the JsonApi spec:
- * http://jsonapi.org/format/#fetching-sorting
+ * http://jsonapi.org/format/#fetching-sorting.
  */
 class FieldParser
 {
@@ -33,7 +33,7 @@ class FieldParser
     }
 
     /**
-     * Gets the parsed entry for the given field (if any)
+     * Gets the parsed entry for the given field (if any).
      *
      * If any default filter or sort value has been provided,
      * this will create a temporary instance of that field
@@ -67,11 +67,11 @@ class FieldParser
      */
     public function filters(string $field): bool
     {
-        if (!$this->has($field)) {
+        if (! $this->has($field)) {
             return false;
         }
 
-        return !empty($this->get($field)->filter);
+        return ! empty($this->get($field)->filter);
     }
 
     protected function parseSorts(array $sorts)
@@ -113,7 +113,7 @@ class FieldParser
      */
     public static function fromRequest(Request $request)
     {
-        return new FieldParser(
+        return new self(
             $request->get('filter', []),
             explode(',', $request->get('sort', ''))
         );

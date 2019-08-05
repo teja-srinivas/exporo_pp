@@ -20,7 +20,7 @@ class CalculateInvestorsClaims extends Command
             ->each(function (Investor $investor) {
                 $this->line("Calculating claim for #{$investor->getKey()}");
 
-                if (!$investor->user->contract->isActive()) {
+                if (! $investor->user->contract->isActive()) {
                     return;
                 }
 

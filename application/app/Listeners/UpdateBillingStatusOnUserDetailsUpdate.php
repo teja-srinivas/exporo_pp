@@ -2,10 +2,10 @@
 
 namespace App\Listeners;
 
-use App\Events\UserDetailsUpdated;
 use App\Models\Role;
 use App\Models\UserDetails;
 use App\Policies\BillPolicy;
+use App\Events\UserDetailsUpdated;
 
 class UpdateBillingStatusOnUserDetailsUpdate
 {
@@ -29,6 +29,6 @@ class UpdateBillingStatusOnUserDetailsUpdate
         // Directly access attributes to not call any decryption logic
         $attributes = $details->getAttributes();
 
-        return !empty($attributes['bic']) && !empty($attributes['iban']);
+        return ! empty($attributes['bic']) && ! empty($attributes['iban']);
     }
 }

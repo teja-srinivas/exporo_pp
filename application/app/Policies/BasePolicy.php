@@ -4,9 +4,9 @@ namespace App\Policies;
 
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Nova;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * Base class that all our policies should derive from.
@@ -14,8 +14,6 @@ use Laravel\Nova\Nova;
  * Makes sure that admins can bypass all checks and adds an additional "list" check
  * for those index sites for our models (we might want to allow viewing models directly
  * but not allow listing them all).
- *
- * @package App\Policies
  */
 class BasePolicy
 {
@@ -45,8 +43,6 @@ class BasePolicy
         if ($user->hasRole(Role::ADMIN)) {
             return true;
         }
-
-        return null;
     }
 
     /**

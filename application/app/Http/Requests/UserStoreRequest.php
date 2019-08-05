@@ -3,11 +3,11 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
-use App\Rules\PhoneNumber;
 use App\Rules\VatId;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\PhoneNumber;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UserStoreRequest extends FormRequest
 {
@@ -100,9 +100,9 @@ class UserStoreRequest extends FormRequest
         $prefix = $updating === null ? 'required|' : '';
 
         $rules = [
-            'first_name' => $prefix . 'string|max:100',
-            'last_name' => $prefix . 'string|max:100',
-            'email' => $prefix . 'string|email|max:255|unique:users,email,' . optional($updating)->id,
+            'first_name' => $prefix.'string|max:100',
+            'last_name' => $prefix.'string|max:100',
+            'email' => $prefix.'string|email|max:255|unique:users,email,'.optional($updating)->id,
         ];
 
         // Only allow acceptance status if it's a user already
@@ -136,8 +136,8 @@ class UserStoreRequest extends FormRequest
             'salutation' => "{$prefix}|in:male,female",
             'birth_day' => "{$prefix}|numeric|min:1|max:31",
             'birth_month' => "{$prefix}|numeric|min:1|max:12",
-            'birth_year' => "{$prefix}|numeric|min:". now()->subYears(120)->year . '|max:' . $adultYear->year,
-            'birth_date' => "{$datePrefix}|date|before_or_equal:" . $adultYear, // needs to be an adult
+            'birth_year' => "{$prefix}|numeric|min:".now()->subYears(120)->year.'|max:'.$adultYear->year,
+            'birth_date' => "{$datePrefix}|date|before_or_equal:".$adultYear, // needs to be an adult
             'birth_place' => 'nullable|string|max:100',
             'address_street' => "{$prefix}|string|max:100",
             'address_number' => "{$prefix}|string|max:20",

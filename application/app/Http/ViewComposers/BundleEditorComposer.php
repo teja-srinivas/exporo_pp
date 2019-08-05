@@ -2,10 +2,10 @@
 
 namespace App\Http\ViewComposers;
 
-use App\Models\BonusBundle;
-use App\Models\CommissionBonus;
-use App\Models\CommissionType;
 use Illuminate\View\View;
+use App\Models\BonusBundle;
+use App\Models\CommissionType;
+use App\Models\CommissionBonus;
 
 class BundleEditorComposer
 {
@@ -13,7 +13,6 @@ class BundleEditorComposer
      * @var array
      */
     private $defaults;
-
 
     public function compose(View $view)
     {
@@ -32,7 +31,7 @@ class BundleEditorComposer
             'calculationTypes' => CommissionBonus::DISPLAY_NAMES,
             'commissionTypes' => CommissionType::query()->pluck('name', 'id'),
             'editable' => $editable,
-            'legacy' => !$editable,
+            'legacy' => ! $editable,
         ] + ($useAjax ? [
             'api' => route('api.commissions.bonuses.store'),
         ] : []);

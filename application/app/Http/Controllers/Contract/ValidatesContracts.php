@@ -7,7 +7,6 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 trait ValidatesContracts
 {
-
     public function checkIfContractIsEditable(Contract $contract)
     {
         if ($contract->isEditable()) {
@@ -20,5 +19,4 @@ trait ValidatesContracts
             ])
         );
     }
-
 }

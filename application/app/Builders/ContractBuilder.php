@@ -8,7 +8,6 @@ use App\Models\Contract;
 
 class ContractBuilder extends Builder
 {
-
     /**
      * Only returns contracts that are active even if they have been terminated.
      * To check if a contract has not been terminated yet use isActive() on the contract itself.

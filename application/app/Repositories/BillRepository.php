@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Models\Bill;
-use App\Models\Commission;
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\Bill;
+use App\Models\User;
+use App\Models\Commission;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Support\Collection;
 
 class BillRepository
 {
-
     /**
      * Creates a bill for the the given user and commissions
      * which will be released at the given date.
@@ -48,7 +47,7 @@ class BillRepository
      * Returns a simplified bill model that contains
      * - the id,
      * - the total sum of the bill
-     * - the amount of commissions contained in the bill
+     * - the amount of commissions contained in the bill.
      *
      * Optionally, a specific user can be provided.
      *

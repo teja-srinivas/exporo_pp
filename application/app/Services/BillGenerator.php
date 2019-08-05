@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use App\Models\Commission;
+use Illuminate\Support\Collection;
 use App\Repositories\BillRepository;
 use App\Repositories\CommissionRepository;
-use Carbon\Carbon;
-use Illuminate\Support\Collection;
 
 class BillGenerator
 {

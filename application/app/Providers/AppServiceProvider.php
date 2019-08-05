@@ -3,15 +3,15 @@
 namespace App\Providers;
 
 use App\Models;
-use App\Observers\UserDetailsObserver;
 use App\Observers\UserObserver;
-use App\Services\CalculateCommissionsService;
 use FormulaInterpreter\Compiler;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
+use App\Observers\UserDetailsObserver;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use App\Services\CalculateCommissionsService;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Collection::macro('sortNatural', function ($callback) {
-            /** @var Collection $this */
+            /* @var Collection $this */
             return $this->sortBy($callback, SORT_NATURAL | SORT_FLAG_CASE);
         });
 

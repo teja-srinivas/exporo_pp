@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\User as UserResource;
+use Carbon\Carbon;
 use App\Models\Bill;
+use App\Models\User;
+use App\Traits\Person;
+use App\Models\Investor;
 use App\Models\Commission;
 use App\Models\Investment;
-use App\Models\Investor;
-use App\Models\User;
-use App\Repositories\BillRepository;
-use App\Services\BillGenerator;
 use App\Traits\Encryptable;
-use App\Traits\Person;
-use Carbon\Carbon;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Services\BillGenerator;
 use Illuminate\Routing\Redirector;
+use App\Repositories\BillRepository;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Resources\User as UserResource;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Filesystem\FilesystemManager;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Collection as BaseCollection;
 
 class BillController extends Controller
@@ -157,7 +157,7 @@ class BillController extends Controller
 
     protected function downloadBillFromS3(Bill $bill, Filesystem $disk)
     {
-        $filePath = 'statements/' . $bill->id;
+        $filePath = 'statements/'.$bill->id;
 
         abort_unless($disk->exists($filePath), Response::HTTP_NOT_FOUND);
 

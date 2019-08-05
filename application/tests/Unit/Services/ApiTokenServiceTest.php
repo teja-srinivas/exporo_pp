@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Services;
 
-use App\Services\ApiTokenService;
 use Tests\TestCase;
+use App\Services\ApiTokenService;
 
 class ApiTokenServiceTest extends TestCase
 {

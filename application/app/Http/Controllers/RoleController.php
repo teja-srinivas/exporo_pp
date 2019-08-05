@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permission;
 use App\Models\Role;
-use App\Repositories\UserRepository;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
+use App\Repositories\UserRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class RoleController extends Controller
 {
@@ -46,7 +46,7 @@ class RoleController extends Controller
 
         $role = Role::create(['name' => $data['name']]);
 
-        $this->syncPermissions($role,$data['permissions']);
+        $this->syncPermissions($role, $data['permissions']);
 
         return redirect()->route('roles.show', $role);
     }

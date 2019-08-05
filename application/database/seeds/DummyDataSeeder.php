@@ -2,13 +2,13 @@
 
 use App\Models\Agb;
 use App\Models\Bill;
-use App\Models\Company;
-use App\Models\Investment;
-use App\Models\Investor;
-use App\Models\Project;
 use App\Models\Role;
-use App\Models\Schema;
 use App\Models\User;
+use App\Models\Schema;
+use App\Models\Company;
+use App\Models\Project;
+use App\Models\Investor;
+use App\Models\Investment;
 use App\Models\UserDetails;
 use Illuminate\Database\Seeder;
 

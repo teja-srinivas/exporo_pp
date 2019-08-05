@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use App\Builders\InvestmentBuilder;
 use Carbon\Carbon;
-use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
+use OwenIt\Auditing\Auditable;
+use App\Builders\InvestmentBuilder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use OwenIt\Auditing\Auditable;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
@@ -20,7 +20,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property int $bonus
  * @property float $amount
  * @property float $interest_rate
- * @property boolean $is_first_investment
+ * @property bool $is_first_investment
  * @property Project $project
  * @property Investor $investor
  * @property Collection $commissions
@@ -36,6 +36,7 @@ class Investment extends Model implements AuditableContract
     use OptimusEncodedRouteKey;
 
     const MORPH_NAME = 'investment';
+
     const LEGACY_MORPH_NAME = 'legacy_investment';
 
     public $incrementing = false;
@@ -55,7 +56,7 @@ class Investment extends Model implements AuditableContract
     protected $fillable = [
         'paid_at', 'id', 'amount', 'updated_at', 'created_at',
         'investor_id', 'project_id', 'interest_rate', 'paid_at',
-        'acknowledged_at', 'rate', 'is_first_investment'
+        'acknowledged_at', 'rate', 'is_first_investment',
     ];
 
     public function investor(): BelongsTo
@@ -80,7 +81,7 @@ class Investment extends Model implements AuditableContract
 
     public function isBillable(): bool
     {
-        return !$this->isRefundable() && $this->paid_at !== null;
+        return ! $this->isRefundable() && $this->paid_at !== null;
     }
 
     public function isCancelled(): bool

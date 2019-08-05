@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
-use App\Events\SchemaUpdated;
 use App\Models\Commission;
 use App\Models\Investment;
+use App\Events\SchemaUpdated;
 
 class InvalidateInvestmentCommissionsOnSchemaChanges
 {

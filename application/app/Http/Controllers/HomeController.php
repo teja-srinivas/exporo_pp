@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
-use App\Models\Commission;
 use App\Models\User;
-use App\Repositories\BillRepository;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Commission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use App\Repositories\BillRepository;
+use Illuminate\Database\Eloquent\Builder;
 
 class HomeController extends Controller
 {

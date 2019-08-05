@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Http\Resources\User as UserResource;
-use App\Models\CommissionBonus;
-use App\Models\Contract;
 use App\Models\User;
+use App\Models\Contract;
 use App\Traits\Encryptable;
+use App\Models\CommissionBonus;
 use Illuminate\Database\Eloquent\Builder;
+use App\Http\Resources\User as UserResource;
 
 class UserRepository
 {
@@ -28,7 +28,7 @@ class UserRepository
             ->addSelect('users.created_at')
             ->addSelect('users.accepted_at')
             ->addSelect('users.rejected_at')
-            ->selectRaw('CASE WHEN EXISTS(' . CommissionBonus::query()
+            ->selectRaw('CASE WHEN EXISTS('.CommissionBonus::query()
                 ->joinSub(Contract::query()
                     ->selectRaw('ANY_VALUE(id) as id')
                     ->addSelect('user_id')
@@ -36,7 +36,7 @@ class UserRepository
                     ->groupBy('user_id'), 'contracts', 'contracts.id', 'contract_id')
                 ->whereRaw('is_overhead = true')
                 ->whereRaw('user_id = users.id')
-                ->toSql() . ') THEN TRUE ELSE FALSE END as has_overhead')
+                ->toSql().') THEN TRUE ELSE FALSE END as has_overhead')
             ->with('roles')
             ->get()
             ->map(function (User $user) {
@@ -46,7 +46,7 @@ class UserRepository
                     'status' => $user->rejected()
                         ? '<div class="badge badge-danger">Abgelehnt</div>'
                         : ($user->notYetAccepted() ? '<div class="badge badge-warning">Ausstehend</div>' : null)
-                        . ($user->has_overhead ? '<div class="badge badge-primary">Overhead</div>' : ''),
+                        .($user->has_overhead ? '<div class="badge badge-primary">Overhead</div>' : ''),
                     'roles' => $user->roles->pluck('id'),
                     'createdAt' => $user->created_at->format('Y-m-d'),
                 ];

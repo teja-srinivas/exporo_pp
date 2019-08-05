@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller as BaseController;
 use App\Models\User;
 use App\Policies\UserPolicy;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller as BaseController;
 
 class Controller extends BaseController
 {

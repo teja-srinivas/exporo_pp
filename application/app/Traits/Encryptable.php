@@ -29,7 +29,6 @@ trait Encryptable
         return in_array($key, $this->encryptable);
     }
 
-
     /**
      * Decrypt a value.
      *
@@ -41,7 +40,6 @@ trait Encryptable
     {
         return self::decrypt($value);
     }
-
 
     /**
      * Encrypt a value.
@@ -58,7 +56,6 @@ trait Encryptable
 
         return $value;
     }
-
 
     /**
      * Extend the Eloquent method so properties present in
@@ -79,7 +76,6 @@ trait Encryptable
         return $value;
     }
 
-
     /**
      * Extend the Eloquent method so properties present in
      * $encrypt are encrypted whenever they are set.
@@ -91,7 +87,7 @@ trait Encryptable
      */
     public function setAttribute($key, $value)
     {
-        if (empty($value) || !$this->encryptable($key)) {
+        if (empty($value) || ! $this->encryptable($key)) {
             return parent::setAttribute($key, $value);
         }
 
@@ -108,7 +104,6 @@ trait Encryptable
 
         return parent::setAttribute($key, $value);
     }
-
 
     /**
      * Extend the Eloquent method so properties in

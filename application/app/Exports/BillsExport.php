@@ -4,9 +4,9 @@ namespace App\Exports;
 
 use App\Models\Bill;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
 class BillsExport implements FromCollection, WithHeadings, WithMapping
 {
@@ -24,8 +24,8 @@ class BillsExport implements FromCollection, WithHeadings, WithMapping
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return Bill::query()

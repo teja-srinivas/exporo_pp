@@ -14,7 +14,7 @@ class AddEffectiveFromAgb extends Migration
     public function up()
     {
         Schema::table('agbs', function (Blueprint $table) {
-                $table->date('effective_from')->after('is_default')->nullable();
+            $table->date('effective_from')->after('is_default')->nullable();
         });
     }
 }

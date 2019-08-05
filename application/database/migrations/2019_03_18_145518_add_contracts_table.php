@@ -1,11 +1,11 @@
 <?php
 
+use App\Models\User;
 use App\Models\CommissionBonus;
 use App\Models\ContractTemplate;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 

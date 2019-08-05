@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use OwenIt\Auditing\Auditable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**

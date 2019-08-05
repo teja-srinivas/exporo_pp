@@ -3,13 +3,13 @@
 namespace App\Jobs;
 
 use App\Models\User;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use Sichikawa\LaravelSendgridDriver\Transport\SendgridTransport;
 
 class SendMail implements ShouldQueue
@@ -35,8 +35,8 @@ class SendMail implements ShouldQueue
                 [
                     'dynamic_template_data' => array_merge($templateData, [
                         'Anrede' => implode(' ', [
-                            $user->details->salutation === "male" ? 'Herr' : 'Frau',
-                            $user->details->title
+                            $user->details->salutation === 'male' ? 'Herr' : 'Frau',
+                            $user->details->title,
                         ]),
                         'AnredeLang' => $user->getGreeting(),
                         'Vorname' => $user->first_name,

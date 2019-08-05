@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use App\Http\Kernel;
 use DocRaptor\Doc;
+use App\Http\Kernel;
 use DocRaptor\DocApi;
-use DocRaptor\PrinceOptions;
-use Illuminate\Contracts\Config\Repository;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use DocRaptor\PrinceOptions;
+use Illuminate\Http\Request;
+use Illuminate\Foundation\Application;
+use Illuminate\Contracts\Config\Repository;
 
 class PdfGenerator
 {
@@ -21,7 +21,6 @@ class PdfGenerator
 
     /** @var bool */
     protected $test;
-
 
     public function __construct(Kernel $kernel, DocApi $api, Repository $config)
     {

@@ -10,7 +10,6 @@ class VatId implements Rule
     /** @var Validator */
     private $validator;
 
-
     public function __construct(Validator $validator)
     {
         $this->validator = $validator;

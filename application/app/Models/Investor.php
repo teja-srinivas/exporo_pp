@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use App\Builders\InvestorBuilder;
-use App\Traits\Encryptable;
 use App\Traits\Person;
-use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use App\Traits\Encryptable;
 use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Auditable;
+use App\Builders\InvestorBuilder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
@@ -40,7 +40,7 @@ class Investor extends Model implements AuditableContract
     public $incrementing = false;
 
     protected $fillable = [
-        'id', 'first_name', 'last_name', 'created_at', 'updated_at', 'user_id', 'claim_end', 'activation_at'
+        'id', 'first_name', 'last_name', 'created_at', 'updated_at', 'user_id', 'claim_end', 'activation_at',
     ];
 
     protected $dates = [
@@ -54,7 +54,7 @@ class Investor extends Model implements AuditableContract
 
     protected $encryptable = [
         'first_name',
-        'last_name'
+        'last_name',
     ];
 
     public function user()

@@ -120,8 +120,7 @@ return [
         ],
     ],
 
-
-    /**
+    /*
      * Sendgrid template ids
      */
     'templateIds' => [
@@ -130,6 +129,6 @@ return [
         'declined' => 'd-db5a6ee091c947df8635616a894b70ed',
         'commissionCreated' => 'd-32e6df395c1d43c0b2af4849405c2235',
         'resetPassword' => 'd-355e05b34e8a4b348fd7ab4269cf649d',
-    ]
+    ],
 
 ];

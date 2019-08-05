@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Console\Commands\CalculateCommissions;
 use App\Models\Commission;
 use Illuminate\Support\Facades\Artisan;
+use App\Console\Commands\CalculateCommissions;
 
 class CommissionController extends Controller
 {
@@ -31,8 +31,8 @@ class CommissionController extends Controller
 
         return response()->view('commissions.approval', [
             'totals' => [
-                'count' => (int)($totals->count ?: 0),
-                'gross' => (float)($totals->gross ?: 0),
+                'count' => (int) ($totals->count ?: 0),
+                'gross' => (float) ($totals->gross ?: 0),
             ],
         ]);
     }

@@ -2,17 +2,17 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use AwesomeNova\Cards\FilterCard;
-use App\Nova\Filters\IsApprovedProject;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\HasMany;
+use AwesomeNova\Cards\FilterCard;
+use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Filters\IsApprovedProject;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Project extends Resource
@@ -37,14 +37,13 @@ class Project extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'description'
+        'id', 'description',
     ];
 
     public static function indexQuery(NovaRequest $request, $query)
     {
         return parent::indexQuery($request, $query)->withCount('investments');
     }
-
 
     /**
      * Get the fields displayed by the resource.
@@ -70,7 +69,7 @@ class Project extends Resource
                 ->hideWhenUpdating()
                 ->deletable(false)
                 ->preview(function () {
-                    return empty($this->image) ? null : 'https://cdn.exporo.de/image-cache/320/' . $this->image;
+                    return empty($this->image) ? null : 'https://cdn.exporo.de/image-cache/320/'.$this->image;
                 }),
 
             Number::make('Investments', 'investments_count')
@@ -90,9 +89,8 @@ class Project extends Resource
 
     public function title()
     {
-        return parent::title() . ' (' . $this->id . ')';
+        return parent::title().' ('.$this->id.')';
     }
-
 
     /**
      * Get the cards available for the request.

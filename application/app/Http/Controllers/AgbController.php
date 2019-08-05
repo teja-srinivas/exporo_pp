@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Agb;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class AgbController extends Controller
@@ -65,7 +65,7 @@ class AgbController extends Controller
         // Replace the old file, if exists
         $agb = new Agb($data);
         $agb->filename = $request['type'];
-        Storage::disk('s3')->put(Agb::DIRECTORY . '/' . $request['name'], $request->file('file')->get());
+        Storage::disk('s3')->put(Agb::DIRECTORY.'/'.$request['name'], $request->file('file')->get());
         $agb->is_default = $request->has('is_default');
 
         $agb->saveOrFail();
@@ -130,9 +130,9 @@ class AgbController extends Controller
         if ($request->has('file')) {
             $oldFilename = $agb->filename;
             $filename = $request['name'];
-            Storage::disk('s3')->put(Agb::DIRECTORY . '/' . $filename, $request->file('file')->get());
+            Storage::disk('s3')->put(Agb::DIRECTORY.'/'.$filename, $request->file('file')->get());
 
-            if (!empty($oldFilename)) {
+            if (! empty($oldFilename)) {
                 Storage::delete($oldFilename);
             }
         }
@@ -176,14 +176,14 @@ class AgbController extends Controller
      */
     public function download(Agb $agb)
     {
-        abort_unless(Storage::disk('s3')->exists(Agb::DIRECTORY . '/' . $agb->name), Response::HTTP_NOT_FOUND);
+        abort_unless(Storage::disk('s3')->exists(Agb::DIRECTORY.'/'.$agb->name), Response::HTTP_NOT_FOUND);
 
-        $file = Storage::disk('s3')->get(Agb::DIRECTORY . '/' . $agb->name);
+        $file = Storage::disk('s3')->get(Agb::DIRECTORY.'/'.$agb->name);
 
         return response($file, 200, [
             'Content-Type' => 'application/pdf',
             'Content-Description' => 'File Transfer',
-            'Content-Disposition' => 'attachment; filename=' . $agb->getReadableFilename(),
+            'Content-Disposition' => 'attachment; filename='.$agb->getReadableFilename(),
             'filename' => $agb->getReadableFilename(),
         ]);
     }

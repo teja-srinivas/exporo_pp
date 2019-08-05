@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\BonusBundle;
-use App\Models\CommissionBonus;
 use Illuminate\Http\Request;
+use App\Models\CommissionBonus;
 use Illuminate\Validation\Rule;
 
 class BonusBundleController extends Controller

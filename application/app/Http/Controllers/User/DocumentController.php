@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\Agb;
-use App\Models\Document;
 use App\Models\User;
+use App\Models\Document;
 use Illuminate\Http\Request;
 
 class DocumentController extends Controller
@@ -35,7 +35,7 @@ class DocumentController extends Controller
             'documents' => collect()
                 ->merge($documents)
                 ->merge($agbs)
-                ->sortByDesc('created_at')
+                ->sortByDesc('created_at'),
         ]);
     }
 }

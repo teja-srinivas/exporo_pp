@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\CreateBillPdfJob;
 use App\Models\Bill;
-use App\Repositories\BillRepository;
+use App\Jobs\CreateBillPdfJob;
 use Illuminate\Console\Command;
+use App\Repositories\BillRepository;
 
 class CreateBillsPdfs extends Command
 {
@@ -22,7 +22,6 @@ class CreateBillsPdfs extends Command
      * @var string
      */
     protected $description = 'Generates the bill PDF files';
-
 
     public function handle(BillRepository $repository)
     {

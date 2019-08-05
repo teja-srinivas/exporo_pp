@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use DocRaptor\Configuration;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Config\Repository;
 
 class DocraptorServiceProvider extends ServiceProvider
 {

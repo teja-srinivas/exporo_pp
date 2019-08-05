@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Builders\ContractBuilder;
 use Carbon\Carbon;
-use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
-use Illuminate\Database\Eloquent\Collection;
+use App\Builders\ContractBuilder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 
 /**
  * @method static ContractBuilder query()
@@ -93,7 +93,7 @@ class Contract extends Model
 
     public static function fromTemplate(ContractTemplate $template): self
     {
-        $contract = new Contract();
+        $contract = new self();
         $contract->forceFill([
             'template_id' => $template->getKey(),
             'vat_amount' => $template->vat_amount,

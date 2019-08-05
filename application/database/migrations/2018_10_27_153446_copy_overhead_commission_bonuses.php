@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\CommissionBonus;
 use App\Models\User;
+use App\Models\CommissionBonus;
 use Illuminate\Database\Migrations\Migration;
 
 class CopyOverheadCommissionBonuses extends Migration

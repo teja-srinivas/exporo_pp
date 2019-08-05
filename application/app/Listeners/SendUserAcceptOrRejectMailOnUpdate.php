@@ -14,6 +14,7 @@ class SendUserAcceptOrRejectMailOnUpdate
 
         if ($user->isDirty('rejected_at') && $user->rejected_at !== null) {
             SendRejectMail::dispatch($user);
+
             return;
         }
 

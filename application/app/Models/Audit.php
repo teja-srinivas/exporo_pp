@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use App\Traits\Encryptable;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\Encryptable;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Custom Audit implementation to support localizable Dates.
- *
- * @package App
  */
 class Audit extends \OwenIt\Auditing\Models\Audit
 {
@@ -41,7 +39,7 @@ class Audit extends \OwenIt\Auditing\Models\Audit
             // Filter out those that are the same, because we encrypted them beforehand
             // and thus did not know that they're different
             ->reject(function (array $entry) {
-                if (!is_array($entry)) {
+                if (! is_array($entry)) {
                     return false;
                 }
 

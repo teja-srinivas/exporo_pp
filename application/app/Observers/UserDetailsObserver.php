@@ -2,9 +2,9 @@
 
 namespace App\Observers;
 
-use App\Models\UserDetails;
 use App\Models\User;
 use App\Traits\Person;
+use App\Models\UserDetails;
 
 class UserDetailsObserver
 {
@@ -27,7 +27,7 @@ class UserDetailsObserver
      */
     public function updated(UserDetails $details)
     {
-        if (!$details->isDirty(['company']) || $details->isDirty(['display_name'])) {
+        if (! $details->isDirty(['company']) || $details->isDirty(['display_name'])) {
             return;
         }
 

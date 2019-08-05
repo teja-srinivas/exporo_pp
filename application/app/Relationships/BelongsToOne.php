@@ -9,7 +9,7 @@ class BelongsToOne extends BelongsToMany
     public function getResults()
     {
         if ($this->parent->{$this->parentKey} === null) {
-            return null;
+            return;
         }
 
         return $this->limit(1)->first();

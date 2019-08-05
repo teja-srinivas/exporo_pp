@@ -19,7 +19,7 @@ class AddMailSentAtDateToBillsTable extends Migration
         });
 
         Bill::query()->each(function (Bill $bill) {
-            if (!$bill->pdf_created) {
+            if (! $bill->pdf_created) {
                 return;
             }
 

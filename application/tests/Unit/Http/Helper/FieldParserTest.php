@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Http\Helper;
 
-use App\Http\Helper\Request\FieldParser;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\TestCase;
+use App\Http\Helper\Request\FieldParser;
 
 class FieldParserTest extends TestCase
 {
@@ -31,5 +31,4 @@ class FieldParserTest extends TestCase
             ])
         );
     }
-
 }

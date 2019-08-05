@@ -2,13 +2,13 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Investor extends Resource
@@ -63,7 +63,7 @@ class Investor extends Resource
 
     public function title()
     {
-        return $this->first_name . ' ' . $this->last_name . ' (' . $this->id . ')';
+        return $this->first_name.' '.$this->last_name.' ('.$this->id.')';
     }
 
     public function subtitle()
@@ -71,12 +71,11 @@ class Investor extends Resource
         $name = optional($this->user)->getDisplayName();
 
         if ($name === null) {
-            return null;
+            return;
         }
 
         return "Partner: $name";
     }
-
 
     /**
      * Get the cards available for the request.

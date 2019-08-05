@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
+use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
@@ -26,7 +26,7 @@ class Link extends Model implements AuditableContract
     public function getTextForUser(User $user)
     {
         $replacements = [
-            '#reflink' => '?a_aid=' . $user->id,
+            '#reflink' => '?a_aid='.$user->id,
         ];
 
         return str_replace(

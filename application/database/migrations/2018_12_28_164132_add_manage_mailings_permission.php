@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Permission;
 use App\Policies\MailingPolicy;
-use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Database\Migrations\Migration;
 
 class AddManageMailingsPermission extends Migration
 {

@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class BannerSetController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *

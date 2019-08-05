@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Permission;
 use App\Models\Role;
-use Illuminate\Database\Migrations\Migration;
+use App\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Database\Migrations\Migration;
 
 class AddInitialRoles extends Migration
 {

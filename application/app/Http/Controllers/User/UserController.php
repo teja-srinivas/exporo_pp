@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\User;
 use App\Models\Commission;
 use App\Models\Investment;
-use App\Models\User;
 use App\Policies\UserPolicy;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {

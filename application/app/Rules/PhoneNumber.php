@@ -2,9 +2,9 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
-use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
+use libphonenumber\NumberParseException;
+use Illuminate\Contracts\Validation\Rule;
 
 class PhoneNumber implements Rule
 {
@@ -20,6 +20,7 @@ class PhoneNumber implements Rule
         try {
             $util = PhoneNumberUtil::getInstance();
             $number = $util->parse($value, 'DE');
+
             return $util->isValidNumber($number);
         } catch (NumberParseException $e) {
             return false;

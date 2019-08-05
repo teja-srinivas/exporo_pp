@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Permission;
 use App\Policies\BillPolicy;
-use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateCanBeBilledPermission extends Migration
 {

@@ -2,27 +2,27 @@
 
 namespace App\Models;
 
-use App\Events\UserUpdated;
-use App\Jobs\SendMail;
-use App\Policies\BillPolicy;
-use App\Traits\Encryptable;
-use App\Traits\HasRoles;
-use App\Traits\Person;
 use Carbon\Carbon;
-use Illuminate\Auth\MustVerifyEmail;
-use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use App\Jobs\SendMail;
+use App\Traits\Person;
+use App\Traits\HasRoles;
+use App\Events\UserUpdated;
+use App\Traits\Encryptable;
+use App\Policies\BillPolicy;
+use OwenIt\Auditing\Auditable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
-use OwenIt\Auditing\Auditable;
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 
 /**
  * @property int $id
@@ -59,7 +59,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     use Person;
 
     /**
-     * Possible user titles
+     * Possible user titles.
      */
     const TITLES = [
         'Dr.',
@@ -106,7 +106,6 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         'api_token',
         'remember_token',
     ];
-
 
     /**
      * @return HasOne
@@ -200,12 +199,12 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'parent_id');
+        return $this->belongsTo(self::class, 'parent_id');
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(User::class, 'parent_id', 'id');
+        return $this->hasMany(self::class, 'parent_id', 'id');
     }
 
     public function canBeProcessed(): bool
@@ -240,7 +239,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function notYetAccepted(): bool
     {
-        return $this->accepted_at === null || !$this->hasActiveContract();
+        return $this->accepted_at === null || ! $this->hasActiveContract();
     }
 
     /**

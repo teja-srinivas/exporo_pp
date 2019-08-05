@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Models\CommissionBonus;
-use App\Models\CommissionType;
-use App\Models\Contract;
-use App\Models\Investment;
-use App\Models\Investor;
-use App\Models\Project;
-use App\Models\Schema;
+use Tests\TestCase;
 use App\Models\User;
+use App\Models\Schema;
+use App\Models\Project;
+use App\Models\Contract;
+use App\Models\Investor;
+use Tests\TestsContracts;
+use App\Models\Investment;
+use App\Models\CommissionType;
+use App\Models\CommissionBonus;
 use App\Services\CalculateCommissionsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Tests\TestsContracts;
 
 final class CommissionCalculationTest extends TestCase
 {
@@ -46,7 +46,7 @@ final class CommissionCalculationTest extends TestCase
 
         $this->service = $this->app->make(CalculateCommissionsService::class);
 
-        /** @var CommissionType $commissionType */
+        /* @var CommissionType $commissionType */
         $this->commissionType = factory(CommissionType::class)->create();
 
         /** @var Project $project */

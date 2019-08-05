@@ -3,12 +3,13 @@
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Database\Migrations\Migration;
 
 class MigrateMorphTosAfterModelNamespaceChange extends Migration
 {
     const FROM = 'App\\';
+
     const TO = 'App\\Models\\';
 
     const MODELS = [
@@ -50,8 +51,8 @@ class MigrateMorphTosAfterModelNamespaceChange extends Migration
             DB::transaction(function () use ($table, $column, $fromPrefix, $toPrefix) {
                 foreach (self::MODELS as $model) {
                     DB::table($table)
-                        ->where($column, $fromPrefix . $model)
-                        ->update([$column => $toPrefix . $model]);
+                        ->where($column, $fromPrefix.$model)
+                        ->update([$column => $toPrefix.$model]);
                 }
             });
         }

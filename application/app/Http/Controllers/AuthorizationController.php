@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Permission;
 
 class AuthorizationController extends Controller
 {

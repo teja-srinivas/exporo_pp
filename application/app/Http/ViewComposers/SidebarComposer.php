@@ -3,22 +3,22 @@
 namespace App\Http\ViewComposers;
 
 use App\Models\Agb;
-use App\Models\Banner;
-use App\Models\BannerSet;
 use App\Models\Bill;
-use App\Models\BonusBundle;
-use App\Models\CommissionType;
-use App\Models\Document;
 use App\Models\Link;
+use App\Models\Role;
+use App\Models\User;
+use App\Models\Banner;
+use App\Models\Schema;
 use App\Models\Mailing;
 use App\Models\Project;
-use App\Models\Role;
-use App\Models\Schema;
-use App\Models\User;
+use App\Models\Document;
+use App\Models\BannerSet;
+use Illuminate\View\View;
+use App\Models\BonusBundle;
+use Illuminate\Http\Request;
+use App\Models\CommissionType;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class SidebarComposer
 {
@@ -36,7 +36,6 @@ class SidebarComposer
      * @var Request
      */
     private $request;
-
 
     public function __construct(Request $request, Gate $gate)
     {
@@ -78,7 +77,7 @@ class SidebarComposer
                     [
                         'title' => 'Benutzer',
                         'url' => route('users.index'),
-                        'isActive' => !$isCurrentUser && $this->request->routeIs('users.*'),
+                        'isActive' => ! $isCurrentUser && $this->request->routeIs('users.*'),
                         'isAllowed' => $this->canList(User::class),
                     ],
                     [
@@ -246,18 +245,18 @@ class SidebarComposer
     protected function filter(array $buildMenu): array
     {
         return array_filter(array_map(function ($menu) {
-            if (!($menu['isAllowed'] ?? true)) {
-                return null;
+            if (! ($menu['isAllowed'] ?? true)) {
+                return;
             }
 
-            if (!isset($menu['links'])) {
+            if (! isset($menu['links'])) {
                 return $menu;
             }
 
             $menu['links'] = $this->filter($menu['links']);
 
             if (empty($menu['links'])) {
-                return null;
+                return;
             }
 
             return $menu;

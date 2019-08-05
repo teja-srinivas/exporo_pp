@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Permission;
 use App\Policies\CommissionTypePolicy;
-use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Database\Migrations\Migration;
 
 class AddManageProvisionType extends Migration
 {

@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CommissionType;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Models\CommissionType;
 
 class CommissionTypeController extends Controller
 {
-
-
     public function index()
     {
         $this->authorize('viewAny', CommissionType::class);

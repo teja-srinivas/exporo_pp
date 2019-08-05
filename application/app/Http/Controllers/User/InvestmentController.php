@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\Investment;
 use App\Models\User;
-use App\Traits\Encryptable;
 use App\Traits\Person;
+use App\Models\Investment;
+use App\Traits\Encryptable;
 use Illuminate\Http\Request;
 
 class InvestmentController extends Controller
@@ -40,7 +40,7 @@ class InvestmentController extends Controller
 
                     return [
                         'id' => $investment->id,
-                        'name' => $lastName . ' ' . Person::anonymizeFirstName($firstName),
+                        'name' => $lastName.' '.Person::anonymizeFirstName($firstName),
                         'displayName' => Person::anonymizeName($firstName, $lastName),
                         'projectName' => $investment->project_name,
                         'type' => $investment->type,

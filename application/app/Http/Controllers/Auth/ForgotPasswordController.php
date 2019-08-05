@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Jobs\SendMail;
 use App\Models\User;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Auth\Passwords\PasswordBroker;
+use App\Jobs\SendMail;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Passwords\PasswordBroker;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller
 {
@@ -44,11 +44,11 @@ class ForgotPasswordController extends Controller
             $token = app(PasswordBroker::class)->createToken($user);
             SendMail::dispatch([
                 'user-email' => $user->email,
-                'link' => url('password/reset/' . $token)
+                'link' => url('password/reset/'.$token),
             ], $user, config('mail.templateIds.resetPassword'))->onQueue('emails');
-            $response = "passwords.sent";
+            $response = 'passwords.sent';
         } else {
-            $response = "passwords.user";
+            $response = 'passwords.user';
         }
 
         // We will send the password reset link to this user. Once we have attempted

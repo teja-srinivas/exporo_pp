@@ -44,7 +44,7 @@ Viele Grüße
 #partnername
 
 P.S.: Die Presse hat bereits mehrfach über Exporo berichtet:
-https://exporo.de/presse/#reflink'
+https://exporo.de/presse/#reflink',
         ]);
     }
 }

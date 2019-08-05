@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\CommissionBonus;
+use Exception;
+use App\Models\User;
+use App\Models\Schema;
 use App\Models\Contract;
 use App\Models\Investment;
-use App\Models\Schema;
-use App\Models\User;
-use Exception;
+use App\Models\CommissionBonus;
 
 final class CalculateCommissionsService
 {
@@ -64,7 +64,7 @@ final class CalculateCommissionsService
             'user_id' => $user->getKey(),
         ] + ($user->canBeBilled() ? [] : [
             'on_hold' => true,
-            'note_private' => 'Abrechnung gesperrt (' . now()->format('d.m.Y') . ')',
+            'note_private' => 'Abrechnung gesperrt ('.now()->format('d.m.Y').')',
         ]);
     }
 

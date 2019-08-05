@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Services;
 
+use Tests\TestCase;
 use App\Models\Bill;
-use App\Models\Commission;
 use App\Models\User;
+use App\Models\Commission;
 use App\Policies\BillPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class BillGeneratorTest extends TestCase
 {

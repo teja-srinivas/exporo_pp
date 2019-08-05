@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Extension to the spatie role model to add timestamp support
@@ -18,7 +18,9 @@ class Role extends \Spatie\Permission\Models\Role
     use OptimusEncodedRouteKey;
 
     const PARTNER = 'partner';
+
     const INTERNAL = 'internal';
+
     const ADMIN = 'admin';
 
     const ROLES = [
@@ -28,7 +30,7 @@ class Role extends \Spatie\Permission\Models\Role
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function permissions(): BelongsToMany
     {
@@ -36,7 +38,7 @@ class Role extends \Spatie\Permission\Models\Role
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function users(): MorphToMany
     {
@@ -45,7 +47,7 @@ class Role extends \Spatie\Permission\Models\Role
 
     public function canBeDeleted(): bool
     {
-        return !in_array($this->name, self::ROLES);
+        return ! in_array($this->name, self::ROLES);
     }
 
     public function getDisplayName(): string
@@ -56,9 +58,9 @@ class Role extends \Spatie\Permission\Models\Role
     public function getColor(): string
     {
         switch ($this->name ?? '') {
-            case Role::ADMIN:
+            case self::ADMIN:
                 return 'primary';
-            case Role::INTERNAL:
+            case self::INTERNAL:
                 return 'success';
             default:
                 return 'light';

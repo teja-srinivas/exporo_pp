@@ -2,14 +2,12 @@
 
 namespace App\Traits;
 
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\Permission\Traits\HasRoles as SpatieRoles;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * Extension to the spatie permission package
  * to add timestamp support for the roles.
- *
- * @package App\Traits
  */
 trait HasRoles
 {
@@ -19,7 +17,7 @@ trait HasRoles
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function roles(): MorphToMany
     {
@@ -27,7 +25,7 @@ trait HasRoles
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function permissions(): MorphToMany
     {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Builders;
 
-use App\Models\CommissionBonus;
 use App\Models\Contract;
 use App\Models\Investor;
+use App\Models\CommissionBonus;
 use Illuminate\Database\Query\JoinClause;
 
 class InvestorBuilder extends Builder

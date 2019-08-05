@@ -3,15 +3,15 @@
 namespace App\Jobs;
 
 use App\Models\Bill;
-use App\Services\PdfGenerator;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Filesystem\FilesystemManager;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use App\Services\PdfGenerator;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Filesystem\FilesystemManager;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 class CreateBillPdfJob implements ShouldQueue
 {
@@ -19,7 +19,6 @@ class CreateBillPdfJob implements ShouldQueue
 
     /** @var Bill */
     protected $bill;
-
 
     public function __construct(Bill $bill)
     {

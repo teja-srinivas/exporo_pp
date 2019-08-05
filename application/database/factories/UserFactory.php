@@ -1,12 +1,12 @@
 <?php
 
-use App\Models\User;
 use App\Policies;
+use App\Models\User;
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
-use Illuminate\Support\Str;
 
-/** @var Factory $factory */
+/* @var Factory $factory */
 
 $factory->define(User::class, function (Faker $faker) {
     return [
@@ -25,14 +25,14 @@ $factory->state(User::class, 'verified', function (Faker $faker) {
     ];
 });
 
-$factory->state(User::class, 'accepted',function (Faker $faker) {
+$factory->state(User::class, 'accepted', function (Faker $faker) {
     return [
         'email_verified_at' => $faker->dateTime,
         'accepted_at' => $faker->dateTime,
     ];
 });
 
-$factory->state(User::class, 'rejected',function (Faker $faker) {
+$factory->state(User::class, 'rejected', function (Faker $faker) {
     return [
         'email_verified_at' => $faker->dateTime,
         'rejected_at' => $faker->dateTime,

@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Events\CommissionBonusUpdated;
 use App\Models\Commission;
+use App\Events\CommissionBonusUpdated;
 
 class InvalidateCommissionsOnCommissionBonusChanges
 {

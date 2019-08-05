@@ -1,10 +1,10 @@
 <?php
 
 use App\Models\Permission;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Database\Migrations\Migration;
 
 class RenameAffiliatePermissions extends Migration
 {

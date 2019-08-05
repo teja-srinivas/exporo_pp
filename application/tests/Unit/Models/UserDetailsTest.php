@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Models;
 
+use Tests\TestCase;
 use App\Models\User;
 use App\Models\UserDetails;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class UserDetailsTest extends TestCase
 {

@@ -5,8 +5,8 @@ namespace App\Providers;
 use App\Models\Role;
 use App\Models\User;
 use App\Nova\Metrics;
-use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Nova;
+use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider

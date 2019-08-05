@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Bill;
 use Tests\TestCase;
+use App\Models\Bill;
 
 class BillTest extends TestCase
 {
