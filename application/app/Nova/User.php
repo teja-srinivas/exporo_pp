@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
 {
@@ -53,7 +54,10 @@ class User extends Resource
 
             BelongsTo::make('Parent User', 'parent', User::class)
                 ->searchable()
-                ->nullable(),
+                ->nullable()
+                ->filled(function (NovaRequest $request, UserModel $model) {
+                    $model->parent_id = $request->get('parent') ?? 0;
+                }),
 
             HasMany::make('Child User', 'children', User::class),
 
