@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Arr;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use OwenIt\Auditing\Auditable;
 use App\Builders\InvestmentBuilder;
 use Illuminate\Database\Eloquent\Model;
