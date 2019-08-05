@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CommissionType extends Model
 {
-    protected $table = 'commission_types';
-
     protected $fillable = [
         'id', 'name', 'is_project_type',
     ];

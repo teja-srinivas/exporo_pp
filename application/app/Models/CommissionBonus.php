@@ -47,8 +47,6 @@ class CommissionBonus extends Model
         self::TYPE_FURTHER_INVESTMENT => 'Folgeinvestment',
     ];
 
-    protected $table = 'commission_bonuses';
-
     protected $fillable = [
         'id', 'type_id', 'calculation_type', 'value', 'is_overhead', 'is_percentage', 'contract_id',
     ];
