@@ -35,7 +35,7 @@
         ],
     ],
     'defaultSort' => [
-        'name' => 'user',
-        'order' => 'asc',
+        'name' => 'createdAt',
+        'order' => 'desc',
     ],
 ]])
