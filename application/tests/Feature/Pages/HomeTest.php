@@ -16,7 +16,7 @@ class HomeTest extends TestCase
     /** @var User */
     private $user;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

@@ -40,7 +40,7 @@ final class CommissionCalculationTest extends TestCase
     /** @var Investment */
     protected $childInvestment;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
