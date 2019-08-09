@@ -18,7 +18,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function routes()
     {
-        Nova::routes()->register();
+        Nova::routes()
+            ->withAuthenticationRoutes()
+            ->register();
     }
 
     /**
