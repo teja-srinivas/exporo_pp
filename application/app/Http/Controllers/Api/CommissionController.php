@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
+use Throwable;
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Contract;
 use App\Models\Commission;
 use App\Models\Investment;
-use App\Models\UserDetails;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,9 +21,12 @@ use App\Http\Helper\Request\FieldParser;
 use Illuminate\Database\Eloquent\Builder;
 use App\Services\CalculateCommissionsService;
 use App\Console\Commands\CalculateCommissions;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Http\Resources\Commission as CommissionResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CommissionController extends Controller
 {
@@ -30,8 +34,8 @@ class CommissionController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return AnonymousResourceCollection
+     * @throws AuthorizationException
      */
     public function index(Request $request)
     {
@@ -71,11 +75,11 @@ class CommissionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  Request  $request
      * @param  CalculateCommissionsService $service
      * @return void
-     * @throws \Illuminate\Validation\ValidationException
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function store(Request $request, CalculateCommissionsService $service)
     {
@@ -109,7 +113,7 @@ class CommissionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Commission $commission
+     * @param  Commission  $commission
      * @return CommissionResource
      */
     public function show(Commission $commission)
@@ -120,11 +124,11 @@ class CommissionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Commission $commission
+     * @param  Request  $request
+     * @param  Commission  $commission
      * @param CalculateCommissionsService $service
      * @return void
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function update(Request $request, Commission $commission, CalculateCommissionsService $service)
     {
@@ -213,23 +217,25 @@ class CommissionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $commission
-     * @param Request $request
+     * @param  int  $commission
+     * @param  Request  $request
      * @return void
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
+     * @throws Exception
      */
     public function destroy(int $commission, Request $request)
     {
-        $this->authorize('delete', Commission::class);
-
         if ($commission > 0) {
-            Commission::query()->toBase()->delete(Commission::getDecodedId($commission));
-
+            $commission = (new Commission)->resolveRouteBinding($commission);
+            $this->authorizeResource($commission);
+            $commission->delete();
             return;
         }
 
         // Delete and refresh commissions
+        $this->authorize('delete', Commission::class);
         $this->applyFilter(Commission::query(), $request)->delete();
+
         Artisan::call(CalculateCommissions::class);
     }
 

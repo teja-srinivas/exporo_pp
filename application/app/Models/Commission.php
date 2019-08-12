@@ -307,19 +307,4 @@ class Commission extends Model implements AuditableContract
         $this->reviewed_by = $user->id;
         $this->reviewed_at = now();
     }
-
-    /**
-     * Helper method to get the decoded model ID
-     * without fetching the real model from the DB.
-     *
-     * @param int $encoded
-     * @return int
-     */
-    public static function getDecodedId(int $encoded): int
-    {
-        /** @var \Jenssegers\Optimus\Optimus $optimus */
-        $optimus = (new self)->getOptimus();
-
-        return $optimus->decode($encoded);
-    }
 }
