@@ -15,7 +15,7 @@ class InvalidateCommissionsOnCommissionBonusChanges
      */
     public function handle(CommissionBonusUpdated $event)
     {
-        if ($event->commissionBonus->contract_id === null) {
+        if ($event->commissionBonus->contract_id === 0) {
             return;
         }
 
