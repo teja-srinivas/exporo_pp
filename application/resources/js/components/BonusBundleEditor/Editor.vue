@@ -67,7 +67,7 @@
 <script>
 export default {
   props: {
-    value: {
+    model: {
       type: Object,
     },
 
@@ -98,17 +98,26 @@ export default {
     },
 
     updateAndClose() {
-      this.$emit('input', this.item);
+      const { value, ...fields} = this.item;
+
+      this.$emit('input', {
+        ...fields,
+        value: fields.isPercentage ? value / 100 : value,
+      });
+
       this.close();
     },
   },
 
   watch: {
-    value: {
-      deep: true,
+    model: {
       immediate: true,
-      handler(val) {
-        this.item = val !== null ? {...val} : null;
+      deep: true,
+      handler({ value, ...fields }) {
+        this.item = {
+          ...fields,
+          value: fields.isPercentage ? value * 100 : value,
+        };
       },
     },
   },

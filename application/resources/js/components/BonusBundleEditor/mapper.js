@@ -11,7 +11,10 @@ const localToForeignKeys = {
   overhead: 'is_overhead',
 };
 
-const foreignToLocalKeys = invert(localToForeignKeys);
+const foreignToLocalKeys = {
+  ...invert(localToForeignKeys),
+  url: 'url',
+};
 
 const remap = (obj, lookup) => reduce(obj, (result, value, key) => {
   const newKey = lookup[key];

@@ -28,6 +28,7 @@ class UserStoreRequest extends FormRequest
      */
     public function rules()
     {
+        /** @var User $user */
         $user = $this->route('user');
 
         return array_merge(

@@ -7,9 +7,6 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Contract;
-use App\Models\BonusBundle;
-use App\Models\CommissionBonus;
-use App\Models\ContractTemplate;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
@@ -114,16 +111,6 @@ class RegisterController extends Controller
 
             $contract = Contract::fromTemplate($company->contractTemplate);
             $user->contract()->save($contract);
-
-            $bundle = BonusBundle::query()->selectable($user->parent_id > 0)->first();
-            $bundle->bonuses->each(function (CommissionBonus $bonus) use ($contract) {
-                $copy = $bonus->replicate(['contract_id']);
-                $copy->contract()->associate($contract);
-                $copy->accepted_at = now();
-                $copy->saveOrFail();
-
-                return $copy;
-            });
 
             return $user;
         });

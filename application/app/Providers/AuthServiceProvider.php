@@ -19,7 +19,6 @@ class AuthServiceProvider extends ServiceProvider
         Models\Banner::class => Policies\BannerPolicy::class,
         Models\BannerSet::class => Policies\BannerSetPolicy::class,
         Models\Bill::class => Policies\BillPolicy::class,
-        Models\BonusBundle::class => Policies\BonusBundlePolicy::class,
         Models\Commission::class => Policies\BillPolicy::class, // TODO
         Models\CommissionBonus::class => Policies\CommissionBonusPolicy::class,
         Models\CommissionType::class => Policies\CommissionTypePolicy::class,

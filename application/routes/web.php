@@ -36,7 +36,6 @@ Route::middleware(['verified'])->group(function () {
         Route::resource('banner-sets', 'BannerSetController')->names('banners.sets')->parameter('banner-sets', 'set');
         Route::resource('banners', 'BannerController')->only('store', 'destroy');
         Route::resource('bills', 'BillController');
-        Route::resource('commissions/bundles', 'BonusBundleController')->names('commissions.bundles')->except('show');
         Route::resource('commissions/types', 'CommissionTypeController')->names('commissions.types');
         Route::resource('commissions', 'CommissionController')->only('index');
         Route::resource('projects', 'ProjectController')->only('index', 'show', 'update');

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Rules\ModelExists;
 use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 use InvalidArgumentException;
 use App\Relationships\BelongsToOne;
 use App\Events\CommissionBonusUpdated;
@@ -22,8 +24,6 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
- * @property BonusBundle $bundle
- * @property Collection $bundles
  * @property CommissionType $type
  * @property Contract $contract
  */
@@ -61,22 +61,6 @@ class CommissionBonus extends Model
         'updated' => CommissionBonusUpdated::class,
     ];
 
-    public function bundles()
-    {
-        return $this->belongsToMany(BonusBundle::class, 'bonus_bundle', 'bonus_id', 'bundle_id');
-    }
-
-    public function bundle()
-    {
-        $bundle = new BonusBundle();
-
-        return new BelongsToOne(
-            $bundle->newQuery(), $this,
-            'bonus_bundle', 'bonus_id', 'bundle_id',
-            $this->getKeyName(), $bundle->getKeyName()
-        );
-    }
-
     public function type()
     {
         return $this->belongsTo(CommissionType::class, 'type_id', 'id');
@@ -95,6 +79,17 @@ class CommissionBonus extends Model
     public function getDisplayName()
     {
         return self::DISPLAY_NAMES[$this->calculation_type];
+    }
+
+    public static function validationRules(): array
+    {
+        return [
+            'calculation_type' => [Rule::in(CommissionBonus::TYPES)],
+            'is_overhead' => ['boolean'],
+            'is_percentage' => ['boolean'],
+            'type_id' => [new ModelExists(new CommissionType)],
+            'value' => ['numeric'],
+        ];
     }
 
     /**

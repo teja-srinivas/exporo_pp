@@ -2,18 +2,18 @@
 
 @section('title')
     @breadcrumps([
-        route('commissions.bundles.index') => 'Provisionspakete',
+        route('contracts.templates.index') => 'Vertragsvorlagen',
         'Neu Anlegen',
     ])
 @endsection
 
 @section('main-content')
-    <form action="{{ route('commissions.bundles.store') }}" method="POST">
+    <form action="{{ route('contracts.templates.store') }}" method="POST">
         @csrf
 
         @card
         @include('components.form.builder', [
-            'labelWidth' => 2,
+            'labelWidth' => 4,
             'contained' => false,
             'inputs' => [
                 [
@@ -23,28 +23,45 @@
                     'required' => true,
                 ],
                 [
-                    'type' => 'checkbox',
-                    'label' => __('Auswahl'),
-                    'name' => 'selectable',
-                    'description' => 'Für Partner zur Auswahl möglich',
-                    'default' => true,
+                    'type' => 'number',
+                    'label' => __('Anspruch Kundenbindung'),
+                    'name' => 'claim_years',
+                    'default' => 5,
+                    'required' => true,
+                    'help' => 'In Jahren'
                 ],
                 [
-                    'type' => 'checkbox',
-                    'label' => __('Subpartner'),
-                    'name' => 'child_user_selectable',
-                    'description' => 'Für Sub-Partner zur Auswahl möglich',
-                    'default' => true,
-                    'help' => 'Partner, die geworben wurden und somit eine Subpartner-Beziehung haben, bekommen eine andere Auswahl.'
+                    'type' => 'number',
+                    'label' => __('Kündigungsfrist'),
+                    'name' => 'cancellation_days',
+                    'default' => 1,
+                    'required' => true,
+                    'help' => 'In Tagen'
+                ],
+                [
+                    'type' => 'number',
+                    'name' => 'vat_amount',
+                    'default' => 0,
+                    'label' => 'Betrag in Prozent',
+                ],
+                [
+                    'type' => 'radio',
+                    'name' => 'vat_included',
+                    'label' => 'Berechnung',
+                    'default' => false,
+                    'values' => [
+                        false => 'On Top',
+                        true => 'Inkludiert',
+                    ],
                 ],
             ]
         ])
 
-        @include('components.bundle-editor', ['ajax' => false])
+        @include('components.bundle-editor')
 
         @slot('footer')
             <div class="text-right">
-                <button class="btn btn-primary">Packet Erstellen</button>
+                <button class="btn btn-primary">Vorlage Erstellen</button>
             </div>
         @endslot
         @endcard

@@ -3,8 +3,8 @@
 @section('title', $templates->count() . ' Vertragsvorlagen')
 
 @section('actions')
-    @can('create', \App\Models\BonusBundle::class)
-        <a href="{{ route('commissions.bundles.create') }}" class="btn btn-primary btn-sm">
+    @can('create', \App\Models\ContractTemplate::class)
+        <a href="{{ route('contracts.templates.create') }}" class="btn btn-primary btn-sm">
             Vorlage Erstellen
         </a>
     @endcan

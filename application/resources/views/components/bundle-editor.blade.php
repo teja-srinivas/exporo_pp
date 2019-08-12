@@ -1,11 +1,10 @@
 <?php
 
+use App\Http\Resources\CommissionBonus;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Support\Arrayable;
 
-$bonuses = $bonuses ?? [];
 $options = [
-    'bonuses' => ($bonuses instanceof Arrayable) ? $bonuses->toArray() : $bonuses,
+    'bonuses' => empty($bonuses) ? [] : CommissionBonus::collection($bonuses),
 ];
 
 if (isset($api)) {
@@ -18,10 +17,6 @@ if (($editable ?? null) === false) {
 
 if (($legacy ?? null) === true) {
     $options['legacy'] = true;
-}
-
-if (($bundle ?? null) !== null) {
-    $options['bundle'] = ($bundle instanceof Model) ? $bundle->getKey() : $bundle;
 }
 
 ?>

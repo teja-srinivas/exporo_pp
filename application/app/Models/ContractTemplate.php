@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,11 @@ class ContractTemplate extends Model
     protected $fillable = [
         'body', 'name', 'cancellation_days', 'claim_years', 'vat_included', 'vat_amount',
     ];
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
 
     public function contracts(): HasMany
     {

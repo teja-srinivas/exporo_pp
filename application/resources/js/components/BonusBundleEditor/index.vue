@@ -132,11 +132,12 @@
     </table>
 
     <editor
+      v-if="editItem !== null"
       :commission-types="commissionTypes"
       :calculation-types="calculationTypes"
+      :model="editItem"
       :target="editTarget"
-      :value="editItem"
-      @input="udpateOrAddItem"
+      @input="upsertItem"
       @close="editItem = null"
     />
   </div>
@@ -184,11 +185,6 @@ export default {
       default: () => [],
     },
 
-    bundle: {
-      type: Number,
-      default: 0,
-    },
-
     commissionTypes: {
       type: Object,
       required: true,
@@ -197,11 +193,6 @@ export default {
     calculationTypes: {
       type: Object,
       required: true,
-    },
-
-    extras: {
-      type: Object,
-      default: () => {},
     },
   },
 
@@ -251,7 +242,7 @@ export default {
       }), event.target);
     },
 
-    copyItem(item) {
+    copyItem({ url:_, ...item }) {
       const copy = {
         ...item,
         id: tempIdCounter--,
@@ -275,17 +266,12 @@ export default {
 
       this.$nextTick(() => {
         this.editTarget = target;
-        this.editItem = {
-          ...item,
-          value: item.isPercentage ? item.value * 100 : item.value,
-        };
+        this.editItem = item;
       })
     },
 
-    udpateOrAddItem(item) {
-      if (item.isPercentage) {
-        item.value = item.value / 100;
-      }
+    upsertItem(item) {
+      this.editItem = null;
 
       if (item.id === 0) {
         item.id = tempIdCounter--;
@@ -305,32 +291,23 @@ export default {
     },
 
     async addItem(item) {
-      const itemId = item.id;
-
       this.items.push(item);
-      this.editItem = null;
 
       if (!this.api) {
         return;
       }
 
       try {
-        const payload = {...toForeign(item), ...this.extras};
+        const { data } = await axios.post(this.api, toForeign(item));
+        const itemId = item.id;
 
-        if (this.bundle > 0) {
-          payload.bundle_id = this.bundle;
-        }
+        item = toLocal(data.data);
 
-        const { data } = await axios.post(this.api, payload);
+        const itemIdx = findIndex(this.items, ['id', itemId]);
+        this.items.splice(itemIdx, 1, item);
 
-        if (this.editItemId === itemId) {
-          this.editItem.id = data.id;
-        }
-
-        item = find(this.items, ['id', itemId]);
-
-        if (item) {
-          item.id = data.id;
+        if (this.editItem.id === itemId) {
+          this.editItem = item;
         }
 
         this.$notify('Eintrag angelegt');
@@ -361,12 +338,12 @@ export default {
     },
 
     async updateOrRollBack(bonus, rollbackCallback) {
-      if (!this.api) {
+      if (!bonus.url) {
         return;
       }
 
       try {
-        await axios.put(`${this.api}/${bonus.id}`, {...toForeign(bonus), ...this.extras});
+        await axios.put(bonus.url, toForeign(bonus));
         this.$notify('Änderungen gespeichert');
 
       } catch (e) {
@@ -386,11 +363,11 @@ export default {
         try {
           this.items.splice(findIndex(this.items, ['id', item.id]), 1);
 
-          if (!this.api) {
+          if (!item.url) {
             return;
           }
 
-          await axios.delete(`${this.api}/${item.id}`);
+          await axios.delete(item.url);
           this.$notify('Eintrag gelöscht');
 
         } catch (e) {
