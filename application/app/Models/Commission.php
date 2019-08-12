@@ -309,7 +309,7 @@ class Commission extends Model implements AuditableContract
     }
 
     /**
-     * Helper method to get the decoeded model ID
+     * Helper method to get the decoded model ID
      * without fetching the real model from the DB.
      *
      * @param int $encoded
