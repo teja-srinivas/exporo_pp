@@ -18,13 +18,6 @@
 @endsection
 
 @section('main-content')
-    <div class="rounded shadow-sm bg-white">
-        @include('components.bundle-editor', [
-            'bonuses' => $template->bonuses,
-            'api' => route('api.contracts.templates.index'),
-        ])
-    </div>
-
     <form action="{{ route('commissions.bundles.update', $template) }}" method="POST">
         @method('PUT')
         @csrf
@@ -50,4 +43,11 @@
         @endslot
         @endcard
     </form>
+
+    <div class="rounded shadow-sm bg-white">
+        @include('components.bundle-editor', [
+            'bonuses' => $template->bonuses,
+            'api' => route('api.contracts.templates.index'),
+        ])
+    </div>
 @endsection
