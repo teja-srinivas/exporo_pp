@@ -115,6 +115,7 @@ final class CalculateCommissionsService
         /** @var CommissionBonus|null $bonus */
         $bonus = $user->contract->bonuses
             ->where('type_id', $investment->project->commission_type)
+            ->where('is_percentage', true)
             ->where(
                 'calculation_type',
                 $investment->is_first_investment
