@@ -93,7 +93,7 @@ class CommissionController extends Controller
         ]);
 
         /** @var User $user */
-        $user = $request->user();
+        $user = User::query()->findOrFail($data['userId']);
 
         /** @var Contract $contract */
         $contract = $user->contract()->firstOrFail();
