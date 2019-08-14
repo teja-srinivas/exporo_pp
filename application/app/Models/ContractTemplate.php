@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
+ * @property Collection $bonuses
  * @property Collection $contracts
  */
 class ContractTemplate extends Model
