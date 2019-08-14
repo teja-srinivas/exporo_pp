@@ -35,6 +35,7 @@ mix.purgeCss({
   whitelist: [
     'arrow', 'show', 'fade', 'collapse', 'collapsing',
     'form-group', 'form-row', 'fieldset', 'legend', 'custom-switch',
+    'col-sm-6',
   ],
 
   whitelistPatterns: [
