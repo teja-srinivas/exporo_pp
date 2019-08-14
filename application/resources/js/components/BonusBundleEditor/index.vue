@@ -306,7 +306,7 @@ export default {
         const itemIdx = findIndex(this.items, ['id', itemId]);
         this.items.splice(itemIdx, 1, item);
 
-        if (this.editItem.id === itemId) {
+        if (this.editItem !== null && this.editItem.id === itemId) {
           this.editItem = item;
         }
 
