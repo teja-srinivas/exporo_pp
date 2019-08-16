@@ -35,7 +35,8 @@
 
         @if( $mailing->html )
         <h6 class="mt-4">HTML-Vorschau</h6>
-        <iframe id="mail-preview" src="{{route('affiliate.mails.preview', [ 'mail' => $mailing ])}}"></iframe>
+        <iframe id="mail-preview" class="w-100 border rounded bg-light"
+                style="height: 700px" src="{{ route('affiliate.mails.preview', [ 'mail' => $mailing ]) }}"></iframe>
 
         <div class="mt-2">
           <button
