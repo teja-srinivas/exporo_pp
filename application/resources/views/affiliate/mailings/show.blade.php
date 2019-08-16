@@ -42,8 +42,8 @@
           <button
             class="btn btn-primary btn-sm mr-2"
             onclick="iframeToClipboard('mail-preview')"
-          >In die Zwischenablage kopieren</button>
-          <a href="{{route('affiliate.mails.download', [ 'mail' => $mailing ])}}" target="_BLANK" class="btn btn-light btn-sm">HTML-Datei exportieren</a>
+          >HTML in die Zwischenablage kopieren</button>
+          <a href="{{ route('affiliate.mails.download', [ 'mail' => $mailing ]) }}" target="_blank" class="btn btn-light btn-sm">HTML-Datei herunterladen</a>
         </div>
         @endif
     @endcard

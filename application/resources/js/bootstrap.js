@@ -6,7 +6,6 @@
  */
 
 import axios from 'axios';
-import './utils/iframeToClipboard';
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
