@@ -14,7 +14,7 @@ class AddHtmlFieldToMailingsTable extends Migration
     public function up()
     {
       Schema::table('mailings', function (Blueprint $table) {
-          $table->text('html')->after('text')->nullable();
+          $table->longText('html')->after('text')->nullable();
       });
     }
 

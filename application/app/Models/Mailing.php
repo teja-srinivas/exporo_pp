@@ -20,6 +20,10 @@ class Mailing extends Model implements AuditableContract
 {
     use Auditable;
 
+    protected $auditExclude = [
+        'html',
+    ];
+
     protected $fillable = [
         'title', 'description', 'text', 'html'
     ];
