@@ -66,6 +66,8 @@ Route::middleware(['verified'])->group(function () {
         Route::view('affiliate/child-users', 'affiliate/child-users')->name('affiliate.child-users');
         Route::resource('affiliate/links', 'LinkController')->except('show')->names('affiliate.links');
         Route::resource('affiliate/mails', 'MailingController')->names('affiliate.mails');
+        Route::get('affiliate/mail-html-preview/{mail}', 'MailingController@htmlPreview')->name('affiliate.mails.preview');
+        Route::get('affiliate/download-mail/{mail}', 'MailingController@download')->name('affiliate.mails.download');
     });
 });
 

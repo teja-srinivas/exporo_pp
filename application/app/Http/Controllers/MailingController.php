@@ -48,7 +48,10 @@ class MailingController extends Controller
             'title' => 'required',
             'description' => 'nullable',
             'text' => 'required',
+            'file' => 'nullable|file'
         ]);
+
+        $this->processUploadedHtmlFile($request, $data);
 
         Mailing::query()->create($data);
 
@@ -101,7 +104,10 @@ class MailingController extends Controller
             'title' => 'required',
             'description' => 'nullable',
             'text' => 'required',
+            'file' => 'nullable|file'
         ]);
+
+        $this->processUploadedHtmlFile($request, $data);
 
         if ($mail->fill($data)->saveOrFail()) {
             flash_success();
@@ -126,5 +132,44 @@ class MailingController extends Controller
         flash_success('Eintrag wurde gelöscht');
 
         return redirect()->route('affiliate.mails.index');
+    }
+
+    /**
+     * Show the HTML-content of the mailing
+     *
+     * @param  \App\Models\Mailing $mail
+     * @return HTML
+     */
+    public function htmlPreview(Mailing $mail)
+    {
+        return $mail->getHtmlForUser(auth()->user());
+    }
+
+    /**
+     * Starts a download of the HTML-mail
+     *
+     * @param  \App\Models\Mailing $mail
+     * @return File
+     */
+    public function download(Mailing $mail)
+    {
+        header("Content-type: text/html");
+        header("Content-Disposition: attachment; filename=".$mail->title.".html");
+        return $mail->getHtmlForUser(auth()->user());
+    }
+
+    /**
+     * Check if the user uploaded a html file and assigns it to the $data
+     *
+     * @param  Illuminate\Http\Request $request
+     * @param  Array $request
+     * @throws \Exception
+     */
+    private function processUploadedHtmlFile($request, &$data) {
+      // Did the user upload a HTML-file?
+      // If yes: Read content of the file and store to 'html'-column
+      if( $request->file('file') ) {
+        $data['html'] = $request->file('file')->get();
+      }
     }
 }

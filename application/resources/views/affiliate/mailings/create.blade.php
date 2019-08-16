@@ -9,7 +9,7 @@
 @endsection
 
 @section('main-content')
-    <form action="{{ route('affiliate.mails.store') }}" method="POST">
+    <form action="{{ route('affiliate.mails.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         @card
@@ -37,6 +37,8 @@
                     ],
                 ],
             ])
+
+            @include('affiliate.mailings.partials.file')
 
             @slot('footer')
                 <div class="text-right">
