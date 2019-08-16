@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use Throwable;
 use App\Models\Mailing;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class MailingController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index()
     {
@@ -22,12 +29,11 @@ class MailingController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return View
      */
     public function create()
     {
-        $this->authorize('create', Mailing::class);
+        $this->authorizeResource(Mailing::class);
 
         return view('affiliate.mailings.create');
     }
@@ -35,23 +41,23 @@ class MailingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     * @throws \Illuminate\Validation\ValidationException
+     * @param  Request  $request
+     * @return RedirectResponse
+     * @throws FileNotFoundException
+     * @throws ValidationException
      */
     public function store(Request $request)
     {
-        $this->authorize('create', Mailing::class);
+        $this->authorizeResource(Mailing::class);
 
         $data = $this->validate($request, [
             'title' => 'required',
             'description' => 'nullable',
             'text' => 'required',
-            'file' => 'nullable|file'
+            'file' => ['nullable', 'file'],
         ]);
 
-        $this->processUploadedHtmlFile($request, $data);
+        $this->addUploadedFileToInput($request, $data);
 
         Mailing::query()->create($data);
 
@@ -61,8 +67,8 @@ class MailingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Mailing  $mail
-     * @return \Illuminate\View\View
+     * @param  Mailing  $mail
+     * @return View
      */
     public function show(Mailing $mail)
     {
@@ -74,9 +80,9 @@ class MailingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Mailing $mail
-     * @return \Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @param  Mailing  $mail
+     * @return View
+     * @throws AuthorizationException
      */
     public function edit(Mailing $mail)
     {
@@ -90,24 +96,24 @@ class MailingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Mailing $mail
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
-     * @throws \Throwable
+     * @param  Request  $request
+     * @param  Mailing  $mail
+     * @return RedirectResponse
+     * @throws ValidationException
+     * @throws Throwable
      */
     public function update(Request $request, Mailing $mail)
     {
-        $this->authorize('update', $mail);
+        $this->authorizeResource($mail);
 
         $data = $this->validate($request, [
             'title' => 'required',
             'description' => 'nullable',
             'text' => 'required',
-            'file' => 'nullable|file'
+            'file' => ['nullable', 'file'],
         ]);
 
-        $this->processUploadedHtmlFile($request, $data);
+        $this->addUploadedFileToInput($request, $data);
 
         if ($mail->fill($data)->saveOrFail()) {
             flash_success();
@@ -119,13 +125,13 @@ class MailingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Mailing $mail
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
+     * @param  Mailing  $mail
+     * @return RedirectResponse
+     * @throws Exception
      */
     public function destroy(Mailing $mail)
     {
-        $this->authorize('delete', $mail);
+        $this->authorizeResource($mail);
 
         $mail->delete();
 
@@ -135,17 +141,15 @@ class MailingController extends Controller
     }
 
     /**
-     * Check if the user uploaded a html file and assigns it to the $data
+     * Check if the user uploaded a html file and assigns it to the input data
      *
-     * @param  Illuminate\Http\Request $request
-     * @param  Array $request
-     * @throws \Exception
+     * @param  Request $request
+     * @param  array $input
+     * @throws FileNotFoundException
      */
-    private function processUploadedHtmlFile($request, &$data) {
-      // Did the user upload a HTML-file?
-      // If yes: Read content of the file and store to 'html'-column
-      if( $request->file('file') ) {
-        $data['html'] = $request->file('file')->get();
-      }
+    private function addUploadedFileToInput(Request $request, array &$input) {
+        if ($request->file('file')) {
+            $input['html'] = $request->file('file')->get();
+        }
     }
 }
