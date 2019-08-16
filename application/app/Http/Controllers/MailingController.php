@@ -135,30 +135,6 @@ class MailingController extends Controller
     }
 
     /**
-     * Show the HTML-content of the mailing
-     *
-     * @param  \App\Models\Mailing $mail
-     * @return HTML
-     */
-    public function htmlPreview(Mailing $mail)
-    {
-        return $mail->getHtmlForUser(auth()->user());
-    }
-
-    /**
-     * Starts a download of the HTML-mail
-     *
-     * @param  \App\Models\Mailing $mail
-     * @return File
-     */
-    public function download(Mailing $mail)
-    {
-        header("Content-type: text/html");
-        header("Content-Disposition: attachment; filename=".$mail->title.".html");
-        return $mail->getHtmlForUser(auth()->user());
-    }
-
-    /**
      * Check if the user uploaded a html file and assigns it to the $data
      *
      * @param  Illuminate\Http\Request $request

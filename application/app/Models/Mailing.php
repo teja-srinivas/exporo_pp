@@ -12,6 +12,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $title
  * @property string $description
  * @property string $text
+ * @property string $html
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -38,7 +39,7 @@ class Mailing extends Model implements AuditableContract
         );
     }
 
-    public function getHtmlForUser(User $user)
+    public function getHtmlForUser(User $user): string
     {
         $replacements = [
             '%partnername%' => implode(' ', array_filter([trim($user->first_name), trim($user->last_name)])),
