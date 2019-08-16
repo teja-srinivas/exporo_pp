@@ -49,4 +49,8 @@ return [
         'test' => env('DOCRAPTOR_DEBUG', true),
     ],
 
+    'gtm' => [
+        'key' => env('GOOGLE_TAG_ID'),
+    ],
+
 ];
