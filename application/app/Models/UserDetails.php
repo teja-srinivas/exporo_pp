@@ -16,6 +16,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property float $vat_amount
  * @property string $company
  * @property string $iban
+ * @property string $vat_id
  * @property string $address_zipcode
  * @property string $address_city
  * @property string $address_number
@@ -91,6 +92,19 @@ class UserDetails extends Model implements AuditableContract
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id');
+    }
+
+    /**
+     * Indicates if this user is from the given country using an ISO country code (e.g. DE, AT, ...).
+     * This uses the VAT ID, since we don't ask for an actual country upon registration.
+     *
+     * @param  string  $countryCode
+     * @return bool
+     */
+    public function isFromCountry(string $countryCode): bool
+    {
+        // check if VAT ID starts with the given code
+        return stripos($this->vat_id, $countryCode) === 0;
     }
 
     /**

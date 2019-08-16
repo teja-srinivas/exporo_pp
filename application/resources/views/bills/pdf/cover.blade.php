@@ -9,7 +9,7 @@
         <div>
             @php($fullName = trim($user->first_name . ' ' . $user->last_name))
             @php($userCompany = trim($user->details->company))
-            @php($isCompany = !empty($userCompany) && $userCompany !== $fullName)
+            @php($isCompany = !empty($userCompany) && ($userCompany !== $fullName))
 
             @if($isCompany)
                 {{ $user->details->company }}<br>
@@ -19,6 +19,10 @@
 
             {{ $user->details->address_street }} {{ $user->details->address_number }}<br>
             {{ $user->details->address_zipcode }} {{ $user->details->address_city }}<br>
+
+            @if($user->details->isFromCountry('at'))
+                <div class="mt-2">USt-IdNr.: {{ $user->details->vat_id }}</div>
+            @endif
         </div>
     </div>
     <div class="col-6 text-right small">
