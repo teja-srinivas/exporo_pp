@@ -2,7 +2,6 @@
 
 use App\Models\Role;
 use App\Models\Permission;
-use App\Policies\BonusBundlePolicy;
 use Spatie\Permission\PermissionRegistrar;
 use Illuminate\Database\Migrations\Migration;
 
@@ -18,7 +17,7 @@ class AddManageBonusBundlesPermission extends Migration
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         Role::findByName(Role::INTERNAL)->givePermissionTo(
-            Permission::create(['name' => BonusBundlePolicy::PERMISSION])
+            Permission::create(['name' => 'management.commission-bonus-bundles'])
         );
     }
 }
