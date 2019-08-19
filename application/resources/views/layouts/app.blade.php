@@ -30,6 +30,13 @@
     })(window,document,'script','dataLayer','{{config('services.gtm.key')}}');</script>
 
     <script>
+        @auth
+        dataLayer = [{
+            userId: @json(auth()->id()),
+            parentId: @json(auth()->user()->parent_id),
+        }];
+        @endauth
+
         @if(session()->pull('trackUserRegistration'))
         window.dataLayer.push({ event: 'trackUserRegistration' });
         @endif
