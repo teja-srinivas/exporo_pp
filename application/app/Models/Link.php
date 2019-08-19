@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\LinkInstance;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
@@ -14,6 +16,8 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $url
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @property-read Collection $instances
  */
 class Link extends Model implements AuditableContract
 {
@@ -22,6 +26,11 @@ class Link extends Model implements AuditableContract
     protected $fillable = [
         'title', 'description', 'url',
     ];
+
+    public function instances()
+    {
+        return $this->hasMany(LinkInstance::class);
+    }
 
     public function getTextForUser(User $user)
     {
