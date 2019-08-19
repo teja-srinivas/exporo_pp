@@ -8,6 +8,8 @@ use App\Events\ProjectUpdated;
 use App\Events\UserDetailsUpdated;
 use App\Events\CommissionBonusUpdated;
 use Illuminate\Auth\Events\Registered;
+use App\Listeners\TrackUserActivations;
+use Illuminate\Auth\Events\PasswordReset;
 use App\Listeners\SendUserAcceptOrRejectMailOnUpdate;
 use App\Listeners\UpdateBillingStatusOnUserDetailsUpdate;
 use App\Listeners\InvalidateCommissionsOnCommissionBonusChanges;
@@ -32,6 +34,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        PasswordReset::class => [
+            TrackUserActivations::class,
         ],
         SchemaUpdated::class => [
             InvalidateInvestmentCommissionsOnSchemaChanges::class,

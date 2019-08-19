@@ -37,7 +37,11 @@
         }];
         @endauth
 
-        @foreach(['trackUserRegistration', 'trackUserLogin'] as $event)
+        @foreach([
+            'trackUserActivation',
+            'trackUserLogin',
+            'trackUserRegistration',
+        ] as $event)
             @if(session()->pull($event))
             window.dataLayer.push({ event: @json($event) });
             @endif

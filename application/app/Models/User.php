@@ -9,6 +9,7 @@ use App\Traits\HasRoles;
 use App\Events\UserUpdated;
 use App\Traits\Encryptable;
 use App\Policies\BillPolicy;
+use Illuminate\Auth\Passwords\PasswordBroker;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
@@ -306,5 +307,13 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         $name = trim($this->details->display_name);
 
         return $name ?: $this->getAnonymousName();
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        SendMail::dispatch([
+            'user-email' => $this->email,
+            'link' => url('password/reset/'.$token),
+        ], $this, config('mail.templateIds.resetPassword'))->onQueue('emails');
     }
 }

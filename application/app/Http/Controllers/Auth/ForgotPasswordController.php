@@ -2,12 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use App\Jobs\SendMail;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller
@@ -33,30 +28,5 @@ class ForgotPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
-    }
-
-    public function sendResetLinkEmail(Request $request)
-    {
-        $this->validateEmail($request);
-        $user = User::where('email', $request->only('email'))->first();
-
-        if ($user) {
-            $token = app(PasswordBroker::class)->createToken($user);
-            SendMail::dispatch([
-                'user-email' => $user->email,
-                'link' => url('password/reset/'.$token),
-            ], $user, config('mail.templateIds.resetPassword'))->onQueue('emails');
-            $response = 'passwords.sent';
-        } else {
-            $response = 'passwords.user';
-        }
-
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-
-        return  $response == Password::RESET_LINK_SENT
-            ? $this->sendResetLinkResponse($request, $response)
-            : $this->sendResetLinkFailedResponse($request, $response);
     }
 }
