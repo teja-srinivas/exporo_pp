@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Contract;
 
-use App\Http\Helper\Rules;
+use App\Helper\Rules;
 use Exception;
 use Illuminate\Support\Arr;
 use Throwable;

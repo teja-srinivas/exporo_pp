@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Helper\Rules;
+use App\Helper\Rules;
 use Illuminate\Http\Request;
 use App\Models\CommissionBonus;
 use App\Models\ContractTemplate;

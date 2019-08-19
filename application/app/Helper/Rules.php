@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Helper;
+namespace App\Helper;
 
 use Illuminate\Support\Arr;
 
