@@ -59,6 +59,7 @@ class CalculateCommissionsTest extends TestCase
 
         $this->createBonuses($contract, $type, [
             CommissionBonus::value(CommissionBonus::TYPE_FIRST_INVESTMENT, 10),
+            CommissionBonus::percentage(CommissionBonus::TYPE_FIRST_INVESTMENT, 10),
         ]);
 
         $this->calculate();

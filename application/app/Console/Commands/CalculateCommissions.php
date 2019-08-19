@@ -117,7 +117,7 @@ final class CalculateCommissions extends Command
 
         $userCache = [];
 
-        $callback = function (Investment $investment) use ($commissions, &$userCache) {
+        $callback = static function (Investment $investment) use ($commissions, &$userCache) {
             $entries = [];
 
             if ($investment->id) {
