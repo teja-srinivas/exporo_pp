@@ -29,6 +29,12 @@
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','{{config('services.gtm.key')}}');</script>
 
+    <script>
+        @if(session()->pull('trackUserRegistration'))
+        window.dataLayer.push({ event: 'trackUserRegistration' });
+        @endif
+    </script>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 

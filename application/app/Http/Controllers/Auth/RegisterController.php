@@ -112,6 +112,8 @@ class RegisterController extends Controller
             $contract = Contract::fromTemplate($company->contractTemplate);
             $user->contract()->save($contract);
 
+            session()->put('trackUserRegistration', true);
+
             return $user;
         });
     }
