@@ -37,9 +37,11 @@
         }];
         @endauth
 
-        @if(session()->pull('trackUserRegistration'))
-        window.dataLayer.push({ event: 'trackUserRegistration' });
-        @endif
+        @foreach(['trackUserRegistration', 'trackUserLogin'] as $event)
+            @if(session()->pull($event))
+            window.dataLayer.push({ event: @json($event) });
+            @endif
+        @endforeach
     </script>
 
     <!-- Fonts -->
