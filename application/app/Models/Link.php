@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\LinkClick;
 use Carbon\Carbon;
 use App\LinkInstance;
 use OwenIt\Auditing\Auditable;
@@ -18,6 +19,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property Carbon $updated_at
  *
  * @property-read Collection $instances
+ * @property-read Collection $clicks
  */
 class Link extends Model implements AuditableContract
 {
@@ -30,6 +32,11 @@ class Link extends Model implements AuditableContract
     public function instances()
     {
         return $this->hasMany(LinkInstance::class);
+    }
+
+    public function clicks()
+    {
+        return $this->hasManyThrough(LinkClick::class, LinkInstance::class);
     }
 
     public function getTextForUser(User $user)

@@ -5,8 +5,10 @@ namespace App;
 use App\Models\Link;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -30,6 +32,11 @@ class LinkInstance extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function clicks(): HasMany
+    {
+        return $this->hasMany(LinkClick::class);
     }
 
     public function getRouteKeyName(): string
