@@ -17,7 +17,6 @@ class CreateLinkInstancesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('link_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('url');
             $table->string('hash', 32);
             $table->timestamps();
 

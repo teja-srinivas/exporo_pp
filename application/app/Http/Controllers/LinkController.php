@@ -18,7 +18,7 @@ class LinkController extends Controller
         $this->authorize('viewAny', Link::class);
 
         return view('affiliate.links.index', [
-            'links' => Link::query()->orderBy('title')->get(),
+            'links' => Link::query()->with('userInstance')->orderBy('title')->get(),
         ]);
     }
 

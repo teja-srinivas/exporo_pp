@@ -37,7 +37,7 @@
                 @endcan
             </div>
             <span class="leading-sm text-muted">{{ $link['description'] }}</span>
-            <input type="text" readonly class="form-control mt-3 rounded border-0 shadow-none" value="{{ $link->getTextForUser(auth()->user()) }}">
+            <input type="text" readonly class="form-control mt-3 rounded border-0 shadow-none" value="{{ $link->userInstance }}">
         </div>
     @empty
         <div class="p-3 rounded bg-white shadow-sm my-2 text-muted text-center">
