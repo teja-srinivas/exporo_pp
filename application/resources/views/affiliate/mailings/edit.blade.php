@@ -10,7 +10,7 @@
 @endsection
 
 @section('main-content')
-    <form action="{{ route('affiliate.mails.update', $mailing) }}" method="POST">
+    <form action="{{ route('affiliate.mails.update', $mailing) }}" method="POST" enctype="multipart/form-data">
         @method('PUT')
         @csrf
 
@@ -42,6 +42,8 @@
                     ],
                 ],
             ])
+
+            @include('affiliate.mailings.partials.file')
 
             @slot('footer')
                 <div class="text-right">

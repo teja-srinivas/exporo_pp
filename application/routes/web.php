@@ -65,7 +65,12 @@ Route::middleware(['verified'])->group(function () {
         Route::get('affiliate/banners', 'BannerController@index')->name('affiliate.banners.index');
         Route::view('affiliate/child-users', 'affiliate/child-users')->name('affiliate.child-users');
         Route::resource('affiliate/links', 'LinkController')->except('show')->names('affiliate.links');
-        Route::resource('affiliate/mails', 'MailingController')->names('affiliate.mails');
+
+        Route::prefix('affiliate/mails')->group(function () {
+            Route::resource('/', 'MailingController')->parameter('', 'mail')->names('affiliate.mails');
+            Route::get('{mail}/preview', 'Mailing\PreviewController@show')->name('affiliate.mails.preview');
+            Route::get('{mail}/download', 'Mailing\DownloadController@show')->name('affiliate.mails.download');
+        });
     });
 });
 
