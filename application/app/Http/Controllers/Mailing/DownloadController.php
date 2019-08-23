@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DownloadController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Mailing::class);
+    }
+
     /**
      * Starts a download of the HTML-mail as seen by the currently logged in user.
      *
@@ -18,8 +23,6 @@ class DownloadController extends Controller
      */
     public function show(Mailing $mail, Request $request): StreamedResponse
     {
-        $this->authorizeResource($mail);
-
         return response()->streamDownload(static function () use ($request, $mail) {
             new_relic_disable();
             echo $mail->getHtmlForUser($request->user());

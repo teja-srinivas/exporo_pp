@@ -18,6 +18,11 @@ use Illuminate\Auth\Access\AuthorizationException;
 
 class ContractTemplateController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(ContractTemplate::class);
+    }
+
     /**
      * @return Response
      * @throws AuthorizationException
@@ -39,8 +44,6 @@ class ContractTemplateController extends Controller
      */
     public function create()
     {
-        $this->authorizeResource(ContractTemplate::class);
-
         return response()->view('contracts.templates.create');
     }
 
@@ -52,8 +55,6 @@ class ContractTemplateController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorizeResource(ContractTemplate::class);
-
         $data = $this->validate($request, $this->validationRules() + [
             'bonuses.*.type_id' => Rule::exists('commission_types', 'id'),
             'bonuses.*.value' => 'numeric',
@@ -78,8 +79,6 @@ class ContractTemplateController extends Controller
      */
     public function edit(ContractTemplate $template)
     {
-        $this->authorizeResource($template);
-
         return view('contracts.templates.edit', [
             'template' => $template,
         ]);
@@ -93,8 +92,6 @@ class ContractTemplateController extends Controller
      */
     public function update(Request $request, ContractTemplate $template)
     {
-        $this->authorizeResource($template);
-
         $template->update(
             $this->validate($request, Rules::prefix('required', $this->validationRules()))
         );
@@ -111,8 +108,6 @@ class ContractTemplateController extends Controller
      */
     public function destroy(ContractTemplate $template)
     {
-        $this->authorizeResource($template);
-
         $template->delete();
 
         return redirect()->route('contracts.templates.index');

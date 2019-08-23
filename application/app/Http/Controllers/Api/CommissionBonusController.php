@@ -12,6 +12,11 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CommissionBonusController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(CommissionBonus::class);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -22,8 +27,6 @@ class CommissionBonusController extends Controller
      */
     public function update(Request $request, CommissionBonus $bonus)
     {
-        $this->authorizeResource($bonus);
-
         $this->denyIfLocked($bonus);
 
         $data = $this->validate($request, CommissionBonus::validationRules());
@@ -40,8 +43,6 @@ class CommissionBonusController extends Controller
      */
     public function destroy(CommissionBonus $bonus)
     {
-        $this->authorizeResource($bonus);
-
         $this->denyIfLocked($bonus);
 
         $bonus->delete();

@@ -14,6 +14,11 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class MailingController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Mailing::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,8 +38,6 @@ class MailingController extends Controller
      */
     public function create()
     {
-        $this->authorizeResource(Mailing::class);
-
         return view('affiliate.mailings.create');
     }
 
@@ -48,8 +51,6 @@ class MailingController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorizeResource(Mailing::class);
-
         $data = $this->validate($request, [
             'title' => 'required',
             'description' => 'nullable',
@@ -82,12 +83,9 @@ class MailingController extends Controller
      *
      * @param  Mailing  $mail
      * @return View
-     * @throws AuthorizationException
      */
     public function edit(Mailing $mail)
     {
-        $this->authorize('update', $mail);
-
         return view('affiliate.mailings.edit', [
             'mailing' => $mail,
         ]);
@@ -104,8 +102,6 @@ class MailingController extends Controller
      */
     public function update(Request $request, Mailing $mail)
     {
-        $this->authorizeResource($mail);
-
         $data = $this->validate($request, [
             'title' => 'required',
             'description' => 'nullable',
@@ -131,8 +127,6 @@ class MailingController extends Controller
      */
     public function destroy(Mailing $mail)
     {
-        $this->authorizeResource($mail);
-
         $mail->delete();
 
         flash_success('Eintrag wurde gelöscht');

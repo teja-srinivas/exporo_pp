@@ -17,19 +17,17 @@ class ContractTemplateBonusController extends Controller
     public function __construct()
     {
         $this->middleware('can:update,template');
+        $this->authorizeResource(CommissionBonus::class);
     }
 
     /**
      * @param  ContractTemplate  $template
      * @param  Request  $request
      * @return JsonResource
-     * @throws AuthorizationException
      * @throws ValidationException
      */
     public function store(ContractTemplate $template, Request $request): JsonResource
     {
-        $this->authorizeResource(CommissionBonus::class);
-
         $data = $this->validate($request, Rules::prefix('required', CommissionBonus::validationRules()));
 
         return Resource::make($template->bonuses()->create($data));

@@ -225,15 +225,15 @@ class CommissionController extends Controller
      */
     public function destroy(int $commission, Request $request)
     {
+        $this->authorize('delete', Commission::class);
+
         if ($commission > 0) {
             $commission = (new Commission)->resolveRouteBinding($commission);
-            $this->authorizeResource($commission);
             $commission->delete();
             return;
         }
 
         // Delete and refresh commissions
-        $this->authorize('delete', Commission::class);
         $this->applyFilter(Commission::query(), $request)->delete();
 
         Artisan::call(CalculateCommissions::class);
