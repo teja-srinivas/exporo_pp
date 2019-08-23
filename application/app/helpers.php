@@ -54,3 +54,17 @@ if (! function_exists('flash_success')) {
         session()->flash('status', $message);
     }
 }
+
+if (! function_exists('new_relic_disable')) {
+    /**
+     * Disables injection of NewRelic tags and scripts when rendering an HTML response.
+     *
+     * @return void
+     */
+    function new_relic_disable(): void
+    {
+        if (extension_loaded('newrelic')) {
+            newrelic_disable_autorum();
+        }
+    }
+}

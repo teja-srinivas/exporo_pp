@@ -21,10 +21,7 @@ class DownloadController extends Controller
         $this->authorizeResource($mail);
 
         return response()->streamDownload(static function () use ($request, $mail) {
-            if (extension_loaded('newrelic')) {
-                newrelic_disable_autorum();
-            }
-
+            new_relic_disable();
             echo $mail->getHtmlForUser($request->user());
         }, "{$mail->title}.html");
     }

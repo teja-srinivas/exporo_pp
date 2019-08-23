@@ -20,6 +20,8 @@ class PreviewController extends Controller
     {
         $this->authorizeResource($mail);
 
+        new_relic_disable();
+
         return response()->make($mail->getHtmlForUser($request->user()));
     }
 }
