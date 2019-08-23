@@ -23,6 +23,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property UserDetails $details
  * @property string $first_name
  * @property string $last_name
+ * @property string $email
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $activation_at
@@ -55,6 +56,7 @@ class Investor extends Model implements AuditableContract
     protected $encryptable = [
         'first_name',
         'last_name',
+        'email',
     ];
 
     public function user()
