@@ -83,7 +83,7 @@
 </p>
 <p>
     sofern im Vormonat Provisionen angefallen sind, überweisen wir diese
-    in den nächsten Tagen auf das von ihnen angegebene Konto:
+    in den nächsten Tagen auf das von Ihnen angegebene Konto:
 </p>
 
 <table class="table table-sm table-borderless w-50 mx-auto mb-3">
