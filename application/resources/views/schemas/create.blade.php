@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('title')
-    Abrechnungs&shy;schema Erstellen
+    Abrechnungs&shy;formel Erstellen
 @endsection
 
 @section('main-content')

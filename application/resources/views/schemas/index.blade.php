@@ -1,10 +1,10 @@
 @extends('layouts.sidebar')
 
-@section('title', $schemas->count() . ' Schemata')
+@section('title', $schemas->count() . ' Abrechnungsformeln')
 
 @section('actions')
     @can('create', \App\Models\Schema::class)
-        <a href="{{ route('schemas.create') }}" class="btn btn-primary btn-sm">Abrechnungsschema Erstellen</a>
+        <a href="{{ route('schemas.create') }}" class="btn btn-primary btn-sm">Abrechnungsformel Erstellen</a>
     @endcan
 @endsection
 

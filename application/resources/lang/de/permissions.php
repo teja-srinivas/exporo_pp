@@ -26,7 +26,6 @@ return [
     'banner-sets' => 'Banner-Sets',
     'banners' => 'Banner',
     'bills' => 'Rechnungen',
-    'commission-bonus-bundles' => 'Provisionspakete',
     'commission-bonuses' => 'Vergütungsschemata',
     'commission-types' => 'Provisionstypen',
     'contracts' => 'Verträge',
@@ -36,7 +35,7 @@ return [
     'links' => 'Links',
     'mailings' => 'Mailings',
     'projects' => 'Projekte',
-    'schemas' => 'Provisionsschemata',
+    'schemas' => 'Abrechnungsformeln',
     'templates' => 'Vorlagen',
     'users' => 'Benutzer',
 ];

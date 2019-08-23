@@ -2,7 +2,7 @@
 
 @section('title')
     @breadcrumbs([
-        route('schemas.index') => 'Abrechnungsschemata',
+        route('schemas.index') => 'Abrechnungsformeln',
         $schema->name,
     ])
 @endsection

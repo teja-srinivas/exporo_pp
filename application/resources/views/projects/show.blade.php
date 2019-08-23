@@ -26,8 +26,6 @@
     @endif
 
     @card
-        @slot('subtitle', 'Alle Angaben werden synchronisiert mit dem Hauptsystem.')
-
         @unless(empty($project->image))
             @slot('info')
                 <img src="https://cdn.exporo.de/image-cache/400/{{ $project->image }}" class="img-fluid">
@@ -64,9 +62,9 @@
     @endcard
 
     @card
-        @slot('title', 'Abrechnungsschema')
+        @slot('title', 'Abrechnungsformel')
         @slot('subtitle')
-            Jetziges Schema:
+            Jetzige Formel:
 
             <a href="{{ route('schemas.show', $project->schema) }}">
                 {{ $project->schema->name }}
@@ -88,7 +86,7 @@
 
                 @include('components.form.select', [
                     'type' => 'select',
-                    'label' => __('Schema'),
+                    'label' => __('Formel'),
                     'name' => 'schema',
                     'required' => true,
                     'default' => $project->schema_id,
@@ -96,7 +94,7 @@
                     'assoc' => true,
                 ])
 
-                <button class="btn btn-primary ml-2">Schema Ändern</button>
+                <button class="btn btn-primary ml-2">Formel Ändern</button>
             </form>
         @endslot
     @endcard

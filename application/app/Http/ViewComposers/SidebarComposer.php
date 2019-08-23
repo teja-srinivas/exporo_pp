@@ -117,7 +117,7 @@ class SidebarComposer
                         'isAllowed' => $this->canList(Bill::class),
                     ],
                     [
-                        'title' => 'Schemata',
+                        'title' => 'Formeln',
                         'url' => route('schemas.index'),
                         'isActive' => $this->request->routeIs('schemas.*'),
                         'isAllowed' => $this->canList(Schema::class),
