@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\PermissionRegistrar;
 use Illuminate\Database\Migrations\Migration;
 
 class FixContractPermissions extends Migration
@@ -12,6 +15,8 @@ class FixContractPermissions extends Migration
      */
     public function up()
     {
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+
         DB::table('permissions')
             ->whereIn('name', [
                 'features.contracts.update-special-agreement',
@@ -25,7 +30,7 @@ class FixContractPermissions extends Migration
                 'management.contracts.delete',
             ])
             ->update([
-                'protected' => json_encode(['partner']),
+                'protected' => json_encode([Role::PARTNER]),
             ]);
 
         DB::table('permissions')->whereIn('name', [
@@ -35,5 +40,20 @@ class FixContractPermissions extends Migration
             'management.commission-bonus-bundles.update',
             'management.commission-bonus-bundles.delete',
         ])->delete();
+
+        Permission::create([
+            'name' => 'features.contracts.update-cancellation-period',
+            'protected' => Role::PARTNER,
+        ]);
+
+        Permission::create([
+            'name' => 'features.contracts.update-claim',
+            'protected' => Role::PARTNER,
+        ]);
+
+        Permission::create([
+            'name' => 'features.contracts.update-vat-details',
+            'protected' => Role::PARTNER,
+        ]);
     }
 }

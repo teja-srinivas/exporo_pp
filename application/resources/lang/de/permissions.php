@@ -17,7 +17,10 @@ return [
     'process' => 'annehmen/ablehnen',
     'receive' => 'erhalten',
 
+    'update-cancellation-period' => 'Kündigungsfrist ändern',
+    'update-claim' => 'Anspruch Kundenbindung ändern',
     'update-special-agreement' => 'Sondervereinbarung ändern',
+    'update-vat-details' => 'Mehrwertsteuer ändern',
 
     'affiliate' => 'Werbemittel',
     'agbs' => 'AGBs',

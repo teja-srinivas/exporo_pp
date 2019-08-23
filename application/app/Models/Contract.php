@@ -51,6 +51,7 @@ class Contract extends Model
     protected $fillable = [
         'cancellation_days',
         'claim_years',
+        'special_agreement',
         'vat_included',
         'vat_amount',
         'released_at',
