@@ -30,8 +30,8 @@ class SendBillMails extends Command
             SendMail::dispatch([
                 'Provision' => format_money($bill->net),
                 'Link' => 'p.exporo.com',
-                'billing_month' => $date->format('F'),
-                'billing_year' => $date->format('Y'),
+                'billing_month' => $date->monthName,
+                'billing_year' => $date->year,
             ], $bill->user, config('mail.templateIds.commissionCreated'))->onQueue('emails');
 
             $bill->mail_sent_at = now();

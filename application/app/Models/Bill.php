@@ -104,7 +104,7 @@ class Bill extends Model implements AuditableContract
 
     public function getBillingMonth(): Carbon
     {
-        return $this->released_at->startOfMonth()->subMonth(1);
+        return $this->released_at->startOfMonth()->subMonth();
     }
 
     /**
@@ -114,7 +114,7 @@ class Bill extends Model implements AuditableContract
      */
     public function getDisplayName(): string
     {
-        return $this->getBillingMonth()->format('F Y');
+        return $this->getBillingMonth()->isoFormat('MMMM Y');
     }
 
     /**

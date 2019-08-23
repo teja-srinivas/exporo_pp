@@ -155,7 +155,7 @@
 
         <footer class="py-5">
             <div class="container text-center text-white">
-                <h5 class="text-uppercase text-white">Copyright &copy; Exporo AG {{ now()->format('Y') }}</h5>
+                <h5 class="text-uppercase text-white">Copyright &copy; Exporo AG {{ now()->year }}</h5>
                 <ul class="list-inline mb-0 small">
                     <li class="list-inline-item">
                         <a href="https://exporo.de/impressum/" class="text-white">Impressum</a>

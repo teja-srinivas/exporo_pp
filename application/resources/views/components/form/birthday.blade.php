@@ -17,7 +17,7 @@
         'error' => false,
         'default' => optional($default ?? null)->month,
         'values' => collect(range(1, 12))->mapWithKeys(function ($month) {
-            return [$month => now()->setDate(2018, $month, 1)->format('F')];
+            return [$month => now()->setDate(2018, $month, 1)->monthName];
         }),
     ])
     @include('components.form.select', [
