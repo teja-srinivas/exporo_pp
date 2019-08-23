@@ -12,7 +12,7 @@
     <title>
         {{ config('app.name')}}
 
-        {{-- Extract the page title from our (possibly) breadcrumped title section --}}
+        {{-- Extract the page title from our (possibly) breadcrumbed title section --}}
         @php($pageTitle = strip_tags($__env->yieldContent('title')))
         @unless(empty($pageTitle)) - {{ $pageTitle }}@endunless
     </title>

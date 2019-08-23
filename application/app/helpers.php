@@ -19,18 +19,18 @@ if (! function_exists('format_money')) {
     }
 }
 
-if (! function_exists('render_breadcrumps')) {
+if (! function_exists('render_breadcrumbs')) {
     /**
-     * Renders a list of breadcrumps (link => display name).
+     * Renders a list of breadcrumbs (link => display name).
      *
-     * @param array $breadcrumps
+     * @param array $breadcrumbs
      * @return string
      */
-    function render_breadcrumps(array $breadcrumps): string
+    function render_breadcrumbs(array $breadcrumbs): string
     {
         static $divider = '<span class="text-muted"> / </span>';
 
-        $last = Arr::last($breadcrumps);
+        $last = Arr::last($breadcrumbs);
 
         return implode($divider, array_map(function ($name, $link) use ($last) {
             $class = $name === $last ? '' : 'text-muted';
@@ -38,7 +38,7 @@ if (! function_exists('render_breadcrumps')) {
             return empty($link) || is_numeric($link)
                 ? "<span class='$class'>$name</span>"
                 : "<a href='$link' class='$class'>$name</a>";
-        }, $breadcrumps, array_keys($breadcrumps)));
+        }, $breadcrumbs, array_keys($breadcrumbs)));
     }
 }
 

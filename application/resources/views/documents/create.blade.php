@@ -2,12 +2,12 @@
 
 @section('title')
     @empty($user)
-        @breadcrumps([
+        @breadcrumbs([
             route('documents.index') => 'Dokumente',
             'Neu Anlegen',
         ])
     @else
-        @breadcrumps([
+        @breadcrumbs([
             route('users.index') => 'Benutzer',
             route('users.show', $user) => $user->details->display_name,
             'Dokument Anlegen'

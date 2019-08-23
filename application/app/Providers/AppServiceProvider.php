@@ -36,9 +36,9 @@ class AppServiceProvider extends ServiceProvider
         // Accented card with its title and content in the body
         Blade::component('components.card', 'card');
 
-        // Custom breadcrumps instead of the bootstrap component
-        Blade::directive('breadcrumps', function ($exp) {
-            return "<?php echo render_breadcrumps($exp); ?>";
+        // Custom breadcrumbs instead of the bootstrap component
+        Blade::directive('breadcrumbs', function ($exp) {
+            return "<?php echo render_breadcrumbs($exp); ?>";
         });
 
         Collection::macro('sortNatural', function ($callback) {

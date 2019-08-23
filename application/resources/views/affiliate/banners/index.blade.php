@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('title')
-    @breadcrumps([
+    @breadcrumbs([
         'Werbemittel',
         'Banner',
     ])

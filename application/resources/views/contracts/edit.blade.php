@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('title')
-    @breadcrumps([
+    @breadcrumbs([
         route('users.index') => 'Benutzer',
         route('users.show', $contract->user) => $contract->user->getDisplayName(),
         'Verträge',

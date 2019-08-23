@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('title')
-    @breadcrumps([
+    @breadcrumbs([
         route('documents.index') => 'Dokumente',
         route('documents.show', $document) => $document->name,
         'Bearbeiten',

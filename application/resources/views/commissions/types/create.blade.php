@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('title')
-    @breadcrumps([
+    @breadcrumbs([
         route('commissions.types.index') => 'Provisionstypen',
         'Neu Anlegen',
     ])

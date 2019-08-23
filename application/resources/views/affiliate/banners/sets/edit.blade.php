@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('title')
-    @breadcrumps([
+    @breadcrumbs([
         'Verwaltung',
         route('banners.sets.index') => 'Banner',
         route('banners.sets.show', $set) => $set->title,

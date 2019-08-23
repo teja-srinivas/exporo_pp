@@ -4,7 +4,7 @@
     @if($user->is(auth()->user()))
         Meine Subpartner
     @else
-        @breadcrumps([
+        @breadcrumbs([
             route('users.index') => 'Benutzer',
             route('users.show', $user) => $user->getDisplayName(),
             'Subpartner'

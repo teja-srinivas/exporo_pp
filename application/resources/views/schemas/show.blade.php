@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('title')
-    @breadcrumps([
+    @breadcrumbs([
         route('schemas.index') => 'Abrechnungsschemata',
         $schema->name,
     ])

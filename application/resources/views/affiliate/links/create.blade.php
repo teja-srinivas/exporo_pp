@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('title')
-    @breadcrumps([
+    @breadcrumbs([
         'Werbemittel',
         route('affiliate.links.index') => 'Links',
         'Neu Anlegen',
