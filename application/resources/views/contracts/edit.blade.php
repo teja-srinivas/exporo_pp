@@ -159,6 +159,7 @@
     <div class="rounded bg-white shadow-sm p-3 my-3">
         @include('components.bundle-editor', [
             'bonuses' => $contract->bonuses,
+            'editable' => Auth::user()->can('management.contracts.commission-bonuses.update'),
             'extras' => [
                 'contract_id' => $contract->getKey(),
             ],
