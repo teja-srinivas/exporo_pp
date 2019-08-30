@@ -316,4 +316,9 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
             'link' => url('password/reset/'.$token),
         ], $this, config('mail.templateIds.resetPassword'))->onQueue('emails');
     }
+
+    public function getRateLimitAttribute()
+    {
+        return $this->hasPermissionTo('features.api.no-limit') ? 99999999 : 60;
+    }
 }

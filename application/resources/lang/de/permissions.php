@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'api' => 'API',
+    'no-limit' => 'Kein API-Limit (throttling)',
+
     'viewNova' => 'Nova',
 
     'features' => 'Funktionen',
