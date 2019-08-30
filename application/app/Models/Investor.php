@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Auditable;
 use App\Builders\InvestorBuilder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
@@ -35,6 +36,7 @@ class Investor extends Model implements AuditableContract
     use OptimusEncodedRouteKey;
     use Encryptable;
     use Person;
+    use SoftDeletes;
 
     const MORPH_NAME = 'investor';
 
