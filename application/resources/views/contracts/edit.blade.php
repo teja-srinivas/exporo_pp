@@ -141,7 +141,7 @@
                         old('special_agreement', $contract->special_agreement)
                     }}</textarea>
                 @else
-                    <p>{{ $contract->special_agreement }}</p>
+                    <span>{{ $contract->special_agreement ?? '(Keine)' }}</span>
                 @endcan
 
                 @if($canEditAnything)
