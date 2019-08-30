@@ -60,8 +60,8 @@ export default {
    * @return {function(*): boolean}
    */
   filterFunction: query => {
-    const regex = new RegExp(escapeRegExp(query), 'i');
-    return val => regex.test(val);
+    const lowercase = query.toLowerCase();
+    return val => (val.toLowerCase().indexOf(lowercase) !== -1);
   },
 
   /**
