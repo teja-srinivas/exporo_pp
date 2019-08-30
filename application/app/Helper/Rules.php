@@ -8,17 +8,17 @@ use Illuminate\Support\Facades\Gate;
 class Rules
 {
     /**
-     * @param  array|string  $prefix
      * @param  array  $rules
+     * @param  array|string  $prepend
      * @return array
      */
-    public static function prefix($prefix, array $rules): array
+    public static function prepend(array $rules, $prepend): array
     {
         $prefixed = [];
 
         foreach ($rules as $name => $rule) {
             $wrapped = Arr::wrap($rule);
-            array_unshift($wrapped, ...Arr::wrap($prefix));
+            array_unshift($wrapped, ...Arr::wrap($prepend));
             $prefixed[$name] = $wrapped;
         }
 

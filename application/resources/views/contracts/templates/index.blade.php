@@ -30,6 +30,10 @@
                         @else
                             {{ $template->name }}
                         @endcan
+
+                        @if($template->is_default)
+                            <div class="align-self-center badge badge-primary">Standard</div>
+                        @endif
                     </div>
                 </td>
                 <td>{{ optional($template->created_at)->format('d.m.Y') }}</td>

@@ -91,9 +91,15 @@ class ContractTemplateController extends Controller
      */
     public function update(Request $request, ContractTemplate $template)
     {
-        $template->update(
-            $this->validate($request, Rules::prefix('required', $this->validationRules()))
-        );
+        $data = $this->validate($request, [
+            'is_default' => ['nullable', 'in:on,1'],
+        ] + Rules::prepend($this->validationRules(), 'required'));
+
+        $template->update($data);
+
+        if ((bool) $data['is_default'] === true) {
+            $template->makeDefault();
+        }
 
         flash_success();
 

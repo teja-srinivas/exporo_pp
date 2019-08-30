@@ -19,7 +19,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property float $vat_amount
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property-read bool $is_default
  *
+ * @property Company $company
  * @property Collection $bonuses
  * @property Collection $contracts
  */
@@ -54,5 +56,16 @@ class ContractTemplate extends Model
             'template_id',
             'bonus_id'
         );
+    }
+
+    public function getIsDefaultAttribute()
+    {
+        return $this->company->default_contract_template_id === $this->getKey();
+    }
+
+    public function makeDefault()
+    {
+        $this->company->contractTemplate()->associate($this);
+        $this->company->save();
     }
 }

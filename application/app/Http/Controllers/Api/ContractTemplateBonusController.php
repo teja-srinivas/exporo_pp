@@ -28,7 +28,8 @@ class ContractTemplateBonusController extends Controller
      */
     public function store(ContractTemplate $template, Request $request): JsonResource
     {
-        $data = $this->validate($request, Rules::prefix('required', CommissionBonus::validationRules()));
+        $rules = Rules::prepend(CommissionBonus::validationRules(), 'required');
+        $data = $this->validate($request, $rules);
 
         return Resource::make($template->bonuses()->create($data));
     }

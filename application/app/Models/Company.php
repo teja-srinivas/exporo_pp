@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
@@ -23,6 +23,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string|null $street
  * @property string|null $street_no
  * @property string|null $website
+ * @property int $default_contract_template_id
  *
  * @property ContractTemplate $contractTemplate
  * @property Collection $bannerSets
@@ -38,9 +39,9 @@ class Company extends Model implements AuditableContract
         return $this->hasMany(User::class);
     }
 
-    public function contractTemplate(): HasOne
+    public function contractTemplate(): BelongsTo
     {
-        return $this->hasOne(ContractTemplate::class);
+        return $this->belongsTo(ContractTemplate::class, 'default_contract_template_id');
     }
 
     public function bannerSets(): HasMany

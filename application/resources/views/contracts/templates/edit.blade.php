@@ -65,6 +65,13 @@
                         true => 'Inkludiert',
                     ],
                 ],
+                [
+                    'type' => 'checkbox',
+                    'name' => 'is_default',
+                    'label' => 'Standard bei Registrierung',
+                    'default' => $template->is_default,
+                    'help' => 'Bei Neuregistrierungen wird automatisch ein Vetragsentwurf aus dieser Vorlage angelegt.'
+                ],
             ]
         ])
 
