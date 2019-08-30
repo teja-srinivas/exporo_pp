@@ -6,8 +6,8 @@ use App\Helper\Rules;
 use App\Models\Contract;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -16,17 +16,19 @@ class ContractController extends Controller
 {
     use ValidatesContracts;
 
+    public function __construct()
+    {
+        $this->authorizeResource(Contract::class);
+    }
+
     /**
      * Display the specified resource.
      *
      * @param Contract $contract
      * @return Response
-     * @throws AuthorizationException
      */
     public function show(Contract $contract)
     {
-        $this->authorize('view', $contract);
-
         return view('contracts.show', [
             'contract' => $contract,
         ]);
@@ -37,12 +39,9 @@ class ContractController extends Controller
      *
      * @param Contract $contract
      * @return Response|RedirectResponse
-     * @throws AuthorizationException
      */
     public function edit(Contract $contract)
     {
-        $this->authorize('update', $contract);
-
         $this->checkIfContractIsEditable($contract);
 
         return view('contracts.edit', [
@@ -56,13 +55,10 @@ class ContractController extends Controller
      * @param Request $request
      * @param Contract $contract
      * @return Response|RedirectResponse
-     * @throws AuthorizationException
      * @throws ValidationException
      */
     public function update(Request $request, Contract $contract)
     {
-        $this->authorize('update', $contract);
-
         $this->checkIfContractIsEditable($contract);
 
         $data = $this->validate($request, Rules::byPermission([
@@ -86,5 +82,23 @@ class ContractController extends Controller
         flash_success();
 
         return back();
+    }
+
+    /**
+     * @param  Contract  $contract
+     * @return RedirectResponse
+     */
+    public function destroy(Contract $contract)
+    {
+        $this->checkIfContractIsEditable($contract);
+
+        DB::transaction(static function () use ($contract) {
+            $contract->bonuses()->delete();
+            $contract->delete();
+        });
+
+        flash_success('Vertragsentwurf wurde gelöscht');
+
+        return response()->redirectToRoute('users.show', $contract->user);
     }
 }

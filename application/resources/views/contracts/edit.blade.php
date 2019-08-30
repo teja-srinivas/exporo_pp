@@ -11,7 +11,18 @@
 @endsection
 
 @section('actions')
-    <form action="{{ route('contract-status.update', $contract) }}" method="POST" class="d-inline-flex">
+    @can('management.contracts.delete')
+        <form action="{{ route('contracts.destroy', $contract) }}" method="POST" class="mr-3">
+            @method('DELETE')
+            @csrf
+
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+                Entwurf löschen
+            </button>
+        </form>
+    @endcan
+
+    <form action="{{ route('contract-status.update', $contract) }}" method="POST">
         @method('PUT')
         @csrf
 
