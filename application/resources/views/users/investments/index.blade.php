@@ -62,6 +62,12 @@
                     '' => '<small class="small text-muted">(Storniert)</small>',
                 ],
             ],
+            [
+                'name' => 'isFirstInvestment',
+                'label' => 'Erstinv.',
+                'align' => 'right',
+                'width' => 40,
+            ],
         ],
         'defaultSort' => [
             'name' => 'createdAt',

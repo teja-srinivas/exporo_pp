@@ -32,6 +32,7 @@ class InvestmentController extends Controller
                 ->selectRaw('projects.description as project_name')
                 ->selectRaw('schemas.name as type')
                 ->selectRaw('investments.created_at')
+                ->selectRaw('investments.is_first_investment')
                 ->get()
                 ->map(function (Investment $investment) {
                     $cancelled = $investment->isCancelled();
@@ -43,6 +44,7 @@ class InvestmentController extends Controller
                         'name' => $lastName.' '.Person::anonymizeFirstName($firstName),
                         'displayName' => Person::anonymizeName($firstName, $lastName),
                         'projectName' => $investment->project_name,
+                        'isFirstInvestment' => $investment->is_first_investment ? 'Ja' : 'Nein',
                         'type' => $investment->type,
                         'amount' => $cancelled ? null : $investment->amount,
                         'paidAt' => $cancelled ? '' : optional($investment->paid_at)->format('Y-m-d'),
