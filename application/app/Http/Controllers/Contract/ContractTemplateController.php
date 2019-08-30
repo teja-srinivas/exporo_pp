@@ -20,7 +20,7 @@ class ContractTemplateController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(ContractTemplate::class);
+        $this->authorizeResource(ContractTemplate::class, 'template');
     }
 
     /**
@@ -40,7 +40,6 @@ class ContractTemplateController extends Controller
 
     /**
      * @return Response
-     * @throws AuthorizationException
      */
     public function create()
     {
