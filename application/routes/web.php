@@ -11,68 +11,110 @@
 |
 */
 
+use App\Http\Controllers as C;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['referred'])->group(function () {
     Route::redirect('/', 'https://p.exporo.de/');
-    Auth::routes(['verify' => true]);
+
+    Route::namespace('App\Http\Controllers')->group(function () {
+        Auth::routes(['verify' => true]);
+    });
 });
 
 Route::prefix('agbs')->group(function () {
-    Route::get('{agb}/download', 'AgbController@download')
+    Route::get('{agb}/download', [C\AgbController::class, 'download'])
         ->name('agbs.download')
         ->middleware('signed');
 
-    Route::get('latest/{type?}', 'AgbController@latest')->name('agbs.latest');
+    Route::get('latest/{type?}', [C\AgbController::class, 'latest'])
+        ->name('agbs.latest');
 });
 
 Route::middleware(['verified'])->group(function () {
     Route::middleware(['accepted', 'filled'])->group(function () {
-        Route::get('authorization', 'AuthorizationController')->name('authorization.index');
-        Route::get('bills/export', 'ExportBillsController')->name('bills.export');
-        Route::get('bills/preview/{user}', 'BillController@preview')->name('bills.preview');
-        Route::resource('agbs', 'AgbController');
-        Route::resource('banner-sets', 'BannerSetController')->names('banners.sets')->parameter('banner-sets', 'set');
-        Route::resource('banners', 'BannerController')->only('store', 'destroy');
-        Route::resource('bills', 'BillController');
-        Route::resource('commissions/types', 'CommissionTypeController')->names('commissions.types');
-        Route::resource('commissions', 'CommissionController')->only('index');
-        Route::resource('projects', 'ProjectController')->only('index', 'show', 'update');
-        Route::resource('roles', 'RoleController')->except('index');
-        Route::resource('schemas', 'SchemaController');
-        Route::resource('documents', 'DocumentController');
-        Route::resource('users', 'UserController');
+        Route::get('authorization', C\AuthorizationController::class)
+            ->name('authorization.index');
+        Route::get('bills/export', C\ExportBillsController::class)
+            ->name('bills.export');
+        Route::get('bills/preview/{user}', [C\BillController::class, 'preview'])
+            ->name('bills.preview');
+        Route::resource('agbs', C\AgbController::class);
+        Route::resource('banner-sets', C\BannerSetController::class)
+            ->parameter('banner-sets', 'set')
+            ->names('banners.sets');
+        Route::resource('banners', C\BannerController::class)
+            ->only('store', 'destroy');
+        Route::resource('bills', C\BillController::class);
+        Route::resource('commissions/types', C\CommissionTypeController::class)
+            ->names('commissions.types');
+        Route::resource('commissions', C\CommissionController::class)
+            ->only('index');
+        Route::resource('projects', C\ProjectController::class)
+            ->only('index', 'show', 'update');
+        Route::resource('roles', C\RoleController::class)
+            ->except('index');
+        Route::resource('schemas', C\SchemaController::class);
+        Route::resource('documents', C\DocumentController::class);
+        Route::resource('users', C\UserController::class);
 
-        Route::prefix('contracts')->namespace('Contract')->group(function () {
-            Route::resource('templates', 'ContractTemplateController')->names('contracts.templates');
-            Route::resource('/', 'ContractController')->only('show', 'edit', 'update', 'destroy')->names('contracts')->parameter('', 'contract');
-            Route::put('{contract}/status', 'ContractStatusController@update')->name('contract-status.update');
+        Route::prefix('contracts')->group(function () {
+            Route::resource('templates', C\Contract\ContractTemplateController::class)
+                ->names('contracts.templates');
+
+            Route::resource('/', C\Contract\ContractController::class)
+                ->only('show', 'edit', 'update', 'destroy')
+                ->parameter('', 'contract')
+                ->names('contracts');
+
+            Route::put('{contract}/status', [C\Contract\ContractStatusController::class, 'update'])
+                ->name('contract-status.update');
         });
 
-        Route::prefix('users/{user}')->name('users.')->namespace('User')->group(function () {
-            Route::resource('contracts', 'ContractController')->only('store');
-            Route::resource('documents', 'DocumentController')->only('index');
-            Route::resource('investments', 'InvestmentController')->only('index');
-            Route::resource('investors', 'InvestorController')->only('index');
-            Route::resource('users', 'UserController')->only('index');
-            Route::resource('commission-bonuses', 'CommissionBonusController')->only('store', 'update', 'destroy');
+        Route::prefix('users/{user}')->name('users.')->group(function () {
+            Route::resource('contracts', C\User\ContractController::class)
+                ->only('store');
+            Route::resource('documents', C\User\DocumentController::class)
+                ->only('index');
+            Route::resource('investments', C\User\InvestmentController::class)
+                ->only('index');
+            Route::resource('investors', C\User\InvestorController::class)
+                ->only('index');
+            Route::resource('users', C\User\UserController::class)
+                ->only('index');
+            Route::resource('commission-bonuses', C\User\CommissionBonusController::class)
+                ->only('store', 'update', 'destroy');
         });
 
-        Route::get('home', 'HomeController')->name('home');
-        Route::get('commission-details', 'User\CommissionDetails')->name('commission-details');
-
-        Route::get('affiliate/banners', 'BannerController@index')->name('affiliate.banners.index');
-        Route::view('affiliate/child-users', 'affiliate/child-users')->name('affiliate.child-users');
-        Route::resource('affiliate/links', 'LinkController')->except('show')->names('affiliate.links');
+        Route::get('home', C\HomeController::class)
+            ->name('home');
+        Route::get('commission-details', C\User\CommissionDetails::class)
+            ->name('commission-details');
+        Route::get('affiliate/banners', [C\BannerController::class, 'index'])
+            ->name('affiliate.banners.index');
+        Route::view('affiliate/child-users', 'affiliate/child-users')
+            ->name('affiliate.child-users');
+        Route::resource('affiliate/links', C\LinkController::class)
+            ->except('show')
+            ->names('affiliate.links');
 
         Route::prefix('affiliate/mails')->group(function () {
-            Route::resource('/', 'MailingController')->parameter('', 'mail')->names('affiliate.mails');
-            Route::get('{mail}/preview', 'Mailing\PreviewController@show')->name('affiliate.mails.preview');
-            Route::get('{mail}/download', 'Mailing\DownloadController@show')->name('affiliate.mails.download');
+            Route::resource('/', C\MailingController::class)
+                ->parameter('', 'mail')
+                ->names('affiliate.mails');
+            Route::get('{mail}/preview', [C\Mailing\PreviewController::class, 'show'])
+                ->name('affiliate.mails.preview');
+            Route::get('{mail}/download', [C\Mailing\DownloadController::class, 'show'])
+                ->name('affiliate.mails.download');
         });
     });
 });
 
-Route::get('bills/{bill}/pdf', 'BillController@billPdf')->middleware('signed')->name('bills.pdf');
-Route::get('users/{user}/login', 'UserController@loginUsingId')->middleware('signed')->name('users.login');
+Route::get('bills/{bill}/pdf', [C\BillController::class, 'billPdf'])
+    ->middleware('signed')
+    ->name('bills.pdf');
+
+Route::get('users/{user}/login', [C\UserController::class, 'loginUsingId'])
+    ->middleware('signed')
+    ->name('users.login');
