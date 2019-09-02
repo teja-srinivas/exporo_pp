@@ -14,7 +14,7 @@ class CommissionBonusController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(CommissionBonus::class);
+        $this->authorizeResource(CommissionBonus::class, 'bonus');
     }
 
     /**

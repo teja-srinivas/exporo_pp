@@ -11,7 +11,7 @@ class PreviewController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Mailing::class);
+        $this->authorizeResource(Mailing::class, 'mail');
     }
 
     /**
