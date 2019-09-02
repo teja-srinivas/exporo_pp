@@ -53,7 +53,7 @@
 
                 @php($canEditAnything = false)
 
-                @can('features.contracts.update-claim')
+                @can('management.contracts.update-claim')
                     @php($canEditAnything = true)
                     @include('components.form.builder', [
                         'labelWidth' => 6,
@@ -76,7 +76,7 @@
                     </div>
                 @endcan
 
-                @can('features.contracts.update-cancellation-period')
+                @can('management.contracts.update-cancellation-period')
                     @php($canEditAnything = true)
                     @include('components.form.builder', [
                         'labelWidth' => 6,
@@ -100,7 +100,7 @@
 
                 <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Mehrwertsteuer</h6>
 
-                @can('features.contracts.update-vat-details')
+                @can('management.contracts.update-vat-details')
                     @php($canEditAnything = true)
                     @include('components.form.builder', [
                         'labelWidth' => 6,
@@ -135,7 +135,7 @@
                 @endcan
 
                 <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Sondervereinbarung</h6>
-                @can('features.contracts.update-special-agreement')
+                @can('management.contracts.update-special-agreement')
                     @php($canEditAnything = true)
                     <textarea name="special_agreement" class="form-control" rows="3">{{
                         old('special_agreement', $contract->special_agreement)
