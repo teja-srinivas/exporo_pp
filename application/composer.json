@@ -28,6 +28,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "intervention/validation": "^1.2",
         "itsgoingd/clockwork": "^4.0",
+        "jenssegers/agent": "^2.6",
         "laravel/framework": "5.8.*",
         "laravel/nova": "^2.0",
         "laravel/tinker": "^1.0",

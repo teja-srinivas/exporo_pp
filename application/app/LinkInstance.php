@@ -8,6 +8,7 @@ use App\Models\Link;
 use App\Helper\TagReplacer;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Services\DeviceIdentification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -101,9 +102,8 @@ class LinkInstance extends Model implements Htmlable
     {
         /* @var LinkClick $click */
         $click = $this->clicks()->create([
-            // TODO
-            'device' => null,
-            'country' => null,
+            'device' => DeviceIdentification::identify(),
+            'country' => null, // TODO
         ]);
 
         return $click;
