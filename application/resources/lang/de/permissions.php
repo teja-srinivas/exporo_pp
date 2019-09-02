@@ -9,6 +9,8 @@ return [
     'features' => 'Funktionen',
     'management' => 'Verwaltung',
 
+    'link-shortener' => 'Kurzlinks',
+
     'create' => 'anlegen',
     'update' => 'bearbeiten',
     'delete' => 'löschen',

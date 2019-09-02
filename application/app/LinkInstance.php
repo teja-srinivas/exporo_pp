@@ -9,6 +9,7 @@ use App\Helper\TagReplacer;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Gate;
 use App\Services\DeviceIdentification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Support\Htmlable;
@@ -89,6 +90,10 @@ class LinkInstance extends Model implements Htmlable
      */
     public function toHtml(): string
     {
+        if (Gate::allows('features.link-shortener.view')) {
+            return $this->getShortenedUrl();
+        }
+
         return $this->buildRealUrl();
     }
 
