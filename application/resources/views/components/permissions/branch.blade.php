@@ -13,7 +13,7 @@
             <strong>{{ __("permissions.$key") }}</strong>
         </summary>
 
-        <div class="ml-1 pl-3 border-left @unless($loop->last) mb-3 @endif">
+        <div class="ml-1 pl-3 border-left @unless($loop->last) mb-2 @endif">
             @foreach(collect($permission)->sortBy(function ($value, string $key) {
                 // Place nested groups before switches by prefixing them with a number
                 // so they appear higher for the lexicographical ordering
