@@ -9,20 +9,7 @@
     ])
 @endsection
 
-@if($contract->isEditable())
-@section('actions')
-    @can('management.contracts.delete')
-        <form action="{{ route('contracts.destroy', $contract) }}" method="POST">
-            @method('DELETE')
-            @csrf
-
-            <button type="submit" class="btn btn-outline-danger btn-sm">
-                Entwurf löschen
-            </button>
-        </form>
-    @endcan
-@endsection
-@endif
+@include('contracts.partials.actions', ['contract' => $contract])
 
 @section('main-content')
     @card

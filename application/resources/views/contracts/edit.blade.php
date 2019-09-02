@@ -10,33 +10,7 @@
     ])
 @endsection
 
-@section('actions')
-    @can('management.contracts.delete')
-        <form action="{{ route('contracts.destroy', $contract) }}" method="POST" class="mr-3">
-            @method('DELETE')
-            @csrf
-
-            <button type="submit" class="btn btn-outline-danger btn-sm">
-                Entwurf löschen
-            </button>
-        </form>
-    @endcan
-
-    <form action="{{ route('contract-status.update', $contract) }}" method="POST">
-        @method('PUT')
-        @csrf
-
-        @if($contract->released_at === null)
-            <button type="submit" name="release" value="1" class="btn btn-success py-1 px-3">
-                Für Partner freigeben
-            </button>
-        @else
-            <button type="submit" name="release" value="0" class="btn btn-danger py-1 px-3">
-                Freigabe zurücknehmen
-            </button>
-        @endif
-    </form>
-@endsection
+@include('contracts.partials.actions', ['contract' => $contract])
 
 @section('main-content')
     <div class="row">

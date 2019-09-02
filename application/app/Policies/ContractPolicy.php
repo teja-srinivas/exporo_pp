@@ -24,4 +24,9 @@ class ContractPolicy extends BasePolicy
     {
         return $model->user->is($user) || parent::view($user, $model);
     }
+
+    public function process(User $user, Contract $contract)
+    {
+        return $user->can('features.contracts.process');
+    }
 }

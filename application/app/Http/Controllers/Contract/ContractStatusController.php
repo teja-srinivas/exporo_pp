@@ -22,7 +22,7 @@ class ContractStatusController extends Controller
      */
     public function update(Request $request, Contract $contract): RedirectResponse
     {
-        $this->authorize('update', $contract);
+        $this->authorize('process', $contract);
 
         $this->checkIfContractIsEditable($contract);
 
