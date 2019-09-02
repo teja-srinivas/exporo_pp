@@ -2,12 +2,9 @@
 
 namespace App\Providers;
 
+use App\Http\ViewComposers as C;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use App\Http\ViewComposers\SidebarComposer;
-use App\Http\ViewComposers\RegisterComposer;
-use App\Http\ViewComposers\UserTableComposer;
-use App\Http\ViewComposers\BundleEditorComposer;
 
 class ComposerServiceProvider extends ServiceProvider
 {
@@ -18,9 +15,10 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('auth.partials.register', RegisterComposer::class);
-        View::composer('components.bundle-editor', BundleEditorComposer::class);
-        View::composer('layouts.sidebar', SidebarComposer::class);
-        View::composer('users.partials.table', UserTableComposer::class);
+        View::composer('affiliate.links.partials.dashboard', C\LinkDashboardComposer::class);
+        View::composer('auth.partials.register', C\RegisterComposer::class);
+        View::composer('components.bundle-editor', C\BundleEditorComposer::class);
+        View::composer('layouts.sidebar', C\SidebarComposer::class);
+        View::composer('users.partials.table', C\UserTableComposer::class);
     }
 }

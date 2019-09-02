@@ -19,6 +19,8 @@
         aufmerksam zu machen. Sie können diese einfach kopieren und mit anderen teilen.
     @endcard
 
+    @include('affiliate.links.partials.dashboard')
+
     @forelse($links as $link)
         <div class="p-3 rounded bg-white shadow-sm my-2">
             <div class="lead font-weight-bold mb-2 leading-sm d-flex align-items-baseline">
