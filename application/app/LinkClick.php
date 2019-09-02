@@ -20,8 +20,12 @@ class LinkClick extends Model
     // Disable the updated_at column
     public const UPDATED_AT = null;
 
+    protected $fillable = [
+        'device', 'country',
+    ];
+
     public function link(): BelongsTo
     {
-        return $this->belongsTo(LinkInstance::class);
+        return $this->belongsTo(LinkInstance::class, 'instance_id');
     }
 }

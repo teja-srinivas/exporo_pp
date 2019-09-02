@@ -15,6 +15,10 @@ use App\Http\Controllers as C;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+Route::domain('p.link.localhost')->group(function () {
+    Route::get('{link}', [C\LinkInstanceController::class, 'show']);
+});
+
 Route::middleware(['referred'])->group(function () {
     Route::redirect('/', 'https://p.exporo.de/');
 

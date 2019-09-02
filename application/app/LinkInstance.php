@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Link;
 use App\Helper\TagReplacer;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,7 +17,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property int $link_id
  * @property int $user_id
- * @property string $url
  * @property string $hash
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -53,7 +53,7 @@ class LinkInstance extends Model implements Htmlable
 
     public function clicks(): HasMany
     {
-        return $this->hasMany(LinkClick::class);
+        return $this->hasMany(LinkClick::class, 'instance_id');
     }
 
     public function getShortenedUrl(): string
@@ -95,5 +95,17 @@ class LinkInstance extends Model implements Htmlable
         if (! $this->exists) {
             $this->save();
         }
+    }
+
+    public function createClick(Request $request): LinkClick
+    {
+        /* @var LinkClick $click */
+        $click = $this->clicks()->create([
+            // TODO
+            'device' => null,
+            'country' => null,
+        ]);
+
+        return $click;
     }
 }
