@@ -78,7 +78,7 @@
         <div class="list-group">
             @forelse($user->contracts()->latest()->get() as $contract)
                 <a class="list-group-item list-group-item-action
-                          @if($contract->is($user->contract) || $loop->count === 1) active @endif"
+                          @if($contract->is($user->contract)) active @endif"
                    href="{{ route($contract->isEditable() && auth()->user()->can('update', $contract) ? 'contracts.edit' : 'contracts.show', $contract) }}">
                     <div class="d-flex w-100 justify-content-between align-items-start">
                         <b>
