@@ -8,6 +8,7 @@ use App\Models\Link;
 use App\Helper\TagReplacer;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use App\Services\DeviceIdentification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Support\Htmlable;
@@ -61,7 +62,7 @@ class LinkInstance extends Model implements Htmlable
     {
         $this->createIfNotExists();
 
-        return "https://pp.exporo.link/{$this->hash}";
+        return URL::route('short-link', $this->hash);
     }
 
     public function getRouteKeyName(): string

@@ -56,6 +56,8 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'shortener_url' => env('SHORTENER_URL', 'p.link.localhost'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
