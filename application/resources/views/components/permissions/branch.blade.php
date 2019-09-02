@@ -14,8 +14,10 @@
         </summary>
 
         <div class="ml-1 pl-3 border-left @unless($loop->last) mb-3 @endif">
-            @foreach(collect($permission)->sortBy(function ($_, string $key) {
-                return __("permissions.$key");
+            @foreach(collect($permission)->sortBy(function ($value, string $key) {
+                // Place nested groups before switches by prefixing them with a number
+                // so they appear higher for the lexicographical ordering
+                return (is_array($value) ? 1 : '') . strtolower(__("permissions.$key"));
             }, SORT_NATURAL) as $key => $group)
                 @include('components.permissions.branch', [
                     'hidden' => $hidden ?? false,

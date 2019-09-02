@@ -4,6 +4,7 @@ use App\Models\Permission;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
+// Put all permissions into a nested tree structure
 $grouped = [];
 
 /** @var Collection $permissions */
