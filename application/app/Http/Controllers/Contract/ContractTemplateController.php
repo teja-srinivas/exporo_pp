@@ -97,7 +97,7 @@ class ContractTemplateController extends Controller
 
         $template->update($data);
 
-        if ((bool) $data['is_default'] === true) {
+        if ((bool) ($data['is_default'] ?? false) === true) {
             $template->makeDefault();
         }
 
