@@ -5,26 +5,40 @@
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script>
+    <script>(function () {
         // Fill up empty time series data with zeros
         // source: https://jsfiddle.net/spd1tswo/2/ (via https://stackoverflow.com/a/46113343/1397894)
         var series = @json($series);
+        var dayTick = 1000 * 60 * 60 * 24;
+
+        // Find highest end date
+        var startDay = Number.MAX_SAFE_INTEGER;
+        var endDay = Number.MIN_SAFE_INTEGER;
 
         for (var d = 0; d < series.length; d++) {
             var data = series[d].data;
-            var startDay = data[0][0],
-                endDay = data[data.length-1][0],
-                isLastDay = startDay === endDay,
-                dayTick = 1000 * 60 * 60 * 24,
+
+            var start = data[0][0];
+            if (start < startDay) startDay = start;
+
+            var end = data[data.length-1][0];
+            if (end > endDay) endDay = end;
+        }
+
+        // Fill all dates without data up with zeroes
+        for (d = 0; d < series.length; d++) {
+            data = series[d].data;
+            var isLastDay = startDay === endDay,
+                localStart = startDay,
                 temp = [];
 
-            temp.push([startDay, 0]);
+            temp.push([localStart, 0]);
 
             while(!isLastDay) {
-                startDay += dayTick;
-                temp.push([startDay, 0]);
+                localStart += dayTick;
+                temp.push([localStart, 0]);
 
-                isLastDay = startDay >= endDay;
+                isLastDay = localStart >= endDay;
             }
 
             for (var i = 0; i < data.length; i++) {
@@ -72,5 +86,5 @@
                 series: series
             });
         });
-    </script>
+    })();</script>
 @endcan
