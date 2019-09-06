@@ -44,7 +44,7 @@ class SendMail implements ShouldQueue
                     ]),
                 ],
             ],
-            'template_id' => $templateId,
+            'template_id' => config("services.sendgrid.templateIds.{$templateId}"),
         ];
     }
 

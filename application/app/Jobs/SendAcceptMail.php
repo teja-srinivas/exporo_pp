@@ -37,6 +37,6 @@ class SendAcceptMail
     {
         SendMail::dispatch([
             'Login' => route('password.reset', $broker->createToken($this->user)),
-        ], $this->user, config('mail.templateIds.approved'))->onQueue('emails');
+        ], $this->user, 'approved')->onQueue('emails');
     }
 }
