@@ -11,20 +11,21 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class DocumentController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Document::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return Response
-     * @throws AuthorizationException
      */
     public function index()
     {
-        $this->authorize('viewAny', Document::class);
-
         $documents = Document::query()->orderBy('name')->get();
 
         return response()->view('documents.index', compact('documents'));
@@ -35,12 +36,9 @@ class DocumentController extends Controller
      *
      * @param Request $request
      * @return Response
-     * @throws AuthorizationException
      */
     public function create(Request $request)
     {
-        $this->authorize('create', Document::class);
-
         $users = User::query()
             ->with('details')
             ->orderBy('id')
@@ -60,13 +58,10 @@ class DocumentController extends Controller
      *
      * @param Request $request
      * @return RedirectResponse
-     * @throws AuthorizationException
      * @throws Throwable
      */
     public function store(Request $request)
     {
-        $this->authorize('create', Document::class);
-
         $this->validate($request, [
             'user' => 'required|exists:users,id',
             'name' => 'required|string',
@@ -89,12 +84,9 @@ class DocumentController extends Controller
      *
      * @param Document $document
      * @return Response
-     * @throws AuthorizationException
      */
     public function show(Document $document)
     {
-        $this->authorize('view', $document);
-
         return response()->view('documents.show', compact('document'));
     }
 
@@ -103,12 +95,9 @@ class DocumentController extends Controller
      *
      * @param Document $document
      * @return Response
-     * @throws AuthorizationException
      */
     public function edit(Document $document)
     {
-        $this->authorize('update', $document);
-
         return response()->view('documents.edit', compact('document'));
     }
 
@@ -122,8 +111,6 @@ class DocumentController extends Controller
      */
     public function update(Request $request, Document $document)
     {
-        $this->authorize('update', $document);
-
         $data = $this->validate($request, [
             'name' => 'required|string',
             'file' => 'nullable|mimes:pdf',
@@ -156,13 +143,10 @@ class DocumentController extends Controller
      *
      * @param Document $document
      * @return RedirectResponse
-     * @throws AuthorizationException
      * @throws Exception
      */
     public function destroy(Document $document)
     {
-        $this->authorize('delete', $document);
-
         $document->delete();
 
         return redirect()->route('documents.index');
