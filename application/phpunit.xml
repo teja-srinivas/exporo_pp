@@ -22,6 +22,9 @@
             <directory suffix=".php">./app</directory>
         </whitelist>
     </filter>
+    <listeners>
+        <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />
+    </listeners>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_KEY" value="base64:962+nvRu/e8kPd28duP362GF0cTh7EuwShirC36HNhg="/>

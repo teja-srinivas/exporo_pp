@@ -22,6 +22,9 @@ class CalculateCommissionsTest extends TestCase
     use TestsDatabases;
     use TestsContracts;
 
+    /**
+     * @slowThreshold 600
+     */
     public function test()
     {
         Carbon::setTestNow('2019-05-01');
