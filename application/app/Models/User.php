@@ -277,9 +277,16 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function sendEmailVerificationNotification(): void
     {
-        SendMail::dispatch([
-            'Activationhash' => URL::signedRoute('verification.verify', [$this->id]),
-        ], $this, 'registration')->onQueue('emails');
+        $url = URL::temporarySignedRoute(
+            'verification.verify',
+            \Illuminate\Support\Carbon::now()->addMinutes(config('auth.verification.expire', 60 * 24 * 2)),
+            [
+                'id' => $this->getKey(),
+                'hash' => sha1($this->getEmailForVerification()),
+            ]
+        );
+
+        SendMail::dispatch(['Activationhash' => $url], $this, 'registration')->onQueue('emails');
     }
 
     public function canBeBilled(): bool
