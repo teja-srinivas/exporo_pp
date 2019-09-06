@@ -19,6 +19,11 @@ use Illuminate\Contracts\Session\Session;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,8 +32,6 @@ class UserController extends Controller
      */
     public function index(UserRepository $userRepository)
     {
-        $this->authorize('viewAny', User::class);
-
         return response()->view('users.index', [
             'users' => $userRepository->forTableView(),
         ]);
@@ -38,12 +41,9 @@ class UserController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
-        $this->authorize('create', User::class);
-
         return response()->view('users.create');
     }
 
@@ -53,13 +53,10 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param Hasher $hasher
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request, Hasher $hasher)
     {
-        $this->authorize('create', User::class);
-
         $data = $this->validate($request, [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
@@ -80,12 +77,9 @@ class UserController extends Controller
      * @param User $user
      * @param BillRepository $bills
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(User $user, BillRepository $bills)
     {
-        $this->authorize('view', $user);
-
         $user->load(['documents']);
 
         $user->bills = $bills->getDetails($user->id)->sortByDesc('created_at');
@@ -114,12 +108,9 @@ class UserController extends Controller
      * @param  User $user
      * @param Request $request
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(User $user, Request $request)
     {
-        $this->authorize('update', $user);
-
         $data['user'] = $user;
 
         if ($request->user()->can('manage', User::class)) {
@@ -173,13 +164,10 @@ class UserController extends Controller
      *
      * @param User $user
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Exception
      */
     public function destroy(User $user)
     {
-        $this->authorize('delete', $user);
-
         $user->delete();
 
         return redirect()->route('users.index');
