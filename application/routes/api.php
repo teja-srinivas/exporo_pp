@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::name('api.')->group(function () {
+Route::name('api.')->middleware('auth:api')->group(function () {
     Route::apiResource(
         'commissions/bonuses',
         Api\CommissionBonusController::class,
