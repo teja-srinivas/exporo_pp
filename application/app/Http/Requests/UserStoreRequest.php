@@ -44,7 +44,7 @@ class UserStoreRequest extends FormRequest
     // Make sure we add our custom birth_date field to both,
     // the validation and validated data array
 
-    protected function validationData()
+    public function validationData()
     {
         return $this->addCustomData(parent::validationData());
     }
