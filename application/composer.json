@@ -11,6 +11,14 @@
         {
             "type": "composer",
             "url": "https://nova.laravel.com"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/felixgoldstein/laravel-vat.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/rosswilson252/laravel-auditing.git"
         }
     ],
     "require": {
@@ -36,14 +44,13 @@
         "maatwebsite/excel": "^3.1.8",
         "mormat/php-formula-interpreter": "^1.0",
         "overtrue/laravel-lang": "~3.0",
-        "owen-it/laravel-auditing": "^9.0",
+        "owen-it/laravel-auditing": "dev-laravel-6.0",
         "pragmarx/nova-boolean-datetime-field": "^1.0",
         "predis/predis": "^1.1",
         "psy/psysh": "^0.9.9",
         "s-ichikawa/laravel-sendgrid-driver": "^2.0",
         "sentry/sentry-laravel": "^1.1.0",
-        "spatie/laravel-permission": "^3.0",
-        "vyuldashev/nova-permission": "^1.4"
+        "spatie/laravel-permission": "^3.0"
     },
     "require-dev": {
         "drfraker/snipe-migrations": "^1.1",
