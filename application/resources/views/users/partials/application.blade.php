@@ -11,7 +11,9 @@
                     @empty($user->draftContract)
                         (Ohne Vertrag)
                     @else
-                        <a href="{{ route('contracts.edit', $user->draftContract) }}" class="btn btn-sm btn-success">
+                        @php($editable = $user->draftContract->isEditable() && $user->can('update', $user->draftContract))
+
+                        <a href="{{ route($editable ? 'contracts.edit' : 'contracts.show', $user->draftContract) }}" class="btn btn-sm btn-success">
                             Annehmen
                         </a>
                     @endempty
