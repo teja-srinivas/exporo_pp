@@ -1,5 +1,20 @@
 @can('features.link-shortener.dashboard')
     @card
+        <ul class="nav nav-pills mb-4">
+            <li class="nav-item">
+                <div class="nav-link disabled">
+                    Clicks nach:
+                </div>
+            </li>
+            @foreach($types as $type)
+            <li class="nav-item">
+                <a class="nav-link @if($type['isActive'])active @endif" href="{{ $type['url'] }}">
+                    {{ $type['label'] }}
+                </a>
+            </li>
+            @endforeach
+        </ul>
+
         <div id="link-clicks-container" class="w-100" style="height:400px;"></div>
     @endcard
 
