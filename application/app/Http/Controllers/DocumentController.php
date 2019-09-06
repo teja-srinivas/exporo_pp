@@ -76,7 +76,7 @@ class DocumentController extends Controller
 
         flash_success('Dokument wurde angelegt');
 
-        return redirect()->route('documents.show', [$document, 'user' => true]);
+        return redirect()->route('documents.show', $document);
     }
 
     /**
