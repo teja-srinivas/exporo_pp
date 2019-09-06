@@ -7,16 +7,18 @@ use Illuminate\Http\Request;
 
 class BannerSetController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(BannerSet::class, 'set');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
-        $this->authorize('viewAny', BannerSet::class);
-
         return view('affiliate.banners.sets.index', [
             'sets' => BannerSet::query()->withCount('banners')->get(),
         ]);
@@ -26,12 +28,9 @@ class BannerSetController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
-        $this->authorize('create', BannerSet::class);
-
         return view('affiliate.banners.sets.create');
     }
 
@@ -40,13 +39,10 @@ class BannerSetController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        $this->authorize('create', BannerSet::class);
-
         $data = $this->validate($request, [
             'title' => 'required|string',
             'urls.*.key' => 'string',
@@ -65,12 +61,9 @@ class BannerSetController extends Controller
      *
      * @param  BannerSet $set
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(BannerSet $set)
     {
-        $this->authorize('view', $set);
-
         return view('affiliate.banners.sets.show', [
             'set' => $set,
         ]);
@@ -81,12 +74,9 @@ class BannerSetController extends Controller
      *
      * @param  BannerSet $set
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(BannerSet $set)
     {
-        $this->authorize('update', $set);
-
         return view('affiliate.banners.sets.edit', [
             'set' => $set,
         ]);
@@ -98,13 +88,10 @@ class BannerSetController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  BannerSet $set
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, BannerSet $set)
     {
-        $this->authorize('update', $set);
-
         $data = $this->validate($request, [
             'title' => 'required|string',
             'urls.*.key' => 'string',
@@ -119,14 +106,12 @@ class BannerSetController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  BannerSet $set
+     * @param  BannerSet  $set
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Exception
      */
     public function destroy(BannerSet $set)
     {
-        $this->authorize('delete', $set);
-
         if ($set->delete()) {
             flash_success('Erfolgreich gelöscht');
         }
