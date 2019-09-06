@@ -13,9 +13,9 @@ class AddHtmlFieldToMailingsTable extends Migration
      */
     public function up()
     {
-      Schema::table('mailings', function (Blueprint $table) {
-          $table->longText('html')->after('text')->nullable();
-      });
+        Schema::table('mailings', function (Blueprint $table) {
+            $table->longText('html')->after('text')->nullable();
+        });
     }
 
     /**
@@ -25,8 +25,8 @@ class AddHtmlFieldToMailingsTable extends Migration
      */
     public function down()
     {
-      Schema::table('mailings', function (Blueprint $table) {
-        $table->dropColumn(['html']);
-      });
+        Schema::table('mailings', function (Blueprint $table) {
+            $table->dropColumn(['html']);
+        });
     }
 }

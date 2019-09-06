@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Rules\ModelExists;
 use Carbon\Carbon;
-use Illuminate\Validation\Rule;
+use App\Rules\ModelExists;
 use InvalidArgumentException;
+use Illuminate\Validation\Rule;
 use App\Relationships\BelongsToOne;
 use App\Events\CommissionBonusUpdated;
 use Illuminate\Database\Eloquent\Model;
@@ -84,7 +84,7 @@ class CommissionBonus extends Model
     public static function validationRules(): array
     {
         return [
-            'calculation_type' => [Rule::in(CommissionBonus::TYPES)],
+            'calculation_type' => [Rule::in(self::TYPES)],
             'is_overhead' => ['boolean'],
             'is_percentage' => ['boolean'],
             'type_id' => [new ModelExists(new CommissionType)],

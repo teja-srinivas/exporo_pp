@@ -135,13 +135,14 @@ class MailingController extends Controller
     }
 
     /**
-     * Check if the user uploaded a html file and assigns it to the input data
+     * Check if the user uploaded a html file and assigns it to the input data.
      *
      * @param  Request $request
      * @param  array $input
      * @throws FileNotFoundException
      */
-    private function addUploadedFileToInput(Request $request, array &$input) {
+    private function addUploadedFileToInput(Request $request, array &$input)
+    {
         if ($request->file('file')) {
             $input['html'] = $request->file('file')->get();
         }

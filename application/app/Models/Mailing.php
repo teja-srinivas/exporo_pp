@@ -25,7 +25,7 @@ class Mailing extends Model implements AuditableContract
     ];
 
     protected $fillable = [
-        'title', 'description', 'text', 'html'
+        'title', 'description', 'text', 'html',
     ];
 
     public function getTextForUser(User $user)

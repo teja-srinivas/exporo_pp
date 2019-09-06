@@ -230,6 +230,7 @@ class CommissionController extends Controller
         if ($commission > 0) {
             $commission = (new Commission)->resolveRouteBinding($commission);
             $commission->delete();
+
             return;
         }
 

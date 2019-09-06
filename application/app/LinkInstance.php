@@ -3,8 +3,8 @@
 namespace App;
 
 use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Link;
+use App\Models\User;
 use App\Helper\TagReplacer;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -39,7 +39,7 @@ class LinkInstance extends Model implements Htmlable
     {
         parent::boot();
 
-        static::creating(static function (LinkInstance $instance) {
+        static::creating(static function (self $instance) {
             $instance->hash = Str::random();
         });
     }
@@ -77,7 +77,7 @@ class LinkInstance extends Model implements Htmlable
         $this->createIfNotExists();
 
         return TagReplacer::replace($this->link->url, [
-            'reflink' => function(): string {
+            'reflink' => function (): string {
                 return "?a_aid={$this->user->id}";
             },
         ]);
