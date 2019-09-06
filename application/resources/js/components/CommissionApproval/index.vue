@@ -870,7 +870,7 @@ export default {
     async refreshAll() {
       try {
         this.$notify('Einträge werden neu berechnet');
-        await axios.delete(`${this.api}/0`, {
+        await axios.delete(`${this.api}`, {
           params: this.filterParams,
         });
 
