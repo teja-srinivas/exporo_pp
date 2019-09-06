@@ -17,7 +17,7 @@ class TagReplacer
      */
     public static function replace(string $text, array $replacements): string
     {
-        return preg_replace_callback('/\$\{([\w-_]+?)\}/S', static function (array $match) use ($replacements) {
+        return preg_replace_callback('/\${([\w-_]+?)}/S', static function (array $match) use ($replacements) {
             return value($replacements[$match[1]] ?? '');
         }, $text);
     }
