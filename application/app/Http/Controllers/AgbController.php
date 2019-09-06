@@ -10,16 +10,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AgbController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Agb::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
-        $this->authorize('viewAny', Agb::class);
-
         $list = Agb::query()
             ->leftJoin('agb_user', 'agb_user.agb_id', 'agbs.id')
             ->latest()
@@ -35,12 +37,9 @@ class AgbController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
-        $this->authorize('create', Agb::class);
-
         return response()->view('agbs.create');
     }
 
@@ -49,12 +48,10 @@ class AgbController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Throwable
      */
     public function store(Request $request)
     {
-        $this->authorize('create', Agb::class);
         $data = $request->validate([
             'type' => ['required', Rule::in(Agb::TYPES)],
             'name' => 'required|string',
@@ -80,12 +77,9 @@ class AgbController extends Controller
      *
      * @param  \App\Models\Agb $agb
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Agb $agb)
     {
-        $this->authorize('view', $agb);
-
         $agb->load('users');
 
         return response()->view('agbs.show', compact('agb'));
@@ -96,12 +90,9 @@ class AgbController extends Controller
      *
      * @param  \App\Models\Agb $agb
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Agb $agb)
     {
-        $this->authorize('update', $agb);
-
         return response()->view('agbs.edit', compact('agb'));
     }
 
@@ -111,19 +102,15 @@ class AgbController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\Agb $agb
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Throwable
      */
     public function update(Request $request, Agb $agb)
     {
-        $this->authorize('update', $agb);
-
-        $data = $request->validate([
+        $data = $this->validate($request, [
             'type' => ['required', Rule::in(Agb::TYPES)],
             'name' => 'required|string',
             'effective_from' => 'required|date',
             'file' => 'nullable|mimes:pdf',
-
         ]);
 
         // Replace the old file, if exists
@@ -150,14 +137,12 @@ class AgbController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Agb $agb
+     * @param  \App\Models\Agb  $agb
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
     public function destroy(Agb $agb)
     {
-        $this->authorize('delete', $agb);
-
         abort_unless($agb->canBeDeleted(), Response::HTTP_LOCKED, 'Users may have already accepted these AGB');
 
         $agb->delete();

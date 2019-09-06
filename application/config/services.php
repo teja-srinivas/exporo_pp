@@ -8,9 +8,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | This file is for storing the credentials for third party services such
-    | as Stripe, Mailgun, SparkPost and others. This file provides a sane
-    | default location for this type of information, allowing packages
-    | to have a conventional place to find your various credentials.
+    | as Mailgun, Postmark, AWS and more. This file provides the de facto
+    | location for this type of information, allowing packages to have
+    | a conventional file to locate the various service credentials.
     |
     */
 
@@ -42,6 +42,13 @@ return [
 
     'sendgrid' => [
         'api_key' => env('SENDGRID_API_KEY'),
+        'templateIds' => [
+            'registration' => 'd-7af9c120317d46ddb816029e4f99b155',
+            'approved' => 'd-c213a499a1a94daeaecb37c2599887f3',
+            'declined' => 'd-db5a6ee091c947df8635616a894b70ed',
+            'commissionCreated' => 'd-32e6df395c1d43c0b2af4849405c2235',
+            'resetPassword' => 'd-355e05b34e8a4b348fd7ab4269cf649d',
+        ],
     ],
 
     'docraptor' => [
@@ -52,5 +59,4 @@ return [
     'gtm' => [
         'key' => env('GOOGLE_TAG_ID'),
     ],
-
 ];

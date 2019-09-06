@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::name('api.')->group(function () {
+Route::name('api.')->middleware('auth:api')->group(function () {
     Route::apiResource(
         'commissions/bonuses',
         Api\CommissionBonusController::class,
@@ -22,6 +22,7 @@ Route::name('api.')->group(function () {
     )->names('commissions.bonuses');
 
     Route::apiResource('commissions', Api\CommissionController::class);
+    Route::delete('commissions', [Api\CommissionController::class, 'destroyMultiple']);
     Route::apiResource('contracts/templates', Api\ContractTemplateController::class)->names('contracts.templates');
     Route::apiResource('contracts/templates/{template}/bonuses', Api\ContractTemplateBonusController::class)
         ->names('contracts.templates.bonuses')

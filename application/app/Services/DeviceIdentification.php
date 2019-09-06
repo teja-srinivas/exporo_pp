@@ -7,7 +7,9 @@ use Jenssegers\Agent\Agent;
 class DeviceIdentification
 {
     const PHONE = 'phone';
+
     const TABLET = 'tablet';
+
     const DESKTOP = 'desktop';
 
     const DEVICES = [

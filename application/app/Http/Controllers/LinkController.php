@@ -7,16 +7,18 @@ use Illuminate\Http\Request;
 
 class LinkController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Link::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
-        $this->authorize('viewAny', Link::class);
-
         return view('affiliate.links.index', [
             'links' => Link::query()->with('userInstance')->orderBy('title')->get(),
         ]);
@@ -26,12 +28,9 @@ class LinkController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create()
     {
-        $this->authorize('create', Link::class);
-
         return view('affiliate.links.create');
     }
 
@@ -40,13 +39,10 @@ class LinkController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        $this->authorize('create', Link::class);
-
         $data = $this->validate($request, [
             'title' => 'required',
             'description' => 'nullable',
@@ -63,12 +59,9 @@ class LinkController extends Controller
      *
      * @param  \App\Models\Link $link
      * @return \Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Link $link)
     {
-        $this->authorize('update', $link);
-
         return view('affiliate.links.edit', [
             'link' => $link,
         ]);
@@ -85,8 +78,6 @@ class LinkController extends Controller
      */
     public function update(Request $request, Link $link)
     {
-        $this->authorize('update', $link);
-
         $data = $this->validate($request, [
             'title' => 'required',
             'description' => 'nullable',
@@ -109,8 +100,6 @@ class LinkController extends Controller
      */
     public function destroy(Link $link)
     {
-        $this->authorize('delete', $link);
-
         $link->delete();
 
         flash_success('Eintrag wurde gelöscht');

@@ -30,6 +30,11 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CommissionController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Commission::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -39,8 +44,6 @@ class CommissionController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', Commission::class);
-
         $query = Commission::query()->with([
             'user:id,last_name,first_name',
             'user.details' => function (HasOne $query) {
@@ -79,12 +82,9 @@ class CommissionController extends Controller
      * @param  CalculateCommissionsService $service
      * @return void
      * @throws ValidationException
-     * @throws AuthorizationException
      */
     public function store(Request $request, CalculateCommissionsService $service)
     {
-        $this->authorize('create', Commission::class);
-
         $data = $this->validate($request, [
             'userId' => ['required', 'exists:users,id'],
             'amount' => ['required', 'numeric'],
@@ -132,8 +132,6 @@ class CommissionController extends Controller
      */
     public function update(Request $request, Commission $commission, CalculateCommissionsService $service)
     {
-        $this->authorize('update', $commission);
-
         static $lookup = [
             'note.public' => 'note_public',
             'note.private' => 'note_private',
@@ -168,6 +166,10 @@ class CommissionController extends Controller
         $commission->saveOrFail();
     }
 
+    /**
+     * @param  Request  $request
+     * @throws AuthorizationException
+     */
     public function updateMultiple(Request $request)
     {
         $this->authorize('update', Commission::class);
@@ -217,21 +219,22 @@ class CommissionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $commission
-     * @param  Request  $request
+     * @param  Commission  $commission
      * @return void
-     * @throws AuthorizationException
      * @throws Exception
      */
-    public function destroy(int $commission, Request $request)
+    public function destroy(Commission $commission)
+    {
+        $commission->delete();
+    }
+
+    /**
+     * @param  Request  $request
+     * @throws AuthorizationException
+     */
+    public function destroyMultiple(Request $request)
     {
         $this->authorize('delete', Commission::class);
-
-        if ($commission > 0) {
-            $commission = (new Commission)->resolveRouteBinding($commission);
-            $commission->delete();
-            return;
-        }
 
         // Delete and refresh commissions
         $this->applyFilter(Commission::query(), $request)->delete();

@@ -32,7 +32,7 @@ class SendBillMails extends Command
                 'Link' => 'p.exporo.com',
                 'billing_month' => $date->monthName,
                 'billing_year' => $date->year,
-            ], $bill->user, config('mail.templateIds.commissionCreated'))->onQueue('emails');
+            ], $bill->user, 'commissionCreated')->onQueue('emails');
 
             $bill->mail_sent_at = now();
             $bill->save();

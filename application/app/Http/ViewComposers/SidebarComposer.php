@@ -4,7 +4,6 @@ namespace App\Http\ViewComposers;
 
 use App\Models\Agb;
 use App\Models\Bill;
-use App\Models\ContractTemplate;
 use App\Models\Link;
 use App\Models\Role;
 use App\Models\User;
@@ -17,6 +16,7 @@ use App\Models\BannerSet;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Models\CommissionType;
+use App\Models\ContractTemplate;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Contracts\Auth\Authenticatable;
 

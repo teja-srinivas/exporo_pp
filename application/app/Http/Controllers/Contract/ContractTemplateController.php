@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Contract;
 
-use App\Helper\Rules;
 use Exception;
-use Illuminate\Support\Arr;
 use Throwable;
+use App\Helper\Rules;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\CommissionBonus;
@@ -25,12 +25,9 @@ class ContractTemplateController extends Controller
 
     /**
      * @return Response
-     * @throws AuthorizationException
      */
     public function index()
     {
-        $this->authorize('viewAny', ContractTemplate::class);
-
         return response()->view('contracts.templates.index', [
             'templates' => ContractTemplate::query()
                 ->orderBy('name')

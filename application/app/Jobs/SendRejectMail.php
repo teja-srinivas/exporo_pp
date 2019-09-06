@@ -33,6 +33,6 @@ class SendRejectMail
      */
     public function handle()
     {
-        SendMail::dispatch([], $this->user, config('mail.templateIds.declined'))->onQueue('emails');
+        SendMail::dispatch([], $this->user, 'declined')->onQueue('emails');
     }
 }

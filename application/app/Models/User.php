@@ -9,9 +9,7 @@ use App\Traits\HasRoles;
 use App\Events\UserUpdated;
 use App\Traits\Encryptable;
 use App\Policies\BillPolicy;
-use Illuminate\Auth\Passwords\PasswordBroker;
 use OwenIt\Auditing\Auditable;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
@@ -281,7 +279,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     {
         SendMail::dispatch([
             'Activationhash' => URL::signedRoute('verification.verify', [$this->id]),
-        ], $this, config('mail.templateIds.registration'))->onQueue('emails');
+        ], $this, 'registration')->onQueue('emails');
     }
 
     public function canBeBilled(): bool
@@ -314,7 +312,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         SendMail::dispatch([
             'user-email' => $this->email,
             'link' => url('password/reset/'.$token),
-        ], $this, config('mail.templateIds.resetPassword'))->onQueue('emails');
+        ], $this, 'resetPassword')->onQueue('emails');
     }
 
     public function getRateLimitAttribute()

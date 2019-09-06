@@ -8,13 +8,13 @@
 @endsection
 
 @section('actions')
-    @unless($type->projects()->count() > 0)
+    @can('delete', $type)
         <form action="{{ route('commissions.types.destroy', $type) }}" method="POST" class="d-inline-flex">
             @method('DELETE')
             @csrf
             <button class="btn btn-outline-danger btn-sm mr-2">Löschen</button>
         </form>
-    @endif
+    @endcan
 
     @can('update', $type)
         <a href="{{ route('commissions.types.edit', $type) }}" class="btn btn-primary btn-sm">Bearbeiten</a>

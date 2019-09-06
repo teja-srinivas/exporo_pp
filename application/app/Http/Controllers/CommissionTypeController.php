@@ -8,10 +8,13 @@ use App\Models\CommissionType;
 
 class CommissionTypeController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(CommissionType::class, 'type');
+    }
+
     public function index()
     {
-        $this->authorize('viewAny', CommissionType::class);
-
         return view('commissions.types.index', [
             'types' => CommissionType::all(),
         ]);
@@ -108,11 +111,16 @@ class CommissionTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  CommissionType  $type
      * @return void
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(CommissionType $type)
     {
-        //
+        $type->delete();
+
+        flash_success('Provisionstyp wurde gelöscht');
+
+        return response()->redirectToRoute('commissions.types.index');
     }
 }

@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class TagReplacerTest extends TestCase
 {
-
     /**
      * @param  string  $input
      * @param  string  $output
@@ -40,9 +39,8 @@ class TagReplacerTest extends TestCase
                 [
                     'foo' => 'bar',
                     'baz' => '',
-                ]
-            ]
+                ],
+            ],
         ];
     }
-
 }

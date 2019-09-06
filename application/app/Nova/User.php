@@ -117,8 +117,6 @@ class User extends Resource
                         Date::make('Akzeptiert', 'created_at'),
                     ];
                 }),
-
-            // MorphToMany::make('Roles', 'roles', \Vyuldashev\NovaPermission\Role::class),
         ];
     }
 

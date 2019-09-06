@@ -9,16 +9,18 @@ use Illuminate\Http\Request;
 
 class SchemaController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Schema::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
-        $this->authorize('viewAny', Schema::class);
-
         return response()->view('schemas.index', [
             'schemas' => Schema::all(),
         ]);

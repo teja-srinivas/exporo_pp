@@ -11,15 +11,17 @@ use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Banner::class);
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', Banner::class);
-
         /** @var User $user */
         $user = $request->user();
         $sets = $user->company->bannerSets()
@@ -57,13 +59,10 @@ class BannerController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return void
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        $this->authorize('create', Banner::class);
-
         $data = $this->validate($request, [
             'set_id' => 'exists:banner_sets,id',
             'file' => 'mimes:jpeg,gif,png',
@@ -90,14 +89,12 @@ class BannerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Banner $banner
+     * @param  Banner  $banner
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
     public function destroy(Banner $banner)
     {
-        $this->authorize('delete', $banner);
-
         $banner->delete();
 
         return redirect()->to('banners.sets.show', $banner->set);
