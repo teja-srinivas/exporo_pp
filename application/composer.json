@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "php": "^7.1.3",
+        "php": "^7.2",
         "ext-bcmath": "*",
         "ext-json": "*",
         "awesome-nova/filter-card": "^1.0",
@@ -29,8 +29,8 @@
         "intervention/validation": "^1.2",
         "itsgoingd/clockwork": "^4.0",
         "jenssegers/agent": "^2.6",
-        "laravel/framework": "5.8.*",
-        "laravel/nova": "^2.0",
+        "laravel/framework": "^6.0",
+        "laravel/nova": "^2.1.1",
         "laravel/tinker": "^1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "maatwebsite/excel": "^3.1.8",
@@ -42,18 +42,17 @@
         "psy/psysh": "^0.9.9",
         "s-ichikawa/laravel-sendgrid-driver": "^2.0",
         "sentry/sentry-laravel": "^1.1.0",
-        "spatie/laravel-permission": "^2.12",
+        "spatie/laravel-permission": "^3.0",
         "vyuldashev/nova-permission": "^1.4"
     },
     "require-dev": {
-        "beyondcode/laravel-dump-server": "^1.0",
         "drfraker/snipe-migrations": "^1.1",
-        "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
         "nunomaduro/larastan": "^0.3.15",
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^8.0",
+        "facade/ignition": "^1.4"
     },
     "autoload": {
         "classmap": [
