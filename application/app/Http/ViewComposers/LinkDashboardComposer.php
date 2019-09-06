@@ -34,12 +34,12 @@ class LinkDashboardComposer
 
     private function convertToHighcharts(Collection $results): array
     {
-        return $results->mapToGroups(function (stdClass $record) {
-            return [
+        return $results
+            ->mapToGroups(function (stdClass $record) {
+                return [
                     $record->device => [$record->day, $record->clicks],
                 ];
-        })
-            ->map(function (Collection $group, string $name) {
+            })->map(function (Collection $group, string $name) {
                 return [
                     'name' => $name,
                     'data' => $group,
