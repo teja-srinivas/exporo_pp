@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Contract;
+use App\Models\CommissionBonus;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
@@ -111,6 +112,10 @@ class RegisterController extends Controller
 
             $contract = Contract::fromTemplate($company->contractTemplate);
             $user->contract()->save($contract);
+
+            $contract->bonuses()->saveMany($company->contractTemplate->bonuses->each(static function (CommissionBonus $bonus) {
+                return $bonus->replicate();
+            }));
 
             session()->put('trackUserRegistration', true);
 
