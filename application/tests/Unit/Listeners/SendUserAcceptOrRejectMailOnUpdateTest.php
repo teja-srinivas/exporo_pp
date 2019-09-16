@@ -6,12 +6,9 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Jobs\SendAcceptMail;
 use App\Jobs\SendRejectMail;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SendUserAcceptOrRejectMailOnUpdateTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_sends_rejection_mails_when_users_get_declined()
     {

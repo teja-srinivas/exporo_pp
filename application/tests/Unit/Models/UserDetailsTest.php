@@ -5,12 +5,9 @@ namespace Tests\Unit\Models;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\UserDetails;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserDetailsTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_updates_the_display_name(): void
     {

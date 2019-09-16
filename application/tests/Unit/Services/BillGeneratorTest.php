@@ -7,12 +7,9 @@ use App\Models\Bill;
 use App\Models\User;
 use App\Models\Commission;
 use App\Policies\BillPolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BillGeneratorTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_generates_bills()
     {

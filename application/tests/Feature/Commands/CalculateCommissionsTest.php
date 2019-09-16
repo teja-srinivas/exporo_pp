@@ -14,11 +14,9 @@ use App\Models\CommissionType;
 use App\Models\CommissionBonus;
 use Illuminate\Support\Facades\Artisan;
 use App\Console\Commands\CalculateCommissions;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CalculateCommissionsTest extends TestCase
 {
-    use RefreshDatabase;
     use TestsDatabases;
     use TestsContracts;
 

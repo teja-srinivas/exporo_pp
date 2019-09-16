@@ -4,20 +4,15 @@ namespace Tests\Feature\Pages;
 
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\Company;
 use App\Models\Contract;
-use Tests\TestsContracts;
-use App\Models\CommissionType;
 use App\Models\CommissionBonus;
 use App\Models\ContractTemplate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RegistrationTest extends TestCase
 {
     use WithFaker;
-    use DatabaseTransactions;
 
     /**
      * @test

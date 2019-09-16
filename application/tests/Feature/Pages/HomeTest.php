@@ -6,11 +6,9 @@ use Tests\TestCase;
 use App\Models\Bill;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class HomeTest extends TestCase
 {
-    use DatabaseTransactions;
     use WithoutMiddleware;
 
     /** @var User */

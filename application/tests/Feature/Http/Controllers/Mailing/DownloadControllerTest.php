@@ -8,11 +8,9 @@ use Tests\TestCase;
 use App\Models\Mailing;
 use Tests\TestsControllers;
 use App\Policies\MailingPolicy;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DownloadControllerTest extends TestCase
 {
-    use DatabaseTransactions;
     use TestsControllers;
 
     /**
