@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factory;
 
 /* @var Factory $factory */
 
-$factory->define(Investment::class, function (Faker $faker) {
+$factory->define(Investment::class, static function (Faker $faker) {
     $paidAt = $faker->randomDigit > 3 ? $faker->dateTimeBetween('-5 years') : null;
 
     return [

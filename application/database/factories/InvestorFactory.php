@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factory;
 
 /* @var Factory $factory */
 
-$factory->define(Investor::class, function (Faker $faker) {
+$factory->define(Investor::class, static function (Faker $faker) {
     return [
         'id' => $faker->unique()->randomNumber(),
         'first_name' => $faker->firstName,

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factory;
 
 /* @var Factory $factory */
 
-$factory->define(CommissionBonus::class, function (Faker $faker) {
+$factory->define(CommissionBonus::class, static function (Faker $faker) {
     $bonus = $faker->boolean
         ? CommissionBonus::percentage(
             $faker->randomElement(CommissionBonus::TYPES),
@@ -21,7 +21,7 @@ $factory->define(CommissionBonus::class, function (Faker $faker) {
         );
 
     return $bonus + [
-        'type_id' => function () {
+        'type_id' => static function () {
             /** @var CommissionType $type */
             $type = factory(CommissionType::class)->create();
             return $type->getKey();

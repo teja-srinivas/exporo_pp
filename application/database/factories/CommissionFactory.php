@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 
 /* @var \Illuminate\Database\Eloquent\Factory $factory */
 
-$factory->define(\App\Models\Commission::class, function (Faker $faker) {
+$factory->define(\App\Models\Commission::class, static function (Faker $faker) {
     return [
         'net' => 0,
         'gross' => 0,

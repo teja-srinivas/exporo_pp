@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(\App\Models\UserDetails::class, function (Faker $faker) {
+$factory->define(\App\Models\UserDetails::class, static function (Faker $faker) {
     return [
         'salutation' => $faker->randomElement(['male', 'female']),
         'birth_date' => $faker->dateTimeBetween('-60 years', '-25 years'),

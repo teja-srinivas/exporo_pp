@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factory;
 
 /* @var Factory $factory */
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(User::class, static function (Faker $faker) {
     return [
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
@@ -19,26 +19,26 @@ $factory->define(User::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(User::class, 'verified', function (Faker $faker) {
+$factory->state(User::class, 'verified', static function (Faker $faker) {
     return [
         'email_verified_at' => $faker->dateTime,
     ];
 });
 
-$factory->state(User::class, 'accepted', function (Faker $faker) {
+$factory->state(User::class, 'accepted', static function (Faker $faker) {
     return [
         'email_verified_at' => $faker->dateTime,
         'accepted_at' => $faker->dateTime,
     ];
 });
 
-$factory->state(User::class, 'rejected', function (Faker $faker) {
+$factory->state(User::class, 'rejected', static function (Faker $faker) {
     return [
         'email_verified_at' => $faker->dateTime,
         'rejected_at' => $faker->dateTime,
     ];
 });
 
-$factory->afterCreatingState(User::class, 'billable', function (User $user) {
+$factory->afterCreatingState(User::class, 'billable', static function (User $user) {
     $user->givePermissionTo(Policies\BillPolicy::CAN_BE_BILLED_PERMISSION);
 });

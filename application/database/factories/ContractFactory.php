@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factory;
 
 /* @var Factory $factory */
 
-$factory->define(Contract::class, function (Faker $faker) {
+$factory->define(Contract::class, static function (Faker $faker) {
     return [
         'template_id' => static function (): int {
             /** @var ContractTemplate $template */
@@ -19,7 +19,7 @@ $factory->define(Contract::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(Contract::class, 'active', function (Faker $faker) {
+$factory->state(Contract::class, 'active', static function (Faker $faker) {
     return [
         'accepted_at' => $faker->dateTime,
         'released_at' => $faker->dateTime,
