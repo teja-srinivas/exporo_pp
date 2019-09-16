@@ -25,6 +25,7 @@ class ByDevice extends Graph
             DeviceIdentification::DESKTOP => 'Desktop',
             DeviceIdentification::TABLET => 'Tablet',
             DeviceIdentification::PHONE => 'Smartphone',
+            null => 'Unbekannt',
         ];
 
         return $labels[$group] ?? ucfirst($group);
