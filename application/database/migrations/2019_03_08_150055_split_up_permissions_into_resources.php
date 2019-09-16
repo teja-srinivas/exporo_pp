@@ -52,11 +52,15 @@ class SplitUpPermissionsIntoResources extends Migration
         });
 
         $managed->flatMap(function (Permission $permission) use ($prefix, $replacements) {
-            // "Explode" in the proper CRUD verbs
-            $name = Str::slug(substr($permission->name, strlen('manage')), '-', null);
+            if (Str::startsWith($permission->name, 'manage ')) {
+                // "Explode" in the proper CRUD verbs
+                $name = Str::slug(substr($permission->name, strlen('manage')), '-', null);
 
-            // Add support for replacing names
-            $name = "$prefix.".($replacements[$name] ?? $name);
+                // Add support for replacing names
+                $name = "$prefix.".($replacements[$name] ?? $name);
+            } else {
+                $name = $permission->name;
+            }
 
             return [
                 "$name.view" => $permission,
