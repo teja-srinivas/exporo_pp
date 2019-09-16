@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\LinkClick;
 use App\Models\Link;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LinkController extends Controller
 {
@@ -100,7 +102,15 @@ class LinkController extends Controller
      */
     public function destroy(Link $link)
     {
-        $link->delete();
+        DB::transaction(static function () use ($link) {
+            LinkClick::query()
+                ->whereIn('instance_id', $link->instances()->toBase()->select('id'))
+                ->delete();
+
+            $link->instances()->delete();
+            $link->users()->detach();
+            $link->delete();
+        });
 
         flash_success('Eintrag wurde gelöscht');
 
