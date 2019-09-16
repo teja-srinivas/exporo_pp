@@ -50,7 +50,7 @@ class LinkDashboardComposer
     {
         return $graph->plot()->toBase()->get()
             ->mapToGroups(static function (stdClass $record) use ($graph) {
-                $label = $graph->getLabel($record->{Graph::GROUP_NAME});
+                $label = $graph->getLabel($record->{Graph::GROUP_NAME} ?: 'unknown');
 
                 return [
                     $label => [$record->day, $record->clicks],
