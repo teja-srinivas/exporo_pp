@@ -15,6 +15,7 @@
         @card
             @include('components.form.builder', [
                 'labelWidth' => 3,
+                'contained' => false,
                 'inputs' => [
                     [
                         'type' => 'text',
@@ -36,6 +37,8 @@
                     ],
                 ],
             ])
+
+            @include('affiliate.links.partials.short-link-partners', compact('shortLinkPartners'))
 
             @slot('footer')
                 <div class="text-right">

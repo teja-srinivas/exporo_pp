@@ -9,6 +9,7 @@ use App\Traits\HasRoles;
 use App\Events\UserUpdated;
 use App\Traits\Encryptable;
 use App\Policies\BillPolicy;
+use App\Builders\UserBuilder;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Auth\MustVerifyEmail;
@@ -24,6 +25,8 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 
 /**
+ * @method static UserBuilder query()
+ *
  * @property int $id
  * @property int $parent_id
  * @property string $salutation
@@ -325,5 +328,10 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     public function getRateLimitAttribute()
     {
         return $this->hasPermissionTo('features.api.no-limit') ? 99999999 : 60;
+    }
+
+    public function newEloquentBuilder($query): UserBuilder
+    {
+        return new UserBuilder($query);
     }
 }

@@ -6,15 +6,19 @@ use App\LinkClick;
 use Carbon\Carbon;
 use App\LinkInstance;
 use InvalidArgumentException;
+use App\Builders\LinkBuilder;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
+ * @method static LinkBuilder query()
+ *
  * @property int $id
  * @property string $title
  * @property string $description
@@ -23,6 +27,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property Carbon $updated_at
  *
  * @property-read LinkInstance $userInstance
+ * @property-read Collection $users
  * @property-read Collection $instances
  * @property-read Collection $clicks
  */
@@ -42,6 +47,11 @@ class Link extends Model implements AuditableContract
     public function instances(): HasMany
     {
         return $this->hasMany(LinkInstance::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
     }
 
     /**
@@ -72,5 +82,10 @@ class Link extends Model implements AuditableContract
     public function clicks(): HasManyThrough
     {
         return $this->hasManyThrough(LinkClick::class, LinkInstance::class);
+    }
+
+    public function newEloquentBuilder($query): LinkBuilder
+    {
+        return new LinkBuilder($query);
     }
 }
