@@ -37,7 +37,7 @@ class UserRepository
                 ->whereRaw('is_overhead = true')
                 ->whereRaw('user_id = users.id')
                 ->toSql().') THEN TRUE ELSE FALSE END as has_overhead')
-            ->with('roles')
+            ->with('roles', 'contract')
             ->get()
             ->map(function (User $user) {
                 return [
