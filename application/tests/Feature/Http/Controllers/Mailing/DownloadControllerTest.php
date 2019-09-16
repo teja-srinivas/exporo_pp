@@ -18,6 +18,18 @@ class DownloadControllerTest extends TestCase
     /**
      * @test
      */
+    public function it_only_allows_users_with_view_permission()
+    {
+        $this->be($this->createActiveUser());
+
+        $reponse = $this->get(route('affiliate.mails.download', 1));
+
+        $reponse->assertForbidden();
+    }
+
+    /**
+     * @test
+     */
     public function it_streams_html_downloads()
     {
         $this->be($this->createActiveUserWithPermission(MailingPolicy::PERMISSION.'.view'));

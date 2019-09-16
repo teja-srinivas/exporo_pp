@@ -16,6 +16,18 @@ class PreviewControllerTest extends TestCase
     /**
      * @test
      */
+    public function it_only_allows_users_with_view_permission()
+    {
+        $this->be($this->createActiveUser());
+
+        $reponse = $this->get(route('affiliate.mails.preview', 1));
+
+        $reponse->assertForbidden();
+    }
+
+    /**
+     * @test
+     */
     public function it_replaces_variables_for_mail_previews()
     {
         $user = $this->createActiveUserWithPermission(MailingPolicy::PERMISSION.'.view');

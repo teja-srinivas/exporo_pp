@@ -11,6 +11,15 @@ trait TestsControllers
 {
     protected function createActiveUserWithPermission(string ...$permissions): User
     {
+        $user = $this->createActiveUser();
+
+        $user->givePermissionTo($permissions);
+
+        return $user;
+    }
+
+    protected function createActiveUser(): User
+    {
         /** @var User $user */
         $user = factory(User::class)->state('accepted')->create();
 
@@ -18,8 +27,6 @@ trait TestsControllers
         $contract = factory(Contract::class)->state('active')->make();
         $contract->user()->associate($user);
         $contract->save();
-
-        $user->givePermissionTo($permissions);
 
         return $user;
     }
