@@ -15,13 +15,13 @@
             'name' => 'status',
             'label' => 'Status',
             'align' => 'right',
-            'width' => 50,
+            'width' => 100,
         ],
         [
             'name' => 'roles',
             'label' => 'Rolle',
             'format' => 'roles',
-            'width' => '10%',
+            'width' => 90,
             'align' => 'right',
             'options' => [
                 'roles' => $roles,
@@ -31,7 +31,7 @@
             'name' => 'createdAt',
             'label' => 'Datum',
             'format' => 'date',
-            'width' => 65,
+            'width' => 40,
         ],
     ],
     'defaultSort' => [
