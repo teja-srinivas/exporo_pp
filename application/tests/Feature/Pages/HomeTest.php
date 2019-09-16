@@ -5,12 +5,12 @@ namespace Tests\Feature\Pages;
 use Tests\TestCase;
 use App\Models\Bill;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class HomeTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
     use WithoutMiddleware;
 
     /** @var User */

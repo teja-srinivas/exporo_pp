@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Contract;
+use Illuminate\Support\Str;
 use App\Models\CommissionBonus;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -64,6 +65,7 @@ class RegisterController extends Controller
                 'legal_exporo_ag' => 'accepted',
                 'legal_exporo_gmbh' => 'accepted',
                 'legal_transfer' => 'accepted',
+                'cookie_advertisement' => 'accepted',
             ]
         ));
     }
@@ -91,20 +93,21 @@ class RegisterController extends Controller
                 'last_name' => $data['last_name'],
                 'email' => $data['email'],
                 'parent_id' => request()->cookie(UserHasBeenReferred::COOKIE_NAME, '0'),
+                'api_token' => Str::random(32),
             ]);
 
             $user->details->fill([
-                'company' => $data['company'],
-                'title' => $data['title'],
-                'salutation' => $data['salutation'],
+                'company' => $data['company'] ?? null,
+                'title' => $data['title'] ?? null,
+                'salutation' => $data['salutation'] ?? null,
                 'birth_date' => UserStoreRequest::makeBirthDate($data),
-                'address_street' => $data['address_street'],
-                'address_number' => $data['address_number'],
-                'address_addition' => $data['address_addition'],
-                'address_zipcode' => $data['address_zipcode'],
-                'address_city' => $data['address_city'],
-                'phone' => $data['phone'],
-                'website' => $data['website'],
+                'address_street' => $data['address_street'] ?? null,
+                'address_number' => $data['address_number'] ?? null,
+                'address_addition' => $data['address_addition'] ?? null,
+                'address_zipcode' => $data['address_zipcode'] ?? null,
+                'address_city' => $data['address_city'] ?? null,
+                'phone' => $data['phone'] ?? null,
+                'website' => $data['website'] ?? null,
             ])->saveOrFail();
 
             $user->agbs()->attach($agbs);
