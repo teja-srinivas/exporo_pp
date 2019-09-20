@@ -33,6 +33,10 @@ class SendRejectMail
      */
     public function handle()
     {
+        if (! $this->user->hasVerifiedEmail()) {
+            return;
+        }
+
         SendMail::dispatch([], $this->user, 'declined')->onQueue('emails');
     }
 }

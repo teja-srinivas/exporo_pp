@@ -4,8 +4,10 @@ namespace Tests\Unit\Listeners;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Jobs\SendMail;
 use App\Jobs\SendAcceptMail;
 use App\Jobs\SendRejectMail;
+use Illuminate\Support\Facades\Bus;
 
 class SendUserAcceptOrRejectMailOnUpdateTest extends TestCase
 {
@@ -44,5 +46,17 @@ class SendUserAcceptOrRejectMailOnUpdateTest extends TestCase
         /** @var User $user */
         $user = factory(User::class)->state('rejected')->create();
         $user->update(['rejected_at' => null]);
+    }
+
+    /** @test */
+    public function it_only_sends_rejection_mails_to_validated_users()
+    {
+        $fake = Bus::fake([SendMail::class]);
+
+        /** @var User $user */
+        $user = factory(User::class)->create();
+        $user->update(['rejected_at' => now()]);
+
+        $fake->assertNotDispatched(SendMail::class);
     }
 }
