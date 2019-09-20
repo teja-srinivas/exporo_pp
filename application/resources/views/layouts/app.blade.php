@@ -96,12 +96,16 @@
                             <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                             <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                         @else
-                            <li class="nav-link">
+                            <li class="nav-link py-0 text-right align-self-center" style="line-height: 1.1;">
                                 Angemeldet als
-
+                                @php($currentUser = Auth::user())
                                 <strong>
-                                    {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
+                                    {{ $currentUser->first_name }} {{ $currentUser->last_name }}<br>
                                 </strong>
+
+                                <small>
+                                    Partner-ID: {{ $currentUser->id }}
+                                </small>
                             </li>
                             <li>
                                 <a class="nav-link" href="{{ route('logout') }}"
