@@ -44,11 +44,13 @@ class HomeTest extends TestCase
             'user_id' => $this->user->getKey(),
         ]);
 
-        $bill->commissions()->forceCreate([
+        $commission = $bill->commissions()->forceCreate([
             'user_id' => $this->user->getKey(),
             'net' => 10,
             'gross' => 10,
         ]);
+
+        $bill->commissions()->save($commission);
 
         return $bill;
     }
