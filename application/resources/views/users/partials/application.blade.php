@@ -54,4 +54,8 @@
             Benutzer kann erst akzeptiert werden, sobald ein Vertrag akzeptiert wurde.
         </div>
     @endif
+@elseif($user->rejected())
+    <strong class="text-danger">
+        Nutzer wurde am {{ $user->rejected_at->format('d.m.Y') }} abgelehnt.
+    </strong>
 @endif
