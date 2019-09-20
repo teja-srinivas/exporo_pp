@@ -1,9 +1,32 @@
 @can('features.link-shortener.dashboard')
+    @empty($series)
+    @card
+        <div class="py-5">
+            <p class="lead text-muted text-center">
+                Sie haben noch keine Klicks generiert, die grafisch dargestellt werden können.
+            </p>
+
+            <ol class="w-50 mx-auto mb-0">
+                <li>Teilen sie die unten stehenden Links zB. auf ihren Seiten, E-Mails oder auf sozialen Netzwerken</li>
+                <li>Interessenten klicken auf die Links und kommen auf Exporo</li>
+                <li>Sie sehen grafisch, welcher Link wie gut ankommt</li>
+            </ol>
+
+            @can('features.link-shortener.view')
+                <div class="mt-4 text-center">
+                    <strong>
+                        Sofern sie bereits Links geteilt haben, müssen diese mit den unten stehenden ersetzt werden.
+                    </strong>
+                </div>
+            @endcan
+        </div>
+    @endcard
+    @else
     @card
         <ul class="nav nav-pills mb-4">
             <li class="nav-item">
                 <div class="nav-link disabled">
-                    Clicks nach:
+                    Klicks nach:
                 </div>
             </li>
             @foreach($types as $type)
@@ -102,4 +125,5 @@
             });
         });
     })();</script>
+    @endempty
 @endcan
