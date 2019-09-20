@@ -26,6 +26,8 @@ use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $approved_at
+ *
+ * @property-read int $investments_count
  */
 class Project extends Model
 {

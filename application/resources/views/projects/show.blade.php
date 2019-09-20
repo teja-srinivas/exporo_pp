@@ -35,7 +35,7 @@
         <table class="table table-borderless table-striped table-sm m-0">
             <tbody>
             <tr>
-                <td>Zinssatz</td>
+                <td width="250">Zinssatz</td>
                 <td>{{ $project->interest_rate }}%</td>
             </tr>
             <tr>
@@ -55,6 +55,18 @@
                 <td>
                     Minimallaufzeit: <b>{{ optional($project->payback_min_at)->format('d.m.Y') ?? '(keine Angabe)' }}</b><br>
                     Maximallaufzeit: <b>{{ optional($project->payback_max_at)->format('d.m.Y') ?? '(keine Angabe)' }}</b>
+                </td>
+            </tr>
+            <tr>
+                <td>Anzahl aller Investments</td>
+                <td>
+                    {{ $project->investments_count }}
+                </td>
+            </tr>
+            <tr>
+                <td>Investmentvolumen (Total)</td>
+                <td>
+                    {{ format_money($project->investments()->sum('amount')) }}
                 </td>
             </tr>
             </tbody>

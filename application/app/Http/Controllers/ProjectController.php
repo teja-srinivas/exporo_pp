@@ -57,6 +57,8 @@ class ProjectController extends Controller
             ->where('is_project_type', true)
             ->pluck('name', 'id');
 
+        $project->loadCount('investments');
+
         return view('projects.show', compact('project', 'schemas', 'commissionTypes'));
     }
 
