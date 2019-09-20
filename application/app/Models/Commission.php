@@ -69,7 +69,7 @@ class Commission extends Model implements AuditableContract
     ];
 
     protected $fillable = [
-        'bill_id', 'model_type', 'model_id', 'user_id', 'net', 'gross',
+        'bill_id', 'model_type', 'model_id', 'user_id',
         'on_hold', 'note_public', 'note_private',
     ];
 

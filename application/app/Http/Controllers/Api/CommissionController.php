@@ -116,7 +116,7 @@ class CommissionController extends Controller
      * @param  Commission  $commission
      * @return CommissionResource
      */
-    public function show(Commission $commission)
+    public function show(Commission $commission): CommissionResource
     {
         return CommissionResource::make($commission);
     }
@@ -127,17 +127,15 @@ class CommissionController extends Controller
      * @param  Request  $request
      * @param  Commission  $commission
      * @param CalculateCommissionsService $service
-     * @return void
+     * @return CommissionResource
      * @throws Throwable
      */
-    public function update(Request $request, Commission $commission, CalculateCommissionsService $service)
+    public function update(Request $request, Commission $commission, CalculateCommissionsService $service): CommissionResource
     {
         static $lookup = [
             'note.public' => 'note_public',
             'note.private' => 'note_private',
             'onHold' => 'on_hold',
-            'net' => 'net',
-            'gross' => 'gross',
         ];
 
         // Remap keys using the lookup table
@@ -145,7 +143,7 @@ class CommissionController extends Controller
             return [($lookup[$key] ?? $key) => $value];
         })->all();
 
-        $commission->fill($remapped);
+        $commission->fill(Arr::only($remapped, array_values($lookup)));
 
         // Update special values
         if (isset($remapped['rejected'])) {
@@ -156,14 +154,24 @@ class CommissionController extends Controller
             $commission->review($remapped['reviewed'] === true ? $request->user() : null);
         }
 
-        if (isset($remapped['amount'])) {
-            $commission->fill($service->calculateNetAndGross(
+        if (isset($remapped['amount']) && $remapped['amount'] !== null) {
+            $commission->forceFill($service->calculateNetAndGross(
                 $commission->user->contract,
                 (float) $remapped['amount']
             ));
         }
 
+        if (isset($remapped['bonus']) && $remapped['bonus'] !== null) {
+            $user = $commission->user;
+            $sum = $service->calculateSum($commission->investment, (float) $remapped['bonus']);
+            $netGross = $service->calculateNetAndGross($user->contract, $sum);
+
+            $commission->forceFill($netGross + ['bonus' => (float) $remapped['bonus']]);
+        }
+
         $commission->saveOrFail();
+
+        return CommissionResource::make($commission);
     }
 
     /**

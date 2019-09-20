@@ -50,12 +50,7 @@ final class CalculateCommissionsService
             }
         }
 
-        $sum = $investment->project->schema->calculate([
-            Schema::VAR_AMOUNT => (int) $investment->amount,
-            Schema::VAR_BONUS => $bonus,
-            Schema::VAR_RUNTIME => $investment->project->runtimeFactor(),
-            Schema::VAR_MARGIN => $investment->project->marginPercentage(),
-        ]);
+        $sum = $this->calculateSum($investment, $bonus);
 
         return $this->calculateNetAndGross($user->contract, $sum) + [
             'model_type' => Investment::MORPH_NAME,
@@ -65,6 +60,22 @@ final class CalculateCommissionsService
         ] + ($user->canBeBilled() ? [] : [
             'on_hold' => true,
             'note_private' => 'Abrechnung gesperrt ('.now()->format('d.m.Y').')',
+        ]);
+    }
+
+    /**
+     * @param  Investment  $investment
+     * @param  float  $bonus
+     * @return float
+     * @throws Exception
+     */
+    public function calculateSum(Investment $investment, float $bonus): float
+    {
+        return $investment->project->schema->calculate([
+            Schema::VAR_AMOUNT => (int) $investment->amount,
+            Schema::VAR_BONUS => $bonus,
+            Schema::VAR_RUNTIME => $investment->project->runtimeFactor(),
+            Schema::VAR_MARGIN => $investment->project->marginPercentage(),
         ]);
     }
 

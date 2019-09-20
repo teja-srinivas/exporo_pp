@@ -44,7 +44,7 @@ class HomeTest extends TestCase
             'user_id' => $this->user->getKey(),
         ]);
 
-        $bill->commissions()->create([
+        $bill->commissions()->forceCreate([
             'user_id' => $this->user->getKey(),
             'net' => 10,
             'gross' => 10,

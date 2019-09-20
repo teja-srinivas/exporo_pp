@@ -20,9 +20,9 @@ export default {
     },
   },
 
-  data() {
-    return {
-      variables: {
+  computed: {
+    variables() {
+      return {
         bonus: {
           value: this.commission.bonus,
           formatter: formatNumber,
@@ -39,8 +39,8 @@ export default {
           value: this.commission.model.project.margin,
           formatter: formatNumber,
         },
-      },
-    };
+      };
+    },
   },
 
   methods: {

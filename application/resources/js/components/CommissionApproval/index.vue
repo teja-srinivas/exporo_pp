@@ -361,30 +361,17 @@
                   </div>
                 </div>
 
-                <div class="my-1 row align-items-center">
-                  <div class="col-sm-2">
-                    <strong>Netto:</strong>
-                  </div>
-                  <div class="col-sm-10">
-                    <input
-                      :value="commission.net"
-                      @change="e => updateValue(commission, 'net', parseInt(e.target.value.trim(), 10))"
-                      class="form-control form-control-sm"
-                      type="number"
-                    />
-                  </div>
-                </div>
-
-                <div class="my-1 row align-items-center">
+                <div v-if="commission.type === 'investment'" class="my-1 row align-items-center">
                   <div class="col-sm-2 pr-1">
-                    <strong>Brutto:</strong>
+                    <strong>Bonus:</strong>
                   </div>
                   <div class="col-sm-10">
                     <input
-                      :value="commission.gross"
-                      @change="e => updateValue(commission, 'gross', parseInt(e.target.value.trim()))"
+                      :value="commission.bonus"
+                      @change="e => updateValue(commission, 'bonus', parseInt(e.target.value.trim()))"
                       class="form-control form-control-sm"
                       type="number"
+                      step="any"
                     />
                   </div>
                 </div>
@@ -706,10 +693,7 @@ export default {
         });
 
         this.meta = data.meta;
-        this.commissions = map(data.data, commission => ({
-          ...commission,
-          showDetails: false,
-        }));
+        this.commissions = map(data.data, this.addLocalFields);
       } catch(e) {
         this.$notify({
           title: 'Fehler beim Laden der Daten',
@@ -738,8 +722,6 @@ export default {
     },
 
     async updateValue(commission, key, value) {
-      const needsUpdate = key === 'amount';
-
       const wasModifiedBefore = commission.modified;
       commission.modified = true;
 
@@ -757,10 +739,6 @@ export default {
           }
         }
       );
-
-      if (needsUpdate) {
-        await this.getPage(this.currentPage);
-      }
     },
 
     async updateMultiple(commission, props) {
@@ -801,8 +779,14 @@ export default {
 
     async updateOrRollBack(commission, props, rollbackCallback) {
       try {
-        await axios.put(`${this.api}/${commission.key}`, props);
+        const { data } = await axios.put(`${this.api}/${commission.key}`, props);
         this.$notify('Änderungen gespeichert');
+
+        // Replace local copy based on new remote state
+        const replacement = this.addLocalFields(data.data);
+        replacement.showDetails = commission.showDetails;
+
+        this.commissions.splice(this.commissions.indexOf(commission), 1, replacement);
 
       } catch (e) {
         this.$notify({
@@ -814,6 +798,19 @@ export default {
         this.$nextTick(rollbackCallback);
         throw e;
       }
+    },
+
+    /**
+     * Adds additional fields to the given commission.
+     *
+     * @param commission
+     * @return Object
+     */
+    addLocalFields(commission) {
+      return {
+        ...commission,
+        showDetails: false,
+      };
     },
 
     clearFilters() {
