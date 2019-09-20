@@ -90,6 +90,8 @@ Route::middleware(['verified'])->group(function () {
                 ->only('index');
             Route::resource('commission-bonuses', C\User\CommissionBonusController::class)
                 ->only('store', 'update', 'destroy');
+            Route::resource('verification', C\User\VerificationController::class)
+                ->only('store');
         });
 
         Route::get('home', C\HomeController::class)

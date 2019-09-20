@@ -214,14 +214,9 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasRole(Role::PARTNER);
     }
 
-    public function hasBeenProcessed(): bool
-    {
-        return $this->canBeProcessed() && ($this->rejected_at !== null || $this->accepted_at !== null);
-    }
-
     public function hasNotBeenProcessed(): bool
     {
-        return $this->canBeProcessed() && ($this->rejected_at === null && $this->accepted_at === null);
+        return $this->rejected_at === null && $this->accepted_at === null;
     }
 
     public function rejected(): bool
@@ -299,7 +294,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function canBeAccepted(): bool
     {
-        return $this->email_verified_at !== null;
+        return $this->hasVerifiedEmail();
     }
 
     /**
