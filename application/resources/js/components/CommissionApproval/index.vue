@@ -368,7 +368,7 @@
                   <div class="col-sm-10">
                     <input
                       :value="commission.bonus"
-                      @change="e => updateValue(commission, 'bonus', parseInt(e.target.value.trim()))"
+                      @change="e => updateValue(commission, 'bonus', parseFloat(e.target.value.trim()))"
                       class="form-control form-control-sm"
                       type="number"
                       step="any"
