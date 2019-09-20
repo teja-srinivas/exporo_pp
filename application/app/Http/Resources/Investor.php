@@ -21,9 +21,7 @@ class Investor extends JsonResource
             'id' => $investor->id,
             'firstName' => trim($investor->first_name),
             'lastName' => trim($investor->last_name),
-            'activatedAt' => $investor->activation_at !== null
-                ? $investor->activation_at->format('d.m.Y')
-                : null,
+            'activatedAt' => optional($investor->activation_at)->format('d.m.Y'),
         ];
     }
 }

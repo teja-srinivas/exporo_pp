@@ -46,7 +46,7 @@ class InvestorController extends Controller
                         'displayName' => $investor->getAnonymousName(),
                         'investments' => (float) $investor->investments,
                         'amount' => (float) $investor->amount,
-                        'activationAt' => $investor->activation_at->format('Y-m-d'),
+                        'activationAt' => optional($investor->activation_at)->format('Y-m-d'),
                     ];
                 }),
         ]);

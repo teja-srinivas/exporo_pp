@@ -318,7 +318,7 @@ class BillController extends Controller
                 'id' => $row->investor->id,
                 'firstName' => Person::anonymizeFirstName($row->investor->first_name),
                 'lastName' => ucfirst(trim($row->investor->last_name)),
-                'activationAt' => $activationDate->format('d.m.Y'),
+                'activationAt' => optional($activationDate)->format('d.m.Y'),
                 'note' => $row->note_public,
                 'net' => $row->net,
                 'gross' => $row->gross,

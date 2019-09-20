@@ -24,7 +24,7 @@ class CalculateInvestorsClaims extends Command
                     return;
                 }
 
-                $investor->claim_end = $investor->activation_at->addYears(
+                $investor->claim_end = $investor->created_at->addYears(
                     $investor->user->contract->claim_years
                 );
 
