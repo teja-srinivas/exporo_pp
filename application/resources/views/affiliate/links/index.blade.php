@@ -17,10 +17,13 @@
     @card
         Hier finden Sie verschiedene Links, die Sie verwenden können, um auf Exporo auf die aktuellen Immobilienprojekte
         aufmerksam zu machen. Sie können diese einfach kopieren und mit anderen teilen.
+
+        <a href="#links">Zu den Links &raquo;</a>
     @endcard
 
     @include('affiliate.links.partials.dashboard')
 
+    <div id="links">
     @forelse($links as $link)
         <div class="p-3 rounded bg-white shadow-sm my-2">
             <div class="lead font-weight-bold mb-2 leading-sm d-flex align-items-baseline">
@@ -46,4 +49,5 @@
             Keine Links zur Auswahl
         </div>
     @endforelse
+    </div>
 @endsection
