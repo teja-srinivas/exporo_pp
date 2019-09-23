@@ -32,7 +32,7 @@
             </tr>
         @empty
             <tr class="text-center text-muted">
-                <td colspan="5">Noch keine Abrechnungsprovisionta erstellt</td>
+                <td colspan="5">Noch keine Provisionstypen erstellt</td>
             </tr>
         @endforelse
         </tbody>
