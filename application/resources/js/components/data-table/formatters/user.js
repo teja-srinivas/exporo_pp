@@ -30,13 +30,19 @@ export default {
   orderBy: user => `${user.lastName ? replaceExtras(user.lastName) : ''}${user.firstName}`.toLowerCase(),
 
   filterFunction: query => {
-    const lowercase = query.toLowerCase();
+    // In case we got a string, check their name(s)
+    if (Number.isNaN(query)) {
+      const lowercase = query.toLowerCase();
 
-    return (user) => (
-      (user.displayName && user.displayName.toLowerCase().indexOf(lowercase) !== -1)
-        || (user.lastName && user.lastName.toLowerCase().indexOf(lowercase) !== -1)
-        || (user.firstName && user.firstName.toLowerCase().indexOf(lowercase) !== -1)
-    );
+      return (user) => (
+        (user.displayName && user.displayName.toLowerCase().indexOf(lowercase) !== -1)
+          || (user.lastName && user.lastName.toLowerCase().indexOf(lowercase) !== -1)
+          || (user.firstName && user.firstName.toLowerCase().indexOf(lowercase) !== -1)
+      );
+    }
+
+    // Only check against their ID
+    return ({ id }) => `${id}`.indexOf(query) !== -1;
   },
 
   defaultAggregator: 'count',
