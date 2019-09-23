@@ -10,7 +10,7 @@
             'border-bottom': depth === 0 || index < rows.length - 1 || showDetails(row),
             'border-top': index > 0 && (!rows[index - 1].isGroup || !showDetails(rows[index - 1])),
             [$style.trChildStart]: index === 0,
-            [$style.trChildEnd]: depth > 0 && index === rows.length - 1,
+            [$style.trChildEnd]: depth > 0 && index === rows.length - 1 && !showDetails(row),
           }"
           class="font-weight-bold"
         >
