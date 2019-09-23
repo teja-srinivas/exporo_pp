@@ -39,16 +39,20 @@ class DocumentController extends Controller
      */
     public function create(Request $request)
     {
-        $users = User::query()
-            ->with('details')
-            ->orderBy('id')
-            ->get(['id']);
+        $userId = $request->get('user_id');
 
-        $user = $users->get($request->get('user_id'));
+        if ($userId !== null) {
+            $user = User::query()->findOrFail($userId);
+        } else {
+            $users = User::query()
+                ->with('details')
+                ->orderBy('id')
+                ->get(['id']);
 
-        $users = $users->mapWithKeys(function (User $user) {
-            return [$user->getKey() => $user->getKey().' - '.$user->details->display_name];
-        });
+            $users = $users->mapWithKeys(function (User $user) {
+                return [$user->getKey() => $user->getKey().' - '.$user->details->display_name];
+            });
+        }
 
         return response()->view('documents.create', compact('user', 'users'));
     }

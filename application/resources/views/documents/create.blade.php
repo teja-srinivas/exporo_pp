@@ -20,6 +20,9 @@
         @csrf
 
         @card
+            @empty($users)
+            <input type="hidden" name="user" value="{{ optional($user)->getKey() }}">
+            @else
             <div class="form-group row">
                 <label for="inputUser" class="col-sm-3 col-form-label">Benutzer:</label>
                 <div class="col-sm-9">
@@ -27,10 +30,11 @@
                         'name' => 'user',
                         'values' => $users,
                         'assoc' => true,
-                        'default' => optional($user)->getKey(),
+                        'default' => optional($user ?? null)->getKey(),
                     ])
                 </div>
             </div>
+            @endif
             <div class="form-group row">
                 <label for="inputName" class="col-sm-3 col-form-label">Anzeigename:</label>
                 <div class="col-sm-9">
