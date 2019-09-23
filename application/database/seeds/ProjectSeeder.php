@@ -12,13 +12,19 @@ class ProjectSeeder extends Seeder
     /**
      * Creates dummy projects.
      *
-     * @return Collection
+     * @return void
      */
-    public function run(): Collection
+    public function run(): void
     {
-        // Create 3 schemas for which we have 10 projects each
-        return factory(Schema::class, 3)->create()->flatMap(function (Schema $schema) {
-            return factory(Project::class, 10)->create([
+        /** @var Collection $schemas */
+        $schemas = factory(Schema::class, 3)->create();
+
+        $schemas->each(function (Schema $schema) {
+            factory(Project::class, 5)->create([
+                'schema_id' => $schema->id,
+            ]);
+
+            factory(Project::class, 3)->state('approved')->create([
                 'schema_id' => $schema->id,
             ]);
         });
