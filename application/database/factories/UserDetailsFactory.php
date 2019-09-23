@@ -1,8 +1,12 @@
 <?php
 
+use App\Models\UserDetails;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
-$factory->define(\App\Models\UserDetails::class, static function (Faker $faker) {
+/* @var Factory $factory */
+
+$factory->define(UserDetails::class, static function (Faker $faker) {
     return [
         'company' => $faker->boolean ? $faker->company : null,
         'salutation' => $faker->randomElement(['male', 'female']),
@@ -14,5 +18,7 @@ $factory->define(\App\Models\UserDetails::class, static function (Faker $faker) 
         'address_city' => $faker->city,
         'phone' => $faker->phoneNumber,
         'website' => $faker->url,
+        'iban' => $faker->optional()->iban('DE'),
+        'bic' => $faker->optional()->swiftBicNumber,
     ];
 });
