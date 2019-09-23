@@ -50,6 +50,11 @@ class AddContractsTable extends Migration
 
     private function migrateContracts()
     {
+        // Don't migrate when we don't have any users (in case this is a new setup about to get seeded)
+        if (User::query()->doesntExist()) {
+            return;
+        }
+
         /** @var ContractTemplate $template */
         $template = ContractTemplate::query()->create();
 
