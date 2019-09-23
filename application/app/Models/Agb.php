@@ -2,16 +2,28 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Builders\AgbBuilder;
 use OwenIt\Auditing\Auditable;
 use App\Interfaces\FileReference;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
+/**
+ * @method static AgbBuilder query()
+ *
+ * @property string $type
+ * @property string $name
+ * @property string $filename
+ * @property boolean $is_default
+ * @property Carbon|null $effective_from
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ */
 class Agb extends Model implements AuditableContract, FileReference
 {
     use Auditable;
@@ -24,8 +36,6 @@ class Agb extends Model implements AuditableContract, FileReference
     const TYPE_GMBH = 'gmbh';
 
     const TYPES = [self::TYPE_AG, self::TYPE_GMBH];
-
-    protected static $numberOfDefaults = null;
 
     protected $casts = [
         'is_default' => 'bool',
@@ -57,22 +67,14 @@ class Agb extends Model implements AuditableContract, FileReference
      */
     public static function current(string $type): ?self
     {
-        return self::isDefault()->forType($type)->latest()->first();
-    }
+        /** @var self $model */
+        $model = self::query()
+            ->forType($type)
+            ->isDefault()
+            ->latest()
+            ->first();
 
-    public function scopeForType(Builder $query, string $type)
-    {
-        if (! in_array($type, self::TYPES)) {
-            // Silently fail the query in case it's not a valid type
-            $type = null;
-        }
-
-        $query->where('type', $type);
-    }
-
-    public function scopeIsDefault(Builder $query, bool $value = true)
-    {
-        $query->where('is_default', $value);
+        return $model;
     }
 
     /**
@@ -93,7 +95,7 @@ class Agb extends Model implements AuditableContract, FileReference
      */
     public function getDownloadUrl(): string
     {
-        return URL::SignedRoute('agbs.download', [$this]);
+        return URL::signedRoute('agbs.download', [$this]);
     }
 
     /**s
@@ -107,11 +109,16 @@ class Agb extends Model implements AuditableContract, FileReference
      */
     public function canBeDeleted(): bool
     {
-        return $this->users->count() === 0 && (! $this->is_default || $this->numberOfAvailableDefaults() > 1);
+        return (! $this->is_default || self::hasEnoughDefaults()) && $this->users()->doesntExist();
     }
 
-    protected function numberOfAvailableDefaults()
+    protected static function hasEnoughDefaults(): bool
     {
-        return self::$numberOfDefaults ?: (self::$numberOfDefaults = self::isDefault()->count());
+        return self::query()->isDefault()->count() >= count(self::TYPES);
+    }
+
+    public function newEloquentBuilder($query): AgbBuilder
+    {
+        return new AgbBuilder($query);
     }
 }

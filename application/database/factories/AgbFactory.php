@@ -2,8 +2,11 @@
 
 use App\Models\Agb;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
-$factory->define(\App\Models\Agb::class, static function (Faker $faker) {
+/* @var Factory $factory */
+
+$factory->define(Agb::class, static function (Faker $faker) {
     $created = $faker->date();
 
     return [
@@ -15,3 +18,13 @@ $factory->define(\App\Models\Agb::class, static function (Faker $faker) {
         'updated_at' => $created,
     ];
 });
+
+$factory->state(Agb::class, 'default', [
+    'is_default' => true,
+]);
+
+foreach (Agb::TYPES as $type) {
+    $factory->state(Agb::class, $type, [
+        'type' => $type,
+    ]);
+}
