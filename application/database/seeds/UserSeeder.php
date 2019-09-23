@@ -13,6 +13,7 @@ use App\Models\Investment;
 use App\Models\UserDetails;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\FactoryBuilder;
 
 class UserSeeder extends Seeder
 {
@@ -67,7 +68,7 @@ class UserSeeder extends Seeder
             $user->assignRole(Role::PARTNER);
             $user->agbs()->attach($agbs);
 
-            $user->details()->update(factory(UserDetails::class)->raw());
+            $user->details->update(factory(UserDetails::class)->raw());
 
             factory(Bill::class, rand(0, 8))->create([
                 'user_id' => $user->id,
