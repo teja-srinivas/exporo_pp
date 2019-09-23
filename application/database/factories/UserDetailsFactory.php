@@ -4,6 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Models\UserDetails::class, static function (Faker $faker) {
     return [
+        'company' => $faker->boolean ? $faker->company : null,
         'salutation' => $faker->randomElement(['male', 'female']),
         'birth_date' => $faker->dateTimeBetween('-60 years', '-25 years'),
         'birth_place' => $faker->city,
