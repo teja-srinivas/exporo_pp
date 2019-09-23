@@ -114,11 +114,15 @@
     @card
         @slot('title', 'Provisionstyp')
         @slot('subtitle')
-            Aktueller Typ:
+            @empty($project->commissionType)
+                Noch kein Typ ausgewählt.
+            @else
+                Aktueller Typ:
 
-            <a href="{{ route('commissions.types.show', $project->commissionType) }}">
-                {{ $project->commissionType->name }}
-            </a>
+                <a href="{{ route('commissions.types.show', $project->commissionType) }}">
+                    {{ $project->commissionType->name }}
+                </a>
+            @endif
         @endslot
         @slot('footer')
         {{--
