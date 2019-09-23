@@ -59,6 +59,13 @@
                     'order' => 'desc',
                 ],
             ],
+            [
+                'column' => 'user',
+                'sort' => [
+                    'name' => 'user',
+                    'order' => 'asc',
+                ],
+            ],
         ],
         'rows' => $bills->values(),
         'actions' => auth()->user()->can('export', \App\Models\Bill::class) ? [
