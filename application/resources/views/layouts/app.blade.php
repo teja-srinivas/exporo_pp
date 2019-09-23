@@ -108,7 +108,7 @@
                                 </small>
                             </li>
                             <li>
-                                <a class="nav-link" href="{{ route('logout') }}"
+                                <a class="nav-link ml-2 px-3 rounded border" href="{{ route('logout') }}"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
