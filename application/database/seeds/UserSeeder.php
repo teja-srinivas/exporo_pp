@@ -38,6 +38,8 @@ class UserSeeder extends Seeder
      */
     protected function createAdmins(array $userExtras): void
     {
+        $userExtras['email'] = 'pp@exporo.de';
+
         factory(User::class)->state('accepted')->create($userExtras)->each(function (User $user) {
             $user->assignRole(Role::ADMIN);
         });
