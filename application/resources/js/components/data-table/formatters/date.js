@@ -11,4 +11,6 @@ export default {
   isValid: value => (typeof value === 'string' && value.length > 0),
   align: 'right',
   format: formatDate,
+
+  filterFunction: query => raw => formatDate(raw).indexOf(query) !== -1,
 };

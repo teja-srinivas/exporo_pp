@@ -11,4 +11,9 @@ export default {
 
   format: useDisplayValue,
   groupFormat: 'display',
+
+  filterFunction: query => {
+    const lowercase = query.toLowerCase();
+    return (_, options, obj) => options.format(_, options, obj).indexOf(lowercase) !== -1;
+  }
 };

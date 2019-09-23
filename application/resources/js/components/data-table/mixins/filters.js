@@ -41,7 +41,7 @@ export default {
 
       return Object.freeze(filter(this.rows, row => every(this.filterFunctions, (column, name) => {
         const value = row[name];
-        return value !== null && column.matches(column.value(value, column.options, row));
+        return value !== null && column.matches(value, column.options, row);
       })));
     },
   },

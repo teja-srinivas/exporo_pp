@@ -1,5 +1,3 @@
-import escapeRegExp from 'lodash/escapeRegExp';
-
 const passthrough = val => val;
 
 export default {
@@ -12,10 +10,10 @@ export default {
   initialize: null,
 
   /**
-   * Formats the given value as appropiate by this type.
+   * Formats the given value as appropriate by this type.
    *
-   * @param obj
    * @param name
+   * @param obj
    * @param row
    * @return {*}
    */
@@ -61,7 +59,7 @@ export default {
    */
   filterFunction: query => {
     const lowercase = query.toLowerCase();
-    return val => (val.toLowerCase().indexOf(lowercase) !== -1);
+    return val => ((typeof val !== 'string' ? `${val}` : val).toLowerCase().indexOf(lowercase) !== -1);
   },
 
   /**
