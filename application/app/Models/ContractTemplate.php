@@ -60,11 +60,15 @@ class ContractTemplate extends Model
 
     public function getIsDefaultAttribute()
     {
-        return $this->company->default_contract_template_id === $this->getKey();
+        return $this->company !== null && $this->company->default_contract_template_id === $this->getKey();
     }
 
     public function makeDefault()
     {
+        if ($this->company === null) {
+            return;
+        }
+
         $this->company->contractTemplate()->associate($this);
         $this->company->save();
     }
