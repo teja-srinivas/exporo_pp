@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Bill::class, static function (Faker $faker) {
     return [
-        'released_at' => $faker->randomDigit > 3 ? $faker->date() : null,
+        'released_at' => $faker->randomDigit > 3 ? $faker->dateTimeBetween('-1 year') : null,
     ];
 });
 
