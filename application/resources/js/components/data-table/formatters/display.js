@@ -14,6 +14,6 @@ export default {
 
   filterFunction: query => {
     const lowercase = query.toLowerCase();
-    return (_, options, obj) => options.format(_, options, obj).indexOf(lowercase) !== -1;
+    return (_, options, obj) => useDisplayValue(_, options, obj).toLowerCase().indexOf(lowercase) !== -1;
   }
 };
