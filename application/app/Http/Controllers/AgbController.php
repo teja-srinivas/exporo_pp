@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Agb;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -75,14 +76,15 @@ class AgbController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Agb $agb
+     * @param  \App\Models\Agb  $agb
+     * @param  UserRepository  $userRepository
      * @return \Illuminate\Http\Response
      */
-    public function show(Agb $agb)
+    public function show(Agb $agb, UserRepository $userRepository)
     {
-        $agb->load('users');
+        $users = $userRepository->forTableView($agb->users()->getQuery());
 
-        return response()->view('agbs.show', compact('agb'));
+        return response()->view('agbs.show', compact('agb', 'users'));
     }
 
     /**

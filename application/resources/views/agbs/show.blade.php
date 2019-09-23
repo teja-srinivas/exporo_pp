@@ -22,31 +22,6 @@
 @endsection
 
 @section('main-content')
-    @card
-        @slot('title', 'Benutzer, die diese AGB akzeptiert haben')
-        <table class="table table-sm table-hover table-striped mb-0 table-borderless">
-            <thead>
-            <tr>
-                <th>Nachname</th>
-                <th>Vorname</th>
-                <th width="140">Datum</th>
-            </tr>
-            </thead>
-            <tbody>
-            @forelse($agb->users->sortNatural('last_name') as $user)
-                <tr>
-                    <td><a href="{{ route('users.show', $user) }}">{{ $user->last_name }}</a></td>
-                    <td><a href="{{ route('users.show', $user) }}">{{ $user->first_name }}</a></td>
-                    <td>{{ $user->pivot->created_at->format('d.m.Y H:i') }}</td>
-                </tr>
-            @empty
-                <tr class="text-center text-muted">
-                    <td colspan="4">Noch von keinem akzeptiert</td>
-                </tr>
-            @endforelse
-            </tbody>
-        </table>
-    @endcard
-
+    @include('users.partials.table', ['users' => $users])
     @include('agbs.partials.details')
 @endsection
