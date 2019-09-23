@@ -89,11 +89,6 @@ class Investment extends Model implements AuditableContract
         return $this->cancelled_at !== null;
     }
 
-    public function getPaidAtAttribute($value)
-    {
-        return $value !== LEGACY_NULL ? Carbon::make($value) : null;
-    }
-
     public function newEloquentBuilder($query): InvestmentBuilder
     {
         return new InvestmentBuilder($query);

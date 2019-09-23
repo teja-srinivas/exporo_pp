@@ -61,7 +61,7 @@ class UserHasFilledPersonalData
 
     private function hasFilledAllData(UserDetails $details): bool
     {
-        if ($details === null || $details->birth_date === null || $details->birth_date === LEGACY_NULL) {
+        if ($details === null || $details->birth_date === null) {
             return false;
         }
 

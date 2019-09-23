@@ -12,7 +12,6 @@ use App\Models\ContractTemplate;
 use App\Repositories\BillRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Query\Builder;
 use App\Http\Requests\UserStoreRequest;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Contracts\Session\Session;
@@ -90,10 +89,7 @@ class UserController extends Controller
             ->selectRaw('count(investments.id) as investments')
             ->selectRaw('sum(investments.amount) as amount')
             ->selectSub($user->investments()->toBase()
-                ->where(function (Builder $query) {
-                    $query->where('investments.cancelled_at', LEGACY_NULL);
-                    $query->orWhereNull('investments.cancelled_at');
-                })
+                ->whereNull('investments.cancelled_at')
                 ->selectRaw('sum(amount)'), 'amount')
             ->first();
 

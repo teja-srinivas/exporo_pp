@@ -30,7 +30,7 @@ class UserController extends Controller
                 ->leftJoin('investors', 'investors.user_id', 'users.id')
                 ->leftJoinSub(Investment::query()
                     ->select('id', 'investor_id', 'amount')
-                    ->whereDate('investments.acknowledged_at', '>', LEGACY_NULL)
+                    ->whereDate('investments.acknowledged_at', '<>', null)
                     ->uncancelled(), 'investments', 'investments.investor_id', 'investors.id')
                 ->leftJoinSub(Commission::query()
                     ->selectRaw('sum(net) as net')

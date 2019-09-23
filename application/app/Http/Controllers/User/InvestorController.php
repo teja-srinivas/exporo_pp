@@ -7,7 +7,6 @@ use App\Traits\Person;
 use App\Models\Investor;
 use App\Models\Investment;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
 
 class InvestorController extends Controller
 {
@@ -26,11 +25,8 @@ class InvestorController extends Controller
                 ->leftJoinSub(Investment::query()
                     ->join('investors', 'investments.investor_id', 'investors.id')
                     ->where('user_id', $user->getKey())
-                    ->whereDate('investments.acknowledged_at', '>', LEGACY_NULL)
-                    ->where(function (Builder $query) {
-                        $query->whereDate('investments.cancelled_at', '<=', LEGACY_NULL);
-                        $query->orWhereNull('investments.cancelled_at');
-                    })
+                    ->whereDate('investments.acknowledged_at', '<>', null)
+                    ->whereNull('investments.cancelled_at')
                     ->addSelect('investor_id')
                     ->selectRaw('count(investments.id) as investments')
                     ->selectRaw('sum(amount) as amount')
