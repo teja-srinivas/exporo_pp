@@ -26,7 +26,10 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        $documents = Document::query()->orderBy('name')->get();
+        $documents = Document::query()
+            ->with('user.details')
+            ->orderBy('name')
+            ->get();
 
         return response()->view('documents.index', compact('documents'));
     }
