@@ -25,6 +25,10 @@ final class CalculateCommissionsService
      */
     public function calculate(Investment $investment, User $parent = null, User $child = null): ?array
     {
+        if ($investment->investor === null) {
+            return null;
+        }
+
         if ($parent && $child) {
             // Calculate an overhead commission
             $user = $parent;

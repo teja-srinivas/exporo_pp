@@ -103,6 +103,18 @@ final class CommissionCalculationTest extends TestCase
         $this->assertEquals(100, $result['net']);
     }
 
+    /**
+     * @test
+     * @throws
+     */
+    public function it_does_not_calculate_for_invalid_investments()
+    {
+        /** @var Investment $investment */
+        $investment = factory(Investment::class)->make();
+
+        $this->assertNull($this->service->calculate($investment));
+    }
+
     protected function createContract(User $user, array $bonuses): Contract
     {
         /** @var Contract $contract */
