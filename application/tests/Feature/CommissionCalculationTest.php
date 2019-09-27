@@ -9,10 +9,10 @@ use App\Models\User;
 use App\Models\Project;
 use App\Models\Contract;
 use App\Models\Investor;
-use Tests\TestsContracts;
 use App\Models\Investment;
 use App\Models\CommissionType;
 use App\Models\CommissionBonus;
+use Tests\Traits\TestsContracts;
 use App\Services\CalculateCommissionsService;
 
 final class CommissionCalculationTest extends TestCase

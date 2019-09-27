@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace Tests\Traits;
 
 use App\Models\User;
 use App\Models\Contract;

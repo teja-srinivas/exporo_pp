@@ -6,8 +6,8 @@ namespace Tests\Feature\Http\Controllers\Mailing;
 
 use Tests\TestCase;
 use App\Models\Mailing;
-use Tests\TestsControllers;
 use App\Policies\MailingPolicy;
+use Tests\Traits\TestsControllers;
 
 class PreviewControllerTest extends TestCase
 {

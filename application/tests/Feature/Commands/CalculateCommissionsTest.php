@@ -8,10 +8,11 @@ use App\Models\User;
 use App\Models\Project;
 use App\Models\Contract;
 use App\Models\Investor;
-use Tests\TestsContracts;
 use App\Models\Investment;
 use App\Models\CommissionType;
 use App\Models\CommissionBonus;
+use Tests\Traits\TestsContracts;
+use Tests\Traits\TestsDatabases;
 use Illuminate\Support\Facades\Artisan;
 use App\Console\Commands\CalculateCommissions;
 
