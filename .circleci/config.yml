@@ -3,6 +3,14 @@ jobs:
   buildAndDeployStage:
     docker:
       - image: registry.gitlab.com/exporo/circleci-stretch-php-cli-node-awscli
+        environment:
+          MYSQL_HOST: 127.0.0.1
+      - image: circleci/mysql:5.7.24
+        environment:
+          MYSQL_DATABASE: forge
+          MYSQL_USER: homestead
+          MYSQL_PASSWORD: secret
+
     working_directory: ~/pp
     steps:
       - run:
@@ -26,6 +34,24 @@ jobs:
       - restore_cache:
           keys:
             - composer-cache
+
+      - restore_cache:
+          keys:
+            - vendor-dev-{{ checksum "./application/composer.lock" }}
+            - vendor-dev-
+
+      - run:
+          name: install dependencies with composer
+          command: cd application && composer install --no-progress --no-interaction
+
+      - run:
+          name: run unit tests
+          command: cd application && ./vendor/bin/phpunit
+
+      - save_cache:
+          key: vendor-dev-{{ checksum "./application/composer.lock" }}
+          paths:
+            - ./application/vendor
 
       - restore_cache:
           keys:
