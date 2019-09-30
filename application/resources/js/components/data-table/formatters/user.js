@@ -31,7 +31,7 @@ export default {
 
   filterFunction: query => {
     // In case we got a string, check their name(s)
-    if (Number.isNaN(query)) {
+    if (Number.isNaN(Number.parseInt(query, 10))) {
       const lowercase = query.toLowerCase();
 
       return (user) => (
