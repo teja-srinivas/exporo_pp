@@ -30,9 +30,21 @@ class TagReplacerTest extends TestCase
             'reflink' => '?a_aid=123',
         ];
 
+        $tags = TagReplacer::getUserTags($user);
+
+        // Check if we actually cover all the user tags
+        $tagKeys = array_keys($tags);
+        $expectedKeys = array_keys($expected);
+
+        sort($tagKeys);
+        sort($expectedKeys);
+
+        $this->assertEquals($tagKeys, $expectedKeys, 'User tag list is not properly covered');
+
+        // Then see if all the tags are being replaced properly
         $this->assertEquals(
             join(' ', array_values($expected)),
-            TagReplacer::replace('${'.join('} ${', array_keys($expected)).'}', TagReplacer::getUserTags($user))
+            TagReplacer::replace('${'.join('} ${', array_keys($expected)).'}', $tags)
         );
     }
 
