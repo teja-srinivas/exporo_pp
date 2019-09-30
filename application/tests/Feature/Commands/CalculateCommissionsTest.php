@@ -9,16 +9,15 @@ use App\Models\Project;
 use App\Models\Contract;
 use App\Models\Investor;
 use App\Models\Investment;
+use App\Models\Commission;
 use App\Models\CommissionType;
 use App\Models\CommissionBonus;
 use Tests\Traits\TestsContracts;
-use Tests\Traits\TestsDatabases;
 use Illuminate\Support\Facades\Artisan;
 use App\Console\Commands\CalculateCommissions;
 
 class CalculateCommissionsTest extends TestCase
 {
-    use TestsDatabases;
     use TestsContracts;
 
     /**
@@ -57,7 +56,7 @@ class CalculateCommissionsTest extends TestCase
         ]);
 
         $this->calculate();
-        $this->assertTableEmpty('commissions');
+        $this->assertTrue(Commission::query()->doesntExist());
 
         $this->createBonuses($contract, $type, [
             CommissionBonus::value(CommissionBonus::TYPE_FIRST_INVESTMENT, 10),
