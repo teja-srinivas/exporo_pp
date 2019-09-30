@@ -6,7 +6,7 @@ use App\Models\User;
 
 class TagReplacer
 {
-    public const PATTERN = '/\${([\w-_]+?)}/S';
+    public const PATTERN = '/\${([\w\-_]+?)}/S';
 
     /**
      * Finds and returns a list of all available tags in the given string.
