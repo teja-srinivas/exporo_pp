@@ -6,6 +6,24 @@ use App\Models\User;
 
 class TagReplacer
 {
+    public const PATTERN = '/\${([\w-_]+?)}/S';
+
+    /**
+     * Finds and returns a list of all available tags in the given string.
+     * The tags are without the pre- and suffix.
+     *
+     * @param  string  $text The raw text
+     * @return array A list of all found variables
+     */
+    public static function findTags(string $text): array
+    {
+        if (preg_match_all(self::PATTERN, $text, $matches) === false) {
+            return [];
+        }
+
+        return $matches[1];
+    }
+
     /**
      * Returns a list of pre-set tags associated with the given user.
      *
@@ -40,7 +58,7 @@ class TagReplacer
      */
     public static function replace(string $text, array $replacements): string
     {
-        return preg_replace_callback('/\${([\w-_]+?)}/S', static function (array $match) use ($replacements) {
+        return preg_replace_callback(self::PATTERN, static function (array $match) use ($replacements) {
             return value($replacements[$match[1]] ?? '');
         }, $text);
     }

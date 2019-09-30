@@ -9,6 +9,14 @@ use PHPUnit\Framework\TestCase;
 class TagReplacerTest extends TestCase
 {
     /** @test */
+    public function it_finds_tags_in_text_strings()
+    {
+        $this->assertEquals([
+            'foo', 'bar'
+        ], TagReplacer::findTags('This ${foo} is ${bar} test'));
+    }
+
+    /** @test */
     public function it_generates_tags_for_the_given_user()
     {
         $user = new User();
