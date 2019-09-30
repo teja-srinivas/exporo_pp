@@ -44,6 +44,13 @@ class InvestmentBuilder extends Builder
             ->where('investments.acknowledged_at', '<', now()->subDays(14));
     }
 
+    public function validInvestor(): self
+    {
+        return $this
+            ->join('investors', 'investments.investor_id', 'investors.id')
+            ->whereNull('investors.deleted_at');
+    }
+
     /**
      * @return self
      */
@@ -51,14 +58,13 @@ class InvestmentBuilder extends Builder
     {
         return $this
             ->select(['investments.*'])
-            ->doesntHave('commissions')
-            ->join('investors', 'investments.investor_id', 'investors.id')
-            // TODO ->join('user_details', 'user_details.id', 'investors.user_id')
-            ->whereNotNull('investors.user_id')
-            ->whereNotNull('investments.paid_at')
-            ->whereHasActiveUser('investors')
+            ->validInvestor()
             ->projectGotApproved()
             ->nonRefundable()
-            ->uncancelled();
+            ->uncancelled()
+            ->doesntHave('commissions')
+            ->whereNotNull('investors.user_id')
+            ->whereNotNull('investments.paid_at')
+            ->whereHasActiveUser('investors');
     }
 }

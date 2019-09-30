@@ -14,11 +14,13 @@ use App\Models\CommissionType;
 use App\Models\CommissionBonus;
 use Tests\Traits\TestsContracts;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Foundation\Testing\WithFaker;
 use App\Console\Commands\CalculateCommissions;
 
 class CalculateCommissionsTest extends TestCase
 {
     use TestsContracts;
+    use WithFaker;
 
     /**
      * @slowThreshold 600
@@ -75,6 +77,34 @@ class CalculateCommissionsTest extends TestCase
             'note_private' => 'Abrechnung gesperrt (01.05.2019)',
             'on_hold' => true,
         ]);
+    }
+
+    /** @test */
+    public function it_only_calculates_valid_models()
+    {
+        /** @var User $userWithMissingParent */
+        $userWithMissingParent = factory(User::class)->state('accepted')->create([
+            'parent_id' => $this->faker->randomNumber(5),
+        ]);
+
+        $userWithMissingParent->contracts()->save(
+            factory(Contract::class)->state('active')->make()
+        );
+
+        /** @var Investment $investment */
+        $investment = factory(Investment::class)->state('nonRefundable')->create();
+        $investment->project()->associate(factory(Project::class)->state('approved')->create());
+        $investment->investor()->associate(factory(Investor::class)->create([
+            // We only calculate commissions for investments with active investors
+            'deleted_at' => now(),
+        ]));
+        $investment->investor->user()->associate($userWithMissingParent);
+        $investment->investor->save();
+        $investment->save();
+
+        $this->calculate();
+
+        $this->assertTrue(Commission::query()->doesntExist());
     }
 
     protected function calculate(): void
