@@ -27,10 +27,9 @@ class InvestmentBuilder extends Builder
 
     public function billable(): self
     {
-        $this->refundable();
-        $this->whereNotNull('paid_at');
-
-        return $this;
+        return $this
+            ->refundable()
+            ->whereNotNull('paid_at');
     }
 
     public function refundable(): self
