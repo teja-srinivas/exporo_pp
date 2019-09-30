@@ -4,6 +4,7 @@ namespace Tests\Unit\Http\Helper;
 
 use Illuminate\Http\Request;
 use PHPUnit\Framework\TestCase;
+use App\Http\Helper\Request\Field;
 use App\Http\Helper\Request\FieldParser;
 
 class FieldParserTest extends TestCase
@@ -18,8 +19,8 @@ class FieldParserTest extends TestCase
 
         $this->assertTrue($first->filters('name'));
         $this->assertEquals('Hans', $first->get('name')->filter);
-        $this->assertEquals('asc', $first->get('name')->order);
-        $this->assertEquals('desc', $first->get('age')->order);
+        $this->assertEquals(Field::ORDER_ASC, $first->get('name')->order);
+        $this->assertEquals(Field::ORDER_DESC, $first->get('age')->order);
     }
 
     protected function parseRequest(array $filter, array $sort): FieldParser

@@ -82,7 +82,7 @@ class FieldParser
             $name = $descending ? substr($column, 1) : $column;
 
             return [
-                $name => $descending ? 'desc' : 'asc',
+                $name => $descending ? Field::ORDER_DESC : Field::ORDER_ASC,
             ];
         })->all();
     }
