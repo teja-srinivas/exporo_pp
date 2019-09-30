@@ -29,8 +29,6 @@
         <server name="APP_ENV" value="testing"/>
         <server name="APP_KEY" value="base64:962+nvRu/e8kPd28duP362GF0cTh7EuwShirC36HNhg="/>
         <server name="DB_CONNECTION" value="mysql"/>
-        <server name="DB_HOST" value="127.0.0.1"/>
-        <env name="DB_PORT" value="3307"/> <!-- make this an env so we can overwrite this for the CI -->
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
         <server name="SESSION_DRIVER" value="array"/>
@@ -41,5 +39,9 @@
         <server name="APP_EVENTS_CACHE" value="bootstrap/cache/events.phpunit.php"/>
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="MAIL_DRIVER" value="array"/>
+
+        <!-- make these an env so we can overwrite them for the CI -->
+        <env name="DB_HOST" value="127.0.0.1"/>
+        <env name="DB_PORT" value="3307"/>
     </php>
 </phpunit>
