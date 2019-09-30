@@ -2,11 +2,32 @@
 
 namespace Tests\Unit\Helper;
 
+use App\Models\User;
 use App\Helper\TagReplacer;
 use PHPUnit\Framework\TestCase;
 
 class TagReplacerTest extends TestCase
 {
+    /** @test */
+    public function it_generates_tags_for_the_given_user()
+    {
+        $user = new User();
+        $user->id = 123;
+        $user->first_name = 'John';
+        $user->last_name = 'Doe';
+
+        $expected = [
+            'partnerid' => 123,
+            'partnername' => 'John Doe',
+            'reflink' => '?a_aid=123',
+        ];
+
+        $this->assertEquals(
+            join(' ', array_values($expected)),
+            TagReplacer::replace('${'.join('} ${', array_keys($expected)).'}', TagReplacer::getUserTags($user))
+        );
+    }
+
     /**
      * @param  string  $input
      * @param  string  $output

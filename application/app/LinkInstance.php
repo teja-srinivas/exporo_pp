@@ -76,11 +76,7 @@ class LinkInstance extends Model implements Htmlable
     {
         $this->createIfNotExists();
 
-        return TagReplacer::replace($this->link->url, [
-            'reflink' => function (): string {
-                return "?a_aid={$this->user->id}";
-            },
-        ]);
+        return TagReplacer::replace($this->link->url, TagReplacer::getUserTags($this->user));
     }
 
     /**
