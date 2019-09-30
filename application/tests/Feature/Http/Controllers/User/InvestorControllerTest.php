@@ -20,6 +20,7 @@ class InvestorControllerTest extends TestCase
         /** @var Investor $investor */
         $investor = factory(Investor::class)->create([
             'user_id' => $user->getKey(),
+            'last_name' => 'Schmidt',
         ]);
 
         /** @var Investment $paid */
