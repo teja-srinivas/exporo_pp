@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Builders;
 
 use App\Models\User;
-use App\Models\Role;
 use Illuminate\Support\Collection;
 use Spatie\Permission\Contracts\Permission;
 
