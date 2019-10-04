@@ -96,8 +96,8 @@ class BannerSetController extends Controller
         $data = $this->validate($request, [
             'title' => 'required|string',
             'urls.*.id' => 'numeric',
-            'urls.*.key' => 'string',
-            'urls.*.value' => 'url',
+            'urls.*.title' => 'string',
+            'urls.*.url' => 'url',
         ]);
 
         $set->update($data);
@@ -107,10 +107,7 @@ class BannerSetController extends Controller
 
         // Then create or update all other links
         foreach ($data['urls'] as $link) {
-            $attributes = [
-                'title' => $link['key'],
-                'url' => $link['value'],
-            ];
+            $attributes = Arr::except($link, 'id');
 
             if (isset($link['id'])) {
                 $set->links()->updateOrCreate(['id' => $link['id']], $attributes);

@@ -1,7 +1,7 @@
 <template>
   <DynamicList
     :values="values"
-    :model-factory="() => ({ key: '', value: '' })"
+    :model-factory="() => ({ title: '', url: '' })"
     v-slot="{entry, index}"
   >
     <input
@@ -12,20 +12,20 @@
     />
 
     <UrlField
-      v-model="entry.key"
+      v-model="entry.title"
       :errors="errors"
       :index="index"
       :name="name"
-      property="key"
+      property="title"
       label="Titel"
     />
 
     <UrlField
-      v-model="entry.value"
+      v-model="entry.url"
       :errors="errors"
       :index="index"
       :name="name"
-      property="value"
+      property="url"
       label="URL"
       class="mb-0"
     />
