@@ -38,8 +38,8 @@
         ],
     ])
 
-    <vue data-is="vue-dropzone" data-props='@json($dropzone)'
-         class="border-0 shadow-sm rounded p-2"></vue>
+    <vue v-cloak data-is="vue-dropzone" data-props='@json($dropzone)'
+         class="cloak-fade border-0 shadow-sm rounded p-2"></vue>
     @endcan
 
     @foreach($set->banners->chunk(2) as $chunk)

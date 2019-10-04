@@ -13,5 +13,5 @@
     @endcard
 
     @php($data = ['sets' => $sets])
-    <vue data-is="banner-viewer" data-props='@json($data)' />
+    <vue v-cloak class="cloak-fade" data-is="banner-viewer" data-props='@json($data)' />
 @endsection

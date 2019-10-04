@@ -22,6 +22,7 @@ if (($legacy ?? null) === true) {
 ?>
 
 <vue
+    v-cloak class="cloak-fade"
     data-is="bonus-bundle-editor"
     data-props='@json($options + $defaults)'
 >

@@ -21,7 +21,7 @@
             'totals' => $totals,
             'userDetailsApi' => route('api.users.details.index'),
         ])
-        <vue data-is="commission-approval" data-props='@json($vueData)'></vue>
+        <vue v-cloak class="cloak-fade" data-is="commission-approval" data-props='@json($vueData)'></vue>
     @else
         @card
             <div class="lead text-center text-muted">
