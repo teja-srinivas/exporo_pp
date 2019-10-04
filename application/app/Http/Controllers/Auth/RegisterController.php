@@ -116,7 +116,7 @@ class RegisterController extends Controller
             $contract = Contract::fromTemplate($company->contractTemplate);
             $user->contract()->save($contract);
 
-            $contract->bonuses()->saveMany($company->contractTemplate->bonuses->each(static function (CommissionBonus $bonus) {
+            $contract->bonuses()->saveMany($company->contractTemplate->bonuses->map(static function (CommissionBonus $bonus) {
                 return $bonus->replicate();
             }));
 

@@ -64,5 +64,6 @@ class RegistrationTest extends TestCase
         $this->assertTrue($contract->template->is($template));
 
         $this->assertNotEmpty($contract->bonuses);
+        $this->assertNotEquals($contract->bonuses->first()->getKey(), $template->bonuses->first()->getKey());
     }
 }
