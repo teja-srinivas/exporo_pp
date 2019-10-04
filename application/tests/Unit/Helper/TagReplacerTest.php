@@ -12,6 +12,12 @@ class TagReplacerTest extends TestCase
     use CreatesApplication;
 
     /** @test */
+    public function it_wraps_variable_names_as_tags()
+    {
+        $this->assertEquals('${foo}', TagReplacer::wrap('foo'));
+    }
+
+    /** @test */
     public function it_finds_tags_in_text_strings()
     {
         $this->assertEquals([

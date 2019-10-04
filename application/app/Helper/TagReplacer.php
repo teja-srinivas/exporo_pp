@@ -9,6 +9,17 @@ class TagReplacer
     public const PATTERN = '/\${([\w\-_]+?)}/S';
 
     /**
+     * Wraps the given variable name as a tag.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    public static function wrap(string $name): string
+    {
+        return "\${{$name}}";
+    }
+
+    /**
      * Finds and returns a list of all available tags in the given string.
      * The tags are without the pre- and suffix.
      *
