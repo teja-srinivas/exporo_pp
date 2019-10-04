@@ -1,5 +1,5 @@
 @php($data = [
-    'values' => old('urls', $set->links->map(function (App\BannerLink $link) {
+    'values' => old('urls', $set->links->map(function (App\Models\BannerLink $link) {
         return [
             'id' => $link->getKey(),
             'title' => $link->title,

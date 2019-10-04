@@ -1,9 +1,7 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Models\User;
-use App\Models\BannerSet;
 use App\Helper\TagReplacer;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BannerLink extends Model
 {
+    public const MORPH_NAME = 'banner_link';
+
     protected $fillable = [
         'title',
         'url',

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\BannerLink;
 use App\Models\User;
 use App\Models\Banner;
 use App\Models\BannerSet;
+use App\Models\BannerLink;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
