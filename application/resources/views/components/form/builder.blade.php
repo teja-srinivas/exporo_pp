@@ -10,7 +10,11 @@
         >{{ $input['label'] }}:</label>
 
         <div class="col-sm-{{ $colWidthInput }} {{ in_array($type, ['radio', 'checkbox']) ? 'col-form-label' : '' }}">
-            @includeFirst(["components.form.{$type}", 'components.form.input'], $input)
+            @empty($input['view'])
+                @includeFirst(["components.form.{$type}", 'components.form.input'], $input)
+            @else
+                {!! $input['view'] !!}
+            @endempty
 
             @isset($input['help'])
                 <small class="form-text text-muted">{!! $input['help'] !!}</small>
