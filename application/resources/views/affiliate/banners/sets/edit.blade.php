@@ -26,12 +26,11 @@
                         'default' => $set->title,
                     ],
                     [
-                        'type' => 'urls',
                         'label' => 'URLs',
                         'name' => 'urls',
                         'required' => true,
-                        'default' => $set->urls,
-                        'help' => 'Folgende Textbausteine stehen zur verfügung:<br><code>#reflink</code> für "?a_aid=&lt;benutzerid&gt;"'
+                        'view' => $__env->make('affiliate.banners.sets.partials.urls', ['urls' => $set->urls])->render(),
+                        'help' => $__env->make('components.tag-help')->render(),
                     ],
                 ],
             ])
