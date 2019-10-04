@@ -31,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
             Models\Investment::LEGACY_MORPH_NAME => Models\Investment::class,
             Models\Investor::MORPH_NAME => Models\Investor::class,
             Models\Commission::TYPE_CORRECTION => Models\Commission::class,
+            Models\BannerLink::MORPH_NAME => Models\BannerLink::class,
+            Models\Link::MORPH_NAME => Models\Link::class,
         ]);
 
         // Accented card with its title and content in the body

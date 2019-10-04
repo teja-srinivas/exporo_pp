@@ -10,8 +10,8 @@ use App\Builders\LinkBuilder;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -35,6 +35,8 @@ class Link extends Model implements AuditableContract
 {
     use Auditable;
 
+    public const MORPH_NAME = 'link';
+
     protected $fillable = [
         'title', 'description', 'url',
     ];
@@ -42,11 +44,11 @@ class Link extends Model implements AuditableContract
     /**
      * Returns a list of link instances that redirect to the proper URL.
      *
-     * @return HasMany
+     * @return MorphMany
      */
-    public function instances(): HasMany
+    public function instances(): MorphMany
     {
-        return $this->hasMany(LinkInstance::class);
+        return $this->morphMany(LinkInstance::class, 'link');
     }
 
     public function users(): BelongsToMany
@@ -57,9 +59,9 @@ class Link extends Model implements AuditableContract
     /**
      * Returns or creates a new link instance for the currently authorized user.
      *
-     * @return HasOne
+     * @return MorphOne
      */
-    public function userInstance(): HasOne
+    public function userInstance(): MorphOne
     {
         $user = auth()->user();
 
@@ -67,7 +69,7 @@ class Link extends Model implements AuditableContract
             throw new InvalidArgumentException('Cannot grab link instance during unauthorized access');
         }
 
-        return $this->hasOne(LinkInstance::class)
+        return $this->morphOne(LinkInstance::class, 'link')
             ->where('user_id', $user->getAuthIdentifier())
             ->withDefault(static function (LinkInstance $instance) use ($user) {
                 $instance->user()->associate($user);

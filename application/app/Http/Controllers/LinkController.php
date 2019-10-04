@@ -9,7 +9,7 @@ use App\Models\UserDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class LinkController extends Controller
 {
@@ -29,7 +29,7 @@ class LinkController extends Controller
         return view('affiliate.links.index', [
             'links' => Link::query()
                 ->visibleForUser($request->user())
-                ->with(['userInstance' => function (HasOne $related) {
+                ->with(['userInstance' => function (MorphOne $related) {
                     // Prevents eager loading the $with relationship
                     // (since we already do this using the parent query)
                     // https://github.com/laravel/framework/issues/30007

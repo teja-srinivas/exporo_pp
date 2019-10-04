@@ -14,10 +14,12 @@ use App\Services\DeviceIdentification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
+ * @property string $link_type
  * @property int $link_id
  * @property int $user_id
  * @property string $hash
@@ -44,9 +46,9 @@ class LinkInstance extends Model implements Htmlable
         });
     }
 
-    public function link(): BelongsTo
+    public function link(): MorphTo
     {
-        return $this->belongsTo(Link::class);
+        return $this->morphTo('link');
     }
 
     public function user(): BelongsTo
