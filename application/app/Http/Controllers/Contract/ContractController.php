@@ -81,7 +81,7 @@ class ContractController extends Controller
 
         flash_success();
 
-        return back();
+        return response()->redirectToRoute('contracts.edit', $contract);
     }
 
     /**
