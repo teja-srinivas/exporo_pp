@@ -4,6 +4,13 @@
     :model-factory="() => ({ key: '', value: '' })"
     v-slot="{entry, index}"
   >
+    <input
+      v-if="entry.id"
+      type="hidden"
+      :name="`${name}[${index}][id]`"
+      :value="entry.id"
+    />
+
     <UrlField
       v-model="entry.key"
       :errors="errors"

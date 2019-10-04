@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BannerSet;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
 class BannerSetController extends Controller
@@ -94,11 +95,31 @@ class BannerSetController extends Controller
     {
         $data = $this->validate($request, [
             'title' => 'required|string',
+            'urls.*.id' => 'numeric',
             'urls.*.key' => 'string',
             'urls.*.value' => 'url',
         ]);
 
         $set->update($data);
+
+        // First, delete all links that are no longer in the list
+        $set->links()->whereKeyNot(array_filter(Arr::pluck($data['urls'], 'id')))->delete();
+
+        // Then create or update all other links
+        foreach ($data['urls'] as $link) {
+            $attributes = [
+                'title' => $link['key'],
+                'url' => $link['value'],
+            ];
+
+            if (isset($link['id'])) {
+                $set->links()->updateOrCreate(['id' => $link['id']], $attributes);
+            } else {
+                $set->links()->create($attributes);
+            }
+        }
+
+        flash_success();
 
         return redirect()->back();
     }

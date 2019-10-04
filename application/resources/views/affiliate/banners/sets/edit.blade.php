@@ -29,7 +29,7 @@
                         'label' => 'URLs',
                         'name' => 'urls',
                         'required' => true,
-                        'view' => $__env->make('affiliate.banners.sets.partials.urls', ['urls' => $set->urls])->render(),
+                        'view' => $__env->make('affiliate.banners.sets.partials.urls', ['set' => $set])->render(),
                         'help' => $__env->make('components.tag-help')->render(),
                     ],
                 ],

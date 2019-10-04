@@ -1,6 +1,7 @@
 @php($data = [
     'values' => old('urls', $set->links->map(function (App\BannerLink $link) {
         return [
+            'id' => $link->getKey(),
             'key' => $link->title,
             'value' => $link->url,
         ];

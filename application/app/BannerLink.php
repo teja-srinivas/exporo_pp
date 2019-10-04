@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Models\User;
 use App\Models\BannerSet;
+use App\Helper\TagReplacer;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,5 +22,10 @@ class BannerLink extends Model
     public function bannerSet()
     {
         return $this->belongsTo(BannerSet::class, 'set_id');
+    }
+
+    public function getUrlForUser(User $user): string
+    {
+        return TagReplacer::replace($this->url, TagReplacer::getUserTags($user));
     }
 }

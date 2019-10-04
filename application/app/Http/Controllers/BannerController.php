@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BannerLink;
 use App\Models\User;
 use App\Models\Banner;
 use App\Models\BannerSet;
@@ -25,11 +26,10 @@ class BannerController extends Controller
         /** @var User $user */
         $user = $request->user();
         $sets = $user->company->bannerSets()
-            ->with('banners')
+            ->with('banners', 'links')
+            ->whereHas('banners')
+            ->whereHas('links')
             ->get()
-            ->reject(function (BannerSet $set) {
-                return empty($set->urls) || $set->banners->isEmpty();
-            })
             ->map(function (BannerSet $set) use ($user) {
                 return [
                     'name' => $set->title,
@@ -40,10 +40,10 @@ class BannerController extends Controller
                             'url' => $banner->getDownloadUrl(),
                         ];
                     }),
-                    'urls' => collect($set->urls)->map(function (array $url) use ($set, $user) {
+                    'urls' => collect($set->links)->map(function (BannerLink $link) use ($set, $user) {
                         return [
-                            'key' => $url['key'],
-                            'value' => $set->getUrlForUser($url['value'], $user),
+                            'key' => $link->title,
+                            'value' => $link->getUrlForUser($user),
                         ];
                     }),
                 ];
