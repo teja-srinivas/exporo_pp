@@ -141,7 +141,7 @@ class LinkController extends Controller
     {
         return UserDetails::query()
             ->whereIn('id', User::query()
-                ->withPermission('features.link-shortener.view')
+                ->withPermission('features.link-shortener.links')
                 ->select('id'))
             ->pluck('display_name', 'id');
     }

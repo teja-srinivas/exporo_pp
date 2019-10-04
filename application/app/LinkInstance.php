@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use App\Models\Link;
 use App\Models\User;
+use App\Models\BannerLink;
 use App\Helper\TagReplacer;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -88,11 +89,22 @@ class LinkInstance extends Model implements Htmlable
      */
     public function toHtml(): string
     {
-        if (Gate::allows('features.link-shortener.view')) {
+        if (Gate::allows($this->getPermission())) {
             return $this->getShortenedUrl();
         }
 
         return $this->buildRealUrl();
+    }
+
+    protected function getPermission(): string
+    {
+        static $prefix = 'features.link-shortener';
+        static $map = [
+            Link::MORPH_NAME => 'links',
+            BannerLink::MORPH_NAME => 'banners',
+        ];
+
+        return "{$prefix}.{$map[$this->link_type]}";
     }
 
     protected function createIfNotExists()

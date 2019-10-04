@@ -5,12 +5,11 @@ namespace App\Models;
 use App\LinkClick;
 use Carbon\Carbon;
 use App\LinkInstance;
-use InvalidArgumentException;
 use App\Builders\LinkBuilder;
 use OwenIt\Auditing\Auditable;
+use App\Traits\HasLinkInstance;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -26,7 +25,6 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
- * @property-read LinkInstance $userInstance
  * @property-read Collection $users
  * @property-read Collection $instances
  * @property-read Collection $clicks
@@ -34,6 +32,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 class Link extends Model implements AuditableContract
 {
     use Auditable;
+    use HasLinkInstance;
 
     public const MORPH_NAME = 'link';
 
@@ -54,26 +53,6 @@ class Link extends Model implements AuditableContract
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
-    }
-
-    /**
-     * Returns or creates a new link instance for the currently authorized user.
-     *
-     * @return MorphOne
-     */
-    public function userInstance(): MorphOne
-    {
-        $user = auth()->user();
-
-        if ($user === null) {
-            throw new InvalidArgumentException('Cannot grab link instance during unauthorized access');
-        }
-
-        return $this->morphOne(LinkInstance::class, 'link')
-            ->where('user_id', $user->getAuthIdentifier())
-            ->withDefault(static function (LinkInstance $instance) use ($user) {
-                $instance->user()->associate($user);
-            });
     }
 
     /**

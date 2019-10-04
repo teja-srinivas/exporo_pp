@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helper\TagReplacer;
+use App\Traits\HasLinkInstance;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BannerLink extends Model
 {
+    use HasLinkInstance;
+
     public const MORPH_NAME = 'banner_link';
 
     protected $fillable = [

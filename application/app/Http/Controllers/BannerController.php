@@ -25,7 +25,7 @@ class BannerController extends Controller
         /** @var User $user */
         $user = $request->user();
         $sets = $user->company->bannerSets()
-            ->with('banners', 'links')
+            ->with('banners', 'links.userInstance')
             ->whereHas('banners')
             ->whereHas('links')
             ->get()
@@ -42,7 +42,7 @@ class BannerController extends Controller
                     'urls' => collect($set->links)->map(function (BannerLink $link) use ($set, $user) {
                         return [
                             'key' => $link->title,
-                            'value' => $link->getUrlForUser($user),
+                            'value' => $link->userInstance->toHtml(),
                         ];
                     }),
                 ];

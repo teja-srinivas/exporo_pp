@@ -12,7 +12,7 @@
                 <li>Sie sehen grafisch, welcher Link wie gut ankommt</li>
             </ol>
 
-            @can('features.link-shortener.view')
+            @can('features.link-shortener.links')
                 <div class="mt-4 text-center">
                     <strong>
                         Sofern sie bereits Links geteilt haben, müssen diese mit den unten stehenden ersetzt werden.
