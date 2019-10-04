@@ -12,6 +12,8 @@
 @include('contracts.partials.actions', ['contract' => $contract])
 
 @section('main-content')
+    @include('contracts.partials.template-link', compact('contract'))
+
     @card
         @include('contracts.partials.header', ['user' => $contract->user])
     @endcard

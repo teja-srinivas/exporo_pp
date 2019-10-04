@@ -13,6 +13,8 @@
 @include('contracts.partials.actions', ['contract' => $contract])
 
 @section('main-content')
+    @include('contracts.partials.template-link', compact('contract'))
+
     <div class="row">
         <div class="col-lg-6">
             @card
