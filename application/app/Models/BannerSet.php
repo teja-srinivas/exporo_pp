@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\BannerLink;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
@@ -35,6 +36,11 @@ class BannerSet extends Model implements AuditableContract
     public function banners()
     {
         return $this->hasMany(Banner::class, 'set_id');
+    }
+
+    public function links()
+    {
+        return $this->hasMany(BannerLink::class, 'set_id');
     }
 
     public function getUrlForUser(string $url, User $user): string
