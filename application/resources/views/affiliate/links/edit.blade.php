@@ -38,7 +38,7 @@
                         'required' => true,
                         'name' => 'url',
                         'default' => $link->url,
-                        'help' => 'Folgende Textbausteine stehen zur verfügung:<br><code>#reflink</code> für "?a_aid=&lt;benutzerid&gt;"'
+                        'help' => $__env->make('components.tag-help')->render(),
                     ],
                 ],
             ])
