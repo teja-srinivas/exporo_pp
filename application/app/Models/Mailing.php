@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use App\Helper\TagReplacer;
 
 /**
  * @property int $id
@@ -13,6 +14,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $description
  * @property string $text
  * @property string $html
+ * @property array $variables
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -25,36 +27,44 @@ class Mailing extends Model implements AuditableContract
     ];
 
     protected $fillable = [
-        'title', 'description', 'text', 'html',
+        'title', 'description', 'text', 'html', 'variables'
+    ];
+
+    protected $casts = [
+        'variables' => 'array',
     ];
 
     public function getTextForUser(User $user)
     {
-        $replacements = [
-            '#partnername' => implode(' ', array_filter([trim($user->first_name), trim($user->last_name)])),
-            '#partnerid' => (string) $user->id,
-            '#reflink' => "?a_aid={$user->id}",
-        ];
-
-        return str_replace(
-            array_keys($replacements),
-            array_values($replacements),
-            $this->text
+        return TagReplacer::replace(
+            $this->text,
+            TagReplacer::getUserTags($user) + $this->getCustomVariableReplacements($user)
         );
     }
 
     public function getHtmlForUser(User $user): string
     {
-        $replacements = [
-            '%partnername%' => implode(' ', array_filter([trim($user->first_name), trim($user->last_name)])),
-            '%partnerid%' => (string) $user->id,
-            '%reflink%' => "?a_aid={$user->id}",
-        ];
-
-        return str_replace(
-            array_keys($replacements),
-            array_values($replacements),
-            $this->html
+        return TagReplacer::replace(
+            $this->html,
+            TagReplacer::getUserTags($user) + $this->getCustomVariableReplacements($user)
         );
+    }
+
+    private function getCustomVariableReplacements(User $user): array
+    {
+        $replacements = [];
+
+        foreach (($this->variables ?? []) as $variable) {
+            switch ($variable['type']) {
+                case 'link':
+                    $replacements[$variable['placeholder']] = TagReplacer::replace(
+                        $variable['url'],
+                        TagReplacer::getUserTags($user)
+                    );
+                    break;
+            }
+        }
+
+        return $replacements;
     }
 }

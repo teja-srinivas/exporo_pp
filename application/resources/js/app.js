@@ -30,6 +30,7 @@ import velocity from 'velocity-animate';
 import VueDropzone from 'vue2-dropzone';
 
 import UrlInput from './components/url-input/index.vue';
+import VariableInput from './components/variable-input/index.vue';
 import App from './components/App.vue';
 import DataTable from './components/data-table/index.vue';
 
@@ -48,6 +49,7 @@ Vue.component('data-table', DataTable);
 Vue.component('banner-viewer', () => import('./components/banner-viewer.vue'));
 Vue.component('vue-dropzone', VueDropzone);
 Vue.component('url-input', UrlInput);
+Vue.component('variable-input', VariableInput);
 
 document.addEventListener('DOMContentLoaded', () => {
   let usesVue;

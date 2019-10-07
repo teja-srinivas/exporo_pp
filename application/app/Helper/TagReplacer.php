@@ -23,10 +23,10 @@ class TagReplacer
      * Finds and returns a list of all available tags in the given string.
      * The tags are without the pre- and suffix.
      *
-     * @param  string  $text The raw text
+     * @param  string|null  $text The raw text
      * @return array A list of all found variables
      */
-    public static function findTags(string $text): array
+    public static function findTags(?string $text = ''): array
     {
         if (preg_match_all(self::PATTERN, $text, $matches) === false) {
             return [];
@@ -53,6 +53,20 @@ class TagReplacer
             'partnername' => static function () use ($user) {
                 return implode(' ', array_filter([trim($user->first_name), trim($user->last_name)]));
             },
+        ];
+    }
+
+    /**
+     * Returns a list the available user tags
+     *
+     * @return array
+     */
+    public static function availableUserTags(): array
+    {
+        return [
+            'reflink',
+            'partnerid',
+            'partnername'
         ];
     }
 

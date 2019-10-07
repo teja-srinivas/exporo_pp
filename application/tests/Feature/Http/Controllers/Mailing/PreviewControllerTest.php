@@ -35,7 +35,7 @@ class PreviewControllerTest extends TestCase
         $this->be($user);
 
         $mailing = factory(Mailing::class)->create([
-            'html' => '<b>ID %partnerid%</b>, Your %partnername% (<a href="//track.me/%reflink%"/>click here</a>',
+            'html' => '<b>ID ${partnerid}</b>, Your ${partnername} (<a href="//track.me/${reflink}"/>click here</a>',
         ]);
 
         $response = $this->get(route('affiliate.mails.preview', $mailing));

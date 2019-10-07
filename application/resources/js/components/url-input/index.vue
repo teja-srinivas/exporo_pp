@@ -34,7 +34,7 @@
 
 <script>
 import DynamicList from '../DynamicList';
-import UrlField from './field.vue';
+import UrlField from '../fields/text.vue';
 
 const emptyArray = () => [];
 
