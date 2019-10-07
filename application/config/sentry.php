@@ -2,7 +2,7 @@
 
 return [
 
-    'dsn' => env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN')),
+    'dsn' => env('MIX_SENTRY_LARAVEL_DSN', env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN'))),
 
     'send_default_pii' => true,
 
