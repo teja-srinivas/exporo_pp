@@ -55,4 +55,16 @@ class UserPolicy extends BasePolicy
     {
         return $user->can('manage', $agb);
     }
+
+    /**
+     * Allows the current user to log into the other.
+     *
+     * @param  User  $user
+     * @param  User  $other
+     * @return bool
+     */
+    public function login(User $user, User $other)
+    {
+        return $user->hasPermissionTo('features.users.login');
+    }
 }

@@ -21,6 +21,7 @@ return [
     'export' => 'exportieren',
     'process' => 'annehmen/ablehnen',
     'receive' => 'erhalten',
+    'login' => 'Einloggen',
 
     'update-cancellation-period' => 'Kündigungsfrist ändern',
     'update-claim' => 'Anspruch Kundenbindung ändern',

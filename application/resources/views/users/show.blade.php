@@ -16,9 +16,9 @@
         </form>
     @endcan
 
-    @role('admin')
+    @can('login', $user)
         <a href="{{ $user->getLoginLink() }}" class="btn btn-outline-primary btn-sm mr-2">Login</a>
-    @endrole
+    @endcan
 
     @can('update', $user)
         <a href="{{ route('users.edit', $user) }}" class="btn btn-primary btn-sm">Bearbeiten</a>
