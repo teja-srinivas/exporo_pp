@@ -1,10 +1,7 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use App\Policies\SchemaPolicy;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class AddManageSchemasPermission extends Migration
 {
@@ -15,10 +12,8 @@ class AddManageSchemasPermission extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
-        Role::findByName(Role::INTERNAL)->givePermissionTo(
-            Permission::create(['name' => SchemaPolicy::PERMISSION])
-        );
+        $this->createPermission(SchemaPolicy::PERMISSION)->assignRole(Role::INTERNAL);
     }
 }

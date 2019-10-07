@@ -177,6 +177,7 @@
               <td :rowspan="commission.showDetails ? 2 : 1" class="pr-0 pb-0">
                 <div class="d-flex">
                   <b-form-checkbox
+                    :disabled="!permissions.update"
                     :checked="commission.reviewed"
                     @change="val => updateMultiple(commission, {
                       onHold: false,
@@ -187,6 +188,7 @@
                     class="m-0"
                   />
                   <b-form-checkbox
+                    :disabled="!permissions.update"
                     :checked="commission.onHold"
                     @change="val => updateMultiple(commission, {
                       onHold: val,
@@ -197,6 +199,7 @@
                     class="m-0"
                   />
                   <b-form-checkbox
+                    :disabled="!permissions.update"
                     :checked="commission.rejected"
                     @change="val => updateMultiple(commission, {
                       onHold: false,
@@ -354,6 +357,7 @@
                   <div class="col-sm-10">
                     <input
                       :value="commission.vatIncluded ? commission.gross : commission.net"
+                      :readonly="!permissions.update"
                       @change="e => updateValue(commission, 'amount', e.target.value.trim())"
                       class="form-control form-control-sm"
                       placeholder="MwSt. ist partnerabhängig"
@@ -368,6 +372,7 @@
                   <div class="col-sm-10">
                     <input
                       :value="commission.bonus"
+                      :readonly="!permissions.update"
                       @change="e => updateValue(commission, 'bonus', parseFloat(e.target.value.trim()))"
                       class="form-control form-control-sm"
                       type="number"
@@ -383,6 +388,7 @@
                   <div class="col-sm-10">
                     <input
                       :value="commission.note.public"
+                      :readonly="!permissions.update"
                       @change="e => updateValue(commission, 'note.public', e.target.value.trim())"
                       class="form-control form-control-sm"
                       placeholder="Steht auf der Rechnung"
@@ -398,6 +404,7 @@
                   <div class="col-sm-10">
                     <input
                       :value="commission.note.private"
+                      :readonly="!permissions.update"
                       @change="e => updateValue(commission, 'note.private', e.target.value.trim())"
                       class="form-control form-control-sm"
                       placeholder="Privat, nur für die Buchhaltung"
@@ -406,7 +413,10 @@
                   </div>
                 </div>
 
-                <div v-if="commission.model === null" class="my-2 text-right">
+                <div
+                  v-if="permissions.delete && commission.model === null"
+                  class="my-2 text-right"
+                >
                   <button
                     type="button"
                     @click="confirm('Wirklich löschen?', () => destroy(commission))"
@@ -468,7 +478,10 @@
     </div>
 
     <div class="mt-3 d-flex justify-content-between align-items-center">
-      <div class="p-1 bg-white shadow-sm">
+      <div
+        v-if="permissions.update"
+        class="p-1 bg-white shadow-sm"
+      >
         <strong class="ml-1 mr-2">Auswahl:</strong>
 
         <button
@@ -522,7 +535,11 @@
       <a class="btn btn-primary" href="/bills/create">Rechnungen Erstellen</a>
     </div>
 
-    <correction-entry-form :api="userDetailsApi" @submit="createCustomEntry" />
+    <correction-entry-form
+      v-if="permissions.create"
+      :api="userDetailsApi"
+      @submit="createCustomEntry"
+    />
   </div>
 </template>
 
@@ -583,6 +600,14 @@ export default {
     userDetailsApi: {
       type: String,
       required: true,
+    },
+    permissions: {
+      type: Object,
+      default: () => ({
+        create: false,
+        update: false,
+        delete: false,
+      }),
     },
   },
 
@@ -758,6 +783,8 @@ export default {
 
     async updateAll(props) {
       try {
+        this.checkPermission('update');
+
         await axios.put(this.api, props, {
           params: this.filterParams,
         });
@@ -779,6 +806,8 @@ export default {
 
     async updateOrRollBack(commission, props, rollbackCallback) {
       try {
+        this.checkPermission('update');
+
         const { data } = await axios.put(`${this.api}/${commission.key}`, props);
         this.$notify('Änderungen gespeichert');
 
@@ -822,8 +851,16 @@ export default {
       this.filter.id = `${id}`;
     },
 
+    checkPermission(name) {
+      if (!this.permissions[name]) {
+        throw new Error('Keine Berechtigung');
+      }
+    },
+
     async createCustomEntry(entry) {
       try {
+        this.checkPermission('create');
+
         await axios.post(this.api, entry);
         this.$notify('Eintrag angelegt');
 
@@ -843,6 +880,8 @@ export default {
 
     async destroy(commission) {
       try {
+        this.checkPermission('delete');
+
         await axios.delete(`${this.api}/${commission.key}`);
         this.$notify('Eintrag gelöscht');
 
@@ -866,6 +905,8 @@ export default {
 
     async refreshAll() {
       try {
+        this.checkPermission('delete');
+
         this.$notify('Einträge werden neu berechnet');
         await axios.delete(`${this.api}`, {
           params: this.filterParams,

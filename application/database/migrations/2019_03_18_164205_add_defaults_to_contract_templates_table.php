@@ -4,7 +4,6 @@ use App\Models\Company;
 use App\Models\ContractTemplate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 class AddDefaultsToContractTemplatesTable extends Migration
 {

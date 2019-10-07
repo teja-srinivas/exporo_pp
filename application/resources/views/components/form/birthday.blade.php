@@ -1,8 +1,8 @@
-<div>
+<div class="text-nowrap">
     @include('components.form.select', [
         'name' => 'birth_day',
         'emptyText' =>  __('Day'),
-        'autocomplete' => 'bday-day',
+        'autocomplete' => $autocomplete ?? 'bday-day',
         'required' => $required ?? false,
         'error' => false,
         'default' => optional($default ?? null)->day,
@@ -12,7 +12,7 @@
         'name' => 'birth_month',
         'assoc' => true,
         'emptyText' => __('Month'),
-        'autocomplete' => 'bday-month',
+        'autocomplete' => $autocomplete ?? 'bday-month',
         'required' => $required ?? false,
         'error' => false,
         'default' => optional($default ?? null)->month,
@@ -23,7 +23,7 @@
     @include('components.form.select', [
         'name' => 'birth_year',
         'emptyText' => __('Year'),
-        'autocomplete' => 'bday-year',
+        'autocomplete' => $autocomplete ?? 'bday-year',
         'required' => $required ?? false,
         'error' => false,
         'default' => optional($default ?? null)->year,

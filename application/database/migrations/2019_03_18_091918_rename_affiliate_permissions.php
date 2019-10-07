@@ -3,8 +3,6 @@
 use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class RenameAffiliatePermissions extends Migration
 {
@@ -15,7 +13,7 @@ class RenameAffiliatePermissions extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
         // Let's better be safe than sorry
         DB::transaction(function () {

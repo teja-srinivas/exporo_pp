@@ -1,10 +1,7 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use App\Policies\BannerSetPolicy;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class AddManageBannerSetsPermission extends Migration
 {
@@ -15,11 +12,11 @@ class AddManageBannerSetsPermission extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
-        Permission::create(['name' => BannerSetPolicy::PERMISSION])->assignRole(
-            Role::findByName(Role::ADMIN),
-            Role::findByName(Role::INTERNAL)
+        $this->createPermission(BannerSetPolicy::PERMISSION)->assignRole(
+            Role::ADMIN,
+            Role::INTERNAL
         );
     }
 }

@@ -1,10 +1,7 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class AddInvestorPermissions extends Migration
 {
@@ -15,7 +12,7 @@ class AddInvestorPermissions extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
         $roles = [
             Role::findByName(Role::ADMIN),
@@ -27,12 +24,5 @@ class AddInvestorPermissions extends Migration
             $this->createResourcePermission('management.investments', $roles);
             $this->createResourcePermission('management.investors', $roles);
         });
-    }
-
-    private function createResourcePermission(string $resource, array $roles)
-    {
-        foreach (['create', 'delete', 'update', 'view'] as $action) {
-            Permission::create(['name' => "$resource.$action"])->assignRole($roles);
-        }
     }
 }

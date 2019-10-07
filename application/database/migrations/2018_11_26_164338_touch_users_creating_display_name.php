@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Database\Migrations\Migration;
 
 class TouchUsersCreatingDisplayName extends Migration
 {

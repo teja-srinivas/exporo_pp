@@ -1,10 +1,7 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use App\Policies\LinkPolicy;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class AddManageLinksPermission extends Migration
 {
@@ -15,11 +12,11 @@ class AddManageLinksPermission extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
-        Permission::create(['name' => LinkPolicy::PERMISSION])->assignRole(
-            Role::findByName(Role::ADMIN),
-            Role::findByName(Role::INTERNAL)
+        $this->createPermission(LinkPolicy::PERMISSION)->assignRole(
+            Role::ADMIN,
+            Role::INTERNAL
         );
     }
 }

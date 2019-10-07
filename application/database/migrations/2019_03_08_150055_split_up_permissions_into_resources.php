@@ -4,8 +4,6 @@ use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 
 class SplitUpPermissionsIntoResources extends Migration
@@ -19,7 +17,7 @@ class SplitUpPermissionsIntoResources extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
         // Let's better be safe than sorry
         DB::transaction(function () {
@@ -35,13 +33,8 @@ class SplitUpPermissionsIntoResources extends Migration
             $this->rename('view partner dashboard', 'features.users.dashboard');
         });
 
-        Permission::create(['name' => 'features.bills.export'])->assignRole(
-            Role::findByName(Role::ADMIN)
-        );
-
-        Permission::create(['name' => 'viewNova'])->assignRole(
-            Role::findByName(Role::ADMIN)
-        );
+        $this->createPermission('features.bills.export')->assignRole(Role::ADMIN);
+        $this->createPermission('viewNova')->assignRole(Role::ADMIN);
     }
 
     protected function convertManaged(string $prefix, array $replacements = [])
@@ -70,8 +63,7 @@ class SplitUpPermissionsIntoResources extends Migration
             ];
         })->map(function (Permission $original, string $name) {
             // Create new permissions and copy the properties from the original
-            /** @var Permission $permission */
-            $permission = Permission::create(['name' => $name]);
+            $permission = $this->createPermission($name);
             $permission->users()->sync($original->users()->pluck('id'));
             $permission->roles()->sync($original->roles()->pluck('id'));
         });

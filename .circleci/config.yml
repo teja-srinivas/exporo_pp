@@ -28,8 +28,27 @@ jobs:
           command: echo "{\"http-basic\":{\"nova.laravel.com\":{\"username\":\"${NOVA_USERNAME}\",\"password\":\"${NOVA_PASSWORD}\"}}}" > ./application/auth.json
 
       - run:
-          name: Install npm packages and build frontend assets
-          command: cd ./application && npm install && npm run production
+          name: Install Yarn
+          command: curl -o- -L https://yarnpkg.com/install.sh | bash
+
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "./application/yarn.lock" }}
+
+      - run:
+          name: Install frontend dependencies
+          command: cd ./application && yarn install --frozen-lockfile
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "./application/yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run:
+          name: Build frontend assets
+          command: cd application && npm run production
 
       - restore_cache:
           keys:

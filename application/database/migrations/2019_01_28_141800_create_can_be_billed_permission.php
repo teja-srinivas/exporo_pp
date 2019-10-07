@@ -1,11 +1,7 @@
 <?php
 
 use App\Models\Role;
-use App\Models\User;
-use App\Models\Permission;
 use App\Policies\BillPolicy;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateCanBeBilledPermission extends Migration
 {
@@ -18,14 +14,12 @@ class CreateCanBeBilledPermission extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
         Role::create(['name' => self::NAME])->givePermissionTo(
             'view partner dashboard'
         );
 
-        Permission::create(['name' => BillPolicy::CAN_BE_BILLED_PERMISSION])->assignRole(
-            Role::findByName(Role::PARTNER)
-        );
+        $this->createPermission(BillPolicy::CAN_BE_BILLED_PERMISSION)->assignRole(Role::PARTNER);
     }
 }

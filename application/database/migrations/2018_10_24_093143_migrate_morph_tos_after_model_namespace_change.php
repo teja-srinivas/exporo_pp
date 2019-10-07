@@ -1,10 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class MigrateMorphTosAfterModelNamespaceChange extends Migration
 {
@@ -42,7 +38,7 @@ class MigrateMorphTosAfterModelNamespaceChange extends Migration
         $this->migrateTable('audits', ['user_type', 'auditable_type'], self::FROM, self::TO);
         $this->migrateTable('model_has_roles', ['model_type'], self::FROM, self::TO);
 
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
     }
 
     private function migrateTable(string $table, array $columns, string $fromPrefix, string $toPrefix)

@@ -1,3 +1,4 @@
+@unless($contract->template === null)
 @can('process', $contract)
 <div class="py-2 px-3 bg-white rounded shadow-sm">
     Erstellt aus Vorlage:
@@ -8,3 +9,4 @@
     </strong>
 </div>
 @endcan
+@endunless

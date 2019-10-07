@@ -16,7 +16,7 @@
 
         @card
             @include('components.form.builder', [
-                'labelWidth' => 3,
+                'labelWidth' => 2,
                 'inputs' => [
                     [
                         'type' => 'text',

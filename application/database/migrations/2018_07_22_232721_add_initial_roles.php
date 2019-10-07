@@ -1,9 +1,6 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class AddInitialRoles extends Migration
 {
@@ -18,18 +15,12 @@ class AddInitialRoles extends Migration
         Role::create(['name' => Role::INTERNAL]);
         Role::create(['name' => Role::ADMIN]);
 
-        Permission::create(['name' => 'manage agbs']);
-        Permission::create(['name' => 'manage documents']);
-        Permission::create(['name' => 'manage users']);
-        Permission::create(['name' => 'manage authorization']);
-        Permission::create(['name' => 'process partners']);
-
-        Role::findByName(Role::ADMIN)->givePermissionTo(
-            Permission::create(['name' => 'view audits'])
-        );
-
-        Role::findByName(Role::PARTNER)->givePermissionTo(
-            Permission::create(['name' => 'view partner dashboard'])
-        );
+        $this->createPermission('manage agbs');
+        $this->createPermission('manage documents');
+        $this->createPermission('manage users');
+        $this->createPermission('manage authorization');
+        $this->createPermission('process partners');
+        $this->createPermission('view audits')->assignRole(Role::ADMIN);
+        $this->createPermission('view partner dashboard')->assignRole(Role::PARTNER);
     }
 }

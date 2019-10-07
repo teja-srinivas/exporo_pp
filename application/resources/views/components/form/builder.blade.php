@@ -6,10 +6,10 @@
     <div class="form-group row {{ ($contained ?? true) && $loop->last ? 'mb-0' : '' }}">
         <label
             for="input{{ Str::studly($input['name']) }}"
-            class="col-sm-{{ $colWidthLabel }} col-form-label"
+            class="col-xl-{{ $colWidthLabel }} col-sm-{{ $colWidthLabel + 1 }} col-form-label"
         >{{ $input['label'] }}:</label>
 
-        <div class="col-sm-{{ $colWidthInput }} {{ in_array($type, ['radio', 'checkbox']) ? 'col-form-label' : '' }}">
+        <div class="col-xl-{{ $colWidthInput }} col-sm-{{ $colWidthInput -1 }} {{ in_array($type, ['radio', 'checkbox']) ? 'col-form-label' : '' }}">
             @empty($input['view'])
                 @includeFirst(["components.form.{$type}", 'components.form.input'], $input)
             @else

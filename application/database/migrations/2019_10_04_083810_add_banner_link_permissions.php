@@ -1,8 +1,6 @@
 <?php
 
 use App\Models\Permission;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class AddBannerLinkPermissions extends Migration
 {
@@ -13,9 +11,9 @@ class AddBannerLinkPermissions extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
-        Permission::create(['name' => 'features.link-shortener.banners']);
+        $this->createPermission('features.link-shortener.banners');
 
         /** @var Permission $permission */
         $permission = Permission::findByName('features.link-shortener.view');

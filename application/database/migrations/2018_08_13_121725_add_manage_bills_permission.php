@@ -1,10 +1,7 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use App\Policies\BillPolicy;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class AddManageBillsPermission extends Migration
 {
@@ -15,10 +12,8 @@ class AddManageBillsPermission extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
-        Role::findByName(Role::INTERNAL)->givePermissionTo(
-            Permission::create(['name' => BillPolicy::PERMISSION])
-        );
+        $this->createPermission(BillPolicy::PERMISSION)->assignRole(Role::INTERNAL);
     }
 }

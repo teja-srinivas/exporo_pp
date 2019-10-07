@@ -1,4 +1,5 @@
 {{-- Helper to quickly map our inputs to the existing values --}}
+<?php /** @var \App\Models\User $user */ ?>
 @php($decorate = function ($array) use ($user) {
     foreach ($array as &$entry) {
         $entry['default'] = $user->details[$entry['name']];
@@ -26,17 +27,18 @@
     [
         'name' => 'company',
         'label' => __('Company'),
-        'autocomplete' => 'organization',
+        'autocomplete' => 'off',
     ],
 ])])
 
 <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Herkunft</h6>
 
 <div class="form-group row">
-    <label for="inputBirthDay" class="col-sm-4 col-form-label">{{ __('Birthday') }}</label>
-    <div class="col-sm-8">
+    <label for="inputBirthDay" class="col-xl-4 col-sm-5 col-form-label">{{ __('Birthday') }}</label>
+    <div class="col-xl-8 col-sm-7">
         @include('components.form.birthday', [
             'default' => $user->details->birth_date,
+            'autocomplete' => 'off',
         ])
     </div>
 </div>
@@ -51,13 +53,13 @@
 <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Kommunikation</h6>
 
 <div class="form-group row">
-    <label for="inputAddressStreet" class="col-sm-4 col-form-label">{{ __('Address') }}</label>
-    <div class="col-sm-8">
+    <label for="inputAddressStreet" class="col-xl-4 col-sm-5 col-form-label">{{ __('Address') }}</label>
+    <div class="col-xl-8 col-sm-7">
         <div class="row">
             <div class="col-8">
                 @include('components.form.input', [
                     'name' => 'address_street',
-                    'autocomplete' => 'address-line1',
+                    'autocomplete' => 'off',
                     'placeholder' => 'Musterstraße',
                     'default' => $user->details->address_street,
                     'error' => false,
@@ -82,29 +84,29 @@
     [
         'name' => 'address_addition',
         'label' => __('Address Addition'),
-        'autocomplete' => 'address-line2',
+        'autocomplete' => 'off',
     ],
     [
         'name' => 'address_zipcode',
         'label' => __('ZIP Code'),
-        'autocomplete' => 'postal-code',
+        'autocomplete' => 'off',
     ],
     [
         'name' => 'address_city',
         'label' => __('City'),
-        'autocomplete' => 'address-level2',
+        'autocomplete' => 'off',
     ],
     [
         'type' => 'tel',
         'name' => 'phone',
         'label' => __('Telephone'),
-        'autocomplete' => 'tel-national',
+        'autocomplete' => 'off',
     ],
     [
         'type' => 'text',
         'name' => 'website',
         'label' => __('Website'),
-        'autocomplete' => 'url',
+        'autocomplete' => 'off',
     ],
 ])])
 
