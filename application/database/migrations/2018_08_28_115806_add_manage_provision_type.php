@@ -3,8 +3,6 @@
 use App\Models\Role;
 use App\Models\Permission;
 use App\Policies\CommissionTypePolicy;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class AddManageProvisionType extends Migration
 {
@@ -15,7 +13,7 @@ class AddManageProvisionType extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
         Role::findByName(Role::INTERNAL)->givePermissionTo(
             Permission::create(['name' => CommissionTypePolicy::PERMISSION])

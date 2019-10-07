@@ -4,8 +4,6 @@ use App\Models\Permission;
 use App\Policies\CommissionTypePolicy;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class RenameProvisionTables extends Migration
 {
@@ -24,7 +22,7 @@ class RenameProvisionTables extends Migration
         });
 
         try {
-            app(PermissionRegistrar::class)->forgetCachedPermissions();
+            $this->clearPermissionCache();
             $permission = Permission::findByName('manage provisionTypes');
             $permission->name = CommissionTypePolicy::PERMISSION;
             $permission->save();

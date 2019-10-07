@@ -3,8 +3,6 @@
 use App\Models\Role;
 use App\Models\Permission;
 use App\Policies\BillPolicy;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class AddDownloadBillsPermissions extends Migration
 {
@@ -15,7 +13,7 @@ class AddDownloadBillsPermissions extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
         Permission::create(['name' => BillPolicy::DOWNLOAD_PERMISSION])->assignRole(
             Role::findByName(Role::ADMIN),

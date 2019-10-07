@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\BannerSet;
-use Illuminate\Database\Migrations\Migration;
 
 class ConvertBannerSetUrlsToBannerLinks extends Migration
 {

@@ -3,7 +3,6 @@
 use App\Models\UserDetails;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 class ConvertVatIncludedToVatStatus extends Migration
 {
@@ -22,11 +21,7 @@ class ConvertVatIncludedToVatStatus extends Migration
                 'vat_amount' => 0,
             ]);
 
-        // Fix for renaming/updating a column inside a table that has enums
-        // See https://github.com/laravel/framework/issues/1186 for more information
-        $doctrine = DB::connection($this->getConnection())->getDoctrineConnection();
-        $dbPlatform = $doctrine->getSchemaManager()->getDatabasePlatform();
-        $dbPlatform->registerDoctrineTypeMapping('enum', 'string');
+        $this->fixEnumSupport();
 
         Schema::table('user_details', function (Blueprint $table) {
             $table->decimal('vat_amount', 8, 2)->default(0)->change();

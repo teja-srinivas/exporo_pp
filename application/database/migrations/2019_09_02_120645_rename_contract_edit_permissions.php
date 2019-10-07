@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class RenameContractEditPermissions extends Migration
 {
@@ -27,6 +25,6 @@ class RenameContractEditPermissions extends Migration
                 ]);
         }
 
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
     }
 }

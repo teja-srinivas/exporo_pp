@@ -2,7 +2,6 @@
 
 use App\Models\Permission;
 use Illuminate\Support\Str;
-use Illuminate\Database\Migrations\Migration;
 
 class MoveCommissionBonusPermissionsUnderContractGroup extends Migration
 {

@@ -3,8 +3,6 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class InitialMigration extends Migration
 {
@@ -153,7 +151,7 @@ class InitialMigration extends Migration
 
             $table->primary(['permission_id', 'role_id']);
 
-            app(PermissionRegistrar::class)->forgetCachedPermissions();
+            $this->clearPermissionCache();
         });
 
         Schema::create('audits', function (Blueprint $table) {

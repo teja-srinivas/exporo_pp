@@ -3,8 +3,6 @@
 use App\Models\Role;
 use App\Models\Permission;
 use App\Policies\ProjectPolicy;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class AddManageProjectsPermission extends Migration
 {
@@ -15,7 +13,7 @@ class AddManageProjectsPermission extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
         Role::findByName(Role::INTERNAL)->givePermissionTo(
             Permission::create(['name' => ProjectPolicy::PERMISSION])

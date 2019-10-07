@@ -2,8 +2,6 @@
 
 use App\Models\Role;
 use App\Models\Permission;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class AddInitialRoles extends Migration
 {

@@ -4,8 +4,6 @@ use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 
 class SplitUpPermissionsIntoResources extends Migration
@@ -19,7 +17,7 @@ class SplitUpPermissionsIntoResources extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
         // Let's better be safe than sorry
         DB::transaction(function () {

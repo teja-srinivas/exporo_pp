@@ -3,8 +3,6 @@
 use App\Models\Role;
 use App\Models\Permission;
 use App\Policies\CommissionBonusPolicy;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class AddManageCommissionBonusesPermission extends Migration
 {
@@ -15,7 +13,7 @@ class AddManageCommissionBonusesPermission extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
         Permission::create(['name' => CommissionBonusPolicy::PERMISSION])->assignRole(
             Role::findByName(Role::ADMIN),

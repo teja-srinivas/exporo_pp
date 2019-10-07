@@ -3,8 +3,6 @@
 use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\PermissionRegistrar;
-use Illuminate\Database\Migrations\Migration;
 
 class AddInvestorPermissions extends Migration
 {
@@ -15,7 +13,7 @@ class AddInvestorPermissions extends Migration
      */
     public function up()
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        $this->clearPermissionCache();
 
         $roles = [
             Role::findByName(Role::ADMIN),
