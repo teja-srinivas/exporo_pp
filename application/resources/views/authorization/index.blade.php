@@ -48,7 +48,7 @@
 
     @card
         @slot('title', 'Fähigkeiten')
-        @slot('info', 'Rollen speichern eine Liste von "Fähigkeiten", die ein Benutzer besitzt, sofern er einer Rolle zugewiesen ist.')
+        @slot('subtitle', 'Rollen speichern eine Liste von "Fähigkeiten", die ein Benutzer besitzt, sofern er einer Rolle zugewiesen ist.')
 
         <table class="table table-sm table-hover table-striped mb-0 table-borderless">
             <thead>
@@ -60,9 +60,15 @@
             <tbody>
             @forelse($permissions as $permission)
                 <tr>
-                    <td>{{ $permission->name }}</td>
+                    <td>{{
+                        join(' › ', array_map(function (string $key) {
+                            return __("permissions.$key");
+                        }, explode('.', $permission->name)))
+                    }}</td>
                     <td>
-                        @foreach($permission->roles->sortBy('name') as $role)
+                        @foreach($permission->roles->sortBy(function ($role) {
+                            return mb_strtolower($role->name);
+                        }) as $role)
                             <a href="{{ route('roles.show', $role) }}" class="badge badge-primary">{{
                                 $role->getDisplayName()
                             }}</a>

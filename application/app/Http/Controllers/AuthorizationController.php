@@ -15,6 +15,7 @@ class AuthorizationController extends Controller
 
         $permissions = Permission::query()
             ->with('roles')
+            ->orderBy('name')
             ->get(['id', 'name']);
 
         return response()->view('authorization.index', compact('roles', 'permissions'));
