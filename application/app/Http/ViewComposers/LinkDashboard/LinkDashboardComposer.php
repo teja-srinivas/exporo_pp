@@ -17,6 +17,7 @@ class LinkDashboardComposer
         $this->graphs = [
             new ByLink(),
             new ByDevice(),
+            new ByType(),
         ];
     }
 
