@@ -2,12 +2,12 @@
   <div class="form-group row">
     <label
       :for="id"
-      class="col-sm-1 col-form-label"
+      class="col-xl-1 col-sm-2 col-form-label"
     >
       {{ label }}:
     </label>
 
-    <div class="col-sm-11">
+    <div class="col-xl-11 col-sm-10">
       <input
         v-model.lazy="model"
         :id="id"
