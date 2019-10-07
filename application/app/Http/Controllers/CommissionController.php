@@ -8,6 +8,11 @@ use App\Console\Commands\CalculateCommissions;
 
 class CommissionController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Commission::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
