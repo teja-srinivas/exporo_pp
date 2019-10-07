@@ -40,6 +40,14 @@
                         'default' => $mailing->text,
                         'help' => 'Folgende Textbausteine stehen zur verfügung:<br><code>#partnername</code> für "Vorname Nachname"<br><code>#reflink</code> für "?a_aid=&lt;benutzerid&gt;"'
                     ],
+                    [
+                        'type' => 'variables',
+                        'label' => 'Variablen',
+                        'name' => 'variables',
+                        'required' => false,
+                        'default' => $mailing->variables,
+                        'help' => 'Folgende Textbausteine stehen zur verfügung:<br><code>#reflink</code> für "?a_aid=&lt;benutzerid&gt;"'
+                    ],
                 ],
             ])
 

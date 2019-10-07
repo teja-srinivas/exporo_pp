@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use App\Helper\TagReplacer;
 
 class MailingController extends Controller
 {
@@ -56,11 +57,16 @@ class MailingController extends Controller
             'description' => 'nullable',
             'text' => 'required',
             'file' => ['nullable', 'file'],
+            'variables.*.placeholder' => 'string',
+            'variables.*.type' => ['string', 'in:link'],
+            'variables.*.url' => 'string' // can not use url because of placeholders in URL
         ]);
 
         $this->addUploadedFileToInput($request, $data);
 
-        Mailing::query()->create($data);
+        $mail = Mailing::create($data);
+
+        $this->createNewVariables($mail);
 
         return redirect()->route('affiliate.mails.index');
     }
@@ -107,6 +113,9 @@ class MailingController extends Controller
             'description' => 'nullable',
             'text' => 'required',
             'file' => ['nullable', 'file'],
+            'variables.*.placeholder' => 'string',
+            'variables.*.type' => ['string', 'in:link'],
+            'variables.*.url' => 'string' // can not use url because of placeholders in URL
         ]);
 
         $this->addUploadedFileToInput($request, $data);
@@ -114,6 +123,8 @@ class MailingController extends Controller
         if ($mail->fill($data)->saveOrFail()) {
             flash_success();
         }
+
+        $this->createNewVariables($mail);
 
         return back();
     }
@@ -146,5 +157,35 @@ class MailingController extends Controller
         if ($request->file('file')) {
             $input['html'] = $request->file('file')->get();
         }
+    }
+
+    private function createNewVariables($mail) {
+      $variables = $mail->variables ? $mail->variables : [];
+
+      foreach ( TagReplacer::findTags($mail->html) as $tag) {
+        if( $this->shouldAddTag($tag, $variables)) {
+          $variables[] = [
+            'placeholder' => $tag,
+            'type' => 'link',
+            'url' => '',
+          ];
+        }
+      }
+
+      $mail->variables = $variables;
+      $mail->saveOrFail();
+    }
+
+    private function shouldAddTag(string $tag, array $existingVariables = []): bool
+    {
+      // User-Tag?
+      if( in_array($tag, TagReplacer::availableUserTags() )) return false;
+
+      // Already added?
+      foreach ($existingVariables as $variable) {
+        if( $variable['placeholder'] == $tag ) return false;
+      }
+
+      return true;
     }
 }

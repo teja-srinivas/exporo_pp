@@ -57,6 +57,20 @@ class TagReplacer
     }
 
     /**
+     * Returns a list the available user tags
+     *
+     * @return array
+     */
+    public static function availableUserTags(): array
+    {
+        return [
+            'reflink',
+            'partnerid',
+            'partnername'
+        ];
+    }
+
+    /**
      * Replaces "template tags" inside a text with the replacements
      * specified in the given array.
      *
