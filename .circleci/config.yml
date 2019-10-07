@@ -46,7 +46,10 @@ jobs:
 
       - run:
           name: run unit tests
-          command: cd application && DB_PORT=3306 DB_USERNAME=homestead DB_PASSWORD=secret ./vendor/bin/phpunit
+          command: cd application && DB_PORT=3306 DB_USERNAME=homestead DB_PASSWORD=secret ./vendor/bin/phpunit --log-junit ~/phpunit/junit.xml
+
+      - store_test_results:
+          path: ~/phpunit
 
       - save_cache:
           key: vendor-dev-{{ checksum "./application/composer.lock" }}
