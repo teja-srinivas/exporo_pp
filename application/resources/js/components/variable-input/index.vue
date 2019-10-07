@@ -33,8 +33,8 @@
           :name="name"
           property="url"
           label="URL"
+          class="mb-0"
         />
-
       </div>
 
       <button
