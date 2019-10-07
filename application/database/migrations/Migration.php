@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Models\Permission;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Migrations\Migration as BaseMigration;
 
 abstract class Migration extends BaseMigration
@@ -19,11 +20,18 @@ abstract class Migration extends BaseMigration
         return Permission::create(['name' => $name]);
     }
 
-    protected function createResourcePermission(string $resource, array $roles = []): void
+    protected function createResourcePermission(string $resource, array $roles = []): Collection
     {
+        $permissions = (new Permission)->newCollection();
+
         foreach (['create', 'delete', 'update', 'view'] as $action) {
-            $this->createPermission("$resource.$action")->assignRole($roles);
+            $permission = $this->createPermission("$resource.$action");
+            $permission->assignRole($roles);
+
+            $permissions->push($permission);
         }
+
+        return $permissions;
     }
 
     /**

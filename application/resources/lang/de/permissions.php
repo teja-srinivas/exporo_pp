@@ -36,6 +36,7 @@ return [
     'bills' => 'Rechnungen',
     'commission-bonuses' => 'Vergütungsschemata',
     'commission-types' => 'Provisionstypen',
+    'commissions' => 'Provisionen',
     'contracts' => 'Verträge',
     'documents' => 'Dokumente',
     'investments' => 'Investments',

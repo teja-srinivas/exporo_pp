@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Commission;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use App\Console\Commands\CalculateCommissions;
 
@@ -18,12 +19,14 @@ class CommissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // Refresh commissions before entering page as we might
         // have had updates on some other models that caused
         // some precalculated commissions to be invalidated
-        Artisan::call(CalculateCommissions::class);
+        if ($request->user()->can('create', Commission::class)) {
+            Artisan::call(CalculateCommissions::class);
+        }
 
         $totals = Commission::query()
             ->selectRaw('SUM(gross) as gross')
