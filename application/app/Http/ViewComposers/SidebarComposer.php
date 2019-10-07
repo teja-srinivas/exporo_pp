@@ -14,6 +14,7 @@ use App\Models\Project;
 use App\Models\Document;
 use App\Models\BannerSet;
 use Illuminate\View\View;
+use App\Models\Commission;
 use Illuminate\Http\Request;
 use App\Models\CommissionType;
 use App\Models\ContractTemplate;
@@ -120,7 +121,7 @@ class SidebarComposer
                         'title' => 'Provisionen',
                         'url' => route('commissions.index'),
                         'isActive' => $this->request->routeIs('commissions.index'),
-                        'isAllowed' => $this->user->can('create', Bill::class),
+                        'isAllowed' => $this->user->can('create', Commission::class),
                     ],
                     [
                         'title' => 'Erstellen',
