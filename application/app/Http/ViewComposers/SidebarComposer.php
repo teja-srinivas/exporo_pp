@@ -108,14 +108,32 @@ class SidebarComposer
             ],
 
             [
-                'title' => 'Provisionen',
+                'title' => 'Abrechnungen',
                 'links' => [
                     [
-                        'title' => 'Abrechnungen',
+                        'title' => 'Übersicht',
                         'url' => route('bills.index'),
-                        'isActive' => $this->request->routeIs('bills.*', 'commissions.index'),
+                        'isActive' => $this->request->routeIs('bills.index'),
                         'isAllowed' => $this->canList(Bill::class),
                     ],
+                    [
+                        'title' => 'Provisionen',
+                        'url' => route('commissions.index'),
+                        'isActive' => $this->request->routeIs('commissions.index'),
+                        'isAllowed' => $this->user->can('create', Bill::class),
+                    ],
+                    [
+                        'title' => 'Erstellen',
+                        'url' => route('bills.create'),
+                        'isActive' => $this->request->routeIs('bills.create'),
+                        'isAllowed' => $this->user->can('create', Bill::class),
+                    ],
+                ],
+            ],
+
+            [
+                'title' => 'Provisionen',
+                'links' => [
                     [
                         'title' => 'Formeln',
                         'url' => route('schemas.index'),
