@@ -36,18 +36,18 @@ class Mailing extends Model implements AuditableContract
 
     public function getTextForUser(User $user)
     {
-        return TagReplacer::replace($this->text, array_merge(
-            TagReplacer::getUserTags($user),
-            $this->getCustomVariableReplacements($user)
-        ));
+        return TagReplacer::replace(
+            $this->text,
+            TagReplacer::getUserTags($user) + $this->getCustomVariableReplacements($user)
+        );
     }
 
     public function getHtmlForUser(User $user): string
     {
-        return TagReplacer::replace($this->html, array_merge(
-            TagReplacer::getUserTags($user),
-            $this->getCustomVariableReplacements($user)
-        ));
+        return TagReplacer::replace(
+            $this->html,
+            TagReplacer::getUserTags($user) + $this->getCustomVariableReplacements($user)
+        );
     }
 
     private function getCustomVariableReplacements(User $user): array
