@@ -26,7 +26,7 @@
     [
         'name' => 'company',
         'label' => __('Company'),
-        'autocomplete' => 'organization',
+        'autocomplete' => 'off',
     ],
 ])])
 
@@ -37,6 +37,7 @@
     <div class="col-xl-8 col-sm-7">
         @include('components.form.birthday', [
             'default' => $user->details->birth_date,
+            'autocomplete' => 'off',
         ])
     </div>
 </div>
@@ -57,7 +58,7 @@
             <div class="col-8">
                 @include('components.form.input', [
                     'name' => 'address_street',
-                    'autocomplete' => 'address-line1',
+                    'autocomplete' => 'off',
                     'placeholder' => 'Musterstraße',
                     'default' => $user->details->address_street,
                     'error' => false,
@@ -82,29 +83,29 @@
     [
         'name' => 'address_addition',
         'label' => __('Address Addition'),
-        'autocomplete' => 'address-line2',
+        'autocomplete' => 'off',
     ],
     [
         'name' => 'address_zipcode',
         'label' => __('ZIP Code'),
-        'autocomplete' => 'postal-code',
+        'autocomplete' => 'off',
     ],
     [
         'name' => 'address_city',
         'label' => __('City'),
-        'autocomplete' => 'address-level2',
+        'autocomplete' => 'off',
     ],
     [
         'type' => 'tel',
         'name' => 'phone',
         'label' => __('Telephone'),
-        'autocomplete' => 'tel-national',
+        'autocomplete' => 'off',
     ],
     [
         'type' => 'text',
         'name' => 'website',
         'label' => __('Website'),
-        'autocomplete' => 'url',
+        'autocomplete' => 'off',
     ],
 ])])
 
