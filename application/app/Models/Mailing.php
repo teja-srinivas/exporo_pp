@@ -36,33 +36,35 @@ class Mailing extends Model implements AuditableContract
 
     public function getTextForUser(User $user)
     {
-      return TagReplacer::replace($this->text, array_merge(
-        TagReplacer::getUserTags($user),
-        $this->getCustomVariableReplacements($user)
-      ));
+        return TagReplacer::replace($this->text, array_merge(
+            TagReplacer::getUserTags($user),
+            $this->getCustomVariableReplacements($user)
+        ));
     }
 
     public function getHtmlForUser(User $user): string
     {
-      return TagReplacer::replace($this->html, array_merge(
-        TagReplacer::getUserTags($user),
-        $this->getCustomVariableReplacements($user)
-      ));
+        return TagReplacer::replace($this->html, array_merge(
+            TagReplacer::getUserTags($user),
+            $this->getCustomVariableReplacements($user)
+        ));
     }
 
     private function getCustomVariableReplacements(User $user): array
     {
-      $replacements = [];
-      if( !$this->variables ) return $replacements;
+        $replacements = [];
 
-      foreach ($this->variables as $variable) {
-        switch ($variable['type']) {
-          case 'link':
-            $replacements[$variable['placeholder']] = TagReplacer::replace($variable['url'], TagReplacer::getUserTags($user));
-          break;
+        foreach (($this->variables ?? []) as $variable) {
+            switch ($variable['type']) {
+                case 'link':
+                    $replacements[$variable['placeholder']] = TagReplacer::replace(
+                        $variable['url'],
+                        TagReplacer::getUserTags($user)
+                    );
+                    break;
+            }
         }
-      }
 
-      return $replacements;
+        return $replacements;
     }
 }

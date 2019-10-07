@@ -159,33 +159,38 @@ class MailingController extends Controller
         }
     }
 
-    private function createNewVariables($mail) {
-      $variables = $mail->variables ? $mail->variables : [];
+    private function createNewVariables($mail)
+    {
+        $variables = $mail->variables ?? [];
 
-      foreach ( TagReplacer::findTags($mail->html) as $tag) {
-        if( $this->shouldAddTag($tag, $variables)) {
-          $variables[] = [
-            'placeholder' => $tag,
-            'type' => 'link',
-            'url' => '',
-          ];
+        foreach (TagReplacer::findTags($mail->html) as $tag) {
+            if ($this->shouldAddTag($tag, $variables)) {
+                $variables[] = [
+                    'placeholder' => $tag,
+                    'type' => 'link',
+                    'url' => '',
+                ];
+            }
         }
-      }
 
-      $mail->variables = $variables;
-      $mail->saveOrFail();
+        $mail->variables = $variables;
+        $mail->saveOrFail();
     }
 
     private function shouldAddTag(string $tag, array $existingVariables = []): bool
     {
-      // User-Tag?
-      if( in_array($tag, TagReplacer::availableUserTags() )) return false;
+        // User-Tag?
+        if (in_array($tag, TagReplacer::availableUserTags())) {
+            return false;
+        }
 
-      // Already added?
-      foreach ($existingVariables as $variable) {
-        if( $variable['placeholder'] == $tag ) return false;
-      }
+        // Already added?
+        foreach ($existingVariables as $variable) {
+            if ($variable['placeholder'] == $tag) {
+                return false;
+            }
+        }
 
-      return true;
+        return true;
     }
 }
