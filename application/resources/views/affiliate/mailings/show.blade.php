@@ -1,3 +1,5 @@
+<?php /** @var \App\Models\Mailing $mailing */ ?>
+
 @extends('layouts.sidebar')
 
 @section('title')
