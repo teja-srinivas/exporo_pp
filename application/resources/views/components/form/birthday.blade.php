@@ -1,4 +1,4 @@
-<div>
+<div class="text-nowrap">
     @include('components.form.select', [
         'name' => 'birth_day',
         'emptyText' =>  __('Day'),

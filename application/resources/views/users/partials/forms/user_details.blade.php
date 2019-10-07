@@ -33,8 +33,8 @@
 <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Herkunft</h6>
 
 <div class="form-group row">
-    <label for="inputBirthDay" class="col-sm-4 col-form-label">{{ __('Birthday') }}</label>
-    <div class="col-sm-8">
+    <label for="inputBirthDay" class="col-xl-4 col-sm-5 col-form-label">{{ __('Birthday') }}</label>
+    <div class="col-xl-8 col-sm-7">
         @include('components.form.birthday', [
             'default' => $user->details->birth_date,
         ])
@@ -51,8 +51,8 @@
 <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Kommunikation</h6>
 
 <div class="form-group row">
-    <label for="inputAddressStreet" class="col-sm-4 col-form-label">{{ __('Address') }}</label>
-    <div class="col-sm-8">
+    <label for="inputAddressStreet" class="col-xl-4 col-sm-5 col-form-label">{{ __('Address') }}</label>
+    <div class="col-xl-8 col-sm-7">
         <div class="row">
             <div class="col-8">
                 @include('components.form.input', [
