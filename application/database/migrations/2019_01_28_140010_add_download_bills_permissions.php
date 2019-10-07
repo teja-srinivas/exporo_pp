@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use App\Policies\BillPolicy;
 
 class AddDownloadBillsPermissions extends Migration
@@ -15,9 +14,9 @@ class AddDownloadBillsPermissions extends Migration
     {
         $this->clearPermissionCache();
 
-        Permission::create(['name' => BillPolicy::DOWNLOAD_PERMISSION])->assignRole(
-            Role::findByName(Role::ADMIN),
-            Role::findByName(Role::INTERNAL)
+        $this->createPermission(BillPolicy::DOWNLOAD_PERMISSION)->assignRole(
+            Role::ADMIN,
+            Role::INTERNAL
         );
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use App\Policies\BillPolicy;
 
 class CreateCanBeBilledPermission extends Migration
@@ -21,8 +20,6 @@ class CreateCanBeBilledPermission extends Migration
             'view partner dashboard'
         );
 
-        Permission::create(['name' => BillPolicy::CAN_BE_BILLED_PERMISSION])->assignRole(
-            Role::findByName(Role::PARTNER)
-        );
+        $this->createPermission(BillPolicy::CAN_BE_BILLED_PERMISSION)->assignRole(Role::PARTNER);
     }
 }

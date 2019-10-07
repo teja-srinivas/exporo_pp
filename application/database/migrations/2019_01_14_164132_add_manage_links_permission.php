@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use App\Policies\LinkPolicy;
 
 class AddManageLinksPermission extends Migration
@@ -15,9 +14,9 @@ class AddManageLinksPermission extends Migration
     {
         $this->clearPermissionCache();
 
-        Permission::create(['name' => LinkPolicy::PERMISSION])->assignRole(
-            Role::findByName(Role::ADMIN),
-            Role::findByName(Role::INTERNAL)
+        $this->createPermission(LinkPolicy::PERMISSION)->assignRole(
+            Role::ADMIN,
+            Role::INTERNAL
         );
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use App\Policies\CommissionTypePolicy;
 
 class AddManageProvisionType extends Migration
@@ -15,8 +14,6 @@ class AddManageProvisionType extends Migration
     {
         $this->clearPermissionCache();
 
-        Role::findByName(Role::INTERNAL)->givePermissionTo(
-            Permission::create(['name' => CommissionTypePolicy::PERMISSION])
-        );
+        $this->createPermission(CommissionTypePolicy::PERMISSION)->assignRole(Role::INTERNAL);
     }
 }

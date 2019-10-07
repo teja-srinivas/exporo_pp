@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use App\Policies\SchemaPolicy;
 
 class AddManageSchemasPermission extends Migration
@@ -15,8 +14,6 @@ class AddManageSchemasPermission extends Migration
     {
         $this->clearPermissionCache();
 
-        Role::findByName(Role::INTERNAL)->givePermissionTo(
-            Permission::create(['name' => SchemaPolicy::PERMISSION])
-        );
+        $this->createPermission(SchemaPolicy::PERMISSION)->assignRole(Role::INTERNAL);
     }
 }

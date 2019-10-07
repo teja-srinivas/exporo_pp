@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use Illuminate\Support\Facades\DB;
 
 class AddInvestorPermissions extends Migration
@@ -25,12 +24,5 @@ class AddInvestorPermissions extends Migration
             $this->createResourcePermission('management.investments', $roles);
             $this->createResourcePermission('management.investors', $roles);
         });
-    }
-
-    private function createResourcePermission(string $resource, array $roles)
-    {
-        foreach (['create', 'delete', 'update', 'view'] as $action) {
-            Permission::create(['name' => "$resource.$action"])->assignRole($roles);
-        }
     }
 }

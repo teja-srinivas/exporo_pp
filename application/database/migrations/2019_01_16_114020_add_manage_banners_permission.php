@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use App\Policies\BannerPolicy;
 
 class AddManageBannersPermission extends Migration
@@ -15,9 +14,9 @@ class AddManageBannersPermission extends Migration
     {
         $this->clearPermissionCache();
 
-        Permission::create(['name' => BannerPolicy::PERMISSION])->assignRole(
-            Role::findByName(Role::ADMIN),
-            Role::findByName(Role::INTERNAL)
+        $this->createPermission(BannerPolicy::PERMISSION)->assignRole(
+            Role::ADMIN,
+            Role::INTERNAL
         );
     }
 }

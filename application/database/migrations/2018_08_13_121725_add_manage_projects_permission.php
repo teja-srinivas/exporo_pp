@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use App\Policies\ProjectPolicy;
 
 class AddManageProjectsPermission extends Migration
@@ -15,8 +14,6 @@ class AddManageProjectsPermission extends Migration
     {
         $this->clearPermissionCache();
 
-        Role::findByName(Role::INTERNAL)->givePermissionTo(
-            Permission::create(['name' => ProjectPolicy::PERMISSION])
-        );
+        $this->createPermission(ProjectPolicy::PERMISSION)->assignRole(Role::INTERNAL);
     }
 }

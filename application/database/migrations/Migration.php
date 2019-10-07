@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\Permission;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\PermissionRegistrar;
 use Illuminate\Database\Migrations\Migration as BaseMigration;
@@ -11,6 +12,18 @@ abstract class Migration extends BaseMigration
     protected function clearPermissionCache(): void
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
+    }
+
+    protected function createPermission(string $name): Permission
+    {
+        return Permission::create(['name' => $name]);
+    }
+
+    protected function createResourcePermission(string $resource, array $roles = []): void
+    {
+        foreach (['create', 'delete', 'update', 'view'] as $action) {
+            $this->createPermission("$resource.$action")->assignRole($roles);
+        }
     }
 
     /**

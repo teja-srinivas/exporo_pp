@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use App\Policies\MailingPolicy;
 
 class AddManageMailingsPermission extends Migration
@@ -15,9 +14,9 @@ class AddManageMailingsPermission extends Migration
     {
         $this->clearPermissionCache();
 
-        Permission::create(['name' => MailingPolicy::PERMISSION])->assignRole(
-            Role::findByName(Role::ADMIN),
-            Role::findByName(Role::INTERNAL)
+        $this->createPermission(MailingPolicy::PERMISSION)->assignRole(
+            Role::ADMIN,
+            Role::INTERNAL
         );
     }
 }

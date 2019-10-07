@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 use App\Policies\BillPolicy;
 
 class AddManageBillsPermission extends Migration
@@ -15,8 +14,6 @@ class AddManageBillsPermission extends Migration
     {
         $this->clearPermissionCache();
 
-        Role::findByName(Role::INTERNAL)->givePermissionTo(
-            Permission::create(['name' => BillPolicy::PERMISSION])
-        );
+        $this->createPermission(BillPolicy::PERMISSION)->assignRole(Role::INTERNAL);
     }
 }

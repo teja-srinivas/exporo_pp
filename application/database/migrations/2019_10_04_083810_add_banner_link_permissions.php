@@ -13,7 +13,7 @@ class AddBannerLinkPermissions extends Migration
     {
         $this->clearPermissionCache();
 
-        Permission::create(['name' => 'features.link-shortener.banners']);
+        $this->createPermission('features.link-shortener.banners');
 
         /** @var Permission $permission */
         $permission = Permission::findByName('features.link-shortener.view');

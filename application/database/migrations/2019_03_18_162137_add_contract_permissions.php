@@ -25,19 +25,12 @@ class AddContractPermissions extends Migration
             $this->createResourcePermission('management.contracts', $roles);
             $this->createResourcePermission('management.contracts.templates', $roles);
 
-            Permission::create(['name' => 'features.contracts.update-special-agreement'])->assignRole($roles);
-            Permission::create(['name' => 'features.contracts.update'])->assignRole($roles);
+            $this->createPermission('features.contracts.update-special-agreement')->assignRole($roles);
+            $this->createPermission('features.contracts.update')->assignRole($roles);
 
             /** @var Permission $process */
             $process = Permission::findByName('features.users.process');
             $process->update(['name' => 'features.contracts.process']);
         });
-    }
-
-    private function createResourcePermission(string $resource, array $roles)
-    {
-        foreach (['create', 'delete', 'update', 'view'] as $action) {
-            Permission::create(['name' => "$resource.$action"])->assignRole($roles);
-        }
     }
 }

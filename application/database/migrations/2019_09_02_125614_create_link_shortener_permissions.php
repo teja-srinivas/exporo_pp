@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Permission;
-
 class CreateLinkShortenerPermissions extends Migration
 {
     /**
@@ -13,7 +11,7 @@ class CreateLinkShortenerPermissions extends Migration
     {
         $this->clearPermissionCache();
 
-        Permission::create(['name' => 'features.link-shortener.dashboard']);
-        Permission::create(['name' => 'features.link-shortener.view']);
+        $this->createPermission('features.link-shortener.dashboard');
+        $this->createPermission('features.link-shortener.view');
     }
 }

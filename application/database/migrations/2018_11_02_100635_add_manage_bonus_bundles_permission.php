@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Role;
-use App\Models\Permission;
 
 class AddManageBonusBundlesPermission extends Migration
 {
@@ -14,8 +13,6 @@ class AddManageBonusBundlesPermission extends Migration
     {
         $this->clearPermissionCache();
 
-        Role::findByName(Role::INTERNAL)->givePermissionTo(
-            Permission::create(['name' => 'management.commission-bonus-bundles'])
-        );
+        $this->createPermission('management.commission-bonus-bundles')->assignRole(Role::INTERNAL);
     }
 }
