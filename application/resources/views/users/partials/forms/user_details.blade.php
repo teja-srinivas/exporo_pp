@@ -1,4 +1,5 @@
 {{-- Helper to quickly map our inputs to the existing values --}}
+<?php /** @var \App\Models\User $user */ ?>
 @php($decorate = function ($array) use ($user) {
     foreach ($array as &$entry) {
         $entry['default'] = $user->details[$entry['name']];
