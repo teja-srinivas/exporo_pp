@@ -25,13 +25,26 @@
 @section('main-content')
     @card
         @slot('title', 'Fähigkeiten')
-        @slot('info', 'die Benutzer mit dieser Rolle besitzen')
+        @slot('subtitle', 'die Benutzer mit dieser Rolle besitzen:')
 
-        @forelse($role->permissions as $permission)
-            <span class="badge badge-light">{{ $permission->name }}</span>
+        <div class="row">
+
+        @forelse($role->permissions->sortBy('name')->split(2) as $chunk)
+            <div class="col-md-6 small">
+                <ul class="pl-3 mb-0">
+                @foreach($chunk as $permission)
+                    <li>{{
+                        join(' › ', array_map(function (string $key) {
+                            return __("permissions.$key");
+                        }, explode('.', $permission->name)))
+                    }}</li>
+                @endforeach
+                </ul>
+            </div>
         @empty
             <div class="text-muted text-center">Keine Fähigkeiten zugewiesen</div>
         @endforelse
+        </div>
     @endcard
 
     @include('users.partials.table', ['users' => $users])
