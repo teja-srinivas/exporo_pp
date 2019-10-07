@@ -584,6 +584,14 @@ export default {
       type: String,
       required: true,
     },
+    permissions: {
+      type: Object,
+      default: () => ({
+        create: false,
+        update: false,
+        delete: false,
+      }),
+    },
   },
 
   data() {
@@ -758,6 +766,8 @@ export default {
 
     async updateAll(props) {
       try {
+        this.checkPermission('update');
+
         await axios.put(this.api, props, {
           params: this.filterParams,
         });
@@ -779,6 +789,8 @@ export default {
 
     async updateOrRollBack(commission, props, rollbackCallback) {
       try {
+        this.checkPermission('update');
+
         const { data } = await axios.put(`${this.api}/${commission.key}`, props);
         this.$notify('Änderungen gespeichert');
 
@@ -822,8 +834,16 @@ export default {
       this.filter.id = `${id}`;
     },
 
+    checkPermission(name) {
+      if (!this.permissions[name]) {
+        throw new Error('Keine Berechtigung');
+      }
+    },
+
     async createCustomEntry(entry) {
       try {
+        this.checkPermission('create');
+
         await axios.post(this.api, entry);
         this.$notify('Eintrag angelegt');
 
@@ -843,6 +863,8 @@ export default {
 
     async destroy(commission) {
       try {
+        this.checkPermission('delete');
+
         await axios.delete(`${this.api}/${commission.key}`);
         this.$notify('Eintrag gelöscht');
 
@@ -866,6 +888,8 @@ export default {
 
     async refreshAll() {
       try {
+        this.checkPermission('delete');
+
         this.$notify('Einträge werden neu berechnet');
         await axios.delete(`${this.api}`, {
           params: this.filterParams,

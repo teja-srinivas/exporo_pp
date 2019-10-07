@@ -1,3 +1,8 @@
+<?php
+use App\Models\Commission;
+use Illuminate\Support\Facades\Gate;
+?>
+
 @extends('layouts.sidebar')
 
 @section('title')
@@ -20,6 +25,11 @@
             'api' => route('api.commissions.index'),
             'totals' => $totals,
             'userDetailsApi' => route('api.users.details.index'),
+            'permissions' => [
+                'create' => Gate::allows('create', Commission::class),
+                'update' => Gate::allows('management.commissions.update'),
+                'delete' => Gate::allows('management.commissions.delete'),
+            ],
         ])
         <vue v-cloak class="cloak-fade" data-is="commission-approval" data-props='@json($vueData)'></vue>
     @else
