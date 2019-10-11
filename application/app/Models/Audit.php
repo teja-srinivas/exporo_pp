@@ -21,7 +21,7 @@ class Audit extends \OwenIt\Auditing\Models\Audit
      */
     public function getFilteredModifications(): Collection
     {
-        $type = Relation::getMorphedModel($this->auditable_type);
+        $type = Relation::getMorphedModel($this->auditable_type) ?? $this->auditable_type;
 
         /** @var Model $model */
         $model = new $type;
