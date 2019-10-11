@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Traits\Encryptable;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Custom Audit implementation to support localizable Dates.
@@ -20,7 +21,7 @@ class Audit extends \OwenIt\Auditing\Models\Audit
      */
     public function getFilteredModifications(): Collection
     {
-        $type = $this->auditable_type;
+        $type = Relation::getMorphedModel($this->auditable_type);
 
         /** @var Model $model */
         $model = new $type;
