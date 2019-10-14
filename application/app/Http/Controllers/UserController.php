@@ -68,13 +68,17 @@ class UserController extends Controller
         $user = new User($request->validated());
 
         $user->assignRole(Role::PARTNER);
+
         $user->save();
+
         $user->details->fill(
             $request->validated()
         )->saveOrFail();
+
         $contract = Contract::fromTemplate(
             ContractTemplate::find($request->contract)
         );
+
         $user->contract()->save($contract);
 
         // Send DOI mail manually
