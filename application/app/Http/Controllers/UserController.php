@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
+use App\Models\Contract;
 use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -39,33 +40,45 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  User $user
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user)
     {
-        return response()->view('users.create');
+        $contractTemplates = ContractTemplate::query()
+            ->orderBy('name')
+            ->pluck('name', 'id');
+
+        return response()->view(
+            'users.create', 
+            compact('user', 'contractTemplates')
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Http\Requests\UserStoreRequest $request
      * @param Hasher $hasher
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request, Hasher $hasher)
+    public function store(UserStoreRequest $request, Hasher $hasher)
     {
-        $data = $this->validate($request, [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'email' => 'required|unique:users,email',
-        ]);
+        $user = new User($request->validated());
 
-        $data['password'] = $hasher->make(Str::random());
-        $data['company_id'] = Company::query()->first()->getKey();
+        $user->assignRole(Role::PARTNER);
+        $user->save();
+        $user->details->fill(
+            $request->validated()
+        )->saveOrFail();
+        $contract = Contract::fromTemplate(
+            ContractTemplate::find($request->contract)
+        );
+        $user->contract()->save($contract);
 
-        $user = User::query()->forceCreate($data);
+        // Send DOI mail manually
+        $user->sendEmailVerificationNotification();
 
         return redirect()->route('users.show', $user);
     }
