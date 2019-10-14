@@ -65,9 +65,13 @@ class LinkController extends Controller
             'title' => 'required',
             'description' => 'nullable',
             'url' => 'required',
+            'user' => ['nullable', 'array'],
         ]);
 
-        Link::query()->create($data);
+        /** @var Link $link */
+        $link = Link::query()->create($data);
+
+        $link->users()->sync(array_keys($data['user'] ?? []));
 
         return redirect()->route('affiliate.links.index');
     }
