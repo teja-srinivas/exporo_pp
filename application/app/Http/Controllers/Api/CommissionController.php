@@ -266,7 +266,7 @@ class CommissionController extends Controller
         return $query
             ->where('commissions.user_id', '>', 0)
             ->where('on_hold', $fields->has('onHold'))
-            ->when(true, function (Builder $query) use ($fields) {
+            ->when(true, static function (Builder $query) use ($fields) {
                 if ($fields->filters('rejected')) {
                     $query->whereNotNull('rejected_at');
                     $query->whereNull('bill_id');
@@ -280,7 +280,7 @@ class CommissionController extends Controller
                     $query->whereNull('reviewed_at');
                 }
             })
-            ->when($fields->has('user'), function (Builder $query) use ($fields, $forUpdate) {
+            ->when($fields->has('user'), static function (Builder $query) use ($fields, $forUpdate) {
                 $user = $fields->get('user');
 
                 if (! empty($user->filter)) {
@@ -291,7 +291,7 @@ class CommissionController extends Controller
                     $query->orderBy('commissions.user_id', $user->order);
                 }
             })
-            ->when($fields->filters('model'), function (Builder $query) use ($fields) {
+            ->when($fields->filters('model'), static function (Builder $query) use ($fields) {
                 $lowercaseName = mb_convert_case($fields->get('model')->filter, MB_CASE_LOWER);
                 $quotedName = DB::connection()->getPdo()->quote('%'.$lowercaseName.'%');
 
@@ -301,7 +301,7 @@ class CommissionController extends Controller
 
                 $query->whereIn('investments.project_id', $projectIds);
             })
-            ->when($fields->has('money'), function (Builder $query) use ($forUpdate, $fields) {
+            ->when($fields->has('money'), static function (Builder $query) use ($forUpdate, $fields) {
                 $money = $fields->get('money');
 
                 if (! $forUpdate && ! empty($money->order)) {
@@ -313,13 +313,13 @@ class CommissionController extends Controller
                     $query->where('gross', $matches[1] ?: '=', $matches[2]);
                 }
             })
-            ->when(! $fields->filters('rejected'), function (Builder $query) {
+            ->when(! $fields->filters('rejected'), static function (Builder $query) {
                 $query->isOpen();
             })
-            ->when($fields->filters('overhead'), function (Builder $query) use ($fields) {
+            ->when($fields->filters('overhead'), static function (Builder $query) use ($fields) {
                 $query->where('child_user_id', $fields->get('overhead')->filter === 'true' ? '>' : '=', 0);
             })
-            ->when($fields->filters('type'), function (Builder $query) use ($fields) {
+            ->when($fields->filters('type'), static function (Builder $query) use ($fields) {
                 $type = $fields->get('type')->filter;
 
                 switch ($type) {
@@ -339,7 +339,7 @@ class CommissionController extends Controller
                         $query->where('model_type', $type);
                 }
             })
-            ->when($fields->filters('id'), function (Builder $query) use ($fields) {
+            ->when($fields->filters('id'), static function (Builder $query) use ($fields) {
                 $query->where('commissions.model_id', $fields->get('id')->filter);
             })
             ->withinRange(
