@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Company;
 use App\Models\Contract;
 use App\Models\Permission;
+use App\Models\CommissionBonus;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ContractTemplate;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UserStoreRequest;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -65,21 +67,39 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request, Hasher $hasher)
     {
-        $user = new User($request->validated());
+        $user = DB::transaction(function () use ($request, $hasher) {
+            $company = Company::query()->first();
 
-        $user->assignRole(Role::PARTNER);
+            $user = new User($request->validated());
 
-        $user->save();
+            $user->assignRole(Role::PARTNER);
 
-        $user->details->fill(
-            $request->validated()
-        )->saveOrFail();
+            $user->password = $hasher->make(Str::random());
 
-        $contract = Contract::fromTemplate(
-            ContractTemplate::find($request->contract)
-        );
+            $user->company_id = $company->getKey();
 
-        $user->contract()->save($contract);
+            $user->save();
+
+            $user->details->fill(
+                $request->validated()
+            )->saveOrFail();
+
+            $contract = Contract::fromTemplate(
+                ContractTemplate::find($request->contract)
+            );
+
+            $user->contract()->save($contract);
+
+            $contract->bonuses()->saveMany(
+                $company->contractTemplate->bonuses->map(
+                    static function (CommissionBonus $bonus) {
+                        return $bonus->replicate();
+                    }
+                )
+            );  
+
+            return $user;
+        });
 
         // Send DOI mail manually
         $user->sendEmailVerificationNotification();
