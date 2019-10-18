@@ -151,7 +151,7 @@ class UserStoreRequest extends FormRequest
             'tax_office' => 'nullable|string|max:100',
             'iban' => 'nullable|iban',
             'bic' =>'nullable|bic',
-        ] + ($updating !== null || auth()->user()->can('manage', User::class) ? [
+        ] + ($updating !== null || auth()->check() && auth()->user()->can('manage', User::class) ? [
             'vat_included' => 'boolean',
             'vat_amount' => 'numeric',
         ] : []);
