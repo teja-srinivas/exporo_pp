@@ -10,7 +10,7 @@ use App\Models\CommissionType;
 
 class CommissionTypePolicy extends BasePolicy
 {
-    const PERMISSION = 'management.commission-types';
+    public const PERMISSION = 'management.commission-types';
 
     public function __construct()
     {

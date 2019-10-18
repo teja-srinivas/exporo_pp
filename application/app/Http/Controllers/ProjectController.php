@@ -33,7 +33,9 @@ class ProjectController extends Controller
                         'name' => $project->description,
                         'schema' => optional($project->schema)->name,
                         'type' => optional($project->commissionType)->name,
-                        'status' => $project->wasApproved() ? null : '<div class="badge badge-warning">Ausstehend</div>',
+                        'status' => $project->wasApproved()
+                            ? null
+                            : '<div class="badge badge-warning">Ausstehend</div>',
                         'createdAt' => optional($project->created_at)->format('Y-m-d'),
                         'launchedAt' => optional($project->launched_at)->format('Y-m-d'),
                         'updatedAt' => optional($project->updated_at)->format('Y-m-d'),

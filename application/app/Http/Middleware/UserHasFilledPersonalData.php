@@ -10,7 +10,7 @@ use App\Models\UserDetails;
 
 class UserHasFilledPersonalData
 {
-    const USER_HAS_MISSING_DATA = 'details.has-filled-data';
+    public const USER_HAS_MISSING_DATA = 'details.has-filled-data';
 
     /**
      * Handle an incoming request.

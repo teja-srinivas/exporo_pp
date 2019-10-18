@@ -29,10 +29,10 @@ class ApiTokenService
      * Creates an api token for the given service with the given parameters.
      *
      * @param string $service
-     * @param mixed ...$params
+     * @param array $params
      * @return string
      */
-    public function forService(string $service, ...$params): string
+    public function forService(string $service, array $params = []): string
     {
         return base64_encode($this->hash->make($this->getIdentifier($service, $params)));
     }
@@ -42,10 +42,10 @@ class ApiTokenService
      *
      * @param string $service
      * @param string $token
-     * @param mixed ...$params
+     * @param array $params
      * @return bool
      */
-    public function isValid(string $service, string $token, ...$params): bool
+    public function isValid(string $service, string $token, array $params = []): bool
     {
         return $this->hash->check($this->getIdentifier($service, $params), base64_decode($token));
     }

@@ -27,19 +27,19 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CommissionBonus extends Model
 {
-    const TYPE_REGISTRATION = 'registration';
+    public const TYPE_REGISTRATION = 'registration';
 
-    const TYPE_FIRST_INVESTMENT = 'first_investment';
+    public const TYPE_FIRST_INVESTMENT = 'first_investment';
 
-    const TYPE_FURTHER_INVESTMENT = 'further_investment';
+    public const TYPE_FURTHER_INVESTMENT = 'further_investment';
 
-    const TYPES = [
+    public const TYPES = [
         self::TYPE_REGISTRATION,
         self::TYPE_FIRST_INVESTMENT,
         self::TYPE_FURTHER_INVESTMENT,
     ];
 
-    const DISPLAY_NAMES = [
+    public const DISPLAY_NAMES = [
         self::TYPE_REGISTRATION => 'Registrierung',
         self::TYPE_FIRST_INVESTMENT => 'Erstinvestment',
         self::TYPE_FURTHER_INVESTMENT => 'Folgeinvestment',

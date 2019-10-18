@@ -10,7 +10,7 @@ class AgbPolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
-    const PERMISSION = 'management.agbs';
+    public const PERMISSION = 'management.agbs';
 
     public function __construct()
     {

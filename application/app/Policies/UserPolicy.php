@@ -14,9 +14,9 @@ class UserPolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
-    const PERMISSION = 'management.users';
+    public const PERMISSION = 'management.users';
 
-    const PROCESS_PERMISSION = 'features.contracts.process';
+    public const PROCESS_PERMISSION = 'features.contracts.process';
 
     public function __construct()
     {

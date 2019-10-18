@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\DB;
 
 class MigrateMorphTosAfterModelNamespaceChange extends Migration
 {
-    const FROM = 'App\\';
+    private const FROM = 'App\\';
 
-    const TO = 'App\\Models\\';
+    private const TO = 'App\\Models\\';
 
-    const MODELS = [
+    private const MODELS = [
         'Agb',
         'Audit',
         'Bill',

@@ -6,7 +6,7 @@ namespace App\Policies;
 
 class ProjectPolicy extends BasePolicy
 {
-    const PERMISSION = 'management.projects';
+    public const PERMISSION = 'management.projects';
 
     public function __construct()
     {

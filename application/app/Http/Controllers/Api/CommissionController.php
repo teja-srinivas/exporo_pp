@@ -132,8 +132,11 @@ class CommissionController extends Controller
      * @return CommissionResource
      * @throws Throwable
      */
-    public function update(Request $request, Commission $commission, CalculateCommissionsService $service): CommissionResource
-    {
+    public function update(
+        Request $request,
+        Commission $commission,
+        CalculateCommissionsService $service
+    ): CommissionResource {
         static $lookup = [
             'note.public' => 'note_public',
             'note.private' => 'note_private',

@@ -100,7 +100,7 @@ class UserDetails extends Model implements AuditableContract
      * Indicates if this user is from the given country using an ISO country code (e.g. DE, AT, ...).
      * This uses the VAT ID, since we don't ask for an actual country upon registration.
      *
-     * @param  string|null  $countryCode
+     * @param  string  $countryCode
      * @return bool
      */
     public function isFromCountry(string $countryCode): bool

@@ -160,10 +160,10 @@ class AgbController extends Controller
      * Errors if the file does not exist.
      *
      * @param Agb $agb
-     * @return mixed
+     * @return Response
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function download(Agb $agb)
+    public function download(Agb $agb): Response
     {
         abort_unless(Storage::disk('s3')->exists(Agb::DIRECTORY.'/'.$agb->name), Response::HTTP_NOT_FOUND);
 

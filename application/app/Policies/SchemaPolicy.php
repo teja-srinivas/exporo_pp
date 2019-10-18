@@ -6,7 +6,7 @@ namespace App\Policies;
 
 class SchemaPolicy extends BasePolicy
 {
-    const PERMISSION = 'management.schemas';
+    public const PERMISSION = 'management.schemas';
 
     public function __construct()
     {

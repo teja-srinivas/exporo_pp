@@ -20,6 +20,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
+    use RegistersUsers;
+
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -30,7 +32,6 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-    use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
@@ -117,9 +118,13 @@ class RegisterController extends Controller
             $contract = Contract::fromTemplate($company->contractTemplate);
             $user->contract()->save($contract);
 
-            $contract->bonuses()->saveMany($company->contractTemplate->bonuses->map(static function (CommissionBonus $bonus) {
-                return $bonus->replicate();
-            }));
+            $contract->bonuses()->saveMany(
+                $company->contractTemplate->bonuses->map(
+                    static function (CommissionBonus $bonus) {
+                        return $bonus->replicate();
+                    }
+                )
+            );
 
             session()->put('trackUserRegistration', true);
 

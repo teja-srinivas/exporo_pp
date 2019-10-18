@@ -311,19 +311,21 @@ class BillController extends Controller
             return collect();
         }
 
-        return $investors->load('investor:id,first_name,last_name,activation_at')->map(static function (Commission $row) {
-            $activationDate = Carbon::make($row['activation_at'] ?? $row->investor->activation_at);
+        return $investors
+            ->load('investor:id,first_name,last_name,activation_at')
+            ->map(static function (Commission $row) {
+                $activationDate = Carbon::make($row['activation_at'] ?? $row->investor->activation_at);
 
-            return [
-                'id' => $row->investor->id,
-                'firstName' => Person::anonymizeFirstName($row->investor->first_name),
-                'lastName' => ucfirst(trim($row->investor->last_name)),
-                'activationAt' => optional($activationDate)->format('d.m.Y'),
-                'note' => $row->note_public,
-                'net' => $row->net,
-                'gross' => $row->gross,
-            ];
-        })->sortNatural('lastName');
+                return [
+                    'id' => $row->investor->id,
+                    'firstName' => Person::anonymizeFirstName($row->investor->first_name),
+                    'lastName' => ucfirst(trim($row->investor->last_name)),
+                    'activationAt' => optional($activationDate)->format('d.m.Y'),
+                    'note' => $row->note_public,
+                    'net' => $row->net,
+                    'gross' => $row->gross,
+                ];
+            })->sortNatural('lastName');
     }
 
     private function mapOverhead(?Collection $overheads): ?BaseCollection

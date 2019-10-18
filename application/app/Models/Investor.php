@@ -40,7 +40,7 @@ class Investor extends Model implements AuditableContract
     use Person;
     use SoftDeletes;
 
-    const MORPH_NAME = 'investor';
+    public const MORPH_NAME = 'investor';
 
     public $incrementing = false;
 

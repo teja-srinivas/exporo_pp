@@ -146,7 +146,7 @@ class UserController extends Controller
      */
     public function edit(User $user, Request $request)
     {
-        $data['user'] = $user;
+        $data = compact('user');
 
         if ($request->user()->can('manage', User::class)) {
             $data['roles'] = Role::query()->orderBy('name')->get();

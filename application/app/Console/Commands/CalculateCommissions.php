@@ -20,7 +20,7 @@ final class CalculateCommissions extends Command
     // as we eager load data, the more we have in the database the slower
     // our queries become. It is important, that we get just the right
     // amount of data before it becomes too much (e.g. run out of RAM)
-    const PER_CHUNK = 2500;
+    public const PER_CHUNK = 2500;
 
     protected $signature = 'calculate:commissions';
 

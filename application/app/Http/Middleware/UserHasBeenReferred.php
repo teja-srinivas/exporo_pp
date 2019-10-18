@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Cookie;
 
 class UserHasBeenReferred
 {
-    const QUERY_PARAMETER_NAME = 'ref';
+    public const QUERY_PARAMETER_NAME = 'ref';
 
-    const COOKIE_NAME = 'referral_id';
+    public const COOKIE_NAME = 'referral_id';
 
-    const COOKIE_LIFETIME_MINUTES = 30 * 24 * 60; // 30 days
+    public const COOKIE_LIFETIME_MINUTES = 30 * 24 * 60; // 30 days
 
     /**
      * Checks if we have a referral link (as a GET parameter)

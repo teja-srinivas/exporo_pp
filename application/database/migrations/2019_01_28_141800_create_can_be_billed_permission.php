@@ -7,7 +7,7 @@ use App\Policies\BillPolicy;
 
 class CreateCanBeBilledPermission extends Migration
 {
-    const NAME = 'gesperrt';
+    private const NAME = 'gesperrt';
 
     /**
      * Run the migrations.

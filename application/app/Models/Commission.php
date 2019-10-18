@@ -51,9 +51,9 @@ class Commission extends Model implements AuditableContract
      * we won't calculate any commissions.
      *
      */
-    const LAUNCH_DATE = '2018-11-01';
+    public const LAUNCH_DATE = '2018-11-01';
 
-    const TYPE_CORRECTION = 'correction';
+    public const TYPE_CORRECTION = 'correction';
 
     protected $casts = [
         'on_hold' => 'bool',

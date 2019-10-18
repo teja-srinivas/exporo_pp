@@ -23,7 +23,7 @@ class Document extends Model implements FileReference, AuditableContract
     use Auditable;
     use OptimusEncodedRouteKey;
 
-    const DIRECTORY = 'documents';
+    public const DIRECTORY = 'documents';
 
     public $disk = 's3';
 

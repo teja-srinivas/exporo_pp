@@ -11,6 +11,10 @@ use Illuminate\Foundation\Auth\VerifiesEmails;
 
 class VerificationController extends Controller
 {
+    use VerifiesEmails {
+        verify as traitVerify;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Email Verification Controller
@@ -21,9 +25,6 @@ class VerificationController extends Controller
     | be resent if the user did not receive the original email message.
     |
     */
-    use VerifiesEmails {
-        verify as traitVerify;
-    }
 
     /**
      * Where to redirect users after verification.

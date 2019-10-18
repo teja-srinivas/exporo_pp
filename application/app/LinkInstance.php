@@ -121,6 +121,7 @@ class LinkInstance extends Model implements Htmlable
     public function createClick(Request $request): LinkClick
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
+
         return $this->clicks()->create([
             'device' => DeviceIdentification::identify(),
             'country' => null, // TODO

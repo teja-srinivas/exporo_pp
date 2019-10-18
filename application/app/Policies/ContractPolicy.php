@@ -9,7 +9,7 @@ use App\Models\Contract;
 
 class ContractPolicy extends BasePolicy
 {
-    const PERMISSION = 'management.contracts';
+    public const PERMISSION = 'management.contracts';
 
     public function __construct()
     {

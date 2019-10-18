@@ -19,13 +19,13 @@ class Role extends \Spatie\Permission\Models\Role
 {
     use OptimusEncodedRouteKey;
 
-    const PARTNER = 'partner';
+    public const PARTNER = 'partner';
 
-    const INTERNAL = 'internal';
+    public const INTERNAL = 'internal';
 
-    const ADMIN = 'admin';
+    public const ADMIN = 'admin';
 
-    const ROLES = [
+    public const ROLES = [
         self::PARTNER,
         self::INTERNAL,
         self::ADMIN,

@@ -22,15 +22,15 @@ class Schema extends Model implements AuditableContract
     use Auditable;
     use OptimusEncodedRouteKey;
 
-    const VAR_AMOUNT = 'investment';
+    public const VAR_AMOUNT = 'investment';
 
-    const VAR_BONUS = 'bonus';
+    public const VAR_BONUS = 'bonus';
 
-    const VAR_MARGIN = 'marge';
+    public const VAR_MARGIN = 'marge';
 
-    const VAR_RUNTIME = 'laufzeit';
+    public const VAR_RUNTIME = 'laufzeit';
 
-    const VARS = [
+    public const VARS = [
         self::VAR_AMOUNT,
         self::VAR_BONUS,
         self::VAR_MARGIN,

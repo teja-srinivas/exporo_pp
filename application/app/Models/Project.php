@@ -64,7 +64,7 @@ class Project extends Model
         return $this->belongsTo(Schema::class, 'schema_id', 'id');
     }
 
-    public function investments(): hasMany
+    public function investments(): HasMany
     {
         return $this->hasMany(Investment::class, 'project_id', 'id');
     }

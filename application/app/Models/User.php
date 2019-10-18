@@ -65,7 +65,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     /**
      * Possible user titles.
      */
-    const TITLES = [
+    public const TITLES = [
         'Dr.',
         'Dr. med.',
         'Prof. Dr.',

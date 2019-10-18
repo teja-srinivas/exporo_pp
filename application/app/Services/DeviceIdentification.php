@@ -8,13 +8,13 @@ use Jenssegers\Agent\Agent;
 
 class DeviceIdentification
 {
-    const PHONE = 'phone';
+    public const PHONE = 'phone';
 
-    const TABLET = 'tablet';
+    public const TABLET = 'tablet';
 
-    const DESKTOP = 'desktop';
+    public const DESKTOP = 'desktop';
 
-    const DEVICES = [
+    public const DEVICES = [
         self::PHONE,
         self::TABLET,
         self::DESKTOP,

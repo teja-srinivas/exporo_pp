@@ -31,13 +31,13 @@ class Agb extends Model implements AuditableContract, FileReference
     use Auditable;
     use OptimusEncodedRouteKey;
 
-    const DIRECTORY = 'agbs';
+    public const DIRECTORY = 'agbs';
 
-    const TYPE_AG = 'ag';
+    public const TYPE_AG = 'ag';
 
-    const TYPE_GMBH = 'gmbh';
+    public const TYPE_GMBH = 'gmbh';
 
-    const TYPES = [self::TYPE_AG, self::TYPE_GMBH];
+    public const TYPES = [self::TYPE_AG, self::TYPE_GMBH];
 
     protected $casts = [
         'is_default' => 'bool',
