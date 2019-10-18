@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
 use App\Models\UserDetails;
@@ -9,9 +11,7 @@ class UserDetailsUpdated
 {
     use SerializesModels;
 
-    /**
-     * @var UserDetails
-     */
+    /** @var UserDetails */
     public $details;
 
     /**

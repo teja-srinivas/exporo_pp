@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\ViewComposers;
 
 use App\Models\Agb;
@@ -8,14 +10,12 @@ use Illuminate\Support\Collection;
 
 class RegisterComposer
 {
-    /**
-     * @var Collection
-     */
+    /** @var Collection */
     private $agbs;
 
     public function __construct()
     {
-        $this->agbs = collect(Agb::TYPES)->mapWithKeys(function (string $type) {
+        $this->agbs = collect(Agb::TYPES)->mapWithKeys(static function (string $type) {
             return [$type => route('agbs.latest', $type)];
         });
     }

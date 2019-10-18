@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova\Filters;
 
 use Illuminate\Http\Request;
@@ -18,7 +20,7 @@ class HasPartner extends BooleanFilter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->when($value['has-user'], function (Builder $query) {
+        return $query->when($value['has-user'], static function (Builder $query) {
             $query->whereHas('user');
         });
     }

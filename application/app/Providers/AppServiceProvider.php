@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Models;
@@ -39,12 +41,13 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('components.card', 'card');
 
         // Custom breadcrumbs instead of the bootstrap component
-        Blade::directive('breadcrumbs', function ($exp) {
+        Blade::directive('breadcrumbs', static function ($exp) {
             return "<?php echo render_breadcrumbs($exp); ?>";
         });
 
         Collection::macro('sortNatural', function ($callback) {
-            /* @var Collection $this */
+            /** @var Collection $this */
+
             return $this->sortBy($callback, SORT_NATURAL | SORT_FLAG_CASE);
         });
 
@@ -61,7 +64,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(CalculateCommissionsService::class);
 
-        $this->app->singleton(Compiler::class, function () {
+        $this->app->singleton(Compiler::class, static function () {
             $compiler = new Compiler();
             $compiler->functionCommandFactory->registerFunction('min', 'min');
             $compiler->functionCommandFactory->registerFunction('max', 'max');

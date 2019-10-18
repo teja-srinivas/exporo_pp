@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\User;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,7 +15,7 @@ class InitialMigration extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('users', static function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('company_id')->nullable()->index();
             $table->text('first_name');
@@ -29,13 +31,13 @@ class InitialMigration extends Migration
             $table->dateTime('rejected_at')->nullable();
         });
 
-        Schema::create('password_resets', function (Blueprint $table) {
+        Schema::create('password_resets', static function (Blueprint $table) {
             $table->string('email')->index();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
 
-        Schema::create('agbs', function (Blueprint $table) {
+        Schema::create('agbs', static function (Blueprint $table) {
             $table->increments('id');
             $table->string('type')->index()->nullable();
             $table->string('name');
@@ -44,7 +46,7 @@ class InitialMigration extends Migration
             $table->timestamps();
         });
 
-        Schema::create('agb_user', function (Blueprint $table) {
+        Schema::create('agb_user', static function (Blueprint $table) {
             $table->unsignedInteger('agb_id');
             $table->unsignedInteger('user_id');
             $table->timestamps();
@@ -62,13 +64,13 @@ class InitialMigration extends Migration
             $table->primary(['agb_id', 'user_id']);
         });
 
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('companies', static function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
         });
 
-        Schema::create('user_details', function (Blueprint $table) {
+        Schema::create('user_details', static function (Blueprint $table) {
             $table->unsignedInteger('id')->primary();
             $table->string('company')->nullable();
             $table->enum('title', User::TITLES)->nullable();
@@ -94,21 +96,21 @@ class InitialMigration extends Migration
 
         $tableNames = config('permission.table_names');
 
-        Schema::create($tableNames['permissions'], function (Blueprint $table) {
+        Schema::create($tableNames['permissions'], static function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('guard_name');
             $table->timestamps();
         });
 
-        Schema::create($tableNames['roles'], function (Blueprint $table) {
+        Schema::create($tableNames['roles'], static function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('guard_name');
             $table->timestamps();
         });
 
-        Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames) {
+        Schema::create($tableNames['model_has_permissions'], static function (Blueprint $table) use ($tableNames) {
             $table->unsignedInteger('permission_id');
             $table->morphs('model');
             $table->timestamps();
@@ -121,7 +123,7 @@ class InitialMigration extends Migration
             $table->primary(['permission_id', 'model_id', 'model_type']);
         });
 
-        Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames) {
+        Schema::create($tableNames['model_has_roles'], static function (Blueprint $table) use ($tableNames) {
             $table->unsignedInteger('role_id');
             $table->morphs('model');
             $table->timestamps();
@@ -154,7 +156,7 @@ class InitialMigration extends Migration
             $this->clearPermissionCache();
         });
 
-        Schema::create('audits', function (Blueprint $table) {
+        Schema::create('audits', static function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->nullable();
             $table->string('event');
@@ -174,7 +176,7 @@ class InitialMigration extends Migration
                 ->onUpdate('cascade');
         });
 
-        Schema::create('documents', function (Blueprint $table) {
+        Schema::create('documents', static function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->index();
             $table->string('filename');
@@ -183,7 +185,7 @@ class InitialMigration extends Migration
             $table->timestamps();
         });
 
-        Schema::create('investors', function (Blueprint $table) {
+        Schema::create('investors', static function (Blueprint $table) {
             $table->unsignedInteger('id')->primary()->nullable();
             $table->text('first_name');
             $table->text('last_name');
@@ -193,7 +195,7 @@ class InitialMigration extends Migration
             $table->date('activation_at')->nullable();
         });
 
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('projects', static function (Blueprint $table) {
             $table->unsignedInteger('id')->comment('External Project ID');
             $table->string('name');
             $table->decimal('interest_rate')->nullable();
@@ -211,7 +213,7 @@ class InitialMigration extends Migration
             $table->unsignedInteger('approved_by')->index()->nullable();
         });
 
-        Schema::create('investments', function (Blueprint $table) {
+        Schema::create('investments', static function (Blueprint $table) {
             $table->unsignedInteger('id')->primary()->nullable();
             $table->unsignedInteger('investor_id')->nullable()->index();
             $table->unsignedInteger('project_id')->nullable()->index();
@@ -226,14 +228,14 @@ class InitialMigration extends Migration
             $table->timestamps();
         });
 
-        Schema::create('bills', function (Blueprint $table) {
+        Schema::create('bills', static function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->index();
             $table->date('released_at')->nullable();
             $table->timestamps();
         });
 
-        Schema::create('commissions', function (Blueprint $table) {
+        Schema::create('commissions', static function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('bill_id')->index()->nullable();
             $table->nullableMorphs('model');
@@ -252,7 +254,7 @@ class InitialMigration extends Migration
             $table->timestamps();
         });
 
-        Schema::create('schemas', function (Blueprint $table) {
+        Schema::create('schemas', static function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->text('description')->nullable();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\LinkClick;
@@ -29,7 +31,7 @@ class LinkController extends Controller
         return view('affiliate.links.index', [
             'links' => Link::query()
                 ->visibleForUser($request->user())
-                ->with(['userInstance' => function (MorphOne $related) {
+                ->with(['userInstance' => static function (MorphOne $related) {
                     // Prevents eager loading the $with relationship
                     // (since we already do this using the parent query)
                     // https://github.com/laravel/framework/issues/30007

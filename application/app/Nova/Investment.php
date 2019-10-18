@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
@@ -47,7 +49,7 @@ class Investment extends Resource
             BelongsTo::make('Investor')->searchable(),
             BelongsTo::make('Project')->searchable(),
             // BelongsTo::make('User', 'user')->searchable(),
-            Number::make('Amount', 'amount', function ($value) {
+            Number::make('Amount', 'amount', static function ($value) {
                 return format_money($value);
             })->sortable(),
             Number::make('Interest Rate'),
@@ -90,7 +92,7 @@ class Investment extends Resource
     public function lenses(Request $request)
     {
         return [
-            new Lenses\InvestmentsWithoutProject,
+            new Lenses\InvestmentsWithoutProject(),
         ];
     }
 

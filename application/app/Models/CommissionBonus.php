@@ -8,10 +8,8 @@ use Carbon\Carbon;
 use App\Rules\ModelExists;
 use InvalidArgumentException;
 use Illuminate\Validation\Rule;
-use App\Relationships\BelongsToOne;
 use App\Events\CommissionBonusUpdated;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @property int $type_id
@@ -87,7 +85,7 @@ class CommissionBonus extends Model
             'calculation_type' => [Rule::in(self::TYPES)],
             'is_overhead' => ['boolean'],
             'is_percentage' => ['boolean'],
-            'type_id' => [new ModelExists(new CommissionType)],
+            'type_id' => [new ModelExists(new CommissionType())],
             'value' => ['numeric'],
         ];
     }

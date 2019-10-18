@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Helper\Request;
 
 use Illuminate\Http\Request;
@@ -44,7 +46,7 @@ class FieldParser
      * @param string|null $sort
      * @return Field|null
      */
-    public function get(string $field, string $filter = null, string $sort = null): ?Field
+    public function get(string $field, ?string $filter = null, ?string $sort = null): ?Field
     {
         $field = $this->fields[$field] ?? null;
 
@@ -77,7 +79,7 @@ class FieldParser
     protected function parseSorts(array $sorts)
     {
         // Sort works via column names, descending marked via "-" prefix
-        return collect(array_filter($sorts))->mapWithKeys(function ($column) {
+        return collect(array_filter($sorts))->mapWithKeys(static function ($column) {
             $descending = strpos($column, '-') === 0;
             $name = $descending ? substr($column, 1) : $column;
 
@@ -94,7 +96,7 @@ class FieldParser
             array_keys($sort)
         ));
 
-        return collect($fields)->mapWithKeys(function ($column) use ($filters, $sort) {
+        return collect($fields)->mapWithKeys(static function ($column) use ($filters, $sort) {
             return [
                 $column => new Field(
                     $filters[$column] ?? '',

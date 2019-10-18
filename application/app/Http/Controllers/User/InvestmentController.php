@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\User;
 
 use App\Models\User;
@@ -34,7 +36,7 @@ class InvestmentController extends Controller
                 ->selectRaw('investments.created_at')
                 ->selectRaw('investments.is_first_investment')
                 ->get()
-                ->map(function (Investment $investment) {
+                ->map(static function (Investment $investment) {
                     $cancelled = $investment->isCancelled();
                     $firstName = Encryptable::decrypt($investment->first_name);
                     $lastName = Encryptable::decrypt($investment->last_name);

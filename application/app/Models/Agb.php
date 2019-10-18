@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Carbon\Carbon;
@@ -19,7 +21,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $type
  * @property string $name
  * @property string $filename
- * @property boolean $is_default
+ * @property bool $is_default
  * @property Carbon|null $effective_from
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\User;
 
 use App\Models\Agb;
@@ -13,7 +15,7 @@ class DocumentController extends Controller
     {
         $this->authorizeViewingUser($user, $request);
 
-        $documents = $user->documents->map(function (Document $document) {
+        $documents = $user->documents->map(static function (Document $document) {
             return [
                 'type' => 'Dokument',
                 'title' => $document->name,
@@ -22,7 +24,7 @@ class DocumentController extends Controller
             ];
         });
 
-        $agbs = $user->agbs->map(function (Agb $agb) {
+        $agbs = $user->agbs->map(static function (Agb $agb) {
             return [
                 'type' => __('AGB'),
                 'title' => $agb->name,

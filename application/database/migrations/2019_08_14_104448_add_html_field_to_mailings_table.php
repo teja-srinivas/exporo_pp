@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -12,7 +14,7 @@ class AddHtmlFieldToMailingsTable extends Migration
      */
     public function up()
     {
-        Schema::table('mailings', function (Blueprint $table) {
+        Schema::table('mailings', static function (Blueprint $table) {
             $table->longText('html')->after('text')->nullable();
         });
     }
@@ -24,7 +26,7 @@ class AddHtmlFieldToMailingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('mailings', function (Blueprint $table) {
+        Schema::table('mailings', static function (Blueprint $table) {
             $table->dropColumn(['html']);
         });
     }

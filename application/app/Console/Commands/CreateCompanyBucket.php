@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Models\Company;
@@ -33,6 +35,7 @@ class CreateCompanyBucket extends Command
 
         if (Company::query()->whereKey($id)->doesntExist()) {
             $this->error('Company does not seem to exist');
+
             return 1;
         }
 

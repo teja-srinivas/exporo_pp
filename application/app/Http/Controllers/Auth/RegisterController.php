@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Models\Agb;
@@ -28,7 +30,6 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
     use RegistersUsers;
 
     /**
@@ -78,14 +79,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $agbs = collect(Agb::TYPES)->map(function (string $type) {
+        $agbs = collect(Agb::TYPES)->map(static function (string $type) {
             return Agb::current($type);
         })->filter()->pluck('id');
 
         /** @var Company $company */
         $company = Company::query()->first();
 
-        return DB::transaction(function () use ($company, $data, $agbs) {
+        return DB::transaction(static function () use ($company, $data, $agbs) {
             /** @var User $user */
             $user = User::query()->forceCreate([
                 'company_id' => $company->getKey(),

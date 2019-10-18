@@ -35,4 +35,3 @@ class ByType extends Graph
         return self::buildQuery('link_type');
     }
 }
-

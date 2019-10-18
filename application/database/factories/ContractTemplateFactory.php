@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Company;
 use App\Models\ContractTemplate;
 use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
 
-/* @var Factory $factory */
+/** @var Illuminate\Database\Eloquent\Factory $factory */
 
 $factory->define(ContractTemplate::class, static function (Faker $faker) {
     return [
@@ -17,6 +18,7 @@ $factory->define(ContractTemplate::class, static function (Faker $faker) {
         'company_id' => static function (): int {
             /** @var Company $company */
             $company = factory(Company::class)->create();
+
             return $company->getKey();
         },
     ];

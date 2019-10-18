@@ -44,5 +44,4 @@ class PreviewControllerTest extends TestCase
 
         $this->assertEquals($expected, $response->content());
     }
-
 }

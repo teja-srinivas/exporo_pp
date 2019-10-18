@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +16,7 @@ class AddProtectedStatusToPermissionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('permissions', function (Blueprint $table) {
+        Schema::table('permissions', static function (Blueprint $table) {
             $table->string('protected')->nullable()->after('guard_name');
         });
 

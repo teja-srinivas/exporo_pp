@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Traits;
 
 /**
@@ -21,7 +23,7 @@ trait Person
         return implode(', ', array_filter([
             trim($this->last_name),
             trim($this->first_name),
-        ], function (string $name) {
+        ], static function (string $name) {
             return strlen($name) > 0;
         }));
     }

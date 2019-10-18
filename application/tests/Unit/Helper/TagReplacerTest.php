@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Helper;
 
 use App\Models\User;
@@ -21,7 +23,7 @@ class TagReplacerTest extends TestCase
     public function it_finds_tags_in_text_strings()
     {
         $this->assertEquals([
-            'foo', 'bar'
+            'foo', 'bar',
         ], TagReplacer::findTags('This ${foo} is ${bar} test'));
     }
 

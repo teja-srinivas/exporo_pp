@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
 use App\Exports\BillsExport;
-use App\Policies\BillPolicy;
 use Illuminate\Http\Request;
 
 class ExportBillsController extends Controller

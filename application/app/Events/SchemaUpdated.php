@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
 use App\Models\Schema;
@@ -9,9 +11,7 @@ class SchemaUpdated
 {
     use SerializesModels;
 
-    /**
-     * @var Schema
-     */
+    /** @var Schema */
     public $schema;
 
     /**

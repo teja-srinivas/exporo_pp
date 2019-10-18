@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
 use App\Models\User;
-use App\Models\Commission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Repositories\BillRepository;
@@ -25,12 +26,12 @@ class HomeController extends Controller
         $user = $request->user();
 
         /** @var Collection $bills */
-        $bills = $billRepository->getDetails($user->id, function (Builder $query) {
+        $bills = $billRepository->getDetails($user->id, static function (Builder $query) {
             $query->released()->visible()->latest('bills.created_at');
         });
 
         return response()->view('home', [
-            'bills' => $bills->map(function (Bill $bill) {
+            'bills' => $bills->map(static function (Bill $bill) {
                 $date = optional($bill->released_at)->format('Y-m-d');
 
                 return [

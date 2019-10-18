@@ -15,7 +15,7 @@ class AgbSeeder extends Seeder
      */
     public function run(): Collection
     {
-        return collect(Agb::TYPES)->map(function (string $type) {
+        return collect(Agb::TYPES)->map(static function (string $type) {
             return factory(Agb::class)->states('default', $type)->create();
         });
     }

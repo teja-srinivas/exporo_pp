@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Helper;
 
 use Illuminate\Support\Arr;
@@ -37,9 +39,11 @@ class Rules
         $passed = [];
 
         foreach ($rules as $permission => $contents) {
-            if (Gate::check($permission)) {
-                $passed += $contents;
+            if (!Gate::check($permission)) {
+                continue;
             }
+
+            $passed += $contents;
         }
 
         return $passed;

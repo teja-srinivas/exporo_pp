@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Agb;
 use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
 
-/* @var Factory $factory */
+/** @var Illuminate\Database\Eloquent\Factory $factory */
 
 $factory->define(Agb::class, static function (Faker $faker) {
     $created = $faker->date();

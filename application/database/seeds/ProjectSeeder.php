@@ -19,7 +19,7 @@ class ProjectSeeder extends Seeder
         /** @var Collection $schemas */
         $schemas = factory(Schema::class, 3)->create();
 
-        $schemas->each(function (Schema $schema) {
+        $schemas->each(static function (Schema $schema) {
             factory(Project::class, 5)->create([
                 'schema_id' => $schema->id,
             ]);

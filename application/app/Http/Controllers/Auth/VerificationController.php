@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
@@ -19,7 +21,6 @@ class VerificationController extends Controller
     | be resent if the user did not receive the original email message.
     |
     */
-
     use VerifiesEmails {
         verify as traitVerify;
     }

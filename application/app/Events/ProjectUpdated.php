@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
 use App\Models\Project;
@@ -9,9 +11,7 @@ class ProjectUpdated
 {
     use SerializesModels;
 
-    /**
-     * @var Project
-     */
+    /** @var Project */
     public $project;
 
     /**

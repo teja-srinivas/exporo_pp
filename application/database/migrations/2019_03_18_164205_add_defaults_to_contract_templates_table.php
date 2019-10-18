@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Company;
 use App\Models\ContractTemplate;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +16,7 @@ class AddDefaultsToContractTemplatesTable extends Migration
      */
     public function up()
     {
-        Schema::table('contract_templates', function (Blueprint $table) {
+        Schema::table('contract_templates', static function (Blueprint $table) {
             $table->unsignedInteger('company_id')->after('id');
             $table->string('name')->after('id');
             $table->unsignedSmallInteger('cancellation_days')->after('name');

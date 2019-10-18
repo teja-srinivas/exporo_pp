@@ -38,5 +38,4 @@ class DownloadControllerTest extends TestCase
 
         $this->assertStreamEquals($mailing->html, $response->baseResponse);
     }
-
 }

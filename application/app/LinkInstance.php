@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use Carbon\Carbon;
@@ -109,19 +111,19 @@ class LinkInstance extends Model implements Htmlable
 
     protected function createIfNotExists()
     {
-        if (! $this->exists) {
-            $this->save();
+        if ($this->exists) {
+            return;
         }
+
+        $this->save();
     }
 
     public function createClick(Request $request): LinkClick
     {
-        /* @var LinkClick $click */
-        $click = $this->clicks()->create([
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->clicks()->create([
             'device' => DeviceIdentification::identify(),
             'country' => null, // TODO
         ]);
-
-        return $click;
     }
 }

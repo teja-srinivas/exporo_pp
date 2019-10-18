@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Models\Bill;
@@ -24,7 +26,7 @@ class SendBillMails extends Command
 
         $this->line("Sending mails for {$bills->count()} bill(s)");
 
-        $bills->each(function (Bill $bill) {
+        $bills->each(static function (Bill $bill) {
             $date = $bill->getBillingMonth();
 
             SendMail::dispatch([

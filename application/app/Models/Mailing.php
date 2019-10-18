@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Carbon\Carbon;
@@ -27,7 +29,7 @@ class Mailing extends Model implements AuditableContract
     ];
 
     protected $fillable = [
-        'title', 'description', 'text', 'html', 'variables'
+        'title', 'description', 'text', 'html', 'variables',
     ];
 
     protected $casts = [
@@ -61,6 +63,7 @@ class Mailing extends Model implements AuditableContract
                         $variable['url'],
                         TagReplacer::getUserTags($user)
                     );
+
                     break;
             }
         }

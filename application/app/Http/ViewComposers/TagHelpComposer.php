@@ -16,7 +16,7 @@ class TagHelpComposer
         /** @var User $user */
         $user = Auth::user();
         $tags = collect(TagReplacer::getUserTags($user))
-            ->mapWithKeys(function ($value, string $name) {
+            ->mapWithKeys(static function ($value, string $name) {
                 return [TagReplacer::wrap($name) => $value];
             });
 

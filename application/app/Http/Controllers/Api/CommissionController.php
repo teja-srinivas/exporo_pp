@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use Exception;
@@ -46,7 +48,7 @@ class CommissionController extends Controller
     {
         $query = Commission::query()->with([
             'user:id,last_name,first_name',
-            'user.details' => function (HasOne $query) {
+            'user.details' => static function (HasOne $query) {
                 return $query->select(['id', 'vat_included']);
             },
             'childUser:id,last_name,first_name',
@@ -139,7 +141,7 @@ class CommissionController extends Controller
         ];
 
         // Remap keys using the lookup table
-        $remapped = collect($request->all())->mapWithKeys(function ($value, $key) use ($lookup) {
+        $remapped = collect($request->all())->mapWithKeys(static function ($value, $key) use ($lookup) {
             return [($lookup[$key] ?? $key) => $value];
         })->all();
 
@@ -287,9 +289,11 @@ class CommissionController extends Controller
                     $query->forUser($user->filter);
                 }
 
-                if (! $forUpdate && ! empty($user->order)) {
-                    $query->orderBy('commissions.user_id', $user->order);
+                if ($forUpdate || empty($user->order)) {
+                    return;
                 }
+
+                $query->orderBy('commissions.user_id', $user->order);
             })
             ->when($fields->filters('model'), static function (Builder $query) use ($fields) {
                 $lowercaseName = mb_convert_case($fields->get('model')->filter, MB_CASE_LOWER);
@@ -309,9 +313,11 @@ class CommissionController extends Controller
                 }
 
                 // Match any valid where clause for SQL
-                if (preg_match('/(>=|>|=|<|<=|!=)?\s*(\d+)/', $money->filter, $matches) > 0) {
-                    $query->where('gross', $matches[1] ?: '=', $matches[2]);
+                if (preg_match('/(>=|>|=|<|<=|!=)?\s*(\d+)/', $money->filter, $matches) <= 0) {
+                    return;
                 }
+
+                $query->where('gross', $matches[1] ?: '=', $matches[2]);
             })
             ->when(! $fields->filters('rejected'), static function (Builder $query) {
                 $query->isOpen();
@@ -328,13 +334,11 @@ class CommissionController extends Controller
                         $query->where('investments.is_first_investment', true);
 
                         break;
-
                     case 'further-investment':
                         $query->where('model_type', Investment::MORPH_NAME);
                         $query->where('investments.is_first_investment', false);
 
                         break;
-
                     default:
                         $query->where('model_type', $type);
                 }
@@ -360,7 +364,7 @@ class CommissionController extends Controller
         $totals = $this->getPaginationTotals($query);
         $results = $totals->aggregate
             ? $query->forPage($page, $perPage)->get()
-            : (new Commission)->newCollection();
+            : (new Commission())->newCollection();
 
         // modified copy of $query->paginator()
         return Container::getInstance()->makeWith(LengthAwarePaginator::class, [

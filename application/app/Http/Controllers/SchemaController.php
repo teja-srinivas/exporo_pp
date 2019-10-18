@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Schema;
@@ -66,7 +68,7 @@ class SchemaController extends Controller
      */
     public function show(Schema $schema)
     {
-        $projects = $schema->projects()->get()->map(function (Project $project) {
+        $projects = $schema->projects()->get()->map(static function (Project $project) {
             return [
                 'id' => $project->id,
                 'project' => $project->description,

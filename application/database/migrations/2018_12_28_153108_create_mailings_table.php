@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -12,7 +14,7 @@ class CreateMailingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('mailings', function (Blueprint $table) {
+        Schema::create('mailings', static function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
             $table->text('description')->nullable();

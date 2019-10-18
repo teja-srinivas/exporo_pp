@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
-use App\Models\Bill;
 use App\Jobs\CreateBillPdfJob;
 use Illuminate\Console\Command;
 use App\Repositories\BillRepository;

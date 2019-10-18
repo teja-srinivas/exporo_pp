@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Api;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::name('api.')->middleware('auth:api')->group(function () {
+Route::name('api.')->middleware('auth:api')->group(static function () {
     Route::apiResource(
         'commissions/bonuses',
         Api\CommissionBonusController::class,

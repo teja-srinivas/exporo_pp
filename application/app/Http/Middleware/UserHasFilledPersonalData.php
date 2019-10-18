@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -85,7 +87,7 @@ class UserHasFilledPersonalData
             return $array;
         }
 
-        return array_filter($array, function (string $key) use ($details) {
+        return array_filter($array, static function (string $key) use ($details) {
             return empty($details->getAttribute($key));
         }, ARRAY_FILTER_USE_KEY);
     }

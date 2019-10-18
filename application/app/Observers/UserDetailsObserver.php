@@ -1,9 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Observers;
 
-use App\Models\User;
-use App\Traits\Person;
 use App\Models\UserDetails;
 
 class UserDetailsObserver
@@ -33,9 +33,11 @@ class UserDetailsObserver
 
         $details->display_name = $this->getNewDisplayName($details);
 
-        if ($details->isDirty(['display_name'])) {
-            $details->save();
+        if (!$details->isDirty(['display_name'])) {
+            return;
         }
+
+        $details->save();
     }
 
     private function getNewDisplayName(UserDetails $details): string

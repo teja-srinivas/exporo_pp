@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
@@ -36,7 +38,7 @@ class BillController extends Controller
         $this->authorize('viewAny', Bill::class);
 
         return response()->view('bills.index', [
-            'bills' => $bills->getDetails()->load('user')->map(function (Bill $bill) use ($request) {
+            'bills' => $bills->getDetails()->load('user')->map(static function (Bill $bill) use ($request) {
                 return [
                     'id' => $bill->getKey(),
                     'name' => $bill->getBillingMonth()->format('Y-m'),
@@ -86,7 +88,7 @@ class BillController extends Controller
     {
         $this->authorize('create', Bill::class);
 
-        $bills = $this->getBillableCommissions()->map(function (Commission $row) {
+        $bills = $this->getBillableCommissions()->map(static function (Commission $row) {
             return [
                 'userId' => $row->user_id,
                 'billable' => $row->user->canBeBilled(),
@@ -163,7 +165,7 @@ class BillController extends Controller
 
         $stream = $disk->readStream($filePath);
 
-        return response()->streamDownload(function () use ($stream) {
+        return response()->streamDownload(static function () use ($stream) {
             fpassthru($stream);
         }, $bill->getFileName(), [
             'Content-Type' => $disk->mimeType($filePath),
@@ -179,7 +181,6 @@ class BillController extends Controller
      */
     public function edit(Bill $bill)
     {
-        //
     }
 
     /**
@@ -191,7 +192,6 @@ class BillController extends Controller
      */
     public function update(Request $request, Bill $bill)
     {
-        //
     }
 
     /**
@@ -202,7 +202,6 @@ class BillController extends Controller
      */
     public function destroy(Bill $bill)
     {
-        //
     }
 
     private function getBillableCommissions(): Collection
@@ -234,7 +233,7 @@ class BillController extends Controller
         $query->selectRaw('commissions.bonus as cBonus');
         $query->selectRaw('commissions.created_at as created_at');
 
-        $collection = $query->get()->groupBy(function (Commission $commission) {
+        $collection = $query->get()->groupBy(static function (Commission $commission) {
             if ($commission->model_type === Investment::LEGACY_MORPH_NAME) {
                 return Investment::MORPH_NAME;
             }
@@ -275,14 +274,15 @@ class BillController extends Controller
             return collect();
         }
 
-        return $investments->filter(function (Commission $commission) {
+        return $investments->filter(static function (Commission $commission) {
             return $commission->child_user_id === 0;
         })->load(
             'model.investor:id,first_name,last_name',
             'model.project'
-        )->map(function (Commission $row) {
+        )->map(static function (Commission $row) {
             /** @var Investment $investment */
             $investment = $row->model;
+
             $investor = $investment->investor;
             $project = $investment->project;
 
@@ -311,7 +311,7 @@ class BillController extends Controller
             return collect();
         }
 
-        return $investors->load('investor:id,first_name,last_name,activation_at')->map(function (Commission $row) {
+        return $investors->load('investor:id,first_name,last_name,activation_at')->map(static function (Commission $row) {
             $activationDate = Carbon::make($row['activation_at'] ?? $row->investor->activation_at);
 
             return [
@@ -332,14 +332,15 @@ class BillController extends Controller
             return collect();
         }
 
-        return $overheads->filter(function (Commission $commission) {
+        return $overheads->filter(static function (Commission $commission) {
             return $commission->child_user_id > 0;
         })->load(
             'model.project',
             'childUser'
-        )->map(function (Commission $row) {
+        )->map(static function (Commission $row) {
             /** @var Investment $investment */
             $investment = $row->model;
+
             $project = $investment->project;
             $partner = $row->childUser;
 

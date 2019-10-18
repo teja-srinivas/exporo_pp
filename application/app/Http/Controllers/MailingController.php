@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Exception;
@@ -59,7 +61,7 @@ class MailingController extends Controller
             'file' => ['nullable', 'file'],
             'variables.*.placeholder' => 'string',
             'variables.*.type' => ['string', 'in:link'],
-            'variables.*.url' => 'string' // can not use url because of placeholders in URL
+            'variables.*.url' => 'string', // can not use url because of placeholders in URL
         ]);
 
         $this->addUploadedFileToInput($request, $data);
@@ -155,9 +157,11 @@ class MailingController extends Controller
      */
     private function addUploadedFileToInput(Request $request, array &$input)
     {
-        if ($request->file('file')) {
-            $input['html'] = $request->file('file')->get();
+        if (!$request->file('file')) {
+            return;
         }
+
+        $input['html'] = $request->file('file')->get();
     }
 
     private function fillMissingVariables(User $user, Mailing $mail): void

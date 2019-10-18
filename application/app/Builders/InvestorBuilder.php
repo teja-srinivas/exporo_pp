@@ -47,7 +47,7 @@ class InvestorBuilder extends Builder
     {
         return $this
             ->whereNull('commissions.id')
-            ->leftJoin('commissions', function (JoinClause $join) {
+            ->leftJoin('commissions', static function (JoinClause $join) {
                 $join->on('investors.id', 'commissions.model_id');
                 $join->where('commissions.model_type', Investor::MORPH_NAME);
             });

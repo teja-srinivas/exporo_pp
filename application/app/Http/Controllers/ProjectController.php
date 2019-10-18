@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Schema;
@@ -25,7 +27,7 @@ class ProjectController extends Controller
             'projects' => Project::query()
                 ->with('commissionType', 'schema')
                 ->get()
-                ->map(function (Project $project) {
+                ->map(static function (Project $project) {
                     return [
                         'id' => $project->id,
                         'name' => $project->description,

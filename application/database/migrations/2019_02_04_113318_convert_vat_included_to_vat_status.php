@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\UserDetails;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -23,7 +25,7 @@ class ConvertVatIncludedToVatStatus extends Migration
 
         $this->fixEnumSupport();
 
-        Schema::table('user_details', function (Blueprint $table) {
+        Schema::table('user_details', static function (Blueprint $table) {
             $table->decimal('vat_amount', 8, 2)->default(0)->change();
             $table->boolean('vat_included')->nullable(false)->default(false)->change();
         });

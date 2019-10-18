@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Investment;
 use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
 
-/* @var Factory $factory */
+/** @var Illuminate\Database\Eloquent\Factory $factory */
 
 $factory->define(Investment::class, static function (Faker $faker) {
     $paidAt = $faker->randomDigit > 3 ? $faker->dateTimeBetween('-5 years') : null;

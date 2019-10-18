@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -12,7 +14,7 @@ class AddDetailsToCompanies extends Migration
      */
     public function up()
     {
-        Schema::table('companies', function (Blueprint $table) {
+        Schema::table('companies', static function (Blueprint $table) {
             $table->string('street')->nullable();
             $table->string('street_no')->nullable();
             $table->string('postal_code')->nullable();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\ViewComposers;
 
 use App\Models\Agb;
@@ -23,19 +25,13 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 class SidebarComposer
 {
-    /**
-     * @var Authenticatable|User|null
-     */
+    /** @var Authenticatable|User|null */
     private $user;
 
-    /**
-     * @var Gate
-     */
+    /** @var Gate */
     private $gate;
 
-    /**
-     * @var Request
-     */
+    /** @var Request */
     private $request;
 
     public function __construct(Request $request, Gate $gate)

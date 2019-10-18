@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners;
 
 use App\Events\UserUpdated;
@@ -18,8 +20,10 @@ class SendUserAcceptOrRejectMailOnUpdate
             return;
         }
 
-        if ($user->isDirty('accepted_at') && $user->accepted_at !== null) {
-            SendAcceptMail::dispatch($user);
+        if (!$user->isDirty('accepted_at') || $user->accepted_at === null) {
+            return;
         }
+
+        SendAcceptMail::dispatch($user);
     }
 }

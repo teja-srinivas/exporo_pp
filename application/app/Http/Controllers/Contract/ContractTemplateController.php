@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Contract;
 
 use Exception;
@@ -14,7 +16,6 @@ use App\Models\ContractTemplate;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class ContractTemplateController extends Controller
 {

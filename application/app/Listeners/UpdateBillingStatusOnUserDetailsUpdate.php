@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners;
 
 use App\Models\Role;
@@ -19,9 +21,11 @@ class UpdateBillingStatusOnUserDetailsUpdate
     {
         $user = $event->details->user;
 
-        if ($user->hasRole(Role::PARTNER) && $this->hasValidBankDetails($event->details)) {
-            $user->givePermissionTo(BillPolicy::CAN_BE_BILLED_PERMISSION);
+        if (!$user->hasRole(Role::PARTNER) || !$this->hasValidBankDetails($event->details)) {
+            return;
         }
+
+        $user->givePermissionTo(BillPolicy::CAN_BE_BILLED_PERMISSION);
     }
 
     protected function hasValidBankDetails(UserDetails $details): bool

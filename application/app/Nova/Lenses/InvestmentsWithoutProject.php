@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova\Lenses;
 
 use App\Nova\Investor;
@@ -38,7 +40,7 @@ class InvestmentsWithoutProject extends Lens
         return [
             ID::make('ID', 'id')->sortable(),
             BelongsTo::make('Investor', 'investor', Investor::class)->sortable(),
-            Number::make('Amount', 'amount', function ($value) {
+            Number::make('Amount', 'amount', static function ($value) {
                 return format_money($value);
             })->sortable(),
         ];

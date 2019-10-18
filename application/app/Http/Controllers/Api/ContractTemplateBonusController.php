@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Helper\Rules;
@@ -9,7 +11,6 @@ use App\Models\ContractTemplate;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Auth\Access\AuthorizationException;
 use App\Http\Resources\CommissionBonus as Resource;
 
 class ContractTemplateBonusController extends Controller

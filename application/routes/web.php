@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,20 +17,20 @@ use App\Http\Controllers as C;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::domain(config('app.shortener_url'))->group(function () {
+Route::domain(config('app.shortener_url'))->group(static function () {
     Route::get('{link}', [C\LinkInstanceController::class, 'show'])
         ->name('short-link');
 });
 
-Route::middleware(['referred'])->group(function () {
+Route::middleware(['referred'])->group(static function () {
     Route::redirect('/', 'https://p.exporo.de/');
 
-    Route::namespace('App\Http\Controllers')->group(function () {
+    Route::namespace('App\Http\Controllers')->group(static function () {
         Auth::routes(['verify' => true]);
     });
 });
 
-Route::prefix('agbs')->group(function () {
+Route::prefix('agbs')->group(static function () {
     Route::get('{agb}/download', [C\AgbController::class, 'download'])
         ->name('agbs.download')
         ->middleware('signed');
@@ -37,8 +39,8 @@ Route::prefix('agbs')->group(function () {
         ->name('agbs.latest');
 });
 
-Route::middleware(['verified'])->group(function () {
-    Route::middleware(['accepted', 'filled'])->group(function () {
+Route::middleware(['verified'])->group(static function () {
+    Route::middleware(['accepted', 'filled'])->group(static function () {
         Route::get('authorization', C\AuthorizationController::class)
             ->name('authorization.index');
         Route::get('bills/export', C\ExportBillsController::class)
@@ -64,7 +66,7 @@ Route::middleware(['verified'])->group(function () {
         Route::resource('documents', C\DocumentController::class);
         Route::resource('users', C\UserController::class);
 
-        Route::prefix('contracts')->group(function () {
+        Route::prefix('contracts')->group(static function () {
             Route::resource('templates', C\Contract\ContractTemplateController::class)
                 ->names('contracts.templates');
 
@@ -77,7 +79,7 @@ Route::middleware(['verified'])->group(function () {
                 ->name('contract-status.update');
         });
 
-        Route::prefix('users/{user}')->name('users.')->group(function () {
+        Route::prefix('users/{user}')->name('users.')->group(static function () {
             Route::resource('contracts', C\User\ContractController::class)
                 ->only('store');
             Route::resource('documents', C\User\DocumentController::class)
@@ -106,7 +108,7 @@ Route::middleware(['verified'])->group(function () {
             ->except('show')
             ->names('affiliate.links');
 
-        Route::prefix('affiliate/mails')->group(function () {
+        Route::prefix('affiliate/mails')->group(static function () {
             Route::resource('/', C\MailingController::class)
                 ->parameter('', 'mail')
                 ->names('affiliate.mails');

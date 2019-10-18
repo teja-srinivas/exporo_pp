@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Exception;
@@ -63,7 +65,7 @@ class CommissionTypeController extends Controller
     public function show(CommissionType $type): Response
     {
         $projects = $type->is_project_type
-            ? $type->projects()->get()->map(function (Project $project) {
+            ? $type->projects()->get()->map(static function (Project $project) {
                 return [
                     'id' => $project->id,
                     'project' => $project->description,

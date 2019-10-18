@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Role;
@@ -132,9 +134,9 @@ class RoleController extends Controller
         return redirect()->route('authorization.index');
     }
 
-    protected function getPermissions(Role $allowForRole = null): Collection
+    protected function getPermissions(?Role $allowForRole = null): Collection
     {
-        return Permission::all()->reject(function (Permission $permission) use ($allowForRole) {
+        return Permission::all()->reject(static function (Permission $permission) use ($allowForRole) {
             return $permission->isProtected($allowForRole);
         });
     }

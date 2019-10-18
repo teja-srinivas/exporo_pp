@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -12,7 +14,7 @@ class AddUserIdIndexToCommissionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('commissions', function (Blueprint $table) {
+        Schema::table('commissions', static function (Blueprint $table) {
             $table->index('user_id');
         });
     }

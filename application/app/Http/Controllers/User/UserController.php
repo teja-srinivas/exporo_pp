@@ -1,14 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\User;
 
 use App\Models\User;
 use App\Models\Commission;
 use App\Models\Investment;
-use App\Policies\UserPolicy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {
@@ -45,7 +45,7 @@ class UserController extends Controller
                 ->selectRaw('commissions.net as commissions')
                 ->groupBy('users.id')
                 ->get()
-                ->map(function (User $user) use ($canViewUsers) {
+                ->map(static function (User $user) use ($canViewUsers) {
                     return [
                         'user' => [
                             'id' => (int) $user->getKey(),

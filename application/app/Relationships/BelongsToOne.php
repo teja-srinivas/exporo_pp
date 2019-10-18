@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Relationships;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

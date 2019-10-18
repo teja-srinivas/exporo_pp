@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Builders\Traits;
 
 use App\Builders\Builder;
@@ -17,7 +19,7 @@ trait HasUser
      * @param string|null $table
      * @return self
      */
-    public function whereHasActiveUser(string $table = null): self
+    public function whereHasActiveUser(?string $table = null): self
     {
         return $this
             ->join('users', ($table ?? $this->query->from).'.user_id', 'users.id')

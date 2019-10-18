@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,7 +15,7 @@ class MakeLinkInstancesMorphable extends Migration
      */
     public function up()
     {
-        Schema::table('link_instances', function (Blueprint $table) {
+        Schema::table('link_instances', static function (Blueprint $table) {
             $table->string('link_type')->after('id');
 
             $table->index(['link_type', 'link_id']);
@@ -30,7 +32,7 @@ class MakeLinkInstancesMorphable extends Migration
      */
     public function down()
     {
-        Schema::table('link_instanced', function (Blueprint $table) {
+        Schema::table('link_instanced', static function (Blueprint $table) {
             $table->dropColumn(['link_type', 'link_id']);
             $table->dropColumn('link_type');
         });

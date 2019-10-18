@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
@@ -29,17 +31,11 @@ class Role extends \Spatie\Permission\Models\Role
         self::ADMIN,
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function permissions(): BelongsToMany
     {
         return parent::permissions()->withTimestamps();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function users(): MorphToMany
     {
         return parent::users()->withTimestamps();

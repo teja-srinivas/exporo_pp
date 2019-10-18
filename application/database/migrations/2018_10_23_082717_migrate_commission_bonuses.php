@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\CommissionBonus;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,11 +16,11 @@ class MigrateCommissionBonuses extends Migration
      */
     public function up()
     {
-        Schema::table('projects', function (Blueprint $table) {
+        Schema::table('projects', static function (Blueprint $table) {
             $table->dropColumn('type');
         });
 
-        Schema::table('commission_bonuses', function (Blueprint $table) {
+        Schema::table('commission_bonuses', static function (Blueprint $table) {
             $table->string('calculation_type')->default('')->after('user_id');
             $table->decimal('value', 10, 4)->default(0)->after('calculation_type');
             $table->boolean('is_percentage')->default(false)->after('value');
@@ -30,7 +32,7 @@ class MigrateCommissionBonuses extends Migration
 
         $this->migrateBonusData();
 
-        Schema::table('commission_bonuses', function (Blueprint $table) {
+        Schema::table('commission_bonuses', static function (Blueprint $table) {
             $table->dropColumn([
                 'registration',
                 'first_investment',
@@ -49,14 +51,14 @@ class MigrateCommissionBonuses extends Migration
             $instance->getUpdatedAtColumn() => $now,
         ];
 
-        CommissionBonus::query()->chunk(1000, function (Collection $chunk) use ($timestamps) {
+        CommissionBonus::query()->chunk(1000, static function (Collection $chunk) use ($timestamps) {
             echo "Migrating chunk with {$chunk->count()} items\n";
 
-            $valid = $chunk->filter(function (CommissionBonus $bonus) {
+            $valid = $chunk->filter(static function (CommissionBonus $bonus) {
                 return $bonus->created_at === null;
             });
 
-            $models = $valid->map(function (CommissionBonus $bonus) {
+            $models = $valid->map(static function (CommissionBonus $bonus) {
                 $models = [];
                 $data = [
                     'user_id' => $bonus->user_id,
@@ -90,7 +92,7 @@ class MigrateCommissionBonuses extends Migration
                 return $models;
             });
 
-            CommissionBonus::query()->insert($models->flatten(1)->map(function (array $entry) use ($timestamps) {
+            CommissionBonus::query()->insert($models->flatten(1)->map(static function (array $entry) use ($timestamps) {
                 return $timestamps + $entry;
             })->toArray());
         });

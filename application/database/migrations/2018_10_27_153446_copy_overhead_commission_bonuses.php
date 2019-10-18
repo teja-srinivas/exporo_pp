@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\User;
 use App\Models\CommissionBonus;
 
@@ -30,7 +32,7 @@ class CopyOverheadCommissionBonuses extends Migration
 
         $now = now()->toDateTimeString();
 
-        $inserts = $childUserBonuses->map(function (CommissionBonus $bonus) use ($now) {
+        $inserts = $childUserBonuses->map(static function (CommissionBonus $bonus) use ($now) {
             return [
                 'type_id' => $bonus->type_id,
                 'user_id' => $bonus->user_id,

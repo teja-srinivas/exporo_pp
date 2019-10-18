@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -12,7 +14,7 @@ class AddFieldForUsernameCompany extends Migration
      */
     public function up()
     {
-        Schema::table('user_details', function (Blueprint $table) {
+        Schema::table('user_details', static function (Blueprint $table) {
             $table->string('display_name')->nullable()->after('company');
         });
     }

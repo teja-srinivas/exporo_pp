@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\User;
 use App\Models\CommissionBonus;
 use App\Models\ContractTemplate;
@@ -17,7 +19,7 @@ class AddContractsTable extends Migration
      */
     public function up()
     {
-        Schema::create('contracts', function (Blueprint $table) {
+        Schema::create('contracts', static function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->index();
             $table->unsignedInteger('template_id')->index();
@@ -32,13 +34,13 @@ class AddContractsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('contract_templates', function (Blueprint $table) {
+        Schema::create('contract_templates', static function (Blueprint $table) {
             $table->increments('id');
             $table->text('body')->nullable();
             $table->timestamps();
         });
 
-        Schema::table('commission_bonuses', function (Blueprint $table) {
+        Schema::table('commission_bonuses', static function (Blueprint $table) {
             $table->unsignedInteger('contract_id')->default(0)->after('user_id')->index();
         });
 
@@ -59,13 +61,13 @@ class AddContractsTable extends Migration
 
         User::query()
             ->whereNull('rejected_at') // Catch both, accepted and pending users
-            ->where(function (Builder $builder) {
+            ->where(static function (Builder $builder) {
                 // Also migrate legacy data where we do not know if they got verified
                 $builder->whereNotNull('email_verified_at');
                 $builder->orWhereNotNull('accepted_at');
             })
             ->with('details')
-            ->each(function (User $user) use ($template) {
+            ->each(static function (User $user) use ($template) {
                 $contract = $user->contracts()->forceCreate([
                     'user_id' => $user->getKey(),
                     'template_id' => $template->getKey(),

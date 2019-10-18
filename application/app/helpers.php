@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Arr;
 
 if (! function_exists('format_money')) {
@@ -30,7 +32,7 @@ if (! function_exists('render_breadcrumbs')) {
 
         $last = Arr::last($breadcrumbs);
 
-        return implode($divider, array_map(function ($name, $link) use ($last) {
+        return implode($divider, array_map(static function ($name, $link) use ($last) {
             $class = $name === $last ? '' : 'text-muted';
 
             return empty($link) || is_numeric($link)
@@ -61,8 +63,10 @@ if (! function_exists('new_relic_disable')) {
      */
     function new_relic_disable(): void
     {
-        if (extension_loaded('newrelic')) {
-            newrelic_disable_autorum();
+        if (!extension_loaded('newrelic')) {
+            return;
         }
+
+        newrelic_disable_autorum();
     }
 }

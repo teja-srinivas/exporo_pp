@@ -39,7 +39,7 @@ class BillGenerator
     {
         return $this->commissions->getBillable(['user_id', 'id', 'net'])
             ->load('user.details', 'user.permissions')
-            ->filter(function (Commission $commission) {
+            ->filter(static function (Commission $commission) {
                 // Pre-select all valid commissions
                 return $commission->user->canBeBilled();
             })

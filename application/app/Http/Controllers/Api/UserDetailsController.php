@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
@@ -20,7 +22,7 @@ class UserDetailsController extends Controller
 
         return UserDetails::query()
             ->get(['id', 'display_name', 'vat_amount', 'vat_included'])
-            ->mapWithKeys(function (UserDetails $details) {
+            ->mapWithKeys(static function (UserDetails $details) {
                 return [
                     $details->getKey() => [
                         'displayName' => $details->display_name,

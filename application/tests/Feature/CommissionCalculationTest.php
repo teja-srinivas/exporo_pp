@@ -43,7 +43,7 @@ final class CommissionCalculationTest extends TestCase
 
         $this->service = $this->app->make(CalculateCommissionsService::class);
 
-        /* @var CommissionType $commissionType */
+        /** @var CommissionType $commissionType */
         $this->commissionType = factory(CommissionType::class)->create();
 
         /** @var Project $project */

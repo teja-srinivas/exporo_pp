@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Traits;
 
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -117,9 +119,11 @@ trait Encryptable
         $attributes = parent::getArrayableAttributes();
 
         foreach ($attributes as $key => $attribute) {
-            if ($this->encryptable($key)) {
-                $attributes[$key] = $this->decryptAttribute($attribute);
+            if (!$this->encryptable($key)) {
+                continue;
             }
+
+            $attributes[$key] = $this->decryptAttribute($attribute);
         }
 
         return $attributes;

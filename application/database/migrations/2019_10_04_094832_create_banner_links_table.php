@@ -14,7 +14,7 @@ class CreateBannerLinksTable extends Migration
      */
     public function up()
     {
-        Schema::create('banner_links', function (Blueprint $table) {
+        Schema::create('banner_links', static function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('set_id');
             $table->string('title');

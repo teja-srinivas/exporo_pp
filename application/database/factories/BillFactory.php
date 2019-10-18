@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Bill;
 use App\Models\Commission;
 use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
 
-/* @var Factory $factory */
+/** @var Illuminate\Database\Eloquent\Factory $factory */
 
 $factory->define(Bill::class, static function (Faker $faker) {
     return [

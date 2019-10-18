@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -12,7 +14,7 @@ class AddIndexToLinkClicks extends Migration
      */
     public function up()
     {
-        Schema::table('link_clicks', function (Blueprint $table) {
+        Schema::table('link_clicks', static function (Blueprint $table) {
             $table->index('instance_id');
             $table->index('device');
         });
@@ -25,7 +27,7 @@ class AddIndexToLinkClicks extends Migration
      */
     public function down()
     {
-        Schema::table('link_clicks', function (Blueprint $table) {
+        Schema::table('link_clicks', static function (Blueprint $table) {
             $table->dropIndex('instance_id');
             $table->dropIndex('device');
         });

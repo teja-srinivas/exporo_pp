@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use App\Models\Bill;
@@ -15,7 +17,10 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 
 class CreateBillPdfJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /** @var Bill */
     protected $bill;

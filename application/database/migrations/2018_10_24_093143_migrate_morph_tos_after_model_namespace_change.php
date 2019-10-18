@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\DB;
 
 class MigrateMorphTosAfterModelNamespaceChange extends Migration
@@ -44,7 +46,7 @@ class MigrateMorphTosAfterModelNamespaceChange extends Migration
     private function migrateTable(string $table, array $columns, string $fromPrefix, string $toPrefix)
     {
         foreach ($columns as $column) {
-            DB::transaction(function () use ($table, $column, $fromPrefix, $toPrefix) {
+            DB::transaction(static function () use ($table, $column, $fromPrefix, $toPrefix) {
                 foreach (self::MODELS as $model) {
                     DB::table($table)
                         ->where($column, $fromPrefix.$model)

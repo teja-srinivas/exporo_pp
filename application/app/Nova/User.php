@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
@@ -55,7 +57,7 @@ class User extends Resource
             BelongsTo::make('Parent User', 'parent', self::class)
                 ->searchable()
                 ->nullable()
-                ->filled(function (NovaRequest $request, UserModel $model) {
+                ->filled(static function (NovaRequest $request, UserModel $model) {
                     $model->parent_id = $request->get('parent') ?? 0;
                 }),
 
@@ -112,7 +114,7 @@ class User extends Resource
             HasMany::make('Investments'),
 
             BelongsToMany::make('AGBs', 'agbs')
-                ->fields(function () {
+                ->fields(static function () {
                     return [
                         Date::make('Akzeptiert', 'created_at'),
                     ];
@@ -134,7 +136,7 @@ class User extends Resource
     public function cards(Request $request)
     {
         return [
-            new Metrics\NewUsers,
+            new Metrics\NewUsers(),
         ];
     }
 

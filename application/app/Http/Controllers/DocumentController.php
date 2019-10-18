@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Exception;
@@ -52,7 +54,7 @@ class DocumentController extends Controller
                 ->orderBy('id')
                 ->get(['id']);
 
-            $users = $users->mapWithKeys(function (User $user) {
+            $users = $users->mapWithKeys(static function (User $user) {
                 return [$user->getKey() => $user->getKey().' - '.$user->details->display_name];
             });
         }

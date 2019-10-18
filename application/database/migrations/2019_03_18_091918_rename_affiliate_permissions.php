@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -24,9 +26,9 @@ class RenameAffiliatePermissions extends Migration
 
     protected function renameAll(string $prefixFrom, string $prefixTo)
     {
-        Permission::all()->filter(function (Permission $permission) use ($prefixFrom) {
+        Permission::all()->filter(static function (Permission $permission) use ($prefixFrom) {
             return Str::startsWith($permission->name, $prefixFrom);
-        })->each(function (Permission $permission) use ($prefixTo, $prefixFrom) {
+        })->each(static function (Permission $permission) use ($prefixTo, $prefixFrom) {
             $permission->update(['name' => Str::replaceFirst($prefixFrom, $prefixTo, $permission->name)]);
         });
     }

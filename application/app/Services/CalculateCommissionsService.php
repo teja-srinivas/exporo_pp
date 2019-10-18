@@ -23,7 +23,7 @@ final class CalculateCommissionsService
      * @return array|null Either the final entry array or null, if we should skip the investment altogether
      * @throws Exception
      */
-    public function calculate(Investment $investment, User $parent = null, User $child = null): ?array
+    public function calculate(Investment $investment, ?User $parent = null, ?User $child = null): ?array
     {
         if ($investment->investor === null) {
             return null;
@@ -34,11 +34,13 @@ final class CalculateCommissionsService
             $user = $parent;
 
             $parentBonus = $this->calculateBonus($investment, $parent);
+
             if ($parentBonus === null) {
                 return null;
             }
 
             $childBonus = $this->calculateBonus($investment, $child);
+
             if ($childBonus === null) {
                 return null;
             }
@@ -149,7 +151,6 @@ final class CalculateCommissionsService
             //     Partner    [1.25]       1.5
             //        ↑     ↙
             //     Investor
-            //
             ->firstWhere('is_overhead', $investment->investor->user_id !== $user->getKey());
 
         return $bonus !== null ? $bonus->value : null;

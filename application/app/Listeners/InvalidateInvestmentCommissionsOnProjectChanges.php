@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners;
 
 use App\Models\Commission;
 use App\Models\Investment;
 use App\Events\ProjectUpdated;
-use Illuminate\Database\Query\Builder;
 
 class InvalidateInvestmentCommissionsOnProjectChanges
 {

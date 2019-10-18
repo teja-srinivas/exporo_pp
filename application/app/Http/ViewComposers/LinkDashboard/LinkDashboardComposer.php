@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\ViewComposers\LinkDashboard;
 
 use stdClass;
@@ -27,7 +29,7 @@ class LinkDashboardComposer
 
         $view->with('series', $this->convertToHighcharts($graph));
 
-        $view->with('types', array_map(function (Graph $item) use ($graph) {
+        $view->with('types', array_map(static function (Graph $item) use ($graph) {
             return [
                 'isActive' => $item === $graph,
                 'name' => $item->getName(),
@@ -41,7 +43,6 @@ class LinkDashboardComposer
 
     private function getGraph(string $type): Graph
     {
-        /** @ar Graph $graph */
         return Arr::first($this->graphs, static function (Graph $graph) use ($type) {
             return $graph->getName() === $type;
         }, $this->graphs[0]);
@@ -56,7 +57,7 @@ class LinkDashboardComposer
                 return [
                     $label => [$record->day, $record->clicks],
                 ];
-            })->map(function (Collection $group, string $name) {
+            })->map(static function (Collection $group, string $name) {
                 return [
                     'name' => $name,
                     'data' => $group,

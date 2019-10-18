@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use App\Models\User;
@@ -96,7 +98,7 @@ class UserStoreRequest extends FormRequest
      * @param User|null $updating
      * @return array
      */
-    public static function getUserValidationRules(User $updating = null)
+    public static function getUserValidationRules(?User $updating = null)
     {
         $prefix = $updating === null ? 'required|' : '';
 
@@ -123,7 +125,7 @@ class UserStoreRequest extends FormRequest
      * @param User|null $updating
      * @return array
      */
-    public static function getDetailValidationRules($required = true, User $updating = null)
+    public static function getDetailValidationRules($required = true, ?User $updating = null)
     {
         $prefix = $required ? 'required' : 'nullable';
         $datePrefix = $required ? 'required' : 'required_with:birth_day,birth_month,birth_year|nullable';
@@ -145,7 +147,7 @@ class UserStoreRequest extends FormRequest
             'address_addition' => 'nullable|string|max:100',
             'address_zipcode' => "{$prefix}|string|max:20",
             'address_city' => 'nullable|string|max:100',
-            'phone' => [$prefix, 'string', new PhoneNumber],
+            'phone' => [$prefix, 'string', new PhoneNumber()],
             'website' => 'nullable|string|max:100',
             'vat_id' => ['nullable', app(VatId::class)],
             'tax_office' => 'nullable|string|max:100',

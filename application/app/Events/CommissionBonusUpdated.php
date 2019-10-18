@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
 use App\Models\CommissionBonus;
@@ -9,9 +11,7 @@ class CommissionBonusUpdated
 {
     use SerializesModels;
 
-    /**
-     * @var CommissionBonus
-     */
+    /** @var CommissionBonus */
     public $commissionBonus;
 
     /**

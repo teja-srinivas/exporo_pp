@@ -13,7 +13,7 @@ use App\Http\Resources\User as UserResource;
 
 class UserRepository
 {
-    public function forTableView(Builder $query = null)
+    public function forTableView(?Builder $query = null)
     {
         if ($query === null) {
             $query = User::query();
@@ -39,7 +39,7 @@ class UserRepository
                 ->toSql().') THEN TRUE ELSE FALSE END as has_overhead')
             ->with('roles', 'contract')
             ->get()
-            ->map(function (User $user) {
+            ->map(static function (User $user) {
                 return [
                     'user' => UserResource::make($user),
                     'company' => Encryptable::decrypt($user['company']),

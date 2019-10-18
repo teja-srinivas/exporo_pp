@@ -65,7 +65,7 @@ class BillRepository
             ->selectRaw('IFNULL(SUM(commissions.gross), 0) as gross')
             ->selectRaw('IFNULL(SUM(commissions.net), 0) as net')
             ->whereNotNull('released_at')
-            ->when($forUser !== null, function (Builder $query) use ($forUser) {
+            ->when($forUser !== null, static function (Builder $query) use ($forUser) {
                 $query->where('bills.user_id', $forUser);
             })
             ->when($modifier !== null, $modifier)
@@ -84,7 +84,7 @@ class BillRepository
 
     public function unsentWithTotals(): EloquentCollection
     {
-        return $this->unsent(function (Builder $query) {
+        return $this->unsent(static function (Builder $query) {
             $query
                 ->join('commissions', 'bills.id', 'commissions.bill_id')
                 ->groupBy('bills.id')

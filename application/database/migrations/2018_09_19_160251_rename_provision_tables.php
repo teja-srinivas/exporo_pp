@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Permission;
 use App\Policies\CommissionTypePolicy;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +19,7 @@ class RenameProvisionTables extends Migration
         Schema::rename('provisions', 'commission_bonuses');
         Schema::rename('provision_types', 'commission_types');
 
-        Schema::table('projects', function (Blueprint $table) {
+        Schema::table('projects', static function (Blueprint $table) {
             $table->renameColumn('provision_type', 'commission_type');
         });
 

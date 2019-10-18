@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
@@ -97,7 +99,7 @@ class Investor extends Resource
     public function filters(Request $request)
     {
         return [
-            new Filters\HasPartner,
+            new Filters\HasPartner(),
         ];
     }
 

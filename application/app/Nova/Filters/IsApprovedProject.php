@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova\Filters;
 
 use Illuminate\Http\Request;
@@ -18,9 +20,9 @@ class IsApprovedProject extends BooleanFilter
      */
     public function apply(Request $request, $query, $value)
     {
-        $notApproved = is_array($value) ? ($value['not-approved'] ?? false) : $value == 'not-approved';
+        $notApproved = is_array($value) ? ($value['not-approved'] ?? false) : $value === 'not-approved';
 
-        return $query->when($notApproved, function (Builder $query) {
+        return $query->when($notApproved, static function (Builder $query) {
             $query->whereNull('approved_at');
         });
     }

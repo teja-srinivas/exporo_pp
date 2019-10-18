@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Carbon\Carbon;
@@ -24,22 +26,22 @@ class Audit extends \OwenIt\Auditing\Models\Audit
         $type = Relation::getMorphedModel($this->auditable_type) ?? $this->auditable_type;
 
         /** @var Model $model */
-        $model = new $type;
+        $model = new $type();
 
         return collect($this->getModified())
             // Remove all backend only fields
             ->diffKeys(array_flip($model->getHidden()))
 
             // Decrypt all possible values
-            ->map(function (array $entry) {
-                return array_map(function ($value) {
+            ->map(static function (array $entry) {
+                return array_map(static function ($value) {
                     return is_string($value) ? Encryptable::decrypt($value) : $value;
                 }, $entry);
             })
 
             // Filter out those that are the same, because we encrypted them beforehand
             // and thus did not know that they're different
-            ->reject(function (array $entry) {
+            ->reject(static function (array $entry) {
                 if (! is_array($entry)) {
                     return false;
                 }

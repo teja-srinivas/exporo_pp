@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Traits;
 
 use Spatie\Permission\Traits\HasRoles as SpatieRoles;
@@ -16,17 +18,11 @@ trait HasRoles
         permissions as parentPermissions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function roles(): MorphToMany
     {
         return $this->parentRoles()->withTimestamps();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function permissions(): MorphToMany
     {
         return $this->parentPermissions()->withTimestamps();

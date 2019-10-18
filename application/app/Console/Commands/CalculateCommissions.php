@@ -34,7 +34,7 @@ final class CalculateCommissions extends Command
 
     private function calculate(Builder $query, callable $calculate, bool $flatten = false): void
     {
-        $query->chunk(self::PER_CHUNK, function (Collection $chunk) use ($calculate, $flatten) {
+        $query->chunk(self::PER_CHUNK, static function (Collection $chunk) use ($calculate, $flatten) {
             $rows = $chunk->map($calculate);
 
             if ($flatten) {
@@ -48,7 +48,7 @@ final class CalculateCommissions extends Command
                 $instance->getUpdatedAtColumn() => $now,
             ];
 
-            Commission::query()->insert($rows->map(function ($entry) use ($timestamps) {
+            Commission::query()->insert($rows->map(static function ($entry) use ($timestamps) {
                 return $entry + $timestamps + [
                     'child_user_id' => 0,
                     'note_private' => null,
@@ -82,7 +82,7 @@ final class CalculateCommissions extends Command
             ->addSelect('contracts.vat_amount')
             ->commissionable();
 
-        $callback = function (Investor $investor) use ($commissionsService) {
+        $callback = static function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
                 // Temp values that come from the query (not actually from the Investor's table)
                 new Contract($investor->only('vat_included', 'vat_amount')),
@@ -152,6 +152,7 @@ final class CalculateCommissions extends Command
                 // in case the user did not have an applicable bonus in which case
                 // we will stop traversing the parent chain
                 $sums = $commissions->calculate($investment, $parent, $user);
+
                 if ($sums === null) {
                     break;
                 }

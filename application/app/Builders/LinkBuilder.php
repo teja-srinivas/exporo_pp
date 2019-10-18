@@ -26,5 +26,4 @@ class LinkBuilder extends Builder
 
         return $this->whereNotIn($this->model->getQualifiedKeyName(), $notIn);
     }
-
 }

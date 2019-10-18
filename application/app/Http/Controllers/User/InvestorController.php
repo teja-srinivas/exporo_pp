@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\User;
 
 use App\Models\User;
@@ -35,7 +37,7 @@ class InvestorController extends Controller
                 ->selectRaw('ifnull(investments.investments, 0) as investments')
                 ->selectRaw('ifnull(investments.amount, 0) as amount')
                 ->get()
-                ->map(function (Investor $investor) {
+                ->map(static function (Investor $investor) {
                     return [
                         'id' => $investor->id,
                         'name' => $investor->last_name.' '.Person::anonymizeFirstName($investor->first_name),

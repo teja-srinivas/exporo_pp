@@ -22,7 +22,7 @@ abstract class Migration extends BaseMigration
 
     protected function createResourcePermission(string $resource, array $roles = []): Collection
     {
-        $permissions = (new Permission)->newCollection();
+        $permissions = (new Permission())->newCollection();
 
         foreach (['create', 'delete', 'update', 'view'] as $action) {
             $permission = $this->createPermission("$resource.$action");

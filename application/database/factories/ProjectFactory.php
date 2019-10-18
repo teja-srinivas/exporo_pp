@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use Carbon\Carbon;
 use App\Models\Project;
 use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
 
-/* @var Factory $factory */
+/** @var Illuminate\Database\Eloquent\Factory $factory */
 
 $factory->define(Project::class, static function (Faker $faker) {
     $paybackMin = $faker->dateTimeBetween('now', '+4 years');

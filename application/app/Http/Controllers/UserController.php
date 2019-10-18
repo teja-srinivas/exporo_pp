@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Role;
@@ -52,7 +54,7 @@ class UserController extends Controller
             ->pluck('name', 'id');
 
         return response()->view(
-            'users.create', 
+            'users.create',
             compact('user', 'contractTemplates')
         );
     }
@@ -67,7 +69,7 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request, Hasher $hasher)
     {
-        $user = DB::transaction(function () use ($request, $hasher) {
+        $user = DB::transaction(static function () use ($request, $hasher) {
             $company = Company::query()->first();
 
             $user = new User($request->validated());
@@ -96,7 +98,7 @@ class UserController extends Controller
                         return $bonus->replicate();
                     }
                 )
-            );  
+            );
 
             return $user;
         });
@@ -148,7 +150,7 @@ class UserController extends Controller
 
         if ($request->user()->can('manage', User::class)) {
             $data['roles'] = Role::query()->orderBy('name')->get();
-            $data['permissions'] = Permission::all()->reject(function (Permission $permission) use ($user) {
+            $data['permissions'] = Permission::all()->reject(static function (Permission $permission) use ($user) {
                 return $permission->isProtected($user->roles);
             });
         }

@@ -13,7 +13,6 @@ use App\Models\Investment;
 use App\Models\UserDetails;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\FactoryBuilder;
 
 class UserSeeder extends Seeder
 {
@@ -40,7 +39,7 @@ class UserSeeder extends Seeder
     {
         $userExtras['email'] = 'pp@exporo.de';
 
-        factory(User::class)->state('accepted')->create($userExtras)->each(function (User $user) {
+        factory(User::class)->state('accepted')->create($userExtras)->each(static function (User $user) {
             $user->assignRole(Role::ADMIN);
         });
     }
@@ -50,7 +49,7 @@ class UserSeeder extends Seeder
      */
     protected function createInternals(array $userExtras): void
     {
-        factory(User::class, 3)->state('accepted')->create($userExtras)->each(function (User $user) {
+        factory(User::class, 3)->state('accepted')->create($userExtras)->each(static function (User $user) {
             $user->assignRole(Role::INTERNAL);
         });
     }
@@ -66,7 +65,7 @@ class UserSeeder extends Seeder
         /** @var Collection $projectIds */
         $projectIds = Project::query()->pluck('id');
 
-        factory(User::class, 30)->create($userExtras)->each(function (User $user) use ($agbs, $projectIds) {
+        factory(User::class, 30)->create($userExtras)->each(static function (User $user) use ($agbs, $projectIds) {
             $user->assignRole(Role::PARTNER);
             $user->agbs()->attach($agbs);
 
@@ -83,7 +82,7 @@ class UserSeeder extends Seeder
             // Investors and their investments
             factory(Investor::class, rand(0, 30))->create([
                 'user_id' => $user->id,
-            ])->each(function (Investor $investor) use ($projectIds) {
+            ])->each(static function (Investor $investor) use ($projectIds) {
                 $investor->investments()->createMany(factory(Investment::class, rand(0, 30))->raw([
                     'project_id' => $projectIds->random(),
                 ]));

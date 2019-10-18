@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
@@ -7,11 +9,9 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\HasMany;
 use AwesomeNova\Cards\FilterCard;
-use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Filters\IsApprovedProject;
 use Laravel\Nova\Http\Requests\NovaRequest;
 

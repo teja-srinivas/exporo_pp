@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -12,7 +14,7 @@ class AddSoftDeletesToInvestorsTable extends Migration
      */
     public function up()
     {
-        Schema::table('investors', function (Blueprint $table) {
+        Schema::table('investors', static function (Blueprint $table) {
             $table->softDeletes();
         });
     }
@@ -24,7 +26,7 @@ class AddSoftDeletesToInvestorsTable extends Migration
      */
     public function down()
     {
-        Schema::table('investors', function (Blueprint $table) {
+        Schema::table('investors', static function (Blueprint $table) {
             $table->dropColumn('deleted_at');
         });
     }

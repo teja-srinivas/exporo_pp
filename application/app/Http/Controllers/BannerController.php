@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -29,17 +31,17 @@ class BannerController extends Controller
             ->whereHas('banners')
             ->whereHas('links')
             ->get()
-            ->map(function (BannerSet $set) {
+            ->map(static function (BannerSet $set) {
                 return [
                     'name' => $set->title,
-                    'banners' => $set->banners->map(function (Banner $banner) {
+                    'banners' => $set->banners->map(static function (Banner $banner) {
                         return [
                             'height' => $banner->height,
                             'width' => $banner->width,
                             'url' => $banner->getDownloadUrl(),
                         ];
                     }),
-                    'urls' => collect($set->links)->map(function (BannerLink $link) {
+                    'urls' => collect($set->links)->map(static function (BannerLink $link) {
                         return [
                             'key' => $link->title,
                             'value' => $link->userInstance->toHtml(),

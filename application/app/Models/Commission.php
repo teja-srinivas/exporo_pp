@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Carbon\Carbon;
@@ -48,7 +50,6 @@ class Commission extends Model implements AuditableContract
      * The launch date of this application, before which
      * we won't calculate any commissions.
      *
-     * @var string
      */
     const LAUNCH_DATE = '2018-11-01';
 
@@ -149,7 +150,7 @@ class Commission extends Model implements AuditableContract
     {
         // Investments
         $investment = new Investment();
-        $query->leftJoin($investment->getTable(), function (JoinClause $join) use ($investment) {
+        $query->leftJoin($investment->getTable(), static function (JoinClause $join) use ($investment) {
             $join->where('commissions.model_type', '=', 'investment');
             $join->on('commissions.model_id', $investment->getTable().'.id');
 
@@ -158,7 +159,7 @@ class Commission extends Model implements AuditableContract
 
         // Investors
         $investor = new Investor();
-        $query->leftJoin($investor->getTable(), function (JoinClause $join) use ($investor) {
+        $query->leftJoin($investor->getTable(), static function (JoinClause $join) use ($investor) {
             $join->where('commissions.model_type', '=', 'investor');
             $join->on('commissions.model_id', $investor->getTable().'.id');
         });
@@ -184,7 +185,7 @@ class Commission extends Model implements AuditableContract
     public function scopeIsOpen(Builder $query)
     {
         $query->whereNull('bill_id');
-        $query->where(function (Builder $query) {
+        $query->where(static function (Builder $query) {
             $query->whereNull('commissions.rejected_at');
             $query->orWhere('commissions.rejected_at', '>=', now()->subMonth());
         });
@@ -229,51 +230,59 @@ class Commission extends Model implements AuditableContract
         // Determine if we need to join the related tables
         $joins = $query->toBase()->joins ?? [];
 
-        if (! Arr::first($joins, function (JoinClause $join) {
-            return $join->table === 'investments';
-        })) {
-            $query->leftJoin('investments', function (JoinClause $join) {
+        if (
+            ! Arr::first($joins, static function (JoinClause $join) {
+                return $join->table === 'investments';
+            })
+        ) {
+            $query->leftJoin('investments', static function (JoinClause $join) {
                 $join->on('investments.id', '=', 'commissions.model_id')
                     ->where('commissions.model_type', '=', Investment::MORPH_NAME);
             });
         }
 
-        if (! Arr::first($joins, function (JoinClause $join) {
-            return $join->table === 'investors';
-        })) {
-            $query->leftJoin('investors', function (JoinClause $join) {
+        if (
+            ! Arr::first($joins, static function (JoinClause $join) {
+                return $join->table === 'investors';
+            })
+        ) {
+            $query->leftJoin('investors', static function (JoinClause $join) {
                 $join->on('investors.id', '=', 'commissions.model_id')
                     ->where('commissions.model_type', '=', Investor::MORPH_NAME);
             });
         }
 
         // Then only match against the legacy stuff
-        $query->where(function (Builder $query) use ($from, $to) {
+        $query->where(static function (Builder $query) use ($from, $to) {
             $startDate = $from !== null ? Carbon::createFromFormat('Y-m-d', $from) : null;
             $endDate = $to !== null ? Carbon::createFromFormat('Y-m-d', $to) : null;
 
-            $query->where(function (Builder $query) use ($startDate, $endDate) {
+            $query->where(static function (Builder $query) use ($startDate, $endDate) {
                 $query->where('model_type', Investment::MORPH_NAME);
 
                 if ($startDate !== null) {
                     $query->whereDate('investments.created_at', '>=', $startDate);
                 }
 
-                if ($endDate !== null) {
-                    $query->whereDate('investments.created_at', '<=', $endDate);
+                if ($endDate === null) {
+                    return;
                 }
+
+                $query->whereDate('investments.created_at', '<=', $endDate);
             });
 
-            $query->orWhere(function (Builder $query) use ($startDate, $endDate) {
+            $query->orWhere(static function (Builder $query) use ($startDate, $endDate) {
                 $query->where('model_type', Investor::MORPH_NAME);
 
                 if ($startDate !== null) {
                     $query->whereDate('investors.activation_at', '>=', $startDate);
                 }
 
-                if ($endDate !== null) {
-                    $query->whereDate('investors.activation_at', '<=', $endDate);
+                if ($endDate === null) {
+                    return;
                 }
+
+                $query->whereDate('investors.activation_at', '<=', $endDate);
             });
 
             $query->orWhereNotIn('model_type', [

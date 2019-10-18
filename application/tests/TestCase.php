@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use Drfraker\SnipeMigrations\SnipeMigrations;
@@ -9,7 +11,9 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, SnipeMigrations, DatabaseTransactions;
+    use CreatesApplication;
+    use SnipeMigrations;
+    use DatabaseTransactions;
 
     protected function assertStreamEquals(string $expected, Response $response): void
     {

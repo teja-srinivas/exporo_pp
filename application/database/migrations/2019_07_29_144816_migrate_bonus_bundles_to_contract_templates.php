@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +23,7 @@ class MigrateBonusBundlesToContractTemplates extends Migration
             Schema::rename('bonus_bundle', 'contract_template_bonus');
             Schema::drop('bundles');
 
-            Schema::table('contract_template_bonus', function (Blueprint $table) {
+            Schema::table('contract_template_bonus', static function (Blueprint $table) {
                 $table->renameColumn('bundle_id', 'template_id');
             });
         });
@@ -35,7 +37,7 @@ class MigrateBonusBundlesToContractTemplates extends Migration
         $templatesByBundleId = [];
         $bonusesByBundleId = DB::table('bundles')
             ->get(['name', 'id', Model::CREATED_AT, Model::UPDATED_AT])
-            ->mapWithKeys(function (stdClass $row) use (&$templatesByBundleId) {
+            ->mapWithKeys(static function (stdClass $row) use (&$templatesByBundleId) {
                 $id = $row->id;
 
                 $templateId = DB::table('contract_templates')->insertGetId([
@@ -58,7 +60,7 @@ class MigrateBonusBundlesToContractTemplates extends Migration
 
         // 2. since we don't want to accidentally merge bonuses with other templates
         //    we simply delete them by their key, not the bundle ID
-        $bonusesByBundleId->each(function (Collection $bonuses, int $bundle) use ($templatesByBundleId) {
+        $bonusesByBundleId->each(static function (Collection $bonuses, int $bundle) use ($templatesByBundleId) {
             DB::table('bonus_bundle')
                 ->whereIn('bonus_id', $bonuses)
                 ->update(['bundle_id' => $templatesByBundleId[$bundle]]);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Rules\ModelExists;
@@ -28,7 +30,7 @@ class ContractTemplateController extends Controller
             'calculation_type' => [Rule::in(CommissionBonus::TYPES)],
             'is_overhead' => ['boolean'],
             'is_percentage' => ['boolean'],
-            'type_id' => [new ModelExists(new CommissionType)],
+            'type_id' => [new ModelExists(new CommissionType())],
             'value' => ['numeric'],
         ]);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\BannerSet;
 
 class ConvertBannerSetUrlsToBannerLinks extends Migration
@@ -11,7 +13,7 @@ class ConvertBannerSetUrlsToBannerLinks extends Migration
      */
     public function up()
     {
-        BannerSet::query()->each(function (BannerSet $set) {
+        BannerSet::query()->each(static function (BannerSet $set) {
             foreach ($set->urls as $url) {
                 $set->links()->create([
                     'title' => $url['key'],

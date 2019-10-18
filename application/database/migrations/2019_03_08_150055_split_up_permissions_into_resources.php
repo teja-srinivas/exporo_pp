@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Support\Str;
@@ -40,11 +42,11 @@ class SplitUpPermissionsIntoResources extends Migration
     protected function convertManaged(string $prefix, array $replacements = [])
     {
         // Find all the ones that start with "managed"
-        $managed = Permission::all()->filter(function (Permission $permission) {
+        $managed = Permission::all()->filter(static function (Permission $permission) {
             return Str::startsWith($permission->name, 'manage');
         });
 
-        $managed->flatMap(function (Permission $permission) use ($prefix, $replacements) {
+        $managed->flatMap(static function (Permission $permission) use ($prefix, $replacements) {
             if (Str::startsWith($permission->name, 'manage ')) {
                 // "Explode" in the proper CRUD verbs
                 $name = Str::slug(substr($permission->name, strlen('manage')), '-', null);
