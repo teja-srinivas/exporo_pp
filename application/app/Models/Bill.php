@@ -91,7 +91,7 @@ class Bill extends Model implements AuditableContract
      */
     public function getTotalNet(): float
     {
-        return $this->commissions()->sum('net');
+        return (float) $this->commissions()->sum('net');
     }
 
     public function scopeReleased(Builder $query, ?Carbon $now = null)
