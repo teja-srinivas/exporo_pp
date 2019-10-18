@@ -13,7 +13,7 @@ class LinkBuilder extends Builder
 
     public function visibleForUser(User $user): self
     {
-        if ($user->can('update', Link::class)) {
+        if ($user->can('update', new Link())) {
             return $this;
         }
 
