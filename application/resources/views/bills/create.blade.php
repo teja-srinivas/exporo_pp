@@ -55,7 +55,7 @@
                         </div>
                     </div>
                 </td>
-                <td class="text-right">{{ format_money($bill['sum']) }}</td>
+                <td class="text-right">{{ format_money((float) $bill['sum']) }}</td>
                 <td class="text-right" width="100">
                     <a
                         href="preview/{{ $bill['userId'] }}"
@@ -70,7 +70,7 @@
         <tr>
             <td class="align-middle">{{ $bills->count() }} Partner</td>
             <td class="font-weight-bold text-right lead">
-                {{ format_money($bills->sum('sum')) }}
+                {{ format_money((float) $bills->sum('sum')) }}
             </td>
             <td></td>
         </tr>

@@ -33,10 +33,10 @@
                 <small class="mr-1">#{{ $investment['id'] }}</small>
                 {{ $investment['firstName'] }} {{ $investment['lastName'] }}
             </td>
-            <td class="text-right text-nowrap">{{ format_money($investment['investsum']) }}</td>
+            <td class="text-right text-nowrap">{{ format_money((float) $investment['investsum']) }}</td>
             <td class="text-right text-nowrap">{{ $investment['investDate'] }}</td>
             <td class="text-right text-nowrap">{{ $investment['bonus'] * $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
-            <td class="text-right text-nowrap">{{ format_money($investment['net']) }}</td>
+            <td class="text-right text-nowrap">{{ format_money((float) $investment['net']) }}</td>
         </tr>
         @unless(empty($investment['note']))
         <tr class="bg-white">
@@ -53,13 +53,13 @@
                 Betrag Total
             </td>
             <td class="text-right border-left-0">
-                {{ format_money($project->sum('investsum')) }}
+                {{ format_money((float) $project->sum('investsum')) }}
             </td>
             <td class="text-right" colspan="2">
                 Provision Total
             </td>
             <td class="text-right border-left-0">
-                {{ format_money($project->sum('net')) }}
+                {{ format_money((float) $project->sum('net')) }}
             </td>
         </tr>
 
@@ -70,9 +70,9 @@
 
         <tr class="bg-white">
             <td class="text-right font-weight-bold">Total Investmentvolumen</td>
-            <td class="text-right font-weight-bold">{{ format_money($investmentSum) }}</td>
+            <td class="text-right font-weight-bold">{{ format_money((float) $investmentSum) }}</td>
             <td class="text-right font-weight-bold" colspan="2">Provision Total</td>
-            <td class="text-right font-weight-bold">{{ format_money($investmentNetSum) }}</td>
+            <td class="text-right font-weight-bold">{{ format_money((float) $investmentNetSum) }}</td>
         </tr>
     </tbody>
 </table>

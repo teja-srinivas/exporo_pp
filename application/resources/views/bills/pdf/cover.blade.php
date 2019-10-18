@@ -118,7 +118,7 @@
             @continue($sum === 0)
             <tr>
                 <th scope="row">{{ $title }}</td>
-                <td class="text-right">{{ format_money($sum) }}</td>
+                <td class="text-right">{{ format_money((float) $sum) }}</td>
             </tr>
         @endforeach
         </tbody>
@@ -127,7 +127,7 @@
         @if(abs($totalGross - $total) > 0)
             <tr>
                 <th scope="row" class="text-right">zzgl. 19% MwSt.</th>
-                <td class="text-right">{{ format_money($totalGross - $total) }}</td>
+                <td class="text-right">{{ format_money((float) ($totalGross - $total)) }}</td>
             </tr>
         @endif
             <tr>

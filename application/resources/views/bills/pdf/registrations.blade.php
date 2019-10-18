@@ -25,14 +25,14 @@
                     @endunless
                 </td>
                 <td class="text-right text-nowrap">{{ $investor['activationAt'] }}</td>
-                <td class="text-right text-nowrap">{{ format_money($investor['net']) }}</td>
+                <td class="text-right text-nowrap">{{ format_money((float) $investor['net']) }}</td>
             </tr>
         @endforeach
         </tbody>
         <tfooter>
             <tr>
                 <td class="text-right font-weight-bold text-nowrap" colspan="2">Total Provision</td>
-                <td class="text-right font-weight-bold text-nowrap">{{ format_money($investorsNetSum) }}</td>
+                <td class="text-right font-weight-bold text-nowrap">{{ format_money((float) $investorsNetSum) }}</td>
             </tr>
         </tfooter>
     </table>

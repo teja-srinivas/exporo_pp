@@ -66,7 +66,7 @@
             <tr>
                 <td>Investmentvolumen (Total)</td>
                 <td>
-                    {{ format_money($project->investments()->sum('amount')) }}
+                    {{ format_money((float) $project->investments()->sum('amount')) }}
                 </td>
             </tr>
             </tbody>

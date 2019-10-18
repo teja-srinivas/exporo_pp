@@ -65,7 +65,7 @@
                 </div>
                 <div class="col-sm">
                     Investmentvolumen
-                    <div class="h2 mb-1">{{ format_money($investors->amount) }}</div>
+                    <div class="h2 mb-1">{{ format_money((float) $investors->amount) }}</div>
                 </div>
             </div>
         </div>
@@ -172,7 +172,7 @@
                         <a href="{{ route('bills.show', $bill) }}">{{ $bill->getDisplayName() }}</a>
                     </td>
                     <td class="text-right">{{ $bill->commissions }}</td>
-                    <td class="text-right">{{ format_money($bill->gross) }}</td>
+                    <td class="text-right">{{ format_money((float) $bill->gross) }}</td>
                     <td>{{ optional($bill->created_at)->format('d.m.Y') }}</td>
                 </tr>
             @empty
@@ -186,7 +186,7 @@
                 <tr>
                     <td class="border-top text-right"><strong>Total</strong></td>
                     <td class="border-top text-right">{{ $user->bills->sum('commissions') }}</td>
-                    <td class="border-top text-right">{{ format_money($user->bills->sum('gross')) }}</td>
+                    <td class="border-top text-right">{{ format_money((float) $user->bills->sum('gross')) }}</td>
                     <td class="border-top"></td>
                 </tr>
             </tfoot>
