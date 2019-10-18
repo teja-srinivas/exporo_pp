@@ -54,13 +54,15 @@
     },
     "require-dev": {
         "drfraker/snipe-migrations": "^1.1",
+        "escapestudios/symfony2-coding-standard": "^3.9",
+        "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
         "johnkary/phpunit-speedtrap": "^3.1",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
         "nunomaduro/larastan": "^0.4",
         "phpunit/phpunit": "^8.0",
-        "facade/ignition": "^1.4"
+        "slevomat/coding-standard": "^5.0"
     },
     "autoload": {
         "classmap": [
@@ -98,6 +100,12 @@
         ],
         "prod": [
             "@composer install -o --no-progress --no-dev"
+        ],
+        "fix:style": "phpcbf",
+        "lint:style": "phpcs",
+        "lint": [
+            "@lint:style",
+            "php artisan code:analyse"
         ]
     },
     "config": {
