@@ -64,9 +64,9 @@ class MailingController extends Controller
 
         $this->addUploadedFileToInput($request, $data);
 
-        $mail = Mailing::create($data);
-
-        $this->fillMissingVariables($mail);
+        /** @var Mailing $mail */
+        $mail = Mailing::query()->create($data);
+        $this->fillMissingVariables($request->user(), $mail);
 
         return redirect()->route('affiliate.mails.index');
     }

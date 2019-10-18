@@ -6,14 +6,19 @@ parameters:
         - %rootDir%/../../../app/Nova/*
     ignoreErrors:
         - '#Access to an undefined property Illuminate\\Pagination\\LengthAwarePaginator::\$totalGross#'
-        - '#Call to an undefined method App\\Providers\\AppServiceProvider::sortBy()#'
-        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::forUser()#'
-        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::isBillable()#'
-        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::isOpen()#'
-        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::forUser()#'
-        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::isBillable()#'
-        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::isOpen()#'
-        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::uncancelled()#'
-        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::with()#'
         - '#Parameter \#2 $contents of method Illuminate\\Contracts\\Filesystem\\Filesystem::put() expects resource|string, array<Illuminate\\Http\\UploadedFile>|Illuminate\\Http\\UploadedFile|null given\.#'
-        - '#PHPDoc tag @throws with type GuzzleHttp\\Exception\\GuzzleException is not subtype of Throwable#'
+
+        # https://github.com/nunomaduro/larastan/issues/166
+        - '#Call to an undefined method App\\Providers\\AppServiceProvider::sortBy()#'
+
+        # https://github.com/nunomaduro/larastan/issues/272
+        - '#dynamicWhere#'
+        - '#Illuminate\\Database\\Query\\Builder#'
+        - '#Illuminate\\Database\\Eloquent\\Builder#'
+        - '#should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection#'
+
+        # https://github.com/nunomaduro/larastan/issues/335
+        - '#calculate\(\) expects App\\Models\\User\|null#'
+
+        # Fix errors with external dependencies
+        - '#Access to an undefined property FormulaInterpreter\\Compiler::\$functionCommandFactory#'

@@ -75,7 +75,7 @@ class ContractTemplateController extends Controller
      */
     public function edit(ContractTemplate $template)
     {
-        return view('contracts.templates.edit', [
+        return response()->view('contracts.templates.edit', [
             'template' => $template,
         ]);
     }

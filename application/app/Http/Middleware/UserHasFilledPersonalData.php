@@ -46,7 +46,7 @@ class UserHasFilledPersonalData
 
         $session->put(self::USER_HAS_MISSING_DATA, true);
 
-        return redirect()->route('users.edit', $user)->withErrors($this->buildErrors($user->details, [
+        return redirect()->route('users.edit', [$user])->withErrors($this->buildErrors($user->details, [
             'birth_date' => 'Bitte füllen Sie Ihr Geburtstag aus',
             'iban' => 'Bitte füllen Sie Ihre IBAN aus',
             'bic' => 'Bitte füllen Sie Ihre BIC aus',
@@ -59,7 +59,7 @@ class UserHasFilledPersonalData
         ]);
     }
 
-    private function hasFilledAllData(UserDetails $details): bool
+    private function hasFilledAllData(?UserDetails $details): bool
     {
         if ($details === null || $details->birth_date === null) {
             return false;
@@ -75,11 +75,11 @@ class UserHasFilledPersonalData
     /**
      * Returns only the errors for the fields the user has not filled in yet.
      *
-     * @param UserDetails $details
+     * @param UserDetails|null $details
      * @param array $array All possible errors
      * @return array Only the relevant errors
      */
-    private function buildErrors(UserDetails $details, array $array): array
+    private function buildErrors(?UserDetails $details, array $array): array
     {
         if ($details === null) {
             return $array;

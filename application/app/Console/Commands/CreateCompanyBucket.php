@@ -25,17 +25,15 @@ class CreateCompanyBucket extends Command
     /**
      * Execute the console command.
      *
-     * @return void
+     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $id = $this->argument('company');
 
         if (Company::query()->whereKey($id)->doesntExist()) {
             $this->error('Company does not seem to exist');
-            $this->setCode(1);
-
-            return;
+            return 1;
         }
 
         $s3 = Storage::disk('s3');
@@ -43,5 +41,7 @@ class CreateCompanyBucket extends Command
         $s3->makeDirectory("{$id}/banners");
         $s3->makeDirectory("{$id}/preview");
         $s3->makeDirectory("{$id}/statements");
+
+        return 0;
     }
 }

@@ -22,7 +22,7 @@ class InvestorBuilder extends Builder
     public function commissionable(): self
     {
         // Make sure we only get what we need
-        if (is_null($this->query->columns)) {
+        if ($this->query->columns === []) {
             $this->select('investors.*');
         }
 

@@ -41,7 +41,7 @@ class Permission extends \Spatie\Permission\Models\Permission
      * that we don't give users permission to areas they
      * definitely should not have access to.
      *
-     * @param string|string[]|Role|Role[] $roles
+     * @param string|string[]|Role|Role[]|EloquentCollection $roles
      * @return bool
      */
     public function isProtected($roles): bool

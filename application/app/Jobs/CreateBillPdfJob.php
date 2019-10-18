@@ -34,7 +34,7 @@ class CreateBillPdfJob implements ShouldQueue
      */
     public function handle(UrlGenerator $url, PdfGenerator $pdf, FilesystemManager $filesystem)
     {
-        $pdf = $pdf->render($url->signedRoute('bills.pdf', $this->bill));
+        $pdf = $pdf->render($url->signedRoute('bills.pdf', [$this->bill]));
 
         $this->store($filesystem->cloud(), $pdf);
 

@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use DocRaptor\Doc;
-use App\Http\Kernel;
 use DocRaptor\DocApi;
 use Illuminate\Support\Str;
 use DocRaptor\PrinceOptions;
@@ -22,9 +21,9 @@ class PdfGenerator
     /** @var bool */
     protected $test;
 
-    public function __construct(Kernel $kernel, DocApi $api, Repository $config)
+    public function __construct(Application $app, DocApi $api, Repository $config)
     {
-        $this->app = $kernel;
+        $this->app = $app;
         $this->api = $api;
         $this->test = $config->get('services.docraptor.test');
     }

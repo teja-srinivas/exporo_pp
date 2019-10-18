@@ -27,9 +27,9 @@ class ContractController extends Controller
      * @param Contract $contract
      * @return Response
      */
-    public function show(Contract $contract)
+    public function show(Contract $contract): Response
     {
-        return view('contracts.show', [
+        return response()->view('contracts.show', [
             'contract' => $contract,
         ]);
     }
@@ -38,13 +38,13 @@ class ContractController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Contract $contract
-     * @return Response|RedirectResponse
+     * @return Response
      */
-    public function edit(Contract $contract)
+    public function edit(Contract $contract): Response
     {
         $this->checkIfContractIsEditable($contract);
 
-        return view('contracts.edit', [
+        return response()->view('contracts.edit', [
             'contract' => $contract,
         ]);
     }
@@ -54,10 +54,10 @@ class ContractController extends Controller
      *
      * @param Request $request
      * @param Contract $contract
-     * @return Response|RedirectResponse
+     * @return RedirectResponse
      * @throws ValidationException
      */
-    public function update(Request $request, Contract $contract)
+    public function update(Request $request, Contract $contract): RedirectResponse
     {
         $this->checkIfContractIsEditable($contract);
 
@@ -81,14 +81,14 @@ class ContractController extends Controller
 
         flash_success();
 
-        return response()->redirectToRoute('contracts.edit', $contract);
+        return response()->redirectToRoute('contracts.edit', [$contract]);
     }
 
     /**
      * @param  Contract  $contract
      * @return RedirectResponse
      */
-    public function destroy(Contract $contract)
+    public function destroy(Contract $contract): RedirectResponse
     {
         $this->checkIfContractIsEditable($contract);
 

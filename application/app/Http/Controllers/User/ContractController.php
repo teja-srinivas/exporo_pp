@@ -47,9 +47,9 @@ class ContractController extends Controller
         });
 
         if ($user->can('update', $contract)) {
-            return response()->redirectToRoute('contracts.edit', $contract);
+            return response()->redirectToRoute('contracts.edit', [$contract]);
         }
 
-        return response()->redirectToRoute('contracts.show', $contract);
+        return response()->redirectToRoute('contracts.show', [$contract]);
     }
 }

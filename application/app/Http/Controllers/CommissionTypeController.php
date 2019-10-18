@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\CommissionType;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
 
 class CommissionTypeController extends Controller
 {
@@ -13,9 +17,9 @@ class CommissionTypeController extends Controller
         $this->authorizeResource(CommissionType::class, 'type');
     }
 
-    public function index()
+    public function index(): Response
     {
-        return view('commissions.types.index', [
+        return response()->view('commissions.types.index', [
             'types' => CommissionType::all(),
         ]);
     }
@@ -23,9 +27,9 @@ class CommissionTypeController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function create()
+    public function create(): Response
     {
         return response()->view('commissions.types.create');
     }
@@ -33,11 +37,11 @@ class CommissionTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @param  Request  $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $data = $this->validate($request, [
             'name' => 'required',
@@ -54,9 +58,9 @@ class CommissionTypeController extends Controller
 
     /**
      * @param CommissionType $type
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function show(CommissionType $type)
+    public function show(CommissionType $type): Response
     {
         $projects = $type->is_project_type
             ? $type->projects()->get()->map(function (Project $project) {
@@ -78,9 +82,9 @@ class CommissionTypeController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param CommissionType $type
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function edit(CommissionType $type)
+    public function edit(CommissionType $type): Response
     {
         return response()->view('commissions.types.edit', compact('type'));
     }
@@ -88,12 +92,12 @@ class CommissionTypeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  Request  $request
      * @param  CommissionType $type
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function update(Request $request, CommissionType $type)
+    public function update(Request $request, CommissionType $type): RedirectResponse
     {
         $data = $this->validate($request, [
             'name' => 'required',
@@ -112,10 +116,10 @@ class CommissionTypeController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  CommissionType  $type
-     * @return void
-     * @throws \Exception
+     * @return RedirectResponse
+     * @throws Exception
      */
-    public function destroy(CommissionType $type)
+    public function destroy(CommissionType $type): RedirectResponse
     {
         $type->delete();
 

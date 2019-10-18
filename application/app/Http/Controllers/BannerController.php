@@ -29,7 +29,7 @@ class BannerController extends Controller
             ->whereHas('banners')
             ->whereHas('links')
             ->get()
-            ->map(function (BannerSet $set) use ($user) {
+            ->map(function (BannerSet $set) {
                 return [
                     'name' => $set->title,
                     'banners' => $set->banners->map(function (Banner $banner) {
@@ -39,7 +39,7 @@ class BannerController extends Controller
                             'url' => $banner->getDownloadUrl(),
                         ];
                     }),
-                    'urls' => collect($set->links)->map(function (BannerLink $link) use ($set, $user) {
+                    'urls' => collect($set->links)->map(function (BannerLink $link) {
                         return [
                             'key' => $link->title,
                             'value' => $link->userInstance->toHtml(),

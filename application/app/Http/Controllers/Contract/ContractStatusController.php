@@ -40,6 +40,6 @@ class ContractStatusController extends Controller
             flash_success('Vertrag wurde wieder in den Entwurfsstatus gestellt.');
         }
 
-        return response()->redirectToRoute('contracts.edit', $contract);
+        return response()->redirectToRoute('contracts.edit', [$contract]);
     }
 }

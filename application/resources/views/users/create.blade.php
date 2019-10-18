@@ -35,7 +35,6 @@
                         'values' => $contractTemplates,
                         'assoc' => true,
                     ],
-
                 ]])
             @endcan
 

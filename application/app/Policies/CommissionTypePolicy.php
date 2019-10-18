@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use Exception;
 use App\Models\User;
 use App\Models\CommissionType;
-use Illuminate\Database\Eloquent\Model;
 
 class CommissionTypePolicy extends BasePolicy
 {
@@ -17,9 +17,9 @@ class CommissionTypePolicy extends BasePolicy
 
     /**
      * @param  User  $user
-     * @param  CommissionType|Model  $model
+     * @param  CommissionType  $model
      * @return bool|mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(User $user, $model)
     {
