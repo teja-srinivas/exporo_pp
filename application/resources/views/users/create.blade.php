@@ -16,6 +16,28 @@
             @slot('info', __('users.edit.required_information.info'))
 
             @include('users.partials.forms.required_information')
+        @endcard
+
+        @card
+            @slot('title', __('users.edit.user_details.title'))
+            @slot('info', __('users.edit.user_details.info'))
+
+            @include('users.partials.forms.user_details')
+
+            @can('manage', $user)
+                <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Verträge</h6>
+
+                @include('components.form.builder', ['inputs' => [
+                    [
+                        'type' => 'select',
+                        'name' => 'contract',
+                        'label' => __('Contract Types'),
+                        'values' => $contractTemplates,
+                        'assoc' => true,
+                    ],
+
+                ]])
+            @endcan
 
             @slot('footer')
                 <div class="text-right">

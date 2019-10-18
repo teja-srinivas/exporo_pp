@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
+use App\Models\Contract;
 use App\Models\Permission;
+use App\Models\CommissionBonus;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ContractTemplate;
@@ -15,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UserStoreRequest;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -39,33 +42,67 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  User $user
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user)
     {
-        return response()->view('users.create');
+        $contractTemplates = ContractTemplate::query()
+            ->orderBy('name')
+            ->pluck('name', 'id');
+
+        return response()->view(
+            'users.create', 
+            compact('user', 'contractTemplates')
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Http\Requests\UserStoreRequest $request
      * @param Hasher $hasher
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request, Hasher $hasher)
+    public function store(UserStoreRequest $request, Hasher $hasher)
     {
-        $data = $this->validate($request, [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'email' => 'required|unique:users,email',
-        ]);
+        $user = DB::transaction(function () use ($request, $hasher) {
+            $company = Company::query()->first();
 
-        $data['password'] = $hasher->make(Str::random());
-        $data['company_id'] = Company::query()->first()->getKey();
+            $user = new User($request->validated());
 
-        $user = User::query()->forceCreate($data);
+            $user->assignRole(Role::PARTNER);
+
+            $user->password = $hasher->make(Str::random());
+
+            $user->company_id = $company->getKey();
+
+            $user->save();
+
+            $user->details->fill(
+                $request->validated()
+            )->saveOrFail();
+
+            $contract = Contract::fromTemplate(
+                ContractTemplate::find($request->contract)
+            );
+
+            $user->contract()->save($contract);
+
+            $contract->bonuses()->saveMany(
+                $company->contractTemplate->bonuses->map(
+                    static function (CommissionBonus $bonus) {
+                        return $bonus->replicate();
+                    }
+                )
+            );  
+
+            return $user;
+        });
+
+        // Send DOI mail manually
+        $user->sendEmailVerificationNotification();
 
         return redirect()->route('users.show', $user);
     }

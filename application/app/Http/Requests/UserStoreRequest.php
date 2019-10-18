@@ -18,7 +18,7 @@ class UserStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('update', $this->route('user'));
+        return $this->user()->can('update', $this->route('user')) || $this->user()->can('manage', User::class);
     }
 
     /**
@@ -151,7 +151,7 @@ class UserStoreRequest extends FormRequest
             'tax_office' => 'nullable|string|max:100',
             'iban' => 'nullable|iban',
             'bic' =>'nullable|bic',
-        ] + ($updating !== null ? [
+        ] + ($updating !== null || auth()->user()->can('manage', User::class) ? [
             'vat_included' => 'boolean',
             'vat_amount' => 'numeric',
         ] : []);
