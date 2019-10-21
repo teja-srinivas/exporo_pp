@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use Parental\HasChildren;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,29 +16,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int $id
  * @property string $name
  * @property string|null $body
- * @property int $cancellation_days
- * @property int $claim_years
- * @property bool $vat_included
- * @property float $vat_amount
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read bool $is_default
  *
  * @property Company $company
- * @property Collection $bonuses
  * @property Collection $contracts
  */
 class ContractTemplate extends Model
 {
-    protected $casts = [
-        'cancellation_days' => 'int',
-        'claim_years' => 'int',
-        'vat_included' => 'bool',
-        'vat_amount' => 'float',
+    use HasChildren;
+
+    protected $childTypes = [
+        PartnerContract::STI_TYPE => PartnerContractTemplate::class,
+        ProductContract::STI_TYPE => ProductContractTemplate::class,
     ];
 
     protected $fillable = [
-        'body', 'name', 'cancellation_days', 'claim_years', 'vat_included', 'vat_amount',
+        'body', 'name',
     ];
 
     public function company(): BelongsTo
@@ -48,21 +44,6 @@ class ContractTemplate extends Model
     public function contracts(): HasMany
     {
         return $this->hasMany(Contract::class);
-    }
-
-    public function bonuses(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            CommissionBonus::class,
-            'contract_template_bonus',
-            'template_id',
-            'bonus_id'
-        );
-    }
-
-    public function getIsDefaultAttribute()
-    {
-        return $this->company !== null && $this->company->default_contract_template_id === $this->getKey();
     }
 
     public function makeDefault()

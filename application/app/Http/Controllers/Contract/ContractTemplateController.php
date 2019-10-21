@@ -31,6 +31,7 @@ class ContractTemplateController extends Controller
     {
         return response()->view('contracts.templates.index', [
             'templates' => ContractTemplate::query()
+                ->orderBy('type')
                 ->orderBy('name')
                 ->get(),
         ]);

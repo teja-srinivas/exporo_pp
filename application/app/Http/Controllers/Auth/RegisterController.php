@@ -11,6 +11,7 @@ use App\Models\Company;
 use App\Models\Contract;
 use Illuminate\Support\Str;
 use App\Models\CommissionBonus;
+use App\Models\ProductContract;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
@@ -115,7 +116,7 @@ class RegisterController extends Controller
             $user->agbs()->attach($agbs);
             $user->assignRole(Role::PARTNER);
 
-            $contract = Contract::fromTemplate($company->contractTemplate);
+            $contract = ProductContract::fromTemplate($company->contractTemplate);
             $user->contract()->save($contract);
 
             $contract->bonuses()->saveMany(

@@ -14,6 +14,7 @@
     <table class="bg-white shadow-sm accent-primary table table-borderless table-hover table-striped table-sticky table-sm">
         <thead>
         <tr>
+            <th>Typ</th>
             <th>Name</th>
             <th width="140">Erstellt</th>
         </tr>
@@ -21,6 +22,7 @@
         <tbody>
         @forelse($templates as $template)
             <tr>
+                <td>{{ $template->type }}</td>
                 <td>
                     <div class="d-flex justify-content-between">
                         @can('update', $template)

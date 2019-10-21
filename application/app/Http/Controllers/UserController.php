@@ -132,7 +132,9 @@ class UserController extends Controller
                 ->selectRaw('sum(amount)'), 'amount')
             ->first();
 
-        $contractTemplates = ContractTemplate::all()->pluck('name', 'id');
+        $contractTemplates = ContractTemplate::all()
+            ->groupBy('type')
+            ->map->pluck('name', 'id');
 
         return response()->view('users.show', compact('user', 'investors', 'contractTemplates'));
     }

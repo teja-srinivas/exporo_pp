@@ -44,6 +44,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
  * @property UserDetails $details
  * @property Contract $contract
  * @property Contract $draftContract
+ * @property Collection $contracts
  * @property Collection $investors
  * @property Collection $investments
  * @property Collection $bonuses

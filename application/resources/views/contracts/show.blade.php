@@ -18,13 +18,7 @@
         @include('contracts.partials.header', ['user' => $contract->user])
     @endcard
 
-    <div class="rounded bg-white shadow-sm p-3">
-        @include('components.bundle-editor', [
-            'bonuses' => $contract->bonuses,
-            'editable' => false,
-            'legacy' => true,
-        ])
-    </div>
+    @include('contracts.show.'.$contract->type)
 
     @include('contracts.partials.details')
 @endsection

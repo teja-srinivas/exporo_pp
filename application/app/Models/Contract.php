@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use Parental\HasChildren;
 use App\Builders\ContractBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
@@ -30,12 +31,17 @@ use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
  * @property Carbon $updated_at
  *
  * @property ContractTemplate $template
- * @property Collection $bonuses
  * @property User $user
  */
 class Contract extends Model
 {
+    use HasChildren;
     use OptimusEncodedRouteKey;
+
+    protected $childTypes = [
+        PartnerContract::STI_TYPE => PartnerContract::class,
+        ProductContract::STI_TYPE => ProductContract::class,
+    ];
 
     protected $casts = [
         'cancellation_days' => 'int',
@@ -57,12 +63,8 @@ class Contract extends Model
         'vat_included',
         'vat_amount',
         'released_at',
+        'type',
     ];
-
-    public function bonuses(): HasMany
-    {
-        return $this->hasMany(CommissionBonus::class);
-    }
 
     public function template(): BelongsTo
     {
@@ -74,14 +76,9 @@ class Contract extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function hasOverhead(): bool
-    {
-        return $this->bonuses()->where('is_overhead', true)->exists();
-    }
-
     public function isActive(): bool
     {
-        return $this->terminated_at === null;
+        return $this->terminated_at === null || $this->terminated_at < now();
     }
 
     public function isEditable(): bool

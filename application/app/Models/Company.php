@@ -8,8 +8,8 @@ use Carbon\Carbon;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
@@ -41,9 +41,9 @@ class Company extends Model implements AuditableContract
         return $this->hasMany(User::class);
     }
 
-    public function contractTemplate(): BelongsTo
+    public function contractTemplate(): HasOne
     {
-        return $this->belongsTo(ContractTemplate::class, 'default_contract_template_id');
+        return $this->hasOne(ProductContractTemplate::class);
     }
 
     public function bannerSets(): HasMany

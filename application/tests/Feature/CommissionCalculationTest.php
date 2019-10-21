@@ -12,6 +12,7 @@ use App\Models\Investor;
 use App\Models\Investment;
 use App\Models\CommissionType;
 use App\Models\CommissionBonus;
+use App\Models\ProductContract;
 use Tests\Traits\TestsContracts;
 use App\Services\CalculateCommissionsService;
 
@@ -118,7 +119,7 @@ final class CommissionCalculationTest extends TestCase
     protected function createContract(User $user, array $bonuses): Contract
     {
         /** @var Contract $contract */
-        $contract = factory(Contract::class)->state('active')->create([
+        $contract = factory(ProductContract::class)->state('active')->create([
             'user_id' => $user->getKey(),
             'vat_included' => false,
         ]);
