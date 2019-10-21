@@ -26,6 +26,7 @@
         "ext-bcmath": "*",
         "ext-json": "*",
         "awesome-nova/filter-card": "^1.0",
+        "calebporzio/parental": "0.9",
         "cybercog/laravel-optimus": "^3.0",
         "dannyvankooten/laravel-vat": "^2.0.3",
         "docraptor/docraptor": "^1.3",
