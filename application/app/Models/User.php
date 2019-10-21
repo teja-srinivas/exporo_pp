@@ -279,7 +279,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     {
         $url = URL::temporarySignedRoute(
             'verification.verify',
-            \Illuminate\Support\Carbon::now()->addMinutes(config('auth.verification.expire', 60 * 24 * 2)),
+            \Illuminate\Support\Carbon::now()->addMinutes((int) config('auth.verification.expire', 60 * 24 * 2)),
             [
                 'id' => $this->getKey(),
                 'hash' => sha1($this->getEmailForVerification()),
