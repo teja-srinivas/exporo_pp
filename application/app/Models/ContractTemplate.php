@@ -10,15 +10,14 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
  * @property string $name
  * @property string|null $body
+ * @property bool $is_default
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property-read bool $is_default
  *
  * @property Company $company
  * @property Collection $contracts
@@ -33,7 +32,7 @@ class ContractTemplate extends Model
     ];
 
     protected $fillable = [
-        'body', 'name',
+        'body', 'name', 'is_default',
     ];
 
     public function company(): BelongsTo
@@ -44,15 +43,5 @@ class ContractTemplate extends Model
     public function contracts(): HasMany
     {
         return $this->hasMany(Contract::class);
-    }
-
-    public function makeDefault()
-    {
-        if ($this->company === null) {
-            return;
-        }
-
-        $this->company->contractTemplate()->associate($this);
-        $this->company->save();
     }
 }

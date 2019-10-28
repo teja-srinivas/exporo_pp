@@ -1,5 +1,5 @@
 @card
-    @slot('title', 'Partnervertrag')
+    @slot('title', $contract->getTitle())
     <table class="table table-sm mb-0 table-fixed">
         <tr>
             <td>{{ __('Anspruch Kundenbindung') }}</td>

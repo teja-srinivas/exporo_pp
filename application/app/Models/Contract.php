@@ -8,8 +8,6 @@ use Carbon\Carbon;
 use Parental\HasChildren;
 use App\Builders\ContractBuilder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 
@@ -66,6 +64,11 @@ class Contract extends Model
         'type',
     ];
 
+    public function getTitle(): string
+    {
+        return __("contracts.{$this->type}.title");
+    }
+
     public function template(): BelongsTo
     {
         return $this->belongsTo(ContractTemplate::class);
@@ -93,7 +96,7 @@ class Contract extends Model
 
     public static function fromTemplate(ContractTemplate $template): self
     {
-        $contract = new self();
+        $contract = new static();
         $contract->forceFill([
             'template_id' => $template->getKey(),
             'vat_amount' => $template->vat_amount,
@@ -103,5 +106,10 @@ class Contract extends Model
         ]);
 
         return $contract;
+    }
+
+    public static function getTypeForClass(string $class): string
+    {
+        return array_search($class, (new Contract())->childTypes) ?? $class;
     }
 }

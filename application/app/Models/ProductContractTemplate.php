@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Parental\HasParent;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -34,7 +31,6 @@ class ProductContractTemplate extends ContractTemplate
     public function contracts(): HasMany
     {
         return $this->hasMany(ProductContract::class);
-            // TODO ->where('type', );
     }
 
     public function bonuses(): BelongsToMany

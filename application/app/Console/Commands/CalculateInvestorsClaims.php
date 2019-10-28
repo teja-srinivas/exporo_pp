@@ -22,12 +22,12 @@ class CalculateInvestorsClaims extends Command
             ->each(function (Investor $investor) {
                 $this->line("Calculating claim for #{$investor->getKey()}");
 
-                if (! $investor->user->contract->isActive()) {
+                if (! $investor->user->partnerContract->isActive()) {
                     return;
                 }
 
                 $investor->claim_end = $investor->created_at->addYears(
-                    $investor->user->contract->claim_years
+                    $investor->user->partnerContract->claim_years
                 );
 
                 $investor->save();

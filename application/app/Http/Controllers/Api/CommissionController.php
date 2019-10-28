@@ -161,7 +161,7 @@ class CommissionController extends Controller
 
         if (isset($remapped['amount']) && $remapped['amount'] !== null) {
             $commission->forceFill($service->calculateNetAndGross(
-                $commission->user->contract,
+                $commission->user->productContract,
                 (float) $remapped['amount']
             ));
         }
@@ -169,7 +169,7 @@ class CommissionController extends Controller
         if (isset($remapped['bonus']) && $remapped['bonus'] !== null) {
             $user = $commission->user;
             $sum = $service->calculateSum($commission->investment, (float) $remapped['bonus']);
-            $netGross = $service->calculateNetAndGross($user->contract, $sum);
+            $netGross = $service->calculateNetAndGross($user->productContract, $sum);
 
             $commission->forceFill($netGross + ['bonus' => (float) $remapped['bonus']]);
         }

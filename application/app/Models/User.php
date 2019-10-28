@@ -31,6 +31,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
  *
  * @property int $id
  * @property int $parent_id
+ * @property int $contract_id
  * @property string $salutation
  * @property string $first_name
  * @property string $last_name
@@ -42,7 +43,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property UserDetails $details
- * @property Contract $contract
+ * @property PartnerContract $contract
+ * @property PartnerContract $partnerContract
+ * @property ProductContract $productContract
  * @property Contract $draftContract
  * @property Collection $contracts
  * @property Collection $investors
@@ -122,7 +125,20 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function contract(): HasOne
     {
-        return $this->hasOne(Contract::class)
+        return $this->partnerContract();
+    }
+
+    public function partnerContract(): HasOne
+    {
+        return $this->hasOne(PartnerContract::class)
+            ->whereNotNull('accepted_at')
+            ->whereNotNull('released_at')
+            ->latest();
+    }
+
+    public function productContract(): HasOne
+    {
+        return $this->hasOne(ProductContract::class)
             ->whereNotNull('accepted_at')
             ->whereNotNull('released_at')
             ->latest();
@@ -300,12 +316,9 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasVerifiedEmail();
     }
 
-    /**
-     * @return bool
-     */
     public function hasActiveContract(): bool
     {
-        return $this->contract !== null;
+        return $this->partnerContract !== null;
     }
 
     public function getDisplayName(): string

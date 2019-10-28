@@ -57,11 +57,11 @@ class SplitUpContracts extends Migration
 
         // Split up templates into their types
         DB::table('contract_templates')->update([
-            'type' => PartnerContract::STI_TYPE
+            'type' => PartnerContract::STI_TYPE,
         ]);
 
         // Keep a map of original template IDs -> product template IDs
-        $templates = DB::table('contract_templates')->get()->mapWithKeys(function ($row) {
+        $templates = DB::table('contract_templates')->get()->mapWithKeys(static function ($row) {
             return [$row->id => DB::table('contract_templates')->insertGetId([
                 'id' => null,
                 'type' => ProductContract::STI_TYPE,
@@ -83,7 +83,7 @@ class SplitUpContracts extends Migration
     protected function migrateContracts(array $templatesById): void
     {
         DB::table('contracts')->update([
-            'type' => PartnerContract::STI_TYPE
+            'type' => PartnerContract::STI_TYPE,
         ]);
 
         DB::table('contracts')->insertUsing(
@@ -136,6 +136,11 @@ class SplitUpContracts extends Migration
 
     protected function createLUT(array $array): string
     {
+        // Use a dummy array when input is empty so the query does not fail
+        if (count($array) === 0) {
+            $array = [-1 => 0];
+        }
+
         return join(' union all ', array_map(static function ($value, string $key) {
             return '(select '.DB::raw($key).' as "key", '.DB::raw($value).' as "value")';
         }, $array, array_keys($array)));

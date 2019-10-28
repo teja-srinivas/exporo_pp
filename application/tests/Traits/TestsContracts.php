@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Traits;
 
 use App\Models\Schema;
-use App\Models\Contract;
 use App\Models\CommissionType;
 use App\Models\ProductContract;
 

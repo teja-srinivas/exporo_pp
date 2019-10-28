@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\Contract;
 use Faker\Generator as Faker;
 use App\Models\PartnerContract;
 use App\Models\ContractTemplate;

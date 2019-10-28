@@ -94,11 +94,9 @@ class ContractTemplateController extends Controller
             'is_default' => ['nullable', 'in:on,1'],
         ] + Rules::prepend($this->validationRules(), 'required'));
 
-        $template->update($data);
+        $data['is_default'] = (bool) ($data['is_default'] ?? false);
 
-        if ((bool) ($data['is_default'] ?? false) === true) {
-            $template->makeDefault();
-        }
+        $template->update($data);
 
         flash_success();
 

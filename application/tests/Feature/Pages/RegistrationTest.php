@@ -8,7 +8,6 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Contract;
 use App\Models\CommissionBonus;
-use App\Models\ContractTemplate;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ProductContractTemplate;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -22,12 +21,11 @@ class RegistrationTest extends TestCase
      */
     public function it_allows_user_registration()
     {
-        /** @var ContractTemplate $template */
-        $template = factory(ProductContractTemplate::class)->create();
+        /** @var ProductContractTemplate $template */
+        $template = factory(ProductContractTemplate::class)->create([
+            'is_default' => true,
+        ]);
         $template->bonuses()->save(factory(CommissionBonus::class)->make());
-
-        $template->company->contractTemplate()->associate($template);
-        $template->company->save();
 
         $response = $this->post(route('register'), [
             'first_name' => $this->faker->firstName,

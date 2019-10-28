@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Project;
-use App\Models\Contract;
 use App\Models\Investor;
 use App\Models\Investment;
 use App\Models\Commission;

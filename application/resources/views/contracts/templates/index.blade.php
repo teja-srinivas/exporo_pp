@@ -16,13 +16,13 @@
         <tr>
             <th>Typ</th>
             <th>Name</th>
-            <th width="140">Erstellt</th>
+            <th width="80">Erstellt</th>
         </tr>
         </thead>
         <tbody>
         @forelse($templates as $template)
             <tr>
-                <td>{{ $template->type }}</td>
+                <td>{{ __("contracts.{$template->type}.title") }}</td>
                 <td>
                     <div class="d-flex justify-content-between">
                         @can('update', $template)
