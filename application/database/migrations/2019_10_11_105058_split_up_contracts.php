@@ -20,9 +20,9 @@ class SplitUpContracts extends Migration
         $this->alterTables();
 
         DB::transaction(function () {
-            $templatesById = $this->migrateTemplates();
+            $templatesByCompanyId = $this->migrateTemplates();
 
-            $this->migrateContracts($templatesById);
+            $this->migrateContracts($templatesByCompanyId);
         });
 
         $this->cleanUp();
@@ -57,33 +57,38 @@ class SplitUpContracts extends Migration
 
         // Split up templates into their types
         DB::table('contract_templates')->update([
-            'type' => PartnerContract::STI_TYPE,
+            'type' => ProductContract::STI_TYPE,
+            'cancellation_days' => 0,
+            'claim_years' => 0,
         ]);
 
-        // Keep a map of original template IDs -> product template IDs
-        $templates = DB::table('contract_templates')->get()->mapWithKeys(static function ($row) {
-            return [$row->id => DB::table('contract_templates')->insertGetId([
-                'id' => null,
-                'type' => ProductContract::STI_TYPE,
-                'cancellation_days' => 0,
-                'claim_years' => 0,
-            ] + (array) $row)];
-        })->all();
+        return DB::table('contract_templates')
+            ->distinct()
+            ->select('company_id')
+            ->get()
+            ->mapWithKeys(function (stdClass $row) {
+                $now = now();
 
-        DB::table('contract_templates')
-            ->where('type', PartnerContract::STI_TYPE)
-            ->update([
-                'vat_included' => false,
-                'vat_amount' => 0,
-            ]);
-
-        return $templates;
+                return [$row->company_id => DB::table('contract_templates')->insertGetId([
+                    'type' => PartnerContract::STI_TYPE,
+                    'company_id' => $row->company_id,
+                    'name' => '[Standard] 5 Jahre Anspruch, 1 Tag Kündigungsfrist',
+                    'is_default' => true,
+                    'cancellation_days' => 1,
+                    'claim_years' => 5,
+                    'vat_amount' => 0,
+                    'vat_included' => false,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ])];
+            })->all();
     }
 
-    protected function migrateContracts(array $templatesById): void
+    protected function migrateContracts(array $templatesByCompanyId): void
     {
         DB::table('contracts')->update([
-            'type' => PartnerContract::STI_TYPE,
+            // Keep them all as product contract so the bonus relationship does not break
+            'type' => ProductContract::STI_TYPE,
         ]);
 
         DB::table('contracts')->insertUsing(
@@ -103,15 +108,14 @@ class SplitUpContracts extends Migration
                 'updated_at',
             ],
             DB::table('contracts')
-                ->leftJoinSub($this->createLUT($templatesById), 'templates', 'templates.key', 'contracts.template_id')
-                ->selectRaw(DB::raw('\''.ProductContract::STI_TYPE.'\''))
-                ->addSelect('templates.value')
+                ->selectRaw(DB::raw('\''.PartnerContract::STI_TYPE.'\''))
+                ->addSelect(DB::raw($templatesByCompanyId[DB::table('companies')->value('id')]))
                 ->addSelect('user_id')
-                ->selectRaw(DB::raw(0))
-                ->selectRaw(DB::raw(0))
+                ->addSelect('cancellation_days')
+                ->addSelect('claim_years')
                 ->addSelect('special_agreement')
-                ->addSelect('vat_included')
-                ->addSelect('vat_amount')
+                ->selectRaw(DB::raw(0))
+                ->selectRaw(DB::raw(0))
                 ->addSelect('accepted_at')
                 ->addSelect('released_at')
                 ->addSelect('terminated_at')
@@ -132,17 +136,5 @@ class SplitUpContracts extends Migration
         Schema::table('companies', static function (Blueprint $table) {
             $table->dropColumn('default_contract_template_id');
         });
-    }
-
-    protected function createLUT(array $array): string
-    {
-        // Use a dummy array when input is empty so the query does not fail
-        if (count($array) === 0) {
-            $array = [-1 => 0];
-        }
-
-        return join(' union all ', array_map(static function ($value, string $key) {
-            return '(select '.DB::raw($key).' as "key", '.DB::raw($value).' as "value")';
-        }, $array, array_keys($array)));
     }
 }
