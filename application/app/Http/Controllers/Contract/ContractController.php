@@ -94,7 +94,6 @@ class ContractController extends Controller
         $this->checkIfContractIsEditable($contract);
 
         DB::transaction(static function () use ($contract) {
-            $contract->bonuses()->delete();
             $contract->delete();
         });
 

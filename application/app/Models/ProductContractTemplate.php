@@ -42,4 +42,25 @@ class ProductContractTemplate extends ContractTemplate
             'bonus_id'
         );
     }
+
+    public function createInstance(User $user): ProductContract
+    {
+        $contract = new ProductContract([
+            'vat_included' => $this->vat_included,
+            'vat_amount' => $this->vat_amount,
+        ]);
+
+        $contract->template()->associate($this);
+        $contract->user()->associate($user);
+
+        $contract->save();
+
+        $contract->bonuses()->saveMany($this->bonuses->map(
+            static function (CommissionBonus $bonus) {
+                return $bonus->replicate();
+            }
+        ));
+
+        return $contract;
+    }
 }

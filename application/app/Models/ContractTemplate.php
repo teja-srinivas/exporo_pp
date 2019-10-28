@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use RuntimeException;
 use Parental\HasChildren;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
+ * @property int $company_id
  * @property string $name
  * @property string|null $body
  * @property bool $is_default
@@ -43,5 +45,14 @@ class ContractTemplate extends Model
     public function contracts(): HasMany
     {
         return $this->hasMany(Contract::class);
+    }
+
+    /**
+     * @param  User  $user
+     * @return Contract|void
+     */
+    public function createInstance(User $user)
+    {
+        throw new RuntimeException('Method not implemented');
     }
 }

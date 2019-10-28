@@ -8,7 +8,6 @@ use Exception;
 use Throwable;
 use App\Models\User;
 use App\Models\Project;
-use App\Models\Contract;
 use App\Models\Commission;
 use App\Models\Investment;
 use Illuminate\Support\Arr;
@@ -99,10 +98,7 @@ class CommissionController extends Controller
         /** @var User $user */
         $user = User::query()->findOrFail($data['userId']);
 
-        /** @var Contract $contract */
-        $contract = $user->contract()->firstOrFail();
-
-        $sums = $service->calculateNetAndGross($contract, (float) $data['amount']);
+        $sums = $service->calculateNetAndGross($user->productContract, (float) $data['amount']);
 
         Commission::query()->forceCreate($sums + [
             'model_type' => Commission::TYPE_CORRECTION,

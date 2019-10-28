@@ -28,4 +28,19 @@ class PartnerContractTemplate extends ContractTemplate
     {
         return $this->hasMany(PartnerContract::class);
     }
+
+    public function createInstance(User $user): PartnerContract
+    {
+        $contract = new PartnerContract([
+            'cancellation_days' => $this->cancellation_days,
+            'claim_years' => $this->claim_years,
+        ]);
+
+        $contract->template()->associate($this);
+        $contract->user()->associate($user);
+
+        $contract->save();
+
+        return $contract;
+    }
 }

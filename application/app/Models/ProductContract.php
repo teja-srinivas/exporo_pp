@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * @property bool $vat_included
+ * @property float $vat_amount
+ *
  * @property Collection $bonuses
  */
 class ProductContract extends Contract
@@ -16,6 +19,15 @@ class ProductContract extends Contract
     use HasParent;
 
     public const STI_TYPE = 'product';
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleted(static function (ProductContract $contract) {
+            $contract->bonuses()->delete();
+        });
+    }
 
     public function bonuses(): HasMany
     {

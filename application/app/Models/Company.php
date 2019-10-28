@@ -6,9 +6,8 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use OwenIt\Auditing\Auditable;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -25,9 +24,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string|null $street
  * @property string|null $street_no
  * @property string|null $website
- * @property int $default_contract_template_id
  *
- * @property ContractTemplate $contractTemplate
  * @property Collection $bannerSets
  * @property Collection $users
  */
@@ -41,13 +38,28 @@ class Company extends Model implements AuditableContract
         return $this->hasMany(User::class);
     }
 
-    public function contractTemplate(): HasOne
-    {
-        return $this->hasOne(ProductContractTemplate::class);
-    }
-
     public function bannerSets(): HasMany
     {
         return $this->hasMany(BannerSet::class);
+    }
+
+    public function contractTemplates(): HasMany
+    {
+        return $this->hasMany(ContractTemplate::class);
+    }
+
+    /**
+     * @param  User  $user
+     * @return Collection<ContractTemplate>
+     */
+    public function createContractsFor(User $user): Collection
+    {
+        return $this
+            ->contractTemplates()
+            ->where('is_default', true)
+            ->get()
+            ->map(static function (ContractTemplate $template) use ($user) {
+                return $template->createInstance($user);
+            });
     }
 }

@@ -7,9 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
-use App\Models\Contract;
 use App\Models\Permission;
-use App\Models\CommissionBonus;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ContractTemplate;
@@ -73,32 +71,14 @@ class UserController extends Controller
             $company = Company::query()->first();
 
             $user = new User($request->validated());
-
             $user->assignRole(Role::PARTNER);
-
             $user->password = $hasher->make(Str::random());
-
-            $user->company_id = $company->getKey();
-
+            $user->company()->associate($company);
             $user->save();
 
-            $user->details->fill(
-                $request->validated()
-            )->saveOrFail();
+            $user->details->fill($request->validated())->saveOrFail();
 
-            $contract = Contract::fromTemplate(
-                ContractTemplate::find($request->contract)
-            );
-
-            $user->contract()->save($contract);
-
-            $contract->bonuses()->saveMany(
-                $company->contractTemplate->bonuses->map(
-                    static function (CommissionBonus $bonus) {
-                        return $bonus->replicate();
-                    }
-                )
-            );
+            $company->createContractsFor($user);
 
             return $user;
         });

@@ -17,10 +17,6 @@ use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
  * @property int $id
  * @property int $user_id
  * @property int $template_id
- * @property int $cancellation_days
- * @property int $claim_years The number of years since accepted_at, we can generate commissions for
- * @property bool $vat_included
- * @property float $vat_amount
  * @property string $special_agreement
  * @property Carbon $accepted_at The date the user fully accepted the contract.
  * @property Carbon $released_at The date we confirmed the contract, but has not yet been accepted by the user.
@@ -92,20 +88,6 @@ class Contract extends Model
     public function newEloquentBuilder($query): ContractBuilder
     {
         return new ContractBuilder($query);
-    }
-
-    public static function fromTemplate(ContractTemplate $template): self
-    {
-        $contract = new static();
-        $contract->forceFill([
-            'template_id' => $template->getKey(),
-            'vat_amount' => $template->vat_amount,
-            'vat_included' => $template->vat_included,
-            'cancellation_days' => $template->cancellation_days,
-            'claim_years' => $template->claim_years,
-        ]);
-
-        return $contract;
     }
 
     public static function getTypeForClass(string $class): string
