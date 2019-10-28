@@ -109,7 +109,7 @@ class SplitUpContracts extends Migration
             ],
             DB::table('contracts')
                 ->selectRaw(DB::raw('\''.PartnerContract::STI_TYPE.'\''))
-                ->addSelect(DB::raw($templatesByCompanyId[DB::table('companies')->value('id')]))
+                ->addSelect(DB::raw($templatesByCompanyId[DB::table('companies')->value('id')] ?? 0))
                 ->addSelect('user_id')
                 ->addSelect('cancellation_days')
                 ->addSelect('claim_years')
