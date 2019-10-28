@@ -13,6 +13,7 @@ use App\Models\Commission;
 use App\Models\Investment;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Container\Container;
 use App\Http\Controllers\Controller;
@@ -28,6 +29,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Http\Resources\Commission as CommissionResource;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CommissionController extends Controller
@@ -142,6 +144,13 @@ class CommissionController extends Controller
             'note.private' => 'note_private',
             'onHold' => 'on_hold',
         ];
+
+        if (!$commission->user->hasActiveContract()) {
+            throw new HttpException(
+                Response::HTTP_PRECONDITION_FAILED,
+                'User does not have an active contract'
+            );
+        }
 
         // Remap keys using the lookup table
         $remapped = collect($request->all())->mapWithKeys(static function ($value, $key) use ($lookup) {
