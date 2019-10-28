@@ -66,7 +66,7 @@ class SplitUpContracts extends Migration
             ->distinct()
             ->select('company_id')
             ->get()
-            ->mapWithKeys(function (stdClass $row) {
+            ->mapWithKeys(static function (stdClass $row) {
                 $now = now();
 
                 return [$row->company_id => DB::table('contract_templates')->insertGetId([

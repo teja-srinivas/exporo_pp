@@ -8,7 +8,6 @@ use App\Helper\Rules;
 use Illuminate\Http\Request;
 use App\Models\CommissionBonus;
 use App\Models\ProductContract;
-use App\Models\ContractTemplate;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Resources\Json\JsonResource;

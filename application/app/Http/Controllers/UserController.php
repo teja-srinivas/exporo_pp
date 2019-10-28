@@ -115,7 +115,7 @@ class UserController extends Controller
         $contractTemplates = ContractTemplate::all()
             ->groupBy('type')
             ->map->pluck('name', 'id')
-            ->mapWithKeys(function ($contents, string $name) {
+            ->mapWithKeys(static function ($contents, string $name) {
                 return [__("contracts.{$name}.title") => $contents];
             })
             ->sort();
