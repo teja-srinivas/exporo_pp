@@ -25,7 +25,7 @@ class ProductContractTemplate extends ContractTemplate
     ];
 
     protected $fillable = [
-        'body', 'name', 'vat_included', 'vat_amount',
+        'body', 'name', 'vat_included', 'vat_amount', 'is_default',
     ];
 
     public function contracts(): HasMany

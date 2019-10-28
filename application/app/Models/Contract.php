@@ -32,6 +32,11 @@ class Contract extends Model
     use HasChildren;
     use OptimusEncodedRouteKey;
 
+    public const TYPES = [
+        PartnerContract::STI_TYPE,
+        ProductContract::STI_TYPE,
+    ];
+
     protected $childTypes = [
         PartnerContract::STI_TYPE => PartnerContract::class,
         ProductContract::STI_TYPE => ProductContract::class,

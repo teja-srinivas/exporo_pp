@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Contract;
 
 use Exception;
-use Throwable;
-use App\Helper\Rules;
-use Illuminate\Support\Arr;
+use App\Models\Contract;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\CommissionBonus;
 use Illuminate\Validation\Rule;
 use App\Models\ContractTemplate;
 use App\Http\Controllers\Controller;
@@ -34,41 +31,24 @@ class ContractTemplateController extends Controller
                 ->orderBy('type')
                 ->orderBy('name')
                 ->get(),
+            'templateTypes' => collect(Contract::TYPES)->mapWithKeys(static function (string $name) {
+                return [$name => __("contracts.{$name}.title")];
+            }),
         ]);
-    }
-
-    /**
-     * @return Response
-     */
-    public function create()
-    {
-        return response()->view('contracts.templates.create');
     }
 
     /**
      * @param  Request  $request
      * @return RedirectResponse
      * @throws ValidationException
-     * @throws Throwable
      */
     public function store(Request $request)
     {
-        $data = $this->validate($request, $this->validationRules() + [
-            'bonuses.*.type_id' => Rule::exists('commission_types', 'id'),
-            'bonuses.*.value' => 'numeric',
-            'bonuses.*.calculation_type' => Rule::in(CommissionBonus::TYPES),
-            'bonuses.*.is_percentage' => 'boolean',
-            'bonuses.*.is_overhead' => 'boolean',
+        $data = $this->validate($request, [
+            'type' => ['required', Rule::in(Contract::TYPES)],
         ]);
 
-        $template = new ContractTemplate(Arr::except($data, 'bonuses'));
-
-        $template->company()->associate($request->user()->company);
-
-        $template->saveOrFail();
-        $template->bonuses()->createMany($data['bonuses']);
-
-        return redirect()->route('contracts.templates.index');
+        return response()->redirectToRoute("contracts.templates.{$data['type']}.create");
     }
 
     /**
@@ -83,27 +63,6 @@ class ContractTemplateController extends Controller
     }
 
     /**
-     * @param  Request  $request
-     * @param  ContractTemplate  $template
-     * @return RedirectResponse
-     * @throws ValidationException
-     */
-    public function update(Request $request, ContractTemplate $template)
-    {
-        $data = $this->validate($request, [
-            'is_default' => ['nullable', 'in:on,1'],
-        ] + Rules::prepend($this->validationRules(), 'required'));
-
-        $data['is_default'] = (bool) ($data['is_default'] ?? false);
-
-        $template->update($data);
-
-        flash_success();
-
-        return back();
-    }
-
-    /**
      * @param  ContractTemplate  $template
      * @return RedirectResponse
      * @throws Exception
@@ -113,16 +72,5 @@ class ContractTemplateController extends Controller
         $template->delete();
 
         return redirect()->route('contracts.templates.index');
-    }
-
-    protected function validationRules(): array
-    {
-        return [
-            'name' => ['string'],
-            'cancellation_days' => ['numeric', 'min:1', 'max:365'],
-            'claim_years' => ['numeric', 'min:1', 'max:7'],
-            'vat_amount' => ['numeric'],
-            'vat_included' => ['boolean'],
-        ];
     }
 }

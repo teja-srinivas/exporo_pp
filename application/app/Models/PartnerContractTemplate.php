@@ -21,7 +21,7 @@ class PartnerContractTemplate extends ContractTemplate
     ];
 
     protected $fillable = [
-        'body', 'name', 'cancellation_days', 'claim_years',
+        'body', 'name', 'cancellation_days', 'claim_years', 'is_default',
     ];
 
     public function contracts(): HasMany

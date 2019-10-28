@@ -4,9 +4,20 @@
 
 @section('actions')
     @can('create', \App\Models\ContractTemplate::class)
-        <a href="{{ route('contracts.templates.create') }}" class="btn btn-primary btn-sm">
-            Vorlage Erstellen
-        </a>
+        <form action="{{ route('contracts.templates.store') }}" method="POST">
+            @csrf
+            @include('components.form.select', [
+                'type' => 'select',
+                'name' => 'type',
+                'required' => true,
+                'values' => $templateTypes,
+                'assoc' => true,
+                'class' => 'w-auto custom-select-sm',
+            ])
+            <button type="submit" class="btn btn-primary btn-sm ml-1">
+                Vorlage Erstellen
+            </button>
+        </form>
     @endcan
 @endsection
 

@@ -3,6 +3,7 @@
 @section('title')
     @breadcrumbs([
         route('contracts.templates.index') => 'Vertragsvorlagen',
+        __("contracts.{$template->type}.title"),
         'Bearbeiten',
     ])
 @endsection
@@ -18,13 +19,14 @@
 @endsection
 
 @section('main-content')
-    <form action="{{ route('contracts.templates.update', $template) }}" method="POST">
+    <form action="{{ route("contracts.templates.{$template->type}.update", $template) }}" method="POST">
         @method('PUT')
         @csrf
 
         @card
         @include('components.form.builder', [
             'labelWidth' => 4,
+            'contained' => false,
             'inputs' => [
                 [
                     'type' => 'text',
@@ -32,38 +34,6 @@
                     'name' => 'name',
                     'required' => true,
                     'default' => $template->name,
-                ],
-                [
-                    'type' => 'number',
-                    'label' => __('Anspruch Kundenbindung'),
-                    'name' => 'claim_years',
-                    'required' => true,
-                    'default' => $template->claim_years,
-                    'help' => 'In Jahren'
-                ],
-                [
-                    'type' => 'number',
-                    'label' => __('Kündigungsfrist'),
-                    'name' => 'cancellation_days',
-                    'required' => true,
-                    'default' => $template->cancellation_days,
-                    'help' => 'In Tagen'
-                ],
-                [
-                    'type' => 'number',
-                    'name' => 'vat_amount',
-                    'label' => 'Betrag in Prozent',
-                    'default' => $template->vat_amount,
-                ],
-                [
-                    'type' => 'radio',
-                    'name' => 'vat_included',
-                    'label' => 'Berechnung',
-                    'default' => $template->vat_included,
-                    'values' => [
-                        false => 'On Top',
-                        true => 'Inkludiert',
-                    ],
                 ],
                 [
                     'type' => 'checkbox',
@@ -75,6 +45,8 @@
             ]
         ])
 
+        @include("contracts.templates.edit.{$template->type}")
+
         @slot('footer')
             <div class="text-right">
                 <button class="btn btn-primary">Änderungen Speichern</button>
@@ -82,11 +54,4 @@
         @endslot
         @endcard
     </form>
-
-    <div class="rounded shadow-sm bg-white">
-        @include('components.bundle-editor', [
-            'bonuses' => $template->bonuses,
-            'api' => route('api.contracts.templates.bonuses.store', $template),
-        ])
-    </div>
 @endsection
