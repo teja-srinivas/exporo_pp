@@ -3,6 +3,8 @@
     <div class="d-flex w-100 justify-content-between align-items-start">
         <b>
             {{ $contract->created_at->format('d.m.Y') }}
+            <span class="text-muted">&mdash;</span>
+            @lang("contracts.{$contract->type}.title")
         </b>
 
         <div class="d-flex align-items-baseline">
@@ -30,7 +32,7 @@
         </div>
     </div>
 
-    <div class="small font-weight-bold">
+    <div class="small font-weight-bold text-muted">
         {{ $slot }}
     </div>
 </a>
