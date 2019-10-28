@@ -100,9 +100,10 @@
                             'values' => $contractTemplates,
                             'assoc' => true,
                             'groups' => true,
+                            'class' => 'w-auto mw-25 custom-select-sm',
                         ])
 
-                        <button type="submit" class="btn btn-primary btn-sm">
+                        <button type="submit" class="btn btn-primary btn-sm ml-1">
                             Vertragsentwurf anlegen
                         </button>
                     </form>

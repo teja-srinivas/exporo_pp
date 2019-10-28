@@ -2,7 +2,7 @@
 @php($associative = $assoc ?? false)
 
 <select
-    class="custom-select{{ $errors->has($name) ? ' is-invalid' : '' }} w-auto"
+    class="custom-select{{ $errors->has($name) ? ' is-invalid' : '' }} {{ $class ?? 'w-auto' }}"
     id="input{{ Str::studly($name) }}"
     name="{{ $name }}"
     @isset($autocomplete) autocomplete="{{ $autocomplete }}" @endif
