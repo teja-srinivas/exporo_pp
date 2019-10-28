@@ -31,14 +31,14 @@
         @unless(empty($company->phone_number))
         <div class="my-3">
             <strong>Telefon</strong><br>
-            {{ $company->phone_number }}
+            {{ $company->parsePhoneNumber($company->phone_number) }}
         </div>
         @endunless
 
         @unless(empty($company->fax_number))
         <div class="my-3">
             <strong>Fax</strong><br>
-            {{ $company->fax_number }}
+            {{ $company->parsePhoneNumber($company->fax_number) }}
         </div>
         @endunless
 

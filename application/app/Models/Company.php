@@ -6,8 +6,12 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use OwenIt\Auditing\Auditable;
+use libphonenumber\PhoneNumber;
 use Illuminate\Support\Collection;
+use libphonenumber\PhoneNumberUtil;
+use libphonenumber\PhoneNumberFormat;
 use Illuminate\Database\Eloquent\Model;
+use libphonenumber\NumberParseException;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -46,6 +50,27 @@ class Company extends Model implements AuditableContract
     public function contractTemplates(): HasMany
     {
         return $this->hasMany(ContractTemplate::class);
+    }
+
+    /**
+     * @param  string  $number
+     * @return PhoneNumber
+     * @throws NumberParseException
+     */
+    public function parsePhoneNumber(string $number): string
+    {
+        static $country;
+
+        if ($country === null) {
+            // TODO make this into its own field
+            $website = $this->website ?? '.de';
+            $country = mb_strtoupper(substr($website, strrpos($website, '.') + 1));
+        }
+
+        $instance = PhoneNumberUtil::getInstance();
+        $parsed = $instance->parse($number, $country);
+
+        return $instance->format($parsed, PhoneNumberFormat::INTERNATIONAL);
     }
 
     /**
