@@ -17,21 +17,10 @@ class UserBuilder extends Builder
      * Only returns users that have a certain permission.
      *
      * @param  string|array|Permission|Collection  $permission
-     * @return self
+     * @return \Illuminate\Database\Eloquent\Builder|self
      */
-    public function withPermission($permission): self
+    public function withPermission($permission)
     {
-        return $this->rescope($this->model->scopePermission($this, $permission));
-    }
-
-    /**
-     * Helper method to fix type safety errors.
-     *
-     * @param  self|\Illuminate\Database\Eloquent\Builder  $builder
-     * @return self
-     */
-    protected function rescope(\Illuminate\Database\Eloquent\Builder $builder): self
-    {
-        return $builder;
+        return $this->model->scopePermission($this, $permission);
     }
 }

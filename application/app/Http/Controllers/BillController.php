@@ -148,7 +148,7 @@ class BillController extends Controller
     {
         $bill->load('user');
 
-        $investments = $this->mapForView($bill->commissions());
+        $investments = $this->mapForView($bill->commissions()->getQuery());
 
         return response()->view('bills.pdf.bill', $investments + [
             'bill' => $bill,

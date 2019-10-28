@@ -78,7 +78,8 @@ class InvestorBuilder extends Builder
             ->addSelect('contracts.user_id')
             ->addSelect('vat_amount')
             ->addSelect('vat_included')
-            ->onlyActive();
+            ->onlyActive()
+            ->toBase();
 
         return $this->joinSub($active, 'contracts', 'contracts.user_id', '=', 'investors.user_id');
     }

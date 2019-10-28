@@ -44,7 +44,7 @@ class ContractBuilder extends Builder
     public function onlyActive(): self
     {
         return $this->joinSub(
-            Contract::query()->activeByUserId(),
+            Contract::query()->activeByUserId()->toBase(),
             'contracts_active',
             'contracts_active.id',
             '=',
