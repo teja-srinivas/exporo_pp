@@ -17,7 +17,7 @@ use App\Http\Controllers as C;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::domain(config('app.shortener_url'))->group(static function () {
+Route::domain((string) config('app.shortener_url'))->group(static function () {
     Route::get('{link}', [C\LinkInstanceController::class, 'show'])
         ->name('short-link');
 });
