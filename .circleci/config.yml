@@ -138,7 +138,7 @@ workflows:
             branches:
               only:
                 - master
-                - feature/contracts
+                - contract-split
       - hold:
           type: approval
           requires:
