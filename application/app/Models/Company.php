@@ -6,7 +6,6 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use OwenIt\Auditing\Auditable;
-use libphonenumber\PhoneNumber;
 use Illuminate\Support\Collection;
 use libphonenumber\PhoneNumberUtil;
 use libphonenumber\PhoneNumberFormat;
@@ -54,7 +53,7 @@ class Company extends Model implements AuditableContract
 
     /**
      * @param  string  $number
-     * @return PhoneNumber
+     * @return string
      * @throws NumberParseException
      */
     public function parsePhoneNumber(string $number): string

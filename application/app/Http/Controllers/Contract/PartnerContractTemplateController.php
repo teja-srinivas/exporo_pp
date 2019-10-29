@@ -28,7 +28,7 @@ class PartnerContractTemplateController extends Controller
     public function create()
     {
         return response()->view('contracts.templates.create', [
-            'type' => PartnerContract::STI_TYPE
+            'type' => PartnerContract::STI_TYPE,
         ]);
     }
 

@@ -31,7 +31,7 @@ class ProductContractTemplateController extends Controller
     public function create()
     {
         return response()->view('contracts.templates.create', [
-            'type' => ProductContract::STI_TYPE
+            'type' => ProductContract::STI_TYPE,
         ]);
     }
 
