@@ -82,7 +82,7 @@ class Contract extends Model
 
     public function isActive(): bool
     {
-        return $this->terminated_at === null || $this->terminated_at > now();
+        return !$this->isEditable() && ($this->terminated_at === null || $this->terminated_at > now());
     }
 
     public function isEditable(): bool
