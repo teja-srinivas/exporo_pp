@@ -72,6 +72,7 @@
 
 <div class="rounded bg-white shadow-sm p-3 my-3">
     @include('components.bundle-editor', [
+        'api' => route('api.contracts.bonuses.store', [$contract]),
         'bonuses' => $contract->bonuses,
         'editable' => Auth::user()->can('management.contracts.commission-bonuses.update'),
         'extras' => [
