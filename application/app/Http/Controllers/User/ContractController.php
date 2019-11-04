@@ -33,12 +33,9 @@ class ContractController extends Controller
 
         /** @var ContractTemplate $template */
         $template = ContractTemplate::query()->find($data['template']);
-        $contract = $template->createInstance($user);
 
-        if ($user->can('update', $contract)) {
-            return response()->redirectToRoute('contracts.edit', [$contract]);
-        }
+        $template->createInstance($user);
 
-        return response()->redirectToRoute('contracts.show', [$contract]);
+        return response()->redirectToRoute('users.show', [$user]);
     }
 }
