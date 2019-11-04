@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Helper\Rules;
 use Parental\HasParent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -37,5 +38,15 @@ class ProductContract extends Contract
     public function hasOverhead(): bool
     {
         return $this->bonuses()->where('is_overhead', true)->exists();
+    }
+
+    public function getValidationRules(): array
+    {
+        return parent::getValidationRules() + Rules::byPermission([
+            'management.contracts.update-vat-details' => [
+                'vat_amount' => ['numeric'],
+                'vat_included' => ['boolean'],
+            ],
+        ]);
     }
 }

@@ -8,6 +8,7 @@ use App\Helper\Rules;
 use App\Models\Contract;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\PartnerContract;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
@@ -62,21 +63,7 @@ class ContractController extends Controller
     {
         $this->checkIfContractIsEditable($contract);
 
-        $data = $this->validate($request, Rules::byPermission([
-            'management.contracts.update-cancellation-period' => [
-                'cancellation_days' => ['required', 'numeric', 'min:1', 'max:365'],
-            ],
-            'management.contracts.update-claim' => [
-                'claim_years' => ['required', 'numeric', 'min:1', 'max:7'],
-            ],
-            'management.contracts.update-special-agreement' => [
-                'special_agreement' => ['nullable'],
-            ],
-            'management.contracts.update-vat-details' => [
-                'vat_amount' => ['numeric'],
-                'vat_included' => ['boolean'],
-            ],
-        ]));
+        $data = $this->validate($request, $contract->getValidationRules());
 
         $contract->update($data);
 

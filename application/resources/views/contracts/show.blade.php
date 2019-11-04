@@ -18,7 +18,7 @@
         @include('contracts.partials.header', ['user' => $contract->user])
     @endcard
 
-    @include('contracts.show.'.$contract->type)
+    @include("contracts.show.{$contract->type}")
 
     @include('contracts.partials.details')
 @endsection

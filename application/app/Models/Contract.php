@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Helper\Rules;
 use Parental\HasChildren;
 use App\Builders\ContractBuilder;
 use Illuminate\Database\Eloquent\Model;
@@ -88,6 +89,15 @@ class Contract extends Model
     public function isEditable(): bool
     {
         return $this->accepted_at === null;
+    }
+
+    public function getValidationRules(): array
+    {
+        return Rules::byPermission([
+            'management.contracts.update-special-agreement' => [
+                'special_agreement' => ['nullable'],
+            ],
+        ]);
     }
 
     public function newEloquentBuilder($query): ContractBuilder
