@@ -22,7 +22,7 @@ parameters:
         - '#HasOne but returns#'
 
         # https://github.com/nunomaduro/larastan/issues/352
-        - '#App\\Builders#'
+        - '#but returns Illuminate\\Database\\(Query|Eloquent)\\Builder#'
         - '#Builder::uncancelled#'
 
         # https://github.com/nunomaduro/larastan/issues/353
