@@ -30,7 +30,7 @@
         "cybercog/laravel-optimus": "^3.0",
         "dannyvankooten/laravel-vat": "^2.0.3",
         "docraptor/docraptor": "^1.3",
-        "doctrine/dbal": "^2.7",
+        "doctrine/dbal": "^2.9.2 < 2.10",
         "fideloper/proxy": "^4.0",
         "funkjedi/composer-include-files": "^1.0",
         "giggsey/libphonenumber-for-php": "^8.10",
