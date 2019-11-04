@@ -11,9 +11,6 @@ parameters:
         # https://github.com/nunomaduro/larastan/issues/166
         - '#Call to an undefined method App\\Providers\\AppServiceProvider::sortBy()#'
 
-        # https://github.com/nunomaduro/larastan/issues/335
-        - '#calculate\(\) expects App\\Models\\User\|null#'
-
         # https://github.com/nunomaduro/larastan/issues/350
         - '#groupBy#'
 
