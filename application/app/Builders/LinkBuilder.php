@@ -6,7 +6,6 @@ namespace App\Builders;
 
 use App\Models\Link;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 
 class LinkBuilder extends Builder
 {
