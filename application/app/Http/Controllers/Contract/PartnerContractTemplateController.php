@@ -77,6 +77,8 @@ class PartnerContractTemplateController extends Controller
             'name' => ['string'],
             'cancellation_days' => ['numeric', 'min:1', 'max:365'],
             'claim_years' => ['numeric', 'min:1', 'max:7'],
+            'allow_overhead' => ['boolean'],
+            'is_exclusive' => ['boolean'],
         ];
     }
 }

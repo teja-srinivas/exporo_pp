@@ -16,6 +16,7 @@ use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
  * @method static ContractBuilder query()
  *
  * @property int $id
+ * @property string $type
  * @property int $user_id
  * @property int $template_id
  * @property string $special_agreement
@@ -48,6 +49,8 @@ class Contract extends Model
         'claim_years' => 'int',
         'vat_included' => 'bool',
         'vat_amount' => 'float',
+        'is_exclusive' => 'bool',
+        'allow_overhead' => 'bool',
     ];
 
     protected $dates = [
@@ -62,6 +65,8 @@ class Contract extends Model
         'special_agreement',
         'vat_included',
         'vat_amount',
+        'is_exclusive',
+        'allow_overhead',
         'released_at',
         'type',
     ];

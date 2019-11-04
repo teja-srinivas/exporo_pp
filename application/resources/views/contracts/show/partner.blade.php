@@ -9,6 +9,14 @@
             <td>{{ __('Kündigungsfrist') }}</td>
             <td>{{ trans_choice('time.days', $contract->claim_years) }}</td>
         </tr>
+        <tr>
+            <td>@lang('Exklusiv für Exporo tätig')</td>
+            <td>{{ $contract->is_exclusive ? 'Ja' : 'Nein' }}</td>
+        </tr>
+        <tr>
+            <td>@lang('Erlaubt Subpartner')</td>
+            <td>{{ $contract->allow_overhead ? 'Ja' : 'Nein' }}</td>
+        </tr>
     </table>
 
     @unless(empty($contract->special_agreement))

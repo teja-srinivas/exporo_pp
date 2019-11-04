@@ -57,6 +57,55 @@
                 </div>
             @endcan
 
+            <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Status / Erlaubnisse</h6>
+            @can('management.contracts.update-is-exclusive')
+                @php($canEditAnything = true)
+                @include('components.form.builder', [
+                    'labelWidth' => 6,
+                    'inputs' => [
+                        [
+                            'type' => 'radio',
+                            'name' => 'is_exclusive',
+                            'label' => __('Exklusiv für Exporo tätig'),
+                            'default' => $contract->is_exclusive,
+                            'values' => [
+                                false => 'Nein',
+                                true => 'Ja',
+                            ],
+                        ],
+                    ],
+                ])
+            @else
+                <div class="row my-2">
+                    <div class="col-sm-6">{{ __('Exklusivvertrag') }}:</div>
+                    <div class="col-sm-6">{{ $contract->is_exclusive ? 'Ja' : 'Nein' }}</div>
+                </div>
+            @endcan
+
+            @can('management.contracts.update-allow-overhead')
+                @php($canEditAnything = true)
+                @include('components.form.builder', [
+                    'labelWidth' => 6,
+                    'inputs' => [
+                        [
+                            'type' => 'radio',
+                            'name' => 'allow_overhead',
+                            'label' => __('Erlaubt Subpartner'),
+                            'default' => $contract->allow_overhead,
+                            'values' => [
+                                false => 'Nein',
+                                true => 'Ja',
+                            ],
+                        ],
+                    ],
+                ])
+            @else
+                <div class="row my-2">
+                    <div class="col-sm-6">{{ __('Erlaubt Overhead') }}:</div>
+                    <div class="col-sm-6">{{ $contract->allow_overhead ? 'Ja' : 'Nein' }}</div>
+                </div>
+            @endcan
+
             <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Sondervereinbarung</h6>
             @can('management.contracts.update-special-agreement')
                 @php($canEditAnything = true)

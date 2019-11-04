@@ -27,6 +27,8 @@ return [
     'update-claim' => 'Anspruch Kundenbindung ändern',
     'update-special-agreement' => 'Sondervereinbarung ändern',
     'update-vat-details' => 'Mehrwertsteuer ändern',
+    'update-is-exclusive' => 'Status "Exklusiv für Exporo tätig" ändern',
+    'update-allow-overhead' => 'Status "Erlaubt Subpartner" ändern',
 
     'affiliate' => 'Werbemittel',
     'agbs' => 'AGBs',

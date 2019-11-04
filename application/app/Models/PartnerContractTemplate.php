@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property int $cancellation_days
  * @property int $claim_years
+ * @property bool $is_exclusive
+ * @property bool $allow_overhead
  */
 class PartnerContractTemplate extends ContractTemplate
 {
@@ -18,10 +20,13 @@ class PartnerContractTemplate extends ContractTemplate
     protected $casts = [
         'cancellation_days' => 'int',
         'claim_years' => 'int',
+        'is_exclusive' => 'bool',
+        'allow_overhead' => 'bool',
     ];
 
     protected $fillable = [
         'body', 'name', 'cancellation_days', 'claim_years', 'is_default',
+        'is_exclusive', 'allow_overhead',
     ];
 
     public function contracts(): HasMany
@@ -34,6 +39,8 @@ class PartnerContractTemplate extends ContractTemplate
         $contract = new PartnerContract([
             'cancellation_days' => $this->cancellation_days,
             'claim_years' => $this->claim_years,
+            'is_exclusive' => $this->is_exclusive,
+            'allow_overhead' => $this->allow_overhead,
         ]);
 
         $contract->template()->associate($this);
