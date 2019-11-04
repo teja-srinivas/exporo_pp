@@ -4,20 +4,11 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Events\UserUpdated;
-use App\Events\SchemaUpdated;
-use App\Events\ProjectUpdated;
-use App\Events\UserDetailsUpdated;
-use App\Events\CommissionBonusUpdated;
+use App\Events;
+use App\Listeners;
 use Illuminate\Auth\Events\Registered;
-use App\Listeners\TrackUserActivations;
 use Illuminate\Auth\Events\PasswordReset;
-use App\Listeners\SendUserAcceptOrRejectMailOnUpdate;
-use App\Listeners\UpdateBillingStatusOnUserDetailsUpdate;
-use App\Listeners\InvalidateCommissionsOnCommissionBonusChanges;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
-use App\Listeners\InvalidateInvestmentCommissionsOnSchemaChanges;
-use App\Listeners\InvalidateInvestmentCommissionsOnProjectChanges;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -28,26 +19,26 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        CommissionBonusUpdated::class => [
-            InvalidateCommissionsOnCommissionBonusChanges::class,
+        Events\CommissionBonusUpdated::class => [
+            Listeners\InvalidateCommissionsOnCommissionBonusChanges::class,
         ],
-        ProjectUpdated::class => [
-            InvalidateInvestmentCommissionsOnProjectChanges::class,
+        Events\ProjectUpdated::class => [
+            Listeners\InvalidateInvestmentCommissionsOnProjectChanges::class,
         ],
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
         PasswordReset::class => [
-            TrackUserActivations::class,
+            Listeners\TrackUserActivations::class,
         ],
-        SchemaUpdated::class => [
-            InvalidateInvestmentCommissionsOnSchemaChanges::class,
+        Events\SchemaUpdated::class => [
+            Listeners\InvalidateInvestmentCommissionsOnSchemaChanges::class,
         ],
-        UserUpdated::class => [
-            SendUserAcceptOrRejectMailOnUpdate::class,
+        Events\UserUpdated::class => [
+            Listeners\SendUserAcceptOrRejectMailOnUpdate::class,
         ],
-        UserDetailsUpdated::class => [
-            UpdateBillingStatusOnUserDetailsUpdate::class,
+        Events\UserDetailsUpdated::class => [
+            Listeners\UpdateBillingStatusOnUserDetailsUpdate::class,
         ],
     ];
 
