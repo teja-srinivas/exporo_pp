@@ -77,7 +77,7 @@
 
         <div class="list-group">
             @forelse($user->contracts()->latest()->get() as $contract)
-                @include('users.partials.contracts.'.$contract->type, [
+                @include("users.partials.contracts.{$contract->type}", [
                     'contract' => $contract,
                 ])
             @empty

@@ -20,14 +20,22 @@
                 </div>
             @endif
 
-            @if($contract->rejected_at !== null)
-                <span class="badge badge-danger badge-pill">Abgewiesen</span>
-            @elseif($contract->accepted_at === null)
-                <span class="badge badge-warning badge-pill">Ausstehend</span>
-            @else
+            @if($contract->terminated_at !== null)
+                <span class="badge badge-light badge-pill mr-1">
+                    Beendet: <b>{{ $contract->terminated_at->format('d.m.Y') }}</b>
+                </span>
+            @endif
+
+            @if($contract->accepted_at !== null)
                 <span class="badge badge-success badge-pill">
                     Angenommen: <b>{{ $contract->accepted_at->format('d.m.Y') }}</b>
                 </span>
+            @elseif($contract->released_at !== null)
+                <span class="badge badge-warning badge-pill">
+                    Freigegeben <b>{{ $contract->released_at->format('d.m.Y') }}</b>
+                </span>
+            @elseif($contract->accepted_at === null)
+                <span class="badge badge-secondary badge-pill">Entwurf</span>
             @endif
         </div>
     </div>
