@@ -7,6 +7,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Helper\Rules;
 use Parental\HasChildren;
+use App\Events\ContractUpdated;
 use App\Builders\ContractBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -42,6 +43,10 @@ class Contract extends Model
     protected $childTypes = [
         PartnerContract::STI_TYPE => PartnerContract::class,
         ProductContract::STI_TYPE => ProductContract::class,
+    ];
+
+    protected $dispatchesEvents = [
+        'updated' => ContractUpdated::class,
     ];
 
     protected $casts = [
