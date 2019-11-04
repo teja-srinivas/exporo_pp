@@ -96,6 +96,11 @@ class Contract extends Model
         return $this->accepted_at === null;
     }
 
+    public function isReleased(): bool
+    {
+        return $this->released_at !== null;
+    }
+
     public function getValidationRules(): array
     {
         return Rules::byPermission([

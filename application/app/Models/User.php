@@ -46,7 +46,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
  * @property PartnerContract $contract
  * @property PartnerContract $partnerContract
  * @property ProductContract $productContract
- * @property Contract $draftContract
  * @property Collection $contracts
  * @property Collection $investors
  * @property Collection $investments
@@ -141,13 +140,6 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasOne(ProductContract::class)
             ->whereNotNull('accepted_at')
             ->whereNotNull('released_at')
-            ->latest();
-    }
-
-    public function draftContract(): HasOne
-    {
-        return $this->hasOne(Contract::class)
-            ->whereNull('accepted_at')
             ->latest();
     }
 
@@ -313,7 +305,15 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function canBeAccepted(): bool
     {
-        return $this->hasVerifiedEmail();
+        if (!$this->hasVerifiedEmail()) {
+            return false;
+        }
+
+        if ($this->partnerContract === null || !$this->partnerContract->isReleased()) {
+            return false;
+        }
+
+        return $this->productContract !== null && $this->productContract->isReleased();
     }
 
     public function hasActiveContract(): bool

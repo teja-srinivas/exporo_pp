@@ -35,8 +35,7 @@ class ContractStatusController extends Controller
         if ($data['release']) {
             $now = now();
             $contract->forceFill(['released_at' => $now, 'accepted_at' => $now])->save();
-            $contract->user->forceFill(['accepted_at' => $now])->save();
-            flash_success('Vertrag wurde freigegeben. Der Benutzer ist nun aktiviert.');
+            flash_success('Vertrag wurde freigegeben.');
         } else {
             $contract->update(['released_at' => null]);
             flash_success('Vertrag wurde wieder in den Entwurfsstatus gestellt.');

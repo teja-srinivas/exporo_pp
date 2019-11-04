@@ -7,22 +7,17 @@
                     Diese Benutzer-Anfrage wurde noch nicht bestätigt.
                 </div>
 
-                <div class="mx-2">
-                    @empty($user->draftContract)
-                        (Ohne Vertrag)
-                    @else
-                        @php($editable = $user->draftContract->isEditable() && $user->can('update', $user->draftContract))
-
-                        <a href="{{ route($editable ? 'contracts.edit' : 'contracts.show', $user->draftContract) }}" class="btn btn-sm btn-success">
-                            Annehmen
-                        </a>
-                    @endempty
-                </div>
-
                 <form action="{{ route('users.update', $user) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <button type="submit" name="accept" value="0" class="btn btn-sm btn-danger">Ablehnen</button>
+
+                    <button type="submit" name="accept" value="1"  class="btn btn-sm btn-success mx-2">
+                        Annehmen
+                    </button>
+
+                    <button type="submit" name="accept" value="0" class="btn btn-sm btn-danger">
+                        Ablehnen
+                    </button>
                 </form>
             </div>
         </div>
@@ -50,8 +45,18 @@
         </div>
     @else
         <div class="alert alert-warning">
-            <strong>Offene Anfrage:</strong>
-            Benutzer kann erst akzeptiert werden, sobald ein Vertrag akzeptiert wurde.
+            <div class="d-flex align-items-baseline">
+                <div class="flex-fill">
+                    <strong>Offene Anfrage:</strong>
+                    Benutzer kann erst akzeptiert werden, sobald alle nötigen Verträge freigegeben wurden.
+                </div>
+
+                <form action="{{ route('users.update', $user) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <button type="submit" name="accept" value="0" class="btn btn-sm btn-danger">Ablehnen</button>
+                </form>
+            </div>
         </div>
     @endif
 @elseif($user->rejected())
