@@ -16,7 +16,6 @@ parameters:
 
         # https://github.com/nunomaduro/larastan/issues/351
         - '#::visible\(\)#'
-        - '#HasOne but returns#'
 
         # https://github.com/nunomaduro/larastan/issues/352
         - '#but returns Illuminate\\Database\\(Query|Eloquent)\\Builder#'
