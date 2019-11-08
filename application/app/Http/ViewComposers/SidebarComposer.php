@@ -183,47 +183,51 @@ class SidebarComposer
             [
                 'title' => 'Meine Kunden',
                 'isAllowed' => $dashboard,
-                'links' => [
-                    [
-                        'title' => 'Meine Kunden',
-                        'url' => route('users.investors.index', ['user' => $this->user]),
-                        'isActive' => $this->request->is(substr(route(
-                            'users.investors.index',
-                            $this->user,
-                            false
-                        ), 1)),
-                    ],
-                    [
-                        'title' => 'Investments',
-                        'url' => route('users.investments.index', ['user' => $this->user]),
-                        'isActive' => $this->request->is(substr(route(
-                            'users.investments.index',
-                            $this->user,
-                            false
-                        ), 1)),
-                    ],
-                ],
+                'links' => function () {
+                    return [
+                        [
+                            'title' => 'Meine Kunden',
+                            'url' => route('users.investors.index', ['user' => $this->user]),
+                            'isActive' => $this->request->is(substr(route(
+                                'users.investors.index',
+                                $this->user,
+                                false
+                            ), 1)),
+                        ],
+                        [
+                            'title' => 'Investments',
+                            'url' => route('users.investments.index', ['user' => $this->user]),
+                            'isActive' => $this->request->is(substr(route(
+                                'users.investments.index',
+                                $this->user,
+                                false
+                            ), 1)),
+                        ],
+                    ];
+                },
             ],
 
             [
                 'title' => 'Meine Subpartner',
                 'isAllowed' => $this->user->bonuses()->where('is_overhead', true)->exists(),
-                'links' => [
-                    [
-                        'title' => 'Meine Subpartner',
-                        'url' => route('users.users.index', ['user' => $this->user]),
-                        'isActive' => $this->request->is(substr(route(
-                            'users.users.index',
-                            $this->user,
-                            false
-                        ), 1)),
-                    ],
-                    [
-                        'title' => 'Subpartner werben',
-                        'url' => route('affiliate.child-users'),
-                        'isActive' => $this->request->routeIs('affiliate.child-users'),
-                    ],
-                ],
+                'links' => function () {
+                    return [
+                        [
+                            'title' => 'Meine Subpartner',
+                            'url' => route('users.users.index', ['user' => $this->user]),
+                            'isActive' => $this->request->is(substr(route(
+                                'users.users.index',
+                                $this->user,
+                                false
+                            ), 1)),
+                        ],
+                        [
+                            'title' => 'Subpartner werben',
+                            'url' => route('affiliate.child-users'),
+                            'isActive' => $this->request->routeIs('affiliate.child-users'),
+                        ],
+                    ];
+                },
             ],
 
             [
@@ -261,17 +265,17 @@ class SidebarComposer
     {
         return array_filter(array_map(function ($menu) {
             if (! ($menu['isAllowed'] ?? true)) {
-                return;
+                return null;
             }
 
             if (! isset($menu['links'])) {
                 return $menu;
             }
 
-            $menu['links'] = $this->filter($menu['links']);
+            $menu['links'] = $this->filter(value($menu['links']));
 
             if (empty($menu['links'])) {
-                return;
+                return null;
             }
 
             return $menu;
