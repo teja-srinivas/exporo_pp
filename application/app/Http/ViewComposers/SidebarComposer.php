@@ -209,7 +209,7 @@ class SidebarComposer
 
             [
                 'title' => 'Meine Subpartner',
-                'isAllowed' => $this->user->bonuses()->where('is_overhead', true)->exists(),
+                'isAllowed' => $this->user->partnerContract->allow_overhead,
                 'links' => function () {
                     return [
                         [
