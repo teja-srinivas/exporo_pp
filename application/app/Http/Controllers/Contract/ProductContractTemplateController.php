@@ -58,7 +58,7 @@ class ProductContractTemplateController extends Controller
         $template->company()->associate($request->user()->company);
 
         $template->saveOrFail();
-        $template->bonuses()->createMany($data['bonuses']);
+        $template->bonuses()->createMany($data['bonuses'] ?? []);
 
         return redirect()->route('contracts.templates.index');
     }
