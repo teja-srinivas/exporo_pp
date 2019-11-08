@@ -31,7 +31,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
  *
  * @property int $id
  * @property int $parent_id
- * @property int $contract_id
  * @property string $salutation
  * @property string $first_name
  * @property string $last_name
@@ -187,7 +186,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
      */
     public function bonuses(): HasMany
     {
-        return $this->hasMany(CommissionBonus::class, 'contract_id', 'contract_id');
+        return $this->hasMany(CommissionBonus::class, 'contract_id', 'product_contract_id');
     }
 
     /**
@@ -195,9 +194,9 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
      *
      * @return int
      */
-    public function getContractIdAttribute()
+    public function getProductContractIdAttribute()
     {
-        return optional($this->contract)->getKey();
+        return optional($this->productContract)->getKey();
     }
 
     public function investors(): HasMany
