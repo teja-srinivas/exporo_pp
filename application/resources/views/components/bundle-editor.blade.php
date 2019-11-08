@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Resources\CommissionBonus;
-use Illuminate\Database\Eloquent\Model;
 
 $options = [
     'bonuses' => empty($bonuses) ? [] : CommissionBonus::collection($bonuses),
