@@ -100,7 +100,7 @@ class UserController extends Controller
     {
         $user->load(['documents']);
 
-        $user->bills = $bills->getDetails($user->id)->sortByDesc('created_at');
+        $user->bills = $bills->getDetails($user->id)->latest()->get();
 
         $investors = $user->investors()
             ->leftJoin('investments', 'investments.investor_id', 'investors.id')

@@ -26,9 +26,10 @@ class HomeController extends Controller
         $user = $request->user();
 
         /** @var Collection $bills */
-        $bills = $billRepository->getDetails($user->id, static function (Builder $query) {
-            $query->released()->visible()->latest('bills.created_at');
-        });
+        $bills = $billRepository->getDetails($user->id)
+            ->released()
+            ->visible()
+            ->latest('bills.created_at');
 
         return response()->view('home', [
             'bills' => $bills->map(static function (Bill $bill) {

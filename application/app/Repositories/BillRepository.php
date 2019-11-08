@@ -52,10 +52,9 @@ class BillRepository
      * Optionally, a specific user can be provided.
      *
      * @param int|null $forUser The user ID
-     * @param callable|null $modifier
-     * @return EloquentCollection
+     * @return Builder
      */
-    public function getDetails(?int $forUser = null, ?callable $modifier = null): EloquentCollection
+    public function getDetails(?int $forUser = null): Builder
     {
         return Bill::query()
             ->leftJoin('commissions', 'commissions.bill_id', 'bills.id')
@@ -67,9 +66,7 @@ class BillRepository
             ->whereNotNull('released_at')
             ->when($forUser !== null, static function (Builder $query) use ($forUser) {
                 $query->where('bills.user_id', $forUser);
-            })
-            ->when($modifier !== null, $modifier)
-            ->get();
+            });
     }
 
     public function unsent($query = null): EloquentCollection
