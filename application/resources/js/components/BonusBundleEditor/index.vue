@@ -177,7 +177,7 @@ export default {
 
     legacy: {
       type: Boolean,
-      default: true,
+      default: false,
     },
 
     bonuses: {
