@@ -120,7 +120,12 @@ class UserController extends Controller
             })
             ->sort();
 
-        return response()->view('users.show', compact('user', 'investors', 'contractTemplates'));
+        $contracts = $user->contracts()
+            ->orderByDesc('accepted_at')
+            ->latest()
+            ->get();
+
+        return response()->view('users.show', compact('user', 'contracts', 'investors', 'contractTemplates'));
     }
 
     /**

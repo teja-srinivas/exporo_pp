@@ -76,7 +76,7 @@
         @slot('info', 'die von diesem Nutzer akzeptiert wurden.')
 
         <div class="list-group">
-            @forelse($user->contracts()->latest()->get() as $contract)
+            @forelse($contracts as $contract)
                 @include("users.partials.contracts.{$contract->type}", [
                     'contract' => $contract,
                 ])
