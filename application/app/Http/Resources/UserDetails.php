@@ -21,7 +21,7 @@ class UserDetails extends JsonResource
 
         return [
             'id' => $model->getKey(),
-            'displayName' => trim($model->display_name),
+            'displayName' => trim($model->display_name ?? ''),
             'links' => [
                 'self' => route('users.show', $model),
             ],
