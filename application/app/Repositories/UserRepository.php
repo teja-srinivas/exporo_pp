@@ -45,7 +45,7 @@ class UserRepository
                 ->selectRaw('group_concat(id)')
                 ->join('model_has_roles', 'roles.id', 'model_has_roles.role_id')
                 ->where('model_id', DB::raw('users.id'))
-                ->where('model_type', User::class), 'roles')
+                ->where('model_type', User::class)->toBase(), 'roles')
             ->when($showDetails, static function (UserBuilder $query) {
                 $query->addSelect('company');
                 $query->addSelect('users.first_name');
