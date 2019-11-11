@@ -122,7 +122,7 @@ class UserController extends Controller
             ->sort();
 
         $contracts = $user->contracts()
-            ->orderByDesc('accepted_at')
+            ->orderByDesc('released_at')
             ->latest()
             ->get();
 
