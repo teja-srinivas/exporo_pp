@@ -11,6 +11,9 @@ use App\Models\ProductContractTemplate;
 
 $factory->define(ProductContract::class, static function (Faker $faker) {
     return [
+        'type' => ProductContract::STI_TYPE,
+        'vat_amount' => $faker->randomFloat(0, 0, 19),
+        'vat_included' => $faker->boolean,
         'template_id' => static function (): int {
             /** @var ContractTemplate $template */
             $template = factory(ProductContractTemplate::class)->create();
