@@ -44,10 +44,10 @@ class EmbedController extends Controller
         ]);
 
         $query = Project::query();
-        //$query = $query->where('status', 'in funding')->orwhere('status', 'coming soon');
+        $query = $query->where('status', 'in funding')->orwhere('status', 'coming soon');
         $query = $query->where('funding_target', '>', 0);
         if ($data['type'] != 'all') {
-            //$query = $query->where('type', $data['type']);
+            $query = $query->where('type', $data['type']);
         }
         $projects = $query->get()->map(static function (Project $project) {
                         return [
