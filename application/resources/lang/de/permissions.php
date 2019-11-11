@@ -17,11 +17,11 @@ return [
     'view' => 'anzeigen',
 
     'dashboard' => 'Dashboard anzeigen',
-    'download' => 'herunterladen',
-    'export' => 'exportieren',
-    'process' => 'annehmen/ablehnen',
-    'receive' => 'erhalten',
-    'login' => 'Einloggen',
+    'download' => 'Herunterladen',
+    'export' => 'Exportieren',
+    'process' => 'Annehmen/Ablehnen',
+    'receive' => 'Erhalten',
+    'login' => 'Bei anderen einloggen',
 
     'update-cancellation-period' => 'Kündigungsfrist ändern',
     'update-claim' => 'Anspruch Kundenbindung ändern',
