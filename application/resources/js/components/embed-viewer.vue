@@ -105,7 +105,7 @@
   </div>
 
   <div v-else class="lead text-center text-muted">
-    Keine Links zur Auswahl
+    Keine Embeds zur Auswahl
   </div>
 </template>
 
