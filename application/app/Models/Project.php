@@ -132,4 +132,15 @@ class Project extends Model
 
         return (int) round($months);
     }
+
+    public function imageUrl(): string
+    {
+        $url = $this->image;
+
+        if (stripos('://', $url) !== false) {
+            return $url;
+        }
+
+        return "https://cdn.exporo.de/image-cache/400/{$url}";
+    }
 }

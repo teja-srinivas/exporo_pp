@@ -69,7 +69,7 @@ class EmbedController extends Controller
                 'coupon_rate' => $project->coupon_rate,
                 'interest_rate' => $project->interest_rate,
                 'intermediator' => $project->intermediator,
-                'image' => $project->image,
+                'image' => $project->imageUrl(),
                 'type' => $project->type,
                 'status' => $project->status,
                 'funding_target' => min($investmentSum, $project->funding_target),
