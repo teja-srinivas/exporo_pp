@@ -67,40 +67,39 @@
           Im Code-Snippet für die jeweilige Bannergröße ist Ihr persönlicher Partner-Link direkt hinterlegt.
         </p>
 
-        
-            <div class="mb-5" v-for="banner in banners">
-              <div class="d-flex">
-                {{ banner.width }}x{{ banner.height }}
-              </div>
-                <div class="d-flex">
-                      <iframe 
-                          :src="bannerSrc(banner)"
-                          :width="banner.width"
-                          :height="banner.height"
-                          frameborder="0"
-                          style="border:0;" allowfullscreen="">
-                      </iframe>
-                  </div>
-              
-                  
+        <div class="mb-5" v-for="banner in banners">
+          <div class="d-flex">
+            {{ banner.width }}x{{ banner.height }}
+          </div>
 
-                <div class="d-flex w-75 mt-2">
-                  <input
-                    :value="bannerSnippet(banner)"
-                    class="small overflow-auto form-control form-control-sm border-0 shadow-none"
-                    type="text"
-                    readonly
-                  >
+          <div class="d-flex">
+            <iframe
+              :src="bannerSrc(banner)"
+              :width="banner.width"
+              :height="banner.height"
+              frameborder="0"
+              style="border:0;"
+              allowfullscreen=""
+            ></iframe>
+          </div>
 
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-sm ml-1"
-                    @click="copy(bannerSnippet(banner))"
-                  >
-                    <font-awesome-icon icon="paste" />
-                  </button>
-                </div>
-            </div>  
+          <div class="d-flex w-75 mt-2">
+            <input
+              :value="bannerSnippet(banner)"
+              class="small overflow-auto form-control form-control-sm border-0 shadow-none"
+              type="text"
+              readonly
+            >
+
+            <button
+              type="button"
+              class="btn btn-primary btn-sm ml-1"
+              @click="copy(bannerSnippet(banner))"
+            >
+              <font-awesome-icon icon="paste"/>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -114,88 +113,88 @@
 import { writeText } from 'clipboard-polyfill';
 
 export default {
-    props: {
-        links: {
-            type: Array,
-            required: true,
+  props: {
+    links: {
+      type: Array,
+      required: true,
+    },
+  },
+
+  data() {
+    return {
+      sets: [
+        {
+          title: 'Exporo Bestands-Investmentmöglichkeiten',
+          value: 'stock',
         },
+        {
+          title: 'Exporo Finanzierungs-Investmentmöglichkeiten',
+          value: 'finance',
+        },
+        {
+          title: 'Alle Exporo Investmentmöglichkeiten',
+          value: 'all',
+        },
+      ],
+      banners: [
+        {
+          height: 530,
+          width: 770,
+        },
+        {
+          height: 530,
+          width: 345,
+        },
+      ],
+      currentSet: '',
+      currentUrl: '',
+    };
+  },
+
+  created() {
+    this.setDefaults();
+  },
+
+  methods: {
+    bannerSnippet(banner) {
+      return `<iframe src="${this.bannerSrc(banner)}" width="${banner.width}" height="${banner.height}" frameborder="0" style="border:0;" allowfullscreen=""></iframe>`;
     },
 
-    data() {
-        return {
-            sets: [
-                {
-                    title: 'Exporo Bestands-Investmentmöglichkeiten',
-                    value: 'stock',
-                },
-                {
-                    title: 'Exporo Finanzierungs-Investmentmöglichkeiten',
-                    value: 'finance',
-                },
-                {
-                    title: 'Alle Exporo Investmentmöglichkeiten',
-                    value: 'all',
-                },
-            ],
-            banners: [
-                {
-                    height: 530,
-                    width: 770,
-                },
-                {
-                    height: 530,
-                    width: 345,
-                },
-            ],
-            currentSet: '',
-            currentUrl: '',
-        };
+    bannerSrc(banner) {
+      return `${window.location.protocol}//${window.location.hostname}/affiliate/embed?height=${banner.height}&width=${banner.width}&type=${this.currentSet}&link=${this.currentUrl}`;
     },
 
-    created() {
-        this.setDefaults();
+    copy(text) {
+      writeText(text);
+      this.$notify('Text wurde in die Zwischenablage kopiert');
     },
 
-    methods: {
-        bannerSnippet(banner) {
-            return `<iframe src="${this.bannerSrc(banner)}" width="${banner.width}" height="${banner.height}" frameborder="0" style="border:0;" allowfullscreen=""></iframe>`;
-        },
-
-        bannerSrc(banner) {
-            return `${window.location.protocol}//${window.location.hostname}/affiliate/embed?height=${banner.height}&width=${banner.width}&type=${this.currentSet}&link=${this.currentUrl}`;
-        },
-
-        copy(text) {
-            writeText(text);
-            this.$notify('Text wurde in die Zwischenablage kopiert');
-        },
-
-        setDefaults() {
-            this.currentUrl = this.links[0].url;
-            this.currentSet = this.sets[0].value;
-        },
+    setDefaults() {
+      this.currentUrl = this.links[0].url;
+      this.currentSet = this.sets[0].value;
     },
+  },
 };
 </script>
 
 <style lang="scss" module>
-    @import "../../sass/variables";
+  @import "../../sass/variables";
 
-    .circle {
-        $size: 29px;
-        min-width: $size;
-        min-height: $size;
-        width: $size;
-        height: $size;
+  .circle {
+    $size: 29px;
+    min-width: $size;
+    min-height: $size;
+    width: $size;
+    height: $size;
 
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-        background-color: rgba($primary-light, 0.5);
-        color: rgba($primary-dark, 0.75);
-        border-radius: 5px;
+    background-color: rgba($primary-light, 0.5);
+    color: rgba($primary-dark, 0.75);
+    border-radius: 5px;
 
-        font-family: $headings-font-family;
-    }
+    font-family: $headings-font-family;
+  }
 </style>
