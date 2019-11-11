@@ -81,7 +81,7 @@ class Bill extends Model implements AuditableContract
      */
     public function getTotalGross(): float
     {
-        return $this->commissions()->sum('gross');
+        return (float) $this->commissions()->sum('gross');
     }
 
     /**
