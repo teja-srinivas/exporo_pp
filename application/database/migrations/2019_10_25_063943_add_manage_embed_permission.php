@@ -16,12 +16,9 @@ class AddManageEmbedPermission extends Migration
     {
         $this->clearPermissionCache();
 
-        $roles = [
+        $this->createResourcePermission(EmbedPolicy::PERMISSION, [
             Role::findByName(Role::ADMIN),
             Role::findByName(Role::INTERNAL),
-            Role::findByName(Role::PARTNER),
-        ];
-
-        $this->createResourcePermission(EmbedPolicy::PERMISSION, $roles);
+        ]);
     }
 }
