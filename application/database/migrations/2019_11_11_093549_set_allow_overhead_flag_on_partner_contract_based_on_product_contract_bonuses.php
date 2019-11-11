@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 
@@ -17,7 +19,7 @@ class SetAllowOverheadFlagOnPartnerContractBasedOnProductContractBonuses extends
             ->whereHas('partnerContract')
             ->whereHas('productContract')
             ->get()
-            ->each(function (User $user) {
+            ->each(static function (User $user) {
                 $contract = $user->partnerContract;
                 $contract->allow_overhead = $user->productContract->hasOverhead();
                 $contract->save();
