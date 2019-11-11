@@ -40,7 +40,7 @@ class EmbedController extends Controller
             'height' => 'required|in:530',
             'width' => 'required|in:770,345',
             'link' => 'required|url',
-            'type' => 'required|in:stock,funding,all',
+            'type' => 'required|in:stock,finance,all',
         ]);
 
         $query = Project::query();
