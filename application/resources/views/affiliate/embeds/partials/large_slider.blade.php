@@ -3,12 +3,12 @@
     @php
         $remaining = $project['funding_target'] - $project['funding_current_sum_invested'];
         $invested = $project['funding_current_sum_invested'] / $project['funding_target'] * 100;
-        $remainingFormatted = number_format($remaining, 0, ",", ".");
-        $investedFormatted = number_format($invested, 2, ",", ".");
+        $remainingFormatted = number_format($remaining, 0, ',', '.');
+        $investedFormatted = number_format($invested, 2, ',', '.');
     @endphp
     <div class="relative font-sans">
         <a href="{{ $data['link'] }}" target="_blank">
-            <div class="flex" >    
+            <div class="flex">
                 <div class="flex-none">
                     <div class="bg-light_green z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
                         {{ __($project['status']) }}
@@ -18,7 +18,7 @@
                         alt="{{ $project['name'] }}"
                     >
                 </div>
-                <div class="flex-none w-64" style="width: 290px;">
+                <div class="flex-grow">
                     <div class="p-3 py-2 border-b border-lighter_gray">
                         <div class="text-base uppercase truncate font-bold text-gray">
                             {{ $project['name'] }}
@@ -87,7 +87,7 @@
                     <div class="p-3 py-2">
                         <div class="text-sm bg-green hover:bg-light_green w-full rounded-full py-1 shadow text-white text-center uppercase font-medium cursor-pointer">Zum Projekt</div>
                     </div>
-                </div>          
+                </div>
             </div>
         </a>
     </div>
@@ -95,7 +95,7 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function(){  
+    $(document).ready(function(){
         $('.slider').slick({
             lazyLoad: 'progressive',
             infinite: true,
@@ -109,11 +109,11 @@
 
 <style>
     .slick-prev{
-        left: 5;
+        left: 5px;
         z-index: 10;
     }
-    .slick-next{ 
-        right: 5;
+    .slick-next{
+        right: 5px;
         z-index: 10;
     }
     .slick-prev:before {

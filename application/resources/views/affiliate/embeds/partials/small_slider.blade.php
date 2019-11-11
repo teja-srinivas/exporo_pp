@@ -3,8 +3,8 @@
     @php
         $remaining = $project['funding_target'] - $project['funding_current_sum_invested'];
         $invested = $project['funding_current_sum_invested'] / $project['funding_target'] * 100;
-        $remainingFormatted = number_format($remaining, 0, ",", ".");
-        $investedFormatted = number_format($invested, 2, ",", ".");
+        $remainingFormatted = number_format($remaining, 0, ',', '.');
+        $investedFormatted = number_format($invested, 2, ',', '.');
     @endphp
     <div class="relative font-sans">
         <a href="{{ $data['link'] }}" target="_blank">
@@ -65,7 +65,7 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function(){  
+    $(document).ready(function(){
         $('.slider').slick({
             lazyLoad: 'progressive',
             infinite: true,
@@ -79,11 +79,11 @@
 
 <style>
     .slick-prev{
-        left: 5;
+        left: 5px;
         z-index: 10;
     }
-    .slick-next{ 
-        right: 5;
+    .slick-next{
+        right: 5px;
         z-index: 10;
     }
     .slick-prev:before {
