@@ -22,7 +22,6 @@ class AddProjectFields extends Migration
             $table->string('status')->nullable();
             $table->decimal('coupon_rate')->nullable();
             $table->decimal('funding_target')->nullable();
-            $table->decimal('funding_current_sum_invested')->nullable();
             $table->string('intermediator')->nullable();
         });
     }
@@ -41,7 +40,6 @@ class AddProjectFields extends Migration
             $table->dropColumn('status');
             $table->dropColumn('coupon_rate');
             $table->dropColumn('funding_target');
-            $table->dropColumn('funding_current_sum_invested');
             $table->dropColumn('intermediator');
         });
     }
