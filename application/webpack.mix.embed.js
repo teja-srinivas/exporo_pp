@@ -1,6 +1,3 @@
-const mix = require('laravel-mix');
-require('laravel-mix-purgecss');
-
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,48 +8,16 @@ require('laravel-mix-purgecss');
  | file for the application as well as bundling up all the JS files.
  |
  */
+const tailwindcss = require('tailwindcss');
+const mix = require('laravel-mix');
+require('laravel-mix-purgecss');
 
-mix.webpackConfig({
-  resolve: {
-    alias: {
-      // Use slim build to exclude the ajax stuff (we use axios)
-      jquery$: 'jquery/dist/jquery.slim.js',
-
-      // Use runtime-only version of vue
-      vue$: 'vue/dist/vue.runtime.esm.js',
-    },
-  },
-});
-
-mix.js('resources/js/app.js', 'public/js');
-mix.sass('resources/sass/app.scss', 'public/css');
-mix.sass('resources/sass/print.scss', 'public/css');
+mix.js('resources/js/embed/app.js', 'public/js/embed');
+mix.sass('resources/sass/embed/app.scss', 'public/css/embed').options({
+    processCssUrls: false,
+    postCss: [ tailwindcss('resources/sass/embed/tailwind.config.js') ],
+  });
 mix.version();
 mix.sourceMaps();
 
-mix.purgeCss({
-  // Dropdowns and animated JS content
-  whitelist: [
-    'arrow', 'show', 'fade', 'collapse', 'collapsing',
-    'form-group', 'form-row', 'fieldset', 'legend', 'custom-switch',
-    'col-sm-6',
-  ],
-
-  whitelistPatterns: [
-    // We use badges for user role colors
-    /^badge-/,
-
-    // Dynamic JS stuff
-    /^pag/,
-    /^popover/,
-    /^bs-popover/,
-    /^tooltip/,
-    /^bs-tooltip/,
-  ],
-});
-
-mix.extract([
-  'axios',
-  'popper.js',
-  'jquery',
-]);
+mix.purgeCss();

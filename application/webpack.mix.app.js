@@ -1,6 +1,3 @@
-const mix = require('laravel-mix');
-require('laravel-mix-purgecss');
-
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,6 +8,8 @@ require('laravel-mix-purgecss');
  | file for the application as well as bundling up all the JS files.
  |
  */
+const mix = require('laravel-mix');
+require('laravel-mix-purgecss');
 
 mix.webpackConfig({
   resolve: {

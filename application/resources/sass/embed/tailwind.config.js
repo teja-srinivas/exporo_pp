@@ -1,58 +1,13 @@
-const mix = require('laravel-mix');
-require('laravel-mix-purgecss');
-
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel application. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
- */
-
-mix.webpackConfig({
-  resolve: {
-    alias: {
-      // Use slim build to exclude the ajax stuff (we use axios)
-      jquery$: 'jquery/dist/jquery.slim.js',
-
-      // Use runtime-only version of vue
-      vue$: 'vue/dist/vue.runtime.esm.js',
-    },
+// tailwind.config.js
+module.exports = {
+  theme: {
+      colors: {
+          light_green: 'rgba(171, 202, 121, 0.9)',
+          white: '#ffffff',
+          gray: '#626262',
+          light_gray: '#a2a2a2',
+          green: '#86AC48',
+          lighter_gray: '#ededf3',
+      }
   },
-});
-
-mix.js('resources/js/app.js', 'public/js');
-mix.sass('resources/sass/app.scss', 'public/css');
-mix.sass('resources/sass/print.scss', 'public/css');
-mix.version();
-mix.sourceMaps();
-
-mix.purgeCss({
-  // Dropdowns and animated JS content
-  whitelist: [
-    'arrow', 'show', 'fade', 'collapse', 'collapsing',
-    'form-group', 'form-row', 'fieldset', 'legend', 'custom-switch',
-    'col-sm-6',
-  ],
-
-  whitelistPatterns: [
-    // We use badges for user role colors
-    /^badge-/,
-
-    // Dynamic JS stuff
-    /^pag/,
-    /^popover/,
-    /^bs-popover/,
-    /^tooltip/,
-    /^bs-tooltip/,
-  ],
-});
-
-mix.extract([
-  'axios',
-  'popper.js',
-  'jquery',
-]);
+}

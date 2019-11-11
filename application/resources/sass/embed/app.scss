@@ -2,24 +2,13 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600%7COswald:300,400,700');
 
-// Variables
-@import 'variables';
+// Tailwind
+@import "~tailwindcss/base";
+@import "~tailwindcss/components";
+@import "~tailwindcss/utilities";
 
-// Bootstrap
-@import 'bootstrap';
+// slick slider
+@import "slick-fix";
 
-// Theme
-@import 'typography';
-@import 'layout';
-@import 'navigation';
-@import 'input';
-@import 'accents';
-@import 'tables';
-
-// Components
-@import 'components/sidebar';
-@import '~vue2-dropzone/dist/vue2Dropzone.min.css';
-@import 'vue';
-
-// Page specific styles
-@import 'images';
+@import "~slick-carousel/slick/slick";
+@import "~slick-carousel/slick/slick-theme";

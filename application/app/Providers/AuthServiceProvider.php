@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Models\Agb::class => Policies\AgbPolicy::class,
+        Models\Embed::class => Policies\EmbedPolicy::class,
         Models\Banner::class => Policies\BannerPolicy::class,
         Models\BannerSet::class => Policies\BannerSetPolicy::class,
         Models\Bill::class => Policies\BillPolicy::class,

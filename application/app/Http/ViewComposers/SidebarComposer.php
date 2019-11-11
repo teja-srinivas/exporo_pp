@@ -10,6 +10,7 @@ use App\Models\Link;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Banner;
+use App\Models\Embed;
 use App\Models\Schema;
 use App\Models\Mailing;
 use App\Models\Project;
@@ -229,6 +230,12 @@ class SidebarComposer
             [
                 'title' => 'Werbemittel',
                 'links' => [
+                    [
+                        'title' => 'Embed',
+                        'url' => route('affiliate.embeds.index'),
+                        'isActive' => $this->request->routeIs('affiliate.embeds.*'),
+                        'isAllowed' => $this->canList(Embed::class),
+                    ],
                     [
                         'title' => 'Banner',
                         'url' => route('affiliate.banners.index'),

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="sets.length > 0" class="rounded shadow-sm bg-white p-3">
+  <div v-if="links.length > 0" class="rounded shadow-sm bg-white p-3">
     <div class="form-group d-flex font-weight-bold">
       <div
         class="mr-3 align-self-start align-self-lg-center mt-2 mt-lg-0"
@@ -8,7 +8,7 @@
 
       <div class="row align-items-center flex-fill">
         <div class="col-lg-6 col-form-label">
-          Wählen Sie ein passendes Bannerset:
+          Wählen Sie ein passendes Embed-Set:
         </div>
 
         <div class="col-lg-6">
@@ -17,10 +17,9 @@
             class="custom-select"
           >
             <option
-              v-for="(set, idx) in sets"
-              :key="idx"
-              :value="idx"
-              v-text="set.name"
+              v-for="set in sets"
+              :value="set.value"
+              v-text="set.title"
             />
           </select>
         </div>
@@ -46,10 +45,9 @@
             class="custom-select"
           >
             <option
-              v-for="(url, idx) in sets[currentSet].urls"
-              :key="idx"
-              :value="idx"
-              v-text="url.key"
+              v-for="link in links"
+              :value="link.url"
+              v-text="link.title"
             />
           </select>
         </div>
@@ -69,16 +67,24 @@
           Im Code-Snippet für die jeweilige Bannergröße ist Ihr persönlicher Partner-Link direkt hinterlegt.
         </p>
 
-        <table class="table-striped table m-0">
-          <tbody>
-            <tr v-for="banner in sets[currentSet].banners">
-              <td>
+        
+            <div class="mb-5" v-for="banner in banners">
+              <div class="d-flex">
                 {{ banner.width }}x{{ banner.height }}
-              </td>
-              <td>
-                <img :src="banner.url" class="img-fluid mb-1">
-
+              </div>
                 <div class="d-flex">
+                      <iframe 
+                          :src="bannerSrc(banner)"
+                          :width="banner.width"
+                          :height="banner.height"
+                          frameborder="0"
+                          style="border:0;" allowfullscreen="">
+                      </iframe>
+                  </div>
+              
+                  
+
+                <div class="d-flex w-75 mt-2">
                   <input
                     :value="bannerSnippet(banner)"
                     class="small overflow-auto form-control form-control-sm border-0 shadow-none"
@@ -94,16 +100,13 @@
                     <font-awesome-icon icon="paste" />
                   </button>
                 </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+            </div>  
       </div>
     </div>
   </div>
 
   <div v-else class="lead text-center text-muted">
-    Keine Banner zur Auswahl
+    Keine Links zur Auswahl
   </div>
 </template>
 
@@ -111,76 +114,88 @@
 import { writeText } from 'clipboard-polyfill';
 
 export default {
-  props: {
-    sets: {
-      type: Array,
-      required: true,
-    },
-  },
-
-  data() {
-    return {
-      selection: {
-        set: 0,
-        url: 0,
-      },
-    };
-  },
-
-  computed: {
-    currentSet: {
-      get() {
-        return this.selection.set;
-      },
-
-      set(index) {
-        this.selection.set = Math.max(0, Math.min(this.sets.length - 1, index));
-        this.currentUrl = 0;
-      },
+    props: {
+        links: {
+            type: Array,
+            required: true,
+        },
     },
 
-    currentUrl: {
-      get() {
-        return this.selection.url;
-      },
-
-      set(index) {
-        this.selection.url = Math.max(0, Math.min(this.sets[this.currentSet].urls.length - 1, index));
-      },
+    data() {
+        return {
+            sets: [
+                {
+                    title: 'Exporo Bestands-Investmentmöglichkeiten',
+                    value: 'stock',
+                },
+                {
+                    title: 'Exporo Finanzierungs-Investmentmöglichkeiten',
+                    value: 'finance',
+                },
+                {
+                    title: 'Alle Exporo Investmentmöglichkeiten',
+                    value: 'all',
+                },
+            ],
+            banners: [
+                {
+                    height: 530,
+                    width: 770,
+                },
+                {
+                    height: 530,
+                    width: 345,
+                },
+            ],
+            currentSet: '',
+            currentUrl: '',
+        };
     },
-  },
 
-  methods: {
-    bannerSnippet(banner) {
-      return `<a href="${this.sets[this.currentSet].urls[this.currentUrl].value}" target="_blank"><img src="${banner.url}"></a>`;
+    created() {
+        this.setDefaults();
     },
 
-    copy(text) {
-      writeText(text);
-      this.$notify('Text wurde in die Zwischenablage kopiert');
+    methods: {
+        bannerSnippet(banner) {
+            return `<iframe src="${this.bannerSrc(banner)}" width="${banner.width}" height="${banner.height}" frameborder="0" style="border:0;" allowfullscreen=""></iframe>`;
+        },
+
+        bannerSrc(banner) {
+            return `http://81.169.241.157/affiliate/embed?height=${banner.height}&width=${banner.width}&set=${this.currentSet}&link=${this.currentUrl}`;
+        },
+
+        copy(text) {
+            writeText(text);
+            this.$notify('Text wurde in die Zwischenablage kopiert');
+        },
+
+        setDefaults() {
+            this.currentUrl = this.links[0].url;
+            this.currentSet = this.sets[0].value;
+        },
     },
-  },
 };
 </script>
 
 <style lang="scss" module>
-  @import "../../sass/variables";
+    @import "../../sass/variables";
 
-  .circle {
-    $size: 29px;
-    min-width: $size;
-    min-height: $size;
-    width: $size;
-    height: $size;
+    .circle {
+        $size: 29px;
+        min-width: $size;
+        min-height: $size;
+        width: $size;
+        height: $size;
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
 
-    background-color: rgba($primary-light, 0.5);
-    color: rgba($primary-dark, 0.75);
-    border-radius: 5px;
+        background-color: rgba($primary-light, 0.5);
+        color: rgba($primary-dark, 0.75);
+        border-radius: 5px;
 
-    font-family: $headings-font-family;
-  }
+        font-family: $headings-font-family;
+    }
 </style>

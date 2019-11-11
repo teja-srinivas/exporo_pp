@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-class BannerPolicy extends BasePolicy
+class EmbedPolicy extends BasePolicy
 {
-    public const PERMISSION = 'management.affiliate.banners';
+    public const PERMISSION = 'management.affiliate.embeds';
 
     public function __construct()
     {
