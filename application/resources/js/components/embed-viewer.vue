@@ -162,7 +162,7 @@ export default {
         },
 
         bannerSrc(banner) {
-            return `http://81.169.241.157/affiliate/embed?height=${banner.height}&width=${banner.width}&set=${this.currentSet}&link=${this.currentUrl}`;
+            return `http://81.169.241.157/affiliate/embed?height=${banner.height}&width=${banner.width}&type=${this.currentSet}&link=${this.currentUrl}`;
         },
 
         copy(text) {
