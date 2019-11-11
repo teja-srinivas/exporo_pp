@@ -133,7 +133,7 @@ export default {
         },
         {
           title: 'Alle Exporo Investmentmöglichkeiten',
-          value: 'all',
+          value: null,
         },
       ],
       banners: [
@@ -146,13 +146,9 @@ export default {
           width: 345,
         },
       ],
-      currentSet: '',
-      currentUrl: '',
+      currentSet: null,
+      currentUrl: this.links[0].url,
     };
-  },
-
-  created() {
-    this.setDefaults();
   },
 
   methods: {
@@ -161,17 +157,22 @@ export default {
     },
 
     bannerSrc(banner) {
-      return `${window.location.protocol}//${window.location.hostname}/affiliate/embed?height=${banner.height}&width=${banner.width}&type=${this.currentSet}&link=${this.currentUrl}`;
+      const query = [
+        `height=${banner.height}`,
+        `width=${banner.width}`,
+        `link=${this.currentUrl}`,
+      ];
+
+      if (this.currentSet !== null) {
+          query.push(`type=${this.currentSet}`);
+      }
+
+      return `${window.location.protocol}//${window.location.hostname}/affiliate/embed?${query.join('&')}`;
     },
 
     copy(text) {
       writeText(text);
       this.$notify('Text wurde in die Zwischenablage kopiert');
-    },
-
-    setDefaults() {
-      this.currentUrl = this.links[0].url;
-      this.currentSet = this.sets[0].value;
     },
   },
 };
