@@ -7,11 +7,11 @@ namespace Tests\Feature\Http\Controllers\Mailing;
 use Tests\TestCase;
 use App\Models\Mailing;
 use App\Policies\MailingPolicy;
-use Tests\Traits\TestsControllers;
+use Tests\Traits\CreatesUsers;
 
 class PreviewControllerTest extends TestCase
 {
-    use TestsControllers;
+    use CreatesUsers;
 
     /**
      * @test

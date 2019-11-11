@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Helper\Rules;
 use Parental\HasChildren;
 use App\Events\ContractUpdated;
+use App\Events\ContractSaving;
 use App\Builders\ContractBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,9 +22,11 @@ use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
  * @property int $user_id
  * @property int $template_id
  * @property string $special_agreement
+ * @property string $signature
  * @property Carbon $accepted_at The date the user fully accepted the contract.
  * @property Carbon $released_at The date we confirmed the contract, but has not yet been accepted by the user.
  * @property Carbon $terminated_at The date the contract has been terminated (either by hand or automation).
+ * @property Carbon $pdf_generated_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
@@ -46,6 +49,7 @@ class Contract extends Model
     ];
 
     protected $dispatchesEvents = [
+        'saving' => ContractSaving::class,
         'updated' => ContractUpdated::class,
     ];
 
@@ -62,6 +66,7 @@ class Contract extends Model
         'accepted_at',
         'released_at',
         'terminated_at',
+        'pdf_generated_at',
     ];
 
     protected $fillable = [

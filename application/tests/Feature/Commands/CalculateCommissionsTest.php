@@ -57,6 +57,7 @@ class CalculateCommissionsTest extends TestCase
 
         $contract = factory(ProductContract::class)->state('active')->create([
             'user_id' => $user->getKey(),
+            'vat_amount' => 0,
         ]);
 
         $this->calculate();

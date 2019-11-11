@@ -6,6 +6,7 @@ namespace Tests\Feature\Listeners;
 
 use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use App\Models\ProductContract;
 
 class TerminateOldContractOnApprovalTest extends TestCase
@@ -35,6 +36,8 @@ class TerminateOldContractOnApprovalTest extends TestCase
             'released_at' => now(),
             'user_id' => $user->getKey(),
         ]);
+
+        Carbon::setTestNow('1.2.2019 01:23:45');
 
         $new->accepted_at = now();
         $new->save();

@@ -9,7 +9,7 @@ use App\Models\Role;
 use App\Models\Contract;
 use App\Traits\Encryptable;
 use App\Builders\UserBuilder;
-use App\Models\CommissionBonus;
+use App\Models\PartnerContract;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Resources\User as UserResource;
@@ -27,20 +27,20 @@ class UserRepository
 
         return $query
             ->leftJoin('user_details', 'user_details.id', 'users.id')
+            ->leftJoinSub(Contract::query()
+                ->selectRaw('ANY_VALUE(id) as id')
+                ->addSelect('user_id')
+                ->selectRaw('ANY_VALUE(allow_overhead) as allow_overhead')
+                ->where('type', PartnerContract::STI_TYPE)
+                ->whereNotNull('accepted_at')
+                ->whereNull('terminated_at')
+                ->groupBy('user_id'), 'contracts', 'contracts.user_id', 'users.id')
             ->addSelect('users.id')
             ->addSelect('display_name')
             ->addSelect('users.created_at')
             ->addSelect('users.accepted_at')
             ->addSelect('users.rejected_at')
-            ->selectRaw('CASE WHEN EXISTS('.CommissionBonus::query()
-                ->joinSub(Contract::query()
-                    ->selectRaw('ANY_VALUE(id) as id')
-                    ->addSelect('user_id')
-                    ->selectRaw('MAX(accepted_at)')
-                    ->groupBy('user_id'), 'contracts', 'contracts.id', 'contract_id')
-                ->whereRaw('is_overhead = true')
-                ->whereRaw('user_id = users.id')
-                ->toSql().') THEN TRUE ELSE FALSE END as has_overhead')
+            ->selectRaw('IFNULL(contracts.allow_overhead, 0) as has_overhead')
             ->selectSub(Role::query()
                 ->selectRaw('group_concat(id)')
                 ->join('model_has_roles', 'roles.id', 'model_has_roles.role_id')

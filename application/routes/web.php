@@ -39,8 +39,12 @@ Route::prefix('agbs')->group(static function () {
         ->name('agbs.latest');
 });
 
-Route::middleware(['verified'])->group(static function () {
-    Route::middleware(['accepted', 'filled'])->group(static function () {
+Route::middleware(['verified', 'accepted', 'filled'])->group(static function () {
+    Route::resource('contracts/{contract}/accept', C\Contract\AcceptController::class)
+        ->only('index', 'store')
+        ->names('contracts.accept');
+
+    Route::middleware(['accepted-partner-contract'])->group(static function () {
         Route::get('authorization', C\AuthorizationController::class)
             ->name('authorization.index');
         Route::get('bills/export', C\ExportBillsController::class)

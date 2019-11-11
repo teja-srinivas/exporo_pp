@@ -11,6 +11,7 @@ use App\Models\PartnerContractTemplate;
 
 $factory->define(PartnerContract::class, static function (Faker $faker) {
     return [
+        'type' => PartnerContract::STI_TYPE,
         'template_id' => static function (): int {
             /** @var ContractTemplate $template */
             $template = factory(PartnerContractTemplate::class)->create();
@@ -19,6 +20,8 @@ $factory->define(PartnerContract::class, static function (Faker $faker) {
         },
         'cancellation_days' => 30,
         'claim_years' => 5,
+        'is_exclusive' => $faker->boolean,
+        'allow_overhead' => $faker->boolean,
     ];
 });
 

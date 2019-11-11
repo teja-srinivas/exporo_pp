@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rules;
 
-use DvK\Vat\Validator;
+use Ibericode\Vat\Validator;
 use Illuminate\Contracts\Validation\Rule;
 
 class VatId implements Rule
@@ -26,7 +26,7 @@ class VatId implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $this->validator->validateFormat($value);
+        return $this->validator->validateVatNumber($value);
     }
 
     /**
@@ -36,6 +36,6 @@ class VatId implements Rule
      */
     public function message()
     {
-        return 'Ungültige USt-IdNr.';
+        return 'Ungültige oder nicht-existente USt-IdNr.';
     }
 }
