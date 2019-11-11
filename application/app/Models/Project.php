@@ -44,6 +44,14 @@ class Project extends Model
 {
     use OptimusEncodedRouteKey;
 
+    public const STATUS_COMING_SOON = 'coming_soon';
+    public const STATUS_IN_FUNDING = 'in_funding';
+
+    public const STATUSES = [
+        self::STATUS_COMING_SOON,
+        self::STATUS_IN_FUNDING,
+    ];
+
     public $incrementing = false;
 
     protected $dates = [

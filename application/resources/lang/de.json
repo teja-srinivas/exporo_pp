@@ -37,8 +37,8 @@
   "If you did not receive the email": "Falls Sie keine Nachricht erhalten haben",
   "click here to request another": "klicken Sie hier um eine neue E-Mail zu erhalten",
   "Contract Types": "Vertragstypen",
-  "in funding": "in Finanzierung",
-  "coming soon": "bald verfügbar",
+  "in_funding": "in Finanzierung",
+  "coming_soon": "bald verfügbar",
   "stock": "Exporo Bestand",
   "finance": "Exporo Finanzierung"
 }

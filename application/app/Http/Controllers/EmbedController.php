@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\Link;
 use App\Models\Project;
 use Illuminate\View\View;
+use App\Builders\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Validation\ValidationException;
@@ -47,9 +48,11 @@ class EmbedController extends Controller
         ]);
 
         $query = Project::query()
-            ->where('status', 'in funding')
-            ->orWhere('status', 'coming soon')
-            ->where('funding_target', '>', 0);
+            ->where('funding_target', '>', 0)
+            ->where(function (Builder $query) {
+                $query->where('status', Project::STATUS_IN_FUNDING);
+                $query->orWhere('status', Project::STATUS_COMING_SOON);
+            });
 
         if ($data['type'] !== 'all') {
             $query->where('type', $data['type']);
