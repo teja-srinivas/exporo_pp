@@ -56,6 +56,9 @@ class EmbedController extends Controller
         }
 
         $projects = $query->get()->map(static function (Project $project) {
+            $investmentSum = $project->investments()
+                ->sum('amount');
+
             return [
                 'name' => $project->description,
                 'location' => $project->location,
@@ -65,8 +68,8 @@ class EmbedController extends Controller
                 'image' => $project->image,
                 'type' => $project->type,
                 'status' => $project->status,
-                'funding_target' => $project->funding_target,
-                'funding_current_sum_invested' => $project->investments->sum('amount'),
+                'funding_target' => min($investmentSum, $project->funding_target),
+                'funding_current_sum_invested' => $investmentSum,
             ];
         })->all();
 
