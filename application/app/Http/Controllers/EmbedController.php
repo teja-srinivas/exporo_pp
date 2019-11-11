@@ -7,9 +7,9 @@ namespace App\Http\Controllers;
 use App\Models\Link;
 use App\Models\Project;
 use Illuminate\View\View;
-use App\Builders\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\ValidationException;
 
 class EmbedController extends Controller
