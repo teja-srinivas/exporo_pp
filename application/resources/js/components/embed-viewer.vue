@@ -80,6 +80,7 @@
               frameborder="0"
               style="border:0;"
               allowfullscreen=""
+              class="rounded shadow-sm"
             ></iframe>
           </div>
 
