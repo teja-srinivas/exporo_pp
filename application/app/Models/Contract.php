@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Helper\Rules;
 use Parental\HasChildren;
 use App\Events\ContractUpdated;
+use App\Events\ContractSaving;
 use App\Builders\ContractBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -46,6 +47,7 @@ class Contract extends Model
     ];
 
     protected $dispatchesEvents = [
+        'saving' => ContractSaving::class,
         'updated' => ContractUpdated::class,
     ];
 

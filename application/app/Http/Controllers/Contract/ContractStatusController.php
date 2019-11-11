@@ -33,8 +33,8 @@ class ContractStatusController extends Controller
         ]);
 
         if ($data['release']) {
-            $now = now();
-            $contract->forceFill(['released_at' => $now, 'accepted_at' => $now])->save();
+            $contract->released_at = now();
+            $contract->save();
             flash_success('Vertrag wurde freigegeben.');
         } else {
             $contract->update(['released_at' => null]);

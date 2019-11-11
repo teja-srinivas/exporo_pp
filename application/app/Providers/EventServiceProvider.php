@@ -22,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
         Events\CommissionBonusUpdated::class => [
             Listeners\InvalidateCommissionsOnCommissionBonusChanges::class,
         ],
+        Events\ContractSaving::class => [
+            Listeners\AutoAcceptContracts::class,
+        ],
         Events\ContractUpdated::class => [
             Listeners\TerminateOldContractOnApproval::class,
         ],

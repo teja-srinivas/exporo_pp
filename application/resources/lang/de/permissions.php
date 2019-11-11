@@ -16,6 +16,7 @@ return [
     'delete' => 'löschen',
     'view' => 'anzeigen',
 
+    'accept' => 'Akzeptieren',
     'dashboard' => 'Dashboard anzeigen',
     'download' => 'Herunterladen',
     'export' => 'Exportieren',
