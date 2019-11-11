@@ -44,11 +44,23 @@ class EmbedController extends Controller
         ]);
 
         $query = Project::query();
-        $query = $query->where('status', 'in funding')->orwhere('status', 'coming soon');
+        //$query = $query->where('status', 'in funding')->orwhere('status', 'coming soon');
+        $query = $query->where('funding_target', '>', 0);
         if ($data['type'] != 'all') {
-            $query = $query->where('type', $data['type']);
+            //$query = $query->where('type', $data['type']);
         }
-        $projects = $query->get();
+        $projects = $query->get()->map(static function (Project $project) {
+                        return [
+                            'name' => $project->description,
+                            'location' => $project->location,
+                            'coupon_rate' => $project->coupon_rate,
+                            'interest_rate' => $project->interest_rate,
+                            'intermediator' => $project->intermediator,
+                            'image' => $project->image,
+                            'funding_target' => $project->funding_target,
+                            'funding_current_sum_invested' => $project->investments->sum('amount'),
+                        ];
+                    })->all();
 
         return view('affiliate.embeds.show', compact(
                 'projects',
