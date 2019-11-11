@@ -64,7 +64,7 @@
 
       <div class="align-items-center flex-fill">
         <p class="pt-1">
-          Im Code-Snippet für die jeweilige Bannergröße ist Ihr persönlicher Partner-Link direkt hinterlegt.
+          Im Code-Snippet für die jeweilige Embedgröße ist Ihr persönlicher Partner-Link direkt hinterlegt.
         </p>
 
         <div class="mb-5" v-for="banner in banners">
