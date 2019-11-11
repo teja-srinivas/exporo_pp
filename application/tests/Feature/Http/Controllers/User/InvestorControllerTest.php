@@ -8,14 +8,16 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Investor;
 use App\Models\Investment;
+use Tests\Traits\CreatesUsers;
 
 class InvestorControllerTest extends TestCase
 {
+    use CreatesUsers;
+
     /** @test */
     public function it_lists_all_investors_with_investment_aggregation()
     {
-        /** @var User $user */
-        $user = factory(User::class)->state('accepted')->create();
+        $user = $this->createActiveUser();
 
         /** @var Investor $investor */
         $investor = factory(Investor::class)->create([
