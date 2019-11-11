@@ -44,7 +44,7 @@ class EmbedController extends Controller
             'height' => ['required', 'in:530'],
             'width' => ['required', 'in:770,345'],
             'link' => ['required','url'],
-            'type' => ['required','in:stock,finance,all'],
+            'type' => ['nullable','in:stock,finance'],
         ]);
 
         $query = Project::query()
@@ -54,7 +54,7 @@ class EmbedController extends Controller
                 $query->orWhere('status', Project::STATUS_COMING_SOON);
             });
 
-        if ($data['type'] !== 'all') {
+        if (isset($data['type'])) {
             $query->where('type', $data['type']);
         }
 
