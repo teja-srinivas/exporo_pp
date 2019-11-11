@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\PermissionRegistrar;
@@ -27,6 +28,10 @@ abstract class Migration extends BaseMigration
         foreach (['create', 'delete', 'update', 'view'] as $action) {
             $permission = $this->createPermission("$resource.$action");
             $permission->assignRole($roles);
+
+            if ($action !== 'view') {
+                $permission->protected = [Role::PARTNER];
+            }
 
             $permissions->push($permission);
         }
