@@ -8,11 +8,11 @@ use Exception;
 use Throwable;
 use App\Models\User;
 use App\Models\Project;
-use App\Models\Contract;
 use App\Models\Commission;
 use App\Models\Investment;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Container\Container;
 use App\Http\Controllers\Controller;
@@ -28,6 +28,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Http\Resources\Commission as CommissionResource;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CommissionController extends Controller
@@ -97,10 +98,7 @@ class CommissionController extends Controller
         /** @var User $user */
         $user = User::query()->findOrFail($data['userId']);
 
-        /** @var Contract $contract */
-        $contract = $user->contract()->firstOrFail();
-
-        $sums = $service->calculateNetAndGross($contract, (float) $data['amount']);
+        $sums = $service->calculateNetAndGross($user->productContract, (float) $data['amount']);
 
         Commission::query()->forceCreate($sums + [
             'model_type' => Commission::TYPE_CORRECTION,
@@ -143,6 +141,13 @@ class CommissionController extends Controller
             'onHold' => 'on_hold',
         ];
 
+        if (!$commission->user->hasActiveContract()) {
+            throw new HttpException(
+                Response::HTTP_PRECONDITION_FAILED,
+                'User does not have an active contract'
+            );
+        }
+
         // Remap keys using the lookup table
         $remapped = collect($request->all())->mapWithKeys(static function ($value, $key) use ($lookup) {
             return [($lookup[$key] ?? $key) => $value];
@@ -161,7 +166,7 @@ class CommissionController extends Controller
 
         if (isset($remapped['amount']) && $remapped['amount'] !== null) {
             $commission->forceFill($service->calculateNetAndGross(
-                $commission->user->contract,
+                $commission->user->productContract,
                 (float) $remapped['amount']
             ));
         }
@@ -169,7 +174,7 @@ class CommissionController extends Controller
         if (isset($remapped['bonus']) && $remapped['bonus'] !== null) {
             $user = $commission->user;
             $sum = $service->calculateSum($commission->investment, (float) $remapped['bonus']);
-            $netGross = $service->calculateNetAndGross($user->contract, $sum);
+            $netGross = $service->calculateNetAndGross($user->productContract, $sum);
 
             $commission->forceFill($netGross + ['bonus' => (float) $remapped['bonus']]);
         }

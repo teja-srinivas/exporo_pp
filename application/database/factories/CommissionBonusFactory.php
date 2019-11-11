@@ -11,15 +11,15 @@ use App\Models\CommissionBonus;
 $factory->define(CommissionBonus::class, static function (Faker $faker) {
     $bonus = $faker->boolean
         ? CommissionBonus::percentage(
-        $faker->randomElement(CommissionBonus::TYPES),
-        $faker->randomFloat(2, 0, 3),
-        $faker->boolean
-    )
+            $faker->randomElement(CommissionBonus::TYPES),
+            $faker->randomFloat(2, 0, 3),
+            $faker->boolean
+        )
         : CommissionBonus::value(
-        $faker->randomElement(CommissionBonus::TYPES),
-        $faker->randomFloat(2, 0, 3),
-        $faker->boolean
-    );
+            $faker->randomElement(CommissionBonus::TYPES),
+            $faker->randomFloat(2, 0, 3),
+            $faker->boolean
+        );
 
     return $bonus + [
         'type_id' => static function () {

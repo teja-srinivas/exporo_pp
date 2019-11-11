@@ -7,6 +7,7 @@ namespace App\Builders;
 use App\Models\Contract;
 use App\Models\Investor;
 use App\Models\CommissionBonus;
+use App\Models\ProductContract;
 use Illuminate\Database\Query\JoinClause;
 
 class InvestorBuilder extends Builder
@@ -27,7 +28,7 @@ class InvestorBuilder extends Builder
         }
 
         return $this
-            ->joinActiveUserContract()
+            ->joinActiveUserContract(ProductContract::class)
             ->whereDoesntHaveCommissions()
             ->whereHasActiveUser()
             ->whereClaimIsActive()
@@ -66,16 +67,19 @@ class InvestorBuilder extends Builder
     /**
      * Adds the active partner user contract to the statement.
      *
+     * @param  string  $type
      * @return self
      */
-    protected function joinActiveUserContract(): self
+    protected function joinActiveUserContract(string $type): self
     {
         $active = Contract::query()
+            ->where('type', Contract::getTypeForClass($type))
             ->addSelect('contracts.id')
             ->addSelect('contracts.user_id')
             ->addSelect('vat_amount')
             ->addSelect('vat_included')
-            ->onlyActive();
+            ->onlyActive()
+            ->toBase();
 
         return $this->joinSub($active, 'contracts', 'contracts.user_id', '=', 'investors.user_id');
     }

@@ -28,9 +28,9 @@ class TagReplacer
      * @param  string|null  $text The raw text
      * @return array A list of all found variables
      */
-    public static function findTags(?string $text = ''): array
+    public static function findTags(?string $text): array
     {
-        if (preg_match_all(self::PATTERN, $text, $matches) === false) {
+        if (preg_match_all(self::PATTERN, $text ?? '', $matches) === false) {
             return [];
         }
 

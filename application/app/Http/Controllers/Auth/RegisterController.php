@@ -8,9 +8,7 @@ use App\Models\Agb;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
-use App\Models\Contract;
 use Illuminate\Support\Str;
-use App\Models\CommissionBonus;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
@@ -115,16 +113,7 @@ class RegisterController extends Controller
             $user->agbs()->attach($agbs);
             $user->assignRole(Role::PARTNER);
 
-            $contract = Contract::fromTemplate($company->contractTemplate);
-            $user->contract()->save($contract);
-
-            $contract->bonuses()->saveMany(
-                $company->contractTemplate->bonuses->map(
-                    static function (CommissionBonus $bonus) {
-                        return $bonus->replicate();
-                    }
-                )
-            );
+            $company->createContractsFor($user);
 
             session()->put('trackUserRegistration', true);
 

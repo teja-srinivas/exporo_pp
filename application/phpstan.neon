@@ -11,14 +11,20 @@ parameters:
         # https://github.com/nunomaduro/larastan/issues/166
         - '#Call to an undefined method App\\Providers\\AppServiceProvider::sortBy()#'
 
-        # https://github.com/nunomaduro/larastan/issues/272
-        - '#dynamicWhere#'
-        - '#Illuminate\\Database\\Query\\Builder#'
-        - '#Illuminate\\Database\\Eloquent\\Builder#'
-        - '#should return Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection#'
+        # https://github.com/nunomaduro/larastan/issues/350
+        - '#groupBy#'
 
-        # https://github.com/nunomaduro/larastan/issues/335
-        - '#calculate\(\) expects App\\Models\\User\|null#'
+        # https://github.com/nunomaduro/larastan/issues/351
+        - '#::visible\(\)#'
+
+        # https://github.com/nunomaduro/larastan/issues/352
+        - '#but returns Illuminate\\Database\\(Query|Eloquent)\\Builder#'
+        - '#Builder::uncancelled#'
+
+        # https://github.com/nunomaduro/larastan/issues/353
+        - '#Parameter \#1 \$table \(string\|null\)#'
+        - '#where(.*)\(\) invoked with 0 parameters#'
 
         # Fix errors with external dependencies
         - '#Access to an undefined property FormulaInterpreter\\Compiler::\$functionCommandFactory#'
+        - '#withPermission\(\)#'

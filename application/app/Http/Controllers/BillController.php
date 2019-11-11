@@ -12,17 +12,18 @@ use App\Models\Investor;
 use App\Models\Commission;
 use App\Models\Investment;
 use App\Traits\Encryptable;
+use App\Models\UserDetails;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Services\BillGenerator;
 use Illuminate\Routing\Redirector;
 use App\Repositories\BillRepository;
 use Illuminate\Database\Eloquent\Builder;
-use App\Http\Resources\User as UserResource;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Collection as BaseCollection;
+use App\Http\Resources\UserDetails as UserDetailsResource;
 
 class BillController extends Controller
 {
@@ -37,14 +38,22 @@ class BillController extends Controller
     {
         $this->authorize('viewAny', Bill::class);
 
+        $billsWithUser = $bills->getDetails()
+            ->join('user_details', 'bills.user_id', 'user_details.id')
+            ->addSelect('user_details.display_name')
+            ->get();
+
         return response()->view('bills.index', [
-            'bills' => $bills->getDetails()->load('user')->map(static function (Bill $bill) use ($request) {
+            'bills' => $billsWithUser->map(static function (Bill $bill) use ($request) {
                 return [
                     'id' => $bill->getKey(),
                     'name' => $bill->getBillingMonth()->format('Y-m'),
                     'displayName' => $bill->getDisplayName(),
                     'date' => $bill->created_at->format('Y-m-d'),
-                    'user' => UserResource::make($bill->user)->toArray($request),
+                    'user' => UserDetailsResource::make(new UserDetails([
+                        'id' => $bill->user_id,
+                        'display_name' => $bill->display_name,
+                    ]))->toArray($request),
                     'gross' => $bill->gross,
                     'commissions' => $bill->commissions,
                     'links' => [
@@ -148,7 +157,7 @@ class BillController extends Controller
     {
         $bill->load('user');
 
-        $investments = $this->mapForView($bill->commissions());
+        $investments = $this->mapForView($bill->commissions()->getQuery());
 
         return response()->view('bills.pdf.bill', $investments + [
             'bill' => $bill,

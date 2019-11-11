@@ -12,6 +12,7 @@ use App\Models\Investor;
 use App\Models\Investment;
 use App\Models\CommissionType;
 use App\Models\CommissionBonus;
+use App\Models\ProductContract;
 use Tests\Traits\TestsContracts;
 use App\Services\CalculateCommissionsService;
 
@@ -95,7 +96,7 @@ final class CommissionCalculationTest extends TestCase
         $this->assertNull($result['net'], 'No overhead bonuses should result in no money');
 
         // Add overhead bonuses and try again
-        $this->createBonuses($this->parent->contract, $this->commissionType, [
+        $this->createBonuses($this->parent->productContract, $this->commissionType, [
             CommissionBonus::percentage(CommissionBonus::TYPE_FIRST_INVESTMENT, 2.15, true),
         ]);
 
@@ -117,8 +118,8 @@ final class CommissionCalculationTest extends TestCase
 
     protected function createContract(User $user, array $bonuses): Contract
     {
-        /** @var Contract $contract */
-        $contract = factory(Contract::class)->state('active')->create([
+        /** @var ProductContract $contract */
+        $contract = factory(ProductContract::class)->state('active')->create([
             'user_id' => $user->getKey(),
             'vat_included' => false,
         ]);

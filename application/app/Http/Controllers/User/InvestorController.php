@@ -27,7 +27,7 @@ class InvestorController extends Controller
                 ->leftJoinSub(Investment::query()
                     ->join('investors', 'investments.investor_id', 'investors.id')
                     ->where('user_id', $user->getKey())
-                    ->whereDate('investments.acknowledged_at', '<>', '')
+                    ->whereNotNull('investments.acknowledged_at')
                     ->whereNull('investments.cancelled_at')
                     ->addSelect('investor_id')
                     ->selectRaw('count(investments.id) as investments')

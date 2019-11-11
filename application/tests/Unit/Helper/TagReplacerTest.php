@@ -28,6 +28,12 @@ class TagReplacerTest extends TestCase
     }
 
     /** @test */
+    public function it_handles_empty_text_values()
+    {
+        $this->assertEquals([], TagReplacer::findTags(null));
+    }
+
+    /** @test */
     public function it_generates_tags_for_the_given_user()
     {
         $this->createApplication();

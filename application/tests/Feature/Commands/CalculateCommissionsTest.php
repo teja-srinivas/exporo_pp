@@ -8,12 +8,12 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Project;
-use App\Models\Contract;
 use App\Models\Investor;
 use App\Models\Investment;
 use App\Models\Commission;
 use App\Models\CommissionType;
 use App\Models\CommissionBonus;
+use App\Models\ProductContract;
 use Tests\Traits\TestsContracts;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -55,7 +55,7 @@ class CalculateCommissionsTest extends TestCase
             ]),
         ]);
 
-        $contract = factory(Contract::class)->state('active')->create([
+        $contract = factory(ProductContract::class)->state('active')->create([
             'user_id' => $user->getKey(),
         ]);
 
@@ -90,7 +90,7 @@ class CalculateCommissionsTest extends TestCase
         ]);
 
         $userWithMissingParent->contracts()->save(
-            factory(Contract::class)->state('active')->make()
+            factory(ProductContract::class)->state('active')->make()
         );
 
         /** @var Investment $investment */

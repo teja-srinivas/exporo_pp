@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Contract;
 
-use App\Helper\Rules;
 use App\Models\Contract;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -62,21 +61,7 @@ class ContractController extends Controller
     {
         $this->checkIfContractIsEditable($contract);
 
-        $data = $this->validate($request, Rules::byPermission([
-            'management.contracts.update-cancellation-period' => [
-                'cancellation_days' => ['required', 'numeric', 'min:1', 'max:365'],
-            ],
-            'management.contracts.update-claim' => [
-                'claim_years' => ['required', 'numeric', 'min:1', 'max:7'],
-            ],
-            'management.contracts.update-special-agreement' => [
-                'special_agreement' => ['nullable'],
-            ],
-            'management.contracts.update-vat-details' => [
-                'vat_amount' => ['numeric'],
-                'vat_included' => ['boolean'],
-            ],
-        ]));
+        $data = $this->validate($request, $contract->getValidationRules());
 
         $contract->update($data);
 
@@ -94,7 +79,6 @@ class ContractController extends Controller
         $this->checkIfContractIsEditable($contract);
 
         DB::transaction(static function () use ($contract) {
-            $contract->bonuses()->delete();
             $contract->delete();
         });
 

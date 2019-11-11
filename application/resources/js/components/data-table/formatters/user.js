@@ -27,7 +27,7 @@ export default {
 
   format: formatUser,
   groupBy: user => user.id,
-  orderBy: user => `${user.lastName ? replaceExtras(user.lastName) : ''}${user.firstName}`.toLowerCase(),
+  orderBy: user => (user.displayName || `${user.lastName ? replaceExtras(user.lastName) : ''}${user.firstName}`).toLowerCase(),
 
   filterFunction: query => {
     // In case we got a string, check their name(s)

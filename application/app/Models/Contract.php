@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Helper\Rules;
+use Parental\HasChildren;
+use App\Events\ContractUpdated;
 use App\Builders\ContractBuilder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 
@@ -16,12 +17,9 @@ use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
  * @method static ContractBuilder query()
  *
  * @property int $id
+ * @property string $type
  * @property int $user_id
  * @property int $template_id
- * @property int $cancellation_days
- * @property int $claim_years The number of years since accepted_at, we can generate commissions for
- * @property bool $vat_included
- * @property float $vat_amount
  * @property string $special_agreement
  * @property Carbon $accepted_at The date the user fully accepted the contract.
  * @property Carbon $released_at The date we confirmed the contract, but has not yet been accepted by the user.
@@ -30,18 +28,34 @@ use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
  * @property Carbon $updated_at
  *
  * @property ContractTemplate $template
- * @property Collection $bonuses
  * @property User $user
  */
 class Contract extends Model
 {
+    use HasChildren;
     use OptimusEncodedRouteKey;
+
+    public const TYPES = [
+        PartnerContract::STI_TYPE,
+        ProductContract::STI_TYPE,
+    ];
+
+    protected $childTypes = [
+        PartnerContract::STI_TYPE => PartnerContract::class,
+        ProductContract::STI_TYPE => ProductContract::class,
+    ];
+
+    protected $dispatchesEvents = [
+        'updated' => ContractUpdated::class,
+    ];
 
     protected $casts = [
         'cancellation_days' => 'int',
         'claim_years' => 'int',
         'vat_included' => 'bool',
         'vat_amount' => 'float',
+        'is_exclusive' => 'bool',
+        'allow_overhead' => 'bool',
     ];
 
     protected $dates = [
@@ -56,12 +70,15 @@ class Contract extends Model
         'special_agreement',
         'vat_included',
         'vat_amount',
+        'is_exclusive',
+        'allow_overhead',
         'released_at',
+        'type',
     ];
 
-    public function bonuses(): HasMany
+    public function getTitle(): string
     {
-        return $this->hasMany(CommissionBonus::class);
+        return __("contracts.{$this->type}.title");
     }
 
     public function template(): BelongsTo
@@ -74,14 +91,9 @@ class Contract extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function hasOverhead(): bool
-    {
-        return $this->bonuses()->where('is_overhead', true)->exists();
-    }
-
     public function isActive(): bool
     {
-        return $this->terminated_at === null;
+        return !$this->isEditable() && ($this->terminated_at === null || $this->terminated_at > now());
     }
 
     public function isEditable(): bool
@@ -89,22 +101,27 @@ class Contract extends Model
         return $this->accepted_at === null;
     }
 
+    public function isReleased(): bool
+    {
+        return $this->released_at !== null;
+    }
+
+    public function getValidationRules(): array
+    {
+        return Rules::byPermission([
+            'management.contracts.update-special-agreement' => [
+                'special_agreement' => ['nullable'],
+            ],
+        ]);
+    }
+
     public function newEloquentBuilder($query): ContractBuilder
     {
         return new ContractBuilder($query);
     }
 
-    public static function fromTemplate(ContractTemplate $template): self
+    public static function getTypeForClass(string $class): string
     {
-        $contract = new self();
-        $contract->forceFill([
-            'template_id' => $template->getKey(),
-            'vat_amount' => $template->vat_amount,
-            'vat_included' => $template->vat_included,
-            'cancellation_days' => $template->cancellation_days,
-            'claim_years' => $template->claim_years,
-        ]);
-
-        return $contract;
+        return array_search($class, (new Contract())->childTypes) ?? $class;
     }
 }

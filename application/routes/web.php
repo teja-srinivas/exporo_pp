@@ -17,7 +17,7 @@ use App\Http\Controllers as C;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::domain(config('app.shortener_url'))->group(static function () {
+Route::domain((string) config('app.shortener_url'))->group(static function () {
     Route::get('{link}', [C\LinkInstanceController::class, 'show'])
         ->name('short-link');
 });
@@ -67,8 +67,22 @@ Route::middleware(['verified'])->group(static function () {
         Route::resource('users', C\UserController::class);
 
         Route::prefix('contracts')->group(static function () {
-            Route::resource('templates', C\Contract\ContractTemplateController::class)
-                ->names('contracts.templates');
+            Route::prefix('templates')->name('contracts.templates.')->group(static function () {
+                foreach (
+                    [
+                        App\Models\PartnerContract::STI_TYPE => C\Contract\PartnerContractTemplateController::class,
+                        App\Models\ProductContract::STI_TYPE => C\Contract\ProductContractTemplateController::class,
+                    ] as $type => $controller
+                ) {
+                    Route::resource($type, $controller)
+                        ->only(['create', 'store', 'update'])
+                        ->parameter($type, 'template');
+                }
+
+                Route::resource('/', C\Contract\ContractTemplateController::class)
+                    ->only(['index', 'store', 'edit', 'destroy'])
+                    ->parameter('', 'template');
+            });
 
             Route::resource('/', C\Contract\ContractController::class)
                 ->only('show', 'edit', 'update', 'destroy')

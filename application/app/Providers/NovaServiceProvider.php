@@ -6,10 +6,18 @@ namespace App\Providers;
 
 use App\Nova\Metrics;
 use Laravel\Nova\Nova;
+use Parental\Providers\NovaResourceProvider;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
+    public function boot()
+    {
+        parent::boot();
+
+        $this->app->register(NovaResourceProvider::class);
+    }
+
     /**
      * Register the Nova routes.
      *

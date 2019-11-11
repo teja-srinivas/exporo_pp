@@ -76,52 +76,10 @@
         @slot('info', 'die von diesem Nutzer akzeptiert wurden.')
 
         <div class="list-group">
-            @forelse($user->contracts()->latest()->get() as $contract)
-                <a class="list-group-item list-group-item-action
-                          @if($contract->is($user->contract)) active @endif"
-                   href="{{ route($contract->isEditable() && auth()->user()->can('update', $contract) ? 'contracts.edit' : 'contracts.show', $contract) }}">
-                    <div class="d-flex w-100 justify-content-between align-items-start">
-                        <b>
-                            {{ $contract->created_at->format('d.m.Y') }}
-                        </b>
-
-                        @if($contract->rejected_at !== null)
-                            <span class="badge badge-danger badge-pill">Abgewiesen</span>
-                        @elseif($contract->accepted_at === null)
-                            <span class="badge badge-warning badge-pill">Ausstehend</span>
-                        @else
-                            <span class="badge badge-success badge-pill">
-                                Angenommen: <b>{{ $contract->accepted_at->format('d.m.Y') }}</b>
-                            </span>
-                        @endif
-                    </div>
-
-                    <div class="small font-weight-bold">
-                        Kündigungsfrist: {{ trans_choice('time.days', $contract->cancellation_days) }}
-
-                        <span class="mx-1">&bull;</span>
-
-                        Anspruch: {{ trans_choice('time.years', $contract->claim_years) }}
-
-                        <span class="mx-1">&bull;</span>
-
-                        Subpartner: {{ $contract->hasOverhead() ? 'Ja' : 'Nein' }}
-
-                        <span class="mx-1">&bull;</span>
-
-                        MwSt:
-                        @if ($contract->vat_amount > 0)
-                            {{ $contract->vat_amount }}%
-                            {{ $contract->vat_included ? 'Inkl.' : 'On Top' }}
-                        @else
-                            Nein
-                        @endif
-                    </div>
-
-                    @unless(empty($contract->special_agreement))
-                        <div class="small badge badge-primary">Sondervereinbarung</div>
-                    @endif
-                </a>
+            @forelse($contracts as $contract)
+                @include("users.partials.contracts.{$contract->type}", [
+                    'contract' => $contract,
+                ])
             @empty
                 <div class="list-group-item text-center text-muted">
                     Noch keine Verträge vorhanden
@@ -141,9 +99,11 @@
                             'required' => true,
                             'values' => $contractTemplates,
                             'assoc' => true,
+                            'groups' => true,
+                            'class' => 'w-auto mw-25 custom-select-sm',
                         ])
 
-                        <button type="submit" class="btn btn-primary btn-sm">
+                        <button type="submit" class="btn btn-primary btn-sm ml-1">
                             Vertragsentwurf anlegen
                         </button>
                     </form>

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
-use App\Models\Contract;
 use PHPUnit\Framework\TestCase;
+use App\Models\ProductContract;
 use App\Services\CalculateCommissionsService;
 
 class CalculateCommissionsServiceTest extends TestCase
@@ -22,7 +22,7 @@ class CalculateCommissionsServiceTest extends TestCase
     public function it_calculates_vat_amounts(float $net, float $gross, float $vat, bool $included, float $sum)
     {
         $service = new CalculateCommissionsService();
-        $contract = new Contract([
+        $contract = new ProductContract([
             'vat_amount' => $vat,
             'vat_included' => $included,
         ]);

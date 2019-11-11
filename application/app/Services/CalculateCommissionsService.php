@@ -7,9 +7,9 @@ namespace App\Services;
 use Exception;
 use App\Models\User;
 use App\Models\Schema;
-use App\Models\Contract;
 use App\Models\Investment;
 use App\Models\CommissionBonus;
+use App\Models\ProductContract;
 
 final class CalculateCommissionsService
 {
@@ -58,7 +58,7 @@ final class CalculateCommissionsService
 
         $sum = $this->calculateSum($investment, $bonus);
 
-        return $this->calculateNetAndGross($user->contract, $sum) + [
+        return $this->calculateNetAndGross($user->productContract, $sum) + [
             'model_type' => Investment::MORPH_NAME,
             'model_id' => $investment->getKey(),
             'bonus' => $bonus,
@@ -91,11 +91,11 @@ final class CalculateCommissionsService
      * If the given contract contains no VAT details, this will simply return
      * the initial value for both, net and gross.
      *
-     * @param Contract $contract
+     * @param ProductContract $contract
      * @param float $sum
      * @return array
      */
-    public function calculateNetAndGross(Contract $contract, float $sum): array
+    public function calculateNetAndGross(ProductContract $contract, float $sum): array
     {
         $vatAmount = $contract->vat_amount;
 
@@ -130,7 +130,7 @@ final class CalculateCommissionsService
     public function calculateBonus(Investment $investment, User $user): ?float
     {
         /** @var CommissionBonus|null $bonus */
-        $bonus = $user->contract->bonuses
+        $bonus = $user->productContract->bonuses
             ->where('type_id', $investment->project->commission_type)
             ->where('is_percentage', true)
             ->where(

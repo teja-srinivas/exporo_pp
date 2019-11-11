@@ -42,8 +42,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property UserDetails $details
- * @property Contract $contract
- * @property Contract $draftContract
+ * @property PartnerContract $contract
+ * @property PartnerContract $partnerContract
+ * @property ProductContract $productContract
+ * @property Collection $contracts
  * @property Collection $investors
  * @property Collection $investments
  * @property Collection $bonuses
@@ -129,16 +131,22 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function contract(): HasOne
     {
-        return $this->hasOne(Contract::class)
+        return $this->partnerContract();
+    }
+
+    public function partnerContract(): HasOne
+    {
+        return $this->hasOne(PartnerContract::class)
             ->whereNotNull('accepted_at')
             ->whereNotNull('released_at')
             ->latest();
     }
 
-    public function draftContract(): HasOne
+    public function productContract(): HasOne
     {
-        return $this->hasOne(Contract::class)
-            ->whereNull('accepted_at')
+        return $this->hasOne(ProductContract::class)
+            ->whereNotNull('accepted_at')
+            ->whereNotNull('released_at')
             ->latest();
     }
 
@@ -186,7 +194,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
      */
     public function bonuses(): HasMany
     {
-        return $this->hasMany(CommissionBonus::class, 'contract_id', 'contract_id');
+        return $this->hasMany(CommissionBonus::class, 'contract_id', 'product_contract_id');
     }
 
     /**
@@ -194,9 +202,9 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
      *
      * @return int
      */
-    public function getContractIdAttribute()
+    public function getProductContractIdAttribute()
     {
-        return optional($this->contract)->getKey();
+        return optional($this->productContract)->getKey();
     }
 
     public function investors(): HasMany
@@ -287,7 +295,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     {
         $url = URL::temporarySignedRoute(
             'verification.verify',
-            \Illuminate\Support\Carbon::now()->addMinutes(config('auth.verification.expire', 60 * 24 * 2)),
+            \Illuminate\Support\Carbon::now()->addMinutes((int) config('auth.verification.expire', 60 * 24 * 2)),
             [
                 'id' => $this->getKey(),
                 'hash' => sha1($this->getEmailForVerification()),
@@ -304,15 +312,20 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function canBeAccepted(): bool
     {
-        return $this->hasVerifiedEmail();
+        if (!$this->hasVerifiedEmail()) {
+            return false;
+        }
+
+        if ($this->partnerContract === null || !$this->partnerContract->isReleased()) {
+            return false;
+        }
+
+        return $this->productContract !== null && $this->productContract->isReleased();
     }
 
-    /**
-     * @return bool
-     */
     public function hasActiveContract(): bool
     {
-        return $this->contract !== null;
+        return $this->partnerContract !== null;
     }
 
     public function getDisplayName(): string

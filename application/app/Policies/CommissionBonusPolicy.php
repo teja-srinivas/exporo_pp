@@ -6,7 +6,7 @@ namespace App\Policies;
 
 class CommissionBonusPolicy extends BasePolicy
 {
-    public const PERMISSION = 'management.commission-bonuses';
+    public const PERMISSION = 'management.contracts.commission-bonuses';
 
     public function __construct()
     {

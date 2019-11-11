@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\User;
-use App\Models\Contract;
 use App\Models\Investor;
 use App\Builders\Builder;
 use App\Models\Commission;
 use App\Models\Investment;
 use Illuminate\Console\Command;
+use App\Models\ProductContract;
 use Illuminate\Support\Collection;
 use App\Services\CalculateCommissionsService;
 
@@ -85,7 +85,7 @@ final class CalculateCommissions extends Command
         $callback = static function (Investor $investor) use ($commissionsService) {
             $sums = $commissionsService->calculateNetAndGross(
                 // Temp values that come from the query (not actually from the Investor's table)
-                new Contract($investor->only('vat_included', 'vat_amount')),
+                new ProductContract($investor->only('vat_included', 'vat_amount')),
                 (float) $investor->value
             );
 
@@ -110,7 +110,7 @@ final class CalculateCommissions extends Command
         $this->line('Calculating investment commissions...');
 
         $query = Investment::query()->withoutCommissions()->with([
-            'investor.user.contract.bonuses',
+            'investor.user.productContract.bonuses',
             'investor.user.details',
             'project.schema',
         ]);

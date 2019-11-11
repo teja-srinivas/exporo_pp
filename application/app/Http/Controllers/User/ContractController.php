@@ -7,10 +7,8 @@ namespace App\Http\Controllers\User;
 use App\Models\User;
 use App\Models\Contract;
 use Illuminate\Http\Request;
-use App\Models\CommissionBonus;
 use Illuminate\Validation\Rule;
 use App\Models\ContractTemplate;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,21 +33,9 @@ class ContractController extends Controller
 
         /** @var ContractTemplate $template */
         $template = ContractTemplate::query()->find($data['template']);
-        $contract = Contract::fromTemplate($template);
 
-        DB::transaction(static function () use ($contract, $user, $template) {
-            $contract->user()->associate($user);
-            $contract->save();
+        $template->createInstance($user);
 
-            $contract->bonuses()->createMany($template->bonuses->map(static function (CommissionBonus $template) {
-                return $template->replicate()->attributesToArray();
-            })->all());
-        });
-
-        if ($user->can('update', $contract)) {
-            return response()->redirectToRoute('contracts.edit', [$contract]);
-        }
-
-        return response()->redirectToRoute('contracts.show', [$contract]);
+        return response()->redirectToRoute('users.show', [$user]);
     }
 }

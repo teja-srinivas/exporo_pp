@@ -30,6 +30,10 @@ Route::name('api.')->middleware('auth:api')->group(static function () {
         ->names('contracts.templates.bonuses')
         ->only('store');
 
+    Route::apiResource('contracts/{contract}/bonuses', Api\ProductContractBonusController::class)
+        ->names('contracts.bonuses')
+        ->only('store');
+
     Route::put(
         'commissions',
         [Api\CommissionController::class, 'updateMultiple']
