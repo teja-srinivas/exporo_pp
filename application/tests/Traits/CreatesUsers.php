@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Contract;
 use App\Models\ProductContract;
 
-trait TestsControllers
+trait CreatesUsers
 {
     protected function createActiveUserWithPermission(string ...$permissions): User
     {

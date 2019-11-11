@@ -7,11 +7,11 @@ namespace Tests\Feature\Http\Controllers\User;
 use Tests\TestCase;
 use App\Jobs\SendMail;
 use App\Policies\UserPolicy;
-use Tests\Traits\TestsControllers;
+use Tests\Traits\CreatesUsers;
 
 class VerificationControllerTest extends TestCase
 {
-    use TestsControllers;
+    use CreatesUsers;
 
     /** @test */
     public function it_sends_verification_mails()
