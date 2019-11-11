@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers\User;
 
 use Tests\TestCase;
-use App\Models\User;
 use App\Models\Investor;
 use App\Models\Investment;
 use Tests\Traits\CreatesUsers;

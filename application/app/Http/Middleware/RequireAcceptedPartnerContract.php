@@ -20,7 +20,7 @@ class RequireAcceptedPartnerContract
      */
     public function handle($request, Closure $next)
     {
-        /** @var User $user */
+        /** @var User|null $user */
         $user = $request->user();
 
         if ($user === null || session()->has(self::SESSION_KEY)) {

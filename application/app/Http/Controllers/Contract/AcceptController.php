@@ -45,6 +45,7 @@ class AcceptController extends Controller
 
         if ($request->has('dismiss')) {
             session()->put(RequireAcceptedPartnerContract::SESSION_KEY, $contract->getRouteKey());
+
             return redirect()->home();
         }
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Traits;
 
 use App\Models\User;
-use App\Models\Contract;
 use App\Models\ProductContract;
 use App\Models\PartnerContract;
 
