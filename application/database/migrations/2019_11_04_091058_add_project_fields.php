@@ -21,7 +21,7 @@ class AddProjectFields extends Migration
             $table->string('type')->nullable();
             $table->string('status')->nullable();
             $table->decimal('coupon_rate')->nullable();
-            $table->decimal('funding_target')->nullable();
+            $table->decimal('funding_target', 8, 0)->nullable();
             $table->string('intermediator')->nullable();
         });
     }
