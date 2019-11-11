@@ -8,9 +8,11 @@
     @endphp
     <div class="relative font-sans">
         <a href="{{ $data['link'] }}" target="_blank">
-            <div class="bg-light_green z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">Ausschüttungen alle 3 Monate</div>
+            <div class="bg-light_green z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
+                {{ __($project['status']) }}
+            </div>
             <img class="rounded-tl-lg rounded-tr-lg"
-                data-lazy="https://exporo.imgix.net/uploads/Schwerin-Architekturfotografie-Bach-51.jpg?w=345&h=275&fit=crop"
+                data-lazy="{{ $project['image'] }}?w=345&h=275&fit=crop"
                 alt="{{ $project['name'] }}"
             >
             <div class="p-3 py-2 border-b border-lighter_gray">

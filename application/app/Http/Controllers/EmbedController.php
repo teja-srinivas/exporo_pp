@@ -57,6 +57,8 @@ class EmbedController extends Controller
                             'interest_rate' => $project->interest_rate,
                             'intermediator' => $project->intermediator,
                             'image' => $project->image,
+                            'type' => $project->type,
+                            'status' => $project->status,
                             'funding_target' => $project->funding_target,
                             'funding_current_sum_invested' => $project->investments->sum('amount'),
                         ];

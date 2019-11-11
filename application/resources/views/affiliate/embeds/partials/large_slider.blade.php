@@ -10,9 +10,11 @@
         <a href="{{ $data['link'] }}" target="_blank">
             <div class="flex" >    
                 <div class="flex-none">
-                    <div class="bg-light_green z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">Ausschüttungen alle 3 Monate</div>
+                    <div class="bg-light_green z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
+                        {{ __($project['status']) }}
+                    </div>
                     <img class="rounded-bl-lg rounded-tl-lg"
-                        data-lazy="https://exporo.imgix.net/uploads/Schwerin-Architekturfotografie-Bach-51.jpg?w=480&h=530&fit=crop"
+                        data-lazy="{{ $project['image'] }}?w=480&h=530&fit=crop"
                         alt="{{ $project['name'] }}"
                     >
                 </div>
@@ -50,15 +52,15 @@
                             <div class="bg-green leading-none py-1 rounded-l" style="width: {{ $invested }}%"></div>
                         </div>
                     </div>
-                    <!--<div class="p-3 py-2 border-b border-lighter_gray">
+                    <div class="p-3 py-2 border-b border-lighter_gray">
                         <div class="text-sm truncate font-bold text-gray">
-                            Wohn- und Gewerbegebäute / Hotel
+                            {{ __($project['type']) }}
                         </div>
                         <div class="text-light_gray text-xs">
-                            Art der Immobilien
+                            Projekt-Typ
                         </div>
                     </div>
-                    <div class="p-3 py-2 border-b border-lighter_gray">
+                    <!--<div class="p-3 py-2 border-b border-lighter_gray">
                         <div class="text-sm truncate font-bold text-gray">
                             ca. 369.000 € / 6,06 Mio. €
                         </div>
