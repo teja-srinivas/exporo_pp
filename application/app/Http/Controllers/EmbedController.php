@@ -57,6 +57,7 @@ class EmbedController extends Controller
 
         $projects = $query->get()->map(static function (Project $project) {
             $investmentSum = $project->investments()
+                ->whereNull('cancelled_at')
                 ->sum('amount');
 
             return [
