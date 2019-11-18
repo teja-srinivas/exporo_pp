@@ -21,4 +21,4 @@ mix.copy('node_modules/slick-carousel/slick/fonts', 'public/fonts/vendor/slick-c
 mix.version();
 mix.sourceMaps();
 
-mix.purgeCss();
+mix.purgeCss({enabled: true,});

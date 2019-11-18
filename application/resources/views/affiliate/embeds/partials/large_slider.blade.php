@@ -5,13 +5,12 @@
         $invested = $project['funding_current_sum_invested'] / $project['funding_target'] * 100;
         $remainingFormatted = number_format($remaining, 0, ',', '.');
         $investedFormatted = number_format($invested, 2, ',', '.');
-        $color = ($project['type'] === 'finance' ? 'green' : 'blue');
     @endphp
     <div class="relative font-sans">
         <a href="{{ $data['link'] }}" target="_blank">
             <div class="flex">
                 <div class="flex-none">
-                    <div class="bg-light_{{ $color }} z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
+                    <div class="{{ $project['type'] === 'finance' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
                         {{ __($project['status']) }}
                     </div>
                     <img class="rounded-bl-lg rounded-tl-lg"
@@ -57,7 +56,7 @@
                             </div>
                         </div>
                         <div class="bg-lighter_gray w-full rounded">
-                            <div class="bg-{{ $color }} leading-none py-1 rounded-l" style="width: {{ $invested }}%"></div>
+                            <div class="{{ $project['type'] === 'finance' ? 'bg-green' : 'bg-blue' }} leading-none py-1 rounded-l" style="width: {{ $invested }}%"></div>
                         </div>
                     </div>
                     <div class="p-3 border-b border-lighter_gray">
@@ -93,7 +92,7 @@
                         </div>
                     </div>
                     <div class="p-3 absolute bottom-0" style="width:100%;">
-                        <div class="text-sm bg-{{ $color }} hover:bg-light_{{ $color }} w-full rounded-full py-1 shadow text-white text-center uppercase font-medium cursor-pointer">Zum Projekt</div>
+                        <div class="text-sm {{ $project['type'] === 'finance' ? 'bg-green' : 'bg-blue' }} hover:{{ $project['type'] === 'finance' ? 'bg-light_green' : 'bg-light_blue' }} w-full rounded-full py-1 shadow text-white text-center uppercase font-medium cursor-pointer">Zum Projekt</div>
                     </div>
                 </div>
             </div>
