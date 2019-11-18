@@ -4,7 +4,7 @@
 <script src="{{ mix('js/embed/app.js') }}"></script>
 
 <!-- Styles -->
-<link href="{{ mix('css/embed/app.css') }}" rel="stylesheet">
+<link href="{{ mix('css/embed.css') }}" rel="stylesheet">
 
 @if ($data['width'] == 770 && $data['height'] == 530)
     @include('affiliate.embeds.partials.large_slider')

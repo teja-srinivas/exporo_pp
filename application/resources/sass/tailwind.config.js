@@ -12,6 +12,4 @@ module.exports = {
           light_blue: 'rgba(66, 106, 168, 0.8)',
       }
   },
-  variants: {},
-  plugins: [],
 }
