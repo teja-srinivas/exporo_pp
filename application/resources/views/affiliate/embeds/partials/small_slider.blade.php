@@ -5,10 +5,11 @@
         $invested = $project['funding_current_sum_invested'] / $project['funding_target'] * 100;
         $remainingFormatted = number_format($remaining, 0, ',', '.');
         $investedFormatted = number_format($invested, 2, ',', '.');
+        $color = ($project['type'] === 'finance' ? 'green' : 'blue');
     @endphp
     <div class="relative font-sans">
         <a href="{{ $data['link'] }}" target="_blank">
-            <div class="bg-light_green z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
+            <div class="bg-light_{{ $color }} z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
                 {{ __($project['status']) }}
             </div>
             <img class="rounded-tl-lg rounded-tr-lg"
@@ -45,7 +46,7 @@
                     </div>
                 </div>
                 <div class="bg-lighter_gray w-full rounded">
-                    <div class="bg-green leading-none py-1 rounded-l" style="width: {{ $invested }}%"></div>
+                    <div class="bg-{{ $color }} leading-none py-1 rounded-l" style="width: {{ $invested }}%"></div>
                 </div>
             </div>
             <div class="p-3 py-2">
@@ -57,7 +58,7 @@
                 </div>
             </div>
             <div class="p-3 py-2">
-                <div class="text-sm bg-green hover:bg-light_green w-full rounded-full py-1 shadow text-white text-center uppercase font-medium cursor-pointer">Zum Projekt</div>
+                <div class="text-sm bg-{{ $color }} hover:bg-light_{{ $color }} w-full rounded-full py-1 shadow text-white text-center uppercase font-medium cursor-pointer">Zum Projekt</div>
             </div>
         </a>
     </div>

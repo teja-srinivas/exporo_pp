@@ -137,7 +137,7 @@ class Project extends Model
     {
         $url = $this->image;
 
-        if (stripos('://', $url) !== false) {
+        if (stripos($url, '://') !== false) {
             return $url;
         }
 

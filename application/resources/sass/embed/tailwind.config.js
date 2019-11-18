@@ -8,6 +8,8 @@ module.exports = {
           light_gray: '#a2a2a2',
           green: '#86AC48',
           lighter_gray: '#ededf3',
+          blue: '#3968AF',
+          light_blue: 'rgba(66, 106, 168, 0.8)',
       }
   },
 }
