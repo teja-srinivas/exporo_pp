@@ -7,7 +7,7 @@
             'label' => 'Benutzer',
             'format' => 'user',
         ],
-        array_key_exists('company', $users->first()) ? [
+        $users->isNotEmpty() && array_key_exists('company', $users->first()) ? [
             'name' => 'company',
             'label' => 'Firma',
         ] : null,
