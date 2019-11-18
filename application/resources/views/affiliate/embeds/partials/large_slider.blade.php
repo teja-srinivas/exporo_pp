@@ -19,8 +19,8 @@
                         alt="{{ $project['name'] }}"
                     >
                 </div>
-                <div class="flex-grow">
-                    <div class="p-3 py-2 border-b border-lighter_gray">
+                <div class="flex-grow relative">
+                    <div class="p-3 border-b border-lighter_gray">
                         <div class="text-base uppercase truncate font-bold text-gray">
                             {{ $project['name'] }}
                         </div>
@@ -28,7 +28,7 @@
                             {{ $project['location'] }}
                         </div>
                     </div>
-                    <div class="p-3 py-2 border-b border-lighter_gray">
+                    <div class="p-3 border-b border-lighter_gray">
                         <div class="flex">
                             @if ($project['type'] === 'finance')
                                 <div class="w-1/2">
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="p-3 py-2 border-b border-lighter_gray">
+                    <div class="p-3 border-b border-lighter_gray">
                         <div class="flex">
                             <div class="w-1/2">
                                 <div class="text-xs text-gray">{{ $investedFormatted }}% finanziert</div>
@@ -60,7 +60,7 @@
                             <div class="bg-{{ $color }} leading-none py-1 rounded-l" style="width: {{ $invested }}%"></div>
                         </div>
                     </div>
-                    <div class="p-3 py-2 border-b border-lighter_gray">
+                    <div class="p-3 border-b border-lighter_gray">
                         <div class="text-sm truncate font-bold text-gray">
                             {{ __($project['type']) }}
                         </div>
@@ -68,7 +68,7 @@
                             Projekt-Typ
                         </div>
                     </div>
-                    <div class="p-3 py-2 border-b border-lighter_gray">
+                    <div class="p-3 border-b border-lighter_gray">
                         <div class="text-sm truncate font-bold text-gray">
                             Platzhalter
                         </div>
@@ -76,7 +76,7 @@
                             Platzhalter
                         </div>
                     </div>
-                    <div class="p-3 py-2 border-b border-lighter_gray">
+                    <div class="p-3 border-b border-lighter_gray">
                         <div class="text-sm truncate font-bold text-gray">
                             Platzhalter
                         </div>
@@ -84,7 +84,7 @@
                             Platzhalter
                         </div>
                     </div>
-                    <div class="p-3 py-2">
+                    <div class="p-3">
                         <div class="text-sm font-bold text-gray">
                             {{ $project['intermediator'] }}
                         </div>
@@ -92,7 +92,7 @@
                             Vermittler
                         </div>
                     </div>
-                    <div class="p-3 py-2">
+                    <div class="p-3 absolute bottom-0" style="width:100%;">
                         <div class="text-sm bg-{{ $color }} hover:bg-light_{{ $color }} w-full rounded-full py-1 shadow text-white text-center uppercase font-medium cursor-pointer">Zum Projekt</div>
                     </div>
                 </div>
