@@ -78,7 +78,7 @@ class UserController extends Controller
 
             $user->details->fill($request->validated())->saveOrFail();
 
-            $company->createContractsFor($user);
+            $company->createContractsFor($user, $request->contracts);
 
             return $user;
         });
