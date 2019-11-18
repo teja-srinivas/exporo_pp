@@ -60,8 +60,6 @@ class PartnerContractTemplateController extends Controller
     {
         $data = $this->validate($request, [
             'is_default' => ['nullable', 'in:on,1'],
-            'is_exclusive' => ['boolean'],
-            'allow_overhead' => ['boolean'],
         ] + Rules::prepend($this->validationRules(), 'required'));
 
         $data['is_default'] = (bool) ($data['is_default'] ?? false);
@@ -79,6 +77,8 @@ class PartnerContractTemplateController extends Controller
             'name' => ['string'],
             'cancellation_days' => ['numeric', 'min:1', 'max:365'],
             'claim_years' => ['numeric', 'min:1', 'max:7'],
+            'allow_overhead' => ['boolean'],
+            'is_exclusive' => ['boolean'],
         ];
     }
 }

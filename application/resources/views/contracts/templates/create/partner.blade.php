@@ -18,5 +18,23 @@
             'required' => true,
             'help' => 'In Tagen'
         ],
+        [
+            'type' => 'radio',
+            'name' => 'is_exclusive',
+            'label' => __('Exklusiv für Exporo tätig'),
+            'values' => [
+                false => 'Nein',
+                true => 'Ja',
+            ],
+        ],
+        [
+            'type' => 'radio',
+            'name' => 'allow_overhead',
+            'label' => __('Erlaubt Subpartner'),
+            'values' => [
+                false => 'Nein',
+                true => 'Ja',
+            ],
+        ],
     ]
 ])
