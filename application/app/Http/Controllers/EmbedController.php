@@ -72,8 +72,9 @@ class EmbedController extends Controller
                 'image' => $project->imageUrl(),
                 'type' => $project->type,
                 'status' => $project->status,
-                'funding_target' => min($investmentSum, $project->funding_target),
-                'funding_current_sum_invested' => $investmentSum,
+                'rating' => $project->rating,
+                'funding_target' => $project->funding_target,
+                'funding_current_sum_invested' => min($investmentSum, $project->funding_target),
             ];
         })->all();
 

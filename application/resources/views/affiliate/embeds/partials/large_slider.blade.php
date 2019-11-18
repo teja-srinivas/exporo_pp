@@ -30,10 +30,17 @@
                     </div>
                     <div class="p-3 py-2 border-b border-lighter_gray">
                         <div class="flex">
-                            <div class="w-1/2">
-                                <div class="text-base font-bold text-gray">{{ $project['coupon_rate'] }} %</div>
-                                <div class="text-light_gray text-xs">Auschüttung pro Jahr</div>
-                            </div>
+                            @if ($project['type'] === 'finance')
+                                <div class="w-1/2">
+                                    <div class="text-base font-bold text-gray">{{ $project['coupon_rate'] }} %</div>
+                                    <div class="text-light_gray text-xs">Auschüttung pro Jahr</div>
+                                </div>
+                            @elseif ($project['type'] === 'stock')
+                                <div class="w-1/2">
+                                    <div class="text-base font-bold text-gray">{{ $project['rating'] }}</div>
+                                    <div class="text-light_gray text-xs">Bewertung</div>
+                                </div>
+                            @endif
                             <div class="w-1/2 text-right">
                                 <div class="text-base font-bold text-gray">{{ $project['interest_rate'] }} %</div>
                                 <div class="text-light_gray text-xs">Gesamtrendite</div>
@@ -61,22 +68,22 @@
                             Projekt-Typ
                         </div>
                     </div>
-                    <!--<div class="p-3 py-2 border-b border-lighter_gray">
+                    <div class="p-3 py-2 border-b border-lighter_gray">
                         <div class="text-sm truncate font-bold text-gray">
-                            ca. 369.000 € / 6,06 Mio. €
+                            Platzhalter
                         </div>
                         <div class="text-light_gray text-xs">
-                            Jahresnettomiete / Verkehrswert
+                            Platzhalter
                         </div>
                     </div>
                     <div class="p-3 py-2 border-b border-lighter_gray">
-                        <div class="text-sm font-bold text-gray">
-                            Hauptmieter: Vier-Sterne-Hotel Uhle und Targobank
+                        <div class="text-sm truncate font-bold text-gray">
+                            Platzhalter
                         </div>
                         <div class="text-light_gray text-xs">
-                            Mieter
+                            Platzhalter
                         </div>
-                    </div>-->
+                    </div>
                     <div class="p-3 py-2">
                         <div class="text-sm font-bold text-gray">
                             {{ $project['intermediator'] }}

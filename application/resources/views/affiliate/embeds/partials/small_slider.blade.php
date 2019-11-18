@@ -26,10 +26,17 @@
             </div>
             <div class="p-3 py-2 border-b border-lighter_gray">
                 <div class="flex">
-                    <div class="w-1/2">
-                        <div class="text-base font-bold text-gray">{{ $project['coupon_rate'] }} %</div>
-                        <div class="text-light_gray text-xs">Auschüttung pro Jahr</div>
-                    </div>
+                    @if ($project['type'] === 'finance')
+                        <div class="w-1/2">
+                            <div class="text-base font-bold text-gray">{{ $project['coupon_rate'] }} %</div>
+                            <div class="text-light_gray text-xs">Auschüttung pro Jahr</div>
+                        </div>
+                    @elseif ($project['type'] === 'stock')
+                        <div class="w-1/2">
+                            <div class="text-base font-bold text-gray">{{ $project['rating'] }}</div>
+                            <div class="text-light_gray text-xs">Bewertung</div>
+                        </div>
+                    @endif
                     <div class="w-1/2 text-right">
                         <div class="text-base font-bold text-gray">{{ $project['interest_rate'] }} %</div>
                         <div class="text-light_gray text-xs">Gesamtrendite</div>
