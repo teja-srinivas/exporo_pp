@@ -76,7 +76,7 @@ class Company extends Model implements AuditableContract
      * @param  User  $user
      * @return Collection<ContractTemplate>
      */
-    public function createContractsFor(User $user, $contracts = NULL): Collection
+    public function createContractsFor(User $user, $contracts = null): Collection
     {
         $query = $this->contractTemplates();
 
@@ -86,12 +86,10 @@ class Company extends Model implements AuditableContract
             $query->where('is_default', true);
         }
 
-        $contractTemplates = $query
+        return $query
             ->get()
             ->map(static function (ContractTemplate $template) use ($user) {
                 return $template->createInstance($user);
             });
-
-        return $contractTemplates;
     }
 }
