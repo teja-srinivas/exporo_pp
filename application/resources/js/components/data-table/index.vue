@@ -125,6 +125,7 @@
       :column-count="columnCount"
       :group-count="groupCount"
       :selectable="selectable"
+      :detail-shown="detailShown"
       :expanded="expanded"
       :selection="selection"
       :primary="primary"

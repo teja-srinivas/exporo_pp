@@ -7,10 +7,10 @@
         <tr
           :key="`${row.key}-header`"
           :class="{
-            'border-bottom': depth === 0 || index < rows.length - 1 || showDetails(row),
-            'border-top': index > 0 && (!rows[index - 1].isGroup || !showDetails(rows[index - 1])),
+            'border-bottom': depth === 0 || index < rows.length - 1 || showNested(row),
+            'border-top': index > 0 && (!rows[index - 1].isGroup || !showNested(rows[index - 1])),
             [$style.trChildStart]: index === 0,
-            [$style.trChildEnd]: depth > 0 && index === rows.length - 1 && !showDetails(row),
+            [$style.trChildEnd]: depth > 0 && index === rows.length - 1 && !showNested(row),
           }"
           class="font-weight-bold"
         >
@@ -35,7 +35,7 @@
           >
             <font-awesome-icon
               icon="chevron-right"
-              :rotation="showDetails(row) ? 90 : undefined"
+              :rotation="showNested(row) ? 90 : undefined"
               :class="$style.chevron"
             />
           </td>
@@ -61,7 +61,7 @@
 
         <!-- Group contents -->
         <tr
-          v-if="showDetails(row)"
+          v-if="showNested(row)"
           :class="$style.innerTable"
           :key="`${row.key}-contents`"
         >
@@ -124,6 +124,7 @@
               @click="toggleItemDetails(row)"
             >
               <font-awesome-icon
+                :rotation="showDetails(row) ? 90 : null"
                 icon="chevron-right"
               />
             </button>
@@ -137,7 +138,7 @@
           />
         </tr>
 
-        <tr>
+        <tr v-if="showDetails(row)">
           <td :colspan="columnCount + 1">
             <slot :row="row" />
           </td>
@@ -216,6 +217,11 @@ export default {
       required: true,
     },
 
+    detailShown: {
+      type: Array,
+      required: true,
+    },
+
     expanded: {
       type: Array,
       required: true,
@@ -237,6 +243,10 @@ export default {
     isArray,
 
     showDetails(group) {
+      return this.detailShown.indexOf(group.row ? group.row._uid : group._uid) >= 0;
+    },
+
+    showNested(group) {
       return this.expanded.indexOf(group.hash) >= 0;
     },
 

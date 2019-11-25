@@ -8,7 +8,7 @@ import reject from 'lodash/reject';
 import toggleInArray from '../../../utils/toggleInArray';
 
 import formatters from '../formatters';
-import bus, { TOGGLE_DETAILS_GROUP } from '../events';
+import bus, { TOGGLE_DETAILS_GROUP, TOGGLE_DETAILS_ITEM } from '../events';
 
 export default {
   props: {
@@ -21,16 +21,19 @@ export default {
   data() {
     return {
       localGroups: this.groupable ? this.groups : [],
+      detailShown: [],
       expanded: [],
     };
   },
 
   created() {
     bus.$on(TOGGLE_DETAILS_GROUP, this.toggleGroupDetails);
+    bus.$on(TOGGLE_DETAILS_ITEM, this.toggleItemDetails);
   },
 
   destroyed() {
     bus.$off(TOGGLE_DETAILS_GROUP, this.toggleGroupDetails);
+    bus.$off(TOGGLE_DETAILS_ITEM, this.toggleItemDetails);
   },
 
   computed: {
@@ -133,6 +136,15 @@ export default {
      */
     toggleGroupDetails(group) {
       toggleInArray(this.expanded, group.hash);
+    },
+
+    /**
+     * Collapses/Expands the details column of the given row.
+     *
+     * @param row
+     */
+    toggleItemDetails(row) {
+      toggleInArray(this.detailShown, row.row ? row.row._uid : row._uid);
     },
 
     /**
