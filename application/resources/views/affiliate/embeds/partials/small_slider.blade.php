@@ -12,8 +12,9 @@
                 {{ __($project['status']) }}
             </div>
             <img class="rounded-tl-lg rounded-tr-lg"
-                data-lazy="{{ $project['image'] }}?w=345&h=275&fit=crop"
+                data-lazy="{{ $project['image'] }}{{ strstr($project['image'], '?') !== false ? '&' : '?' }}w=345&h=275&fit=crop"
                 alt="{{ $project['name'] }}"
+                style="width: 345px; height: 275px;"
             >
             <div class="p-3 py-2 border-b border-lighter_gray">
                 <div class="text-base uppercase truncate font-bold text-gray">

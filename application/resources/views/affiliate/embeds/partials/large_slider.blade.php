@@ -14,8 +14,9 @@
                         {{ __($project['status']) }}
                     </div>
                     <img class="rounded-bl-lg rounded-tl-lg"
-                        data-lazy="{{ $project['image'] }}?w=480&h=530&fit=crop"
+                        data-lazy="{{ $project['image'] }}{{ strstr($project['image'], '?') !== false ? '&' : '?' }}w=480&h=530&fit=crop"
                         alt="{{ $project['name'] }}"
+                        style="width: 480px; height: 530px;"
                     >
                 </div>
                 <div class="flex-grow relative">
