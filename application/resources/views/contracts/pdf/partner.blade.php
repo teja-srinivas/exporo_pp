@@ -475,14 +475,18 @@
         <td colspan="3" style="padding-top: 3rem"></td>
     </tr>
     <tr>
-        <td>
+        <td style=" vertical-align: bottom">
             <div style="border-bottom: 1px solid black">
-                [bild von unterschrift]
+                <img
+                    src="{{ url('/images/unterschrift-exporo.png') }}"
+                    alt="Unterschrift Exporo"
+                    style="width: 50%"
+                >
             </div>
             <p style="margin-top: 0.25rem">Exporo Investment GmbH</p>
         </td>
         <td style="width: 3rem"></td>
-        <td style="width: 50%">
+        <td style="width: 50%; vertical-align: bottom">
             <div style="border-bottom: 1px solid black">
                 @if($contract->signature !== '')
                 {{ $contract->signature ?? '' }}
