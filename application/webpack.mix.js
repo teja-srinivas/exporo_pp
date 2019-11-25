@@ -58,7 +58,6 @@ mix.purgeCss({
     /^bs-tooltip/,
     /^slick/,
   ],
-  enabled: true,
 });
 
 mix.extract([
