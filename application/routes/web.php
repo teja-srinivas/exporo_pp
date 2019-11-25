@@ -95,6 +95,9 @@ Route::middleware(['verified', 'accepted', 'filled'])->group(static function () 
 
             Route::put('{contract}/status', [C\Contract\ContractStatusController::class, 'update'])
                 ->name('contract-status.update');
+
+            Route::get('{contract}/pdf', [C\Contract\ContractPdfController::class, 'show'])
+                ->name('contract-pdf.show');
         });
 
         Route::prefix('users/{user}')->name('users.')->group(static function () {
