@@ -11,10 +11,15 @@
                 @include('contracts.partials.header', compact('contract'))
 
                 <div class="my-4">
-                    @include('components.form.checkbox', [
+                    @component('components.form.checkbox', [
                         'name' => 'legal_agb',
-                        'label' => 'Ich habe die AGBs der Exporo Investment GmbH heruntergeladen und gelesen',
                     ])
+                        Ich habe die
+                        <a href="{{ \App\Models\Agb::current(\App\Models\Agb::TYPE_GMBH)->getDownloadUrl() }}" target="_blank">
+                            AGBs der Exporo Investment GmbH
+                        </a>
+                        heruntergeladen und gelesen
+                    @endcomponent
 
                     @component('components.form.checkbox', [
                         'name' => 'legal_contract',
