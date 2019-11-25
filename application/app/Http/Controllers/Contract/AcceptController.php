@@ -26,6 +26,7 @@ class AcceptController extends Controller
         return response()->view('contracts.accept', [
             'bonuses' => $user->productContract->bonuses,
             'company' => $user->company,
+            'pdf' => url()->signedRoute('contract-pdf.show', [$contract]),
             'user' => $user,
         ]);
     }

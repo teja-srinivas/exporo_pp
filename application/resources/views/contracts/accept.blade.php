@@ -16,10 +16,11 @@
                         'label' => 'Ich habe die AGBs der Exporo Investment GmbH heruntergeladen und gelesen',
                     ])
 
-                    @include('components.form.checkbox', [
+                    @component('components.form.checkbox', [
                         'name' => 'legal_contract',
-                        'label' => 'Ich habe die Unterlagen zum Partnervertrag gelesen',
                     ])
+                        Ich habe <a href="{{ $pdf }}" target="_blank">die Unterlagen zum Partnervertrag</a> gelesen
+                    @endcomponent
                 </div>
 
                 <div class="my-4">

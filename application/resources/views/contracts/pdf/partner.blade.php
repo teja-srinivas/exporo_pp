@@ -463,7 +463,10 @@
     <tr>
         <td>
             <div style="border-bottom: 1px solid black">
-                Hamburg, {{ optional($contract->accepted_at)->format('d.m.Y') }}
+                @if($contract->accepted_at !== null)
+                {{ $contract->user->company->city }},
+                {{ optional($contract->accepted_at)->format('d.m.Y') }}
+                @endif
             </div>
             <p style="margin-top: 0.25rem">Ort, Datum</p>
         </td>
@@ -481,7 +484,9 @@
         <td style="width: 3rem"></td>
         <td style="width: 50%">
             <div style="border-bottom: 1px solid black">
+                @if($contract->signature !== '')
                 {{ $contract->signature ?? '' }}
+                @endif
             </div>
             <p style="margin-top: 0.25rem">Partner</p>
         </td>
