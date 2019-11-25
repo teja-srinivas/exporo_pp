@@ -131,7 +131,11 @@
       :has-details="withDetails"
       :depth="0"
       key="#table-contents"
-    />
+    >
+      <template v-slot="bindings">
+        <slot v-bind="bindings" />
+      </template>
+    </row>
 
     <tbody
       v-else

@@ -73,7 +73,11 @@
             <table
               class="table table-sm table-striped bg-transparent m-0 table-fixed"
             >
-              <table-group v-bind="buildChildProps(row)" />
+              <table-group v-bind="buildChildProps(row)">
+                <template v-slot="bindings">
+                  <slot v-bind="bindings" />
+                </template>
+              </table-group>
             </table>
           </td>
         </tr>
@@ -134,7 +138,7 @@
         </tr>
 
         <tr>
-          details
+          <slot :row="row" />
         </tr>
       </template>
     </template>
