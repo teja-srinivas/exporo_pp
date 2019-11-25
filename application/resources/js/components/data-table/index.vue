@@ -128,6 +128,7 @@
       :expanded="expanded"
       :selection="selection"
       :primary="primary"
+      :has-details="withDetails"
       :depth="0"
       key="#table-contents"
     />
@@ -291,6 +292,11 @@ export default {
     },
 
     groupable: {
+      type: Boolean,
+      default: false,
+    },
+
+    withDetails: {
       type: Boolean,
       default: false,
     },

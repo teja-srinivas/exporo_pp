@@ -31,7 +31,7 @@
             :class="$style.tdChevron"
             :colspan="localDepth"
             :width="localDepth * 32"
-            @click="toggleDetails(row)"
+            @click="toggleGroupDetails(row)"
           >
             <font-awesome-icon
               icon="chevron-right"
@@ -80,42 +80,63 @@
       </template>
 
       <!-- Regular rows -->
-      <tr
-        v-else
-        :key="row[primary]"
-        :class="{
+      <template v-else>
+        <tr
+          :key="row[primary]"
+          :class="{
           [$style.trChildStart]: index === 0,
           [$style.trChildEnd]: index === rows.length - 1,
         }"
-      >
-        <td
-          v-if="depth > 0"
-          class="bg-light border-right"
-          :width="depth * 32"
-          :colspan="depth"
-        />
+        >
+          <td
+            v-if="depth > 0"
+            class="bg-light border-right"
+            :width="depth * 32"
+            :colspan="depth"
+          />
 
-        <select-box
-          v-if="selectable"
-          :size="1"
-          :count="itemIsSelected(row) ? 1 : 0"
-          element="td"
-          @change="toggleItemSelection(row)"
-        />
+          <select-box
+            v-if="selectable"
+            :size="1"
+            :count="itemIsSelected(row) ? 1 : 0"
+            element="td"
+            @change="toggleItemSelection(row)"
+          />
 
-        <td
-          v-if="depth < groupCount"
-          :width="localDepth * 32"
-          :colspan="localDepth"
-        />
+          <td
+            v-if="depth < groupCount"
+            :width="localDepth * 32"
+            :colspan="localDepth"
+          />
 
-        <cell
-          v-for="column in columns"
-          :key="column.name"
-          :column="column"
-          :value="formatValue(row, column, true)"
-        />
-      </tr>
+          <td
+            v-if="hasDetails"
+            width="32"
+            class="p-0 text-center align-middle"
+          >
+            <button
+              type="button"
+              class="btn btn-outline-secondary border-0 btn-sm"
+              @click="toggleItemDetails(row)"
+            >
+              <font-awesome-icon
+                icon="chevron-right"
+              />
+            </button>
+          </td>
+
+          <cell
+            v-for="column in columns"
+            :key="column.name"
+            :column="column"
+            :value="formatValue(row, column, true)"
+          />
+        </tr>
+
+        <tr>
+          details
+        </tr>
+      </template>
     </template>
   </tbody>
 </template>
@@ -127,7 +148,8 @@ import isArray from 'lodash/isArray';
 import SelectionMixin from './mixins/selection';
 
 import bus, {
-  TOGGLE_DETAILS,
+  TOGGLE_DETAILS_GROUP,
+  TOGGLE_DETAILS_ITEM,
   TOGGLE_SELECTION_GROUP,
   TOGGLE_SELECTION_ITEM,
 } from './events';
@@ -192,6 +214,11 @@ export default {
       type: Array,
       required: true,
     },
+
+    hasDetails: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {
@@ -245,8 +272,12 @@ export default {
       };
     },
 
-    toggleDetails(group) {
-      bus.$emit(TOGGLE_DETAILS, group);
+    toggleGroupDetails(group) {
+      bus.$emit(TOGGLE_DETAILS_GROUP, group);
+    },
+
+    toggleItemDetails(item) {
+      bus.$emit(TOGGLE_DETAILS_ITEM, item);
     },
 
     toggleGroupSelection(group) {

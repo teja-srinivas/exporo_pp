@@ -8,7 +8,7 @@ import reject from 'lodash/reject';
 import toggleInArray from '../../../utils/toggleInArray';
 
 import formatters from '../formatters';
-import bus, { TOGGLE_DETAILS } from '../events';
+import bus, { TOGGLE_DETAILS_GROUP } from '../events';
 
 export default {
   props: {
@@ -26,11 +26,11 @@ export default {
   },
 
   created() {
-    bus.$on(TOGGLE_DETAILS, this.toggleGroupDetails);
+    bus.$on(TOGGLE_DETAILS_GROUP, this.toggleGroupDetails);
   },
 
   destroyed() {
-    bus.$off(TOGGLE_DETAILS, this.toggleGroupDetails);
+    bus.$off(TOGGLE_DETAILS_GROUP, this.toggleGroupDetails);
   },
 
   computed: {
