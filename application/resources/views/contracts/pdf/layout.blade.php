@@ -5,6 +5,9 @@
     <meta name="author" content="{{ config('app.name') }}"/>
     <meta name="date" content="{{ now()->toDateString() }}"/>
 
+    <meta name="api-token" content="">
+    <meta name="csrf-token" content="">
+
     <!-- Styles -->
     <style>
         body {
@@ -12,6 +15,9 @@
             font-family: Arial,sans-serif;
             font-size: 14px;
             line-height: 1.5;
+
+            text-align: justify;
+            hyphens: auto;
         }
 
         a {
