@@ -11,7 +11,8 @@
         der Firma {{ $contract->user->details->company }}<br>
         vertr. durch
     @endunless
-    {{ $contract->user->getDisplayName() }}
+    {{ $contract->user->first_name }}
+    {{ $contract->user->last_name }}
     {{ $contract->user->details->address_street }}
     {{ $contract->user->details->address_number }},
     {{ $contract->user->details->address_zipcode }}
