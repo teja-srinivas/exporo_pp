@@ -12,9 +12,12 @@ class BundleEditorComposer
 {
     public function compose(View $view)
     {
+        $types = CommissionType::all();
+
         $view->with('defaults', [
             'calculationTypes' => CommissionBonus::DISPLAY_NAMES,
-            'commissionTypes' => CommissionType::query()->pluck('name', 'id'),
+            'commissionTypes' => $types->pluck('name', 'id'),
+            'publicTypes' => $types->where('is_public', true)->modelKeys(),
         ]);
     }
 }
