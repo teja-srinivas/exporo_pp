@@ -6,6 +6,8 @@ namespace App\Interfaces;
 
 interface FileReference
 {
+    public const DISK = 's3';
+
     /**
      * Creates a human readable filename for this model
      * as the original filename is a random string.

@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\View;
 
 class ContractPdfController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Contract::class);
-    }
-
     public function show(Contract $contract): Response
     {
         $view = "contracts.pdf.{$contract->type}";

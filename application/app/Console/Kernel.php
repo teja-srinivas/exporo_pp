@@ -30,6 +30,11 @@ class Kernel extends ConsoleKernel
             ->onOneServer()
             ->appendOutputTo($out);
 
+        $schedule->command(Commands\CreateContractPdfs::class)
+            ->everyMinute()
+            ->onOneServer()
+            ->appendOutputTo($out);
+
         $schedule->command(Commands\CreateBillsPdfs::class)
             ->everyMinute()
             ->onOneServer()
