@@ -25,7 +25,7 @@ class Document extends Model implements FileReference, AuditableContract
 
     public const DIRECTORY = 'documents';
 
-    public $disk = 's3';
+    public const DISK = 's3';
 
     protected $fillable = [
         'name', 'description',
@@ -56,7 +56,7 @@ class Document extends Model implements FileReference, AuditableContract
 
         $extension = pathinfo($this->filename, PATHINFO_EXTENSION);
 
-        return Storage::disk($this->disk)->temporaryUrl($this->filename, $expiration, [
+        return Storage::disk(self::DISK)->temporaryUrl($this->filename, $expiration, [
             'ResponseContentDisposition' => "inline; filename=\"{$this->name}.{$extension}\"",
         ]);
     }
