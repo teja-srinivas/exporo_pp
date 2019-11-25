@@ -13,9 +13,8 @@
 @endsection
 
 @section('main-content')
-    @include('components.table', ['data' => [
+    @php($data = [
         'rows' => $children,
-        'withDetails' => true,
         'columns' => [
             [
                 'name' => 'user',
@@ -56,5 +55,6 @@
                 ],
             ],
         ],
-    ]])
+    ])
+    <vue v-cloak class="cloak-fade" data-is="subuser-table" data-props='@json($data)'></vue>
 @endsection

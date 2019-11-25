@@ -33,6 +33,7 @@ import UrlInput from './components/url-input/index.vue';
 import VariableInput from './components/variable-input/index.vue';
 import App from './components/App.vue';
 import DataTable from './components/data-table/index.vue';
+import SubuserTable from './components/SubuserTable.vue';
 
 Vue.use(FormCheckbox);
 Vue.use(FormGroup);
@@ -46,6 +47,7 @@ Vue.component('bonus-bundle-editor', () => import('./components/BonusBundleEdito
 Vue.component('commission-approval', () => import('./components/CommissionApproval/index.vue'));
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('data-table', DataTable);
+Vue.component('subuser-table', SubuserTable);
 Vue.component('banner-viewer', () => import('./components/banner-viewer.vue'));
 Vue.component('vue-dropzone', VueDropzone);
 Vue.component('url-input', UrlInput);
