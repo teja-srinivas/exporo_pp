@@ -50,6 +50,7 @@ class CommissionTypeController extends Controller
         ]);
 
         $data['is_project_type'] = $request->has('is_project_type');
+        $data['is_public'] = $request->has('is_public');
 
         CommissionType::query()->create($data);
 
@@ -106,6 +107,7 @@ class CommissionTypeController extends Controller
         ]);
 
         $data['is_project_type'] = $request->has('is_project_type');
+        $data['is_public'] = $request->has('is_public');
 
         $type->fill($data)->save();
 

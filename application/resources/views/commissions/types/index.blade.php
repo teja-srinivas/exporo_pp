@@ -27,6 +27,9 @@
                     @if($type->is_project_type)
                     <div class="badge badge-info">Projektbezogen</div>
                     @endif
+                    @if($type->is_public)
+                    <div class="badge badge-info">Öffentlich</div>
+                    @endif
                 </td>
                 <td>{{ optional($type)->created_at->format('d.m.Y') }}</td>
             </tr>

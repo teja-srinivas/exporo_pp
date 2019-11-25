@@ -27,6 +27,12 @@
                     'name' => 'is_project_type',
                     'description' => 'Für Projekte zur Auswahl möglich',
                 ],
+                [
+                    'type' => 'checkbox',
+                    'label' => __('Öffentlich'),
+                    'name' => 'is_public',
+                    'description' => 'Für öffentliche Projekttypen',
+                ],
             ]
         ])
 
