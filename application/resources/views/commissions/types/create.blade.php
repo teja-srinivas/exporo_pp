@@ -31,7 +31,7 @@
                     'type' => 'checkbox',
                     'label' => __('Öffentlich'),
                     'name' => 'is_public',
-                    'description' => 'Für öffentliche Projekttypen',
+                    'description' => 'Für öffentliche Produkttypen',
                 ],
             ]
         ])

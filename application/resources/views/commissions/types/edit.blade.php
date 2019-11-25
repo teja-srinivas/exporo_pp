@@ -37,7 +37,7 @@
                     'label' => __('Öffentlich'),
                     'name' => 'is_public',
                     'default' => $type->is_public,
-                    'description' => 'Für öffentliche Projekttypen',
+                    'description' => 'Für öffentliche Produkttypen',
                 ],
             ]
         ])
