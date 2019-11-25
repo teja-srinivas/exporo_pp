@@ -19,7 +19,7 @@
                     @component('components.form.checkbox', [
                         'name' => 'legal_contract',
                     ])
-                        Ich habe <a href="{{ $pdf }}" target="_blank">die Unterlagen zum Partnervertrag</a> gelesen
+                        Ich habe die Unterlagen zum <a href="{{ $pdfPartner }}" target="_blank">Partnervertrag</a> gelesen
                     @endcomponent
                 </div>
 
@@ -32,7 +32,8 @@
                 </div>
 
                 <p>
-                    Ich habe die Provisionsvereinbarung gelesen und verstanden,
+                    Ich habe die <a href="{{ $pdfProduct }}" target="_blank">Provisionsvereinbarung</a>
+                    gelesen und verstanden,
                     dass diese als Anhang des Partnervertrages zu verstehen ist
                     und keiner Bestätigung durch mich erfordert.
                 </p>
