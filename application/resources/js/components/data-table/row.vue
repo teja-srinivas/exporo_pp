@@ -66,7 +66,7 @@
           :key="`${row.key}-contents`"
         >
           <td
-            :colspan="columnCount"
+            :colspan="columnCount + (hasDetails ? 1 : 0)"
             :class="{ 'border-bottom': depth === 0 || index < rows.length - 1 }"
             class="p-0"
           >
@@ -88,9 +88,9 @@
         <tr
           :key="row[primary]"
           :class="{
-          [$style.trChildStart]: index === 0,
-          [$style.trChildEnd]: index === rows.length - 1,
-        }"
+            [$style.trChildStart]: index === 0,
+            [$style.trChildEnd]: index === rows.length - 1,
+          }"
         >
           <td
             v-if="depth > 0"
@@ -108,17 +108,13 @@
           />
 
           <td
-            v-if="depth < groupCount"
+            v-if="(depth < groupCount) || hasDetails"
             :width="localDepth * 32"
             :colspan="localDepth"
-          />
-
-          <td
-            v-if="hasDetails"
-            width="32"
             class="p-0 text-center align-middle"
           >
             <button
+              v-if="hasDetails"
               type="button"
               class="btn btn-outline-secondary border-0 btn-sm"
               @click="toggleItemDetails(row)"
@@ -139,7 +135,16 @@
         </tr>
 
         <tr v-if="showDetails(row)">
-          <td :colspan="columnCount + 1">
+          <td
+            v-if="depth > 0"
+            class="bg-light border-right"
+            :width="depth * 32"
+            :colspan="depth"
+          />
+          <td
+            :colspan="columnCount + 1"
+            class="bg-white"
+          >
             <slot :row="row" />
           </td>
         </tr>
@@ -235,7 +240,7 @@ export default {
 
   computed: {
     localDepth() {
-      return Math.max(0, this.groupCount - this.depth);
+      return (this.hasDetails ? 1 : 0) + (this.groupCount - this.depth);
     },
   },
 

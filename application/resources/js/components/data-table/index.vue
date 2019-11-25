@@ -16,9 +16,9 @@
         />
 
         <th
-          v-if="groupCount > 0"
-          :width="groupCount * 32"
-          :colspan="groupCount"
+          v-if="offsetCount > 0"
+          :width="offsetCount * 32"
+          :colspan="offsetCount"
           key="#delimiter"
         />
 
@@ -359,6 +359,10 @@ export default {
   },
 
   computed: {
+    offsetCount() {
+      return this.groupCount + (this.withDetails ? 1 : 0);
+    },
+
     /**
      * The number of actual columns our table has.
      * Will change depending on the settings.
