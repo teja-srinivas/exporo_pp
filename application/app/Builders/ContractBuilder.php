@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Builders;
 
 use App\Models\Contract;
+use InvalidArgumentException;
 
 class ContractBuilder extends Builder
 {
@@ -50,5 +51,14 @@ class ContractBuilder extends Builder
             '=',
             'contracts.id'
         );
+    }
+
+    public function whereType(string $type): self
+    {
+        if (!in_array($type, Contract::TYPES)) {
+            throw new InvalidArgumentException("Invalid contract type: {$type}");
+        }
+
+        return $this->where('type', $type);
     }
 }

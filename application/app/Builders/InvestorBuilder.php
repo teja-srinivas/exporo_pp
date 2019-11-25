@@ -73,7 +73,7 @@ class InvestorBuilder extends Builder
     protected function joinActiveUserContract(string $type): self
     {
         $active = Contract::query()
-            ->where('type', Contract::getTypeForClass($type))
+            ->whereType(Contract::getTypeForClass($type))
             ->addSelect('contracts.id')
             ->addSelect('contracts.user_id')
             ->addSelect('vat_amount')
