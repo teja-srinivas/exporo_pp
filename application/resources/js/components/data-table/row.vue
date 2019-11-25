@@ -138,7 +138,9 @@
         </tr>
 
         <tr>
-          <slot :row="row" />
+          <td :colspan="columnCount + 1">
+            <slot :row="row" />
+          </td>
         </tr>
       </template>
     </template>
