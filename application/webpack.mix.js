@@ -1,6 +1,3 @@
-const mix = require('laravel-mix');
-require('laravel-mix-purgecss');
-
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,6 +8,9 @@ require('laravel-mix-purgecss');
  | file for the application as well as bundling up all the JS files.
  |
  */
+const mix = require('laravel-mix');
+require('laravel-mix-purgecss');
+const tailwindcss = require('tailwindcss');
 
 mix.webpackConfig({
   resolve: {
@@ -24,9 +24,17 @@ mix.webpackConfig({
   },
 });
 
+mix.js('resources/js/embed/app.js', 'public/js/embed');
+
+
 mix.js('resources/js/app.js', 'public/js');
 mix.sass('resources/sass/app.scss', 'public/css');
 mix.sass('resources/sass/print.scss', 'public/css');
+mix.sass('resources/sass/embed.scss', 'public/css').options({
+    processCssUrls: false,
+    postCss: [ tailwindcss('resources/sass/tailwind.config.js') ],
+  });
+mix.copy('node_modules/slick-carousel/slick/fonts', 'public/fonts/vendor/slick-carousel/slick/');
 mix.version();
 mix.sourceMaps();
 
@@ -48,6 +56,7 @@ mix.purgeCss({
     /^bs-popover/,
     /^tooltip/,
     /^bs-tooltip/,
+    /^slick/,
   ],
 });
 

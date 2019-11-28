@@ -118,6 +118,8 @@ Route::middleware(['verified', 'accepted', 'filled'])->group(static function () 
             ->name('home');
         Route::get('commission-details', C\User\CommissionDetails::class)
             ->name('commission-details');
+        Route::get('affiliate/embeds', [C\EmbedController::class, 'index'])
+            ->name('affiliate.embeds.index');
         Route::get('affiliate/banners', [C\BannerController::class, 'index'])
             ->name('affiliate.banners.index');
         Route::view('affiliate/child-users', 'affiliate/child-users')
@@ -149,3 +151,6 @@ Route::get('contracts/{contract}/pdf', [C\Contract\ContractPdfController::class,
 Route::get('users/{user}/login', [C\UserController::class, 'loginUsingId'])
     ->middleware('signed')
     ->name('users.login');
+
+Route::get('affiliate/embed', [C\EmbedController::class, 'show'])
+    ->name('affiliate.embed.show');

@@ -47,6 +47,7 @@ Vue.component('commission-approval', () => import('./components/CommissionApprov
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('data-table', DataTable);
 Vue.component('banner-viewer', () => import('./components/banner-viewer.vue'));
+Vue.component('embed-viewer', () => import('./components/embed-viewer.vue'));
 Vue.component('vue-dropzone', VueDropzone);
 Vue.component('url-input', UrlInput);
 Vue.component('variable-input', VariableInput);

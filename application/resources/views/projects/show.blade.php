@@ -28,7 +28,7 @@
     @card
         @unless(empty($project->image))
             @slot('info')
-                <img src="https://cdn.exporo.de/image-cache/400/{{ $project->image }}" class="img-fluid">
+                <img src="{{ $project->imageUrl() }}" class="img-fluid">
             @endslot
         @endif
 
