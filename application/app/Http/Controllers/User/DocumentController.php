@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Contract;
+use App\Builders\ContractBuilder;
 use App\Models\Agb;
 use App\Models\User;
 use App\Models\Document;
@@ -24,6 +26,17 @@ class DocumentController extends Controller
             ];
         });
 
+        $contracts = $user->contracts()->when(true, static function (ContractBuilder $builder) {
+            $builder->onlyActive();
+        })->get()->map(static function (Contract $contract) {
+            return [
+                'type' => 'Vertrag',
+                'title' => $contract->getTitle(),
+                'link' => $contract->getDownloadUrl(),
+                'created_at' => $contract->accepted_at,
+            ];
+        });
+
         $agbs = $user->agbs->map(static function (Agb $agb) {
             return [
                 'type' => __('AGB'),
@@ -36,6 +49,7 @@ class DocumentController extends Controller
         return response()->view('users.documents', [
             'documents' => collect()
                 ->merge($documents)
+                ->merge($contracts)
                 ->merge($agbs)
                 ->sortByDesc('created_at'),
         ]);

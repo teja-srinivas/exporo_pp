@@ -153,6 +153,20 @@
             </div>
         @endif
 
+        @if(session(\App\Http\Middleware\RequireAcceptedPartnerContract::SESSION_KEY))
+            <div class="alert alert-warning m-0">
+                <div class="container d-flex justify-content-between align-items-baseline">
+                    <div>
+                        <b>Sie haben einen ausstehenden Partnervertrag.</b>
+                    </div>
+
+                    <a href="{{ route('contracts.accept.index', [session()->get('noContract')]) }}" class="btn btn-outline-dark btn-sm">
+                        Jetzt akzeptieren
+                    </a>
+                </div>
+            </div>
+        @endif
+
         <main class="flex-fill @yield('content-class', 'py-4')">
             @yield('content')
         </main>

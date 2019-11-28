@@ -7,9 +7,13 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Helper\Rules;
 use Parental\HasChildren;
+use Illuminate\Support\Str;
 use App\Events\ContractUpdated;
+use App\Events\ContractSaving;
 use App\Builders\ContractBuilder;
+use App\Interfaces\FileReference;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
 
@@ -21,16 +25,18 @@ use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
  * @property int $user_id
  * @property int $template_id
  * @property string $special_agreement
+ * @property string $signature
  * @property Carbon $accepted_at The date the user fully accepted the contract.
  * @property Carbon $released_at The date we confirmed the contract, but has not yet been accepted by the user.
  * @property Carbon $terminated_at The date the contract has been terminated (either by hand or automation).
+ * @property Carbon $pdf_generated_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
  * @property ContractTemplate $template
  * @property User $user
  */
-class Contract extends Model
+class Contract extends Model implements FileReference
 {
     use HasChildren;
     use OptimusEncodedRouteKey;
@@ -46,6 +52,7 @@ class Contract extends Model
     ];
 
     protected $dispatchesEvents = [
+        'saving' => ContractSaving::class,
         'updated' => ContractUpdated::class,
     ];
 
@@ -62,6 +69,7 @@ class Contract extends Model
         'accepted_at',
         'released_at',
         'terminated_at',
+        'pdf_generated_at',
     ];
 
     protected $fillable = [
@@ -123,5 +131,41 @@ class Contract extends Model
     public static function getTypeForClass(string $class): string
     {
         return array_search($class, (new Contract())->childTypes) ?? $class;
+    }
+
+    /**
+     * Creates a human readable filename for this model
+     * as the original filename is a random string.
+     *
+     * @return string
+     */
+    public function getReadableFilename(): string
+    {
+        return $this->accepted_at->format('Y-m-d-H-i-s-').Str::slug($this->getTitle()).'.pdf';
+    }
+
+    /**
+     * Returns the path to the file on the
+     * remote file storage (usually S3).
+     *
+     * @return string
+     */
+    public function getFilePath(): string
+    {
+        return "contracts/{$this->getKey()}.pdf";
+    }
+
+    /**
+     * Creates an URL to access/download the file.
+     *
+     * @return string
+     */
+    public function getDownloadUrl(): string
+    {
+        $expiration = now()->addHour();
+
+        return Storage::disk(self::DISK)->temporaryUrl($this->getFilePath(), $expiration, [
+            'ResponseContentDisposition' => "inline; filename=\"{$this->getReadableFilename()}\"",
+        ]);
     }
 }

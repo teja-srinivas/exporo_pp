@@ -39,8 +39,12 @@ Route::prefix('agbs')->group(static function () {
         ->name('agbs.latest');
 });
 
-Route::middleware(['verified'])->group(static function () {
-    Route::middleware(['accepted', 'filled'])->group(static function () {
+Route::middleware(['verified', 'accepted', 'filled'])->group(static function () {
+    Route::resource('contracts/{contract}/accept', C\Contract\AcceptController::class)
+        ->only('index', 'store')
+        ->names('contracts.accept');
+
+    Route::middleware(['accepted-partner-contract'])->group(static function () {
         Route::get('authorization', C\AuthorizationController::class)
             ->name('authorization.index');
         Route::get('bills/export', C\ExportBillsController::class)
@@ -114,6 +118,8 @@ Route::middleware(['verified'])->group(static function () {
             ->name('home');
         Route::get('commission-details', C\User\CommissionDetails::class)
             ->name('commission-details');
+        Route::get('affiliate/embeds', [C\EmbedController::class, 'index'])
+            ->name('affiliate.embeds.index');
         Route::get('affiliate/banners', [C\BannerController::class, 'index'])
             ->name('affiliate.banners.index');
         Route::view('affiliate/child-users', 'affiliate/child-users')
@@ -138,6 +144,13 @@ Route::get('bills/{bill}/pdf', [C\BillController::class, 'billPdf'])
     ->middleware('signed')
     ->name('bills.pdf');
 
+Route::get('contracts/{contract}/pdf', [C\Contract\ContractPdfController::class, 'show'])
+    ->middleware('signed')
+    ->name('contract-pdf.show');
+
 Route::get('users/{user}/login', [C\UserController::class, 'loginUsingId'])
     ->middleware('signed')
     ->name('users.login');
+
+Route::get('affiliate/embed', [C\EmbedController::class, 'show'])
+    ->name('affiliate.embed.show');

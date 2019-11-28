@@ -80,7 +80,7 @@ class DocumentController extends Controller
 
         $document = new Document($request->only('name', 'description'));
         $document->user()->associate($request->get('user'));
-        $document->filename = Storage::disk($document->disk)->put(Document::DIRECTORY, $request->file('file'));
+        $document->filename = Storage::disk(Document::DISK)->put(Document::DIRECTORY, $request->file('file'));
         $document->saveOrFail();
 
         flash_success('Dokument wurde angelegt');

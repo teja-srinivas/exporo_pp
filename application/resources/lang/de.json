@@ -35,5 +35,10 @@
   "A fresh verification link has been sent to your email address.": "Eine neue Email zur Verifizierung wurde an ihre Adresse abgeschickt.",
   "Before proceeding, please check your email for a verification link.": "Um mit der Registrierung fortfahren zu können, überprüfen Sie bitte ihren Posteingang auf einen Verifizierungslink.",
   "If you did not receive the email": "Falls Sie keine Nachricht erhalten haben",
-  "click here to request another": "klicken Sie hier um eine neue E-Mail zu erhalten"
+  "click here to request another": "klicken Sie hier um eine neue E-Mail zu erhalten",
+  "Contract Types": "Vertragstypen",
+  "in_funding": "in Finanzierung",
+  "coming_soon": "bald verfügbar",
+  "stock": "Exporo Bestand",
+  "finance": "Exporo Finanzierung"
 }

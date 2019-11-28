@@ -7,11 +7,11 @@ namespace Tests\Feature\Http\Controllers;
 use Tests\TestCase;
 use App\Models\Link;
 use App\Models\User;
-use Tests\Traits\TestsControllers;
+use Tests\Traits\CreatesUsers;
 
 class LinkControllerTest extends TestCase
 {
-    use TestsControllers;
+    use CreatesUsers;
 
     /** @test */
     public function it_lists_links(): void

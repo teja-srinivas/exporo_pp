@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Traits;
 
 use App\Models\User;
-use App\Models\Contract;
 use App\Models\ProductContract;
+use App\Models\PartnerContract;
 
-trait TestsControllers
+trait CreatesUsers
 {
     protected function createActiveUserWithPermission(string ...$permissions): User
     {
@@ -24,10 +24,15 @@ trait TestsControllers
         /** @var User $user */
         $user = factory(User::class)->state('accepted')->create();
 
-        /** @var Contract $contract */
-        $contract = factory(ProductContract::class)->state('active')->make();
-        $contract->user()->associate($user);
-        $contract->save();
+        /** @var ProductContract $productContract */
+        $productContract = factory(ProductContract::class)->state('active')->make();
+        $productContract->user()->associate($user);
+        $productContract->save();
+
+        /** @var PartnerContract $partnerContract */
+        $partnerContract = factory(PartnerContract::class)->state('active')->make();
+        $partnerContract->user()->associate($user);
+        $partnerContract->save();
 
         return $user;
     }
