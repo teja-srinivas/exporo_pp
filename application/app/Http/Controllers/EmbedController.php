@@ -49,7 +49,7 @@ class EmbedController extends Controller
 
         $query = Project::query()
             ->where('funding_target', '>', 0)
-            ->where(function (Builder $query) {
+            ->where(static function (Builder $query) {
                 $query->where('status', Project::STATUS_IN_FUNDING);
                 $query->orWhere('status', Project::STATUS_COMING_SOON);
             });
