@@ -60,6 +60,7 @@ class UserController extends Controller
                         'investors' => (int) $user->investors,
                         'amount' => (float) $user->amount,
                         'commissions' => (float) $user->commissions,
+                        'bonuses' => $user->bonuses,
                     ];
                 }),
         ]);

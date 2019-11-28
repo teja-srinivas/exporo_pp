@@ -165,6 +165,12 @@
         />
 
         <td
+          v-if="offsetCount > 0"
+          :width="offsetCount * 32"
+          :colspan="offsetCount"
+        />
+
+        <td
           v-for="aggregate in totalAggregateValues"
           :key="aggregate.name"
           :class="{
@@ -176,6 +182,12 @@
       </tr>
 
       <tr>
+        <td
+          v-if="offsetCount > 0"
+          :width="offsetCount * 32"
+          :colspan="offsetCount"
+        />
+
         <td :colspan="columnCount" class="pr-1">
           <div class="row align-items-center">
             <div class="col text-nowrap">
