@@ -11,15 +11,21 @@
                 @include('contracts.partials.header', compact('contract'))
 
                 <div class="my-4">
-                    @include('components.form.checkbox', [
+                    @component('components.form.checkbox', [
                         'name' => 'legal_agb',
-                        'label' => 'Ich habe die AGBs der Exporo Investment GmbH heruntergeladen und gelesen',
                     ])
+                        Ich habe die
+                        <a href="{{ \App\Models\Agb::current(\App\Models\Agb::TYPE_GMBH)->getDownloadUrl() }}" target="_blank">
+                            AGBs der Exporo Investment GmbH
+                        </a>
+                        heruntergeladen und gelesen
+                    @endcomponent
 
-                    @include('components.form.checkbox', [
+                    @component('components.form.checkbox', [
                         'name' => 'legal_contract',
-                        'label' => 'Ich habe die Unterlagen zum Partnervertrag gelesen',
                     ])
+                        Ich habe die Unterlagen zum <a href="{{ $pdfPartner }}" target="_blank">Partnervertrag</a> gelesen
+                    @endcomponent
                 </div>
 
                 <div class="my-4">
@@ -31,7 +37,8 @@
                 </div>
 
                 <p>
-                    Ich habe die Provisionsvereinbarung gelesen und verstanden,
+                    Ich habe die <a href="{{ $pdfProduct }}" target="_blank">Provisionsvereinbarung</a>
+                    gelesen und verstanden,
                     dass diese als Anhang des Partnervertrages zu verstehen ist
                     und keiner Bestätigung durch mich erfordert.
                 </p>

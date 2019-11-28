@@ -24,6 +24,7 @@ parameters:
         # https://github.com/nunomaduro/larastan/issues/353
         - '#Parameter \#1 \$table \(string\|null\)#'
         - '#where(.*)\(\) invoked with 0 parameters#'
+        - '#where(.*)\(\) should be compatible with parameter \$parameters#'
 
         # Fix errors with external dependencies
         - '#Access to an undefined property FormulaInterpreter\\Compiler::\$functionCommandFactory#'

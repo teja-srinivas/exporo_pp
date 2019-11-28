@@ -156,25 +156,20 @@ class AgbController extends Controller
     }
 
     /**
-     * Reponds with a file download for the given AGB.
+     * Responds with a file download for the given AGB.
      * Errors if the file does not exist.
      *
      * @param Agb $agb
      * @return Response
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function download(Agb $agb): Response
     {
-        abort_unless(Storage::disk('s3')->exists(Agb::DIRECTORY.'/'.$agb->name), Response::HTTP_NOT_FOUND);
-
-        $file = Storage::disk('s3')->get(Agb::DIRECTORY.'/'.$agb->name);
-
-        return response($file, 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Description' => 'File Transfer',
-            'Content-Disposition' => 'attachment; filename='.$agb->getReadableFilename(),
-            'filename' => $agb->getReadableFilename(),
+        $expiration = now()->addHour();
+        $url = Storage::disk('s3')->temporaryUrl(Agb::DIRECTORY.'/'.$agb->name, $expiration, [
+            'ResponseContentDisposition' => "attachment; filename=\"{$agb->getReadableFilename()}\"",
         ]);
+
+        return response()->redirectTo($url);
     }
 
     /**

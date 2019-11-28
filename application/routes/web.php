@@ -144,6 +144,10 @@ Route::get('bills/{bill}/pdf', [C\BillController::class, 'billPdf'])
     ->middleware('signed')
     ->name('bills.pdf');
 
+Route::get('contracts/{contract}/pdf', [C\Contract\ContractPdfController::class, 'show'])
+    ->middleware('signed')
+    ->name('contract-pdf.show');
+
 Route::get('users/{user}/login', [C\UserController::class, 'loginUsingId'])
     ->middleware('signed')
     ->name('users.login');
