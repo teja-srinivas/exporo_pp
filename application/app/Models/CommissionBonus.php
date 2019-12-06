@@ -159,6 +159,6 @@ class CommissionBonus extends Model
 
         $difference = round($bonus->value - $this->value, 10);
 
-        return $this->is_percentage ? $difference * 100 : $difference;
+        return $this->is_percentage ? $difference * 100 * 0.02 : $difference;
     }
 }
