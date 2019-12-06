@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Commission;
 use App\Models\Investment;
 use Illuminate\Http\Request;
+use App\Models\CommissionBonus;
 use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
@@ -45,22 +46,30 @@ class UserController extends Controller
                 ->selectRaw('ifnull(commissions.net, 0) as commissions')
                 ->groupBy('users.id')
                 ->get()
-                ->map(static function (User $user) use ($canViewUsers) {
+                ->map(static function (User $child) use ($canViewUsers, $user) {
                     return [
                         'user' => [
-                            'id' => (int) $user->getKey(),
-                            'firstName' => (string) $user->display_name,
+                            'id' => (int) $child->getKey(),
+                            'firstName' => (string) $child->display_name,
                             'lastName' => null,
                             'links' => $canViewUsers ? [
-                                'self' => route('users.show', $user),
+                                'self' => route('users.show', $child),
                             ] : [],
                         ],
-                        'acceptedAt' => optional($user->accepted_at)->format('Y-m-d'),
-                        'investments' => (int) $user->investments,
-                        'investors' => (int) $user->investors,
-                        'amount' => (float) $user->amount,
-                        'commissions' => (float) $user->commissions,
-                        'bonuses' => $user->bonuses,
+                        'acceptedAt' => optional($child->accepted_at)->format('Y-m-d'),
+                        'investments' => (int) $child->investments,
+                        'investors' => (int) $child->investors,
+                        'amount' => (float) $child->amount,
+                        'commissions' => (float) $child->commissions,
+                        'bonuses' => $child->bonusesMatchingParent($user)
+                            ->map(static function (CommissionBonus $bonus) use ($user) {
+                                return [
+                                    'type_name' => (string) $bonus->type->name,
+                                    'calculation_type' => (string) trans($bonus->calculation_type),
+                                    'value' => (float) $bonus->overheadDifference($user),
+                                    'sign' => (string) $bonus->is_percentage ? '%' : '€',
+                                ];
+                            }),
                     ];
                 }),
         ]);
