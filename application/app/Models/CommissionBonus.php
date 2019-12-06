@@ -152,6 +152,7 @@ class CommissionBonus extends Model
     public function overheadDifference(User $user): float
     {
         $bonus = $user->bonuses()
+            ->where('is_overhead', true)
             ->where('type_id', $this->type_id)
             ->where('calculation_type', $this->calculation_type)
             ->first();
