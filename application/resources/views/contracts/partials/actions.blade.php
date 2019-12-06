@@ -1,5 +1,9 @@
-@if($contract->isEditable())
-    @section('actions')
+@section('actions')
+    @if($contract->pdf_generated_at !== null)
+        <a href="{{ $contract->getDownloadUrl() }}" class="btn btn-secondary btn-sm">.PDF</a>
+    @endif
+
+    @if($contract->isEditable())
         @can('delete', $contract)
             <form action="{{ route('contracts.destroy', $contract) }}" method="POST">
                 @method('DELETE')
@@ -27,5 +31,5 @@
                 @endif
             </form>
         @endcan
-    @endsection
-@endif
+    @endif
+@endsection

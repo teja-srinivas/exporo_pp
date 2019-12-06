@@ -11,7 +11,8 @@
         der Firma {{ $contract->user->details->company }}<br>
         vertr. durch
     @endunless
-    {{ $contract->user->getDisplayName() }}
+    {{ $contract->user->first_name }}
+    {{ $contract->user->last_name }}
     {{ $contract->user->details->address_street }}
     {{ $contract->user->details->address_number }},
     {{ $contract->user->details->address_zipcode }}
@@ -463,7 +464,10 @@
     <tr>
         <td>
             <div style="border-bottom: 1px solid black">
-                Hamburg, {{ optional($contract->accepted_at)->format('d.m.Y') }}
+                @if($contract->accepted_at !== null)
+                {{ $contract->user->company->city }},
+                {{ optional($contract->accepted_at)->format('d.m.Y') }}
+                @endif
             </div>
             <p style="margin-top: 0.25rem">Ort, Datum</p>
         </td>
@@ -472,16 +476,22 @@
         <td colspan="3" style="padding-top: 3rem"></td>
     </tr>
     <tr>
-        <td>
+        <td style=" vertical-align: bottom">
             <div style="border-bottom: 1px solid black">
-                [bild von unterschrift]
+                <img
+                    src="{{ url('/images/unterschrift-exporo.png') }}"
+                    alt="Unterschrift Exporo"
+                    style="width: 50%"
+                >
             </div>
             <p style="margin-top: 0.25rem">Exporo Investment GmbH</p>
         </td>
         <td style="width: 3rem"></td>
-        <td style="width: 50%">
+        <td style="width: 50%; vertical-align: bottom">
             <div style="border-bottom: 1px solid black">
+                @if($contract->signature !== '')
                 {{ $contract->signature ?? '' }}
+                @endif
             </div>
             <p style="margin-top: 0.25rem">Partner</p>
         </td>

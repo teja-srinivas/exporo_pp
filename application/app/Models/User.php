@@ -117,6 +117,14 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     /**
      * @return HasOne
      */
+    public function embed(): HasOne
+    {
+        return $this->hasOne(Embed::class);
+    }
+
+    /**
+     * @return HasOne
+     */
     public function details(): HasOne
     {
         return $this->hasOne(UserDetails::class, 'id')->withDefault();

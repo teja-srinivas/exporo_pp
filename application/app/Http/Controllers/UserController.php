@@ -49,9 +49,9 @@ class UserController extends Controller
      */
     public function create(User $user)
     {
-        $contractTemplates = ContractTemplate::query()
-            ->orderBy('name')
-            ->pluck('name', 'id');
+        $contractTemplates = ContractTemplate::all()
+            ->groupBy('type')
+            ->map->pluck('name', 'id');
 
         return response()->view(
             'users.create',
@@ -80,7 +80,7 @@ class UserController extends Controller
 
             $user->details->fill($request->validated())->saveOrFail();
 
-            $company->createContractsFor($user);
+            $company->createContractsFor($user, $request->contracts);
 
             return $user;
         });

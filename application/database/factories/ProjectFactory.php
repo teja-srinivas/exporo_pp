@@ -21,6 +21,13 @@ $factory->define(Project::class, static function (Faker $faker) {
         'launched_at' => $faker->randomDigit > 6 ? $faker->dateTimeBetween('-4 years') : null,
         'payback_min_at' => $paybackMin,
         'payback_max_at' => Carbon::parse($paybackMin)->addWeeks(2),
+        'funding_target' => $faker->numberBetween(50000, 1000000),
+        'coupon_rate' => $faker->randomFloat(2, 3, 7),
+        'type' => $faker->randomElement(['stock', 'finance']),
+        'status' => $faker->randomElement(['in_funding', 'coming_soon']),
+        'intermediator' => $faker->company,
+        'location' => $faker->city,
+        'rating' => $faker->randomElement(['AA', 'A', 'B']),
     ];
 });
 

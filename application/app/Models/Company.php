@@ -76,11 +76,17 @@ class Company extends Model implements AuditableContract
      * @param  User  $user
      * @return Collection<ContractTemplate>
      */
-    public function createContractsFor(User $user): Collection
+    public function createContractsFor(User $user, $contracts = null): Collection
     {
-        return $this
-            ->contractTemplates()
-            ->where('is_default', true)
+        $query = $this->contractTemplates();
+
+        if (isset($contracts)) {
+            $query->whereIn('id', $contracts);
+        } else {
+            $query->where('is_default', true);
+        }
+
+        return $query
             ->get()
             ->map(static function (ContractTemplate $template) use ($user) {
                 return $template->createInstance($user);

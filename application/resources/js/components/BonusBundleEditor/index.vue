@@ -39,7 +39,10 @@
               :rowspan="group.length"
               class="border-top bg-white"
             >
-              <strong v-text="commissionTypes[typeId]"></strong>
+              <strong v-text="commissionTypes[typeId]" />
+              <template v-if="showPublicity && publicTypes.indexOf(Number.parseInt(typeId, 10)) >= 0">
+                <br><small>(öffentlich)</small>
+              </template>
             </td>
 
             <td
@@ -192,6 +195,16 @@ export default {
 
     calculationTypes: {
       type: Object,
+      required: true,
+    },
+
+    showPublicity: {
+      type: Boolean,
+      default: false,
+    },
+
+    publicTypes: {
+      type: Array,
       required: true,
     },
   },

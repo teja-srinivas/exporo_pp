@@ -22,10 +22,13 @@ class AcceptController extends Controller
         }
 
         $user = $contract->user;
+        $productContract = $user->productContract;
 
         return response()->view('contracts.accept', [
-            'bonuses' => $user->productContract->bonuses,
+            'bonuses' => $productContract->bonuses,
             'company' => $user->company,
+            'pdfPartner' => url()->signedRoute('contract-pdf.show', [$contract]),
+            'pdfProduct' => url()->signedRoute('contract-pdf.show', [$productContract]),
             'user' => $user,
         ]);
     }

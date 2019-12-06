@@ -27,15 +27,21 @@
             @can('manage', $user)
                 <h6 class="mt-4 pt-2 mb-2 text-uppercase tracking-wide">Verträge</h6>
 
-                @include('components.form.builder', ['inputs' => [
-                    [
-                        'type' => 'select',
-                        'name' => 'contract',
-                        'label' => __('Contract Types'),
-                        'values' => $contractTemplates,
-                        'assoc' => true,
-                    ],
-                ]])
+                @foreach(\App\Models\Contract::TYPES as $type)
+                    @include('components.form.builder', [
+                        'contained' => $loop->last,
+                        'inputs' => [
+                            [
+                                'type' => 'select',
+                                'name' => "contracts[{$type}]",
+                                'label' => __("contracts.{$type}.title"),
+                                'values' => $contractTemplates[$type],
+                                'assoc' => true,
+                                'class' => 'w-100',
+                            ],
+                        ]
+                    ])
+                @endforeach
             @endcan
 
             @slot('footer')

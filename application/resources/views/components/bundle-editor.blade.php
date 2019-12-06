@@ -14,6 +14,10 @@ if (($editable ?? null) === false) {
     $options['editable'] = false;
 }
 
+if (isset($showPublicity)) {
+    $options['showPublicity'] = $showPublicity;
+}
+
 if (($legacy ?? null) === true) {
     $options['legacy'] = true;
 }

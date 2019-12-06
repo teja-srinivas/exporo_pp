@@ -11,17 +11,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $name
  * @property bool $is_project_type
+ * @property bool $is_public
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
 class CommissionType extends Model
 {
     protected $fillable = [
-        'id', 'name', 'is_project_type',
+        'id', 'name', 'is_project_type', 'is_public',
     ];
 
     protected $casts = [
         'is_project_type' => 'bool',
+        'is_public' => 'bool',
     ];
 
     public function projects()
