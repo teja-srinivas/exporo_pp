@@ -7,10 +7,10 @@
         <tr
           :key="`${row.key}-header`"
           :class="{
-            'border-bottom': depth === 0 || index < rows.length - 1 || showDetails(row),
-            'border-top': index > 0 && (!rows[index - 1].isGroup || !showDetails(rows[index - 1])),
+            'border-bottom': depth === 0 || index < rows.length - 1 || showNested(row),
+            'border-top': index > 0 && (!rows[index - 1].isGroup || !showNested(rows[index - 1])),
             [$style.trChildStart]: index === 0,
-            [$style.trChildEnd]: depth > 0 && index === rows.length - 1 && !showDetails(row),
+            [$style.trChildEnd]: depth > 0 && index === rows.length - 1 && !showNested(row),
           }"
           class="font-weight-bold"
         >
@@ -31,11 +31,11 @@
             :class="$style.tdChevron"
             :colspan="localDepth"
             :width="localDepth * 32"
-            @click="toggleDetails(row)"
+            @click="toggleGroupDetails(row)"
           >
             <font-awesome-icon
               icon="chevron-right"
-              :rotation="showDetails(row) ? 90 : undefined"
+              :rotation="showNested(row) ? 90 : undefined"
               :class="$style.chevron"
             />
           </td>
@@ -61,61 +61,94 @@
 
         <!-- Group contents -->
         <tr
-          v-if="showDetails(row)"
+          v-if="showNested(row)"
           :class="$style.innerTable"
           :key="`${row.key}-contents`"
         >
           <td
-            :colspan="columnCount"
+            :colspan="columnCount + (hasDetails ? 1 : 0)"
             :class="{ 'border-bottom': depth === 0 || index < rows.length - 1 }"
             class="p-0"
           >
             <table
               class="table table-sm table-striped bg-transparent m-0 table-fixed"
             >
-              <table-group v-bind="buildChildProps(row)" />
+              <table-group v-bind="buildChildProps(row)">
+                <template v-slot="bindings">
+                  <slot v-bind="bindings" />
+                </template>
+              </table-group>
             </table>
           </td>
         </tr>
       </template>
 
       <!-- Regular rows -->
-      <tr
-        v-else
-        :key="row[primary]"
-        :class="{
-          [$style.trChildStart]: index === 0,
-          [$style.trChildEnd]: index === rows.length - 1,
-        }"
-      >
-        <td
-          v-if="depth > 0"
-          class="bg-light border-right"
-          :width="depth * 32"
-          :colspan="depth"
-        />
+      <template v-else>
+        <tr
+          :key="row[primary]"
+          :class="{
+            [$style.trChildStart]: index === 0,
+            [$style.trChildEnd]: index === rows.length - 1,
+          }"
+        >
+          <td
+            v-if="depth > 0"
+            class="bg-light border-right"
+            :width="depth * 32"
+            :colspan="depth"
+          />
 
-        <select-box
-          v-if="selectable"
-          :size="1"
-          :count="itemIsSelected(row) ? 1 : 0"
-          element="td"
-          @change="toggleItemSelection(row)"
-        />
+          <select-box
+            v-if="selectable"
+            :size="1"
+            :count="itemIsSelected(row) ? 1 : 0"
+            element="td"
+            @change="toggleItemSelection(row)"
+          />
 
-        <td
-          v-if="depth < groupCount"
-          :width="localDepth * 32"
-          :colspan="localDepth"
-        />
+          <td
+            v-if="(depth < groupCount) || hasDetails"
+            :width="localDepth * 32"
+            :colspan="localDepth"
+            class="p-0 text-center align-middle"
+          >
+            <button
+              v-if="hasDetails"
+              type="button"
+              class="btn btn-outline-secondary border-0 btn-sm"
+              @click="toggleItemDetails(row)"
+            >
+              <font-awesome-icon
+                :rotation="showDetails(row) ? 90 : null"
+                icon="chevron-right"
+              />
+            </button>
+          </td>
 
-        <cell
-          v-for="column in columns"
-          :key="column.name"
-          :column="column"
-          :value="formatValue(row, column, true)"
-        />
-      </tr>
+          <cell
+            v-for="column in columns"
+            :key="column.name"
+            :column="column"
+            :value="formatValue(row, column, true)"
+          />
+        </tr>
+
+        <tr v-if="showDetails(row)">
+          <td
+            v-if="depth > 0"
+            class="bg-light border-right"
+            :width="depth * 32"
+            :colspan="depth"
+          />
+          <td
+            :colspan="columnCount + 1"
+            class="bg-white"
+          >
+            <slot :row="row" />
+          </td>
+        </tr>
+      </template>
     </template>
   </tbody>
 </template>
@@ -127,7 +160,8 @@ import isArray from 'lodash/isArray';
 import SelectionMixin from './mixins/selection';
 
 import bus, {
-  TOGGLE_DETAILS,
+  TOGGLE_DETAILS_GROUP,
+  TOGGLE_DETAILS_ITEM,
   TOGGLE_SELECTION_GROUP,
   TOGGLE_SELECTION_ITEM,
 } from './events';
@@ -188,15 +222,25 @@ export default {
       required: true,
     },
 
+    detailShown: {
+      type: Array,
+      required: true,
+    },
+
     expanded: {
       type: Array,
       required: true,
+    },
+
+    hasDetails: {
+      type: Boolean,
+      default: false,
     },
   },
 
   computed: {
     localDepth() {
-      return Math.max(0, this.groupCount - this.depth);
+      return (this.hasDetails ? 1 : 0) + (this.groupCount - this.depth);
     },
   },
 
@@ -204,6 +248,10 @@ export default {
     isArray,
 
     showDetails(group) {
+      return this.detailShown.indexOf(group.row ? group.row._uid : group._uid) >= 0;
+    },
+
+    showNested(group) {
       return this.expanded.indexOf(group.hash) >= 0;
     },
 
@@ -245,8 +293,12 @@ export default {
       };
     },
 
-    toggleDetails(group) {
-      bus.$emit(TOGGLE_DETAILS, group);
+    toggleGroupDetails(group) {
+      bus.$emit(TOGGLE_DETAILS_GROUP, group);
+    },
+
+    toggleItemDetails(item) {
+      bus.$emit(TOGGLE_DETAILS_ITEM, item);
     },
 
     toggleGroupSelection(group) {

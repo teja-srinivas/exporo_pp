@@ -16,9 +16,9 @@
         />
 
         <th
-          v-if="groupCount > 0"
-          :width="groupCount * 32"
-          :colspan="groupCount"
+          v-if="offsetCount > 0"
+          :width="offsetCount * 32"
+          :colspan="offsetCount"
           key="#delimiter"
         />
 
@@ -125,12 +125,18 @@
       :column-count="columnCount"
       :group-count="groupCount"
       :selectable="selectable"
+      :detail-shown="detailShown"
       :expanded="expanded"
       :selection="selection"
       :primary="primary"
+      :has-details="withDetails"
       :depth="0"
       key="#table-contents"
-    />
+    >
+      <template v-slot="bindings">
+        <slot v-bind="bindings" />
+      </template>
+    </row>
 
     <tbody
       v-else
@@ -159,6 +165,12 @@
         />
 
         <td
+          v-if="offsetCount > 0"
+          :width="offsetCount * 32"
+          :colspan="offsetCount"
+        />
+
+        <td
           v-for="aggregate in totalAggregateValues"
           :key="aggregate.name"
           :class="{
@@ -170,6 +182,12 @@
       </tr>
 
       <tr>
+        <td
+          v-if="offsetCount > 0"
+          :width="offsetCount * 32"
+          :colspan="offsetCount"
+        />
+
         <td :colspan="columnCount" class="pr-1">
           <div class="row align-items-center">
             <div class="col text-nowrap">
@@ -295,6 +313,11 @@ export default {
       default: false,
     },
 
+    withDetails: {
+      type: Boolean,
+      default: false,
+    },
+
     totalAggregates: {
       type: Boolean,
       default: true,
@@ -348,6 +371,10 @@ export default {
   },
 
   computed: {
+    offsetCount() {
+      return this.groupCount + (this.withDetails ? 1 : 0);
+    },
+
     /**
      * The number of actual columns our table has.
      * Will change depending on the settings.

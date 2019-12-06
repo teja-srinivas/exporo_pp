@@ -142,4 +142,22 @@ class CommissionBonus extends Model
             throw new InvalidArgumentException("Invalid bonus type: $type");
         }
     }
+
+    /**
+     * Returns bonuses difference.
+     *
+     * @param User $user
+     * @return float
+     */
+    public function overheadDifference(User $user): float
+    {
+        $bonus = $user->bonuses()
+            ->where('type_id', $this->type_id)
+            ->where('calculation_type', $this->calculation_type)
+            ->first();
+
+        $difference = round($bonus->value - $this->value, 10);
+
+        return $this->is_percentage ? $difference * 100 : $difference;
+    }
 }

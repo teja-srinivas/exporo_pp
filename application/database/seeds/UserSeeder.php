@@ -51,6 +51,18 @@ class UserSeeder extends Seeder
     {
         factory(User::class, 3)->state('accepted')->create($userExtras)->each(static function (User $user) {
             $user->assignRole(Role::INTERNAL);
+
+            /** @var Collection $projectIds */
+            $projectIds = Project::query()->pluck('id');
+
+            // Investors and their investments
+            factory(Investor::class, rand(0, 30))->create([
+                'user_id' => $user->id,
+            ])->each(static function (Investor $investor) use ($projectIds) {
+                $investor->investments()->createMany(factory(Investment::class, rand(0, 30))->raw([
+                    'project_id' => $projectIds->random(),
+                ]));
+            });
         });
     }
 

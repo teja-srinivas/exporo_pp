@@ -16,6 +16,7 @@ use OwenIt\Auditing\Auditable;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -200,6 +201,31 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     public function bonuses(): HasMany
     {
         return $this->hasMany(CommissionBonus::class, 'contract_id', 'product_contract_id');
+    }
+
+    /**
+    * Returns bonuses matching parent's bonuses.
+    *
+    * @param User $user
+    * @return Collection
+    */
+    public function bonusesMatchingParent(self $user)
+    {
+        $parentBonuses = $user->bonuses()
+            ->where('is_overhead', true)
+            ->get();
+        $query = $this->bonuses();
+
+        $query->where(static function (Builder $query) use ($parentBonuses) {
+            foreach ($parentBonuses as $parentBonus) {
+                $query->orWhere(static function (Builder $query) use ($parentBonus) {
+                    $query->where('type_id', $parentBonus->type_id);
+                    $query->where('calculation_type', $parentBonus->calculation_type);
+                });
+            }
+        });
+
+        return $query->get();
     }
 
     /**
