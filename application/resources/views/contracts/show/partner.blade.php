@@ -7,7 +7,7 @@
         </tr>
         <tr>
             <td>{{ __('Kündigungsfrist') }}</td>
-            <td>{{ trans_choice('time.days', $contract->claim_years) }}</td>
+            <td>{{ trans_choice('time.days', $contract->cancellation_days) }}</td>
         </tr>
         <tr>
             <td>@lang('Exklusiv für Exporo tätig')</td>
