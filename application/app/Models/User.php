@@ -209,7 +209,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     * @param User $user
     * @return Collection
     */
-    public function bonusesMatchingParent(self $user):float
+    public function bonusesMatchingParent(self $user)
     {
         $parentBonuses = $user->bonuses()
             ->join('contracts', 'contracts.id', 'commission_bonuses.contract_id')
