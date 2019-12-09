@@ -7,8 +7,8 @@ namespace App\Http\Controllers\Api;
 use App\Helper\Rules;
 use Illuminate\Http\Request;
 use App\Models\CommissionBonus;
-use App\Models\ProductContract;
 use App\Http\Controllers\Controller;
+use App\Models\ProductContractTemplate;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\CommissionBonus as Resource;
@@ -22,12 +22,12 @@ class ContractTemplateBonusController extends Controller
     }
 
     /**
-     * @param  ProductContract  $template
+     * @param  ProductContractTemplate  $template
      * @param  Request  $request
      * @return JsonResource
      * @throws ValidationException
      */
-    public function store(ProductContract $template, Request $request): JsonResource
+    public function store(ProductContractTemplate $template, Request $request): JsonResource
     {
         $rules = Rules::prepend(CommissionBonus::validationRules(), 'required');
         $data = $this->validate($request, $rules);
