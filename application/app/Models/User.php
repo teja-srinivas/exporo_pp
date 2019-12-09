@@ -212,7 +212,11 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     public function bonusesMatchingParent(self $user)
     {
         $parentBonuses = $user->bonuses()
-            ->where('is_overhead', true)
+            ->join('contracts', 'contracts.id', 'commission_bonuses.contract_id')
+            ->whereNotNull('contracts.accepted_at')
+            ->whereNotNull('contracts.released_at')
+            ->whereNull('contracts.terminated_at')
+            ->where('commission_bonuses.is_overhead', true)
             ->get();
         $query = $this->bonuses();
 
