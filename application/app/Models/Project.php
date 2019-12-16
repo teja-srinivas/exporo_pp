@@ -46,10 +46,12 @@ class Project extends Model
 
     public const STATUS_COMING_SOON = 'coming_soon';
     public const STATUS_IN_FUNDING = 'in_funding';
+    public const STATUS_FUNDED = 'funded';
 
     public const STATUSES = [
         self::STATUS_COMING_SOON,
         self::STATUS_IN_FUNDING,
+        self::STATUS_FUNDED,
     ];
 
     public $incrementing = false;

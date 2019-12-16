@@ -13,6 +13,9 @@
                     <div class="{{ $project['type'] === 'finance' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
                         {{ __($project['status']) }}
                     </div>
+                    <div class="{{ $project['type'] === 'finance' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute bottom-0 left-0 text-white rounded-tr-lg rounded-bl-lg py-1 px-2 shadow-inner text-2xs fo-lgnt-bold">
+                        Warnhinweis beachten
+                    </div>
                     <img class="rounded-bl-lg rounded-tl-lg img-large"
                         data-lazy="{{ $project['image'] }}{{ strstr($project['image'], '?') !== false ? '&' : '?' }}w=480&h=530&fit=crop"
                         alt="{{ $project['name'] }}"
@@ -34,10 +37,24 @@
                                     <div class="text-base font-bold text-gray">{{ $project['coupon_rate'] }} %</div>
                                     <div class="text-light_gray text-xs">Auschüttung pro Jahr</div>
                                 </div>
-                            @elseif ($project['type'] === 'stock')
+                            @elseif ($project['type'] === 'equity')
                                 <div class="w-1/2">
-                                    <div class="text-base font-bold text-gray">{{ $project['rating'] }}</div>
-                                    <div class="text-light_gray text-xs">Bewertung</div>
+                                    <div class="text-base font-bold text-gray">
+                                        <span class="
+                                            inline-block bg-gray-200 rounded-full text-sm font-semibold text-white flex items-center justify-center h-6 w-6
+                                            @if ($project['rating'] === 'AA'){{ 'bg-rating_aa' }}
+                                            @elseif ($project['rating'] === 'A'){{ 'bg-rating_a' }}
+                                            @elseif ($project['rating'] === 'B'){{ 'bg-rating_b' }}
+                                            @elseif ($project['rating'] === 'C'){{ 'bg-rating_c' }}
+                                            @elseif ($project['rating'] === 'D'){{ 'bg-rating_d' }}
+                                            @elseif ($project['rating'] === 'E'){{ 'bg-rating_e' }}
+                                            @elseif ($project['rating'] === 'F'){{ 'bg-rating_f' }}
+                                            @endif
+                                        ">
+                                            {{ $project['rating'] }}
+                                        </span>
+                                    </div>
+                                    <div class="text-light_gray text-xs">Exporo Klasse</div>
                                 </div>
                             @endif
                             <div class="w-1/2 text-right">
@@ -68,28 +85,24 @@
                         </div>
                     </div>
                     <div class="p-3 border-b border-lighter_gray">
-                        <div class="text-sm truncate font-bold text-gray">
-                            Platzhalter
-                        </div>
-                        <div class="text-light_gray text-xs">
-                            Platzhalter
-                        </div>
-                    </div>
-                    <div class="p-3 border-b border-lighter_gray">
-                        <div class="text-sm truncate font-bold text-gray">
-                            Platzhalter
-                        </div>
-                        <div class="text-light_gray text-xs">
-                            Platzhalter
-                        </div>
-                    </div>
-                    <div class="p-3">
                         <div class="text-sm font-bold text-gray">
                             {{ $project['intermediator'] }}
                         </div>
                         <div class="text-light_gray text-xs">
                             Vermittler
                         </div>
+                    </div>
+                    <div class="p-3">
+                        @foreach($project['placeholders'] as $placeholder)
+                            <div class="flex">
+                                <div class="flex-initial {{ $project['type'] === 'finance' ? 'font-check-green' : 'font-check-blue' }}">
+                                    
+                                </div>
+                                <div class="flex-initial pt-1 pb-1 text-xs font-bold text-gray" style="width: 240px;">
+                                  {{ $placeholder }}
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="p-3 absolute bottom-0" style="width:100%;">
                         <div class="text-sm {{ $project['type'] === 'finance' ? 'bg-green' : 'bg-blue' }} {{ $project['type'] === 'finance' ? 'hover:bg-light_green' : 'hover:bg-light_blue' }} w-full rounded-full py-1 shadow text-white text-center uppercase font-medium cursor-pointer">Zum Projekt</div>
@@ -133,5 +146,17 @@
         width: 480px;
         height: 530px;
         object-fit: cover;
+    }
+    .font-check-green:before {
+        content: '\2713';
+        display: inline-block;
+        color: #86AC48;
+        padding: 1px 6px 0 0;
+    }
+    .font-check-blue:before {
+        content: '\2713';
+        display: inline-block;
+        color: #3968AF;
+        padding: 1px 6px 0 0;
     }
 </style>

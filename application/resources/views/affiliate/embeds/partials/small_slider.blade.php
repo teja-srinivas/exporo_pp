@@ -11,6 +11,9 @@
             <div class="{{ $project['type'] === 'finance' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
                 {{ __($project['status']) }}
             </div>
+            <div class="{{ $project['type'] === 'finance' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute left-0 text-white rounded-tr-lg py-1 px-2 shadow-inner text-2xs fo-lgnt-bold" style="top: 255px;">
+                Warnhinweis beachten
+            </div>
             <img class="rounded-tl-lg rounded-tr-lg img-small"
                 data-lazy="{{ $project['image'] }}{{ strstr($project['image'], '?') !== false ? '&' : '?' }}w=345&h=275&fit=crop"
                 alt="{{ $project['name'] }}"
@@ -30,10 +33,24 @@
                             <div class="text-base font-bold text-gray">{{ $project['coupon_rate'] }} %</div>
                             <div class="text-light_gray text-xs">Auschüttung pro Jahr</div>
                         </div>
-                    @elseif ($project['type'] === 'stock')
+                    @elseif ($project['type'] === 'equity')
                         <div class="w-1/2">
-                            <div class="text-base font-bold text-gray">{{ $project['rating'] }}</div>
-                            <div class="text-light_gray text-xs">Bewertung</div>
+                            <div class="text-base font-bold text-gray">
+                                <span class="
+                                    inline-block bg-gray-200 rounded-full text-sm font-semibold text-white flex items-center justify-center h-6 w-6
+                                    @if ($project['rating'] === 'AA'){{ 'bg-rating_aa' }}
+                                    @elseif ($project['rating'] === 'A'){{ 'bg-rating_a' }}
+                                    @elseif ($project['rating'] === 'B'){{ 'bg-rating_b' }}
+                                    @elseif ($project['rating'] === 'C'){{ 'bg-rating_c' }}
+                                    @elseif ($project['rating'] === 'D'){{ 'bg-rating_d' }}
+                                    @elseif ($project['rating'] === 'E'){{ 'bg-rating_e' }}
+                                    @elseif ($project['rating'] === 'F'){{ 'bg-rating_f' }}
+                                    @endif
+                                ">
+                                    {{ $project['rating'] }}
+                                </span>
+                            </div>
+                            <div class="text-light_gray text-xs">Exporo Klasse</div>
                         </div>
                     @endif
                     <div class="w-1/2 text-right">
@@ -87,10 +104,12 @@
 <style>
     .slick-prev{
         left: 5px;
+        top: 230px;
         z-index: 10;
     }
     .slick-next{
         right: 5px;
+        top: 230px;
         z-index: 10;
     }
     .slick-prev:before {
