@@ -126,7 +126,7 @@ export default {
       sets: [
         {
           title: 'Exporo Bestands-Investmentmöglichkeiten',
-          value: 'stock',
+          value: 'equity',
         },
         {
           title: 'Exporo Finanzierungs-Investmentmöglichkeiten',
@@ -161,12 +161,13 @@ export default {
       const query = [
         `height=${banner.height}`,
         `width=${banner.width}`,
-        `link=${this.currentUrl}`,
       ];
 
       if (this.currentSet !== null) {
           query.push(`type=${this.currentSet}`);
       }
+
+      query.push(`link=${this.currentUrl}`);
 
       return `${window.location.protocol}//${window.location.hostname}/affiliate/embed?${query.join('&')}`;
     },

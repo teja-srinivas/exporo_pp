@@ -17,7 +17,7 @@ class ProjectSeeder extends Seeder
     public function run(): void
     {
         /** @var Collection $schemas */
-        $schemas = factory(Schema::class, 3)->create();
+        $schemas = factory(Schema::class, 8)->create();
 
         $schemas->each(static function (Schema $schema) {
             factory(Project::class, 5)->create([
