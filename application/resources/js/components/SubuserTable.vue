@@ -1,6 +1,9 @@
 <template>
   <data-table v-bind="$props" with-details>
     <template v-slot="{ row }">
+      <div class="text-lg-center font-weight-bold border-bottom">
+        Overhead Vergütung für diesen Partner
+      </div>
       <table
         class="table table-sm bg-white shadow-sm table-sticky
                table-borderless table-striped table-fixed"
@@ -40,7 +43,6 @@
           </tr>
         </tbody>
       </table>
-      <!--{{ row.bonuses }}-->
     </template>
   </data-table>
 </template>
