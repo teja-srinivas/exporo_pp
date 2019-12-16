@@ -8,10 +8,10 @@
     @endphp
     <div class="relative font-sans">
         <a href="{{ $data['link'] }}" target="_blank">
-            <div class="{{ $project['type'] === 'finance' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
+            <div class="{{ $project['type'] === 'equity' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
                 {{ __($project['status']) }}
             </div>
-            <div class="{{ $project['type'] === 'finance' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute left-0 text-white rounded-tr-lg py-1 px-2 shadow-inner text-2xs fo-lgnt-bold" style="top: 255px;">
+            <div class="{{ $project['type'] === 'equity' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute left-0 text-white rounded-tr-lg py-1 px-2 shadow-inner text-2xs fo-lgnt-bold" style="top: 255px;">
                 Warnhinweis beachten
             </div>
             <img class="rounded-tl-lg rounded-tr-lg img-small"
@@ -28,12 +28,12 @@
             </div>
             <div class="p-3 py-2 border-b border-lighter_gray">
                 <div class="flex">
-                    @if ($project['type'] === 'finance')
+                    @if ($project['type'] === 'equity')
                         <div class="w-1/2">
                             <div class="text-base font-bold text-gray">{{ $project['coupon_rate'] }} %</div>
                             <div class="text-light_gray text-xs">Auschüttung pro Jahr</div>
                         </div>
-                    @elseif ($project['type'] === 'equity')
+                    @elseif ($project['type'] === 'finance')
                         <div class="w-1/2">
                             <div class="text-base font-bold text-gray">
                                 <span class="
@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <div class="bg-lighter_gray w-full rounded">
-                    <div class="{{ $project['type'] === 'finance' ? 'bg-green' : 'bg-blue' }} leading-none py-1 rounded-l" style="width: {{ $invested }}%"></div>
+                    <div class="{{ $project['type'] === 'equity' ? 'bg-green' : 'bg-blue' }} leading-none py-1 rounded-l" style="width: {{ $invested }}%"></div>
                 </div>
             </div>
             <div class="p-3 py-2">
@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div class="p-3 py-2">
-                <div class="text-sm {{ $project['type'] === 'finance' ? 'bg-green' : 'bg-blue' }} {{ $project['type'] === 'finance' ? 'hover:bg-light_green' : 'hover:bg-light_blue' }} w-full rounded-full py-1 shadow text-white text-center uppercase font-medium cursor-pointer">Zum Projekt</div>
+                <div class="text-sm {{ $project['type'] === 'equity' ? 'bg-green' : 'bg-blue' }} {{ $project['type'] === 'equity' ? 'hover:bg-light_green' : 'hover:bg-light_blue' }} w-full rounded-full py-1 shadow text-white text-center uppercase font-medium cursor-pointer">Zum Projekt</div>
             </div>
         </a>
     </div>
