@@ -11,10 +11,9 @@
             <div class="{{ $project['type'] === 'finance' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
                 {{ __($project['status']) }}
             </div>
-            <img class="rounded-tl-lg rounded-tr-lg"
+            <img class="rounded-tl-lg rounded-tr-lg img-small"
                 data-lazy="{{ $project['image'] }}{{ strstr($project['image'], '?') !== false ? '&' : '?' }}w=345&h=275&fit=crop"
                 alt="{{ $project['name'] }}"
-                style="width: 345px; height: 275px;"
             >
             <div class="p-3 py-2 border-b border-lighter_gray">
                 <div class="text-base uppercase truncate font-bold text-gray">
@@ -99,5 +98,10 @@
     }
     .slick-next:before {
         color: gray;
+    }
+    .img-small {
+      width: 345px;
+      height: 275px;
+      object-fit: cover;
     }
 </style>
