@@ -103,6 +103,7 @@ export default {
 
   data() {
     return {
+      draw: 0,
       investments: {},
       chartOptions: {
           chart: {
@@ -163,59 +164,14 @@ export default {
 
     investmentsCount() {
       return this.investments.length;
-    }, 
-  },
-
-  created() {
-    this.getInvestments();
-  },
-
-  methods: {
-    getInvestments() {
-      let params = {
-        period: this.periodSelected,
-      };
-      axios.get(this.api, {
-        params,
-      }).then(({ data }) => {
-        this.investments = data;
-        this.series = this.investmentsByPeriod(data);
-        this.chartOptions.xaxis = this.investmentsPeriods(data);
-        ApexCharts.exec("investments-by-period", "updateOptions", {
-          //xaxis: this.investmentsPeriods(data),
-          //series: this.investmentsByPeriod(data),
-        });
-      });       
     },
 
-    investmentsPeriods(data) {
+    investmentsByPeriod() {
       let characters = this.periodSelected === null ? 7 : 10;
-      return {
-        type: 'datetime',
-        categories: map(
-          sortBy(
-            map(
-              groupBy(
-                data, 
-                obj => obj.created_at.slice(0, characters)
-              ),
-              (value, key) => ({
-                created_at: this.periodSelected === null ? key : key,
-                value: value,
-              })
-            ),
-            'created_at'),
-          'created_at')
-      };
-    },
-
-    investmentsByPeriod(data) {
-      let characters = this.periodSelected === null ? 7 : 10;
-      let investmentsPeriods = this.investmentsPeriods(data);
 
       let dataFirstInvestments = map(
         groupBy(
-          groupBy(data, 'investment_type').first, o => o.created_at.slice(0, characters)),
+          groupBy(this.investments, 'investment_type').first, o => o.created_at.slice(0, characters)),
         (value, key) => ({
           created_at: key,
           amount: sumBy(value, 'amount'),
@@ -224,14 +180,14 @@ export default {
 
       let dataSubsequentInvestments = map(
         groupBy(
-          groupBy(data, 'investment_type').subsequent, o => o.created_at.slice(0, characters)),
+          groupBy(this.investments, 'investment_type').subsequent, o => o.created_at.slice(0, characters)),
         (value, key) => ({
           created_at: key,
           amount: sumBy(value, 'amount'),
         })
       );
 
-      forEach(investmentsPeriods.categories, function(value) {
+      forEach(this.investmentsPeriods.categories, function(value) {
         if (find(dataFirstInvestments, ['created_at', value]) === undefined) {
           dataFirstInvestments.push(
             {
@@ -266,6 +222,54 @@ export default {
           ),
         },
       ];
+    },
+
+    investmentsPeriods() {
+      let characters = this.periodSelected === null ? 7 : 10;
+      return {
+        type: 'datetime',
+        categories: map(
+          sortBy(
+            map(
+              groupBy(
+                this.investments, 
+                obj => obj.created_at.slice(0, characters)
+              ),
+              (value, key) => ({
+                created_at: this.periodSelected === null ? key : key,
+                value: value,
+              })
+            ),
+            'created_at'),
+          'created_at')
+      };
+    },
+  },
+
+  created() {
+    this.getInvestments();
+  },
+
+  methods: {
+    getInvestments() {
+      let params = {
+        period: this.periodSelected,
+      };
+      axios.get(this.api, {
+        params,
+      }).then(({ data }) => {
+        this.investments = data;
+        if (this.draw === 0) {
+          this.series = this.investmentsByPeriod;
+          this.chartOptions.xaxis = this.investmentsPeriods;
+        } else {
+          ApexCharts.exec("investments-by-period", "updateOptions", {
+            xaxis: this.investmentsPeriods,
+            series: this.investmentsByPeriod,
+          });
+        }
+        this.draw++;
+      });       
     },
   },
 };
