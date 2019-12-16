@@ -13,10 +13,9 @@
                     <div class="{{ $project['type'] === 'finance' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
                         {{ __($project['status']) }}
                     </div>
-                    <img class="rounded-bl-lg rounded-tl-lg"
+                    <img class="rounded-bl-lg rounded-tl-lg img-large"
                         data-lazy="{{ $project['image'] }}{{ strstr($project['image'], '?') !== false ? '&' : '?' }}w=480&h=530&fit=crop"
                         alt="{{ $project['name'] }}"
-                        style="width: 480px; height: 530px;"
                     >
                 </div>
                 <div class="flex-grow relative">
@@ -129,5 +128,10 @@
     }
     .slick-next:before {
         color: gray;
+    }
+    .img-large {
+        width: 480px;
+        height: 530px;
+        object-fit: cover;
     }
 </style>
