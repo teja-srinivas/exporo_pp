@@ -100,8 +100,8 @@
         color: gray;
     }
     .img-small {
-      width: 345px;
-      height: 275px;
-      object-fit: cover;
+        width: 345px;
+        height: 275px;
+        object-fit: cover;
     }
 </style>

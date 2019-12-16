@@ -130,8 +130,8 @@
         color: gray;
     }
     .img-large {
-      width: 480px;
-      height: 530px;
-      object-fit: cover;
+        width: 480px;
+        height: 530px;
+        object-fit: cover;
     }
 </style>
