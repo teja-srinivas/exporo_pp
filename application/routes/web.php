@@ -118,7 +118,7 @@ Route::middleware(['verified', 'accepted', 'filled'])->group(static function () 
             ->name('home');
         Route::get('commission-details', C\User\CommissionDetails::class)
             ->name('commission-details');
-        Route::get('affiliate/embeds', [C\EmbedController::class, 'index'])
+        Route::get('affiliate/iframes', [C\EmbedController::class, 'index'])
             ->name('affiliate.embeds.index');
         Route::get('affiliate/banners', [C\BannerController::class, 'index'])
             ->name('affiliate.banners.index');

@@ -99,7 +99,7 @@
                                     
                                 </div>
                                 <div class="flex-initial pt-1 pb-1 text-xs font-bold text-gray" style="width: 240px;">
-                                  {{ $placeholder }}
+                                  {!! nl2br($placeholder) !!}
                                 </div>
                             </div>
                         @endforeach

@@ -3,13 +3,13 @@
 @section('title')
     @breadcrumbs([
         'Werbemittel',
-        'Embed',
+        'Iframe',
     ])
 @endsection
 
 @section('main-content')
     @card
-        Hier finden Sie Embeds, die Sie auf Ihrer Website platzieren können.
+        Hier finden Sie Iframes, die Sie auf Ihrer Website platzieren können.
     @endcard
 
     @php($data = ['links' => $links])

@@ -8,16 +8,18 @@
     @endphp
     <div class="relative font-sans">
         <a href="{{ $data['link'] }}" target="_blank">
-            <div class="{{ $project['type'] === 'equity' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
+            <div class="relative img-small-container">
+                <div class="{{ $project['type'] === 'equity' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute top-0 left-0 text-white rounded-br-lg rounded-tl-lg py-1 px-4 shadow-inner text-sm fo-lgnt-bold">
                 {{ __($project['status']) }}
+                </div>
+                <div class="{{ $project['type'] === 'equity' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute left-0 bottom-0 text-white rounded-tr-lg py-1 px-2 shadow-inner text-2xs fo-lgnt-bold">
+                    Warnhinweis beachten
+                </div>
+                <img class="rounded-tl-lg rounded-tr-lg h-full img-small"
+                    data-lazy="{{ $project['image'] }}{{ strstr($project['image'], '?') !== false ? '&' : '?' }}w=345&h=275&fit=crop"
+                    alt="{{ $project['name'] }}"
+                >
             </div>
-            <div class="{{ $project['type'] === 'equity' ? 'bg-light_green' : 'bg-light_blue' }} z-10 absolute left-0 text-white rounded-tr-lg py-1 px-2 shadow-inner text-2xs fo-lgnt-bold" style="top: 255px;">
-                Warnhinweis beachten
-            </div>
-            <img class="rounded-tl-lg rounded-tr-lg img-small"
-                data-lazy="{{ $project['image'] }}{{ strstr($project['image'], '?') !== false ? '&' : '?' }}w=345&h=275&fit=crop"
-                alt="{{ $project['name'] }}"
-            >
             <div class="p-3 py-2 border-b border-lighter_gray">
                 <div class="text-base uppercase truncate font-bold text-gray">
                     {{ $project['name'] }}
@@ -119,8 +121,10 @@
         color: gray;
     }
     .img-small {
+        object-fit: cover;
+    }
+    .img-small-container {
         width: 345px;
         height: 275px;
-        object-fit: cover;
     }
 </style>

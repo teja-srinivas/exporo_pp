@@ -235,7 +235,7 @@ class SidebarComposer
                 'title' => 'Werbemittel',
                 'links' => [
                     [
-                        'title' => 'Embed',
+                        'title' => 'Iframe',
                         'url' => route('affiliate.embeds.index'),
                         'isActive' => $this->request->routeIs('affiliate.embeds.*'),
                         'isAllowed' => $this->canList(Embed::class),

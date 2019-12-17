@@ -8,7 +8,7 @@
 
       <div class="row align-items-center flex-fill">
         <div class="col-lg-6 col-form-label">
-          Wählen Sie ein passendes Embed-Set:
+          Wählen Sie ein passendes Iframe-Set:
         </div>
 
         <div class="col-lg-6">
@@ -125,15 +125,15 @@ export default {
     return {
       sets: [
         {
-          title: 'Exporo Bestands-Investmentmöglichkeiten',
+          title: 'Exporo Bestand Projekte',
           value: 'equity',
         },
         {
-          title: 'Exporo Finanzierungs-Investmentmöglichkeiten',
+          title: 'Exporo Finanzierung Projekte',
           value: 'finance',
         },
         {
-          title: 'Alle Exporo Investmentmöglichkeiten',
+          title: 'Alle Projekte',
           value: null,
         },
       ],
