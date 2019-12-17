@@ -8,7 +8,7 @@
 
       <div class="row align-items-center flex-fill">
         <div class="col-lg-6 col-form-label">
-          Wählen Sie ein passendes Embed-Set:
+          Wählen Sie ein passendes Iframe-Set:
         </div>
 
         <div class="col-lg-6">
@@ -64,7 +64,7 @@
 
       <div class="align-items-center flex-fill">
         <p class="pt-1">
-          Im Code-Snippet für die jeweilige Embedgröße ist Ihr persönlicher Partner-Link direkt hinterlegt.
+          Im Code-Snippet für die jeweilige Iframe-Größe ist Ihr persönlicher Partner-Link direkt hinterlegt.
         </p>
 
         <div class="mb-5" v-for="banner in banners">
@@ -125,15 +125,15 @@ export default {
     return {
       sets: [
         {
-          title: 'Exporo Bestands-Investmentmöglichkeiten',
+          title: 'Exporo Bestand Projekte',
           value: 'equity',
         },
         {
-          title: 'Exporo Finanzierungs-Investmentmöglichkeiten',
+          title: 'Exporo Finanzierung Projekte',
           value: 'finance',
         },
         {
-          title: 'Alle Exporo Investmentmöglichkeiten',
+          title: 'Alle Projekte',
           value: null,
         },
       ],
@@ -169,7 +169,7 @@ export default {
 
       query.push(`link=${this.currentUrl}`);
 
-      return `${window.location.protocol}//${window.location.hostname}/affiliate/embed?${query.join('&')}`;
+      return `${window.location.protocol}//${window.location.hostname}/affiliate/iframe?${query.join('&')}`;
     },
 
     copy(text) {
