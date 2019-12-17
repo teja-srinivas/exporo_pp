@@ -152,5 +152,5 @@ Route::get('users/{user}/login', [C\UserController::class, 'loginUsingId'])
     ->middleware('signed')
     ->name('users.login');
 
-Route::get('affiliate/embed', [C\EmbedController::class, 'show'])
+Route::get('affiliate/iframe', [C\EmbedController::class, 'show'])
     ->name('affiliate.embed.show');
