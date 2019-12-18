@@ -21,12 +21,13 @@ class EmbedController extends Controller
     public function index()
     {
         $links = Link::query()
-            ->whereIn('title', Embed::$linkTitles)
+            ->whereIn('title', array_keys(Embed::$linkTitles))
             ->get()
             ->map(static function (Link $link) {
                 return [
                     'title' => $link->title,
                     'url' => $link->userInstance->toHtml(),
+                    'type' => Embed::$linkTitles[$link->title],
                 ];
             });
 

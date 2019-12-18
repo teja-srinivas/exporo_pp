@@ -24,7 +24,12 @@ class Embed extends Model
         ],
     ];
 
-    public static $linkTitles = ['Startseite', 'Projekte'];
+    public static $linkTitles = [
+        'Startseite' => null,
+        'Alle Projekte' => null,
+        'Exporo Bestand Projekte' => 'equity',
+        'Exporo Finanzierung Projekte' => 'finance',
+    ];
 
     /**
      * @return BelongsTo
