@@ -83,7 +83,7 @@
                 </div>
             </div>
             <div class="p-3 py-2">
-                <div class="text-sm {{ $project['type'] === 'equity' ? 'bg-green' : 'bg-blue' }} {{ $project['type'] === 'equity' ? 'hover:bg-light_green' : 'hover:bg-light_blue' }} w-full rounded-full py-1 shadow text-white text-center uppercase font-medium cursor-pointer">Zum Projekt</div>
+                <div class="text-sm {{ $project['type'] === 'equity' ? 'bg-green' : 'bg-blue' }} {{ $project['type'] === 'equity' ? 'hover:bg-light_green' : 'hover:bg-light_blue' }} w-full rounded-full py-1 shadow text-white text-center uppercase font-medium cursor-pointer">Zu den Projekten</div>
             </div>
         </a>
     </div>

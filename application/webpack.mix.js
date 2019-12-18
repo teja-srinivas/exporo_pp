@@ -35,6 +35,7 @@ mix.sass('resources/sass/embed.scss', 'public/css').options({
     postCss: [ tailwindcss('resources/sass/tailwind.config.js') ],
   });
 mix.copy('node_modules/slick-carousel/slick/fonts', 'public/fonts/vendor/slick-carousel/slick/');
+mix.copy('node_modules/slick-carousel/slick/ajax-loader.gif', 'public/images/vendor/slick-carousel/slick/');
 mix.version();
 mix.sourceMaps();
 

@@ -15,6 +15,7 @@
           <select
             v-model="currentSet"
             class="custom-select"
+            @change="updateLink()"
           >
             <option
               v-for="set in sets"
@@ -45,7 +46,7 @@
             class="custom-select"
           >
             <option
-              v-for="link in links"
+              v-for="link in linksForType"
               :value="link.url"
               v-text="link.title"
             />
@@ -112,6 +113,7 @@
 
 <script>
 import { writeText } from 'clipboard-polyfill';
+import filter from 'lodash/filter';
 
 export default {
   props: {
@@ -152,6 +154,15 @@ export default {
     };
   },
 
+  computed: {
+    linksForType() {
+      let set = this.currentSet;
+      return filter(this.links, function(link) {
+        return link.type === set || link.type === null;
+      });
+    },
+  },
+
   methods: {
     bannerSnippet(banner) {
       return `<iframe src="${this.bannerSrc(banner)}" width="${banner.width}" height="${banner.height}" frameborder="0" style="border:0;" allowfullscreen=""></iframe>`;
@@ -175,6 +186,10 @@ export default {
     copy(text) {
       writeText(text);
       this.$notify('Text wurde in die Zwischenablage kopiert');
+    },
+
+    updateLink() {
+      this.currentUrl = this.linksForType[0].url;
     },
   },
 };
