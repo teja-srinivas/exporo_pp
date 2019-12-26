@@ -1,7 +1,8 @@
 <template>
   <table
-    class="table table-sm bg-white shadow-sm accent-primary table-sticky
-           table-borderless table-hover table-striped table-fixed"
+    class="table table-sm bg-white table-borderless
+           table-hover table-striped table-fixed"
+    :class="{ 'table-sticky accent-primary shadow-sm': !isChild }"
   >
     <!-- Column settings -->
     <thead>
@@ -156,7 +157,7 @@
     <tfoot :class="$style.tFoot">
       <!-- Total aggregates of the filtered table -->
       <tr
-        v-if="totalAggregates && filtered.length > 1"
+        v-if="totalAggregates && filtered.length > 1 && !isChild"
         class="font-weight-bold"
       >
         <td
@@ -201,7 +202,7 @@
                 <span class="text-muted">von</span>
               </template>
 
-              <span class="text-dark">
+              <span class="text-dark" v-if="!isChild">
                 <strong>{{ filtered.length }}</strong>
                 <template v-if="filtered.length === 1">Eintrag</template>
                 <template v-else>
@@ -314,6 +315,11 @@ export default {
     },
 
     withDetails: {
+      type: Boolean,
+      default: false,
+    },
+
+    isChild: {
       type: Boolean,
       default: false,
     },

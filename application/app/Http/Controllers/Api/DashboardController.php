@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Investment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
-use App\Repositories\BillRepository;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\ValidationException;
 
 class DashboardController extends Controller
@@ -50,13 +46,15 @@ class DashboardController extends Controller
         }
         $query->whereNull('investments.cancelled_at');
         $investments = $query->get()
-            ->map(static function (Investment $investment) use ($showAll) {
+            ->map(static function (Investment $investment) {
                 return [
                     'amount' => $investment->amount,
                     'is_first_investment' => $investment->is_first_investment,
                     'project_name' => $investment->project->name,
                     'created_at' => $investment->created_at,
                     'investment_type' => $investment->is_first_investment ? 'first' : 'subsequent',
+                    'investor' => $investment->investor->details->display_name,
+                    'provision_type' => $investment->type,
                     ];
             })->all();
 

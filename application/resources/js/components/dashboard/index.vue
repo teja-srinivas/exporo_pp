@@ -56,18 +56,57 @@
       <div class="d-flex mt-3">
         <div class="rounded shadow-sm bg-white p-3 w-50 mr-2">
           <div>
-            <apexchart type="bar" :options="chartOptions" :series="series"></apexchart>
+            <apexchart
+              type="bar"
+              :options="investmentsByPeriodOptions"
+              :series="investmentsByPeriodSeries"
+            ></apexchart>
           </div>
           <div>
-            
+            <apexchart
+              type="bar"
+              :options="investmentsByProjectOptions"
+              :series="investmentsByProjectSeries"
+              :height="320"
+            ></apexchart>
           </div>
         </div>
         <div class="rounded shadow-sm bg-white p-3 w-50 ml-2">
-          
+          <data-table v-bind="tableData" with-details is-child page-size="15">
+            <template v-slot="{ row }">
+              <div class="ml-4">
+                <div class="pl-2 border-bottom">
+                  <div>
+                    <strong>{{ row.investor }}</strong>
+                  </div>
+                  <div>
+                    <small>Investor</small>
+                  </div>
+                </div>
+                <div class="pl-2 border-bottom">
+                  <div>
+                    <strong>{{ row.provision_type }}</strong>
+                  </div>
+                  <div>
+                    <small>Provisionstyp</small>
+                  </div>
+                </div>
+                <div class="pl-2 pt-2">
+                  <h4><span class="badge badge-primary" :style="{ backgroundColor: row.is_first_investment ? colors.firstInvestment : colors.subsequentInvestment }">{{ row.is_first_investment ? 'Erstinvestment' : 'Folgeinvestment' }}</span></h4>
+                </div>
+              </div>
+            </template>
+          </data-table>
         </div>
       </div>
-      
-      {{ investmentsByPeriod }} {{ investmentsPeriods }} 
+      <div class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3">
+        <apexchart
+          type="bar"
+          :options="twelveMonthsOptions"
+          :series="twelveMonthsData"
+          :height="280"
+        ></apexchart>
+      </div>
     </div>
 
     <div v-else class="lead text-center text-muted">
@@ -99,29 +138,22 @@ export default {
       type: String,
       required: true,
     },
+    investmentsTwelveMonths: {
+      type: Array,
+      required: true,
+    },
   },
 
   data() {
     return {
+      colors: {
+        firstInvestment: '#86ac48',
+        subsequentInvestment: '#3968af',
+      },
       draw: 0,
-      investments: {},
-      chartOptions: {
-          chart: {
-            id: 'investments-by-period',
-            stacked: true,
-            toolbar: {
-              show: true,
-            },
-            zoom: {
-              enabled: true,
-            },
-          },
-          dataLabels: {
-            enabled: false,
-          },
-          xaxis: {},
-        },
-      series: [],
+      investments: [],
+      investmentsByPeriodSeries: [],
+      investmentsByProjectSeries: [],
       periodSelected: 'default',
       periods: [
         {
@@ -139,6 +171,25 @@ export default {
         {
           title: '30 Tage',
           value: 'default',
+        },
+      ],
+      tableColumns: [
+        {
+          name: 'project_name',
+          label: 'Projekt',
+          width: '40%',
+        },
+        {
+          name: 'amount',
+          label: 'Betrag',
+          format: 'currency',
+          width: '25%',
+        },
+        {
+          name: 'created_at',
+          label: 'Datum',
+          format: 'date',
+          width: '25%',
         },
       ],
     };
@@ -226,23 +277,263 @@ export default {
 
     investmentsPeriods() {
       let characters = this.periodSelected === null ? 7 : 10;
+      let categories = map(
+        sortBy(
+          map(
+            groupBy(
+              this.investments, 
+              obj => obj.created_at.slice(0, characters)
+            ),
+            (value, key) => ({
+              created_at: key,
+              value: value,
+            })
+          ),
+          'created_at'),
+        'created_at'
+      );
+
       return {
         type: 'datetime',
-        categories: map(
-          sortBy(
-            map(
-              groupBy(
-                this.investments, 
-                obj => obj.created_at.slice(0, characters)
-              ),
-              (value, key) => ({
-                created_at: this.periodSelected === null ? key : key,
-                value: value,
-              })
-            ),
-            'created_at'),
-          'created_at')
+        min: new Date(categories[categories.length-6]).getTime(),
+        categories: categories,
       };
+    },
+
+    investmentsByProject() {
+      let dataFirstInvestments = map(
+        groupBy(
+          groupBy(this.investments, 'investment_type').first, 'project_name'),
+        (value, key) => ({
+          project_name: key,
+          amount: sumBy(value, 'amount'),
+        })
+      );
+
+      let dataSubsequentInvestments = map(
+        groupBy(
+          groupBy(this.investments, 'investment_type').subsequent, 'project_name'),
+        (value, key) => ({
+          project_name: key,
+          amount: sumBy(value, 'amount'),
+        })
+      );
+
+      forEach(this.investmentsProjects.categories, function(value) {
+        if (find(dataFirstInvestments, ['project_name', value]) === undefined) {
+          dataFirstInvestments.push(
+            {
+              project_name: value,
+              amount: 0,
+            }
+          );
+        }
+        if (find(dataSubsequentInvestments, ['project_name', value]) === undefined) {
+          dataSubsequentInvestments.push(
+            {
+              project_name: value,
+              amount: 0,
+            }
+          );
+        }
+      });
+
+      return [
+        {
+          name: 'Erstinvestments',
+          data: map(
+            orderBy(dataFirstInvestments, 'project_name'),
+            'amount'
+          ),
+        },
+        {
+          name: 'Folgeinvestments',
+          data: map(
+            orderBy(dataSubsequentInvestments, 'project_name'),
+            'amount'
+          ),
+        },
+      ];
+    },
+
+    investmentsProjects() {
+      let categories = map(
+        sortBy(
+          map(
+            groupBy(
+              this.investments, 
+              obj => obj.project_name
+            ),
+            (value, key) => ({
+              project_name: key,
+              value: value,
+            })
+          ),
+          'project_name'),
+        'project_name'
+      );
+
+      return {
+        type: 'category',
+        labels: {
+          maxHeight: 70,
+          style: {
+            fontSize: '10px',
+          },
+        },
+        categories: categories,
+      };
+    },
+
+    tableData() {
+      return {
+        columns: this.tableColumns,
+        rows: this.investments,
+      };
+    },
+
+    twelveMonths() {
+      let categories = map(
+        sortBy(
+          map(
+            groupBy(
+              this.investmentsTwelveMonths, 
+              obj => obj.created_at.slice(0, 7)
+            ),
+            (value, key) => ({
+              created_at: key,
+              value: value,
+            })
+          ),
+          'created_at'),
+        'created_at'
+      );
+
+      return {
+        type: 'datetime',
+        categories: categories,
+      };
+    },
+
+    twelveMonthsData() {
+      let dataFirstInvestments = map(
+        groupBy(
+          groupBy(this.investmentsTwelveMonths, 'investment_type').first, o => o.created_at.slice(0, 7)),
+        (value, key) => ({
+          created_at: key,
+          amount: sumBy(value, 'amount'),
+        })
+      );
+
+      let dataSubsequentInvestments = map(
+        groupBy(
+          groupBy(this.investmentsTwelveMonths, 'investment_type').subsequent, o => o.created_at.slice(0, 7)),
+        (value, key) => ({
+          created_at: key,
+          amount: sumBy(value, 'amount'),
+        })
+      );
+
+      forEach(this.twelveMonths.categories, function(value) {
+        if (find(dataFirstInvestments, ['created_at', value]) === undefined) {
+          dataFirstInvestments.push(
+            {
+              created_at: value,
+              amount: 0,
+            }
+          );
+        }
+        if (find(dataSubsequentInvestments, ['created_at', value]) === undefined) {
+          dataSubsequentInvestments.push(
+            {
+              created_at: value,
+              amount: 0,
+            }
+          );
+        }
+      });
+
+      return [
+        {
+          name: 'Erstinvestments',
+          data: map(
+            orderBy(dataFirstInvestments, 'created_at'),
+            'amount'
+          ),
+        },
+        {
+          name: 'Folgeinvestments',
+          data: map(
+            orderBy(dataSubsequentInvestments, 'created_at'),
+            'amount'
+          ),
+        },
+      ];
+    },
+
+    investmentsByPeriodOptions() {
+      return {
+        colors: [this.colors.firstInvestment, this.colors.subsequentInvestment],
+        chart: {
+          id: 'investments-by-period',
+          stacked: true,
+          toolbar: {
+            show: true,
+            tools: {
+              download: false,
+              selection: false,
+              reset: false,
+              zoom: false,
+              pan: true,
+            },
+            autoSelected: 'pan',
+          },
+          zoom: {
+            enabled: true,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        xaxis: {},
+      };
+    },
+
+    investmentsByProjectOptions() {
+      return {
+        colors: [this.colors.firstInvestment, this.colors.subsequentInvestment],
+        chart: {
+          id: 'investments-by-project',
+          stacked: true,
+          toolbar: {
+            show: false,
+          },
+          zoom: {
+            enabled: true,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        xaxis: {},
+      };
+    },
+
+    twelveMonthsOptions() {
+        return {
+          colors: [this.colors.firstInvestment, this.colors.subsequentInvestment],
+          chart: {
+            id: 'investments-twelve-months',
+            stacked: true,
+            toolbar: {
+              show: false,
+            },
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          xaxis: this.twelveMonths,
+        };
     },
   },
 
@@ -260,12 +551,18 @@ export default {
       }).then(({ data }) => {
         this.investments = data;
         if (this.draw === 0) {
-          this.series = this.investmentsByPeriod;
-          this.chartOptions.xaxis = this.investmentsPeriods;
+          this.investmentsByPeriodSeries = this.investmentsByPeriod;
+          this.investmentsByPeriodOptions.xaxis = this.investmentsPeriods;
+          this.investmentsByProjectSeries = this.investmentsByProject;
+          this.investmentsByProjectOptions.xaxis = this.investmentsProjects;
         } else {
           ApexCharts.exec("investments-by-period", "updateOptions", {
             xaxis: this.investmentsPeriods,
             series: this.investmentsByPeriod,
+          });
+          ApexCharts.exec("investments-by-project", "updateOptions", {
+            xaxis: this.investmentsProjects,
+            series: this.investmentsByProject,
           });
         }
         this.draw++;
@@ -275,6 +572,30 @@ export default {
 };
 </script>
 
-<style lang="scss" module>
-  
+<style lang="scss">
+  table {
+    width: 100%;
+  }
+
+  thead, tbody, tr, td, th { display: block; }
+
+  tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+  }
+
+  tbody {
+    height: 490px;
+    overflow-y: auto;
+  }
+
+  tbody td, thead th {
+    float: left;
+  }
+
+  tbody td.bg-white {
+    width: 100%;
+  }
 </style>
