@@ -72,7 +72,7 @@
           </div>
         </div>
         <div class="rounded shadow-sm bg-white p-3 w-50 ml-2">
-          <data-table v-bind="tableData" with-details is-child page-size="15">
+          <data-table v-bind="tableData" with-details minimal-foot minimal-styling page-size="15">
             <template v-slot="{ row }">
               <div class="ml-4">
                 <div class="pl-2 border-bottom">

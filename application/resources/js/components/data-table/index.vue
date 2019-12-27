@@ -2,7 +2,7 @@
   <table
     class="table table-sm bg-white table-borderless
            table-hover table-striped table-fixed"
-    :class="{ 'table-sticky accent-primary shadow-sm': !isChild }"
+    :class="{ 'table-sticky accent-primary shadow-sm': !minimalStyling }"
   >
     <!-- Column settings -->
     <thead>
@@ -157,7 +157,7 @@
     <tfoot :class="$style.tFoot">
       <!-- Total aggregates of the filtered table -->
       <tr
-        v-if="totalAggregates && filtered.length > 1 && !isChild"
+        v-if="totalAggregates && filtered.length > 1 && !minimalFoot"
         class="font-weight-bold"
       >
         <td
@@ -202,7 +202,7 @@
                 <span class="text-muted">von</span>
               </template>
 
-              <span class="text-dark" v-if="!isChild">
+              <span class="text-dark" v-if="!minimalFoot">
                 <strong>{{ filtered.length }}</strong>
                 <template v-if="filtered.length === 1">Eintrag</template>
                 <template v-else>
@@ -319,7 +319,12 @@ export default {
       default: false,
     },
 
-    isChild: {
+    minimalStyling: {
+      type: Boolean,
+      default: false,
+    },
+
+    minimalFoot: {
       type: Boolean,
       default: false,
     },
