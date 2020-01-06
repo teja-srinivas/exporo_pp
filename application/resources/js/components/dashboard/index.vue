@@ -1,11 +1,10 @@
 <template>
   <div>
-    <div class="d-flex flex-row-reverse ">
-      <div class="col-lg-2 pr-0 mb-3">
+    <div class="d-flex flex-row-reverse align-items-end mt-0 mb-3">
+      <div class="col-lg-2 pr-0 pl-2">
         <select
           v-model="periodSelected"
           class="custom-select"
-          @change="getInvestments()"
         >
           <option
             v-for="period in periods"
@@ -13,6 +12,20 @@
             v-text="period.title"
           />
         </select>
+      </div>
+      <div class="col-lg-2 pl-2">
+        <label class="m-0">bis:</label>
+        <vuejs-datepicker
+          input-class="form-control"
+          v-model="date.second"
+        ></vuejs-datepicker>
+      </div>
+      <div class="col-lg-2 pl-2">
+        <label class="m-0">von:</label>
+        <vuejs-datepicker
+          input-class="form-control"
+          v-model="date.first"
+        ></vuejs-datepicker>
       </div>
     </div>
     <div v-if="investments.length > 0 && !loading">
@@ -104,12 +117,12 @@
     <div v-else-if="loading" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
       <vue-simple-spinner
         size="large"
-        message="Daten werden geladen"
         :line-fg-color="colors.subsequentInvestment"
       ></vue-simple-spinner>
+      Daten werden geladen
     </div>
 
-    <div v-else class="lead text-center text-muted">
+    <div v-else class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
       Keine Daten verfügbar
     </div>
     
@@ -135,10 +148,12 @@ import map from 'lodash/map';
 import forEach from 'lodash/forEach';
 import orderBy from 'lodash/orderBy';
 import Spinner from 'vue-simple-spinner';
+import Datepicker from 'vuejs-datepicker';
 
 export default {
   components: {
     'vue-simple-spinner': Spinner,
+    'vuejs-datepicker': Datepicker,
   },
 
   props: {
@@ -160,6 +175,10 @@ export default {
         subsequentInvestment: '#3968af',
       },
       draw: 0,
+      date: {
+        first: '',
+        second: '',
+      },
       investments: [],
       investmentsByPeriodSeries: [],
       investmentsByProjectSeries: [],
@@ -180,6 +199,10 @@ export default {
         {
           title: '30 Tage',
           value: 'default',
+        },
+        {
+          title: 'Individuell',
+          value: 'custom',
         },
       ],
       tableColumns: [
@@ -202,6 +225,25 @@ export default {
         },
       ],
     };
+  },
+
+  watch: {
+    periodSelected: function (value) {
+      if (value != 'custom') {
+        this.date.first = '';
+        this.date.second = '';
+        this.getInvestments();
+      }
+    },
+    date: {
+      handler: function (value) {
+        if (value.first != '' || value.second != '') {
+          this.periodSelected = 'custom';
+          this.getInvestments();
+        }
+      },
+      deep: true,
+    },
   },
 
   computed: {
@@ -301,10 +343,11 @@ export default {
           'created_at'),
         'created_at'
       );
+      let firstBar = categories.length > 6 ? new Date(categories[categories.length-6]).getTime() : null;
 
       return {
         type: 'datetime',
-        min: new Date(categories[categories.length-6]).getTime(),
+        min: firstBar,
         categories: categories,
       };
     },
@@ -552,33 +595,29 @@ export default {
 
   methods: {
     getInvestments() {
+      this.draw++;
       let params = {
         period: this.periodSelected,
+        draw: this.draw,
+        ... this.date,
       };
       this.loading = true;
 
       axios.get(this.api, {
         params,
       }).then(({ data }) => {
-        this.investments = data;
-        this.loading = false;
-        if (this.draw === 0) {
+        if (data.draw == this.draw) {
+          this.investments = data.investments;
+          this.loading = false;
+
           this.investmentsByPeriodSeries = this.investmentsByPeriod;
           this.investmentsByPeriodOptions.xaxis = this.investmentsPeriods;
           this.investmentsByProjectSeries = this.investmentsByProject;
           this.investmentsByProjectOptions.xaxis = this.investmentsProjects;
-        } else {
-          ApexCharts.exec("investments-by-period", "updateOptions", {
-            xaxis: this.investmentsPeriods,
-            series: this.investmentsByPeriod,
-          });
-          ApexCharts.exec("investments-by-project", "updateOptions", {
-            xaxis: this.investmentsProjects,
-            series: this.investmentsByProject,
-          });
         }
-        this.draw++;
-      });       
+      }).catch(() => {
+          this.loading = false;
+      });
     },
   },
 };

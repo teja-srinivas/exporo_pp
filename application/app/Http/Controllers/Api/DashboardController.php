@@ -22,27 +22,32 @@ class DashboardController extends Controller
         $user = $request->user();
 
         $data = $this->validate($request, [
-            'period' => ['nullable', 'in:this_month,last_month,default'],
+            'period' => ['nullable', 'in:this_month,last_month,default,custom'],
         ]);
 
         if (isset($data['period'])) {
             switch ($data['period']) {
                 case 'this_month':
-                    $period = Carbon::now()->startOfMonth();
+                    $periodFrom = Carbon::now()->startOfMonth();
                     break;
                 case 'last_month':
-                    $period = Carbon::now()->startOfMonth()->subMonth();
+                    $periodFrom = Carbon::now()->startOfMonth()->subMonth();
+                    break;
+                case 'custom':
+                    $periodFrom = Carbon::create($request->first)->startOfDay();
+                    $periodTo = Carbon::create($request->second)->endOfDay();
                     break;
                 default:
-                    $period = Carbon::now()->subDays(30);
+                    $periodFrom = Carbon::now()->subDays(30);
             }
         }
 
-        $showAll = isset($period) ? false : true;
-
         $query = $user->investments();
-        if ($showAll === false) {
-            $query->where('investments.created_at', '>=', $period);
+        if (isset($periodFrom)) {
+            $query->where('investments.created_at', '>=', $periodFrom);
+        }
+        if (isset($periodTo)) {
+            $query->where('investments.created_at', '<=', $periodTo);
         }
         $query->whereNull('investments.cancelled_at');
         $investments = $query->get()
@@ -58,6 +63,9 @@ class DashboardController extends Controller
                     ];
             })->all();
 
-        return $investments;
+        return [
+            'investments' => $investments, 
+            'draw' => $request->draw,
+        ];
     }
 }
