@@ -101,8 +101,12 @@
       </div>
     </div>
 
-    <div v-else-if="loading" class="lead text-center text-muted">
-      Daten werden geladen
+    <div v-else-if="loading" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
+      <vue-simple-spinner
+        size="large"
+        message="Daten werden geladen"
+        :line-fg-color="colors.subsequentInvestment"
+      ></vue-simple-spinner>
     </div>
 
     <div v-else class="lead text-center text-muted">
@@ -125,18 +129,17 @@ import axios from 'axios';
 import filter from 'lodash/filter';
 import find from 'lodash/find';
 import sumBy from 'lodash/sumBy';
-import countBy from 'lodash/countBy';
 import groupBy from 'lodash/groupBy';
 import sortBy from 'lodash/sortBy';
-import chain from 'lodash/chain';
 import map from 'lodash/map';
-import mapKeys from 'lodash/mapKeys';
-import values from 'lodash/values';
-import toArray from 'lodash/toArray';
 import forEach from 'lodash/forEach';
 import orderBy from 'lodash/orderBy';
+import Spinner from 'vue-simple-spinner';
 
 export default {
+  components: {
+    'vue-simple-spinner': Spinner,
+  },
 
   props: {
     api: {
