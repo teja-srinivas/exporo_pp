@@ -15,7 +15,7 @@
         </select>
       </div>
     </div>
-    <div v-if="investments.length > 0">
+    <div v-if="investments.length > 0 && !loading">
       <div class="d-flex">
         <div class="rounded shadow-sm bg-white p-3 w-50 mr-2">
           <div class="d-flex justify-content-start h3">
@@ -99,18 +99,23 @@
           </data-table>
         </div>
       </div>
-      <div class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3">
-        <apexchart
-          type="bar"
-          :options="twelveMonthsOptions"
-          :series="twelveMonthsData"
-          :height="280"
-        ></apexchart>
-      </div>
+    </div>
+
+    <div v-else-if="loading" class="lead text-center text-muted">
+      Daten werden geladen
     </div>
 
     <div v-else class="lead text-center text-muted">
       Keine Daten verfügbar
+    </div>
+    
+    <div class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3">
+      <apexchart
+        type="bar"
+        :options="twelveMonthsOptions"
+        :series="twelveMonthsData"
+        :height="280"
+      ></apexchart>
     </div>
   </div>
 </template>
@@ -146,6 +151,7 @@ export default {
 
   data() {
     return {
+      loading: true,
       colors: {
         firstInvestment: '#86ac48',
         subsequentInvestment: '#3968af',
@@ -546,10 +552,13 @@ export default {
       let params = {
         period: this.periodSelected,
       };
+      this.loading = true;
+
       axios.get(this.api, {
         params,
       }).then(({ data }) => {
         this.investments = data;
+        this.loading = false;
         if (this.draw === 0) {
           this.investmentsByPeriodSeries = this.investmentsByPeriod;
           this.investmentsByPeriodOptions.xaxis = this.investmentsPeriods;
