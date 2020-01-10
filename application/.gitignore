@@ -13,6 +13,7 @@ yarn-error.log
 /public/mix-manifest.json
 /public/images
 /public/css
+/public/fonts
 /public/js
 /public/*.js*
 /data/cache

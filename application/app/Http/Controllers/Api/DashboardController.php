@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use Carbon\Carbon;
+use App\Traits\Person;
 use App\Models\Investment;
+use App\Models\Commission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
@@ -42,15 +44,16 @@ class DashboardController extends Controller
             }
         }
 
-        $query = $user->investments();
+        $investmentQuery = $user->investments();
         if (isset($periodFrom)) {
-            $query->where('investments.created_at', '>=', $periodFrom);
+            $investmentQuery->where('investments.created_at', '>=', $periodFrom);
         }
         if (isset($periodTo)) {
-            $query->where('investments.created_at', '<=', $periodTo);
+            $investmentQuery->where('investments.created_at', '<=', $periodTo);
         }
-        $query->whereNull('investments.cancelled_at');
-        $investments = $query->get()
+        $investmentQuery->whereNull('investments.cancelled_at');
+        $investmentQuery->orderBy('investments.created_at', 'DESC');
+        $investments = $investmentQuery->get()
             ->map(static function (Investment $investment) {
                 return [
                     'amount' => $investment->amount,
@@ -58,13 +61,31 @@ class DashboardController extends Controller
                     'project_name' => $investment->project->name,
                     'created_at' => $investment->created_at,
                     'investment_type' => $investment->is_first_investment ? 'first' : 'subsequent',
-                    'investor' => $investment->investor->details->display_name,
+                    'investor' => Person::anonymizeName($investment->investor->first_name, $investment->investor->last_name),
+                    'investor_id' => $investment->investor_id,
                     'provision_type' => $investment->type,
-                    ];
+                ];
+            })->all();
+
+        $commissionQuery = $user->commissions();
+        if (isset($periodFrom)) {
+            $commissionQuery->where('commissions.created_at', '>=', $periodFrom);
+        }
+        if (isset($periodTo)) {
+            $commissionQuery->where('commissions.created_at', '<=', $periodTo);
+        }
+        $commissionQuery->whereNotNull('bill_id');
+        $commissions = $commissionQuery->get()
+            ->map(static function (Commission $commission) {
+                return [
+                   'amount' => $commission->gross,
+                   'created_at' => $commission->created_at,
+                ];
             })->all();
 
         return [
-            'investments' => $investments, 
+            'investments' => $investments,
+            'commissions' => $commissions,
             'draw' => $request->draw,
         ];
     }

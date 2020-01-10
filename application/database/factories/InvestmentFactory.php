@@ -20,6 +20,7 @@ $factory->define(Investment::class, static function (Faker $faker) {
         'is_first_investment' => $faker->randomDigit > 8,
         'cancelled_at' => $faker->randomDigit > 9 ? $faker->dateTime : null,
         'created_at' => $faker->dateTimeBetween('-1 years'),
+        'type' => $faker->randomElement(['Finanzierung (Exporo AG)', 'Finanzierung (Anleihe)', 'Bestand (Anleihe)']),
     ];
 });
 

@@ -157,7 +157,7 @@
     <tfoot :class="$style.tFoot">
       <!-- Total aggregates of the filtered table -->
       <tr
-        v-if="totalAggregates && filtered.length > 1 && !minimalFoot"
+        v-if="totalAggregates && filtered.length > 1"
         class="font-weight-bold"
       >
         <td
@@ -202,7 +202,7 @@
                 <span class="text-muted">von</span>
               </template>
 
-              <span class="text-dark" v-if="!minimalFoot">
+              <span class="text-dark">
                 <strong>{{ filtered.length }}</strong>
                 <template v-if="filtered.length === 1">Eintrag</template>
                 <template v-else>
@@ -320,11 +320,6 @@ export default {
     },
 
     minimalStyling: {
-      type: Boolean,
-      default: false,
-    },
-
-    minimalFoot: {
       type: Boolean,
       default: false,
     },
