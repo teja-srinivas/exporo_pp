@@ -26,10 +26,10 @@ class HomeTest extends TestCase
     /** @test */
     public function it_shows_latest_bills()
     {
-        
+        /*
         $bill = $this->createBill(['released_at' => '2018-11-01']);
         $billWithoutPdf = $this->createBill(['released_at' => '2018-12-01', 'pdf_created_at' => null]);
-
+        */
         $this->be($this->user);
 
         $response = $this->get(route('home'));
