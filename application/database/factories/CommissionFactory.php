@@ -8,6 +8,7 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Models\Commission::class, static function (Faker $faker) {
     $amount = $faker->numberBetween(500, 1500);
+
     return [
         'bill_id' => $faker->unique()->numberBetween(),
         'net' => $amount,
