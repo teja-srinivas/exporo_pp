@@ -161,6 +161,11 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasMany(Contract::class);
     }
 
+    public function commissions(): HasMany
+    {
+        return $this->hasMany(Commission::class);
+    }
+
     /**
      * @return BelongsTo
      */

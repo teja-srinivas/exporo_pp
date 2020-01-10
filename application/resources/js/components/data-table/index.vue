@@ -1,7 +1,8 @@
 <template>
   <table
-    class="table table-sm bg-white shadow-sm accent-primary table-sticky
-           table-borderless table-hover table-striped table-fixed"
+    class="table table-sm bg-white table-borderless
+           table-hover table-striped table-fixed"
+    :class="{ 'table-sticky accent-primary shadow-sm': !minimalStyling }"
   >
     <!-- Column settings -->
     <thead>
@@ -314,6 +315,11 @@ export default {
     },
 
     withDetails: {
+      type: Boolean,
+      default: false,
+    },
+
+    minimalStyling: {
       type: Boolean,
       default: false,
     },

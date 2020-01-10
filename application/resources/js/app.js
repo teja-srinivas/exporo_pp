@@ -34,6 +34,7 @@ import VariableInput from './components/variable-input/index.vue';
 import App from './components/App.vue';
 import DataTable from './components/data-table/index.vue';
 import SubuserTable from './components/SubuserTable.vue';
+import VueApexCharts from 'vue-apexcharts';
 
 Vue.use(FormCheckbox);
 Vue.use(FormGroup);
@@ -42,6 +43,7 @@ Vue.use(FormRadio);
 Vue.use(Pagination);
 Vue.use(Popover);
 Vue.use(Notifications, { velocity });
+Vue.use(VueApexCharts);
 
 Vue.component('bonus-bundle-editor', () => import('./components/BonusBundleEditor/index.vue'));
 Vue.component('commission-approval', () => import('./components/CommissionApproval/index.vue'));
@@ -50,9 +52,11 @@ Vue.component('data-table', DataTable);
 Vue.component('subuser-table', SubuserTable);
 Vue.component('banner-viewer', () => import('./components/banner-viewer.vue'));
 Vue.component('embed-viewer', () => import('./components/embed-viewer.vue'));
+Vue.component('investments-viewer', () => import('./components/dashboard/index.vue'))
 Vue.component('vue-dropzone', VueDropzone);
 Vue.component('url-input', UrlInput);
 Vue.component('variable-input', VariableInput);
+Vue.component('apexchart', VueApexCharts);
 
 document.addEventListener('DOMContentLoaded', () => {
   let usesVue;

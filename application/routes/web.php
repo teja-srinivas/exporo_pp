@@ -114,7 +114,7 @@ Route::middleware(['verified', 'accepted', 'filled'])->group(static function () 
                 ->only('store');
         });
 
-        Route::get('home', C\HomeController::class)
+        Route::get('home', C\DashboardController::class)
             ->name('home');
         Route::get('commission-details', C\User\CommissionDetails::class)
             ->name('commission-details');

@@ -43,4 +43,7 @@ Route::name('api.')->middleware('auth:api')->group(static function () {
 
     Route::post('actions/decrypt', Api\Actions\DecryptController::class);
     Route::post('actions/encrypt', Api\Actions\EncryptController::class);
+
+    Route::get('dashboard/investments', [Api\DashboardController::class, 'getInvestments'])
+        ->name('dashboard.investments');
 });

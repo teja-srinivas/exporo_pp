@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\Project;
 use App\Models\Investor;
 use App\Models\Investment;
+use App\Models\Commission;
 use App\Models\UserDetails;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
@@ -63,6 +64,11 @@ class UserSeeder extends Seeder
                     'project_id' => $projectIds->random(),
                 ]));
             });
+
+            // Commissions
+            factory(Commission::class, rand(100, 200))->create([
+                'user_id' => $user->id,
+            ]);
         });
     }
 
