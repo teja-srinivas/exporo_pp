@@ -10,6 +10,7 @@ $factory->define(\App\Models\Commission::class, static function (Faker $faker) {
     return [
         'bill_id' => $faker->unique()->numberBetween(),
         'gross' => $faker->numberBetween(500, 1500),
+        'net' => 0,
         'bonus' => 0,
         'created_at' => $faker->dateTimeBetween('-1 years'),
     ];
