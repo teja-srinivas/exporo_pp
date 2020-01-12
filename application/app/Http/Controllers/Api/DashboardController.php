@@ -65,6 +65,10 @@ class DashboardController extends Controller
                     $investment->investor->first_name,
                     $investment->investor->last_name
                 );
+                $types = [
+                    'equity' => 'Exporo Bestand',
+                    'finance' => 'Exporo Finanzierung',
+                ];
 
                 return [
                     'amount' => $investment->amount,
@@ -74,7 +78,7 @@ class DashboardController extends Controller
                     'investment_type' => $investment->is_first_investment ? 'first' : 'subsequent',
                     'investor' => $investor,
                     'investor_id' => $investment->investor_id,
-                    'provision_type' => $investment->type,
+                    'project_type' => $types[$investment->project->type],
                 ];
             })->all();
 
