@@ -44,16 +44,20 @@
         :height="280"
       ></apexchart>
     </div>
+    <div v-else-if="!loading" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
+      Keine Provisionsdaten verfügbar
+    </div>
+
     <div v-if="investments.length > 0 && !loading">
       <div class="d-flex mt-3">
         <div class="rounded shadow-sm bg-white p-3 w-50 mr-2">
           <div class="d-flex justify-content-center h3 mb-0">
-            Exporo {{ types.first }}
+            {{ types.first }}
           </div>
         </div>
         <div class="rounded shadow-sm bg-white p-3 w-50 ml-2">
           <div class="d-flex justify-content-center h3 mb-0">
-            Exporo {{ types.second }}
+            {{ types.second }}
           </div>
         </div>
       </div>
@@ -150,7 +154,7 @@
     </div>
 
     <div v-else class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
-      Keine Daten verfügbar
+      Keine Investmentdaten verfügbar
     </div>
 
     <div v-if="investments.length > 0 && !loading" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3">
@@ -197,13 +201,25 @@ export default {
   data() {
     return {
       loading: true,
+      noData: {
+        text: 'keine Daten verfügbar',
+        align: 'center',
+        verticalAlign: 'middle',
+        offsetX: 0,
+        offsetY: 0,
+        style: {
+          color: undefined,
+          fontSize: '14px',
+          fontFamily: undefined
+        }
+      },
       colors: {
         firstInvestment: '#86ac48',
         subsequentInvestment: '#3968af',
       },
       types: {
-        first: 'Finanzierung',
-        second: 'Bestand',
+        first: 'Exporo Finanzierung',
+        second: 'Exporo Bestand',
       },
       draw: 0,
       date: {
@@ -258,8 +274,8 @@ export default {
           width: 200,
         },
         {
-          name: 'provision_type',
-          label: 'Provisionstyp',
+          name: 'project_type',
+          label: 'Projekttyp',
           width: 200,
         },
         {
@@ -321,6 +337,13 @@ export default {
         xaxis: {
           type: "datetime",
         },
+        yaxis: {
+          labels: {
+            formatter: function (value) {
+              return Math.round(value);
+            }
+          },
+        },
         stroke: {
           curve: 'smooth'
         },
@@ -328,6 +351,7 @@ export default {
         markers: {
           size: 5
         },
+        noData: this.noData,
       }
     },
 
@@ -356,6 +380,14 @@ export default {
           enabled: false,
         },
         xaxis: {},
+        yaxis: {
+          labels: {
+            formatter: function (value) {
+              return Math.round(value);
+            }
+          },
+        },
+        noData: this.noData,
       };
     },
 
@@ -384,6 +416,14 @@ export default {
           enabled: false,
         },
         xaxis: {},
+        yaxis: {
+          labels: {
+            formatter: function (value) {
+              return Math.round(value);
+            }
+          },
+        },
+        noData: this.noData,
       };
     },
 
@@ -409,6 +449,7 @@ export default {
             horizontal: true,
           },
         },
+        noData: this.noData,
       };
     },
 
@@ -434,6 +475,7 @@ export default {
             horizontal: true,
           },
         },
+        noData: this.noData,
       };
     },
 
@@ -462,7 +504,7 @@ export default {
 
   methods: {
     getInvestmentsByProject(type) {
-      let investments = filter(this.investments, function(o) {return o.provision_type.indexOf(type) !== -1});
+      let investments = filter(this.investments, function(o) {return o.project_type.indexOf(type) !== -1});
       let projects = this.getInvestmentsProjects(type);
 
       let dataFirstInvestments = map(
@@ -502,6 +544,10 @@ export default {
         }
       });
 
+      if (dataFirstInvestments.length === 0 && dataSubsequentInvestments.length === 0) {
+        return [];
+      }
+
       return [
         {
           name: 'Erstinvestments',
@@ -521,7 +567,7 @@ export default {
     },
 
     getInvestmentsProjects(type) {
-      let investments = filter(this.investments, function(o) {return o.provision_type.indexOf(type) !== -1});
+      let investments = filter(this.investments, function(o) {return o.project_type.indexOf(type) !== -1});
 
       let categories = map(
         sortBy(
@@ -553,7 +599,7 @@ export default {
 
     getInvestmentsPeriods(type) {
       let characters = this.periodSelected === null ? 7 : 10;
-      let investments = filter(this.investments, function(o) {return o.provision_type.indexOf(type) !== -1});
+      let investments = filter(this.investments, function(o) {return o.project_type.indexOf(type) !== -1});
 
       let categories = map(
         sortBy(
@@ -581,7 +627,7 @@ export default {
     
     getInvestmentsByPeriod(type) {
       let characters = this.periodSelected === null ? 7 : 10;
-      let investments = filter(this.investments, function(o) {return o.provision_type.indexOf(type) !== -1});
+      let investments = filter(this.investments, function(o) {return o.project_type.indexOf(type) !== -1});
       let periods = this.getInvestmentsPeriods(type);
 
       let dataFirstInvestments = map(
@@ -621,6 +667,10 @@ export default {
         }
       });
 
+      if (dataFirstInvestments.length === 0 && dataSubsequentInvestments.length === 0) {
+        return [];
+      }
+
       return [
         {
           name: 'Erstinvestments',
@@ -645,7 +695,7 @@ export default {
 
     getInvestmentsSum(investmentType, isFirstInvestment) {
       let type = this.types[investmentType];
-      let investments = filter(this.investments, function(o) {return o.provision_type.indexOf(type) !== -1});
+      let investments = filter(this.investments, function(o) {return o.project_type.indexOf(type) !== -1});
 
       let sum = sumBy(
         filter(investments, ['is_first_investment', isFirstInvestment]),
