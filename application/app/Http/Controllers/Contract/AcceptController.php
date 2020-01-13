@@ -64,7 +64,7 @@ class AcceptController extends Controller
 
         session()->forget(RequireAcceptedPartnerContract::SESSION_KEY);
 
-        return back();
+        return redirect()->home();
     }
 
     /**
