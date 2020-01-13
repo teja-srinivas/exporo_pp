@@ -158,8 +158,8 @@ class SidebarComposer
                 'links' => array_filter([
                     [
                         'title' => 'Abrechnungen',
-                        'url' => route('home'),
-                        'isActive' => $this->request->routeIs('home'),
+                        'url' => route('accounting'),
+                        'isActive' => $this->request->routeIs('accounting'),
                         'isAllowed' => $dashboard,
                     ],
                     [

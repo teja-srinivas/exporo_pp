@@ -116,6 +116,8 @@ Route::middleware(['verified', 'accepted', 'filled'])->group(static function () 
 
         Route::get('home', C\DashboardController::class)
             ->name('home');
+        Route::get('accounting', C\HomeController::class)
+            ->name('accounting');
         Route::get('commission-details', C\User\CommissionDetails::class)
             ->name('commission-details');
         Route::get('affiliate/embeds', [C\EmbedController::class, 'index'])
