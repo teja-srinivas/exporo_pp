@@ -160,7 +160,7 @@
                         <b>Sie haben einen ausstehenden Partnervertrag.</b>
                     </div>
 
-                    <a href="{{ route('contracts.accept.index', [session()->get('noContract')]) }}" class="btn btn-outline-dark btn-sm">
+                    <a href="{{ route('contracts.accept.index', [session()->get(\App\Http\Middleware\RequireAcceptedPartnerContract::SESSION_KEY)]) }}" class="btn btn-outline-dark btn-sm">
                         Jetzt akzeptieren
                     </a>
                 </div>
