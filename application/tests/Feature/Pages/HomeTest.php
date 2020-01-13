@@ -37,7 +37,6 @@ class HomeTest extends TestCase
 
         $response->assertSee($bill->getDisplayName());
         $response->assertDontSee($billWithoutPdf->getDisplayName());
-
     }
 
     protected function createBill(array $attributes = []): Bill
