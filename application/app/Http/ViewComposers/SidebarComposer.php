@@ -157,6 +157,11 @@ class SidebarComposer
                 'title' => 'Meine Daten',
                 'links' => array_filter([
                     [
+                        'title' => 'Übersicht',
+                        'url' => route('home'),
+                        'isActive' => $this->request->routeIs('home'),
+                    ],
+                    [
                         'title' => 'Abrechnungen',
                         'url' => route('accounting'),
                         'isActive' => $this->request->routeIs('accounting'),
