@@ -20,6 +20,8 @@ class EmbedController extends Controller
      */
     public function index()
     {
+        $this->authorize(Embed::class);
+
         $links = Link::query()
             ->whereIn('title', array_keys(Embed::$linkTitles))
             ->get()

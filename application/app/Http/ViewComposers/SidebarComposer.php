@@ -9,8 +9,8 @@ use App\Models\Bill;
 use App\Models\Link;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Banner;
 use App\Models\Embed;
+use App\Models\Banner;
 use App\Models\Schema;
 use App\Models\Mailing;
 use App\Models\Project;
@@ -160,6 +160,7 @@ class SidebarComposer
                         'title' => 'Übersicht',
                         'url' => route('home'),
                         'isActive' => $this->request->routeIs('home'),
+                        'isAllowed' => $this->user->can('management.dashboard.view'),
                     ],
                     [
                         'title' => 'Abrechnungen',

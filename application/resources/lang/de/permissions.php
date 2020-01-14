@@ -17,7 +17,7 @@ return [
     'view' => 'anzeigen',
 
     'accept' => 'Akzeptieren',
-    'dashboard' => 'Dashboard anzeigen',
+    'dashboard' => 'Dashboard',
     'download' => 'Herunterladen',
     'export' => 'Exportieren',
     'process' => 'Annehmen/Ablehnen',
@@ -47,6 +47,7 @@ return [
     'investors' => 'Investoren',
     'links' => 'Links',
     'mailings' => 'Mailings',
+    'embeds' => 'Iframe',
     'projects' => 'Projekte',
     'schemas' => 'Abrechnungsformeln',
     'templates' => 'Vorlagen',
