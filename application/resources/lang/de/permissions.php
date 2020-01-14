@@ -51,4 +51,6 @@ return [
     'schemas' => 'Abrechnungsformeln',
     'templates' => 'Vorlagen',
     'users' => 'Benutzer',
+
+    'view-contracts' => 'Verträge anzeigen',
 ];
