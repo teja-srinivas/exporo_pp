@@ -15,6 +15,11 @@ use Illuminate\Validation\ValidationException;
 
 class EmbedController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Embed::class);
+    }
+
     /**
      * @return Factory|View
      */
