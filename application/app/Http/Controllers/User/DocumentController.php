@@ -26,16 +26,20 @@ class DocumentController extends Controller
             ];
         });
 
-        $contracts = $user->contracts()->when(true, static function (ContractBuilder $builder) {
-            $builder->onlyActive();
-        })->get()->map(static function (Contract $contract) {
-            return [
-                'type' => 'Vertrag',
-                'title' => $contract->getTitle(),
-                'link' => $contract->getDownloadUrl(),
-                'created_at' => $contract->accepted_at,
-            ];
-        });
+        if ($request->user()->can('management.documents.view-contracts')) {
+            $contracts = $user->contracts()->when(true, static function (ContractBuilder $builder) {
+                $builder->onlyActive();
+            })->get()->map(static function (Contract $contract) {
+                return [
+                    'type' => 'Vertrag',
+                    'title' => $contract->getTitle(),
+                    'link' => $contract->getDownloadUrl(),
+                    'created_at' => $contract->accepted_at,
+                ];
+            });
+        } else {
+            $contracts = [];
+        }
 
         $agbs = $user->agbs->map(static function (Agb $agb) {
             return [
