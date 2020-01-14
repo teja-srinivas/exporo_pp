@@ -15,16 +15,13 @@ use Illuminate\Validation\ValidationException;
 
 class EmbedController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Embed::class);
-    }
-
     /**
      * @return Factory|View
      */
     public function index()
     {
+        $this->authorize(Embed::class);
+
         $links = Link::query()
             ->whereIn('title', array_keys(Embed::$linkTitles))
             ->get()
