@@ -143,6 +143,13 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
             ->latest();
     }
 
+    public function releasedPartnerContract(): HasOne
+    {
+        return $this->hasOne(PartnerContract::class)
+            ->whereNotNull('released_at')
+            ->latest();
+    }
+
     public function partnerContracts(): HasMany
     {
         return $this->hasMany(PartnerContract::class);
@@ -152,6 +159,13 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     {
         return $this->hasOne(ProductContract::class)
             ->whereNotNull('accepted_at')
+            ->whereNotNull('released_at')
+            ->latest();
+    }
+
+    public function releasedProductContract(): HasOne
+    {
+        return $this->hasOne(ProductContract::class)
             ->whereNotNull('released_at')
             ->latest();
     }
@@ -356,11 +370,11 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
             return false;
         }
 
-        if ($this->partnerContract === null || !$this->partnerContract->isReleased()) {
+        if ($this->releasedPartnerContract === null) {
             return false;
         }
 
-        return $this->productContract !== null && $this->productContract->isReleased();
+        return $this->releasedProductContract !== null;
     }
 
     public function hasActiveContract(): bool
