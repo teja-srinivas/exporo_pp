@@ -73,6 +73,7 @@ class EmbedController extends Controller
             ->where('funding_target', '>', 0)
             ->whereNotNull('type')
             ->whereNotNull('image')
+            ->where('image', '!=', '')
             ->where(static function (Builder $query) {
                 $query->where('status', Project::STATUS_IN_FUNDING);
                 $query->orWhere('status', Project::STATUS_COMING_SOON);
@@ -101,6 +102,7 @@ class EmbedController extends Controller
 
         $query->whereNotNull('type');
         $query->whereNotNull('image');
+        $query->where('image', '!=', '');
 
         if ($getFunded) {
             $query->take(5);
