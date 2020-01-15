@@ -38,8 +38,8 @@ class DashboardController extends Controller
 
                     break;
                 case 'custom':
-                    $periodFrom = Carbon::create($request->first)->startOfDay();
-                    $periodTo = Carbon::create($request->second)->endOfDay();
+                    $periodFrom = isset($request->first) ? Carbon::create($request->first)->startOfDay() : null;
+                    $periodTo = isset($request->second) ? Carbon::create($request->second)->endOfDay() : null;
 
                     break;
                 default:
@@ -65,10 +65,19 @@ class DashboardController extends Controller
                     $investment->investor->first_name,
                     $investment->investor->last_name
                 );
-                $types = [
-                    'equity' => 'Exporo Bestand',
-                    'finance' => 'Exporo Finanzierung',
-                ];
+
+                switch ($investment->project->type) {
+                    case "Exporo Financing":
+                        $type = "Exporo Bestand";
+
+                        break;
+                    case "Exporo Bestand":
+                        $type = "Exporo Finanzierung";
+
+                        break;
+                    default:
+                        $type = null;
+                }
 
                 return [
                     'amount' => $investment->amount,
@@ -78,7 +87,7 @@ class DashboardController extends Controller
                     'investment_type' => $investment->is_first_investment ? 'first' : 'subsequent',
                     'investor' => $investor,
                     'investor_id' => $investment->investor_id,
-                    'project_type' => $types[$investment->project->type],
+                    'project_type' => $type,
                 ];
             })->all();
 
