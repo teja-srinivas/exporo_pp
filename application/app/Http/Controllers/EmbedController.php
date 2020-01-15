@@ -71,6 +71,8 @@ class EmbedController extends Controller
 
         $count = Project::query()
             ->where('funding_target', '>', 0)
+            ->whereNotNull('type')
+            ->whereNotNull('image')
             ->where(static function (Builder $query) {
                 $query->where('status', Project::STATUS_IN_FUNDING);
                 $query->orWhere('status', Project::STATUS_COMING_SOON);
