@@ -98,6 +98,7 @@ class EmbedController extends Controller
         }
 
         $query->whereNotNull('type');
+        $query->whereNotNull('image');
 
         if ($getFunded) {
             $query->take(5);

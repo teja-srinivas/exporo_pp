@@ -137,9 +137,13 @@ class Project extends Model
         return (int) round($months);
     }
 
-    public function imageUrl(): string
+    public function imageUrl()
     {
         $url = $this->image;
+
+        if ($url === null) {
+            return null;
+        }
 
         if (stripos($url, '://') !== false) {
             return $url;
