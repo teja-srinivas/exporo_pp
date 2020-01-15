@@ -44,14 +44,16 @@ class Project extends Model
 {
     use OptimusEncodedRouteKey;
 
-    public const STATUS_COMING_SOON = 'coming_soon';
-    public const STATUS_IN_FUNDING = 'in_funding';
+    public const STATUS_COMING_SOON = 'coming-soon';
+    public const STATUS_IN_FUNDING = 'in-funding';
     public const STATUS_FUNDED = 'funded';
+    public const STATUS_REPAID = 'repaid';
 
     public const STATUSES = [
         self::STATUS_COMING_SOON,
         self::STATUS_IN_FUNDING,
         self::STATUS_FUNDED,
+        self::STATUS_REPAID,
     ];
 
     public $incrementing = false;
@@ -143,6 +145,6 @@ class Project extends Model
             return $url;
         }
 
-        return "https://cdn.exporo.de/image-cache/400/{$url}";
+        return "https://cdn.exporo.de/image-cache/1200/{$url}";
     }
 }

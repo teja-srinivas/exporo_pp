@@ -54,6 +54,21 @@ class EmbedController extends Controller
             'type' => ['nullable','in:equity,finance'],
         ]);
 
+        if (isset($data['type'])) {
+            switch ($data['type']) {
+                case "equity":
+                    $type = "Exporo Financing";
+
+                    break;
+                case "finance":
+                    $type = "Exporo Bestand";
+
+                    break;
+                default:
+                    $type = null;
+            }
+        }
+
         $count = Project::query()
             ->where('funding_target', '>', 0)
             ->where(static function (Builder $query) {
@@ -78,9 +93,11 @@ class EmbedController extends Controller
                 $query->orWhere('status', Project::STATUS_FUNDED);
             });
 
-        if (isset($data['type'])) {
-            $query->where('type', $data['type']);
+        if (isset($type)) {
+            $query->where('type', $type);
         }
+
+        $query->whereNotNull('type');
 
         if ($getFunded) {
             $query->take(5);
@@ -91,6 +108,19 @@ class EmbedController extends Controller
                 ->whereNull('cancelled_at')
                 ->sum('amount');
 
+            switch ($project->type) {
+                case "Exporo Financing":
+                    $type = "equity";
+
+                    break;
+                case "Exporo Bestand":
+                    $type = "finance";
+
+                    break;
+                default:
+                    $type = null;
+            }
+
             return [
                 'name' => $project->description,
                 'location' => $project->location,
@@ -98,12 +128,12 @@ class EmbedController extends Controller
                 'interest_rate' => $project->interest_rate,
                 'intermediator' => $project->intermediator,
                 'image' => $project->imageUrl(),
-                'type' => $project->type,
+                'type' => $type,
                 'status' => $project->status,
                 'rating' => $project->rating,
                 'funding_target' => $project->funding_target,
                 'funding_current_sum_invested' => min($investmentSum, $project->funding_target),
-                'placeholders' => Embed::$placeholders[$project->type],
+                'placeholders' => Embed::$placeholders[$type],
             ];
         })->all();
 
