@@ -36,6 +36,7 @@ mix.sass('resources/sass/embed.scss', 'public/css').options({
   });
 mix.copy('node_modules/slick-carousel/slick/fonts', 'public/fonts/vendor/slick-carousel/slick/');
 mix.copy('node_modules/slick-carousel/slick/ajax-loader.gif', 'public/images/vendor/slick-carousel/slick/');
+mix.copyDirectory('resources/images', 'public/images');
 mix.version();
 mix.sourceMaps();
 
