@@ -95,12 +95,14 @@
         <td style="width: 25px"></td>
         <td class="align-top" style="width: 80px">
             <div class="text-uppercase mb-2">Ausgezeichnet</div>
-            <img
-                src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('/images/ekomi_seal.png'))) }}"
-                alt="eKomi Kundenauszeichnung"
-                class="w-100"
-                style="opacity: 0.5"
-            >
+            @if (file_exists(public_path('/images/ekomi_seal.png')))
+                <img
+                    src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('/images/ekomi_seal.png'))) }}"
+                    alt="eKomi Kundenauszeichnung"
+                    class="w-100"
+                    style="opacity: 0.5"
+                >
+            @endif
         </td>
     </tr>
 </table>
