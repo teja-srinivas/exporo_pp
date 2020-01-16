@@ -129,6 +129,10 @@ final class CalculateCommissionsService
      */
     public function calculateBonus(Investment $investment, User $user): ?float
     {
+        if ($user->productContract === null) {
+            return null;
+        }
+
         /** @var CommissionBonus|null $bonus */
         $bonus = $user->productContract->bonuses
             ->where('type_id', $investment->project->commission_type)
