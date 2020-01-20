@@ -68,11 +68,11 @@ class DashboardController extends Controller
 
                 switch ($investment->project->type) {
                     case "Exporo Financing":
-                        $type = "Exporo Bestand";
+                        $type = "Exporo Finanzierung";
 
                         break;
                     case "Exporo Bestand":
-                        $type = "Exporo Finanzierung";
+                        $type = "Exporo Bestand";
 
                         break;
                     default:
