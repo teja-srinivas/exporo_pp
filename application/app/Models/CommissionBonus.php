@@ -147,15 +147,19 @@ class CommissionBonus extends Model
      * Returns bonuses difference.
      *
      * @param User $user
-     * @return float
+     * @return float|null
      */
-    public function overheadDifference(User $user): float
+    public function overheadDifference(User $user): ?float
     {
         $bonus = $user->bonuses()
             ->where('is_overhead', true)
             ->where('type_id', $this->type_id)
             ->where('calculation_type', $this->calculation_type)
             ->first();
+
+        if ($bonus === null) {
+            return null;
+        }
 
         $difference = round($bonus->value - $this->value, 10);
 
