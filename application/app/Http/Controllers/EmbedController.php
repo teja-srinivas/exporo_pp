@@ -45,7 +45,7 @@ class EmbedController extends Controller
      */
     public function show(Request $request)
     {
-        $getFunded = false;
+        $type = null;
 
         $data = $this->validate($request, [
             'height' => ['required', 'in:530'],
@@ -56,11 +56,11 @@ class EmbedController extends Controller
 
         if (isset($data['type'])) {
             switch ($data['type']) {
-                case "equity":
+                case "finance":
                     $type = "Exporo Financing";
 
                     break;
-                case "finance":
+                case "equity":
                     $type = "Exporo Bestand";
 
                     break;
@@ -69,20 +69,25 @@ class EmbedController extends Controller
             }
         }
 
-        $count = Project::query()
-            ->where('funding_target', '>', 0)
-            ->whereNotNull('type')
-            ->whereNotNull('image')
-            ->where('image', '!=', '')
-            ->where(static function (Builder $query) {
-                $query->where('status', Project::STATUS_IN_FUNDING);
-                $query->orWhere('status', Project::STATUS_COMING_SOON);
-            })->count();
+        $projects = $this->getProjects($type);
 
-        if ($count === 0) {
-            $getFunded = true;
+        if (count($projects) === 0) {
+            $projects = $this->getProjects($type, true);
         }
 
+        return view('affiliate.embeds.show', [
+            'projects' => $projects,
+            'data' => $data,
+        ]);
+    }
+
+    /**
+     * @param  String $type
+     * @param bool $getFunded
+     * @return Array
+     */
+    public function getProjects($type, $getFunded = false)
+    {
         $query = Project::query()
             ->where('funding_target', '>', 0)
             ->where(static function (Builder $query) use ($getFunded) {
@@ -96,30 +101,29 @@ class EmbedController extends Controller
                 $query->orWhere('status', Project::STATUS_FUNDED);
             });
 
-        if (isset($type)) {
+        if ($type !== null) {
             $query->where('type', $type);
         }
 
         $query->whereNotNull('type');
-        $query->whereNotNull('image');
-        $query->where('image', '!=', '');
+        $query->whereIn('legal_setup', Embed::$legalSetup);
 
         if ($getFunded) {
-            $query->take(5);
+            $query->inRandomOrder()->take(1);
         }
 
-        $projects = $query->get()->map(static function (Project $project) {
+        return $query->get()->map(static function (Project $project) {
             $investmentSum = $project->investments()
                 ->whereNull('cancelled_at')
                 ->sum('amount');
 
             switch ($project->type) {
                 case "Exporo Financing":
-                    $type = "equity";
+                    $type = "finance";
 
                     break;
                 case "Exporo Bestand":
-                    $type = "finance";
+                    $type = "equity";
 
                     break;
                 default:
@@ -141,10 +145,5 @@ class EmbedController extends Controller
                 'placeholders' => Embed::$placeholders[$type],
             ];
         })->all();
-
-        return view('affiliate.embeds.show', [
-            'projects' => $projects,
-            'data' => $data,
-        ]);
     }
 }

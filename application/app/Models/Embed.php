@@ -31,6 +31,22 @@ class Embed extends Model
         'Exporo Finanzierung Projekte' => 'finance',
     ];
 
+    public static $legalSetup = [
+        'bond',
+        'investmentLaw2a',
+    ];
+
+    public static $altImages = [
+        'Exporo Bestand' => [
+            'Kita Winterhude',
+            'Institut Mannheim',
+        ],
+        'Exporo Financing' => [
+            'Wohnen am Brabandkanal',
+            'Berlin-Panko',
+        ],
+    ];
+
     /**
      * @return BelongsTo
      */
