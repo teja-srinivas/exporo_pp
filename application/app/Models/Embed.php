@@ -43,7 +43,7 @@ class Embed extends Model
         ],
         'Exporo Financing' => [
             'Wohnen am Brabandkanal',
-            'Berlin-Panko',
+            'Berlin-Pankow',
         ],
     ];
 
