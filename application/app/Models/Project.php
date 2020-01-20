@@ -141,6 +141,10 @@ class Project extends Model
     {
         $url = $this->image;
 
+        if ($url === null || $url === '') {
+            $url = $this->alt_image;
+        }
+
         if ($url === null) {
             return null;
         }
@@ -150,5 +154,18 @@ class Project extends Model
         }
 
         return "https://cdn.exporo.de/image-cache/1200/{$url}";
+    }
+
+    public function getAltImageAttribute()
+    {
+        $project = self::query()
+            ->whereIn('description', Embed::$altImages[$this->type])
+            ->inRandomOrder()->first();
+
+        if ($project === null) {
+            return null;
+        }
+
+        return $project->image;
     }
 }

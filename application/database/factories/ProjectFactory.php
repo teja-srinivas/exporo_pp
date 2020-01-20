@@ -28,6 +28,7 @@ $factory->define(Project::class, static function (Faker $faker) {
         'intermediator' => $faker->company,
         'location' => $faker->city,
         'rating' => $faker->randomElement(['AA', 'A', 'B', 'C', 'D']),
+        'legal_setup' => $faker->randomElement(['bond', 'investmentLaw2a']),
     ];
 });
 
