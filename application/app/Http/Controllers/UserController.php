@@ -18,14 +18,14 @@ use App\Http\Requests\UserStoreRequest;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\DB;
-use App\Http\Middleware\UserHasFilledPersonalData;
-use App\Http\Middleware\RequireAcceptedPartnerContract;
 
 class UserController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(User::class);
+        $this->authorizeResource(User::class, null, [
+            'except' => [ 'show' ],
+        ]);
     }
 
     /**
@@ -34,10 +34,16 @@ class UserController extends Controller
      * @param  UserRepository  $userRepository
      * @return \Illuminate\Http\Response
      */
-    public function index(UserRepository $userRepository)
+    public function index(Request $request, UserRepository $userRepository)
     {
+        $query = null;
+
+        if ($request->user()->can('delete', new User())) {
+            $query = User::query()->withTrashed();
+        }
+
         return response()->view('users.index', [
-            'users' => $userRepository->forTableView(),
+            'users' => $userRepository->forTableView($query),
         ]);
     }
 
@@ -94,12 +100,20 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param User $user
+     * @param String $id
      * @param BillRepository $bills
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user, BillRepository $bills)
+    public function show($id, BillRepository $bills, Request $request)
     {
+        $this->authorize('view', new User());
+
+        $user = User::withTrashed()->find($id);
+
+        if (!$request->user()->can('delete', new User()) && $user->trashed()) {
+            abort(404);
+        }
+
         $user->load(['documents']);
 
         $user->bills = $bills->getDetails($user->id)->latest()->get();
@@ -123,7 +137,7 @@ class UserController extends Controller
             ->sort();
 
         $contracts = $user->contracts()
-            ->orderByDesc('released_at')
+            ->orderByDesc('accepted_at')
             ->latest()
             ->get();
 
@@ -196,7 +210,53 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        DB::transaction(static function () use ($user) {
+            $user->productContract
+                ->whereNull('terminated_at')
+                ->update(['terminated_at' => now()]);
+
+            $user->partnerContract
+                ->whereNull('terminated_at')
+                ->update(['terminated_at' => now()]);
+
+            $user->delete();
+        });
+
+        $name = $user->details->display_name;
+
+        flash_success("$name wurde gelöscht.");
+        
+        return redirect()->route('users.index');
+    }
+
+    /**
+     * Restore the specified resource.
+     *
+     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function restore($id)
+    {
+        $this->authorize('delete', new User());
+
+        $user = User::withTrashed()->find($id);
+
+        DB::transaction(static function () use ($user) {
+            $user->restore();
+
+            $user->productContract
+                ->whereNotNull('terminated_at')
+                ->update(['terminated_at' => null]);
+
+            $user->partnerContract
+                ->whereNotNull('terminated_at')
+                ->update(['terminated_at' => null]);
+        });
+
+        $name = $user->details->display_name;
+
+        flash_success("$name wurde wiederhergestellt.");
 
         return redirect()->route('users.index');
     }
@@ -221,11 +281,6 @@ class UserController extends Controller
                 $session->put($id, $originalUser->getAuthIdentifier());
             }
         }
-
-        session()->forget([
-            UserHasFilledPersonalData::USER_HAS_MISSING_DATA,
-            RequireAcceptedPartnerContract::SESSION_KEY,
-        ]);
 
         Auth::loginUsingId($user->id, true);
 

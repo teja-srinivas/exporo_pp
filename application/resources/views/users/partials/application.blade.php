@@ -1,4 +1,18 @@
-@if($user->hasNotBeenProcessed())
+@if($user->isDeleted())
+    <div class="alert alert-warning">
+        <div class="d-flex align-items-baseline">
+            <div class="flex-fill">
+                Dieser Benutzer wurde gelöscht
+            </div>
+            @can('delete', $user)
+                <form action="{{ route('users.restore', $user) }}" method="POST" class="d-inline-flex mr-2">
+                    @csrf
+                    <button class="btn btn-sm btn-danger">Wiederherstellen</button>
+                </form>
+            @endcan
+        </div>
+    </div>
+@elseif($user->hasNotBeenProcessed())
     @if($user->canBeAccepted())
         <div class="alert alert-light">
             <div class="d-flex align-items-baseline">

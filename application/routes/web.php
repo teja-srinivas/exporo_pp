@@ -68,7 +68,12 @@ Route::middleware(['verified', 'accepted', 'filled'])->group(static function () 
             ->except('index');
         Route::resource('schemas', C\SchemaController::class);
         Route::resource('documents', C\DocumentController::class);
-        Route::resource('users', C\UserController::class);
+        Route::resource('users', C\UserController::class)
+            ->except('show');
+        Route::get('users/{id}', [C\UserController::class, 'show'])
+            ->name('users.show');
+        Route::post('users/restore/{id}', [C\UserController::class, 'restore'])
+            ->name('users.restore');
 
         Route::prefix('contracts')->group(static function () {
             Route::prefix('templates')->name('contracts.templates.')->group(static function () {

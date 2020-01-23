@@ -40,6 +40,7 @@ class UserRepository
             ->addSelect('users.created_at')
             ->addSelect('users.accepted_at')
             ->addSelect('users.rejected_at')
+            ->addSelect('users.deleted_at')
             ->selectRaw('IFNULL(contracts.allow_overhead, 0) as has_overhead')
             ->selectSub(Role::query()
                 ->selectRaw('group_concat(id)')
@@ -63,10 +64,12 @@ class UserRepository
                     ];
 
                 return $data + [
-                    'status' => $user->rejected()
+                    'status' => $user->isDeleted()
+                        ? '<div class="badge badge-dark">Gelöscht</div>'
+                        : ($user->rejected()
                         ? '<div class="badge badge-danger">Abgelehnt</div>'
                         : (!$user->accepted() ? '<div class="badge badge-warning">Ausstehend</div>' : null)
-                        .($user->has_overhead ? ' <div class="badge badge-primary">Overhead</div>' : ''),
+                        .($user->has_overhead ? ' <div class="badge badge-primary">Overhead</div>' : '')),
                     'roles' => array_map('intval', explode(',', $user->roles ?? '')),
                     'createdAt' => $user->created_at->format('Y-m-d'),
                 ];
