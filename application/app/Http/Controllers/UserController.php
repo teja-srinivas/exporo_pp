@@ -302,7 +302,7 @@ class UserController extends Controller
 
         flash_success("$name wurde wiederhergestellt.");
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.show', [$user->id]);
     }
 
     public function loginUsingId(User $user, Session $session, Request $request)
