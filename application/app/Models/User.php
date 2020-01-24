@@ -18,6 +18,7 @@ use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -64,6 +65,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     use Encryptable;
     use MustVerifyEmail;
     use Person;
+    use SoftDeletes;
 
     /**
      * Possible user titles.
@@ -362,6 +364,11 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     public function canBeBilled(): bool
     {
         return $this->can(BillPolicy::CAN_BE_BILLED_PERMISSION);
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->deleted_at !== null;
     }
 
     public function canBeAccepted(): bool

@@ -11,13 +11,15 @@ use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ContractTemplate;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\BillRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\CommissionBonus;
 use App\Http\Requests\UserStoreRequest;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Contracts\Session\Session;
-use Illuminate\Support\Facades\DB;
+use App\Models\CommissionBonus as Bounus;
 use App\Http\Middleware\UserHasFilledPersonalData;
 use App\Http\Middleware\RequireAcceptedPartnerContract;
 
@@ -25,7 +27,9 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(User::class);
+        $this->authorizeResource(User::class, null, [
+            'except' => [ 'show' ],
+        ]);
     }
 
     /**
@@ -34,10 +38,16 @@ class UserController extends Controller
      * @param  UserRepository  $userRepository
      * @return \Illuminate\Http\Response
      */
-    public function index(UserRepository $userRepository)
+    public function index(Request $request, UserRepository $userRepository)
     {
+        $query = null;
+
+        if ($request->user()->can('delete', new User())) {
+            $query = User::withTrashed();
+        }
+
         return response()->view('users.index', [
-            'users' => $userRepository->forTableView(),
+            'users' => $userRepository->forTableView($query),
         ]);
     }
 
@@ -94,12 +104,20 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param User $user
+     * @param String $id
      * @param BillRepository $bills
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user, BillRepository $bills)
+    public function show($id, BillRepository $bills, Request $request)
     {
+        $this->authorize('view', new User());
+
+        $user = User::withTrashed()->find($id);
+
+        if (!$request->user()->can('delete', new User()) && $user->trashed()) {
+            abort(404);
+        }
+
         $user->load(['documents']);
 
         $user->bills = $bills->getDetails($user->id)->latest()->get();
@@ -123,7 +141,7 @@ class UserController extends Controller
             ->sort();
 
         $contracts = $user->contracts()
-            ->orderByDesc('released_at')
+            ->orderByDesc('accepted_at')
             ->latest()
             ->get();
 
@@ -196,9 +214,95 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        DB::transaction(static function () use ($user) {
+            if ($user->productContract !== null) {
+                $user->productContract
+                    ->whereNull('terminated_at')
+                    ->update(['terminated_at' => now()]);
+            }
 
+            if ($user->partnerContract !== null) {
+                $user->partnerContract
+                    ->whereNull('terminated_at')
+                    ->update(['terminated_at' => now()]);
+            }
+
+            $user->delete();
+        });
+
+        $name = $user->details->display_name;
+
+        flash_success("$name wurde gelöscht.");
+        
         return redirect()->route('users.index');
+    }
+
+    /**
+     * Restore the specified resource.
+     *
+     * @param String $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function restore($id)
+    {
+        $this->authorize('delete', new User());
+
+        $user = User::withTrashed()->find($id);
+
+        DB::transaction(static function () use ($user) {
+            $user->restore();
+
+            if ($user->productContract() !== null) {
+                $productContract = $user->productContract()->latest()->first();
+                
+                $newProductContract = $productContract->template->createInstance($user);
+                $newProductContract->update([
+                    'special_agreement' => $productContract->special_agreement,
+                ]);
+
+                $bonuses = $productContract->bonuses()
+                    ->get()
+                    ->map(static function (Bounus $bonus) {
+                        return [
+                            'type_id' => $bonus->type_id,
+                            'calculation_type' => $bonus->calculation_type,
+                            'value' => $bonus->value,
+                            'is_percentage' => $bonus->is_percentage,
+                            'is_overhead' => $bonus->is_overhead,
+                        ];
+                    });
+
+                foreach ($bonuses as $bonus) {
+                    CommissionBonus::make($newProductContract->bonuses()->create($bonus));
+                }
+
+                $newProductContract->released_at = now();
+                $newProductContract->save();
+            }
+
+            if ($user->partnerContract === null) {
+                return;
+            }
+
+            $partnerContract = $user->partnerContract()->latest()->first();
+            $newPartnerContract = $partnerContract->template->createInstance($user);
+
+            $newPartnerContract->update([
+                'special_agreement' => $partnerContract->special_agreement,
+                'is_exclusive' => $partnerContract->is_exclusive,
+                'allow_overhead' => $partnerContract->allow_overhead,
+            ]);
+
+            $newPartnerContract->released_at = now();
+            $newPartnerContract->save();
+        });
+
+        $name = $user->details->display_name;
+
+        flash_success("$name wurde wiederhergestellt.");
+
+        return redirect()->route('users.show', [$user->id]);
     }
 
     public function loginUsingId(User $user, Session $session, Request $request)
