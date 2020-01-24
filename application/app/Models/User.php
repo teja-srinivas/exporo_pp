@@ -109,6 +109,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         'rejected_at',
         'term_cancelled_at',
         'email_verified_at',
+        'deleted_at',
     ];
 
     protected $auditExclude = [
