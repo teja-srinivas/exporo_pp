@@ -41,7 +41,7 @@ class UserController extends Controller
         $query = null;
 
         if ($request->user()->can('delete', new User())) {
-            $query = User::query()->withTrashed();
+            $query = User::withTrashed();
         }
 
         return response()->view('users.index', [
@@ -213,7 +213,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         DB::transaction(static function () use ($user) {
-            
             if ($user->productContract !== null) {
                 $user->productContract
                     ->whereNull('terminated_at')
@@ -239,7 +238,7 @@ class UserController extends Controller
     /**
      * Restore the specified resource.
      *
-     * @param User $user
+     * @param String $id
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
@@ -280,19 +279,21 @@ class UserController extends Controller
                 $newProductContract->save();
             }
 
-            if ($user->partnerContract !== null) {
-                $partnerContract = $user->partnerContract()->latest()->first();
-                $newPartnerContract = $partnerContract->template->createInstance($user);
-
-                $newPartnerContract->update([
-                    'special_agreement' => $partnerContract->special_agreement,
-                    'is_exclusive' => $partnerContract->is_exclusive,
-                    'allow_overhead' => $partnerContract->allow_overhead,
-                ]);
-
-                $newPartnerContract->released_at = now();
-                $newPartnerContract->save();
+            if ($user->partnerContract === null) {
+                return;
             }
+
+            $partnerContract = $user->partnerContract()->latest()->first();
+            $newPartnerContract = $partnerContract->template->createInstance($user);
+
+            $newPartnerContract->update([
+                'special_agreement' => $partnerContract->special_agreement,
+                'is_exclusive' => $partnerContract->is_exclusive,
+                'allow_overhead' => $partnerContract->allow_overhead,
+            ]);
+
+            $newPartnerContract->released_at = now();
+            $newPartnerContract->save();
         });
 
         $name = $user->details->display_name;
