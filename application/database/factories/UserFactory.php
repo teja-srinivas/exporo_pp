@@ -40,6 +40,12 @@ $factory->state(User::class, 'rejected', static function (Faker $faker) {
     ];
 });
 
+$factory->state(User::class, 'deleted', static function (Faker $faker) {
+    return [
+        'deleted_at' => $faker->dateTime,
+    ];
+});
+
 $factory->afterCreatingState(User::class, 'billable', static function (User $user) {
     $user->givePermissionTo(Policies\BillPolicy::CAN_BE_BILLED_PERMISSION);
 });
