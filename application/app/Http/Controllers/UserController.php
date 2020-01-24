@@ -11,13 +11,15 @@ use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ContractTemplate;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\BillRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\CommissionBonus;
 use App\Http\Requests\UserStoreRequest;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Contracts\Session\Session;
-use Illuminate\Support\Facades\DB;
+use App\Models\CommissionBonus as Bounus;
 
 class UserController extends Controller
 {
@@ -211,13 +213,18 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         DB::transaction(static function () use ($user) {
-            $user->productContract
-                ->whereNull('terminated_at')
-                ->update(['terminated_at' => now()]);
+            
+            if ($user->productContract !== null) {
+                $user->productContract
+                    ->whereNull('terminated_at')
+                    ->update(['terminated_at' => now()]);
+            }
 
-            $user->partnerContract
-                ->whereNull('terminated_at')
-                ->update(['terminated_at' => now()]);
+            if ($user->partnerContract !== null) {
+                $user->partnerContract
+                    ->whereNull('terminated_at')
+                    ->update(['terminated_at' => now()]);
+            }
 
             $user->delete();
         });
@@ -245,13 +252,47 @@ class UserController extends Controller
         DB::transaction(static function () use ($user) {
             $user->restore();
 
-            $user->productContract
-                ->whereNotNull('terminated_at')
-                ->update(['terminated_at' => null]);
+            if ($user->productContract() !== null) {
+                $productContract = $user->productContract()->latest()->first();
+                
+                $newProductContract = $productContract->template->createInstance($user);
+                $newProductContract->update([
+                    'special_agreement' => $productContract->special_agreement,
+                ]);
 
-            $user->partnerContract
-                ->whereNotNull('terminated_at')
-                ->update(['terminated_at' => null]);
+                $bonuses = $productContract->bonuses()
+                    ->get()
+                    ->map(static function (Bounus $bonus) {
+                        return [
+                            'type_id' => $bonus->type_id,
+                            'calculation_type' => $bonus->calculation_type,
+                            'value' => $bonus->value,
+                            'is_percentage' => $bonus->is_percentage,
+                            'is_overhead' => $bonus->is_overhead,
+                        ];
+                    });
+
+                foreach ($bonuses as $bonus) {
+                    CommissionBonus::make($newProductContract->bonuses()->create($bonus));
+                }
+
+                $newProductContract->released_at = now();
+                $newProductContract->save();
+            }
+
+            if ($user->partnerContract !== null) {
+                $partnerContract = $user->partnerContract()->latest()->first();
+                $newPartnerContract = $partnerContract->template->createInstance($user);
+
+                $newPartnerContract->update([
+                    'special_agreement' => $partnerContract->special_agreement,
+                    'is_exclusive' => $partnerContract->is_exclusive,
+                    'allow_overhead' => $partnerContract->allow_overhead,
+                ]);
+
+                $newPartnerContract->released_at = now();
+                $newPartnerContract->save();
+            }
         });
 
         $name = $user->details->display_name;
