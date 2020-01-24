@@ -253,7 +253,7 @@ class UserController extends Controller
         DB::transaction(static function () use ($user) {
             $user->restore();
 
-            if ($user->productContract() !== null) {
+            if ($user->productContract !== null) {
                 $productContract = $user->productContract()->latest()->first();
                 
                 $newProductContract = $productContract->template->createInstance($user);
