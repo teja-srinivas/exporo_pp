@@ -20,6 +20,8 @@ use App\Http\Requests\UserStoreRequest;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Contracts\Session\Session;
 use App\Models\CommissionBonus as Bounus;
+use App\Http\Middleware\UserHasFilledPersonalData;
+use App\Http\Middleware\RequireAcceptedPartnerContract;
 
 class UserController extends Controller
 {
@@ -323,6 +325,11 @@ class UserController extends Controller
                 $session->put($id, $originalUser->getAuthIdentifier());
             }
         }
+
+        session()->forget([
+            UserHasFilledPersonalData::USER_HAS_MISSING_DATA,
+            RequireAcceptedPartnerContract::SESSION_KEY,
+        ]);
 
         Auth::loginUsingId($user->id, true);
 
