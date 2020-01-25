@@ -256,8 +256,6 @@ class UserController extends Controller
             $productContract = $user->productContract;
 
             if ($productContract !== null) {
-                
-                
                 $newProductContract = $productContract->template->createInstance($user);
                 $newProductContract->update([
                     'special_agreement' => $productContract->special_agreement,
