@@ -253,8 +253,10 @@ class UserController extends Controller
         DB::transaction(static function () use ($user) {
             $user->restore();
 
-            if ($user->productContract !== null) {
-                $productContract = $user->productContract()->latest()->first();
+            $productContract = $user->productContract;
+
+            if ($productContract !== null) {
+                
                 
                 $newProductContract = $productContract->template->createInstance($user);
                 $newProductContract->update([
@@ -281,11 +283,12 @@ class UserController extends Controller
                 $newProductContract->save();
             }
 
-            if ($user->partnerContract === null) {
+            $partnerContract = $user->partnerContract;
+
+            if ($partnerContract === null) {
                 return;
             }
 
-            $partnerContract = $user->partnerContract()->latest()->first();
             $newPartnerContract = $partnerContract->template->createInstance($user);
 
             $newPartnerContract->update([
