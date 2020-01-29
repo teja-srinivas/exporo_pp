@@ -68,6 +68,11 @@ class Investor extends Model implements AuditableContract
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function link()
+    {
+        return $this->belongsTo(Link::class, 'affiliated_partner_ref_link_id', 'id');
+    }
+
     public function details()
     {
         return $this->belongsTo(UserDetails::class, 'user_id', 'id');

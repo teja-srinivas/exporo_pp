@@ -75,4 +75,20 @@ class TagReplacer
             return value($replacements[$match[1]] ?? '');
         }, $text);
     }
+
+    /**
+     * Add link ref id to link.
+     *
+     * @param  string  $text
+     * @param  int  $id
+     * @return string
+     */
+    public static function addLinkId(string $text, int $id): string
+    {
+        if (strstr($text, '?')) {
+            return $text.'&a_aid_ref='.$id;
+        }
+
+        return $text.'?a_aid_ref='.$id;
+    }
 }
