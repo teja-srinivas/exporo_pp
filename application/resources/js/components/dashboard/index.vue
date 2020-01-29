@@ -482,6 +482,10 @@ export default {
     commissionsData() {
       let characters = this.periodSelected === null ? 7 : 10;
 
+      if (this.commissions.length === 0) {
+        return null;
+      }
+
       let groupedData = map(
         groupBy(
           this.commissions, o => o.created_at.slice(0, characters)),
