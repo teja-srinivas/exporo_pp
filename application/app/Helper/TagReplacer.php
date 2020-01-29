@@ -81,10 +81,15 @@ class TagReplacer
      *
      * @param  string  $text
      * @param  int  $id
+     * @param  User  $user
      * @return string
      */
-    public static function addLinkId(string $text, int $id): string
+    public static function addLinkId(string $text, int $id, User $user): string
     {
+        if (!$user->can('features.link-shortener.links')) {
+            return $text;
+        }
+
         if (strstr($text, '?')) {
             return $text.'&a_aid_ref='.$id;
         }
