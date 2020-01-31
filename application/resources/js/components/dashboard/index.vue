@@ -212,8 +212,14 @@ export default {
         }
       },
       colors: {
-        firstInvestment: '#86ac48',
-        subsequentInvestment: '#3968af',
+        first: {
+          firstInvestment: '#3968af',
+          subsequentInvestment: '#7ba0d9',
+        },
+        second: {
+          firstInvestment: '#86ac48',
+          subsequentInvestment: '#c4e292',
+        },
       },
       types: {
         first: 'Exporo Finanzierung',
@@ -354,7 +360,7 @@ export default {
 
     investmentsByPeriodOptionsFirst() {
       return {
-        colors: [this.colors.firstInvestment, this.colors.subsequentInvestment],
+        colors: [this.colors.first.firstInvestment, this.colors.first.subsequentInvestment],
         chart: {
           id: 'investments-by-period-first',
           stacked: true,
@@ -390,7 +396,7 @@ export default {
 
     investmentsByPeriodOptionsSecond() {
       return {
-        colors: [this.colors.firstInvestment, this.colors.subsequentInvestment],
+        colors: [this.colors.second.firstInvestment, this.colors.second.subsequentInvestment],
         chart: {
           id: 'investments-by-period-second',
           stacked: true,
@@ -429,7 +435,7 @@ export default {
         legend: {
           show: false,
         },
-        colors: [this.colors.firstInvestment, this.colors.subsequentInvestment],
+        colors: [this.colors.first.firstInvestment, this.colors.first.subsequentInvestment],
         chart: {
           id: 'investments-by-project-first',
           stacked: true,
@@ -458,7 +464,7 @@ export default {
         legend: {
           show: false,
         },
-        colors: [this.colors.firstInvestment, this.colors.subsequentInvestment],
+        colors: [this.colors.second.firstInvestment, this.colors.second.subsequentInvestment],
         chart: {
           id: 'investments-by-project-second',
           stacked: true,
