@@ -50,13 +50,13 @@
 
     <div v-if="investments.length > 0 && !loading">
       <div class="d-flex mt-3">
-        <div class="rounded shadow-sm bg-white p-3 w-50 mr-2">
-          <div class="d-flex justify-content-center h3 mb-0">
+        <div class="rounded shadow-sm p-3 w-50 mr-2" style="background:#3968af">
+          <div class="d-flex justify-content-center h3 mb-0 text-white">
             {{ types.first }}
           </div>
         </div>
-        <div class="rounded shadow-sm bg-white p-3 w-50 ml-2">
-          <div class="d-flex justify-content-center h3 mb-0">
+        <div class="rounded shadow-sm p-3 w-50 ml-2" style="background:#86ac48">
+          <div class="d-flex justify-content-center h3 mb-0 text-white">
             {{ types.second }}
           </div>
         </div>
@@ -114,12 +114,11 @@
               :series="investmentsByPeriodSeriesFirst"
             ></apexchart>
           </div>
-          <div>
+          <div class="project-container">
             <apexchart
               type="bar"
               :options="investmentsByProjectOptionsFirst"
               :series="investmentsByProjectSeriesFirst"
-              :height="320"
             ></apexchart>
           </div>
         </div>
@@ -132,12 +131,11 @@
               :series="investmentsByPeriodSeriesSecond"
             ></apexchart>
           </div>
-          <div>
+          <div class="project-container">
             <apexchart
               type="bar"
               :options="investmentsByProjectOptionsSecond"
               :series="investmentsByProjectSeriesSecond"
-              :height="320"
             ></apexchart>
           </div>
         </div>
@@ -214,8 +212,14 @@ export default {
         }
       },
       colors: {
-        firstInvestment: '#86ac48',
-        subsequentInvestment: '#3968af',
+        first: {
+          firstInvestment: '#3968af',
+          subsequentInvestment: '#7ba0d9',
+        },
+        second: {
+          firstInvestment: '#86ac48',
+          subsequentInvestment: '#c4e292',
+        },
       },
       types: {
         first: 'Exporo Finanzierung',
@@ -271,17 +275,16 @@ export default {
         {
           name: 'project_name',
           label: 'Projekt',
-          width: 200,
         },
         {
           name: 'project_type',
           label: 'Projekttyp',
-          width: 200,
         },
         {
           name: 'amount',
           label: 'Betrag',
           format: 'currency',
+          width: 80,
         },
         {
           name: 'created_at',
@@ -340,7 +343,7 @@ export default {
         yaxis: {
           labels: {
             formatter: function (value) {
-              return Math.round(value);
+              return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
             }
           },
         },
@@ -357,7 +360,7 @@ export default {
 
     investmentsByPeriodOptionsFirst() {
       return {
-        colors: [this.colors.firstInvestment, this.colors.subsequentInvestment],
+        colors: [this.colors.first.firstInvestment, this.colors.first.subsequentInvestment],
         chart: {
           id: 'investments-by-period-first',
           stacked: true,
@@ -383,7 +386,7 @@ export default {
         yaxis: {
           labels: {
             formatter: function (value) {
-              return Math.round(value);
+              return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
             }
           },
         },
@@ -393,7 +396,7 @@ export default {
 
     investmentsByPeriodOptionsSecond() {
       return {
-        colors: [this.colors.firstInvestment, this.colors.subsequentInvestment],
+        colors: [this.colors.second.firstInvestment, this.colors.second.subsequentInvestment],
         chart: {
           id: 'investments-by-period-second',
           stacked: true,
@@ -419,7 +422,7 @@ export default {
         yaxis: {
           labels: {
             formatter: function (value) {
-              return Math.round(value);
+              return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
             }
           },
         },
@@ -429,7 +432,10 @@ export default {
 
     investmentsByProjectOptionsFirst() {
       return {
-        colors: [this.colors.firstInvestment, this.colors.subsequentInvestment],
+        legend: {
+          show: false,
+        },
+        colors: [this.colors.first.firstInvestment, this.colors.first.subsequentInvestment],
         chart: {
           id: 'investments-by-project-first',
           stacked: true,
@@ -455,7 +461,10 @@ export default {
 
     investmentsByProjectOptionsSecond() {
       return {
-        colors: [this.colors.firstInvestment, this.colors.subsequentInvestment],
+        legend: {
+          show: false,
+        },
+        colors: [this.colors.second.firstInvestment, this.colors.second.subsequentInvestment],
         chart: {
           id: 'investments-by-project-second',
           stacked: true,
@@ -480,7 +489,7 @@ export default {
     },
 
     commissionsData() {
-      let characters = this.periodSelected === null ? 7 : 10;
+      let characters =  7;
 
       if (this.commissions.length === 0) {
         return null;
@@ -592,9 +601,14 @@ export default {
       return {
         type: 'category',
         labels: {
+          //rotate: 0,
+          //rotateAlways: true,
           maxHeight: 70,
           style: {
             fontSize: '10px',
+          },
+          formatter: function (value) {
+            return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
           },
         },
         categories: categories,
@@ -620,7 +634,7 @@ export default {
           'created_at'),
         'created_at'
       );
-      let firstBar = categories.length > 6 ? new Date(categories[categories.length-6]).getTime() : null;
+      let firstBar = categories.length > 30 ? new Date(categories[categories.length-30]).getTime() : null;
 
       return {
         type: 'datetime',
@@ -744,3 +758,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+  .project-container {
+    max-height: 350px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+</style>

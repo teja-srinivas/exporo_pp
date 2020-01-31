@@ -94,6 +94,12 @@ class DashboardController extends Controller
         $commissionQuery = $user->commissions();
 
         if (isset($periodFrom)) {
+            $secondDate = $periodTo ?? Carbon::now();
+
+            if ($periodFrom->diffInMonths($secondDate) < 6) {
+                $periodFrom = $secondDate->endOfDay()->subMonths(6);
+            }
+
             $commissionQuery->where('commissions.created_at', '>=', $periodFrom);
         }
 
