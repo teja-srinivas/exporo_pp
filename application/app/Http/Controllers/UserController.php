@@ -114,6 +114,10 @@ class UserController extends Controller
 
         $user = User::withTrashed()->find($id);
 
+        if ($user === null) {
+            abort(404);
+        }
+
         if (!$request->user()->can('delete', new User()) && $user->trashed()) {
             abort(404);
         }
