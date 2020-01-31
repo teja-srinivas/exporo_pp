@@ -15,7 +15,7 @@ class AddCreatedAtIndexToInvestmentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('investments', function (Blueprint $table) {
+        Schema::table('investments', static function (Blueprint $table) {
             $table->index('created_at');
         });
     }

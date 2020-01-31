@@ -15,7 +15,7 @@ class AddCreatedAtIndexToCommissionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('commissions', function (Blueprint $table) {
+        Schema::table('commissions', static function (Blueprint $table) {
             $table->index('created_at');
         });
     }
