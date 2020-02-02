@@ -119,6 +119,7 @@
               type="bar"
               :options="investmentsByProjectOptionsFirst"
               :series="investmentsByProjectSeriesFirst"
+              :height="getChartHeightFirst"
             ></apexchart>
           </div>
         </div>
@@ -136,6 +137,7 @@
               type="bar"
               :options="investmentsByProjectOptionsSecond"
               :series="investmentsByProjectSeriesSecond"
+              :height="getChartHeightSecond"
             ></apexchart>
           </div>
         </div>
@@ -316,6 +318,16 @@ export default {
   },
 
   computed: {
+    getChartHeightFirst() {
+      let number = this.investmentsByProjectSeriesFirst[0].data.length;
+      return this.getChartHeight(number);
+    },
+
+    getChartHeightSecond() {
+      let number = this.investmentsByProjectSeriesSecond[0].data.length;
+      return this.getChartHeight(number);
+    },
+
     investmentTableData() {
       return {
         columns: this.investmentTableColumns,
@@ -350,7 +362,7 @@ export default {
         stroke: {
           curve: 'smooth'
         },
-        colors: [this.colors.subsequentInvestment],
+        colors: [this.colors.first.subsequentInvestment],
         markers: {
           size: 5
         },
@@ -636,6 +648,12 @@ export default {
       );
       let firstBar = categories.length > 30 ? new Date(categories[categories.length-30]).getTime() : null;
 
+      //prevent display bug
+      if (categories.length === 1) {
+        let date = new Date(categories[0]);
+        categories.push(date.setDate(date.getDate() + 1));
+      }
+
       return {
         type: 'datetime',
         min: firstBar,
@@ -685,24 +703,33 @@ export default {
         }
       });
 
-      if (dataFirstInvestments.length === 0 && dataSubsequentInvestments.length === 0) {
+      let mappedFirstInvestments = map(
+        orderBy(dataFirstInvestments, 'created_at'),
+        'amount'
+      );
+      let mappedSubsequentInvestments = map(
+        orderBy(dataSubsequentInvestments, 'created_at'),
+        'amount'
+      );
+
+      if (mappedFirstInvestments.length === 0 && mappedSubsequentInvestments.length === 0) {
         return [];
+      }
+
+      //prevent display bug
+      if (mappedFirstInvestments.length === 1 && mappedSubsequentInvestments.length === 1) {
+        mappedFirstInvestments.push(0);
+        mappedSubsequentInvestments.push(0);
       }
 
       return [
         {
           name: 'Erstinvestments',
-          data: map(
-            orderBy(dataFirstInvestments, 'created_at'),
-            'amount'
-          ),
+          data: mappedFirstInvestments,
         },
         {
           name: 'Folgeinvestments',
-          data: map(
-            orderBy(dataSubsequentInvestments, 'created_at'),
-            'amount'
-          ),
+          data: mappedSubsequentInvestments,
         },
       ];
     },
@@ -720,6 +747,15 @@ export default {
         'amount'
       );
       return this.formatSum(sum);
+    },
+
+    getChartHeight(number) {
+      const minHeight = 280;
+      const axisHeight = 60;
+      const barHeight = 30;
+      let height = barHeight * number + axisHeight;
+
+      return Math.max(height, minHeight);
     },
 
     getInvestments() {

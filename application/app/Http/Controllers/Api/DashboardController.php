@@ -103,9 +103,11 @@ class DashboardController extends Controller
             $commissionQuery->where('commissions.created_at', '>=', $periodFrom);
         }
 
-        if (isset($periodTo)) {
-            $commissionQuery->where('commissions.created_at', '<=', $periodTo);
+        if (!isset($periodTo)) {
+            $periodTo = Carbon::now();
         }
+
+        $commissionQuery->where('commissions.created_at', '<=', $periodTo);
 
         $commissionQuery->whereNotNull('bill_id');
         $commissions = $commissionQuery->get()
