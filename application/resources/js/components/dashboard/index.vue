@@ -112,6 +112,7 @@
               type="bar"
               :options="investmentsByPeriodOptionsFirst"
               :series="investmentsByPeriodSeriesFirst"
+              height="285"
             ></apexchart>
           </div>
           <div class="project-container">
@@ -130,6 +131,7 @@
               type="bar"
               :options="investmentsByPeriodOptionsSecond"
               :series="investmentsByPeriodSeriesSecond"
+              height="285"
             ></apexchart>
           </div>
           <div class="project-container">
@@ -639,7 +641,7 @@ export default {
               obj => obj.created_at.slice(0, characters)
             ),
             (value, key) => ({
-              created_at: key,
+              created_at: characters === 7 ? key + '-01' : key,
               value: value,
             })
           ),
@@ -658,6 +660,11 @@ export default {
         type: 'datetime',
         min: firstBar,
         categories: categories,
+        labels: {
+          formatter: function(value) {
+            return new Date(value).toLocaleDateString("de-DE");
+          },
+        },
       };
     },
     
