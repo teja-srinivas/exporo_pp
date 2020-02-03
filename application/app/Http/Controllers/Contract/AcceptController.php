@@ -60,9 +60,9 @@ class AcceptController extends Controller
                 'signature' => ['required', 'string', 'min:16'],
             ],
             [
-                'legal_agb' => 'Bitte stimmen Sie den AGB zu, um fortfahren zu können',
-                'legal_contract' => 'Bitte stimmen Sie dem Vertrag zu, um fortfahren zu können',
-                'signature' => 'Bitte geben Sie Ihre Unterschrift ab, um fortfahren zu können',
+                'legal_agb.required' => 'Bitte stimmen Sie den AGB zu, um fortfahren zu können',
+                'legal_contract.required' => 'Bitte stimmen Sie dem Vertrag zu, um fortfahren zu können',
+                'signature.required' => 'Bitte geben Sie Ihre Unterschrift ab, um fortfahren zu können',
             ]
         );
 
