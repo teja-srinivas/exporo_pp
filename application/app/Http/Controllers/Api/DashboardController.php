@@ -82,7 +82,7 @@ class DashboardController extends Controller
                 return [
                     'amount' => $investment->amount,
                     'is_first_investment' => $investment->is_first_investment,
-                    'project_name' => $investment->project->name,
+                    'project_name' => $investment->project->description,
                     'created_at' => $investment->created_at,
                     'investment_type' => $investment->is_first_investment ? 'first' : 'subsequent',
                     'investor' => $investor,
