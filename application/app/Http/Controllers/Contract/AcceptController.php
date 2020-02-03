@@ -52,11 +52,19 @@ class AcceptController extends Controller
             return redirect()->home();
         }
 
-        $data = $this->validate($request, [
-            'legal_agb' => ['required', 'accepted'],
-            'legal_contract' => ['required', 'accepted'],
-            'signature' => ['required', 'string', 'min:16'],
-        ]);
+        $data = $this->validate(
+            $request,
+            [
+                'legal_agb' => ['required', 'accepted'],
+                'legal_contract' => ['required', 'accepted'],
+                'signature' => ['required', 'string', 'min:16'],
+            ],
+            [
+                'legal_agb' => 'Bitte stimmen Sie den AGB zu, um fortfahren zu können',
+                'legal_contract' => 'Bitte stimmen Sie dem Vertrag zu, um fortfahren zu können',
+                'signature' => 'Bitte geben Sie Ihre Unterschrift ab, um fortfahren zu können',
+            ]
+        );
 
         $contract->signature = $data['signature'];
         $contract->accepted_at = now();

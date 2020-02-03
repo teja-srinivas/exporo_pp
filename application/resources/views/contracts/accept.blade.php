@@ -7,7 +7,7 @@
                 @csrf
 
                 @card
-                @slot('title', "Ihr persönlicher Partnervertrag mit {$company->name}")
+                @slot('title', "Ihr persönlicher Partnervertrag mit Exporo")
                 @include('contracts.partials.header', compact('contract'))
 
                 <div class="my-4">
@@ -53,7 +53,7 @@
                     'inputs' => [
                         [
                             'type' => 'text',
-                            'label' => 'Unterschrift',
+                            'label' => 'digitale Unterschrift',
                             'name' => 'signature',
                             'help' => 'Beispiel: Max Mustermann 01.01.2017 Hamburg',
                         ],
