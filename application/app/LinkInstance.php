@@ -38,6 +38,7 @@ class LinkInstance extends Model implements Htmlable
 
     protected $fillable = [
         'user_id',
+        'usage',
     ];
 
     protected static function boot(): void
@@ -98,8 +99,12 @@ class LinkInstance extends Model implements Htmlable
      *
      * @return string
      */
-    public function toHtml(): string
+    public function toHtml($usage = null): string
     {
+        if (isset($usage)) {
+            $this->usage = $usage;
+        }
+
         if (Gate::allows($this->getPermission())) {
             return $this->getShortenedUrl();
         }
@@ -120,11 +125,27 @@ class LinkInstance extends Model implements Htmlable
 
     protected function createIfNotExists()
     {
-        if ($this->exists) {
+        if ($this->existsWithUsage()) {
             return;
         }
 
         $this->save();
+    }
+
+    protected function existsWithUsage()
+    {
+        $linkInstance = self::query()
+            ->where('link_type', $this->link_type)
+            ->where('user_id', $this->user_id)
+            ->where('link_id', $this->link_id)
+            ->where('usage', $this->usage)
+            ->first();
+
+        if ($linkInstance === null) {
+            return false;
+        }
+
+        return true;
     }
 
     public function createClick(Request $request): LinkClick
