@@ -52,7 +52,10 @@ class DashboardController extends Controller
         $investmentQuery = $user->investments();
         $investmentQuery->join('projects', 'investments.project_id', 'projects.id');
         $investmentQuery->select(
-            'investments.*',
+            'investments.created_at',
+            'investments.amount',
+            'investments.is_first_investment',
+            'investments.investor_id',
             'investors.last_name',
             'investors.first_name',
             'projects.type as project_type',
