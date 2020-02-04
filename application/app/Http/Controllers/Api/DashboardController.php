@@ -35,6 +35,7 @@ class DashboardController extends Controller
                     break;
                 case 'last_month':
                     $periodFrom = Carbon::now()->startOfMonth()->subMonth();
+                    $periodTo = Carbon::now()->startOfMonth();
 
                     break;
                 case 'custom':
@@ -108,7 +109,7 @@ class DashboardController extends Controller
         $commissionQuery = $user->commissions();
 
         if (isset($periodFrom)) {
-            $secondDate = $periodTo ?? Carbon::now();
+            $secondDate = isset($request->second) ? Carbon::create($request->second)->endOfDay() : Carbon::now();
 
             if ($periodFrom->diffInMonths($secondDate) < 6) {
                 $periodFrom = $secondDate->endOfDay()->subMonths(6);
