@@ -122,6 +122,7 @@ class DashboardController extends Controller
         }
 
         $commissionQuery->whereNotNull('bill_id');
+        $commissionQuery->where('gross', '>=', 0);
         $commissions = $commissionQuery->get()
             ->map(static function (Commission $commission) {
                 return [
