@@ -48,6 +48,14 @@ class DashboardController extends Controller
         }
 
         $investmentQuery = $user->investments();
+        $investmentQuery->join('projects', 'investments.project_id', 'projects.id');
+        $investmentQuery->select(
+            'investments.*',
+            'investors.last_name',
+            'investors.first_name',
+            'projects.type as project_type',
+            'projects.description'
+        );
 
         if (isset($periodFrom)) {
             $investmentQuery->where('investments.created_at', '>=', $periodFrom);
@@ -62,11 +70,11 @@ class DashboardController extends Controller
         $investments = $investmentQuery->get()
             ->map(static function (Investment $investment) {
                 $investor = Person::anonymizeName(
-                    $investment->investor->first_name,
-                    $investment->investor->last_name
+                    decrypt($investment->first_name),
+                    decrypt($investment->last_name)
                 );
 
-                switch ($investment->project->type) {
+                switch ($investment->project_type) {
                     case "Exporo Financing":
                         $type = "Exporo Finanzierung";
 
@@ -82,7 +90,7 @@ class DashboardController extends Controller
                 return [
                     'amount' => $investment->amount,
                     'is_first_investment' => $investment->is_first_investment,
-                    'project_name' => $investment->project->description,
+                    'project_name' => $investment->description,
                     'created_at' => $investment->created_at,
                     'investment_type' => $investment->is_first_investment ? 'first' : 'subsequent',
                     'investor' => $investor,
@@ -103,11 +111,9 @@ class DashboardController extends Controller
             $commissionQuery->where('commissions.created_at', '>=', $periodFrom);
         }
 
-        if (!isset($periodTo)) {
-            $periodTo = Carbon::now();
+        if (isset($periodTo)) {
+            $commissionQuery->where('commissions.created_at', '<=', $periodTo);
         }
-
-        $commissionQuery->where('commissions.created_at', '<=', $periodTo);
 
         $commissionQuery->whereNotNull('bill_id');
         $commissions = $commissionQuery->get()

@@ -112,6 +112,7 @@
               type="bar"
               :options="investmentsByPeriodOptionsFirst"
               :series="investmentsByPeriodSeriesFirst"
+              class="mr-3"
               height="285"
             ></apexchart>
           </div>
@@ -131,6 +132,7 @@
               type="bar"
               :options="investmentsByPeriodOptionsSecond"
               :series="investmentsByPeriodSeriesSecond"
+              class="mr-3"
               height="285"
             ></apexchart>
           </div>
@@ -355,6 +357,7 @@ export default {
           type: "datetime",
         },
         yaxis: {
+          min: 0,
           labels: {
             formatter: function (value) {
               return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
@@ -464,6 +467,13 @@ export default {
           enabled: false,
         },
         xaxis: {},
+        yaxis: {
+          labels: {
+            formatter: function (value) {
+              return isNaN(value) ? value : new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
+            }
+          },
+        },
         plotOptions: {
           bar: {
             horizontal: true,
@@ -493,6 +503,13 @@ export default {
           enabled: false,
         },
         xaxis: {},
+        yaxis: {
+          labels: {
+            formatter: function (value) {
+              return isNaN(value) ? value : new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
+            }
+          },
+        },
         plotOptions: {
           bar: {
             horizontal: true,
@@ -805,6 +822,7 @@ export default {
 <style lang="scss">
   .project-container {
     max-height: 350px;
+    width: 452px;
     overflow-y: auto;
     overflow-x: hidden;
   }
