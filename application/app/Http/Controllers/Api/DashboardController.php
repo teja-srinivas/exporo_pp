@@ -70,6 +70,7 @@ class DashboardController extends Controller
             $investmentQuery->where('investments.created_at', '<=', $periodTo);
         }
 
+        $investmentQuery->whereIn('projects.type', ['Exporo Financing', 'Exporo Bestand']);
         $investmentQuery->whereNull('investments.cancelled_at');
         $investmentQuery->orderBy('investments.created_at', 'DESC');
         $investments = $investmentQuery->get()
