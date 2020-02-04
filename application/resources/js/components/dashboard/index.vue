@@ -363,6 +363,7 @@ export default {
           type: "datetime",
         },
         yaxis: {
+          min: 0,
           labels: {
             formatter: function (value) {
               return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
