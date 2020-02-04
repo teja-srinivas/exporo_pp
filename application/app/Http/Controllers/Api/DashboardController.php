@@ -45,6 +45,8 @@ class DashboardController extends Controller
                 default:
                     $periodFrom = Carbon::now()->subDays(30);
             }
+        } else {
+            $periodTo = Carbon::now();
         }
 
         $investmentQuery = $user->investments();

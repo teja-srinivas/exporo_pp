@@ -822,7 +822,6 @@ export default {
 <style lang="scss">
   .project-container {
     max-height: 350px;
-    width: 452px;
     overflow-y: auto;
     overflow-x: hidden;
   }
