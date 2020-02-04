@@ -106,7 +106,10 @@
       </div>
 
       <div class="d-flex mt-3">
-        <div class="rounded shadow-sm bg-white py-3 w-50 mr-2">
+        <div
+          class="rounded shadow-sm bg-white py-3 w-50 mr-2"
+          style="max-width: 485.33px;"
+        >
           <div>
             <apexchart
               type="bar"
@@ -126,7 +129,10 @@
           </div>
         </div>
         
-        <div class="rounded shadow-sm bg-white py-3 w-50 ml-2">
+        <div
+          class="rounded shadow-sm bg-white py-3 w-50 ml-2"
+          style="max-width: 485.33px;"
+        >
           <div>
             <apexchart
               type="bar"
