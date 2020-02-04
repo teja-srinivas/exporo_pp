@@ -364,6 +364,7 @@ export default {
         },
         yaxis: {
           min: 0,
+          forceNiceScale: true,
           labels: {
             formatter: function (value) {
               return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
