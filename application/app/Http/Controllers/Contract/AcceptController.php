@@ -62,7 +62,8 @@ class AcceptController extends Controller
             [
                 'legal_agb.required' => 'Bitte stimmen Sie den AGB zu, um fortfahren zu können',
                 'legal_contract.required' => 'Bitte stimmen Sie dem Vertrag zu, um fortfahren zu können',
-                'signature.required' => 'Bitte geben Sie Ihre Unterschrift ab, um fortfahren zu können',
+                'signature.required' => 'Bitte geben Sie Ihre Unterschrift ein, um fortfahren zu können',
+                'signature.min' => 'Unterschrift muss mindestens 16 Zeichen lang sein.',
             ]
         );
 
