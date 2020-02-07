@@ -30,4 +30,9 @@ class LinkClick extends Model
     {
         return $this->belongsTo(LinkInstance::class, 'instance_id');
     }
+
+    public function investment(): BelongsTo
+    {
+        return $this->belongsTo(Investment::class, 'investment_id');
+    }
 }
