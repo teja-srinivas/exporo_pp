@@ -311,7 +311,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
 
     public function notYetAccepted(): bool
     {
-        return $this->canBeProcessed() && ($this->accepted_at === null || ! $this->hasActiveContract());
+        return $this->canBeProcessed() && ($this->accepted_at === null || ! $this->hasReleasedContract());
     }
 
     /**
@@ -388,6 +388,11 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     public function hasActiveContract(): bool
     {
         return $this->partnerContract !== null;
+    }
+
+    public function hasReleasedContract(): bool
+    {
+        return $this->releasedPartnerContract !== null;
     }
 
     public function getDisplayName(): string
