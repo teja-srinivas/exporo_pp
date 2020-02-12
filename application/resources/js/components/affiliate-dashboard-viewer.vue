@@ -80,10 +80,10 @@
             
           </div>
           <div>
-            <div v-for="group in groups">
+            <div class="d-flex justify-content-start" v-for="group in groups">
               <div
-                v-if="groupedClicks[group.name] && groupedClicks[group.name].lenght > 0"
-                class="h5"
+                v-if="groupedClicks[group.name] && groupedClicks[group.name].length > 0"
+                class=""
               >
                 {{ group.displayName }}
               </div>
