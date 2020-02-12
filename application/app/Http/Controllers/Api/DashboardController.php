@@ -128,7 +128,7 @@ class DashboardController extends Controller
             ->map(static function (Commission $commission) {
                 return [
                     'amount' => $commission->gross,
-                    'created_at' => $commission->created_at,
+                    'created_at' => $commission->bill->created_at,
                 ];
             })->all();
 
