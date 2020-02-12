@@ -67,6 +67,15 @@ class LinkInstance extends Model implements Htmlable
         return $this->hasMany(LinkClick::class, 'instance_id');
     }
 
+    public function getType(): string
+    {
+        if ($this->usage !== null) {
+            return $this->usage;
+        }
+
+        return $this->link_type;
+    }
+
     public function getShortenedUrl(): string
     {
         $this->createIfNotExists();

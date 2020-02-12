@@ -15,5 +15,5 @@
     @php($vueData = [
         'api' => route('api.affiliate-dashboard'),
     ])
-    <vue v-cloak class="cloak-fade" data-is="investments-viewer" data-props='@json($vueData)' />
+    <vue v-cloak class="cloak-fade" data-is="affiliate-dashboard-viewer" data-props='@json($vueData)' />
 @endsection

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 use Carbon\Carbon;
+use App\Models\Investment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
