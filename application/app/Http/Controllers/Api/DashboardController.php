@@ -107,6 +107,11 @@ class DashboardController extends Controller
             })->all();
 
         $commissionQuery = $user->commissions();
+        $commissionQuery->join('bills', 'commissions.bill_id', 'bills.id');
+        $commissionQuery->select(
+            'bills.created_at',
+            'commissions.gross'
+        );
 
         if (isset($periodFrom)) {
             $secondDate = isset($request->second) ? Carbon::create($request->second)->endOfDay() : Carbon::now();
@@ -115,11 +120,11 @@ class DashboardController extends Controller
                 $periodFrom = $secondDate->endOfDay()->subMonths(6);
             }
 
-            $commissionQuery->where('commissions.created_at', '>=', $periodFrom);
+            $commissionQuery->where('bills.created_at', '>=', $periodFrom);
         }
 
         if (isset($periodTo)) {
-            $commissionQuery->where('commissions.created_at', '<=', $periodTo);
+            $commissionQuery->where('bills.created_at', '<=', $periodTo);
         }
 
         $commissionQuery->whereNotNull('bill_id');
@@ -128,7 +133,7 @@ class DashboardController extends Controller
             ->map(static function (Commission $commission) {
                 return [
                     'amount' => $commission->gross,
-                    'created_at' => $commission->bill->created_at,
+                    'created_at' => $commission->created_at,
                 ];
             })->all();
 
