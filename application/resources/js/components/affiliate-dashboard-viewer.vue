@@ -72,20 +72,37 @@
           </div>
         </div>
       </div>
-      <div  class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
-        {{ clicks }}
-        {{ groupedClicks }}
+      <div  class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 text-muted">
+        
+        {{ selections }}----------{{ clicks }}-------------{{ filteredData }}
         <div class="d-flex">
           <div>
             
           </div>
           <div>
-            <div class="d-flex justify-content-start" v-for="group in groups">
+            <div class="" v-for="group in groups">
               <div
                 v-if="groupedClicks[group.name] && groupedClicks[group.name].length > 0"
                 class=""
               >
-                {{ group.displayName }}
+                <div class="">
+                  <input
+                    type="checkbox"
+                    :id="group.name"
+                    @change="toggleGroup(group.name)"
+                    :checked="groupedClicks[group.name].length == selections[group.name].length"
+                  />
+                  <label :for="group.name">{{ group.displayName }}</label>
+                </div>
+                <div v-for="child in groupedClicks[group.name]" class=" ml-4">
+                  <input
+                    type="checkbox"
+                    :id="child"
+                    v-model="selections[group.name]"
+                    :value="child"
+                  />
+                  <label :for="child">{{ child }}</label>
+                </div>
               </div>
             </div>
           </div>
@@ -111,8 +128,11 @@
 <script>
 import axios from 'axios';
 import countBy from 'lodash/countBy';
+import forEach from 'lodash/forEach';
 import groupBy from 'lodash/groupBy';
 import keys from 'lodash/keys';
+import pull from 'lodash/pull';
+import includes from 'lodash/includes';
 import filter from 'lodash/filter';
 import Spinner from 'vue-simple-spinner';
 import Datepicker from 'vuejs-datepicker';
@@ -191,7 +211,7 @@ export default {
       ],
       groups: [
         {
-          name: 'links',
+          name: 'link_title',
           displayName: 'Links',
         },
         {
@@ -199,10 +219,20 @@ export default {
           displayName: 'Werbemittel',
         },
         {
-          name: 'product_type',
+          name: 'project_type',
           displayName: 'Produkttyp',
         },
-      ]
+        {
+          name: 'device',
+          displayName: 'Gerätetyp',
+        },
+      ],
+      selections: {
+        link_title: [],
+        affiliate_type: [],
+        project_type: [],
+        device: [],
+      },
     };
   },
 
@@ -228,9 +258,10 @@ export default {
   computed: {
     groupedClicks() {
       return {
-        links: keys(groupBy(this.clicks, 'link_title')),
+        link_title: keys(groupBy(this.clicks, 'link_title')),
         affiliate_type: keys(groupBy(this.clicks, 'affiliate_type')),
         project_type: keys(groupBy(this.clicks, 'project_type')),
+        device: keys(groupBy(this.clicks, 'device')),
       };
     },
 
@@ -260,9 +291,18 @@ export default {
     },
 
     filteredData() {
-      this.categories.forEach(function(category) {
+      var filtered = this.clicks.map(a => Object.assign({}, a));
+      var selections = this.selections;
 
-      });
+        for(let prop in selections) {
+          forEach(filtered, function(filteredValue, filteredKey){
+            if (filtered[filteredKey] && !selections[prop].includes(filteredValue[prop])) {
+              delete filtered[filteredKey];
+            }
+          });
+        };
+
+        return filtered;
     },
   },
 
@@ -290,6 +330,14 @@ export default {
       }).catch(() => {
           this.loading = false;
       });
+    },
+//TODO: Darstellung als stacked Column Chart
+    toggleGroup(group) {
+      if (this.selections[group].length === this.groupedClicks[group].length) {
+        this.selections[group] = [];
+      } else {
+        this.selections[group] = this.groupedClicks[group];
+      }
     },
   },
 };

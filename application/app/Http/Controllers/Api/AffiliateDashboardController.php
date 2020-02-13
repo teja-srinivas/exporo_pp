@@ -77,16 +77,16 @@ class AffiliateDashboardController extends Controller
 
                 return [
                     'created_at' => $click->created_at,
-                    'project_type' => $type ?? null,
+                    'project_type' => $type ?? "null",
                     'link_title' => $click->link->link->title,
                     'affiliate_type' => $click->link->getType(),
                     'device' => $click->device,
                     'country' => $click->country,
                     'investment_type' => $investment !== null ?
                         ($investment->is_first_investment ? 'first' : 'subsequent') :
-                    null,
-                    'investor_id' => $investment !== null ? $investment->investor_id : null,
-                    'investment_id' => $investment !== null ? $investment->id : null,
+                    'null',
+                    'investor_id' => $investment !== null ? $investment->investor_id : "null",
+                    'investment_id' => $investment !== null ? $investment->id : "null",
                 ];
             })->all();
 
