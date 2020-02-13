@@ -145,7 +145,7 @@ class DashboardController extends Controller
             'commissions' => $commissions,
             'query' => $showQuery,
             'bindings' => $showBindings,
-            'draw' => $request->draw
+            'draw' => $request->draw,
         ];
     }
 }
