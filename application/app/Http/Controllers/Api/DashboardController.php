@@ -129,6 +129,7 @@ class DashboardController extends Controller
 
         $commissionQuery->whereNotNull('bill_id');
         $commissionQuery->where('gross', '>=', 0);
+
         $commissions = $commissionQuery->get()
             ->map(static function (Commission $commission) {
                 return [
@@ -136,10 +137,14 @@ class DashboardController extends Controller
                     'created_at' => $commission->created_at,
                 ];
             })->all();
+        $showQuery = $commissionQuery->toSql();
+        $showBindings = $commissionQuery->getBindings();
 
         return [
             'investments' => $investments,
             'commissions' => $commissions,
+            'query' => $showQuery,
+            'bindings' => $showBindings,
             'draw' => $request->draw,
         ];
     }

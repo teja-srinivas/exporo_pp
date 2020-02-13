@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 
-@section('title', 'Dashboard')
+@section('title', 'Übersicht')
 
 @section('main-content')
     @php($vueData = [
