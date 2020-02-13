@@ -329,12 +329,12 @@ export default {
 
   computed: {
     getChartHeightFirst() {
-      let number = this.investmentsByProjectSeriesFirst[0].data.length;
+      let number = this.investmentsByProjectSeriesFirst[0] ? this.investmentsByProjectSeriesFirst[0].data.length : 0;
       return this.getChartHeight(number);
     },
 
     getChartHeightSecond() {
-      let number = this.investmentsByProjectSeriesSecond[0].data.length;
+      let number = this.investmentsByProjectSeriesSecond[0] ? this.investmentsByProjectSeriesSecond[0].data.length : 0;
       return this.getChartHeight(number);
     },
 
