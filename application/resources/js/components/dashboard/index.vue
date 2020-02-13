@@ -170,7 +170,7 @@
     <div v-if="investments.length > 0 && !loading" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3">
       <div>
         <span class="h3">
-          Letzte Investments
+          Investments
         </span>
       </div>
       <data-table
