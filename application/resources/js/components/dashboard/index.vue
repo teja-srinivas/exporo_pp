@@ -15,17 +15,17 @@
       </div>
       <div class="col-lg-2 pl-2">
         <label class="m-0">bis:</label>
-        <vuejs-datepicker
-          input-class="form-control"
+        <flat-pickr
           v-model="date.second"
-        ></vuejs-datepicker>
+          class="form-control"
+        />
       </div>
       <div class="col-lg-2 pl-2">
         <label class="m-0">von:</label>
-        <vuejs-datepicker
-          input-class="form-control"
+        <flat-pickr
           v-model="date.first"
-        ></vuejs-datepicker>
+          class="form-control"
+        />
       </div>
     </div>
     <div 
@@ -202,12 +202,15 @@ import map from 'lodash/map';
 import forEach from 'lodash/forEach';
 import orderBy from 'lodash/orderBy';
 import Spinner from 'vue-simple-spinner';
-import Datepicker from 'vuejs-datepicker';
+import FlatPickr from 'vue-flatpickr-component';
+import { German } from 'flatpickr/dist/l10n/de';
+import 'flatpickr/dist/flatpickr.css';
+
 
 export default {
   components: {
     'vue-simple-spinner': Spinner,
-    'vuejs-datepicker': Datepicker,
+    'flat-pickr': FlatPickr,
   },
 
   props: {
