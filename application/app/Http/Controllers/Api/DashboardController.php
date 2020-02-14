@@ -106,6 +106,48 @@ class DashboardController extends Controller
                 ];
             })->all();
 
+        return [
+            'investments' => $investments,
+            'draw' => $request->draw,
+        ];
+    }
+
+    /**
+     * @param  Request  $request
+     * @return Array
+     * @throws ValidationException
+     */
+    public function getCommissions(Request $request)
+    {
+        $user = $request->user();
+
+        $data = $this->validate($request, [
+            'period' => ['nullable', 'in:this_month,last_month,default,custom'],
+        ]);
+
+        if (isset($data['period'])) {
+            switch ($data['period']) {
+                case 'this_month':
+                    $periodFrom = Carbon::now()->startOfMonth();
+
+                    break;
+                case 'last_month':
+                    $periodFrom = Carbon::now()->startOfMonth()->subMonth();
+                    $periodTo = Carbon::now()->startOfMonth();
+
+                    break;
+                case 'custom':
+                    $periodFrom = isset($request->first) ? Carbon::create($request->first)->startOfDay() : null;
+                    $periodTo = isset($request->second) ? Carbon::create($request->second)->endOfDay() : null;
+
+                    break;
+                default:
+                    $periodFrom = Carbon::now()->subDays(30);
+            }
+        } else {
+            $periodTo = Carbon::now();
+        }
+
         $commissionQuery = $user->commissions();
         $commissionQuery->join('bills', 'commissions.bill_id', 'bills.id');
         $commissionQuery->select(
@@ -139,7 +181,6 @@ class DashboardController extends Controller
             })->all();
 
         return [
-            'investments' => $investments,
             'commissions' => $commissions,
             'draw' => $request->draw,
         ];
