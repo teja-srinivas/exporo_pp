@@ -44,8 +44,17 @@
         :height="280"
       ></apexchart>
     </div>
+    
     <div v-else-if="!loadingCommissions" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
       Keine Provisionsdaten verfügbar
+    </div>
+
+    <div v-else-if="loadingCommissions" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
+      <vue-simple-spinner
+        size="large"
+        :line-fg-color="colors.subsequentInvestment"
+      ></vue-simple-spinner>
+      Provisionsdaten werden geladen
     </div>
 
     <div v-if="investments.length > 0 && !loading">
@@ -160,7 +169,7 @@
         size="large"
         :line-fg-color="colors.subsequentInvestment"
       ></vue-simple-spinner>
-      Daten werden geladen
+      Investmentdaten werden geladen
     </div>
 
     <div v-else class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
