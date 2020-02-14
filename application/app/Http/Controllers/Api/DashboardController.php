@@ -150,9 +150,8 @@ class DashboardController extends Controller
 
         $commissionQuery = $user->commissions();
         $commissionQuery->join('bills', 'commissions.bill_id', 'bills.id');
-        $commissionQuery->select(
-            'bills.created_at',
-            'commissions.gross'
+        $commissionQuery->selectRaw(
+            'bills.created_at, SUM(commissions.gross) as gross'
         );
 
         if (isset($periodFrom)) {
@@ -169,6 +168,7 @@ class DashboardController extends Controller
             $commissionQuery->where('bills.created_at', '<=', $periodTo);
         }
 
+        $commissionQuery->groupBy('bills.created_at');
         $commissionQuery->whereNotNull('bill_id');
         $commissionQuery->where('gross', '>=', 0);
 
