@@ -137,14 +137,10 @@ class DashboardController extends Controller
                     'created_at' => $commission->created_at,
                 ];
             })->all();
-        $showQuery = $commissionQuery->toSql();
-        $showBindings = $commissionQuery->getBindings();
 
         return [
             'investments' => $investments,
             'commissions' => $commissions,
-            'query' => $showQuery,
-            'binding' => $showBindings,
             'draw' => $request->draw,
         ];
     }
