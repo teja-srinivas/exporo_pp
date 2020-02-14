@@ -4,7 +4,8 @@
 
 @section('main-content')
     @php($vueData = [
-        'api' => route('api.dashboard.investments'),
+        'apiInvestments' => route('api.dashboard.investments'),
+        'apiCommissions' => route('api.dashboard.commissions'),
     ])
     <vue v-cloak class="cloak-fade" data-is="investments-viewer" data-props='@json($vueData)' />
 @endsection

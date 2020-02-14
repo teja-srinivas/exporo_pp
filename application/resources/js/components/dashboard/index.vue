@@ -29,7 +29,7 @@
       </div>
     </div>
     <div 
-      v-if="commissions.length > 0 && !loading"
+      v-if="commissions.length > 0 && !loadingCommissions"
       class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 mb-3"
     >
       <div>
@@ -44,7 +44,7 @@
         :height="280"
       ></apexchart>
     </div>
-    <div v-else-if="!loading" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
+    <div v-else-if="!loadingCommissions" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
       Keine Provisionsdaten verfügbar
     </div>
 
@@ -202,7 +202,11 @@ export default {
   },
 
   props: {
-    api: {
+    apiInvestments: {
+      type: String,
+      required: true,
+    },
+    apiCommissions: {
       type: String,
       required: true,
     },
@@ -211,6 +215,7 @@ export default {
   data() {
     return {
       loading: true,
+      loadingCommissions: true,
       noData: {
         text: 'keine Daten verfügbar',
         align: 'center',
@@ -237,7 +242,8 @@ export default {
         first: 'Exporo Finanzierung',
         second: 'Exporo Bestand',
       },
-      draw: 0,
+      drawInvestments: 0,
+      drawCommissions: 0,
       date: {
         first: '',
         second: '',
@@ -313,6 +319,7 @@ export default {
       if (value != 'custom') {
         this.date.first = '';
         this.date.second = '';
+        this.getCommissions();
         this.getInvestments();
       }
     },
@@ -320,6 +327,7 @@ export default {
       handler: function (value) {
         if (value.first != '' || value.second != '') {
           this.periodSelected = 'custom';
+          this.getCommissions();
           this.getInvestments();
         }
       },
@@ -550,6 +558,7 @@ export default {
   },
 
   created() {
+    this.getCommissions();
     this.getInvestments();
   },
 
@@ -790,20 +799,19 @@ export default {
     },
 
     getInvestments() {
-      this.draw++;
+      this.drawInvestments++;
       let params = {
         period: this.periodSelected,
-        draw: this.draw,
+        draw: this.drawInvestments,
         ... this.date,
       };
       this.loading = true;
 
-      axios.get(this.api, {
+      axios.get(this.apiInvestments, {
         params,
       }).then(({ data }) => {
-        if (data.draw == this.draw) {
+        if (data.draw == this.drawInvestments) {
           this.investments = data.investments;
-          this.commissions = data.commissions;
           this.loading = false;
 
           //first column
@@ -820,6 +828,27 @@ export default {
         }
       }).catch(() => {
           this.loading = false;
+      });
+    },
+
+    getCommissions() {
+      this.drawCommissions++;
+      let params = {
+        period: this.periodSelected,
+        draw: this.drawCommissions,
+        ... this.date,
+      };
+      this.loadingCommissions = true;
+
+      axios.get(this.apiCommissions, {
+        params,
+      }).then(({ data }) => {
+        if (data.draw == this.drawCommissions) {
+          this.commissions = data.commissions;
+          this.loadingCommissions = false;
+        }
+      }).catch(() => {
+        this.loadingCommissions = false;
       });
     },
   },
