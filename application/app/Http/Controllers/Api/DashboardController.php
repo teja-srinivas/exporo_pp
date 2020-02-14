@@ -9,7 +9,6 @@ use App\Traits\Person;
 use App\Models\Investment;
 use App\Models\Commission;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 
@@ -22,7 +21,7 @@ class DashboardController extends Controller
      */
     public function getInvestments(Request $request)
     {
-        $user = Auth::user();
+        $user = $request->user();
 
         $data = $this->validate($request, [
             'period' => ['nullable', 'in:this_month,last_month,default,custom'],
