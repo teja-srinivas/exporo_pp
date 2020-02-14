@@ -15,17 +15,17 @@
       </div>
       <div class="col-lg-2 pl-2">
         <label class="m-0">bis:</label>
-        <vuejs-datepicker
-          input-class="form-control"
+        <flat-pickr
           v-model="date.second"
-        ></vuejs-datepicker>
+          class="form-control"
+        />
       </div>
       <div class="col-lg-2 pl-2">
         <label class="m-0">von:</label>
-        <vuejs-datepicker
-          input-class="form-control"
+        <flat-pickr
           v-model="date.first"
-        ></vuejs-datepicker>
+          class="form-control"
+        />
       </div>
     </div>
 
@@ -74,7 +74,7 @@
       </div>
       <div  class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 text-muted">
         
-        {{ selections }}----------{{ groupedClicks }}-------------{{ filteredData }}
+        {{ selections }}--------------------{{ clicks }}-------------{{ filteredData }}------------------------------{{clickPeriods}}
         <div class="d-flex">
           <div>
             
@@ -132,15 +132,20 @@ import forEach from 'lodash/forEach';
 import groupBy from 'lodash/groupBy';
 import keys from 'lodash/keys';
 import pull from 'lodash/pull';
+import map from 'lodash/map';
+import find from 'lodash/find';
+import sortBy from 'lodash/sortBy';
 import includes from 'lodash/includes';
 import filter from 'lodash/filter';
 import Spinner from 'vue-simple-spinner';
-import Datepicker from 'vuejs-datepicker';
+import FlatPickr from 'vue-flatpickr-component';
+import { German } from 'flatpickr/dist/l10n/de';
+import 'flatpickr/dist/flatpickr.css';
 
 export default {
   components: {
     'vue-simple-spinner': Spinner,
-    'vuejs-datepicker': Datepicker,
+    'flat-pickr': FlatPickr,
   },
 
   props: {
@@ -291,18 +296,108 @@ export default {
     },
 
     filteredData() {
-      var filtered = this.clicks.map(a => Object.assign({}, a));
-      var selections = this.selections;
+      const selectedType = 'link_title';
+      const characters = this.periodSelected === null ? 7 : 10;
+      let filtered = this.clicks.map(a => Object.assign({}, a));
+      const selections = this.selections;
+      let series = [];
+      let clickPeriods = this.clickPeriods;
 
-        for(let prop in selections) {
-          forEach(filtered, function(filteredValue, filteredKey){
-            if (filtered[filteredKey] && !selections[prop].includes(filteredValue[prop])) {
-              delete filtered[filteredKey];
-            }
-          });
-        };
+      for(let prop in selections) {
+        forEach(filtered, function(filteredValue, filteredKey){
+          if (filtered[filteredKey] && !selections[prop].includes(filteredValue[prop])) {
+            delete filtered[filteredKey];
+          }
+        });
+      };
 
-        return filtered;
+      filtered = filter(filtered, function(o) {return o != null});
+
+      selections[selectedType].forEach(function(element) {
+        
+        /*filtered = map(
+          groupBy(
+            groupBy(filtered, selectedType)[element], o => o.created_at.slice(0, characters)),
+          (value, key) => ({
+            created_at: key,
+            amount: value.length,
+          })
+        )*/
+        /*filtered = map(
+          groupBy(
+            groupBy(filtered, obj => obj[selectedType])[element], o => o.created_at.slice(0, characters)),
+          (value, key) => ({
+            created_at: key,
+            amount: value.length,
+          })
+        )*/
+        var data = map(
+          groupBy(
+            groupBy(filtered, obj => obj[selectedType])[element], o => o.created_at.slice(0, characters)),
+          (value, key) => ({
+            created_at: key,
+            amount: value.length,
+          })
+        );
+        
+
+        forEach(clickPeriods.categories, function(value) {
+          if (find(data, ['created_at', value]) === undefined) {
+            data.push(
+              {
+                created_at: value,
+                amount: 0,
+              }
+            );
+          }
+        });
+
+        series.push({
+          name: element,
+          data: data,
+        });
+      });
+
+      return series;
+    },
+
+    clickPeriods() {
+      let characters = this.periodSelected === null ? 7 : 10;
+
+      let categories = map(
+        sortBy(
+          map(
+            groupBy(
+              this.clicks, 
+              obj => obj.created_at.slice(0, characters)
+            ),
+            (value, key) => ({
+              created_at: characters === 7 ? key + '-01' : key,
+              value: value,
+            })
+          ),
+          'created_at'),
+        'created_at'
+      );
+
+      let firstBar = categories.length > 30 ? new Date(categories[categories.length-30]).getTime() : null;
+
+      //prevent display bug
+      if (categories.length === 1) {
+        let date = new Date(categories[0]);
+        categories.push(date.setDate(date.getDate() + 1));
+      }
+
+      return {
+        type: 'datetime',
+        min: firstBar,
+        categories: categories,
+        labels: {
+          formatter: function(value) {
+            return new Date(value).toLocaleDateString("de-DE");
+          },
+        },
+      };
     },
   },
 
