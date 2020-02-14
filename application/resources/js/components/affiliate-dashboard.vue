@@ -74,7 +74,7 @@
       </div>
       <div  class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 text-muted">
         
-        {{ selections }}----------{{ clicks }}-------------{{ filteredData }}
+        {{ selections }}----------{{ groupedClicks }}-------------{{ filteredData }}
         <div class="d-flex">
           <div>
             
@@ -326,6 +326,9 @@ export default {
         if (data.draw == this.draw) {
           this.clicks = data.clicks;
           this.loading = false;
+          if (this.draw === 1 ) {
+            this.selectAll();
+          }
         }
       }).catch(() => {
           this.loading = false;
@@ -337,6 +340,12 @@ export default {
         this.selections[group] = [];
       } else {
         this.selections[group] = this.groupedClicks[group];
+      }
+    },
+
+    selectAll() {
+      for(let prop in this.selections) {
+        this.selections[prop] = this.groupedClicks[prop];
       }
     },
   },
