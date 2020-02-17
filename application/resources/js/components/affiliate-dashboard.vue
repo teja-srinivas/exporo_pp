@@ -67,16 +67,16 @@
               {{ countTotalInvestments }}
             </div>
             <div class="d-flex justify-content-center">
-              Total Investoren
+              Investoren
             </div>
           </div>
         </div>
       </div>
       <div class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 text-muted">
-
+        Klicks nach:
         <button
           v-for="group in groups"
-          class="btn mr-3"
+          class="btn ml-3"
           :class="type === group.name ? 'btn-secondary' : 'btn-primary'"
           type="button"
           @click="selectedType = group.name"
@@ -87,7 +87,7 @@
         <div class="row">
           <div class="col-9">
             <apexchart
-              type="bar"
+              type="area"
               :options="chartOptions"
               :series="filteredData"
             ></apexchart>
@@ -110,14 +110,22 @@
                   {{ group.displayName }}
                   <div class="dropdown-divider"></div>
                 </div>
-                <div v-for="child in groupedClicks[group.name]" ><!--class=" ml-4"-->
+                <div v-for="(child, index) in groupedClicks[group.name]" class="d-flex align-items-center mb-2"><!--class=" ml-4"-->
                   <input
                     type="checkbox"
                     :id="child"
                     v-model="selections[group.name]"
                     :value="child"
                   />
-                  <label :for="child">{{ translate(child) }}</label>
+                  <label :for="child" class="text-truncate mb-0 ml-2" style="max-width: 180px;">
+                    {{ translate(child) }}
+                    
+                  </label>
+                  <span
+                    v-if="group.name === type"
+                    class="square rounded ml-2"
+                    :style="getBackground(index)"
+                  ></span>
                 </div>
               </div>
             </div>
@@ -129,7 +137,6 @@
     <div v-else-if="loading" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
       <vue-simple-spinner
         size="large"
-        :line-fg-color="colors.subsequentInvestment"
       ></vue-simple-spinner>
       Daten werden geladen
     </div>
@@ -187,16 +194,21 @@ export default {
           fontFamily: undefined
         }
       },
-      colors: {
-        first: {
-          firstInvestment: '#3968af',
-          subsequentInvestment: '#7ba0d9',
-        },
-        second: {
-          firstInvestment: '#86ac48',
-          subsequentInvestment: '#c4e292',
-        },
-      },
+      colors: [
+        '#ec7063',
+        '#5dade2',
+        '#58d68d',
+        '#f7dc6f',
+        '#eb984e',
+        '#af7ac5',
+        '#b2babb',
+        '#641e16',
+        '#0b5345',
+        '#1b4f72',
+        '#7d6608',
+        '#784212',
+        '#4a235a',
+      ],
       draw: 0,
       date: {
         first: '',
@@ -229,6 +241,10 @@ export default {
       ],
       groups: [
         {
+          name: 'project_type',
+          displayName: 'Produkttyp',
+        },
+        {
           name: 'link_title',
           displayName: 'Links',
         },
@@ -236,14 +252,10 @@ export default {
           name: 'affiliate_type',
           displayName: 'Werbemittel',
         },
-        {
-          name: 'project_type',
-          displayName: 'Produkttyp',
-        },
-        {
+        /*{
           name: 'device',
           displayName: 'Gerätetyp',
-        },
+        },*/
       ],
       selections: {
         link_title: [],
@@ -326,6 +338,7 @@ export default {
       const characters = this.periodSelected === null ? 7 : 10;
       let filtered = this.clicks.map(a => Object.assign({}, a));
       const selections = this.selections;
+      const groupedClicks = this.groupedClicks;
       let series = [];
       let clickPeriods = this.clickPeriods;
       let _this = this;
@@ -340,35 +353,36 @@ export default {
 
       filtered = filter(filtered, function(o) {return o != null});
 
-      selections[selectedType].forEach(function(element) {
+      groupedClicks[selectedType].forEach(function(element) {
+        if (selections[selectedType].includes(element)) {
+          var data = map(
+            groupBy(
+              groupBy(filtered, obj => obj[selectedType])[element], o => o.created_at.slice(0, characters)),
+            (value, key) => ({
+              created_at: key,
+              amount: value.length,
+            })
+          );
 
-        var data = map(
-          groupBy(
-            groupBy(filtered, obj => obj[selectedType])[element], o => o.created_at.slice(0, characters)),
-          (value, key) => ({
-            created_at: key,
-            amount: value.length,
-          })
-        );
-        
-        forEach(clickPeriods.categories, function(value) {
-          if (find(data, ['created_at', value]) === undefined) {
-            data.push(
-              {
-                created_at: value,
-                amount: 0,
-              }
-            );
-          }
-        });
+          forEach(clickPeriods.categories, function(value) {
+            if (find(data, ['created_at', value]) === undefined) {
+              data.push(
+                {
+                  created_at: value,
+                  amount: 0,
+                }
+              );
+            }
+          });
 
-        series.push({
-          name: _this.translate(element),
-          data: map(
-            orderBy(data, 'created_at'),
-            'amount'
-          ),
-        });
+          series.push({
+            name: _this.translate(element),
+            data: map(
+              orderBy(data, 'created_at'),
+              'amount'
+            ),
+          });
+        }
       });
 
       return series;
@@ -434,7 +448,10 @@ export default {
           },
         },
         dataLabels: {
-          enabled: false,
+          enabled: true,
+          formatter: function (val, opts) {
+            return val > 0 ? val : '';
+          },
         },
         xaxis: this.clickPeriods,
         yaxis: {
@@ -445,7 +462,33 @@ export default {
           },
         },
         noData: this.noData,
+        stroke: {
+          curve: 'straight',
+        },
+        legend: {
+          show: false,
+        },
+        colors: this.selectedColors,
+        fill: {
+          type: 'gradient',
+          gradient: {
+            opacityFrom: 0.6,
+            opacityTo: 0.8,
+          }
+        },
       };
+    },
+
+    selectedColors() {
+      let colors = [];
+
+      for (let key in this.groupedClicks[this.type]) {
+        if (this.selections[this.type].includes(this.groupedClicks[this.type][key])) {
+          colors.push(this.colors[key]);
+        }
+      }
+
+      return colors.length > 0 ? colors : this.colors;
     },
   },
 
@@ -495,10 +538,18 @@ export default {
     translate(value) {
       return this.translation[value] || value;
     },
+
+    getBackground(index) {
+      return `background: ${this.colors[index]}`;
+    }
   },
 };
 </script>
 
 <style lang="scss">
-  
+  .square {
+    height: 13px;
+    width: 13px;
+    display: inline-block;
+  }
 </style>
