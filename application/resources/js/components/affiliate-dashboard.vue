@@ -72,36 +72,52 @@
           </div>
         </div>
       </div>
-      <div  class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 text-muted">
-        
-        {{ selections }}--------------------{{ clicks }}-------------{{ filteredData }}------------------------------{{clickPeriods}}
-        <div class="d-flex">
-          <div>
-            
+      <div class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 text-muted">
+
+        <button
+          v-for="group in groups"
+          class="btn mr-3"
+          :class="type === group.name ? 'btn-secondary' : 'btn-primary'"
+          type="button"
+          @click="selectedType = group.name"
+        >
+          {{ group.displayName }}
+        </button>
+
+        <div class="row">
+          <div class="col-9">
+            <apexchart
+              type="bar"
+              :options="chartOptions"
+              :series="filteredData"
+            ></apexchart>
           </div>
-          <div>
+
+          <div class="col-3">
             <div class="" v-for="group in groups">
               <div
                 v-if="groupedClicks[group.name] && groupedClicks[group.name].length > 0"
                 class=""
               >
-                <div class="">
-                  <input
+                <div class="h6 text-muted text-uppercase">
+                  <!--<input
                     type="checkbox"
                     :id="group.name"
                     @change="toggleGroup(group.name)"
                     :checked="groupedClicks[group.name].length == selections[group.name].length"
                   />
-                  <label :for="group.name">{{ group.displayName }}</label>
+                  <label :for="group.name">{{ group.displayName }}</label>-->
+                  {{ group.displayName }}
+                  <div class="dropdown-divider"></div>
                 </div>
-                <div v-for="child in groupedClicks[group.name]" class=" ml-4">
+                <div v-for="child in groupedClicks[group.name]" ><!--class=" ml-4"-->
                   <input
                     type="checkbox"
                     :id="child"
                     v-model="selections[group.name]"
                     :value="child"
                   />
-                  <label :for="child">{{ child }}</label>
+                  <label :for="child">{{ translate(child) }}</label>
                 </div>
               </div>
             </div>
@@ -133,6 +149,7 @@ import groupBy from 'lodash/groupBy';
 import keys from 'lodash/keys';
 import pull from 'lodash/pull';
 import map from 'lodash/map';
+import orderBy from 'lodash/orderBy';
 import find from 'lodash/find';
 import sortBy from 'lodash/sortBy';
 import includes from 'lodash/includes';
@@ -179,10 +196,6 @@ export default {
           firstInvestment: '#86ac48',
           subsequentInvestment: '#c4e292',
         },
-      },
-      types: {
-        first: 'Exporo Finanzierung',
-        second: 'Exporo Bestand',
       },
       draw: 0,
       date: {
@@ -238,6 +251,15 @@ export default {
         project_type: [],
         device: [],
       },
+      selectedType: null,
+      translation: {
+        desktop: 'Desktop',
+        phone: 'Mobil',
+        null: 'unbestimmt',
+        link: 'Link',
+        banner: 'Banner',
+        embed: 'Iframe',
+      },
     };
   },
 
@@ -261,6 +283,10 @@ export default {
   },
 
   computed: {
+    type() {
+      return this.selectedType || this.groups[0].name;
+    },
+
     groupedClicks() {
       return {
         link_title: keys(groupBy(this.clicks, 'link_title')),
@@ -296,12 +322,13 @@ export default {
     },
 
     filteredData() {
-      const selectedType = 'link_title';
+      const selectedType = this.type;
       const characters = this.periodSelected === null ? 7 : 10;
       let filtered = this.clicks.map(a => Object.assign({}, a));
       const selections = this.selections;
       let series = [];
       let clickPeriods = this.clickPeriods;
+      let _this = this;
 
       for(let prop in selections) {
         forEach(filtered, function(filteredValue, filteredKey){
@@ -314,23 +341,7 @@ export default {
       filtered = filter(filtered, function(o) {return o != null});
 
       selections[selectedType].forEach(function(element) {
-        
-        /*filtered = map(
-          groupBy(
-            groupBy(filtered, selectedType)[element], o => o.created_at.slice(0, characters)),
-          (value, key) => ({
-            created_at: key,
-            amount: value.length,
-          })
-        )*/
-        /*filtered = map(
-          groupBy(
-            groupBy(filtered, obj => obj[selectedType])[element], o => o.created_at.slice(0, characters)),
-          (value, key) => ({
-            created_at: key,
-            amount: value.length,
-          })
-        )*/
+
         var data = map(
           groupBy(
             groupBy(filtered, obj => obj[selectedType])[element], o => o.created_at.slice(0, characters)),
@@ -340,7 +351,6 @@ export default {
           })
         );
         
-
         forEach(clickPeriods.categories, function(value) {
           if (find(data, ['created_at', value]) === undefined) {
             data.push(
@@ -353,8 +363,11 @@ export default {
         });
 
         series.push({
-          name: element,
-          data: data,
+          name: _this.translate(element),
+          data: map(
+            orderBy(data, 'created_at'),
+            'amount'
+          ),
         });
       });
 
@@ -399,6 +412,41 @@ export default {
         },
       };
     },
+
+    chartOptions() {
+      return {
+        chart: {
+          id: 'clicks-by-period',
+          stacked: true,
+          toolbar: {
+            show: true,
+            tools: {
+              download: false,
+              selection: false,
+              reset: false,
+              zoom: false,
+              pan: true,
+            },
+            autoSelected: 'pan',
+          },
+          zoom: {
+            enabled: true,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        xaxis: this.clickPeriods,
+        yaxis: {
+          labels: {
+            formatter: function (value) {
+              return Math.round(value);
+            }
+          },
+        },
+        noData: this.noData,
+      };
+    },
   },
 
   created() {
@@ -429,7 +477,7 @@ export default {
           this.loading = false;
       });
     },
-//TODO: Darstellung als stacked Column Chart
+
     toggleGroup(group) {
       if (this.selections[group].length === this.groupedClicks[group].length) {
         this.selections[group] = [];
@@ -442,6 +490,10 @@ export default {
       for(let prop in this.selections) {
         this.selections[prop] = this.groupedClicks[prop];
       }
+    },
+
+    translate(value) {
+      return this.translation[value] || value;
     },
   },
 };
