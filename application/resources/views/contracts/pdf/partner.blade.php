@@ -471,6 +471,16 @@
             </div>
             <p style="margin-top: 0.25rem">Ort, Datum</p>
         </td>
+        <td style="width: 3rem"></td>
+        <td style="width: 50%; vertical-align: bottom">
+            <div style="border-bottom: 1px solid black">
+                @if($contract->accepted_at !== null)
+                {{ $contract->user->details->address_city }},
+                {{ optional($contract->accepted_at)->format('d.m.Y') }}
+                @endif
+            </div>
+            <p style="margin-top: 0.25rem">Ort, Datum</p>
+        </td>
     </tr>
     <tr>
         <td colspan="3" style="padding-top: 3rem"></td>
