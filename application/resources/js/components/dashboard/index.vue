@@ -52,7 +52,6 @@
     <div v-else-if="loadingCommissions" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
       <vue-simple-spinner
         size="large"
-        :line-fg-color="colors.subsequentInvestment"
       ></vue-simple-spinner>
       Provisionsdaten werden geladen
     </div>
@@ -167,7 +166,6 @@
     <div v-else-if="loading" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
       <vue-simple-spinner
         size="large"
-        :line-fg-color="colors.subsequentInvestment"
       ></vue-simple-spinner>
       Investmentdaten werden geladen
     </div>
