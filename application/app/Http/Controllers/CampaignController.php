@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +13,7 @@ class CampaignController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Link::class);
+        $this->authorizeResource(Campaign::class);
     }
 
     /**
