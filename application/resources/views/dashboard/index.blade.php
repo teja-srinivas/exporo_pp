@@ -12,7 +12,19 @@
     @else
         @card
             <div class="lead text-center text-muted">
-                Das Partner Cockpit ist die zentrale Anlaufstelle für Ihre Tätigkeit als Partner. Sie können hier alle Aktivitäten Ihrer Kunden und Interessenten sehen und erhalten Statistiken zum Verhalten Ihrer Kunden. Zudem stehen Ihnen hier die monatliche Abrechnungen und Provisionsansprüche zur Verfügung. Das Partner Cockpit bieten Ihnen auch auch einen direkten Zugang zu Werbemitteln und Tools für eine nahtlose digitale Integration.
+                Das Partner Cockpit ist die zentrale Anlaufstelle für Ihre Tätigkeit
+                als Partner. Sie können hier alle Aktivitäten Ihrer Kunden und Interessenten
+                sehen und erhalten Statistiken zum Verhalten Ihrer Kunden. Zudem stehen
+                Ihnen hier die monatliche Abrechnungen und Provisionsansprüche zur Verfügung.
+                Das Partner Cockpit bieten Ihnen auch auch einen direkten Zugang zu Werbemitteln
+                und Tools für eine nahtlose digitale Integration.
+            </div>
+            <div>
+                <img
+                    src="{{ url('/images/investment_placeholder.png') }}"
+                    alt="Provisionsbeispiel"
+                    style="width: 100%;"
+                >
             </div>
         @endcard
     @endif
