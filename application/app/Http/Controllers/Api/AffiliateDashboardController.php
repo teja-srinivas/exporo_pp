@@ -19,6 +19,8 @@ class AffiliateDashboardController extends Controller
      */
     public function getClicks(Request $request)
     {
+        $this->authorize('management.affiliate.dashboard.view');
+
         $user = $request->user();
 
         $data = $this->validate($request, [
