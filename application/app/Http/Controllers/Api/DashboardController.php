@@ -21,6 +21,8 @@ class DashboardController extends Controller
      */
     public function getInvestments(Request $request)
     {
+        $this->authorize('management.dashboard.view');
+
         $user = $request->user();
 
         $data = $this->validate($request, [
@@ -119,6 +121,8 @@ class DashboardController extends Controller
      */
     public function getCommissions(Request $request)
     {
+        $this->authorize('management.dashboard.view');
+
         $user = $request->user();
 
         $data = $this->validate($request, [
