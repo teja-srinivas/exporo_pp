@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Campaign extends Model
 {
     /**
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function users(): BelongsToMany
     {

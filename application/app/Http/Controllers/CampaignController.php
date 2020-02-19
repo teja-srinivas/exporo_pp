@@ -24,7 +24,19 @@ class CampaignController extends Controller
      */
     public function index(Request $request)
     {
+        $campaigns = Campaign::query()
+            ->get()
+            ->map(static function (Campaign $campaign) {
+                return [
+                    'title' => $campaign->title,
+                    'id' => $campaign->id,
+                ];
+            });
+
         
+        return view('campaigns.index', [
+            'campaigns' => $campaigns,
+        ]);
     }
 
     /**

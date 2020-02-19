@@ -48,4 +48,8 @@ Route::name('api.')->middleware('auth:api')->group(static function () {
         ->name('dashboard.investments');
     Route::get('dashboard/commissions', [Api\DashboardController::class, 'getCommissions'])
         ->name('dashboard.commissions');
+
+    Route::apiResource('campaigns', Api\DashboardController::class)
+        ->except('index')
+        ->names('campaigns');
 });
