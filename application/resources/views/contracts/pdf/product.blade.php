@@ -8,7 +8,7 @@
             verschiedene Finanzprodukte an. Hierbei wird grundsätzlich zwischen
             zwei Produktfamilien unterschieden:
         </p>
-        <table class="relative-table wrapped confluenceTable">
+        <table class="firstTable">
                 <colgroup>
                     <col style="width: 50%;" />
                     <col style="width: 50%;" />
@@ -107,7 +107,7 @@
         </div>
     </div>
     
-    <h3><strong>3. Höhe der Vergütung </strong></h3>
+    <h3><strong>2. Höhe der Vergütung </strong></h3>
     <p style="margin-left: 2rem;">
         a. Ist ein Vergütungsanspruch entstanden, vereinbart Exporo mit dem 
         Partner hiermit für die Berechnung der Vergütung folgende Beträge:
@@ -120,7 +120,8 @@
         'legacy' => true,
     ])
 
-    <p>
+    @if($contract->user->contract->allow_overhead)
+    <p style="margin-left: 2rem;">
         Der Partner, dessen Sub-Partner ein Endgültiges Investment vermittelt 
         hat, erhält eine Overhead-Partner Provision. Bei der Berechnung der
         Overhead-Partner Provision ist der für den Overhead-Partner für das 
@@ -131,9 +132,10 @@
         3,00 %, so ergibt sich für den Overhead-Partner einen für die Berechnung 
         der Vergütung heranzuziehenden Prozentsatz von 0,50 %.
     </p>
+    @endif
 
     <h3><strong>3. Umsatzsteuer</strong></h3>
-    <p>
+    <p style="margin-left: 2rem;">
         Die Provisionen werden von Exporo umsatzsteuerfrei in Rechnung gestellt.
         // Sollte der Partner gegenüber Exporo anzeigen, dass seine
         Tätigkeit der Umsatzsteuerpflicht unterliegt, wird Exporo diese in der 
@@ -171,6 +173,14 @@
             border-radius: 0.25rem;
             padding: 0 3px;
             font-size: 0.75rem;
+        }
+
+        .firstTable {
+            border-collapse: collapse;
+        }
+
+        .firstTable th, .firstTable td {
+            border: 1px solid black;
         }
     </style>
 @endsection

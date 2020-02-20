@@ -1,6 +1,7 @@
 @extends('contracts.pdf.layout')
 
 @section('content')
+<h1>Tippgebervereinbarung</h1>
 <p style="text-align: center;"><strong>Tippgebervereinbarung</strong></p>
 <p style="text-align: center;">zwischen</p>
 <p>
@@ -16,7 +17,7 @@
         vertr. durch
     @endunless
     {{ $contract->user->first_name }}
-    {{ $contract->user->last_name }}
+    {{ $contract->user->last_name }},<br>
     {{ $contract->user->details->address_street }}
     {{ $contract->user->details->address_number }},
     {{ $contract->user->details->address_zipcode }}
