@@ -46,6 +46,8 @@ Route::name('api.')->middleware('auth:api')->group(static function () {
 
     Route::get('dashboard/investments', [Api\DashboardController::class, 'getInvestments'])
         ->name('dashboard.investments');
+    Route::get('dashboard/commissions', [Api\DashboardController::class, 'getCommissions'])
+        ->name('dashboard.commissions');
 
     Route::get('affiliate-dashboard', [Api\AffiliateDashboardController::class, 'getClicks'])
         ->name('affiliate-dashboard');

@@ -45,7 +45,7 @@
 
                 <p>
                     Bitte geben Sie zur Bestätigung und digiten Unterschrift
-                    Ihren vollständigen Vor- und Zunamen, das heutige Datum und den Ort ein:
+                    Ihren vollständigen Vor- und Zunamen ein:
                 </p>
 
                 @include('components.form.builder', [
@@ -55,7 +55,7 @@
                             'type' => 'text',
                             'label' => 'digitale Unterschrift',
                             'name' => 'signature',
-                            'help' => 'Beispiel: Max Mustermann 01.01.2017 Hamburg',
+                            'help' => 'Beispiel: Max Mustermann',
                         ],
                     ],
                 ])

@@ -21,6 +21,8 @@ class DashboardController extends Controller
      */
     public function getInvestments(Request $request)
     {
+        $this->authorize('management.dashboard.view');
+
         $user = $request->user();
 
         $data = $this->validate($request, [
@@ -35,6 +37,7 @@ class DashboardController extends Controller
                     break;
                 case 'last_month':
                     $periodFrom = Carbon::now()->startOfMonth()->subMonth();
+                    $periodTo = Carbon::now()->startOfMonth();
 
                     break;
                 case 'custom':
@@ -45,9 +48,22 @@ class DashboardController extends Controller
                 default:
                     $periodFrom = Carbon::now()->subDays(30);
             }
+        } else {
+            $periodTo = Carbon::now();
         }
 
         $investmentQuery = $user->investments();
+        $investmentQuery->join('projects', 'investments.project_id', 'projects.id');
+        $investmentQuery->select(
+            'investments.created_at',
+            'investments.amount',
+            'investments.is_first_investment',
+            'investments.investor_id',
+            'investors.last_name',
+            'investors.first_name',
+            'projects.type as project_type',
+            'projects.description'
+        );
 
         if (isset($periodFrom)) {
             $investmentQuery->where('investments.created_at', '>=', $periodFrom);
@@ -57,16 +73,17 @@ class DashboardController extends Controller
             $investmentQuery->where('investments.created_at', '<=', $periodTo);
         }
 
+        $investmentQuery->whereIn('projects.type', ['Exporo Financing', 'Exporo Bestand']);
         $investmentQuery->whereNull('investments.cancelled_at');
         $investmentQuery->orderBy('investments.created_at', 'DESC');
         $investments = $investmentQuery->get()
             ->map(static function (Investment $investment) {
                 $investor = Person::anonymizeName(
-                    $investment->investor->first_name,
-                    $investment->investor->last_name
+                    decrypt($investment->first_name),
+                    decrypt($investment->last_name)
                 );
 
-                switch ($investment->project->type) {
+                switch ($investment->project_type) {
                     case "Exporo Financing":
                         $type = "Exporo Finanzierung";
 
@@ -82,7 +99,7 @@ class DashboardController extends Controller
                 return [
                     'amount' => $investment->amount,
                     'is_first_investment' => $investment->is_first_investment,
-                    'project_name' => $investment->project->description,
+                    'project_name' => $investment->description,
                     'created_at' => $investment->created_at,
                     'investment_type' => $investment->is_first_investment ? 'first' : 'subsequent',
                     'investor' => $investor,
@@ -91,25 +108,74 @@ class DashboardController extends Controller
                 ];
             })->all();
 
+        return [
+            'investments' => $investments,
+            'draw' => $request->draw,
+        ];
+    }
+
+    /**
+     * @param  Request  $request
+     * @return Array
+     * @throws ValidationException
+     */
+    public function getCommissions(Request $request)
+    {
+        $this->authorize('management.dashboard.view');
+
+        $user = $request->user();
+
+        $data = $this->validate($request, [
+            'period' => ['nullable', 'in:this_month,last_month,default,custom'],
+        ]);
+
+        if (isset($data['period'])) {
+            switch ($data['period']) {
+                case 'this_month':
+                    $periodFrom = Carbon::now()->startOfMonth();
+
+                    break;
+                case 'last_month':
+                    $periodFrom = Carbon::now()->startOfMonth()->subMonth();
+                    $periodTo = Carbon::now()->startOfMonth();
+
+                    break;
+                case 'custom':
+                    $periodFrom = isset($request->first) ? Carbon::create($request->first)->startOfDay() : null;
+                    $periodTo = isset($request->second) ? Carbon::create($request->second)->endOfDay() : null;
+
+                    break;
+                default:
+                    $periodFrom = Carbon::now()->subDays(30);
+            }
+        } else {
+            $periodTo = Carbon::now();
+        }
+
         $commissionQuery = $user->commissions();
+        $commissionQuery->join('bills', 'commissions.bill_id', 'bills.id');
+        $commissionQuery->selectRaw(
+            'bills.created_at, SUM(commissions.gross) as gross'
+        );
 
         if (isset($periodFrom)) {
-            $secondDate = $periodTo ?? Carbon::now();
+            $secondDate = isset($request->second) ? Carbon::create($request->second)->endOfDay() : Carbon::now();
 
             if ($periodFrom->diffInMonths($secondDate) < 6) {
                 $periodFrom = $secondDate->endOfDay()->subMonths(6);
             }
 
-            $commissionQuery->where('commissions.created_at', '>=', $periodFrom);
+            $commissionQuery->where('bills.created_at', '>=', $periodFrom);
         }
 
-        if (!isset($periodTo)) {
-            $periodTo = Carbon::now();
+        if (isset($periodTo)) {
+            $commissionQuery->where('bills.created_at', '<=', $periodTo);
         }
 
-        $commissionQuery->where('commissions.created_at', '<=', $periodTo);
-
+        $commissionQuery->groupBy('bills.created_at');
         $commissionQuery->whereNotNull('bill_id');
+        $commissionQuery->where('gross', '>=', 0);
+
         $commissions = $commissionQuery->get()
             ->map(static function (Commission $commission) {
                 return [
@@ -119,7 +185,6 @@ class DashboardController extends Controller
             })->all();
 
         return [
-            'investments' => $investments,
             'commissions' => $commissions,
             'draw' => $request->draw,
         ];

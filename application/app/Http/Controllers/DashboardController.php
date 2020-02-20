@@ -19,6 +19,10 @@ class DashboardController extends Controller
             return redirect()->route('accounting');
         }
 
-        return response()->view('dashboard.index');
+        $user = $request->user();
+
+        $count = $user->investments()->count();
+
+        return response()->view('dashboard.index', ['investmentCount' => $count]);
     }
 }

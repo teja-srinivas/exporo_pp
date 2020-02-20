@@ -15,21 +15,21 @@
       </div>
       <div class="col-lg-2 pl-2">
         <label class="m-0">bis:</label>
-        <vuejs-datepicker
-          input-class="form-control"
+        <flat-pickr
           v-model="date.second"
-        ></vuejs-datepicker>
+          class="form-control"
+        />
       </div>
       <div class="col-lg-2 pl-2">
         <label class="m-0">von:</label>
-        <vuejs-datepicker
-          input-class="form-control"
+        <flat-pickr
           v-model="date.first"
-        ></vuejs-datepicker>
+          class="form-control"
+        />
       </div>
     </div>
     <div 
-      v-if="commissions.length > 0 && !loading"
+      v-if="commissions.length > 0 && !loadingCommissions"
       class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 mb-3"
     >
       <div>
@@ -44,8 +44,16 @@
         :height="280"
       ></apexchart>
     </div>
-    <div v-else-if="!loading" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
+    
+    <div v-else-if="!loadingCommissions" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
       Keine Provisionsdaten verfügbar
+    </div>
+
+    <div v-else-if="loadingCommissions" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
+      <vue-simple-spinner
+        size="large"
+      ></vue-simple-spinner>
+      Provisionsdaten werden geladen
     </div>
 
     <div v-if="investments.length > 0 && !loading">
@@ -106,12 +114,16 @@
       </div>
 
       <div class="d-flex mt-3">
-        <div class="rounded shadow-sm bg-white py-3 w-50 mr-2">
+        <div
+          class="rounded shadow-sm bg-white py-3 w-50 mr-2"
+          style="max-width: 485.33px;"
+        >
           <div>
             <apexchart
               type="bar"
               :options="investmentsByPeriodOptionsFirst"
               :series="investmentsByPeriodSeriesFirst"
+              class="mr-3"
               height="285"
             ></apexchart>
           </div>
@@ -125,12 +137,16 @@
           </div>
         </div>
         
-        <div class="rounded shadow-sm bg-white py-3 w-50 ml-2">
+        <div
+          class="rounded shadow-sm bg-white py-3 w-50 ml-2"
+          style="max-width: 485.33px;"
+        >
           <div>
             <apexchart
               type="bar"
               :options="investmentsByPeriodOptionsSecond"
               :series="investmentsByPeriodSeriesSecond"
+              class="mr-3"
               height="285"
             ></apexchart>
           </div>
@@ -150,9 +166,8 @@
     <div v-else-if="loading" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
       <vue-simple-spinner
         size="large"
-        :line-fg-color="colors.subsequentInvestment"
       ></vue-simple-spinner>
-      Daten werden geladen
+      Investmentdaten werden geladen
     </div>
 
     <div v-else class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
@@ -162,7 +177,7 @@
     <div v-if="investments.length > 0 && !loading" class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3">
       <div>
         <span class="h3">
-          Letzte Investments
+          Investments
         </span>
       </div>
       <data-table
@@ -185,16 +200,23 @@ import map from 'lodash/map';
 import forEach from 'lodash/forEach';
 import orderBy from 'lodash/orderBy';
 import Spinner from 'vue-simple-spinner';
-import Datepicker from 'vuejs-datepicker';
+import FlatPickr from 'vue-flatpickr-component';
+import { German } from 'flatpickr/dist/l10n/de';
+import 'flatpickr/dist/flatpickr.css';
+
 
 export default {
   components: {
     'vue-simple-spinner': Spinner,
-    'vuejs-datepicker': Datepicker,
+    'flat-pickr': FlatPickr,
   },
 
   props: {
-    api: {
+    apiInvestments: {
+      type: String,
+      required: true,
+    },
+    apiCommissions: {
       type: String,
       required: true,
     },
@@ -203,6 +225,7 @@ export default {
   data() {
     return {
       loading: true,
+      loadingCommissions: true,
       noData: {
         text: 'keine Daten verfügbar',
         align: 'center',
@@ -229,7 +252,8 @@ export default {
         first: 'Exporo Finanzierung',
         second: 'Exporo Bestand',
       },
-      draw: 0,
+      drawInvestments: 0,
+      drawCommissions: 0,
       date: {
         first: '',
         second: '',
@@ -305,6 +329,7 @@ export default {
       if (value != 'custom') {
         this.date.first = '';
         this.date.second = '';
+        this.getCommissions();
         this.getInvestments();
       }
     },
@@ -312,6 +337,7 @@ export default {
       handler: function (value) {
         if (value.first != '' || value.second != '') {
           this.periodSelected = 'custom';
+          this.getCommissions();
           this.getInvestments();
         }
       },
@@ -321,12 +347,12 @@ export default {
 
   computed: {
     getChartHeightFirst() {
-      let number = this.investmentsByProjectSeriesFirst[0].data.length;
+      let number = this.investmentsByProjectSeriesFirst[0] ? this.investmentsByProjectSeriesFirst[0].data.length : 0;
       return this.getChartHeight(number);
     },
 
     getChartHeightSecond() {
-      let number = this.investmentsByProjectSeriesSecond[0].data.length;
+      let number = this.investmentsByProjectSeriesSecond[0] ? this.investmentsByProjectSeriesSecond[0].data.length : 0;
       return this.getChartHeight(number);
     },
 
@@ -355,6 +381,8 @@ export default {
           type: "datetime",
         },
         yaxis: {
+          min: 0,
+          forceNiceScale: true,
           labels: {
             formatter: function (value) {
               return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
@@ -464,6 +492,13 @@ export default {
           enabled: false,
         },
         xaxis: {},
+        yaxis: {
+          labels: {
+            formatter: function (value) {
+              return isNaN(value) ? value : new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
+            }
+          },
+        },
         plotOptions: {
           bar: {
             horizontal: true,
@@ -493,6 +528,13 @@ export default {
           enabled: false,
         },
         xaxis: {},
+        yaxis: {
+          labels: {
+            formatter: function (value) {
+              return isNaN(value) ? value : new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
+            }
+          },
+        },
         plotOptions: {
           bar: {
             horizontal: true,
@@ -526,6 +568,7 @@ export default {
   },
 
   created() {
+    this.getCommissions();
     this.getInvestments();
   },
 
@@ -766,20 +809,19 @@ export default {
     },
 
     getInvestments() {
-      this.draw++;
+      this.drawInvestments++;
       let params = {
         period: this.periodSelected,
-        draw: this.draw,
+        draw: this.drawInvestments,
         ... this.date,
       };
       this.loading = true;
 
-      axios.get(this.api, {
+      axios.get(this.apiInvestments, {
         params,
       }).then(({ data }) => {
-        if (data.draw == this.draw) {
+        if (data.draw == this.drawInvestments) {
           this.investments = data.investments;
-          this.commissions = data.commissions;
           this.loading = false;
 
           //first column
@@ -796,6 +838,27 @@ export default {
         }
       }).catch(() => {
           this.loading = false;
+      });
+    },
+
+    getCommissions() {
+      this.drawCommissions++;
+      let params = {
+        period: this.periodSelected,
+        draw: this.drawCommissions,
+        ... this.date,
+      };
+      this.loadingCommissions = true;
+
+      axios.get(this.apiCommissions, {
+        params,
+      }).then(({ data }) => {
+        if (data.draw == this.drawCommissions) {
+          this.commissions = data.commissions;
+          this.loadingCommissions = false;
+        }
+      }).catch(() => {
+        this.loadingCommissions = false;
       });
     },
   },
