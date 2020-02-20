@@ -20,7 +20,7 @@
                 und Tools für eine nahtlose digitale Integration.
             </div>
             <div>
-              <h4 class="mt-3 mb-0">Sehen Sie auf einen Blick die Entwicklung Ihrer Provisionen</h4>
+              <h4 class="mt-3 mb-3">Sehen Sie auf einen Blick die Entwicklung Ihrer Provisionen</h4>
                 <img
                     src="{{ url('/images/investment_placeholder.png') }}"
                     alt="Provisionsbeispiel"
