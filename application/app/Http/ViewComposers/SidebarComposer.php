@@ -243,7 +243,7 @@ class SidebarComposer
                     [
                         'title' => 'Übersicht',
                         'url' => route('affiliate.dashboard.index'),
-                        'isActive' => $this->request->routeIs('affiliate.dasboard.*'),
+                        'isActive' => $this->request->routeIs('affiliate.dashboard.*'),
                         'isAllowed' => $this->user->can('management.affiliate.dashboard.view'),
                     ],
                     [
