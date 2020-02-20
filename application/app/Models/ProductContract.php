@@ -30,11 +30,6 @@ class ProductContract extends Contract
         });
     }
 
-    public function groupedBonuses(): HasMany
-    {
-        return $this->bonuses()->groupBy('type_id');
-    }
-
     public function bonuses(): HasMany
     {
         return $this->hasMany(CommissionBonus::class);
