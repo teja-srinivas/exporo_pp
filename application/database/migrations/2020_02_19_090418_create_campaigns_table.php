@@ -17,12 +17,14 @@ class CreateCampaignsTable extends Migration
     {
         Schema::create('campaigns', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('set_id');
-            $table->string('image')->nullable();
-            $table->string('document')->nullable();
+            $table->string('image_url')->nullable();
+            $table->string('document_url')->nullable();
+            $table->string('image_name')->nullable();
+            $table->string('document_name')->nullable();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(false);
+            $table->boolean('all_users')->default(true);
             $table->dateTime('started_at')->nullable();
             $table->dateTime('ended_at')->nullable();
             $table->timestamps();

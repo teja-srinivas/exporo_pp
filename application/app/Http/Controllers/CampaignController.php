@@ -22,20 +22,10 @@ class CampaignController extends Controller
      * @param  Request  $request
      * @return \Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index()
     {
-        $campaigns = Campaign::query()
-            ->get()
-            ->map(static function (Campaign $campaign) {
-                return [
-                    'title' => $campaign->title,
-                    'id' => $campaign->id,
-                ];
-            });
-
-        
         return view('campaigns.index', [
-            'campaigns' => $campaigns,
+            'campaigns' => Campaign::query()->get(),
         ]);
     }
 
@@ -46,7 +36,7 @@ class CampaignController extends Controller
      */
     public function create()
     {
-        
+        return view('campaigns.create');
     }
 
     /**
@@ -69,7 +59,12 @@ class CampaignController extends Controller
      */
     public function edit(Campaign $campaign)
     {
-        
+        $campaign->image_url = $campaign->getImageDownloadUrl();
+        $campaign->document_url = $campaign->getDocumentDownloadUrl();
+
+        return view('campaigns.edit', [
+            'campaign' => $campaign,
+        ]);
     }
 
     /**

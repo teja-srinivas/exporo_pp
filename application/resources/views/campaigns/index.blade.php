@@ -15,15 +15,15 @@
 
 @section('main-content')
     @card
-        <div class="lead text-center text-muted">
+        <div class="lead text-muted">
             Hier etwas Text
         </div>
     @endcard
 
     @forelse($campaigns as $campaign)
-        <a href="{{ route('campaigns.show', $campaigns) }}"
+        <a href="{{ route('campaigns.edit', $campaign) }}"
            class="d-block p-3 rounded bg-white shadow-sm my-2 lead font-weight-bold leading-sm">
-            {{ $campaigns->title }}
+            {{ $campaign->title }}
         </a>
     @empty
         <div class="p-3 rounded bg-white shadow-sm my-2 text-muted text-center">

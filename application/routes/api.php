@@ -49,7 +49,9 @@ Route::name('api.')->middleware('auth:api')->group(static function () {
     Route::get('dashboard/commissions', [Api\DashboardController::class, 'getCommissions'])
         ->name('dashboard.commissions');
 
-    Route::apiResource('campaigns', Api\DashboardController::class)
+    Route::apiResource('campaigns', Api\CampaignController::class)
         ->except('index')
         ->names('campaigns');
+    Route::post('campaigns/file', [Api\CampaignController::class, 'deleteFile'])
+        ->name('campaigns.file.delete');
 });
