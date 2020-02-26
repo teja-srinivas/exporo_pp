@@ -269,7 +269,7 @@ export default {
         phone: 'Mobil',
         null: 'unbestimmt',
         link: 'Link',
-        banner: 'Banner',
+        banner_link: 'Banner',
         embed: 'Iframe',
       },
     };
