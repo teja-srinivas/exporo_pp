@@ -139,6 +139,12 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
+              <div
+                v-html="documentError"
+                v-if="documentError"
+              >
+                {{ documentError }}
+              </div>
             </div>
           </div>
           <div class="form-group row">
@@ -162,7 +168,7 @@
                 </button>
               </div>
               <div
-                class="text-warning"
+                v-html="imageError"
                 v-if="imageError"
               >
                 {{ imageError }}
@@ -295,6 +301,7 @@ export default {
         width: 987,
       },
       imageError: null,
+      documentError: null,
       image: null,
       document: null,
       showImage: true,
@@ -313,8 +320,14 @@ export default {
   methods: {
     onDocumentUpload(e) {
       let files = e.target.files || e.dataTransfer.files;
+      const mimes = ['pdf'];
 
       if (!files.length) {
+        return;
+      }
+
+      if (!this.validateMime(files[0].name, mimes)) {
+        this.documentError = `<span class="text-danger">Ungültiges Dateiformat. Nur ${mimes.join(', ')}.</span>`;
         return;
       }
 
@@ -323,8 +336,14 @@ export default {
 
     onImageUpload(e) {
       let files = e.target.files || e.dataTransfer.files;
+      const mimes = ['png', 'jpg', 'gif'];
 
       if (!files.length) {
+        return;
+      }
+
+      if (!this.validateMime(files[0].name, mimes)) {
+        this.imageError = `<span class="text-danger">Ungültiges Dateiformat. Nur ${mimes.join(', ')}.</span>`;
         return;
       }
 
@@ -355,11 +374,21 @@ export default {
 
     validateImage(dimensions) {
       if (dimensions.height !== this.imageDimensions.height || dimensions.height !== this.imageDimensions.height) {
-        this.imageError = `Warnung: Die Abmessungen des hochgeladenen Bildes weichen von den empfohlenen Abmessungen ab:
-          Höhe: ${dimensions.height} px, Breite ${dimensions.width} px.`;
+        this.imageError = `<span class="text-warning">Warnung: Die Abmessungen des hochgeladenen Bildes weichen von den empfohlenen Abmessungen ab:
+          Höhe: ${dimensions.height} px, Breite ${dimensions.width} px.</span>`;
       } else {
         this.imageError = null;
       }
+    },
+
+    validateMime(fileName, mimes) {
+      const split = fileName.split('.');
+
+      if (mimes.includes(split[1])) {
+        return true;
+      }
+
+      return false;
     },
 
     submitForm() {
@@ -385,8 +414,9 @@ export default {
         }).catch(() => {
           //
         });
-      } else if (this.action === 'create') {
-        axios.put(this.api.put, formData).then(
+      } else if (this.action === 'edit') {
+        formData.append('_method', 'put');
+        axios.post(this.api.put, formData).then(
           () => { 
             window.location.href = redirect;
         }).catch(() => {

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Campaign;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreCampaign;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
@@ -37,18 +38,9 @@ class CampaignController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCampaign $request)
     {
-        $data = $this->validate($request, [
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'is_active' => 'required|boolean',
-            'all_users' => 'required|boolean',
-            'started_at' => 'date|nullable',
-            'ended_at' => 'date|nullable',
-            'image' => 'mimes:jpeg,gif,png|nullable',
-            'document' => 'mimes:pdf|nullable',
-        ]);
+        $data = $request->validated();
 
         $campaign = new Campaign($data);
         $image = $request->file('image');
@@ -96,9 +88,33 @@ class CampaignController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Campaign $campaign, StoreCampaign $request)
     {
-        //
+        $data = $request->validated();
+
+        $campaign->update($data);
+        $image = $request->file('image');
+        $document = $request->file('document');
+
+        if (isset($data['image'])) {
+            $file = $campaign->getImageDownloadUrl();
+//TODO add      disk($campaign->disk)->
+            Storage::delete($file);
+//TODO add      disk($campaign->disk)->
+            $campaign->image_url = Storage::put($campaign->getImagePath(), $image, 'public');
+            $campaign->image_name = $image->getClientOriginalName();
+        }
+
+        if (isset($data['document'])) {
+            $file = $campaign->getDocumentDownloadUrl();
+ //TODO add      disk($campaign->disk)->
+            Storage::delete($file);
+//TODO add      disk($campaign->disk)->
+            $campaign->document_url = Storage::put($campaign->getDocumentPath(), $document, 'public');
+            $campaign->document_name = $document->getClientOriginalName();
+        }
+
+        $campaign->save();
     }
 
     /**
