@@ -85,7 +85,7 @@ class AffiliateDashboardController extends Controller
                     'device' => $click->device,
                     'country' => $click->country,
                     'investment_type' => $investment !== null ?
-                        ($investment->is_first_investment ? 'first' : 'subsequent') :
+                        ($investment->is_first_investment ? "first" : "subsequent") :
                     'null',
                     'investor_id' => $investment !== null ? $investment->investor_id : "null",
                     'investment_id' => $investment !== null ? $investment->id : "null",
