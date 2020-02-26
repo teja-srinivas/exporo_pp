@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\LinkClick;
+use App\LinkInstance;
 use App\Jobs\SendMail;
 use App\Traits\Person;
 use App\Traits\HasRoles;
@@ -156,6 +158,18 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     public function partnerContracts(): HasMany
     {
         return $this->hasMany(PartnerContract::class);
+    }
+
+    public function linkClicks(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            LinkClick::class,
+            LinkInstance::class,
+            'user_id',
+            'instance_id',
+            'id',
+            'id'
+        );
     }
 
     public function productContract(): HasOne

@@ -241,6 +241,12 @@ class SidebarComposer
                 'title' => 'Werbemittel',
                 'links' => [
                     [
+                        'title' => 'Übersicht',
+                        'url' => route('affiliate.dashboard.index'),
+                        'isActive' => $this->request->routeIs('affiliate.dashboard.*'),
+                        'isAllowed' => $this->user->can('management.affiliate.dashboard.view'),
+                    ],
+                    [
                         'title' => 'Iframe',
                         'url' => route('affiliate.embeds.index'),
                         'isActive' => $this->request->routeIs('affiliate.embeds.*'),
