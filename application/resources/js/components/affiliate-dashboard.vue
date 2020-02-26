@@ -144,7 +144,6 @@
     <div v-else class="rounded shadow-sm bg-white p-3 w-100 mr-2 mt-3 lead text-center text-muted">
       Keine Daten verfügbar
     </div>
-
   </div>
 </template>
 
@@ -315,14 +314,14 @@ export default {
     countInvestors() {
       return keys(
         groupBy(
-          filter(this.clicks, function(o) { return o.investor_id === null ? false : true; }),
+          filter(this.clicks, function(o) { return o.investor_id === "null" ? false : true; }),
         'investor_id')
       ).length;
     },
 
     countFirstInvestments() {
       let groupedInvestments = groupBy(
-          filter(this.clicks, function(o) { return o.investor_id === null ? false : true; }),
+          filter(this.clicks, function(o) { return o.investor_id === "null" ? false : true; }),
         'investment_type'
        );
 
@@ -330,7 +329,7 @@ export default {
     },
 
     countTotalInvestments() {
-      return countBy(this.clicks, function(o) { return o.investor_id === null ? false : true; }).true || 0;
+      return countBy(this.clicks, function(o) { return o.investor_id === "null" ? false : true; }).true || 0;
     },
 
     filteredData() {
@@ -412,7 +411,7 @@ export default {
       //prevent display bug
       if (categories.length === 1) {
         let date = new Date(categories[0]);
-        categories.push(date.setDate(date.getDate() + 1));
+        categories.push(date.setDate(date.getDate() - 1));
       }
 
       return {
