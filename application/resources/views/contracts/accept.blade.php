@@ -32,7 +32,7 @@
                     @include('components.bundle-editor', [
                         'bonuses' => $bonuses,
                         'editable' => false,
-                        'legacy' => false,
+                        'legacy' => true,
                     ])
                 </div>
 
