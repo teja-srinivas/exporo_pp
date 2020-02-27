@@ -164,8 +164,8 @@ class DashboardController extends Controller
         $baseQuery->whereNotNull('bill_id');
         $baseQuery->where('gross', '>=', 0);
 
-        $commissionQuery = $baseQuery;
-    
+        $commissionQuery = clone $baseQuery;
+
         if (isset($periodFrom)) {
             $secondDate = isset($request->second) ? Carbon::create($request->second)->endOfDay() : Carbon::now();
 
