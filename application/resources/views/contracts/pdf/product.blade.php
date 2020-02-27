@@ -120,7 +120,7 @@
         'legacy' => true,
     ])
 
-    @if($contract->user->contract->allow_overhead)
+    @if($contract->user->contract && $contract->user->contract->allow_overhead)
     <p style="margin-left: 2rem;">
         Der Partner, dessen Sub-Partner ein Endgültiges Investment vermittelt 
         hat, erhält eine Overhead-Partner Provision. Bei der Berechnung der
