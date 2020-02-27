@@ -181,11 +181,13 @@ class DashboardController extends Controller
         }
 
         $commissions = $commissionQuery->get();
+        $sql = $commissionQuery->toSql();
 
         if (count($commissions) < 6) {
             $fallbackQuery = $baseQuery->where('bills.created_at', '<=', $periodTo);
             $fallbackQuery->orderBy('bills.created_at', 'desc');
             $commissions = $fallbackQuery->take(6)->get();
+            $sql = $fallbackQuery->toSql();
         }
 
         $mapped = $commissions->map(static function (Commission $commission) {
@@ -198,6 +200,7 @@ class DashboardController extends Controller
         return [
             'commissions' => $mapped,
             'draw' => $request->draw,
+            'sql' => $sql,
         ];
     }
 }
