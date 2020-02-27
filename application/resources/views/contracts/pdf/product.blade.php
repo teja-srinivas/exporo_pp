@@ -1,6 +1,6 @@
 @extends('contracts.pdf.layout')
 @section('content')
-    <h1 style="text-align: center">Anhang "Provisionsvereinbarungen"-1</h1>
+    <h1 style="text-align: center">Anhang Provisionsvereinbarungen</h1>
     <h3><strong>1. Finanzprodukte</strong></h3>
     <div style="margin-left: 2rem;">
         <p>
@@ -128,8 +128,8 @@
         jeweilige Finanzprodukt vereinbarte Prozentsatz heranzuziehen und
         von diesem Prozentsatz ist die Provision des Sub-Partners zu 
         subtrahieren. Beispiel: Wurde mit dem Overhead-Partner eine Höhe 
-        von 2,50 % vereinbart und erhält der Sub-Partner für das Investment 
-        3,00 %, so ergibt sich für den Overhead-Partner einen für die Berechnung 
+        von 3,00 % vereinbart und erhält der Sub-Partner für das Investment 
+        2,50 %, so ergibt sich für den Overhead-Partner einen für die Berechnung 
         der Vergütung heranzuziehenden Prozentsatz von 0,50 %.
     </p>
     @endif
@@ -137,10 +137,12 @@
     <h3><strong>3. Umsatzsteuer</strong></h3>
     <p style="margin-left: 2rem;">
         Die Provisionen werden von Exporo umsatzsteuerfrei in Rechnung gestellt.
-        // Sollte der Partner gegenüber Exporo anzeigen, dass seine
-        Tätigkeit der Umsatzsteuerpflicht unterliegt, wird Exporo diese in der 
-        Abrechnung gesondert ausweisen/ wird die Provision inklusive der
-        Umsatzsteuer ausgewiesen.
+        @if($contract->vat_amount )
+            Sollte der Partner gegenüber Exporo anzeigen, dass seine
+            Tätigkeit der Umsatzsteuerpflicht unterliegt, wird Exporo diese in der 
+            Abrechnung gesondert ausweisen/ wird die Provision inklusive der
+            Umsatzsteuer ausgewiesen.
+        @endif
     </p>
 
     <!-- Scripts -->
