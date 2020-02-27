@@ -133,6 +133,7 @@ class DashboardController extends Controller
             switch ($data['period']) {
                 case 'this_month':
                     $periodFrom = Carbon::now()->startOfMonth();
+                    $periodTo = Carbon::now();
 
                     break;
                 case 'last_month':
@@ -147,17 +148,24 @@ class DashboardController extends Controller
                     break;
                 default:
                     $periodFrom = Carbon::now()->subDays(30);
+                    $periodTo = Carbon::now();
             }
         } else {
             $periodTo = Carbon::now();
         }
 
-        $commissionQuery = $user->commissions();
-        $commissionQuery->join('bills', 'commissions.bill_id', 'bills.id');
-        $commissionQuery->selectRaw(
+        $baseQuery = $user->commissions();
+        $baseQuery->join('bills', 'commissions.bill_id', 'bills.id');
+        $baseQuery->selectRaw(
             'bills.created_at, SUM(commissions.gross) as gross'
         );
 
+        $baseQuery->groupBy('bills.created_at');
+        $baseQuery->whereNotNull('bill_id');
+        $baseQuery->where('gross', '>=', 0);
+
+        $commissionQuery = $baseQuery;
+    
         if (isset($periodFrom)) {
             $secondDate = isset($request->second) ? Carbon::create($request->second)->endOfDay() : Carbon::now();
 
@@ -172,20 +180,23 @@ class DashboardController extends Controller
             $commissionQuery->where('bills.created_at', '<=', $periodTo);
         }
 
-        $commissionQuery->groupBy('bills.created_at');
-        $commissionQuery->whereNotNull('bill_id');
-        $commissionQuery->where('gross', '>=', 0);
+        $commissions = $commissionQuery->get();
 
-        $commissions = $commissionQuery->get()
-            ->map(static function (Commission $commission) {
-                return [
-                    'amount' => $commission->gross,
-                    'created_at' => $commission->created_at,
-                ];
-            })->all();
+        if (count($commissions) < 6) {
+            $fallbackQuery = $baseQuery->where('bills.created_at', '<=', $periodTo);
+            $fallbackQuery->orderBy('bills.created_at', 'desc');
+            $commissions = $fallbackQuery->take(6)->get();
+        }
+
+        $mapped = $commissions->map(static function (Commission $commission) {
+            return [
+                'amount' => $commission->gross,
+                'created_at' => $commission->created_at,
+            ];
+        })->all();
 
         return [
-            'commissions' => $commissions,
+            'commissions' => $mapped,
             'draw' => $request->draw,
         ];
     }
