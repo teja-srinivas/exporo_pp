@@ -56,7 +56,7 @@
         </p>
         <div style="margin-left: 2rem;">
             <p>
-                i.  Exporo Finanzierung: Exporo bietet über die Webseite 
+                <strong>i.</strong> Exporo Finanzierung: Exporo bietet über die Webseite 
                 <a href="http://exporo.de/">https://exporo.de</a> den Zugang und
                 das Netzwerk zu professionellen Immobilienprojekten, in welche
                 Investoren über die Plattform ab 100€ in eine Vermögensanlage
@@ -81,7 +81,7 @@
                 (nachfolgend "<strong>Exporo Finanzierung</strong>").
             </p>
             <p>
-                ii. Exporo Bestand: Exporo bietet über die Webseite
+                <strong>ii.</strong> Exporo Bestand: Exporo bietet über die Webseite
                 <a href="http://exporo.de/">https://exporo.de</a> im Rahmen des
                 Produktes "Exporo Bestand" Bestandsobjekte, die in der Regel
                 vermietet sind oder vermietet werden sollen. Ein Teil des
@@ -96,7 +96,7 @@
                 Immobilie (nachfolgend "<strong>Exporo Bestand</strong>").
             </p>
             <p>
-                iii. Exporo behält sich das Recht vor, die bestehenden
+                <strong>iii.</strong> Exporo behält sich das Recht vor, die bestehenden
                 Finanzprodukte jederzeit anzupassen oder durch neue zu
                 erweitern. Über Änderungen wird der Partner durch Exporo
                 informiert, indem Exporo einen aktualisierten Anhang 
