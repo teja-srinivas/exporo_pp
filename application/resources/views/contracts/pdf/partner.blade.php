@@ -212,21 +212,21 @@
     erfolgen, ohne dass die Aufzählung abschließend wäre:
 </p>
 <p style="margin-left: 4rem;">
-    1. Der potentielle Investor ist nicht volljährig oder sonst nicht
+    <strong>i.</strong> Der potentielle Investor ist nicht volljährig oder sonst nicht
     geschäftsfähig;
 </p>
 <p style="margin-left: 4rem;">
-    2. der potentielle Investor ist keine natürliche oder juristische Person
+    <strong>ii.</strong> der potentielle Investor ist keine natürliche oder juristische Person
     (zum Beispiel bei Registrierungen über automatische Scripts/Bots oder
     ähnlich);
 </p>
 <p style="margin-left: 4rem;">
-    3. der potentielle Investor ist bereits registrierter Nutzer bzw.
+    <strong>iii.</strong> der potentielle Investor ist bereits registrierter Nutzer bzw.
     bestehender Investor von Exporo oder Unternehmen der Exporo Gruppe
     (vorbehaltlich vorstehende Ziffer 2. a. v. findet Anwendung);
 </p>
 <p style="margin-left: 4rem;">
-    4. es bestehen Anhaltspunkte dafür, dass der potentielle Investor
+    <strong>iv.</strong> es bestehen Anhaltspunkte dafür, dass der potentielle Investor
     tatsächlich nicht existiert oder tatsächlich kein Aufbau einer
     Geschäftsbeziehung beabsichtigt ist (z.B. bei der Verwendung sog.
     Fake-Accounts, der Verwendung sog. „Wegwerf-Emailadressen“ oder der Eingabe
@@ -337,7 +337,7 @@
 </p>
 <p style="margin-left: 4rem;">
     <span>
-        1. Der Anspruch des Partners auf Overhead-Partner Vergütung besteht nur
+        <strong>i.</strong> Der Anspruch des Partners auf Overhead-Partner Vergütung besteht nur
         dann, wenn der Sub-Partner selbst einen Anspruch auf Vergütung hat.
         Sollte der namhaftgemachte Sub-Partner die Zusammenarbeit beenden oder
         aus sonstigen Gründen keine Provision erhalten, erhält auch der Partner
@@ -346,7 +346,7 @@
 </p>
 <p style="margin-left: 4rem;">
     <span>
-        2. Sieht sich Exporo aus Wettbewerbsgründen veranlasst, in Einzelfällen
+        <strong>ii.</strong> Sieht sich Exporo aus Wettbewerbsgründen veranlasst, in Einzelfällen
         eine ungewöhnlich niedrige eigene Vergütung aus einem Projekt mit seinen
         Kooperationspartnern zu akzeptieren, so kann die dem Partner für diese
         Geschäfte zustehende Vergütung angemessen gekürzt werden. Namentlich
@@ -361,7 +361,7 @@
 </p>
 <p style="margin-left: 4rem;">
     <span>
-        3. Sieht sich Exporo aus Wettbewerbsgründen veranlasst, in Einzelfällen
+        <strong>iii.</strong> Sieht sich Exporo aus Wettbewerbsgründen veranlasst, in Einzelfällen
         mit einem Sub-Partner eine zusätzliche Vergütung zu vereinbaren, so kann
         die dem Partner für diese Geschäfte zustehende Vergütung ebenfalls
         angemessen gekürzt werden. Die Kürzung erfolgt über eine (ggf. anteilige)
@@ -460,7 +460,7 @@
     @empty($contract->special_agreement)
         Nebenabreden zu diesem Vertrag sind nicht getroffen.
     @else
-        {{ $$contract->special_agreement }}
+        {{ $contract->special_agreement }}
     @endempty
 </p>
 <p><br /></p>
@@ -510,7 +510,7 @@
             <div style="border-bottom: 1px solid black">
                 @if($contract->accepted_at !== null)
                 {{ $contract->user->company->city }},
-                {{ optional($contract->accepted_at)->format('d.m.Y') }}
+                {{ optional($contract->released_at)->format('d.m.Y') }}
                 @endif
             </div>
             <p style="margin-top: 0.25rem">Ort, Datum</p>

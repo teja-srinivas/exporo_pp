@@ -32,7 +32,7 @@
                     @include('components.bundle-editor', [
                         'bonuses' => $bonuses,
                         'editable' => false,
-                        'legacy' => true,
+                        'legacy' => false,
                     ])
                 </div>
 
@@ -53,7 +53,7 @@
                     'inputs' => [
                         [
                             'type' => 'text',
-                            'label' => 'digitale Unterschrift',
+                            'label' => 'Digitale Unterschrift',
                             'name' => 'signature',
                             'help' => 'Beispiel: Max Mustermann',
                         ],
