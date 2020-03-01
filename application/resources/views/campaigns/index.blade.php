@@ -20,15 +20,41 @@
         </div>
     @endcard
 
-    @forelse($campaigns as $campaign)
-        <a href="{{ route('campaigns.edit', $campaign) }}"
-           class="d-block p-3 rounded bg-white shadow-sm my-2 lead font-weight-bold leading-sm">
-            {{ $campaign->title }}
-        </a>
-    @empty
-        <div class="p-3 rounded bg-white shadow-sm my-2 text-muted text-center">
-            <p>Noch keine Kampagnen angelegt</p>
-            <a href="{{ route('campaigns.create') }}" class="btn btn-primary">Jetzt anlegen</a>
-        </div>
-    @endforelse
+    <table class="bg-white shadow-sm table table-borderless table-hover table-striped table-sticky table-sm">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th width="140">Erstellt</th>
+        </tr>
+        </thead>
+        <tbody>
+            @forelse($campaigns as $campaign)
+                <tr>
+                    <td>
+                        <a href="{{ route('campaigns.edit', $campaign) }}">
+                            {{ $campaign->title }}
+                        </a>
+                    </td>
+                    <td>
+                        @if($campaign->is_active)
+                            <div class="badge badge-info">aktiv</div>
+                        @else
+                            <div class="badge badge-warning">inaktiv</div>
+                        @endif
+                    </td>
+                    <td>
+                      {{ optional($campaign)->created_at->format('d.m.Y') }}
+                    </td>
+                </tr>
+            @empty
+                <tr class="text-center text-muted">
+                    <td colspan="5">
+                        <p>Noch keine Kampagnen angelegt</p>
+                        <a href="{{ route('campaigns.create') }}" class="btn btn-primary">Jetzt anlegen</a>
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
 @endsection

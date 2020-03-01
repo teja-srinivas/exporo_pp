@@ -19,7 +19,6 @@ class CampaignController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -29,13 +28,12 @@ class CampaignController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreCampaign  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCampaign $request)
@@ -45,11 +43,13 @@ class CampaignController extends Controller
         $campaign = new Campaign($data);
         $image = $request->file('image');
         $document = $request->file('document');
+
 //TODO add      disk($campaign->disk)->
         if (isset($data['image'])) {
             $campaign->image_url = Storage::put($campaign->getImagePath(), $image, 'public');
             $campaign->image_name = $image->getClientOriginalName();
         }
+
 //TODO add      disk($campaign->disk)->
         if (isset($data['document'])) {
             $campaign->document_url = Storage::put($campaign->getDocumentPath(), $document, 'public');
@@ -57,6 +57,7 @@ class CampaignController extends Controller
         }
 
         $campaign->save();
+        $campaign->users()->sync(json_decode($data['selection']));
     }
 
     /**
@@ -67,7 +68,6 @@ class CampaignController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -78,14 +78,13 @@ class CampaignController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  StoreCampaign  $request
+     * @param  Campaign  $campaign
      * @return \Illuminate\Http\Response
      */
     public function update(Campaign $campaign, StoreCampaign $request)
@@ -114,6 +113,7 @@ class CampaignController extends Controller
             $campaign->document_name = $document->getClientOriginalName();
         }
 
+        $campaign->users()->sync(json_decode($data['selection']));
         $campaign->save();
     }
 
@@ -125,7 +125,6 @@ class CampaignController extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 
     /**
@@ -149,6 +148,7 @@ class CampaignController extends Controller
             $campaign->document_url = null;
             $campaign->document_name = null;
         }
+
 //TODO add      disk($campaign->disk)->
         Storage::delete($file);
         $campaign->save();

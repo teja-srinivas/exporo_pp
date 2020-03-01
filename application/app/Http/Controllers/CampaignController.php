@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CampaignController extends Controller
 {
@@ -19,7 +21,6 @@ class CampaignController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  Request  $request
      * @return \Illuminate\View\View
      */
     public function index()
@@ -36,7 +37,9 @@ class CampaignController extends Controller
      */
     public function create()
     {
-        return view('campaigns.create');
+        return view('campaigns.create', [
+            'users' => $this->getUsers(),
+        ]);
     }
 
     /**
@@ -48,7 +51,6 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-        
     }
 
     /**
@@ -61,9 +63,13 @@ class CampaignController extends Controller
     {
         $campaign->image_url = $campaign->getImageDownloadUrl();
         $campaign->document_url = $campaign->getDocumentDownloadUrl();
+        $campaign->selection = $campaign->users->map(static function ($user) {
+            return $user->id;
+        });
 
         return view('campaigns.edit', [
             'campaign' => $campaign,
+            'users' => $this->getUsers(),
         ]);
     }
 
@@ -78,7 +84,6 @@ class CampaignController extends Controller
      */
     public function update(Request $request, Campaign $campaign)
     {
-        
         return back();
     }
 
@@ -91,8 +96,34 @@ class CampaignController extends Controller
      */
     public function destroy(Campaign $campaign)
     {
-        
+        if (isset($campaign->image_url)) {
+            $image = $campaign->getImageDownloadUrl();
+            //TODO add      disk($campaign->disk)->
+            Storage::delete($image);
+        }
+
+        if (isset($campaign->document_url)) {
+            $document = $campaign->getImageDownloadUrl();
+            //TODO add      disk($campaign->disk)->
+            Storage::delete($document);
+        }
+
+        $campaign->users()->detach();
+        $campaign->delete();
 
         return redirect()->route('campaigns.index');
+    }
+
+    private function getUsers()
+    {
+        $userQuery = null;
+
+        if (Auth::user()->can('delete', new User())) {
+            $userQuery = User::withTrashed();
+        }
+
+        $userRepository = new UserRepository();
+
+        return $userRepository->forTableView($userQuery);
     }
 }

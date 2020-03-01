@@ -356,6 +356,11 @@ export default {
         order: 'asc',
       }),
     },
+
+    value: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   data() {
@@ -369,11 +374,18 @@ export default {
   created() {
     bus.$on(TOGGLE_SELECTION_ITEM, this.toggleItemSelection);
     bus.$on(TOGGLE_SELECTION_GROUP, this.toggleGroupSelection);
+    this.selection = this.value;
   },
 
   destroyed() {
     bus.$on(TOGGLE_SELECTION_ITEM, this.toggleItemSelection);
     bus.$on(TOGGLE_SELECTION_GROUP, this.toggleGroupSelection);
+  },
+
+  watch: {
+    selection: function (value) {
+      this.$emit('input', value);
+    },
   },
 
   computed: {
@@ -453,7 +465,8 @@ export default {
 
   methods: {
     toggleItemSelection(item) {
-      toggleInArray(this.selection, item[this.primary]);
+      const key = item[this.primary] || item.user[this.primary];
+      toggleInArray(this.selection, key);
     },
 
     toggleGroupSelection(group) {
@@ -474,7 +487,7 @@ export default {
         return;
       }
 
-      this.selection = map(this.rows, value => value[this.primary]);
+      this.selection = map(this.rows, value => value[this.primary] || value.user[this.primary]);
     },
   },
 };

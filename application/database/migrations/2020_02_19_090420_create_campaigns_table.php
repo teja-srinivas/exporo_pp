@@ -15,7 +15,7 @@ class CreateCampaignsTable extends Migration
      */
     public function up()
     {
-        Schema::create('campaigns', function (Blueprint $table) {
+        Schema::create('campaigns', static function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('image_url')->nullable();
             $table->string('document_url')->nullable();
@@ -23,8 +23,10 @@ class CreateCampaignsTable extends Migration
             $table->string('document_name')->nullable();
             $table->string('title');
             $table->text('description')->nullable();
+            $table->string('url')->nullable();
             $table->boolean('is_active')->default(false);
             $table->boolean('all_users')->default(true);
+            $table->boolean('is_blacklist')->default(false);
             $table->dateTime('started_at')->nullable();
             $table->dateTime('ended_at')->nullable();
             $table->timestamps();

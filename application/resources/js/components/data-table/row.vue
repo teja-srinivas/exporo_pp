@@ -104,6 +104,8 @@
             :size="1"
             :count="itemIsSelected(row) ? 1 : 0"
             element="td"
+            :selection="selection"
+            :row="row"
             @change="toggleItemSelection(row)"
           />
 

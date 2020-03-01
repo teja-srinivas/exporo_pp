@@ -13,6 +13,7 @@
         'api' => route('api.campaigns.store'),
         'action' => 'create',
         'redirect' => route('campaigns.index'),
+        'users' => $users
     ])
     <vue v-cloak class="cloak-fade" data-is="campaign-editor" data-props='@json($vueData)' />
 @endsection

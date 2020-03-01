@@ -3,6 +3,22 @@
 @section('title', 'Übersicht')
 
 @section('main-content')
+    @if(count($campaigns) > 0)
+        <div class="slider">
+            @foreach($campaigns as $campaign)
+                <div>
+                    <a 
+                        @if($campaign['url'])
+                            href="{{ $campaign['url'] }}"
+                        @endif
+                    >
+                        <img src="{{ $campaign['image_url'] }}" alt="{{ $campaign['title'] }}" class="banner-img" />
+                    </a>
+                </div>
+            @endforeach
+        </div>
+    @endif
+
     @if($investmentCount > 0)
         @php($vueData = [
             'apiInvestments' => route('api.dashboard.investments'),
@@ -17,3 +33,41 @@
         @endcard
     @endif
 @endsection
+
+<script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            $('.slider').slick({
+                lazyLoad: 'progressive',
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 4000,
+            });
+        });
+</script>
+
+<style>
+    .slider {
+        height: 300px;
+    }
+    .slick-prev{
+        left: 5px;
+        z-index: 10;
+    }
+    .slick-next{
+        right: 5px;
+        z-index: 10;
+    }
+    .slick-prev:before {
+        color: gray;
+    }
+    .slick-next:before {
+        color: gray;
+    }
+    .banner-img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+</style>

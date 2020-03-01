@@ -5,6 +5,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+require('slick-carousel');
+
 import './sentry';
 import './bootstrap';
 import './icons';

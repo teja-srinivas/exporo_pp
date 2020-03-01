@@ -29,12 +29,15 @@ class StoreCampaign extends FormRequest
         return [
             'title' => 'required|string',
             'description' => 'required|string',
+            'url' => 'string|nullable',
             'is_active' => 'required|boolean',
             'all_users' => 'required|boolean',
+            'is_blacklist' => 'required|boolean',
             'started_at' => 'date|nullable',
             'ended_at' => 'date|nullable',
             'image' => 'mimes:jpeg,gif,png|nullable',
             'document' => 'mimes:pdf|nullable',
+            'selection' => 'required|string',
         ];
     }
 }

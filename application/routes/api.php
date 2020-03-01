@@ -50,7 +50,7 @@ Route::name('api.')->middleware('auth:api')->group(static function () {
         ->name('dashboard.commissions');
 
     Route::apiResource('campaigns', Api\CampaignController::class)
-        ->except('index')
+        ->only('store', 'update')
         ->names('campaigns');
     Route::post('campaigns/file', [Api\CampaignController::class, 'deleteFile'])
         ->name('campaigns.file.delete');
