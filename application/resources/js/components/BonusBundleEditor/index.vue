@@ -219,6 +219,7 @@ export default {
       const isPercentage = filter(isOverhead, ['isPercentage', true]);
 
       /*
+      //subtract related value from overhead value
       each(isPercentage, item => {
         const related = this.findRelated(items, item);
         if (related) {
