@@ -508,7 +508,7 @@
     <tr>
         <td>
             <div style="border-bottom: 1px solid black">
-                @if($contract->accepted_at !== null)
+                @if($contract->released_at !== null)
                 {{ $contract->user->company->city }},
                 {{ optional($contract->released_at)->format('d.m.Y') }}
                 @endif
