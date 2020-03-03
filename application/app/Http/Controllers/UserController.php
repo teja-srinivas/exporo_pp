@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Agb;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Company;
@@ -79,7 +80,11 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request, Hasher $hasher)
     {
-        $user = DB::transaction(static function () use ($request, $hasher) {
+        $agbs = collect(Agb::TYPES)->map(static function (string $type) {
+            return Agb::current($type);
+        })->filter()->pluck('id');
+
+        $user = DB::transaction(static function () use ($request, $hasher, $agbs) {
             $company = Company::query()->first();
 
             $user = new User($request->validated());
@@ -87,7 +92,7 @@ class UserController extends Controller
             $user->password = $hasher->make(Str::random());
             $user->company()->associate($company);
             $user->save();
-
+            $user->agbs()->attach($agbs);
             $user->details->fill($request->validated())->saveOrFail();
 
             $company->createContractsFor($user, $request->contracts);

@@ -129,9 +129,9 @@
 @endif
 
 <p style="margin-left: 2rem;">
-    Diese Vereinbarung ersetzt hiermit ab dem Wirksamwerden dieser
-    Vereinbarung alle etwaigen früheren Vereinbarungen über die
-    Teilnahme am Partnerprogramm zwischen den Parteien.
+    Mit Wirksamwerden dieser Vereinbarung werden alle etwaigen früheren
+    Vereinbarungen über die Teilnahme am Partnerprogramm zwischen den Parteien
+    oder dem Partner und der Exporo AG durch diese Vereinbarung ersetzt.
 </p>
 <h3><strong>2. Vergütungsanspruch des Partners</strong></h3>
 <p style="margin-left: 2rem;">

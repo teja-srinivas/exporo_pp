@@ -26,10 +26,12 @@ class DocumentController extends Controller
             ];
         });
 
-        if ($request->user()->can('management.documents.view-contracts')) {
+        if ($user->can('management.documents.view-contracts') && $user->can('features.contracts.accept')) {
             $contracts = $user->contracts()->when(true, static function (ContractBuilder $builder) {
                 $builder->onlyActive();
-            })->get()->map(static function (Contract $contract) {
+            })
+            ->where('accepted_at', '>=', Contract::EARLIEST)
+            ->get()->map(static function (Contract $contract) {
                 return [
                     'type' => 'Vertrag',
                     'title' => $contract->getTitle(),

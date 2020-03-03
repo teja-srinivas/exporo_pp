@@ -157,7 +157,7 @@
             <div class="alert alert-warning m-0">
                 <div class="container d-flex justify-content-between align-items-baseline">
                     <div>
-                        <b>Sie haben einen ausstehenden Partnervertrag.</b>
+                        <b>Sie haben eine ausstehende Tippgebervereinbarung.</b>
                     </div>
 
                     <a href="{{ route('contracts.accept.index', [session()->get(\App\Http\Middleware\RequireAcceptedPartnerContract::SESSION_KEY)]) }}" class="btn btn-outline-dark btn-sm">

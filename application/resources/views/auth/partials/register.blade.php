@@ -178,7 +178,7 @@
 
             <div class="form-group">
                 <p>
-                    Mit der Anmeldung zum Exporo Partnerprogramm schließen Sie einen Partnervertrag
+                    Mit der Anmeldung zum Exporo Partnerprogramm schließen Sie eine Tippgebervereinbarung
                     mit der Exporo AG und der Exporo Investment GmbH.
                 </p>
 
