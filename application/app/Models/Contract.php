@@ -46,6 +46,8 @@ class Contract extends Model implements FileReference
         ProductContract::STI_TYPE,
     ];
 
+    public const EARLIEST = '2020-03-02';
+
     protected $childTypes = [
         PartnerContract::STI_TYPE => PartnerContract::class,
         ProductContract::STI_TYPE => ProductContract::class,
