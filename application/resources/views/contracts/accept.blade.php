@@ -39,8 +39,8 @@
                 <p>
                     Ich habe die <a href="{{ $pdfProduct }}" target="_blank">Provisionsvereinbarungen</a>
                     gelesen und verstanden,
-                    dass diese als Anhang der Tippgebervereinbarung zu verstehen ist
-                    und keiner Bestätigung durch mich erfordert.
+                    dass diese als Anhang der Tippgebervereinbarung zu verstehen sind
+                    und keiner Bestätigung durch mich erfordern.
                 </p>
 
                 <p>
