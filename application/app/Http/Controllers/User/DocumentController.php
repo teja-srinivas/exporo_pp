@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\User;
 
-use App\Models\Contract;
-use App\Builders\ContractBuilder;
+use Carbon\Carbon;
 use App\Models\Agb;
 use App\Models\User;
+use App\Models\Contract;
 use App\Models\Document;
 use Illuminate\Http\Request;
+use App\Builders\ContractBuilder;
 
 class DocumentController extends Controller
 {
@@ -43,20 +44,28 @@ class DocumentController extends Controller
             $contracts = [];
         }
 
-        $agbs = $user->agbs->map(static function (Agb $agb) {
-            return [
-                'type' => __('AGB'),
-                'title' => $agb->name,
-                'link' => $agb->getDownloadUrl(),
-                'created_at' => $agb->pivot->created_at,
-            ];
-        });
+        $agbs = $user->agbs
+            ->map(static function (Agb $agb) use ($user) {
+                $activeAgb = $user->activeAgbByType($agb->type)->first();
+                $effictiveFrom = new Carbon($activeAgb->effective_from);
+                
+                if ($agb !== $activeAgb && $effictiveFrom->diffInWeeks(Carbon::now()) >= 4) {
+                    return false;
+                }
+            
+                return [
+                    'type' => __('AGB'),
+                    'title' => $agb->name,
+                    'link' => $agb->getDownloadUrl(),
+                    'created_at' => $agb->pivot->created_at,
+                ];
+            });
 
         return response()->view('users.documents', [
             'documents' => collect()
                 ->merge($documents)
                 ->merge($contracts)
-                ->merge($agbs)
+                ->merge($agbs->filter())
                 ->sortByDesc('created_at'),
         ]);
     }
