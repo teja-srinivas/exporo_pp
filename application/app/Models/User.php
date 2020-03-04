@@ -145,6 +145,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasOne(PartnerContract::class)
             ->whereNotNull('accepted_at')
             ->whereNotNull('released_at')
+            ->whereNull('terminated_at')
             ->latest();
     }
 
@@ -177,6 +178,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasOne(ProductContract::class)
             ->whereNotNull('accepted_at')
             ->whereNotNull('released_at')
+            ->whereNull('terminated_at')
             ->latest();
     }
 
@@ -210,7 +212,13 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
      */
     public function agbs(): BelongsToMany
     {
-        return $this->belongsToMany(Agb::class)->withTimestamps()
+        return $this->belongsToMany(Agb::class)->withTimestamps();
+    }
+    
+    public function activeAgbByType($type)
+    {
+        return $this->agbs
+            ->where('type', $type)
             ->where('is_default', 1);
     }
 
