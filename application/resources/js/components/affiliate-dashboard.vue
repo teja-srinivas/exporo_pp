@@ -239,17 +239,17 @@ export default {
         },
       ],
       groups: [
-        {
+        /*{
           name: 'project_type',
-          displayName: 'Produkttyp',
+          displayName: 'Projekttyp',
+        },*/
+        {
+          name: 'affiliate_type',
+          displayName: 'Werbemittel',
         },
         {
           name: 'link_title',
           displayName: 'Links',
-        },
-        {
-          name: 'affiliate_type',
-          displayName: 'Werbemittel',
         },
         /*{
           name: 'device',
@@ -266,7 +266,7 @@ export default {
       translation: {
         desktop: 'Desktop',
         phone: 'Mobil',
-        null: 'unbestimmt',
+        null: 'kein Investment',
         link: 'Link',
         banner_link: 'Banner',
         embed: 'Iframe',
