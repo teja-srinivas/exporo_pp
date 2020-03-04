@@ -33,17 +33,7 @@
               ></textarea>
             </div>
           </div>
-          <div class="form-group row">
-            <label for="inputUrl" class="col-xl-4 col-sm-5 col-form-label">URL:</label>
-            <div class="col-xl-8 col-sm-7 ">
-              <input
-                id="inputUrl"
-                type="text"
-                class="form-control"
-                v-model="campaign.url"
-              >
-            </div>
-          </div>
+
           <div class="form-group row">
             <label for="activeTrue" class="col-xl-4 col-sm-5 col-form-label">Aktiv:</label>
             <div class="col-xl-8 col-sm-7 col-form-label">
@@ -358,7 +348,6 @@ export default {
       campaign: {
         title: '',
         description: '',
-        url: '',
         is_active: 0,
         all_users: 1,
         is_blacklist: 0,

@@ -29,7 +29,6 @@ class StoreCampaign extends FormRequest
         return [
             'title' => 'required|string',
             'description' => 'required|string',
-            'url' => 'string|nullable',
             'is_active' => 'required|boolean',
             'all_users' => 'required|boolean',
             'is_blacklist' => 'required|boolean',

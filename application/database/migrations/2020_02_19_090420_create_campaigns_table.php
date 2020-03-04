@@ -23,7 +23,6 @@ class CreateCampaignsTable extends Migration
             $table->string('document_name')->nullable();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('url')->nullable();
             $table->boolean('is_active')->default(false);
             $table->boolean('all_users')->default(true);
             $table->boolean('is_blacklist')->default(false);

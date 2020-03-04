@@ -7,11 +7,7 @@
         <div class="slider">
             @foreach($campaigns as $campaign)
                 <div>
-                    <a 
-                        @if($campaign['url'])
-                            href="{{ $campaign['url'] }}"
-                        @endif
-                    >
+                    <a href="{{ route('campaigns.show', $campaign['id']) }}">
                         <img src="{{ $campaign['image_url'] }}" alt="{{ $campaign['title'] }}" class="banner-img" />
                     </a>
                 </div>

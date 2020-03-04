@@ -47,26 +47,19 @@ class DashboardController extends Controller
                         || (!$campaign->is_blacklist && !in_array($user->id, $users)))
                     )
                 ) {
-                    return [
-                        'ignore' => true,
-                    ];
+                    return false;
                 }
 
                 return [
                     'title' => $campaign->title,
                     'image_url' => $campaign->image_url,
-                    'url' => $campaign->url,
-                    'ignore' => false,
+                    'id' => $campaign->id,
                 ];
             });
 
-        $filtered = $campaigns->filter(static function ($value) {
-            return !$value['ignore'];
-        });
-
         return response()->view('dashboard.index', [
             'investmentCount' => $count,
-            'campaigns' => $filtered,
+            'campaigns' => $campaigns->filter(),
         ]);
     }
 }

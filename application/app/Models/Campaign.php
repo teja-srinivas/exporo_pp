@@ -16,7 +16,6 @@ class Campaign extends Model
         'document_url',
         'title',
         'description',
-        'url',
         'is_active',
         'all_users',
         'is_blacklist',

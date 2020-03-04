@@ -54,6 +54,34 @@ class CampaignController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  Campaign  $campaign
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Campaign $campaign)
+    {
+        $user = Auth::user();
+        $users = $campaign->users->map(static function ($campaignUser) {
+            return $campaignUser->id;
+        })->all();
+
+        if (
+            !$campaign->all_users
+            && (
+                (($campaign->is_blacklist && in_array($user->id, $users))
+                || (!$campaign->is_blacklist && !in_array($user->id, $users)))
+            )
+        ) {
+            abort(404);
+        }
+
+        return view('campaigns.show', [
+            'campaign' => $campaign,
+        ]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Campaign $campaign
