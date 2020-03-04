@@ -48,11 +48,12 @@ class DocumentController extends Controller
             ->map(static function (Agb $agb) use ($user) {
                 $activeAgb = $user->activeAgbByType($agb->type)->first();
                 $effictiveFrom = new Carbon($activeAgb->effective_from);
-                
-                if ($agb !== $activeAgb && $effictiveFrom->diffInWeeks(Carbon::now()) >= 4) {
+                $diffInWeeks = $effictiveFrom->diffInWeeks(Carbon::now());
+
+                if ($agb !== $activeAgb && $diffInWeeks >= 4) {
                     return false;
                 }
-            
+
                 return [
                     'type' => __('AGB'),
                     'title' => $agb->name,
