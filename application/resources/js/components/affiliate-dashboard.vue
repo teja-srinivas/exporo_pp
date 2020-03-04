@@ -259,8 +259,8 @@ export default {
       selections: {
         link_title: [],
         affiliate_type: [],
-        project_type: [],
-        device: [],
+        //project_type: [],
+        //device: [],
       },
       selectedType: null,
       translation: {
@@ -511,9 +511,7 @@ export default {
         if (data.draw == this.draw) {
           this.clicks = data.clicks;
           this.loading = false;
-          if (this.draw === 1 ) {
-            this.selectAll();
-          }
+          this.selectAll();
         }
       }).catch(() => {
           this.loading = false;
