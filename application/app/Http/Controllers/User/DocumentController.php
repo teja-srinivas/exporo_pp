@@ -47,9 +47,9 @@ class DocumentController extends Controller
         $agbs = $user->agbs
             ->where('effective_from', '<=', now())
             ->map(static function (Agb $agb) use ($user) {
-                $activeAgb = $user->activeAgbByType($agb->type)->first();
+                $activeAgb = $user->activeAgbByType($agb->type);
 
-                if (isset($activeAgb) && !$agb->is_default) {
+                if ($activeAgb !== null && !$agb->is_default) {
                     $effictiveFrom = new Carbon($activeAgb->effective_from);
                     $diffInWeeks = $effictiveFrom->diffInWeeks(Carbon::now());
 

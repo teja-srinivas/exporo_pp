@@ -76,12 +76,13 @@ class AgbController extends Controller
             User::query()
                 ->get()
                 ->each(static function (User $user) use ($agb) {
-                    $activeAgb = $user->activeAgbByType($agb->type)->first();
-                    $user->agbs()->attach($agb);
+                    $activeAgb = $user->activeAgbByType($agb->type);
 
-                    if (!isset($activeAgb)) {
+                    if ($activeAgb === null) {
                         return;
                     }
+
+                    $user->agbs()->attach($agb);
 
                     DB::table('agb_user')
                         ->where('user_id', $user->id)

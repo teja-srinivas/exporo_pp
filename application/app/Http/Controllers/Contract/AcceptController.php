@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Contract;
 
+use App\Models\Agb;
 use App\Models\Contract;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -70,6 +71,28 @@ class AcceptController extends Controller
         $contract->signature = $data['signature'];
         $contract->accepted_at = now();
         $contract->save();
+
+        $user = $request->user();
+
+        //attach agb if necessary
+        foreach (Agb::TYPES as $value) {
+            if ($user->activeAgbByType($value) !== null) {
+                continue;
+            }
+
+            $agb = Agb::query()
+                ->where('type', $value)
+                ->where('is_default', true)
+                ->where('effective_from', '<=', now())
+                ->latest()
+                ->first();
+
+            if ($agb === null) {
+                continue;
+            }
+
+            $user->agbs()->attach($agb);
+        }
 
         session()->forget(RequireAcceptedPartnerContract::SESSION_KEY);
 

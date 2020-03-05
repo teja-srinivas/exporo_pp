@@ -178,25 +178,11 @@
 
             <div class="form-group">
                 <p>
-                    Mit der Anmeldung zum Exporo Partnerprogramm schließen Sie eine Tippgebervereinbarung
-                    mit der Exporo AG und der Exporo Investment GmbH.
+                    Mit der Anmeldung zum Exporo Partnerprogramm schließen Sie
+                    einen Partnervertrag mit der Exporo Investment GmbH.
                 </p>
 
                 <p>Hiermit willige ich ein,</p>
-
-                @component('components.form.checkbox', ['name' => 'legal_exporo_ag', 'required' => true])
-                    Informationen über Kapitalanlagen, Projekt-Updates sowie plattform&shy;relevante
-                    Informationen per Newsletter zu erhalten. Diese freiwillige
-                    <a href="https://exporo.de/einwilligungserklaerung-exporo-ag" target="_blank">Einwilligung</a>
-                    kann ich jederzeit widerrufen. Zusätzlich stimme ich
-                    <span>den</span>
-                    <a href="{!! $agbs[\App\Models\Agb::TYPE_AG] !!}">AGB</a>
-                    und der
-                    <a href="https://exporo.de/datenschutz">Datenschutzerklärung</a>
-                    der Exporo AG,
-                @endcomponent
-
-                @include('components.form.error', ['name' => 'legal_exporo_ag'])
 
                 @component('components.form.checkbox', [
                     'name' => 'legal_exporo_gmbh',
