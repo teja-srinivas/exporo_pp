@@ -27,6 +27,7 @@ class DuplicateContracts extends Migration
                         $new->signature = null;
                         $new->released_at = now();
                         $new->terminated_at = null;
+                        $new->pdf_generated_at = null;
                         $new->save();
                     }
 
@@ -42,6 +43,7 @@ class DuplicateContracts extends Migration
                     $new->accepted_at = now();
                     $new->released_at = now();
                     $new->terminated_at = null;
+                    $new->pdf_generated_at = null;
                     $new->save();
                     $user->productContract->bonuses->each(
                         static function (CommissionBonus $bonus) use ($new) {
