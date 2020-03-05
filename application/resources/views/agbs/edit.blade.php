@@ -8,6 +8,17 @@
     ])
 @endsection
 
+@section('actions')
+    @can('delete', $agb)
+        <form action="{{ route('agbs.destroy', $agb) }}" method="POST" class="d-inline-flex mr-2">
+            @method('DELETE')
+            @csrf
+            @include('components.dialog', ['confirmLabel' => 'Löschen', 'message' => 'Sollen die AGBs wirklich gelöscht werden?'])
+        </form>
+        <button class="btn btn-outline-danger btn-sm mr-2" onclick="showDialog()">Löschen</button>
+    @endcan
+@endsection
+        
 @section('main-content')
     <form action="{{ route('agbs.update', $agb) }}" method="POST" enctype="multipart/form-data">
         @method('PUT')
