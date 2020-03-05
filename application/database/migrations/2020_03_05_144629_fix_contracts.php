@@ -16,18 +16,12 @@ class FixContracts extends Migration
     {
         DB::table('contracts')
             ->where('created_at', '2020-03-05 16:37:16')
-            ->delete();
-
-        DB::table('contracts')
-            ->where('created_at', '2020-03-05 16:37:17')
+            ->orWhere('created_at', '2020-03-05 16:37:17')
             ->delete();
 
         DB::table('commission_bonuses')
             ->where('created_at', '2020-03-05 16:37:16')
-            ->delete();
-
-        DB::table('commission_bonuses')
-            ->where('created_at', '2020-03-05 16:37:17')
+            ->orWhere('created_at', '2020-03-05 16:37:17')
             ->delete();
     }
 }
