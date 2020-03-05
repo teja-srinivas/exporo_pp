@@ -62,7 +62,7 @@ class RegisterController extends Controller
             UserStoreRequest::getUserValidationRules(),
             UserStoreRequest::getDetailValidationRules(),
             [
-                'legal_exporo_ag' => 'accepted',
+                //'legal_exporo_ag' => 'accepted',
                 'legal_exporo_gmbh' => 'accepted',
                 'legal_transfer' => 'accepted',
                 'cookie_advertisement' => 'accepted',

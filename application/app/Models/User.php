@@ -220,7 +220,8 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->agbs
             ->where('type', $type)
             ->where('effective_from', '<=', now())
-            ->where('is_default', 1);
+            ->where('is_default', 1)
+            ->last();
     }
 
     /**
