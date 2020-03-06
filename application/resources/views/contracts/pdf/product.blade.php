@@ -134,10 +134,11 @@
     <h3><strong>3. Umsatzsteuer</strong></h3>
     <p style="margin-left: 2rem;">
         Die Provisionen werden von Exporo umsatzsteuerfrei in Rechnung gestellt.
-        @if($contract->vat_amount > 0)
+        @if($contract->vat_amount )
             Sollte der Partner gegenüber Exporo anzeigen, dass seine
             Tätigkeit der Umsatzsteuerpflicht unterliegt, wird Exporo diese in der 
-            Abrechnung gesondert ausweisen.
+            Abrechnung gesondert ausweisen/ wird die Provision inklusive der
+            Umsatzsteuer ausgewiesen.
         @endif
     </p>
 
