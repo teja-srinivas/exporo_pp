@@ -28,6 +28,19 @@ class CreateContractPdfs extends Command
 
     public function handle()
     {
+        //product contracts
+        $productContracts = Contract::query()
+            ->where('type', ProductContract::STI_TYPE)
+            ->whereActive()
+            ->withoutPdf()
+            ->get();
+
+        $this->line("Creating PDFs for {$productContracts->count()} contract(s)");
+
+        foreach ($productContracts as $productContract) {
+            CreateContractPdfJob::dispatch($productContract)->onQueue('createBillPdf');
+        }
+
         //partner contracts
         $partnerContracts = Contract::query()
             ->where('type', PartnerContract::STI_TYPE)
@@ -40,19 +53,6 @@ class CreateContractPdfs extends Command
 
         foreach ($partnerContracts as $partnerContract) {
             CreateContractPdfJob::dispatch($partnerContract)->onQueue('createBillPdf');
-        }
-
-        //product contracts
-        $productContracts = Contract::query()
-            ->where('type', ProductContract::STI_TYPE)
-            ->whereActive()
-            ->withoutPdf()
-            ->get();
-
-        $this->line("Creating PDFs for {$productContracts->count()} contract(s)");
-
-        foreach ($productContracts as $productContract) {
-            CreateContractPdfJob::dispatch($productContract)->onQueue('createBillPdf');
         }
     }
 }

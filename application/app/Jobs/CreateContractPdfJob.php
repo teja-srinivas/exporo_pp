@@ -39,9 +39,9 @@ class CreateContractPdfJob implements ShouldQueue
      */
     public function handle(UrlGenerator $url, PdfGenerator $pdf, FilesystemManager $filesystem)
     {
-        $pdf = $pdf->render($url->signedRoute('contract-pdf.show', [$this->contract]));
+        //$pdf = $pdf->render($url->signedRoute('contract-pdf.show', [$this->contract]));
 
-        $this->store($filesystem->cloud(), $pdf);
+        //$this->store($filesystem->cloud(), $pdf);
 
         $this->contract->pdf_generated_at = now();
         $this->contract->save();
