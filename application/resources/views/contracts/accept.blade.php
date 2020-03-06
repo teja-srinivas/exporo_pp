@@ -7,7 +7,7 @@
                 @csrf
 
                 @card
-                @slot('title', "Ihr persönlicher Partnervertrag mit Exporo")
+                @slot('title', "Ihre persönliche Tippgebervereinbarung mit Exporo")
                 @include('contracts.partials.header', compact('contract'))
 
                 <div class="my-4">
@@ -16,7 +16,7 @@
                     ])
                         Ich habe die
                         <a href="{{ \App\Models\Agb::current(\App\Models\Agb::TYPE_GMBH)->getDownloadUrl() }}" target="_blank">
-                            AGBs der Exporo Investment GmbH
+                            AGB der Exporo Investment GmbH
                         </a>
                         heruntergeladen und gelesen
                     @endcomponent
@@ -24,7 +24,7 @@
                     @component('components.form.checkbox', [
                         'name' => 'legal_contract',
                     ])
-                        Ich habe die Unterlagen zum <a href="{{ $pdfPartner }}" target="_blank">Partnervertrag</a> gelesen
+                        Ich habe die Unterlagen zur <a href="{{ $pdfPartner }}" target="_blank">Tippgebervereinbarung</a> gelesen
                     @endcomponent
                 </div>
 
@@ -37,10 +37,10 @@
                 </div>
 
                 <p>
-                    Ich habe die <a href="{{ $pdfProduct }}" target="_blank">Provisionsvereinbarung</a>
+                    Ich habe die <a href="{{ $pdfProduct }}" target="_blank">Provisionsvereinbarungen</a>
                     gelesen und verstanden,
-                    dass diese als Anhang des Partnervertrages zu verstehen ist
-                    und keiner Bestätigung durch mich erfordert.
+                    dass diese als Anhang der Tippgebervereinbarung zu verstehen sind
+                    und keiner Bestätigung durch mich erfordern.
                 </p>
 
                 <p>
@@ -53,7 +53,7 @@
                     'inputs' => [
                         [
                             'type' => 'text',
-                            'label' => 'digitale Unterschrift',
+                            'label' => 'Digitale Unterschrift',
                             'name' => 'signature',
                             'help' => 'Beispiel: Max Mustermann',
                         ],

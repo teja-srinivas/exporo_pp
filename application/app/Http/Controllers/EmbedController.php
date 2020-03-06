@@ -26,9 +26,11 @@ class EmbedController extends Controller
             ->whereIn('title', array_keys(Embed::$linkTitles))
             ->get()
             ->map(static function (Link $link) {
+                $link->usage = 'embed';
+
                 return [
                     'title' => $link->title,
-                    'url' => $link->userInstance->toHtml(),
+                    'url' => $link->userInstance->toHtml('embed'),
                     'type' => Embed::$linkTitles[$link->title],
                 ];
             });

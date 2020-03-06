@@ -69,9 +69,11 @@ class CommissionBonus extends Model
         return $this->belongsTo(Contract::class, 'contract_id', 'id', 'contract');
     }
 
-    public function getDisplayValue()
+    public function getDisplayValue($legacy = false)
     {
-        return $this->is_percentage ? ($this->value * 100).'%' : format_money($this->value);
+        return $this->is_percentage ?
+                ($this->value * 100).'%' :
+                ($legacy ? format_money($this->value*0.02) : format_money($this->value));
     }
 
     public function getDisplayName()

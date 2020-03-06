@@ -132,6 +132,8 @@ Route::middleware(['verified', 'accepted', 'filled'])->group(static function () 
             ->name('affiliate.embeds.index');
         Route::get('affiliate/banners', [C\BannerController::class, 'index'])
             ->name('affiliate.banners.index');
+        Route::get('affiliate/dashboard', [C\AffiliateDashboardController::class, 'index'])
+            ->name('affiliate.dashboard.index');
         Route::view('affiliate/child-users', 'affiliate/child-users')
             ->name('affiliate.child-users');
         Route::resource('affiliate/links', C\LinkController::class)

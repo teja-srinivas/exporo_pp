@@ -560,7 +560,7 @@ import startOfMonth from 'date-fns/start_of_month';
 import endOfMonth from 'date-fns/end_of_month';
 import subMonths from 'date-fns/sub_months';
 
-import BTooltip from 'bootstrap-vue/es/directives/tooltip/tooltip';
+import BTooltip from 'bootstrap-vue';
 import FlatPickr from 'vue-flatpickr-component';
 import { German } from 'flatpickr/dist/l10n/de';
 import 'flatpickr/dist/flatpickr.css';

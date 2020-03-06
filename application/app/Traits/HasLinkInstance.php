@@ -31,6 +31,7 @@ trait HasLinkInstance
 
         return $this->morphOne(LinkInstance::class, 'link')
             ->where('user_id', $user->getAuthIdentifier())
+            ->where('usage', $this->usage)
             ->withDefault(static function (LinkInstance $instance) use ($user) {
                 $instance->user()->associate($user);
             });

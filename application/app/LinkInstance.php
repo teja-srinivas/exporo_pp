@@ -38,6 +38,9 @@ class LinkInstance extends Model implements Htmlable
 
     protected $fillable = [
         'user_id',
+        'usage',
+        'link_type',
+        'link_id',
     ];
 
     protected static function boot(): void
@@ -62,6 +65,15 @@ class LinkInstance extends Model implements Htmlable
     public function clicks(): HasMany
     {
         return $this->hasMany(LinkClick::class, 'instance_id');
+    }
+
+    public function getType(): string
+    {
+        if ($this->usage !== null) {
+            return $this->usage;
+        }
+
+        return $this->link_type;
     }
 
     public function getShortenedUrl(): string
@@ -98,8 +110,10 @@ class LinkInstance extends Model implements Htmlable
      *
      * @return string
      */
-    public function toHtml(): string
+    public function toHtml($usage = null): string
     {
+        $this->usage = $usage;
+
         if (Gate::allows($this->getPermission())) {
             return $this->getShortenedUrl();
         }
@@ -120,11 +134,30 @@ class LinkInstance extends Model implements Htmlable
 
     protected function createIfNotExists()
     {
-        if ($this->exists) {
+        if ($this->existsWithUsage()) {
             return;
         }
 
-        $this->save();
+        $linkInstance = $this->create([
+            'link_type' => $this->link_type,
+            'link_id' => $this->link_id,
+            'user_id' => $this->user_id,
+            'usage' => $this->usage,
+        ]);
+
+        $this->hash = $linkInstance->hash;
+    }
+
+    protected function existsWithUsage()
+    {
+        $linkInstance = self::query()
+            ->where('link_type', $this->link_type)
+            ->where('user_id', $this->user_id)
+            ->where('link_id', $this->link_id)
+            ->where('usage', $this->usage)
+            ->first();
+
+        return $linkInstance !== null;
     }
 
     public function createClick(Request $request): LinkClick

@@ -93,7 +93,7 @@ final class CommissionCalculationTest extends TestCase
     {
         // First time fails as we have no overhead bonus on the contract
         $result = $this->service->calculate($this->childInvestment, $this->parent, $this->child);
-        $this->assertNull($result['net'], 'No overhead bonuses should result in no money');
+        $this->assertNull($result, 'No overhead bonuses should result in no money');
 
         // Add overhead bonuses and try again
         $this->createBonuses($this->parent->productContract, $this->commissionType, [

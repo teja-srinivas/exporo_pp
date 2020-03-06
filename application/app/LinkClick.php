@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 use Carbon\Carbon;
+use App\Models\Investment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -29,5 +30,10 @@ class LinkClick extends Model
     public function link(): BelongsTo
     {
         return $this->belongsTo(LinkInstance::class, 'instance_id');
+    }
+
+    public function investment(): BelongsTo
+    {
+        return $this->belongsTo(Investment::class, 'investment_id');
     }
 }

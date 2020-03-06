@@ -117,7 +117,12 @@
                     },
                     area: {
                         dataLabels: {
-                            enabled: true
+                            enabled: true,
+                            filter: {
+                                property: 'y',
+                                operator: '>',
+                                value: 0,
+                            }
                         }
                     }
                 },

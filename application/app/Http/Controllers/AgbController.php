@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Agb;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,13 +64,37 @@ class AgbController extends Controller
             'file' => 'required|mimes:pdf',
         ]);
 
-        // Replace the old file, if exists
-        $agb = new Agb($data);
-        $agb->filename = $request['type'];
-        Storage::disk('s3')->put(Agb::DIRECTORY.'/'.$request['name'], $request->file('file')->get());
-        $agb->is_default = $request->has('is_default');
+        $agb = DB::transaction(static function () use ($data, $request) {
+            // Replace the old file, if exists
+            $agb = new Agb($data);
+            $agb->filename = $request['type'];
+            Storage::disk('s3')->put(Agb::DIRECTORY.'/'.$request['name'], $request->file('file')->get());
+            $agb->is_default = $request->has('is_default');
 
-        $agb->saveOrFail();
+            $agb->saveOrFail();
+
+            User::query()
+                ->get()
+                ->each(static function (User $user) use ($agb) {
+                    $activeAgb = $user->activeAgbByType($agb->type);
+
+                    if ($activeAgb === null) {
+                        return;
+                    }
+
+                    $user->agbs()->attach($agb);
+
+                    DB::table('agb_user')
+                        ->where('user_id', $user->id)
+                        ->where('agb_id', $agb->id)
+                        ->update([
+                            'created_at' => $activeAgb->pivot->created_at,
+                            'updated_at' => $activeAgb->pivot->created_at,
+                        ]);
+                });
+
+            return $agb;
+        });
 
         flash_success('AGB wurden angelegt');
 
@@ -147,7 +173,7 @@ class AgbController extends Controller
      */
     public function destroy(Agb $agb)
     {
-        abort_unless($agb->canBeDeleted(), Response::HTTP_LOCKED, 'Users may have already accepted these AGB');
+        //abort_unless($agb->canBeDeleted(), Response::HTTP_LOCKED, 'Users may have already accepted these AGB');
 
         $agb->delete();
         Storage::delete($agb->filename);

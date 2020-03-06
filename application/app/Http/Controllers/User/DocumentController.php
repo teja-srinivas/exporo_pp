@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\User;
 
-use App\Models\Contract;
-use App\Builders\ContractBuilder;
+use Carbon\Carbon;
 use App\Models\Agb;
 use App\Models\User;
+use App\Models\Contract;
 use App\Models\Document;
 use Illuminate\Http\Request;
+use App\Builders\ContractBuilder;
 
 class DocumentController extends Controller
 {
@@ -26,10 +27,12 @@ class DocumentController extends Controller
             ];
         });
 
-        if ($request->user()->can('management.documents.view-contracts')) {
+        if ($user->can('management.documents.view-contracts') && $user->can('features.contracts.accept')) {
             $contracts = $user->contracts()->when(true, static function (ContractBuilder $builder) {
                 $builder->onlyActive();
-            })->get()->map(static function (Contract $contract) {
+            })
+            ->where('accepted_at', '>=', Contract::EARLIEST)
+            ->get()->map(static function (Contract $contract) {
                 return [
                     'type' => 'Vertrag',
                     'title' => $contract->getTitle(),
@@ -41,20 +44,33 @@ class DocumentController extends Controller
             $contracts = [];
         }
 
-        $agbs = $user->agbs->map(static function (Agb $agb) {
-            return [
-                'type' => __('AGB'),
-                'title' => $agb->name,
-                'link' => $agb->getDownloadUrl(),
-                'created_at' => $agb->pivot->created_at,
-            ];
-        });
+        $agbs = $user->agbs
+            ->where('effective_from', '<=', now())
+            ->map(static function (Agb $agb) use ($user) {
+                $activeAgb = $user->activeAgbByType($agb->type);
+
+                if ($activeAgb !== null && !$agb->is_default) {
+                    $effictiveFrom = new Carbon($activeAgb->effective_from);
+                    $diffInWeeks = $effictiveFrom->diffInWeeks(Carbon::now());
+
+                    if ($agb !== $activeAgb && $diffInWeeks >= 4) {
+                        return false;
+                    }
+                }
+
+                return [
+                    'type' => __('AGB'),
+                    'title' => $agb->name,
+                    'link' => $agb->getDownloadUrl(),
+                    'created_at' => $agb->pivot->created_at,
+                ];
+            });
 
         return response()->view('users.documents', [
             'documents' => collect()
                 ->merge($documents)
                 ->merge($contracts)
-                ->merge($agbs)
+                ->merge($agbs->filter())
                 ->sortByDesc('created_at'),
         ]);
     }

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\LinkClick;
+use App\LinkInstance;
 use App\Jobs\SendMail;
 use App\Traits\Person;
 use App\Traits\HasRoles;
@@ -143,6 +145,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasOne(PartnerContract::class)
             ->whereNotNull('accepted_at')
             ->whereNotNull('released_at')
+            ->whereNull('terminated_at')
             ->latest();
     }
 
@@ -158,11 +161,24 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
         return $this->hasMany(PartnerContract::class);
     }
 
+    public function linkClicks(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            LinkClick::class,
+            LinkInstance::class,
+            'user_id',
+            'instance_id',
+            'id',
+            'id'
+        );
+    }
+
     public function productContract(): HasOne
     {
         return $this->hasOne(ProductContract::class)
             ->whereNotNull('accepted_at')
             ->whereNotNull('released_at')
+            ->whereNull('terminated_at')
             ->latest();
     }
 
@@ -197,6 +213,15 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     public function agbs(): BelongsToMany
     {
         return $this->belongsToMany(Agb::class)->withTimestamps();
+    }
+    
+    public function activeAgbByType($type)
+    {
+        return $this->agbs
+            ->where('type', $type)
+            ->where('effective_from', '<=', now())
+            ->where('is_default', 1)
+            ->last();
     }
 
     /**

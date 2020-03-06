@@ -54,4 +54,7 @@ Route::name('api.')->middleware('auth:api')->group(static function () {
         ->names('campaigns');
     Route::post('campaigns/file', [Api\CampaignController::class, 'deleteFile'])
         ->name('campaigns.file.delete');
+
+    Route::get('affiliate-dashboard', [Api\AffiliateDashboardController::class, 'getClicks'])
+        ->name('affiliate-dashboard');
 });
