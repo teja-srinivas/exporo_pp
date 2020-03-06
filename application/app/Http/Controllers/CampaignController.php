@@ -57,7 +57,7 @@ class CampaignController extends Controller
      * Display the specified resource.
      *
      * @param  Campaign  $campaign
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function show(Campaign $campaign)
     {
