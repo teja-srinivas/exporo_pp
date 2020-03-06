@@ -5,7 +5,12 @@
 @section('actions')
     @if($campaign->started_at !== null && $campaign->ended_at !== null)
         <div class="lead text-muted">
-            von: {{ $campaign->started_at->format('d.m.Y') }} bis: {{ $campaign->ended_at->format('d.m.Y') }}
+            <span>
+                von: {{ $campaign->started_at->format('d.m.Y') }}
+            </span>
+            <span class="ml-4">
+                bis: {{ $campaign->ended_at->format('d.m.Y') }}
+            </span>
         </div>
     @endif
 @endsection
