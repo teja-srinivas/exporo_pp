@@ -15,7 +15,7 @@
                 Das Partner Cockpit ist die zentrale Anlaufstelle für Ihre Tätigkeit
                 als Partner. Sie können hier alle Aktivitäten Ihrer Kunden und Interessenten
                 sehen und erhalten Statistiken zum Verhalten Ihrer Kunden. Zudem stehen
-                Ihnen hier die monatliche Abrechnungen und Provisionsansprüche zur Verfügung.
+                Ihnen hier die monatlichen Abrechnungen und Provisionsansprüche zur Verfügung.
                 Das Partner Cockpit bieten Ihnen auch einen direkten Zugang zu Werbemitteln
                 und Tools für eine nahtlose digitale Integration.
             </div>
