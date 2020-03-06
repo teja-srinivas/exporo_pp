@@ -26,8 +26,8 @@ class CreateCampaignsTable extends Migration
             $table->boolean('is_active')->default(false);
             $table->boolean('all_users')->default(true);
             $table->boolean('is_blacklist')->default(false);
-            $table->dateTime('started_at')->nullable();
-            $table->dateTime('ended_at')->nullable();
+            $table->timestamp('started_at')->nullable();
+            $table->timestamp('ended_at')->nullable();
             $table->timestamps();
         });
     }

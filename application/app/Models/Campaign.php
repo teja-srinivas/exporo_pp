@@ -23,6 +23,11 @@ class Campaign extends Model
         'ended_at',
     ];
 
+    protected $dates= [
+        'started_at',
+        'ended_at',
+    ];
+
     /**
      * @return BelongsToMany
      */
