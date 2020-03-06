@@ -16,7 +16,7 @@
                 als Partner. Sie können hier alle Aktivitäten Ihrer Kunden und Interessenten
                 sehen und erhalten Statistiken zum Verhalten Ihrer Kunden. Zudem stehen
                 Ihnen hier die monatlichen Abrechnungen und Provisionsansprüche zur Verfügung.
-                Das Partner Cockpit bieten Ihnen auch einen direkten Zugang zu Werbemitteln
+                Das Partner Cockpit bietet Ihnen auch einen direkten Zugang zu Werbemitteln
                 und Tools für eine nahtlose digitale Integration.
             </div>
             <div>
