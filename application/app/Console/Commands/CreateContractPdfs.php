@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Jobs\CreateContractPdfJob;
 use App\Models\Contract;
 use App\Models\PartnerContract;
+use App\Models\ProductContract;
 use Illuminate\Console\Command;
+use App\Jobs\CreateContractPdfJob;
 
 class CreateContractPdfs extends Command
 {
@@ -27,17 +28,31 @@ class CreateContractPdfs extends Command
 
     public function handle()
     {
-        $contracts = Contract::query()
+        //partner contracts
+        $partnerContracts = Contract::query()
             ->where('type', PartnerContract::STI_TYPE)
             ->whereActive()
             ->whereSigned()
             ->withoutPdf()
             ->get();
 
-        $this->line("Creating PDFs for {$contracts->count()} contract(s)");
+        $this->line("Creating PDFs for {$partnerContracts->count()} contract(s)");
 
-        foreach ($contracts as $contract) {
-            CreateContractPdfJob::dispatch($contract)->onQueue('createBillPdf');
+        foreach ($partnerContracts as $partnerContract) {
+            CreateContractPdfJob::dispatch($partnerContract)->onQueue('createBillPdf');
+        }
+
+        //product contracts
+        $productContracts = Contract::query()
+            ->where('type', ProductContract::STI_TYPE)
+            ->whereActive()
+            ->withoutPdf()
+            ->get();
+
+        $this->line("Creating PDFs for {$productContracts->count()} contract(s)");
+
+        foreach ($productContracts as $productContract) {
+            CreateContractPdfJob::dispatch($productContract)->onQueue('createBillPdf');
         }
     }
 }
