@@ -19,12 +19,7 @@ import './utils/iframeToClipboard';
 
 import Vue from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import FormCheckbox from 'bootstrap-vue/es/components/form-checkbox';
-import FormGroup from 'bootstrap-vue/es/components/form-group';
-import FormInput from 'bootstrap-vue/es/components/form-input';
-import FormRadio from 'bootstrap-vue/es/components/form-radio';
-import Pagination from 'bootstrap-vue/es/components/pagination';
-import Popover from 'bootstrap-vue/es/components/popover';
+import { FormCheckboxPlugin, FormGroupPlugin, FormInputPlugin, FormRadioPlugin, PaginationPlugin, PopoverPlugin } from 'bootstrap-vue';
 import Notifications from 'vue-notification';
 import velocity from 'velocity-animate';
 import VueDropzone from 'vue2-dropzone';
@@ -36,12 +31,12 @@ import DataTable from './components/data-table/index.vue';
 import SubuserTable from './components/SubuserTable.vue';
 import VueApexCharts from 'vue-apexcharts';
 
-Vue.use(FormCheckbox);
-Vue.use(FormGroup);
-Vue.use(FormInput);
-Vue.use(FormRadio);
-Vue.use(Pagination);
-Vue.use(Popover);
+Vue.use(FormCheckboxPlugin);
+Vue.use(FormGroupPlugin);
+Vue.use(FormInputPlugin);
+Vue.use(FormRadioPlugin);
+Vue.use(PaginationPlugin);
+Vue.use(PopoverPlugin);
 Vue.use(Notifications, { velocity });
 Vue.use(VueApexCharts);
 
