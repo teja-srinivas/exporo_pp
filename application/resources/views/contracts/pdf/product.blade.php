@@ -113,11 +113,8 @@
         Partner hiermit für die Berechnung der Vergütung folgende Beträge:
     </p>
 
-    @include('components.bundle-editor', [
+    @include('components.bonus-table', [
         'bonuses' => $contract->bonuses,
-        'showPublicity' => true,
-        'editable' => false,
-        'legacy' => true,
     ])
 
     @if($contract->user->contract && $contract->user->contract->allow_overhead)
