@@ -6,11 +6,11 @@ namespace App\Services;
 
 use DocRaptor\Doc;
 use DocRaptor\DocApi;
+use DocRaptor\Configuration;
 use Illuminate\Support\Str;
 use DocRaptor\PrinceOptions;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
-use Illuminate\Contracts\Config\Repository;
 
 class PdfGenerator
 {
@@ -21,13 +21,14 @@ class PdfGenerator
     protected $api;
 
     /** @var bool */
-    protected $test;
+    protected $test = true;
 
-    public function __construct(Application $app, DocApi $api, Repository $config)
+    protected $apiKey = "YOUR_API_KEY_HERE";
+
+    public function __construct(Application $app, DocApi $api)
     {
         $this->app = $app;
         $this->api = $api;
-        $this->test = $config->get('services.docraptor.test');
     }
 
     /**
@@ -40,6 +41,9 @@ class PdfGenerator
     {
         // Run an internal request to generate the raw HTML content
         $response = $this->app->handle(Request::create($route));
+
+        $configuration = Configuration::getDefaultConfiguration();
+        $configuration->setUsername($this->apiKey);
 
         // Send the request to DocRaptor - including the content
         $prince = new PrinceOptions();
