@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
 use DocRaptor\PrinceOptions;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
-use Illuminate\Contracts\Config\Repository;
 
 class PdfGenerator
 {
@@ -26,7 +25,7 @@ class PdfGenerator
 
     protected $apiKey = "YOUR_API_KEY_HERE";
 
-    public function __construct(Application $app, DocApi $api, Repository $config)
+    public function __construct(Application $app, DocApi $api)
     {
         $this->app = $app;
         $this->api = $api;
