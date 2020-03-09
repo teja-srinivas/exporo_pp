@@ -15,7 +15,7 @@ class FixContracts extends Migration
     public function up()
     {
         DB::table('contracts')
-            ->where('created_at', '2020-03-09 13:39:02')
+            ->where('released_at', '2020-03-09 13:39:02')
             ->delete();
 
         DB::table('commission_bonuses')
