@@ -21,9 +21,9 @@ class PdfGenerator
     protected $api;
 
     /** @var bool */
-    protected $test = true;
+    protected $test = false;
 
-    protected $apiKey = "YOUR_API_KEY_HERE";
+    protected $apiKey = "8zClVkGTQmA5EVZlrXf";
 
     public function __construct(Application $app, DocApi $api)
     {
