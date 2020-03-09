@@ -27,6 +27,11 @@
                     <span class="lead font-weight-bold">
                         <a href="{{ $document['link'] }}">{{ $document['title'] }}</a>
                     </span>
+                    @if($document['type'] === "Vertrag" && !isset($document['pdf_generated_at']))
+                        <span class="small text-muted">
+                            PDF wird erstellt
+                        </span>
+                    @endif
                 </td>
                 <td class="align-middle text-right" width="200">
                     <p class="small text-muted mb-1">Erstellt</p>
