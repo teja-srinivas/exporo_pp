@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Contract;
 use App\Models\CommissionBonus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Migrations\Migration;
@@ -29,10 +28,6 @@ class DuplicateContracts extends Migration
         }
 
         DB::transaction(static function () use ($time) {
-            Contract::whereNotNull('released_at')
-                ->whereNull('accepted_at')
-                ->update(['released_at' => null]);
-
             User::query()
                 ->get()
                 ->each(static function (User $user) use ($time) {
