@@ -72,8 +72,8 @@ class CommissionBonus extends Model
     public function getDisplayValue($legacy = false)
     {
         return $this->is_percentage ?
-                ($this->value * 100).'%' :
-                ($legacy ? format_money($this->value*0.02) : format_money($this->value));
+                ($legacy ? ($this->value * 100*0.02).'%' : ($this->value * 100).'%') :
+                format_money($this->value);
     }
 
     public function getDisplayName()
