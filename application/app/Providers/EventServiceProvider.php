@@ -27,6 +27,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         Events\ContractUpdated::class => [
             Listeners\TerminateOldContractOnApproval::class,
+            Listeners\UnreleaseContractsOnApproval::class,
         ],
         Events\ProjectUpdated::class => [
             Listeners\InvalidateInvestmentCommissionsOnProjectChanges::class,
