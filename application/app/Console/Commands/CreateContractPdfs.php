@@ -38,7 +38,7 @@ class CreateContractPdfs extends Command
         $this->line("Creating PDFs for {$productContracts->count()} contract(s)");
 
         foreach ($productContracts as $productContract) {
-            CreateContractPdfJob::dispatch($productContract)->onQueue('createBillPdf');
+            CreateContractPdfJob::dispatch($productContract)->onQueue('createProductContract');
         }
 
         //partner contracts
@@ -52,7 +52,7 @@ class CreateContractPdfs extends Command
         $this->line("Creating PDFs for {$partnerContracts->count()} contract(s)");
 
         foreach ($partnerContracts as $partnerContract) {
-            CreateContractPdfJob::dispatch($partnerContract)->onQueue('createBillPdf');
+            CreateContractPdfJob::dispatch($partnerContract)->onQueue('createParterContract');
         }
     }
 }
