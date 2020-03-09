@@ -86,8 +86,8 @@
     eigene Beratung von potentiellen Investoren in Bezug auf
     Investmentmöglichkeiten vorzunehmen und gegenüber den potentiellen Investoren
     nicht auf einen Vertragsschluss
-    hinzuwirken. Konkrete Finanzprodukte von Exporo werden durch den Tippgeber
-    gerade nicht unmittelbar angeboten oder vermittelt.
+    hinzuwirken. Konkrete Finanzprodukte von Exporo werden durch den Tippgeber 
+    nicht unmittelbar angeboten oder vermittelt.
 </p>
 <p style="margin-left: 2rem;">
     Für den Partner ist die Teilnahme als Tippgeber am Partnerprogramm gegenüber
@@ -373,7 +373,7 @@
 
 <h3><strong>3. Fälligkeit / Abrechnung der Vergütung</strong></h3>
 <p style="margin-left: 2rem;">
-    a. Exporo erteilt dem Partner monatlich zum 20. eines Monats eine Abrechnung
+    a. Exporo erteilt dem Partner monatlich spätestens bis zum 20. eines Monats eine Abrechnung
     über die im jeweiligen Vormonat entstandenen Vergütungen. Sollte der 20. auf
     einen Sonn- oder Feiertag fallen, so verschiebt sich die Abrechnung auf den
     folgenden Werktag. Die Abrechnung wird im Partner Cockpit hinterlegt. Die
@@ -484,7 +484,7 @@
         c. Wenn der Partner Unternehmer ist, sind Erfüllungsort für alle
         Leistungen und Gerichtsstand für sämtliche Auseinandersetzungen aus und
         im Zusammenhang mit diesem Vertrag, soweit dies gesetzlich zulässig ist,
-        Hamburg. Dies gilt auch dann, wenn der Partner keinen allgemeinen
+        Hamburg, Deutschland. Dies gilt auch dann, wenn der Partner keinen allgemeinen
         Gerichtsstand im Inland hat. Exporo behält sich das Recht vor, den
         Partner an seinem allgemeinen Gerichtsstand zu verklagen. Gesetzliche
         Regelungen über ausschließliche Zuständigkeiten bleiben unberührt.
