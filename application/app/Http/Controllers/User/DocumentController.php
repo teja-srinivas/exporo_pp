@@ -38,6 +38,7 @@ class DocumentController extends Controller
                     'title' => $contract->getTitle(),
                     'link' => $contract->getDownloadUrl(),
                     'created_at' => $contract->accepted_at,
+                    'pdf_generated_at' => $contract->pdf_generated_at,
                 ];
             });
         } else {
