@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Helper\Rules;
 use Parental\HasChildren;
 use Illuminate\Support\Str;
+use OwenIt\Auditing\Auditable;
 use App\Events\ContractUpdated;
 use App\Events\ContractSaving;
 use App\Builders\ContractBuilder;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
  * @method static ContractBuilder query()
@@ -36,8 +38,9 @@ use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
  * @property ContractTemplate $template
  * @property User $user
  */
-class Contract extends Model implements FileReference
+class Contract extends Model implements FileReference, AuditableContract
 {
+    use Auditable;
     use HasChildren;
     use OptimusEncodedRouteKey;
 
