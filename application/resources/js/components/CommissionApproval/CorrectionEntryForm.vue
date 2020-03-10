@@ -11,18 +11,12 @@
             Partner werden geladen...
           </div>
           <div v-else class="col-sm-10">
-            <select
+            {{userDetails}}<v-select
+              :options="userDetails"
+              label="displayText"
               v-model.number="entry.userId"
-              class="form-control form-control-sm"
             >
-              <option
-                v-for="(user, id) in userDetails"
-                :key="id"
-                :value="id"
-              >
-                {{ id }} - {{ user.displayName }}
-              </option>
-            </select>
+            </v-select>
           </div>
         </div>
 
@@ -86,10 +80,17 @@
 
 <script>
 import axios from 'axios';
+import vSelect from 'vue-select'
+import map from 'lodash/map'
 
 import { formatMoney } from "../../utils/formatters";
+import 'vue-select/dist/vue-select.css';
 
 export default {
+  components: {
+    vSelect,
+  },
+
   props: {
     api: {
       type: String,
@@ -136,7 +137,7 @@ export default {
   methods: {
     async getUserDetails() {
       const { data } = await axios.get(this.api);
-      this.userDetails = data;
+      this.userDetails = this.mapDetails(data);
     },
 
     submit() {
@@ -153,6 +154,14 @@ export default {
           private: '',
         },
       };
+    },
+
+    mapDetails(data) {
+      return map(data, function(obj, key) {
+        obj.id = key;
+        obj.displayText = `${obj.id} - ${obj.displayName}`;
+        return obj;
+      });
     },
   },
 };
