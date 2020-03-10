@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Carbon\Carbon;
 use App\Models\User;
 use App\Models\CommissionBonus;
 use Illuminate\Support\Facades\DB;
@@ -18,14 +17,6 @@ class DuplicateContracts extends Migration
     public function up()
     {
         $time = now();
-
-        $check = DB::table('contracts')
-            ->where('created_at', '>', Carbon::now()->subMinutes(5))
-            ->exists();
-
-        if ($check) {
-            return;
-        }
 
         DB::transaction(static function () use ($time) {
             User::query()
