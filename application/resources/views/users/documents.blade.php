@@ -25,7 +25,11 @@
                 <td>
                     <p class="small text-muted mb-1">{{ $document['type'] }}</p>
                     <span class="lead font-weight-bold">
-                        <a href="{{ $document['link'] }}">{{ $document['title'] }}</a>
+                        @if($document['type'] !== "Vertrag" || isset($document['pdf_generated_at']))
+                            <a href="{{ $document['link'] }}">{{ $document['title'] }}</a>
+                        @else
+                            {{ $document['title'] }}
+                        @endif
                     </span>
                     @if($document['type'] === "Vertrag" && !isset($document['pdf_generated_at']))
                         <span class="small text-muted">
