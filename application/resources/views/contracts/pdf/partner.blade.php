@@ -1,8 +1,7 @@
 @extends('contracts.pdf.layout')
 
 @section('content')
-<h1>Tippgebervereinbarung</h1>
-<p style="text-align: center;"><strong>Tippgebervereinbarung</strong></p>
+<h1 style="text-align: center"><strong>Tippgebervereinbarung</strong></h1>
 <p style="text-align: center;">zwischen</p>
 <p>
   der Exporo Investment GmbH,<br>Am Sandtorkai 70, 20457 Hamburg,
