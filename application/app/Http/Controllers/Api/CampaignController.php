@@ -13,24 +13,6 @@ use Illuminate\Support\Facades\Storage;
 class CampaignController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  StoreCampaign  $request
@@ -44,40 +26,19 @@ class CampaignController extends Controller
         $image = $request->file('image');
         $document = $request->file('document');
 
-//TODO add      disk($campaign->disk)->
         if (isset($data['image'])) {
-            $campaign->image_url = Storage::put($campaign->getImagePath(), $image, 'public');
+            $campaign->image_url = Storage::disk($campaign->disk)->put($campaign->getImagePath(), $image, 'public');
             $campaign->image_name = $image->getClientOriginalName();
         }
 
-//TODO add      disk($campaign->disk)->
         if (isset($data['document'])) {
-            $campaign->document_url = Storage::put($campaign->getDocumentPath(), $document, 'public');
+            $campaign->document_url = Storage::disk($campaign->disk)
+                ->put($campaign->getDocumentPath(), $document, 'public');
             $campaign->document_name = $document->getClientOriginalName();
         }
 
         $campaign->save();
         $campaign->users()->sync(json_decode($data['selection']));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
     }
 
     /**
@@ -97,34 +58,22 @@ class CampaignController extends Controller
 
         if (isset($data['image'])) {
             $file = $campaign->getImageDownloadUrl();
-//TODO add      disk($campaign->disk)->
-            Storage::delete($file);
-//TODO add      disk($campaign->disk)->
-            $campaign->image_url = Storage::put($campaign->getImagePath(), $image, 'public');
+            Storage::disk($campaign->disk)->delete($file);
+            $campaign->image_url = Storage::disk($campaign->disk)
+                ->put($campaign->getImagePath(), $image, 'public');
             $campaign->image_name = $image->getClientOriginalName();
         }
 
         if (isset($data['document'])) {
             $file = $campaign->getDocumentDownloadUrl();
- //TODO add      disk($campaign->disk)->
-            Storage::delete($file);
-//TODO add      disk($campaign->disk)->
-            $campaign->document_url = Storage::put($campaign->getDocumentPath(), $document, 'public');
+            Storage::disk($campaign->disk)->delete($file);
+            $campaign->document_url = Storage::disk($campaign->disk)
+                ->put($campaign->getDocumentPath(), $document, 'public');
             $campaign->document_name = $document->getClientOriginalName();
         }
 
         $campaign->users()->sync(json_decode($data['selection']));
         $campaign->save();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
     }
 
     /**
@@ -149,8 +98,7 @@ class CampaignController extends Controller
             $campaign->document_name = null;
         }
 
-//TODO add      disk($campaign->disk)->
-        Storage::delete($file);
+        Storage::disk($campaign->disk)->delete($file);
         $campaign->save();
     }
 }
