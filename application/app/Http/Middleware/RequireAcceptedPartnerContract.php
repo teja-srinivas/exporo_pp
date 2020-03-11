@@ -33,6 +33,10 @@ class RequireAcceptedPartnerContract
             return $next($request);
         }
 
+        if (!$user->can('features.contracts.accept')) {
+            return $next($request);
+        }
+
         return response()->redirectToRoute('contracts.accept.index', [$contract]);
     }
 
