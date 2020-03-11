@@ -27,7 +27,7 @@ class DocumentController extends Controller
             ];
         });
 
-        if ($user->can('management.documents.view-contracts') && $user->can('features.contracts.accept') && $user->partnerContract !== null) {
+        if ($user->can('management.documents.view-contracts') && $user->can('features.contracts.accept') && $user->onlyApprovedPartnerContract === null) {
             $contracts = $user->contracts()->when(true, static function (ContractBuilder $builder) {
                 $builder->onlyActive();
             })
