@@ -12,7 +12,7 @@
           :id="id"
           class="custom-control-input"
           :indeterminate.prop="count > 0 && count < size"
-          :checked="count === size"
+          :checked="count === size || selection.includes(row.user.id)"
           v-on="$listeners"
         >
         <label class="custom-control-label" :for="id" />
@@ -39,6 +39,18 @@ export default {
     count: {
       type: Number,
       required: true,
+    },
+
+    selection: {
+      type: Array,
+      default: () => [],
+    },
+
+    row: {
+      type: Object,
+      default: () => ({
+          user: {},
+      }),
     },
   },
 

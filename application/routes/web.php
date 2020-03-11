@@ -57,6 +57,9 @@ Route::middleware(['verified', 'accepted', 'filled'])->group(static function () 
             ->names('banners.sets');
         Route::resource('banners', C\BannerController::class)
             ->only('store', 'destroy');
+        Route::resource('campaigns', C\CampaignController::class)
+            ->except('store', 'update')
+            ->names('campaigns');
         Route::resource('bills', C\BillController::class);
         Route::resource('commissions/types', C\CommissionTypeController::class)
             ->names('commissions.types');

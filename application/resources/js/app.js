@@ -5,6 +5,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+require('slick-carousel');
+
 import './sentry';
 import './bootstrap';
 import './icons';
@@ -47,8 +49,12 @@ Vue.component('data-table', DataTable);
 Vue.component('subuser-table', SubuserTable);
 Vue.component('banner-viewer', () => import('./components/banner-viewer.vue'));
 Vue.component('embed-viewer', () => import('./components/embed-viewer.vue'));
+
+Vue.component('investments-viewer', () => import('./components/dashboard/index.vue'));
+Vue.component('campaign-editor', () => import('./components/campaign-editor.vue'));
+
 Vue.component('affiliate-dashboard', () => import('./components/affiliate-dashboard.vue'));
-Vue.component('investments-viewer', () => import('./components/dashboard/index.vue'))
+
 Vue.component('vue-dropzone', VueDropzone);
 Vue.component('url-input', UrlInput);
 Vue.component('variable-input', VariableInput);

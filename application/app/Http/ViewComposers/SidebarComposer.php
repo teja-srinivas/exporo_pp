@@ -15,6 +15,7 @@ use App\Models\Schema;
 use App\Models\Mailing;
 use App\Models\Project;
 use App\Models\Document;
+use App\Models\Campaign;
 use App\Models\BannerSet;
 use Illuminate\View\View;
 use App\Models\Commission;
@@ -101,6 +102,12 @@ class SidebarComposer
                         'url' => route('banners.sets.index'),
                         'isActive' => $this->request->routeIs('banners.*'),
                         'isAllowed' => $this->canList(BannerSet::class),
+                    ],
+                    [
+                        'title' => 'Kampagnen',
+                        'url' => route('campaigns.index'),
+                        'isActive' => $this->request->routeIs('campaigns.*'),
+                        'isAllowed' => $this->canList(Campaign::class),
                     ],
                 ],
             ],
