@@ -421,12 +421,6 @@
         verantwortlich.
     </span>
 </p>
-<p style="margin-left: 2rem;">
-    <span>
-        d. Sofern der Ausweis der Ust. beantragt wird, erfolgt die Erhebung
-        grundsätzlich für jede Einzelbuchung. Die Darstellung erfolgt aufsummiert.
-    </span>
-</p>
 
 <h3><strong>5. Laufzeit und Beendigung, Vertragsänderungen</strong></h3>
 <p style="margin-left: 2rem;">
