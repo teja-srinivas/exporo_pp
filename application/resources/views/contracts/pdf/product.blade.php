@@ -138,6 +138,8 @@
             Tätigkeit der Umsatzsteuerpflicht unterliegt, wird Exporo diese in der 
             Abrechnung gesondert ausweisen. Die Erhebung erfolgt grundsätzlich für jede
             Einzelbuchung. Die Darstellung erfolgt aufsummiert.
+        @else
+            Die Provisionen werden von Exporo umsatzsteuerfrei in Rechnung gestellt.
         @endif
     </p>
 
