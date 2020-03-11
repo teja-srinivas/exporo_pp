@@ -11,10 +11,10 @@
             Partner werden geladen...
           </div>
           <div v-else class="col-sm-10">
-            {{userDetails}}<v-select
+            <v-select
               :options="userDetails"
               label="displayText"
-              v-model.number="entry.userId"
+              v-model.number="entry.user"
             >
             </v-select>
           </div>
@@ -80,8 +80,9 @@
 
 <script>
 import axios from 'axios';
-import vSelect from 'vue-select'
-import map from 'lodash/map'
+import vSelect from 'vue-select';
+import map from 'lodash/map';
+import find from 'lodash/find';
 
 import { formatMoney } from "../../utils/formatters";
 import 'vue-select/dist/vue-select.css';
@@ -105,14 +106,13 @@ export default {
 
   computed: {
     netGross() {
-      if (!this.entry.userId) {
+      if (!this.entry.user) {
         return { net: '', gross: '' };
       }
 
-      const details = this.userDetails[this.entry.userId];
+      const details = this.entry.user;
       const { amount } = this.entry;
       const factor = 1 + (details.vatAmount / 100);
-
       let net = amount;
       let gross = amount;
 
@@ -147,7 +147,7 @@ export default {
 
     createNewEntry() {
       this.entry = {
-        userId: null,
+        user: null,
         amount: 0,
         note: {
           public: '',

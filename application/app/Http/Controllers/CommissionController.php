@@ -34,8 +34,8 @@ class CommissionController extends Controller
             ->selectRaw('SUM(gross) as gross')
             ->selectRaw('COUNT(commissions.id) as count')
             ->isOpen()
-            
-            
+            ->isAcceptable()
+            ->afterLaunch()
             ->get()
             ->first();
 
