@@ -114,7 +114,7 @@
     </p>
 
     @include('components.bonus-table', [
-        'bonuses' => $contract->bonuses,
+        'bonuses' => $bonuses,
     ])
 
     @if($contract->user->contract && $contract->user->contract->allow_overhead)
