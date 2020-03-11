@@ -158,7 +158,6 @@ export default {
 
     mapDetails(data) {
       return map(data, function(obj, key) {
-        obj.id = key;
         obj.displayText = `${obj.id} - ${obj.displayName}`;
         return obj;
       });
