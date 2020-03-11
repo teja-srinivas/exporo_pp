@@ -21,4 +21,6 @@
     @include("contracts.show.{$contract->type}")
 
     @include('contracts.partials.details')
+
+    @include('components.audit', ['model' => $contract])
 @endsection

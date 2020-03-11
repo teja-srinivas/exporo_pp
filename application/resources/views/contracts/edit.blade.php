@@ -16,4 +16,5 @@
     @include('contracts.partials.template-link', compact('contract'))
     @include("contracts.edit.{$contract->type}")
     @include('contracts.partials.details')
+    @include('components.audit', ['model' => $contract])
 @endsection
