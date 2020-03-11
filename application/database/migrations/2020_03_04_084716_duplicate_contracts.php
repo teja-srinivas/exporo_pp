@@ -18,10 +18,19 @@ class DuplicateContracts extends Migration
     {
         $time = now();
 
-        DB::transaction(static function () use ($time) {
-            User::query()
-                ->get()
-                ->each(static function (User $user) use ($time) {
+        User::query()
+            ->get()
+            ->each(static function (User $user) use ($time) {
+                $check = DB::table('contracts')
+                    ->where('created_at', '>', '2020-03-11 07:01:03')
+                    ->where('user_id', $user->id)
+                    ->exists();
+
+                if ($check) {
+                    return;
+                }
+
+                DB::transaction(static function () use ($time, $user) {
                     if ($user->partnerContract !== null) {
                         $new = $user->partnerContract->replicate();
                         $new->save();
@@ -58,6 +67,6 @@ class DuplicateContracts extends Migration
                         }
                     );
                 });
-        });
+            });
     }
 }
