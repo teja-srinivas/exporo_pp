@@ -11,18 +11,12 @@
             Partner werden geladen...
           </div>
           <div v-else class="col-sm-10">
-            <select
-              v-model.number="entry.userId"
-              class="form-control form-control-sm"
+            <v-select
+              :options="userDetails"
+              label="displayText"
+              v-model.number="entry.user"
             >
-              <option
-                v-for="(user, id) in userDetails"
-                :key="id"
-                :value="id"
-              >
-                {{ id }} - {{ user.displayName }}
-              </option>
-            </select>
+            </v-select>
           </div>
         </div>
 
@@ -86,10 +80,18 @@
 
 <script>
 import axios from 'axios';
+import vSelect from 'vue-select';
+import map from 'lodash/map';
+import find from 'lodash/find';
 
 import { formatMoney } from "../../utils/formatters";
+import 'vue-select/dist/vue-select.css';
 
 export default {
+  components: {
+    vSelect,
+  },
+
   props: {
     api: {
       type: String,
@@ -104,14 +106,13 @@ export default {
 
   computed: {
     netGross() {
-      if (!this.entry.userId) {
+      if (!this.entry.user) {
         return { net: '', gross: '' };
       }
 
-      const details = this.userDetails[this.entry.userId];
+      const details = this.entry.user;
       const { amount } = this.entry;
       const factor = 1 + (details.vatAmount / 100);
-
       let net = amount;
       let gross = amount;
 
@@ -136,7 +137,7 @@ export default {
   methods: {
     async getUserDetails() {
       const { data } = await axios.get(this.api);
-      this.userDetails = data;
+      this.userDetails = this.mapDetails(data);
     },
 
     submit() {
@@ -146,13 +147,20 @@ export default {
 
     createNewEntry() {
       this.entry = {
-        userId: null,
+        user: null,
         amount: 0,
         note: {
           public: '',
           private: '',
         },
       };
+    },
+
+    mapDetails(data) {
+      return map(data, function(obj, key) {
+        obj.displayText = `${obj.id} - ${obj.displayName}`;
+        return obj;
+      });
     },
   },
 };
