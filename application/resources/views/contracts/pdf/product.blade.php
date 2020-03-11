@@ -181,6 +181,8 @@
 
         .firstTable th, .firstTable td {
             border: 1px solid black;
+            padding: 0.5rem;
+            vertical-align: top;
         }
     </style>
 @endsection
