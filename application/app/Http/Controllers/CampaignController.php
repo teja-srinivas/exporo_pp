@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Campaign;
-use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -40,17 +39,6 @@ class CampaignController extends Controller
         return view('campaigns.create', [
             'users' => $this->getUsers(),
         ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request)
-    {
     }
 
     /**
@@ -102,20 +90,6 @@ class CampaignController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Campaign $campaign
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
-     * @throws \Throwable
-     */
-    public function update(Request $request, Campaign $campaign)
-    {
-        return back();
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Campaign $campaign
@@ -126,14 +100,12 @@ class CampaignController extends Controller
     {
         if (isset($campaign->image_url)) {
             $image = $campaign->getImageDownloadUrl();
-            //TODO add      disk($campaign->disk)->
-            Storage::delete($image);
+            Storage::disk($campaign->disk)->delete($image);
         }
 
         if (isset($campaign->document_url)) {
             $document = $campaign->getImageDownloadUrl();
-            //TODO add      disk($campaign->disk)->
-            Storage::delete($document);
+            Storage::disk($campaign->disk)->delete($document);
         }
 
         $campaign->users()->detach();

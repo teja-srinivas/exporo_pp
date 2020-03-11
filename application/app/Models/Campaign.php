@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -45,14 +46,14 @@ class Campaign extends Model
     {
         return "campaigns/documents";
     }
-//TODO add      Storage::disk($this->disk)->
+
     public function getImageDownloadUrl(): ?string
     {
-        return $this->image_url !== null ? url($this->image_url) : null;
+        return $this->image_url !== null ? Storage::disk($this->disk)->url($this->image_url) : null;
     }
-//TODO add      Storage::disk($this->disk)->
+
     public function getDocumentDownloadUrl(): ?string
     {
-        return $this->document_url !== null ? url($this->document_url) : null;
+        return $this->document_url !== null ? Storage::disk($this->disk)->url($this->document_url) : null;
     }
 }
