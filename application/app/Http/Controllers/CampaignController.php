@@ -64,6 +64,9 @@ class CampaignController extends Controller
             abort(404);
         }
 
+        $campaign->image_url = $campaign->getImageDownloadUrl();
+        $campaign->document_url = $campaign->getDocumentDownloadUrl();
+
         return view('campaigns.show', [
             'campaign' => $campaign,
         ]);
