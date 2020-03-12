@@ -52,7 +52,7 @@ class DashboardController extends Controller
 
                 return [
                     'title' => $campaign->title,
-                    'image_url' => $campaign->image_url,
+                    'image_url' => $campaign->getImageDownloadUrl(),
                     'id' => $campaign->id,
                 ];
             });
