@@ -91,6 +91,7 @@ class EmbedController extends Controller
     public function getProjects($type, $getFunded = false)
     {
         $query = Project::query()
+            ->where('in_iframe', true)
             ->where('funding_target', '>', 0)
             ->where(static function (Builder $query) use ($getFunded) {
                 $query->where('status', Project::STATUS_IN_FUNDING);

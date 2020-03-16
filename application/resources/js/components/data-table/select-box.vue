@@ -12,7 +12,7 @@
           :id="id"
           class="custom-control-input"
           :indeterminate.prop="count > 0 && count < size"
-          :checked="count === size || selection.includes(row.user.id)"
+          :checked="checked"
           v-on="$listeners"
         >
         <label class="custom-control-label" :for="id" />
@@ -59,5 +59,13 @@ export default {
   data: () => ({
     id: `dt-select-${uuid++}`,
   }),
+
+  computed: {
+    checked() {
+      return this.count === this.size ||
+        (this.row.user && this.selection.includes(this.row.user.id)) ||
+        this.selection.includes(this.row.id);
+    }
+  },
 };
 </script>

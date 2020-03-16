@@ -57,4 +57,11 @@ Route::name('api.')->middleware('auth:api')->group(static function () {
 
     Route::get('affiliate-dashboard', [Api\AffiliateDashboardController::class, 'getClicks'])
         ->name('affiliate-dashboard');
+
+    Route::put(
+        'projects/multiple',
+        [Api\ProjectController::class, 'updateMultiple']
+    )->name('projects.updateMultiple');
+    Route::put('project/{project}', [Api\ProjectController::class, 'update'])
+        ->name('project.update');
 });

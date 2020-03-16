@@ -8,13 +8,21 @@
     <thead>
       <tr>
         <select-box
-          v-if="selectable"
+          v-if="selectable && !selectLabel"
           :size="rows.length"
           :count="selection.length"
           element="th"
           key="#global-select"
           @change="toggleGlobalSelection"
         />
+
+        <th
+          class="align-top"
+          width="64"
+          v-else-if="selectable"
+        >
+          {{ selectLabel }}
+        </th>
 
         <th
           v-if="offsetCount > 0"
@@ -360,6 +368,11 @@ export default {
     value: {
       type: Array,
       default: () => [],
+    },
+
+    selectLabel: {
+      type: String,
+      required: false,
     },
   },
 

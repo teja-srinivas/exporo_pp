@@ -52,6 +52,8 @@ Vue.component('embed-viewer', () => import('./components/embed-viewer.vue'));
 
 Vue.component('investments-viewer', () => import('./components/dashboard/index.vue'));
 Vue.component('campaign-editor', () => import('./components/campaign-editor.vue'));
+Vue.component('projects-container', () => import('./components/Projects/container.vue'));
+Vue.component('projects-switch', () => import('./components/Projects/switch.vue'));
 
 Vue.component('affiliate-dashboard', () => import('./components/affiliate-dashboard.vue'));
 

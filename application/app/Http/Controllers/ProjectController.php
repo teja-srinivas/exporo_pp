@@ -44,6 +44,10 @@ class ProjectController extends Controller
                         ],
                     ];
                 }),
+            'selection' => Project::query()
+                ->where('in_iframe', true)
+                ->get()
+                ->pluck('id'),
         ]);
     }
 
