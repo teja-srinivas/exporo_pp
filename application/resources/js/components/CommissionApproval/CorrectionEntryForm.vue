@@ -134,6 +134,17 @@ export default {
     this.createNewEntry();
   },
 
+  watch: {
+    entry: {
+      handler: function (val) {
+        if (val.user) {
+          this.entry.userId = parseInt(val.user.id);
+        }
+      },
+      deep: true,
+    },
+  },
+
   methods: {
     async getUserDetails() {
       const { data } = await axios.get(this.api);
