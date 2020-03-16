@@ -14,7 +14,7 @@
             <v-select
               :options="userDetails"
               label="displayText"
-              v-model.number="entry.user"
+              v-model.number="user"
             >
             </v-select>
           </div>
@@ -101,16 +101,17 @@ export default {
 
   data: () => ({
     entry: {},
-    userDetails: null,
+    userDetails: [],
+    user: {},
   }),
 
   computed: {
     netGross() {
-      if (!this.entry.user) {
+      if (!this.entry.userId) {
         return { net: '', gross: '' };
       }
 
-      const details = this.entry.user;
+      const details = this.entry.userId;
       const { amount } = this.entry;
       const factor = 1 + (details.vatAmount / 100);
       let net = amount;
@@ -134,6 +135,12 @@ export default {
     this.createNewEntry();
   },
 
+  watch: {
+    user: function (val) {
+      this.entry.userId = parseInt(val.id);
+    },
+  },
+
   methods: {
     async getUserDetails() {
       const { data } = await axios.get(this.api);
@@ -147,7 +154,7 @@ export default {
 
     createNewEntry() {
       this.entry = {
-        user: null,
+        userId: null,
         amount: 0,
         note: {
           public: '',
