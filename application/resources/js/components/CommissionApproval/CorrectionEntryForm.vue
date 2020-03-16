@@ -14,7 +14,7 @@
             <v-select
               :options="userDetails"
               label="displayText"
-              v-model.number="user"
+              v-model.number="entry.user"
             >
             </v-select>
           </div>
@@ -107,11 +107,11 @@ export default {
 
   computed: {
     netGross() {
-      if (!this.entry.userId) {
+      if (!this.entry.user) {
         return { net: '', gross: '' };
       }
 
-      const details = this.entry.userId;
+      const details = this.entry.user;
       const { amount } = this.entry;
       const factor = 1 + (details.vatAmount / 100);
       let net = amount;
@@ -136,8 +136,13 @@ export default {
   },
 
   watch: {
-    user: function (val) {
-      this.entry.userId = parseInt(val.id);
+    entry: {
+      handler: function (val) {
+        if (val.user) {
+          this.entry.userId = parseInt(val.user.id);
+        }
+      },
+      deep: true,
     },
   },
 
@@ -154,7 +159,7 @@ export default {
 
     createNewEntry() {
       this.entry = {
-        userId: null,
+        user: null,
         amount: 0,
         note: {
           public: '',
