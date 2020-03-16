@@ -101,8 +101,7 @@ export default {
 
   data: () => ({
     entry: {},
-    userDetails: [],
-    user: {},
+    userDetails: null,
   }),
 
   computed: {
