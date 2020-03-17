@@ -69,6 +69,15 @@
                     {{ format_money((float) $project->investments()->sum('amount')) }}
                 </td>
             </tr>
+            <tr>
+                <td colspan="2">
+                    @php($data = [
+                        'project' => $project,
+                        'api' => route('api.project.update', $project),
+                    ])
+                    <vue v-cloak class="cloak-fade" data-is="projects-switch" data-props='@json($data)'></vue>
+                </td>
+            </tr>
             </tbody>
         </table>
     @endcard
@@ -149,5 +158,4 @@
         </form>
         @endslot
     @endcard
-
 @endsection

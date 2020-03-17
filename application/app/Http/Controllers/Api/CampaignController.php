@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Storage;
 
 class CampaignController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Campaign::class);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
