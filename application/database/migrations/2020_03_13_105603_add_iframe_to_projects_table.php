@@ -16,7 +16,7 @@ class AddIframeToProjectsTable extends Migration
     public function up()
     {
         Schema::table('projects', static function (Blueprint $table) {
-            $table->boolean('in_iframe')->default(false);
+            $table->boolean('in_iframe')->default(true);
         });
     }
 
