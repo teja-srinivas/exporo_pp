@@ -57,6 +57,7 @@ class Commission extends Model implements AuditableContract
 
     protected $casts = [
         'on_hold' => 'bool',
+        'fixed_amount' => 'bool',
         'net' => 'float',
         'gross' => 'float',
         'bonus' => 'float',

@@ -34,6 +34,7 @@ class Commission extends JsonResource
             'gross' => $model->gross,
             'vatIncluded' => $model->user->details->vat_included,
             'bonus' => $model->bonus,
+            'fixed_amount' => $model->fixed_amount,
             'onHold' => $model->on_hold,
             'note' => [
                 'private' => $model->note_private,

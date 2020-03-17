@@ -1,7 +1,7 @@
 <template>
   <div
     :class="$style.wrapper"
-    v-html="tokenize(value)"
+    v-html="tokenize(value, commission)"
   />
 </template>
 
@@ -44,7 +44,11 @@ export default {
   },
 
   methods: {
-    tokenize(str) {
+    tokenize(str, commission) {
+      if (commission.fixed_amount === true) {
+        return `<span class="${this.$style.label}">Betrag<span>${formatMoney(commission.bonus)}</span></span>`;
+      }
+
       return str
         // Replace tokens with fancy boxes that contain their value
         .replace(/[a-z]+/ig, (substring) => {
