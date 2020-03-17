@@ -77,6 +77,7 @@ class CalculateCommissionsTest extends TestCase
             'net' => 1000,
             'gross' => 1000,
             'bonus' => 10,
+            'fixed_amount' => 1,
             'note_private' => 'Abrechnung gesperrt (01.05.2019)',
             'on_hold' => true,
         ]);
