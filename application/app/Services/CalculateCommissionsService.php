@@ -45,7 +45,10 @@ final class CalculateCommissionsService
                 return null;
             }
 
-            $bonus = $parentBonus - $childBonus;
+            $bonus = [
+                'value' => ($parentBonus['value'] - $childBonus['value']),
+                'is_percentage' => $parentBonus['is_percentage'],
+            ];
         } else {
             // No overhead, calculate as usual
             $user = $investment->investor->user;
@@ -56,12 +59,17 @@ final class CalculateCommissionsService
             }
         }
 
-        $sum = $this->calculateSum($investment, $bonus);
+        if ($bonus['is_percentage'] === true) {
+            $sum = $this->calculateSum($investment, $bonus['value']);
+        } else {
+            $sum = $bonus['value'];
+        }
 
         return $this->calculateNetAndGross($user->productContract, $sum) + [
             'model_type' => Investment::MORPH_NAME,
             'model_id' => $investment->getKey(),
-            'bonus' => $bonus,
+            'bonus' => $bonus['value'],
+            'fixed_amount' => !$bonus['is_percentage'],
             'user_id' => $user->getKey(),
         ] + ($user->canBeBilled() ? [] : [
             'on_hold' => true,
@@ -124,10 +132,10 @@ final class CalculateCommissionsService
      *
      * @param Investment $investment The investment we get the commission type from
      * @param User $user The user we grab the bonus entry from
-     * @return float|null Either a value or null if there's no bonus.
+     * @return array|null Either a value or null if there's no bonus.
      *                    Yes, there can be values of 0 for which we should create a commission entry.
      */
-    public function calculateBonus(Investment $investment, User $user): ?float
+    public function calculateBonus(Investment $investment, User $user): ?array
     {
         if ($user->productContract === null) {
             return null;
@@ -136,7 +144,6 @@ final class CalculateCommissionsService
         /** @var CommissionBonus|null $bonus */
         $bonus = $user->productContract->bonuses
             ->where('type_id', $investment->project->commission_type)
-            ->where('is_percentage', true)
             ->where(
                 'calculation_type',
                 $investment->is_first_investment
@@ -157,6 +164,6 @@ final class CalculateCommissionsService
             //     Investor
             ->firstWhere('is_overhead', $investment->investor->user_id !== $user->getKey());
 
-        return $bonus !== null ? $bonus->value : null;
+        return $bonus !== null ? ['value' => $bonus->value, 'is_percentage' => $bonus->is_percentage] : null;
     }
 }
