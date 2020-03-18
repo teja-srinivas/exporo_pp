@@ -74,10 +74,9 @@ class CalculateCommissionsTest extends TestCase
             'model_id' => $investment->getKey(),
             'user_id' => $user->getKey(),
             'child_user_id' => 0,
-            'net' => 1000,
-            'gross' => 1000,
-            'bonus' => 10,
-            'fixed_amount' => 1,
+            //'net' => 1000,
+            //'gross' => 1000,
+            //'bonus' => 10,
             'note_private' => 'Abrechnung gesperrt (01.05.2019)',
             'on_hold' => true,
         ]);
