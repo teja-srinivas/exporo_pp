@@ -56,6 +56,11 @@ class Project extends Model
         self::STATUS_REPAID,
     ];
 
+    public const IFRAME_STATUSES = [
+        self::STATUS_COMING_SOON,
+        self::STATUS_IN_FUNDING,
+    ];
+
     public $incrementing = false;
 
     protected $dates = [

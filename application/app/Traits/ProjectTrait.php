@@ -31,8 +31,8 @@ trait ProjectTrait
             $errors[] = "Es ist kein Bild vorhanden.";
         }
 
-        if (!in_array($project->status, [Project::STATUS_IN_FUNDING, Project::STATUS_COMING_SOON])) {
-            $string = implode(", ", [Project::STATUS_IN_FUNDING, Project::STATUS_COMING_SOON]);
+        if (!in_array($project->status, Project::IFRAME_STATUSES)) {
+            $string = implode(", ", Project::IFRAME_STATUSES);
             $errors[] = "Status erforderlich: {$string}.";
         }
 
