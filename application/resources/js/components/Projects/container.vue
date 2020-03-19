@@ -42,10 +42,6 @@ export default {
     this.projectsBackup = clone(this.selection);
   },
 
-  computed: {
-    
-  },
-
   watch: {
     projects: function () {
       this.updateProjects();
@@ -78,7 +74,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" module>
-  
-</style>

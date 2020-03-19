@@ -37,13 +37,6 @@ export default {
     };
   },
 
-  /*computed: {
-    visibility: {
-      get () { return this.project.in_iframe },
-      set (value) { this.updateProject(value) },
-    },
-  },*/
-
   created: function () {
     this.visibility = this.project.in_iframe;
   },
@@ -78,7 +71,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" module>
-  
-</style>
