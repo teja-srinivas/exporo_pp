@@ -6,11 +6,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Schema;
 use App\Models\Project;
+use App\Traits\ProjectTrait;
 use Illuminate\Http\Request;
 use App\Models\CommissionType;
 
 class ProjectController extends Controller
 {
+    use ProjectTrait;
+
     public function __construct()
     {
         $this->authorizeResource(Project::class);
@@ -47,6 +50,16 @@ class ProjectController extends Controller
             'selection' => Project::query()
                 ->where('in_iframe', true)
                 ->get()
+                ->map(static function (Project $project) {
+                    if ((new self())->checkForError($project) !== null) {
+                        return false;
+                    }
+
+                    return [
+                        'id' => $project->id,
+                    ];
+                })
+                ->filter()
                 ->pluck('id'),
         ]);
     }
@@ -66,6 +79,10 @@ class ProjectController extends Controller
             ->pluck('name', 'id');
 
         $project->loadCount('investments');
+
+        if ($this->checkForError($project) !== null) {
+            $project->in_iframe = false;
+        }
 
         return view('projects.show', compact('project', 'schemas', 'commissionTypes'));
     }

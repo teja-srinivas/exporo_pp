@@ -9,6 +9,7 @@
 
 <script>
 import axios from 'axios';
+import clone from 'lodash/clone';
 
 export default {
   props: {
@@ -31,11 +32,14 @@ export default {
   data() {
     return {
       projects: [],
+      projectsBackup: [],
+      ignore: true,
     };
   },
 
   created: function () {
-    this.projects = this.selection;
+    this.projects = clone(this.selection);
+    this.projectsBackup = clone(this.selection);
   },
 
   computed: {
@@ -50,9 +54,26 @@ export default {
 
   methods: {
     updateProjects() {
-      axios.put(this.api, {
-        projects: this.projects,
-      });
+      if (!this.ignore) {
+        axios.put(this.api, {
+          projects: this.projects,
+        }).then(() => {
+          this.projectsBackup = clone(this.projects);
+        }).catch((error) => {
+          if (this.projectsBackup !== this.projects) {
+            this.$notify({
+              title: 'Fehler',
+              text: error.response.data.message,
+              type: 'error',
+              duration: 5000,
+            });
+            this.ignore = true;
+            this.projects = clone(this.projectsBackup);
+          }
+        });
+      } else {
+        this.ignore = false;
+      }
     },
   },
 };

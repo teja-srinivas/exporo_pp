@@ -108,6 +108,7 @@ class EmbedController extends Controller
             $query->where('type', $type);
         }
 
+        $query->whereNotNull('image');
         $query->whereNotNull('type');
         $query->whereIn('legal_setup', Embed::$legalSetup);
 
