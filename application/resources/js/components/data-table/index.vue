@@ -399,6 +399,10 @@ export default {
     selection: function (value) {
       this.$emit('input', value);
     },
+
+    value: function (value) {
+      this.selection = value;
+    },
   },
 
   computed: {
