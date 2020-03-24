@@ -69,6 +69,24 @@
               </div>
             </div>
           </div>
+
+          <div class="form-group row">
+            <label for="inputLink" class="col-xl-4 col-sm-5 col-form-label">Link:</label>
+            <div class="col-xl-8 col-sm-7 ">
+              <input
+                id="inputLink"
+                type="text"
+                class="form-control"
+                v-model="campaign.link"
+              >
+              <small class="form-text text-muted">
+                Folgende Textbausteine stehen zur Verfügung:<br>
+                <span class="badge badge-secondary">${reflink}</span> <span class="badge badge-light">?a_aid={{ user.id }}</span><br>
+                <span class="badge badge-secondary">${partnerid}</span> <span class="badge badge-light">{{ user.id }}</span><br>
+                <span class="badge badge-secondary">${partnername}</span> <span class="badge badge-light">{{ user.first_name }} {{ user.last_name }}</span>
+              </small>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -335,6 +353,10 @@ export default {
     },
     users: {
       type: Array,
+      required: true,
+    },
+    user: {
+      type: Object,
       required: true,
     },
     selected: {

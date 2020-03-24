@@ -6,10 +6,22 @@
     @if(count($campaigns) > 0)
         <div class="slider">
             @foreach($campaigns as $campaign)
-                <div>
-                    <a href="{{ route('campaigns.show', $campaign['id']) }}">
-                        <img src="{{ $campaign['image_url'] }}" alt="{{ $campaign['title'] }}" class="banner-img" />
-                    </a>
+                <div class="card accent-primary">
+                    <h3 class="mt-3 ml-3">
+                        {{ $campaign['title'] }}
+                    </h3>
+                    @if($campaign['image_url'] !== null)
+                        <a href="{{ route('campaigns.show', $campaign['id']) }}">
+                            <img src="{{ $campaign['image_url'] }}" alt="{{ $campaign['title'] }}" class="banner-img" />
+                        </a>
+                    @else
+                        <div class="px-3 lead text-muted">
+                            {{ $campaign['description'] }}
+                        </div>
+                    @endif
+                    <div class="d-flex flex-row-reverse p-3">
+                        <a href="{{ route('campaigns.show', $campaign['id']) }}" class="btn btn-primary btn-sm">mehr erfahren</a>
+                    </div>
                 </div>
             @endforeach
         </div>
@@ -58,7 +70,7 @@
 
 <style>
     .slider {
-        height: 300px;
+        //height: 300px;
     }
     .slick-prev{
         left: 5px;
