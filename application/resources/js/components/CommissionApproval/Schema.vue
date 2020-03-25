@@ -46,7 +46,7 @@ export default {
   methods: {
     tokenize(str, commission) {
       if (commission.fixed_amount === true) {
-        return `<span class="${this.$style.label}">Betrag<span>${formatMoney(commission.bonus)}</span></span>`;
+        return `<span class="${this.$style.label} py-1">EUR Provision</span>`;
       }
 
       return str

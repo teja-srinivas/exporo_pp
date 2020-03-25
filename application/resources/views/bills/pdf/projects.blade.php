@@ -35,7 +35,11 @@
             </td>
             <td class="text-right text-nowrap">{{ format_money((float) $investment['investsum']) }}</td>
             <td class="text-right text-nowrap">{{ $investment['investDate'] }}</td>
-            <td class="text-right text-nowrap">{{ $investment['bonus'] * $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
+            @if($investment['fixed_amount'])
+                <td class="text-right text-nowrap">EUR Provision</td>
+            @else
+                <td class="text-right text-nowrap">{{ $investment['bonus'] * $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
+            @endif
             <td class="text-right text-nowrap">{{ format_money((float) $investment['net']) }}</td>
         </tr>
         @unless(empty($investment['note']))

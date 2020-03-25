@@ -241,6 +241,7 @@ class BillController extends Controller
         $query->select('*');
         $query->selectRaw('commissions.bonus as cBonus');
         $query->selectRaw('commissions.created_at as created_at');
+        $query->selectRaw('commissions.fixed_amount as fixed_amount');
 
         $collection = $query->get()->groupBy(static function (Commission $commission) {
             if ($commission->model_type === Investment::LEGACY_MORPH_NAME) {
@@ -304,6 +305,7 @@ class BillController extends Controller
                 'investDate' => $investment->created_at->format('d.m.Y'),
                 'net' => $row->net,
                 'gross' => $row->gross,
+                'fixed_amount' => $row->fixed_amount,
                 'bonus' => $row->cBonus,
                 'projectName' => $project->description,
                 'projectMargin' => $project->margin,
