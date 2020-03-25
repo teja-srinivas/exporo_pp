@@ -35,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
             Models\Commission::TYPE_CORRECTION => Models\Commission::class,
             Models\BannerLink::MORPH_NAME => Models\BannerLink::class,
             Models\Link::MORPH_NAME => Models\Link::class,
+            Models\Campaign::MORPH_NAME => Models\Campaign::class,
         ]);
 
         // Accented card with its title and content in the body

@@ -4,19 +4,27 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\LinkInstance;
+use App\Traits\HasLinkInstance;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Campaign extends Model
 {
+    use HasLinkInstance;
+
     public $disk = 's3';
+
+    public const MORPH_NAME = 'campaign_link';
 
     protected $fillable = [
         'image_url',
         'document_url',
         'title',
         'description',
+        'url',
         'is_active',
         'all_users',
         'is_blacklist',
@@ -28,6 +36,16 @@ class Campaign extends Model
         'started_at',
         'ended_at',
     ];
+
+    /**
+     * Returns a list of link instances that redirect to the proper URL.
+     *
+     * @return MorphMany
+     */
+    public function instances(): MorphMany
+    {
+        return $this->morphMany(LinkInstance::class, 'link');
+    }
 
     /**
      * @return BelongsToMany

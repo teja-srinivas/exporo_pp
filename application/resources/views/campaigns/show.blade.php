@@ -20,8 +20,16 @@
         <div class="lead text-muted">
             {{ $campaign->description }}
         </div>
+        @if($campaign->link !== null)
+            <div class="mt-5">
+                <h5>Partner-Link</h5>
+                <input type="text" readonly="readonly" value="{{ $campaign->link }}" class="small overflow-auto form-control form-control-sm border-0 shadow-none">
+            </div>
+        @endif
+
         @if($campaign->document_url !== null)
             <div class="mt-5">
+                <h5>Dokument</h5>
                 <svg
                     aria-hidden="true"
                     focusable="false"

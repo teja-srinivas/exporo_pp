@@ -27,7 +27,6 @@ class DashboardController extends Controller
 
         $campaigns = Campaign::query()
             ->where('is_active', 1)
-            ->whereNotNull('image_url')
             ->where(static function (Builder $query) {
                 $query->where('started_at', '<=', now());
                 $query->orWhereNull('started_at');
@@ -52,6 +51,7 @@ class DashboardController extends Controller
 
                 return [
                     'title' => $campaign->title,
+                    'description' => $campaign->description,
                     'image_url' => $campaign->getImageDownloadUrl(),
                     'id' => $campaign->id,
                 ];

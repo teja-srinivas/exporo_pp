@@ -270,6 +270,7 @@ export default {
         link: 'Link',
         banner_link: 'Banner',
         embed: 'Iframe',
+        campaign_link: 'Kampagne',
       },
     };
   },

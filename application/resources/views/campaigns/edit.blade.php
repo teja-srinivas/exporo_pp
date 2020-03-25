@@ -29,6 +29,7 @@
         'redirect' => route('campaigns.index'),
         'editedCampaign' => $campaign,
         'users' => $users,
+        'user' => Auth::user(),
     ])
     <vue v-cloak class="cloak-fade" data-is="campaign-editor" data-props='@json($vueData)' />
 @endsection

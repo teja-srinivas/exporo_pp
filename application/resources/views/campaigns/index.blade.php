@@ -16,7 +16,7 @@
 @section('main-content')
     @card
         <div class="lead text-muted">
-            Hier etwas Text
+            Hier lassen sich Kampagnen erstellen, die Nutzern im Partner-Cockpit angezeigt werden.
         </div>
     @endcard
 

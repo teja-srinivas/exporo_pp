@@ -7,6 +7,7 @@ namespace App;
 use Carbon\Carbon;
 use App\Models\Link;
 use App\Models\User;
+use App\Models\Campaign;
 use App\Models\BannerLink;
 use App\Helper\TagReplacer;
 use Illuminate\Support\Str;
@@ -95,8 +96,9 @@ class LinkInstance extends Model implements Htmlable
         static $map = [
             Link::MORPH_NAME => 'links',
             BannerLink::MORPH_NAME => 'banners',
+            Campaign::MORPH_NAME => 'links',
         ];
-        
+
         return TagReplacer::addLinkId(
             TagReplacer::replace($this->link->url, TagReplacer::getUserTags($this->user)),
             $this->link->id,
@@ -127,6 +129,7 @@ class LinkInstance extends Model implements Htmlable
         static $map = [
             Link::MORPH_NAME => 'links',
             BannerLink::MORPH_NAME => 'banners',
+            Campaign::MORPH_NAME => 'links',
         ];
 
         return "{$prefix}.{$map[$this->link_type]}";
