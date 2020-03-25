@@ -20,6 +20,8 @@ class CampaignController extends Controller
      */
     public function store(StoreCampaign $request)
     {
+        $this->authorize(Campaign::class);
+
         $data = $request->validated();
 
         $campaign = new Campaign($data);
@@ -50,6 +52,8 @@ class CampaignController extends Controller
      */
     public function update(Campaign $campaign, StoreCampaign $request)
     {
+        $this->authorize(Campaign::class);
+
         $data = $request->validated();
 
         $campaign->update($data);
@@ -72,6 +76,11 @@ class CampaignController extends Controller
             $campaign->document_name = $document->getClientOriginalName();
         }
 
+        if (!isset($data['url'])) {
+            $campaign->instances()->delete();
+            $campaign->url = null;
+        }
+
         $campaign->users()->sync(json_decode($data['selection']));
         $campaign->save();
     }
@@ -84,6 +93,8 @@ class CampaignController extends Controller
      */
     public function deleteFile(Request $request)
     {
+        $this->authorize(Campaign::class);
+
         $type = $request->type;
         $campaign = Campaign::find($request->campaign);
         $file = null;

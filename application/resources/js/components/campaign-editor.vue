@@ -77,7 +77,7 @@
                 id="inputLink"
                 type="text"
                 class="form-control"
-                v-model="campaign.link"
+                v-model="campaign.url"
               >
               <small class="form-text text-muted">
                 Folgende Textbausteine stehen zur Verfügung:<br>

@@ -37,6 +37,7 @@ class StoreCampaign extends FormRequest
             'image' => 'mimes:jpeg,gif,png|nullable',
             'document' => 'mimes:pdf|nullable',
             'selection' => 'required|string',
+            'url' => 'string|nullable',
         ];
     }
 }

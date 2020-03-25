@@ -12,11 +12,6 @@ use Illuminate\Support\Facades\Storage;
 
 class CampaignController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Campaign::class);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -24,6 +19,8 @@ class CampaignController extends Controller
      */
     public function index()
     {
+        $this->authorize(Campaign::class);
+
         return view('campaigns.index', [
             'campaigns' => Campaign::query()->get(),
         ]);
@@ -36,6 +33,8 @@ class CampaignController extends Controller
      */
     public function create()
     {
+        $this->authorize(Campaign::class);
+
         return view('campaigns.create', [
             'users' => $this->getUsers(),
         ]);
@@ -66,6 +65,7 @@ class CampaignController extends Controller
 
         $campaign->image_url = $campaign->getImageDownloadUrl();
         $campaign->document_url = $campaign->getDocumentDownloadUrl();
+        $campaign->link = $campaign->url !== null ? $campaign->userInstance->toHtml() : null;
 
         return view('campaigns.show', [
             'campaign' => $campaign,
@@ -80,6 +80,8 @@ class CampaignController extends Controller
      */
     public function edit(Campaign $campaign)
     {
+        $this->authorize(Campaign::class);
+
         $campaign->image_url = $campaign->getImageDownloadUrl();
         $campaign->document_url = $campaign->getDocumentDownloadUrl();
         $campaign->selection = $campaign->users->map(static function ($user) {
@@ -101,6 +103,8 @@ class CampaignController extends Controller
      */
     public function destroy(Campaign $campaign)
     {
+        $this->authorize(Campaign::class);
+
         if (isset($campaign->image_url)) {
             $image = $campaign->getImageDownloadUrl();
             Storage::disk($campaign->disk)->delete($image);
@@ -111,6 +115,7 @@ class CampaignController extends Controller
             Storage::disk($campaign->disk)->delete($document);
         }
 
+        $campaign->instances()->delete();
         $campaign->users()->detach();
         $campaign->delete();
 

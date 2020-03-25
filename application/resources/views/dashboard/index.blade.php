@@ -15,7 +15,7 @@
                             <img src="{{ $campaign['image_url'] }}" alt="{{ $campaign['title'] }}" class="banner-img" />
                         </a>
                     @else
-                        <div class="px-3 lead text-muted">
+                        <div class="px-3 lead text-muted campaign-text">
                             {{ $campaign['description'] }}
                         </div>
                     @endif
@@ -69,8 +69,12 @@
 </script>
 
 <style>
+    .campaign-text {
+        height: 300px;
+        overflow: auto;
+    }
     .slider {
-        //height: 300px;
+        height: 418px;
     }
     .slick-prev{
         left: 5px;

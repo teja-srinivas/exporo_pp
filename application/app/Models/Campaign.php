@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\LinkInstance;
+use App\Traits\HasLinkInstance;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -23,6 +24,7 @@ class Campaign extends Model
         'document_url',
         'title',
         'description',
+        'url',
         'is_active',
         'all_users',
         'is_blacklist',
@@ -42,7 +44,7 @@ class Campaign extends Model
      */
     public function instances(): MorphMany
     {
-        return $this->morphMany(LinkInstance::class, 'campaign_link');
+        return $this->morphMany(LinkInstance::class, 'link');
     }
 
     /**
