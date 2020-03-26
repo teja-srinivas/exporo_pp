@@ -31,7 +31,7 @@ class CreateContractPdfs extends Command
         //product contracts
         $productContracts = Contract::query()
             ->where('type', ProductContract::STI_TYPE)
-            ->whereActive()
+            ->onlyActive()
             ->withoutPdf()
             ->get();
 
@@ -44,7 +44,7 @@ class CreateContractPdfs extends Command
         //partner contracts
         $partnerContracts = Contract::query()
             ->where('type', PartnerContract::STI_TYPE)
-            ->whereActive()
+            ->onlyActive()
             ->whereSigned()
             ->withoutPdf()
             ->get();
