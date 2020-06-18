@@ -42,34 +42,54 @@ class EmbedController extends Controller
     }
 
     /**
-     * @return JsonResponse
-     */
-    public function indexJson()
-    {
-        $this->authorize(Embed::class);
-
-        $links = Link::query()
-            ->whereIn('title', array_keys(Embed::$linkTitles))
-            ->get()
-            ->map(static function (Link $link) {
-                $link->usage = 'embed';
-
-                return [
-                    'title' => $link->title,
-                    'url' => $link->userInstance->toHtml('embed'),
-                    'type' => Embed::$linkTitles[$link->title],
-                ];
-            });
-
-        return response()->json($links);
-    }
-
-    /**
      * @param  Request  $request
      * @return Factory|View
      * @throws ValidationException
      */
     public function show(Request $request)
+    {
+        $type = null;
+
+        $data = $this->validate($request, [
+            'height' => ['required', 'in:530'],
+            'width' => ['required', 'in:770,345'],
+            'link' => ['required','url'],
+            'type' => ['nullable','in:equity,finance'],
+        ]);
+
+        if (isset($data['type'])) {
+            switch ($data['type']) {
+                case "finance":
+                    $type = "Exporo Financing";
+
+                    break;
+                case "equity":
+                    $type = "Exporo Bestand";
+
+                    break;
+                default:
+                    $type = null;
+            }
+        }
+
+        $projects = $this->getProjects($type);
+
+        if (count($projects) === 0) {
+            $projects = $this->getProjects($type, true);
+        }
+
+        return view('affiliate.embeds.show', [
+            'projects' => $projects,
+            'data' => $data,
+        ]);
+    }
+
+    /**
+     * @param  Request  $request
+     * @return JsonResponse\
+     * @throws ValidationException
+     */
+    public function showJson(Request $request)
     {
         $type = null;
 

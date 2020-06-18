@@ -130,8 +130,6 @@ Route::middleware(['verified', 'accepted', 'filled'])->group(static function () 
             ->name('commission-details');
         Route::get('affiliate/iframes', [C\EmbedController::class, 'index'])
             ->name('affiliate.embeds.index');
-        Route::get('affiliate/feed', [C\EmbedController::class, 'indexJson'])
-            ->name('affiliate.feed.index');
         Route::get('affiliate/banners', [C\BannerController::class, 'index'])
             ->name('affiliate.banners.index');
         Route::get('affiliate/dashboard', [C\AffiliateDashboardController::class, 'index'])
@@ -168,3 +166,6 @@ Route::get('users/{user}/login', [C\UserController::class, 'loginUsingId'])
 
 Route::get('affiliate/iframe', [C\EmbedController::class, 'show'])
     ->name('affiliate.embed.show');
+
+Route::get('affiliate/feed', [C\EmbedController::class, 'showFeed'])
+    ->name('affiliate.embed.feed');
