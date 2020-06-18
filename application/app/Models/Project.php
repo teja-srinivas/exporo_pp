@@ -163,14 +163,6 @@ class Project extends Model
 
     public function getAltImageAttribute()
     {
-        $project = self::query()
-            ->whereIn('description', Embed::$altImages[$this->type])
-            ->inRandomOrder()->first();
-
-        if ($project === null) {
-            return null;
-        }
-
-        return $project->image;
+        return 'https://exporo.de/images/exp_finanzierung.svg';
     }
 }
