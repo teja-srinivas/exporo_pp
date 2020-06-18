@@ -8,6 +8,7 @@ use App\Models\Link;
 use App\Models\Embed;
 use App\Models\Project;
 use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,6 +39,29 @@ class EmbedController extends Controller
         return view('affiliate.embeds.index', [
             'links' => $links,
         ]);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function indexJson()
+    {
+        $this->authorize(Embed::class);
+
+        $links = Link::query()
+            ->whereIn('title', array_keys(Embed::$linkTitles))
+            ->get()
+            ->map(static function (Link $link) {
+                $link->usage = 'embed';
+
+                return [
+                    'title' => $link->title,
+                    'url' => $link->userInstance->toHtml('embed'),
+                    'type' => Embed::$linkTitles[$link->title],
+                ];
+            });
+
+        return response()->json($links);
     }
 
     /**

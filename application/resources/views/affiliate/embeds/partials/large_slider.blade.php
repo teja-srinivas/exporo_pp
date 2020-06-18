@@ -17,7 +17,7 @@
                         Warnhinweis beachten
                     </div>
                     <img class="rounded-bl-lg rounded-tl-lg img-large"
-                        data-lazy="{{ $project['image'] }}{{ strstr($project['image'], '?') !== false ? '&' : '?' }}w=480&h=530&fit=crop"
+                        data-lazy="{{ $project['image'] }}{{ strstr($project['image'], '?') !== false ? '&' : '?' }}w=480&h=530&fit=fill"
                         alt="{{ $project['name'] }}"
                     >
                 </div>
@@ -96,7 +96,7 @@
                         @foreach($project['placeholders'] as $placeholder)
                             <div class="flex">
                                 <div class="flex-initial {{ $project['type'] === 'equity' ? 'font-check-green' : 'font-check-blue' }}">
-                                    
+
                                 </div>
                                 <div class="flex-initial pt-1 pb-1 text-xs font-bold text-gray" style="width: 240px;">
                                   {!! nl2br($placeholder) !!}

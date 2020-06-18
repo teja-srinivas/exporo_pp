@@ -16,7 +16,7 @@
                     Warnhinweis beachten
                 </div>
                 <img class="rounded-tl-lg rounded-tr-lg h-full img-small"
-                    data-lazy="{{ $project['image'] }}{{ strstr($project['image'], '?') !== false ? '&' : '?' }}w=345&h=275&fit=crop"
+                    data-lazy="{{ $project['image'] }}{{ strstr($project['image'], '?') !== false ? '&' : '?' }}w=345&h=275&fit=fill"
                     alt="{{ $project['name'] }}"
                 >
             </div>
