@@ -167,5 +167,5 @@ Route::get('users/{user}/login', [C\UserController::class, 'loginUsingId'])
 Route::get('affiliate/iframe', [C\EmbedController::class, 'show'])
     ->name('affiliate.embed.show');
 
-Route::get('affiliate/feed', [C\EmbedController::class, 'showFeed'])
+Route::get('affiliate/feed', [C\EmbedController::class, 'showJson'])
     ->name('affiliate.embed.feed');

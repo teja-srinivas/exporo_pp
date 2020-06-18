@@ -86,7 +86,7 @@ class EmbedController extends Controller
 
     /**
      * @param  Request  $request
-     * @return JsonResponse\
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function showJson(Request $request)
@@ -121,10 +121,7 @@ class EmbedController extends Controller
             $projects = $this->getProjects($type, true);
         }
 
-        return view('affiliate.embeds.show', [
-            'projects' => $projects,
-            'data' => $data,
-        ]);
+        return repsonse()->json($projects);
     }
 
     /**
