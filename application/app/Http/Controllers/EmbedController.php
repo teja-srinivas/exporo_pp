@@ -94,9 +94,6 @@ class EmbedController extends Controller
         $type = null;
 
         $data = $this->validate($request, [
-            'height' => ['required', 'in:530'],
-            'width' => ['required', 'in:770,345'],
-            'link' => ['required','url'],
             'type' => ['nullable','in:equity,finance'],
         ]);
 
