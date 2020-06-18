@@ -121,7 +121,7 @@ class EmbedController extends Controller
             $projects = $this->getProjects($type, true);
         }
 
-        return repsonse()->json($projects);
+        return response()->json($projects);
     }
 
     /**
