@@ -126,7 +126,7 @@
         <tfoot>
         @if(abs($totalGross - $total) > 0)
             <tr>
-                <th scope="row" class="text-right">zzgl. 19% MwSt.</th>
+                <th scope="row" class="text-right">zzgl. 16% MwSt.</th>
                 <td class="text-right">{{ format_money((float) ($totalGross - $total)) }}</td>
             </tr>
         @endif
