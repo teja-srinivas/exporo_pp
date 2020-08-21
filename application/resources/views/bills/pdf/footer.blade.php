@@ -52,14 +52,15 @@
                 </tr>
                 <tr>
                     <td>Aufsichtsrat:</td>
-                    <td>Andreas Haug (Vorsitzender)</td>
+                    <td>Christian Saller (Vorsitzender)</td>
                 </tr>
                 <tr>
                     <td class="align-top">Vorstand:</td>
                     <td class="align-top">
                         Simon Brunke (Vorsitzender)<br>
                         Dr. Björn Maronde<br>
-                        Julian Oertzen
+                        Julian Oertzen<br>
+                        Carl-Friedrich von Stechow
                     </td>
                 </tr>
             </table>
