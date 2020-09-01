@@ -21,12 +21,14 @@ class Kernel extends ConsoleKernel
         $out = '/proc/1/fd/1';
 
         $schedule->command(Commands\CalculateInvestorsClaims::class)
-            ->everyMinute()
+            ->hourly()
+            ->withoutOverlapping()
             ->onOneServer()
             ->appendOutputTo($out);
 
         $schedule->command(Commands\CalculateCommissions::class)
-            ->everyMinute()
+            ->hourly()
+            ->withoutOverlapping()
             ->onOneServer()
             ->appendOutputTo($out);
 
