@@ -80,11 +80,11 @@ final class CalculateCommissions extends Command
 
             Commission::query()->insert($rows->map(static function ($entry) use ($timestamps) {
                 return $entry + $timestamps + [
-                        'child_user_id' => 0,
-                        'note_private' => null,
-                        'note_public' => null,
-                        'on_hold' => false,
-                    ];
+                    'child_user_id' => 0,
+                    'note_private' => null,
+                    'note_public' => null,
+                    'on_hold' => false,
+                ];
             })->all());
         }, 'investments.id', 'id');
     }
