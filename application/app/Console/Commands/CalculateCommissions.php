@@ -59,6 +59,36 @@ final class CalculateCommissions extends Command
         });
     }
 
+    private function calculateChunkedByInvestementsId(Builder $query, callable $calculate, bool $flatten = false): void
+    {
+        // If the number of results is greater than <PER_CHUNK> the native 'chunk' method is not working.
+        // Why ever: It´s using always the first <PER_CHUNK> datasets which results in an endless loop.
+        // So we have to use 'chunkById' method and everything is fine.
+        $query->chunkById(self::PER_CHUNK, static function (Collection $chunk) use ($calculate, $flatten) {
+            $rows = $chunk->map($calculate);
+
+            if ($flatten) {
+                $rows = $rows->flatten(1);
+            }
+
+            $now = now()->toDateTimeString();
+            $instance = new Commission();
+            $timestamps = [
+                $instance->getCreatedAtColumn() => $now,
+                $instance->getUpdatedAtColumn() => $now,
+            ];
+
+            Commission::query()->insert($rows->map(static function ($entry) use ($timestamps) {
+                return $entry + $timestamps + [
+                        'child_user_id' => 0,
+                        'note_private' => null,
+                        'note_public' => null,
+                        'on_hold' => false,
+                    ];
+            })->all());
+        }, 'investments.id', 'id');
+    }
+
     /**
      * Calculates the commissions for every investor that joined
      * using some sort of affiliate link whose partner now
@@ -163,6 +193,6 @@ final class CalculateCommissions extends Command
             return $entries;
         };
 
-        $this->calculate($query, $callback, true);
+        $this->calculateChunkedByInvestementsId($query, $callback, true);
     }
 }
