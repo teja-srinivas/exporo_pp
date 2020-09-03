@@ -21,7 +21,7 @@ class PdfGenerator
     protected $api;
 
     /** @var bool */
-    protected $test = false;
+    protected $test;
 
     protected $apiKey = "8zClVkGTQmA5EVZlrXf";
 
@@ -29,6 +29,7 @@ class PdfGenerator
     {
         $this->app = $app;
         $this->api = $api;
+        $this->test = config('app.env') !== 'prod';
     }
 
     /**
