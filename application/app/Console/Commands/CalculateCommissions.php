@@ -82,18 +82,7 @@ final class CalculateCommissions extends Command
                 $instance->getUpdatedAtColumn() => $now,
             ];
 
-//            print_r($rows);
-
-//            $rows->map(static function ($entry) use ($timestamps) {
-//                print ".";
-//                var_dump($entry);
-//                return false;
-//            });
-//return false;
-
-
             Commission::query()->insert($rows->map(static function ($entry) use ($timestamps) {
-                print ".";
                 return $entry + $timestamps + [
                     'child_user_id' => 0,
                     'note_private' => null,
