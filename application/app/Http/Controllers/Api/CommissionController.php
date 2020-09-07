@@ -41,63 +41,45 @@ class CommissionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @return AnonymousResourceCollection
-     * @throws AuthorizationException
      */
-    public function index(Request $request)
+    public function index(): AnonymousResourceCollection
     {
-        $query = Commission::query()->with([
-            'user:id,last_name,first_name',
-            'user.details' => static function (HasOne $query) {
-                return $query->select(['id', 'vat_included']);
-            },
-            'childUser:id,last_name,first_name',
-            'model',
-        ]);
-
-        $results = $this->applyFilter($query, $request);
-
-        // Run a custom pagination that also sums the "net"
-        // and "gross" so we don't have to do 3 queries
-        $results = $this->runCustomPagination($results);
-
-        // Eager load morphTo relationships
-        $results->loadMorph('model', [
-            Investment::class => [
-                'investor:id,last_name,first_name',
-                'project.schema:id,formula',
-            ],
-        ]);
-
-        // Return a JSON resource
-        return CommissionResource::collection($results)->additional([
-            'meta' => [
-                'totalGross' => $results->totalGross,
-            ],
-        ]);
+        return $this->getCommissionResource();
     }
 
     /**
      * Display a listing of the resource for pending dataset.
      *
-     * @param Request $request
      * @return AnonymousResourceCollection
-     * @throws AuthorizationException
      */
-    public function pending(Request $request)
+    public function pending(): AnonymousResourceCollection
     {
-        $query = Commission::query()->where('pending', true)
-        ->with([
-            'user:id,last_name,first_name',
-            'user.details' => static function (HasOne $query) {
-                return $query->select(['id', 'vat_included']);
-            },
-            'childUser:id,last_name,first_name',
-            'model',
-        ]);
+        return $this->getCommissionResource(true);
+    }
 
-        $results = $this->applyFilter($query, $request);
+    private function getCommissionResource(bool $pending = false): AnonymousResourceCollection {
+        $query = $pending
+            ? Commission::query()
+                ->where('pending', true)
+                ->with([
+                    'user:id,last_name,first_name',
+                    'user.details' => static function (HasOne $query) {
+                        return $query->select(['id', 'vat_included']);
+                    },
+                    'childUser:id,last_name,first_name',
+                    'model',
+                ])
+            : Commission::query()->with([
+                'user:id,last_name,first_name',
+                'user.details' => static function (HasOne $query) {
+                    return $query->select(['id', 'vat_included']);
+                },
+                'childUser:id,last_name,first_name',
+                'model',
+            ]);
+
+        $results = $this->applyFilter($query, request());
 
         // Run a custom pagination that also sums the "net"
         // and "gross" so we don't have to do 3 queries
@@ -118,6 +100,9 @@ class CommissionController extends Controller
             ],
         ]);
     }
+
+
+
 
     /**
      * Store a newly created resource in storage.
