@@ -79,6 +79,47 @@ class CommissionController extends Controller
     }
 
     /**
+     * Display a listing of the resource for pending dataset.
+     *
+     * @param Request $request
+     * @return AnonymousResourceCollection
+     * @throws AuthorizationException
+     */
+    public function pending(Request $request)
+    {
+        $query = Commission::query()->where('pending', true)
+        ->with([
+            'user:id,last_name,first_name',
+            'user.details' => static function (HasOne $query) {
+                return $query->select(['id', 'vat_included']);
+            },
+            'childUser:id,last_name,first_name',
+            'model',
+        ]);
+
+        $results = $this->applyFilter($query, $request);
+
+        // Run a custom pagination that also sums the "net"
+        // and "gross" so we don't have to do 3 queries
+        $results = $this->runCustomPagination($results);
+
+        // Eager load morphTo relationships
+        $results->loadMorph('model', [
+            Investment::class => [
+                'investor:id,last_name,first_name',
+                'project.schema:id,formula',
+            ],
+        ]);
+
+        // Return a JSON resource
+        return CommissionResource::collection($results)->additional([
+            'meta' => [
+                'totalGross' => $results->totalGross,
+            ],
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  Request  $request

@@ -44,6 +44,7 @@ Vue.use(VueApexCharts);
 
 Vue.component('bonus-bundle-editor', () => import('./components/BonusBundleEditor/index.vue'));
 Vue.component('commission-approval', () => import('./components/CommissionApproval/index.vue'));
+Vue.component('commission-pending', () => import('./components/CommissionPending/index.vue'));
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('data-table', DataTable);
 Vue.component('subuser-table', SubuserTable);

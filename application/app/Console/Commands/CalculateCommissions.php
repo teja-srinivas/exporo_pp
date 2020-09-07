@@ -30,7 +30,7 @@ final class CalculateCommissions extends Command
     public function handle(CalculateCommissionsService $commissionsService)
     {
         $this->calculateInvestments($commissionsService);
-      //  $this->calculateInvestors($commissionsService);
+        $this->calculateInvestors($commissionsService);
     }
 
     private function calculate(Builder $query, callable $calculate, bool $flatten = false): void
@@ -196,8 +196,6 @@ final class CalculateCommissions extends Command
 
             return $entries;
         };
-
-        print $query->getRawSqlWithBindings();
 
         $this->calculateChunkedByInvestementsId($query, $callback, true);
     }

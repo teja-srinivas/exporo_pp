@@ -46,4 +46,36 @@ class CommissionController extends Controller
             ],
         ]);
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function pending(Request $request)
+    {
+        // Refresh commissions before entering page as we might
+        // have had updates on some other models that caused
+        // some precalculated commissions to be invalidated
+        if ($request->user()->can('create', Commission::class)) {
+            Artisan::call(CalculateCommissions::class);
+        }
+
+        $totals = Commission::query()
+            ->where('pending', true)
+            ->selectRaw('SUM(gross) as gross')
+            ->selectRaw('COUNT(commissions.id) as count')
+            ->isOpen()
+            #->isAcceptable()
+            ->afterLaunch()
+            ->get()
+            ->first();
+
+        return response()->view('commissions.pending', [
+            'totals' => [
+                'count' => (int) ($totals->count ?: 0),
+                'gross' => (float) ($totals->gross ?: 0),
+            ],
+        ]);
+    }
 }

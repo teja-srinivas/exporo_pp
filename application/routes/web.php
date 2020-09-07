@@ -65,6 +65,8 @@ Route::middleware(['verified', 'accepted', 'filled'])->group(static function () 
             ->names('commissions.types');
         Route::resource('commissions', C\CommissionController::class)
             ->only('index');
+        Route::get('pending', [C\CommissionController::class, 'pending'])
+            ->name('pending');
         Route::resource('projects', C\ProjectController::class)
             ->only('index', 'show', 'update');
         Route::resource('roles', C\RoleController::class)

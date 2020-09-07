@@ -52,7 +52,7 @@ class SidebarComposer
         clock()->endEvent('app.sidebar');
     }
 
-    protected function buildMenu()
+    protected function buildMenu(): array
     {
         if ($this->user === null) {
             return [];
@@ -125,6 +125,12 @@ class SidebarComposer
                         'title' => 'Provisionen',
                         'url' => route('commissions.index'),
                         'isActive' => $this->request->routeIs('commissions.index'),
+                        'isAllowed' => $this->user->can('create', Commission::class),
+                    ],
+                    [
+                        'title' => 'Ausstehende Provisionen',
+                        'url' => route('pending'),
+                        'isActive' => $this->request->routeIs('pending'),
                         'isAllowed' => $this->user->can('create', Commission::class),
                     ],
                     [
