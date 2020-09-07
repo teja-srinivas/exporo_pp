@@ -32,4 +32,10 @@ class Builder extends BaseBuilder
 
         return true;
     }
+
+    public function getRawSqlWithBindings(): string
+    {
+        $queryDump = str_replace(array('?'), array('\'%s\''), $this->toSql());
+        return vsprintf($queryDump, $this->getBindings());
+    }
 }

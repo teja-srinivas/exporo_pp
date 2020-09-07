@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Helper\Debug;
 use App\Models\User;
 use App\Models\Investor;
 use App\Builders\Builder;
@@ -29,7 +30,7 @@ final class CalculateCommissions extends Command
     public function handle(CalculateCommissionsService $commissionsService)
     {
         $this->calculateInvestments($commissionsService);
-        $this->calculateInvestors($commissionsService);
+      //  $this->calculateInvestors($commissionsService);
     }
 
     private function calculate(Builder $query, callable $calculate, bool $flatten = false): void
@@ -61,6 +62,9 @@ final class CalculateCommissions extends Command
 
     private function calculateChunkedByInvestementsId(Builder $query, callable $calculate, bool $flatten = false): void
     {
+        //TODO Delete all pending comissions by Observer - this is ugly programming style
+        Commission::where('pending', true)->delete();
+
         // If the number of results is greater than <PER_CHUNK> the native 'chunk' method is not working.
         // Why ever: It´s using always the first <PER_CHUNK> datasets which results in an endless loop.
         // So we have to use 'chunkById' method and everything is fine.
@@ -78,7 +82,18 @@ final class CalculateCommissions extends Command
                 $instance->getUpdatedAtColumn() => $now,
             ];
 
+//            print_r($rows);
+
+//            $rows->map(static function ($entry) use ($timestamps) {
+//                print ".";
+//                var_dump($entry);
+//                return false;
+//            });
+//return false;
+
+
             Commission::query()->insert($rows->map(static function ($entry) use ($timestamps) {
+                print ".";
                 return $entry + $timestamps + [
                     'child_user_id' => 0,
                     'note_private' => null,
@@ -192,6 +207,8 @@ final class CalculateCommissions extends Command
 
             return $entries;
         };
+
+        print $query->getRawSqlWithBindings();
 
         $this->calculateChunkedByInvestementsId($query, $callback, true);
     }

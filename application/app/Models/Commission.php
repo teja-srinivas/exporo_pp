@@ -63,6 +63,7 @@ class Commission extends Model implements AuditableContract
         'bonus' => 'float',
         'note_private' => 'string',
         'note_public' => 'string',
+        'pending' => 'bool',
     ];
 
     protected $dates = [
@@ -72,7 +73,7 @@ class Commission extends Model implements AuditableContract
 
     protected $fillable = [
         'bill_id', 'model_type', 'model_id', 'user_id',
-        'on_hold', 'note_public', 'note_private',
+        'on_hold', 'note_public', 'note_private', 'pending'
     ];
 
     public function bill(): BelongsTo

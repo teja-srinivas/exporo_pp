@@ -58,9 +58,10 @@ class InvestmentBuilder extends Builder
     {
         return $this
             ->select(['investments.*'])
+ //           ->select(['investments.*', DB::raw('investments.acknowledged_at >= \'' . now()->subDays(14) . '\' AS pending')])
             ->validInvestor()
             ->projectGotApproved()
-            ->nonRefundable()
+//            ->nonRefundable()
             ->uncancelled()
             ->doesntHave('commissions')
             ->whereNotNull('investors.user_id')

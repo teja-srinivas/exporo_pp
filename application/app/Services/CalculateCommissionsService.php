@@ -71,6 +71,10 @@ final class CalculateCommissionsService
             'bonus' => $bonus['value'],
             'fixed_amount' => !$bonus['is_percentage'],
             'user_id' => $user->getKey(),
+            'pending' => $investment->isRefundable,
+          #  '14_days' => now()->subDays(14)->toString(), //TODO just for debugging
+          #  'not_pending_in_days' => $investment->acknowledged_at->diffInDays(now()->subDays(14), false), //TODO just for debugging
+          #  'acknowledged_at' => $investment->acknowledged_at->toString(), //TODO just for debugging
         ] + ($user->canBeBilled() ? [] : [
             'on_hold' => true,
             'note_private' => 'Abrechnung gesperrt ('.now()->format('d.m.Y').')',
