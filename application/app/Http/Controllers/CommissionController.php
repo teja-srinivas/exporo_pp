@@ -6,13 +6,13 @@ namespace App\Http\Controllers;
 
 use App\Console\Commands\CalculateCommissions;
 use App\Models\Commission;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\View\View;
 
-class CommissionController extends Controller {
-    public function __construct() {
+class CommissionController extends Controller
+{
+    public function __construct()
+    {
         $this->authorizeResource(Commission::class);
     }
 
@@ -21,7 +21,8 @@ class CommissionController extends Controller {
      *
      * @return Response
      */
-    public function index(): Response {
+    public function index(): Response
+    {
         $totals = $this->calculateTotals();
 
         return response()->view('commissions.approval', [
@@ -37,7 +38,8 @@ class CommissionController extends Controller {
      *
      * @return Response
      */
-    public function pending(): Response {
+    public function pending(): Response
+    {
         $totals = $this->calculateTotals(true);
 
         return response()->view('commissions.pending', [
@@ -48,7 +50,8 @@ class CommissionController extends Controller {
         ]);
     }
 
-    private function calculateTotals(bool $pending = false): Commission {
+    private function calculateTotals(bool $pending = false): Commission
+    {
         // Refresh commissions before entering page as we might
         // have had updates on some other models that caused
         // some precalculated commissions to be invalidated

@@ -58,7 +58,8 @@ class CommissionController extends Controller
         return $this->getCommissionResource(true);
     }
 
-    private function getCommissionResource(bool $pending = false): AnonymousResourceCollection {
+    private function getCommissionResource(bool $pending = false): AnonymousResourceCollection
+    {
         $query = $pending
             ? Commission::query()
                 ->where('pending', true)
