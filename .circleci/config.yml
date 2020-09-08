@@ -137,8 +137,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
-                - contract-split
+                - stage
       - hold:
           type: approval
           requires:
