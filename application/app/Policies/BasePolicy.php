@@ -87,11 +87,11 @@ class BasePolicy
      * Determine whether the user can update the model.
      *
      * @param User $user
-     * @param Model $model
+     * @param Model|null $model
      * @return mixed
      * @throws \Exception
      */
-    public function update(User $user, $model)
+    public function update(User $user, $model = null)
     {
         return $this->hasPermission('update', $user);
     }
