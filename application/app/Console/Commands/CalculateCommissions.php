@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Helper\Debug;
 use App\Models\User;
 use App\Models\Investor;
 use App\Builders\Builder;
