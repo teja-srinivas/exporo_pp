@@ -75,14 +75,6 @@
 <h4 class="mb-4">Provisionsgutschrift</h4>
 
 <p>
-    DAVE:
-<ul>
-<li>VAT_INCLUDED: {{ $user->details->vat_included }}</li>
-<li>user->productContract->vat_included: {{ $user->productContract->vat_included }}</li>
-</ul>
-</p>
-
-<p>
     @if($isCompany)
         Sehr geehrte Damen und Herren,
     @else
@@ -138,7 +130,12 @@
                 <td class="text-right">{{ format_money((float) ($totalGross - $total)) }}</td>
             </tr>
         @endif
-            @if ($user->details->vat_included && $user->productContract && $user->productContract->vat_included)
+            @if (($totalGross === $total) &&
+                $user->details->vat_included &&
+                $user->productContract &&
+                $user->productContract->vat_included &&
+                $user->productContract->vat_amount > 0
+                )
                 <tr>
                     <th scope="row" class="text-right">inkl. {{ $user->productContract->vat_amount }}% MwSt.</th>
                     <td class="text-right">{{ format_money((float) ($totalGross * ($user->productContract->vat_amount / 100))) }}</td>
