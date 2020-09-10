@@ -155,7 +155,7 @@ class BillController extends Controller
 
     public function billPdf(Bill $bill)
     {
-        $bill->load('user');
+        $bill->load('user', 'user.productContract');
 
         $investments = $this->mapForView($bill->commissions()->getQuery());
 
