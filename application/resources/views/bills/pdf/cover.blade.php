@@ -131,7 +131,6 @@
             </tr>
         @endif
             @if (($totalGross === $total) &&
-                $user->details->vat_included &&
                 $user->productContract &&
                 $user->productContract->vat_included &&
                 $user->productContract->vat_amount > 0

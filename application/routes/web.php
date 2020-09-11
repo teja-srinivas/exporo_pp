@@ -153,8 +153,7 @@ Route::middleware(['verified', 'accepted', 'filled'])->group(static function () 
 });
 
 Route::get('bills/{bill}/pdf', [C\BillController::class, 'billPdf'])
-    //TODO delete comment - fir testing needed
-   // ->middleware('signed')
+    ->middleware('signed')
     ->name('bills.pdf');
 
 Route::get('contracts/{contract}/pdf', [C\Contract\ContractPdfController::class, 'show'])
