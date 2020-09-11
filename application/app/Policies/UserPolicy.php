@@ -43,11 +43,11 @@ class UserPolicy extends BasePolicy
      * and edit it regardless of our permissions (it's us, after all).
      *
      * @param  User $user
-     * @param  User $model
+     * @param  User|null $model
      * @return mixed
      * @throws \Exception
      */
-    public function update(User $user, $model)
+    public function update(User $user, $model = null)
     {
         return $user->is($model) || parent::update($user, $model);
     }
