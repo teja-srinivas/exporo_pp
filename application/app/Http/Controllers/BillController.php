@@ -323,7 +323,11 @@ class BillController extends Controller
         }
 
         return $investors
-            ->load('investor:id,first_name,last_name,activation_at')
+            ->load([
+                'investor' => static function ($query) {
+                    $query->withTrashed()->select(['id', 'first_name', 'last_name', 'activation_at'])->get();
+                },
+            ])
             ->map(static function (Commission $row) {
                 $activationDate = Carbon::make($row['activation_at'] ?? $row->investor->activation_at);
 
