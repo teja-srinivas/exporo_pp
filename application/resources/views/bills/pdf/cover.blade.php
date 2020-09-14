@@ -130,6 +130,16 @@
                 <td class="text-right">{{ format_money((float) ($totalGross - $total)) }}</td>
             </tr>
         @endif
+            @if (($totalGross === $total) &&
+                $user->productContract &&
+                $user->productContract->vat_included &&
+                $user->productContract->vat_amount > 0
+                )
+                <tr>
+                    <th scope="row" class="text-right">inkl. {{ $user->productContract->vat_amount }}% MwSt.</th>
+                    <td class="text-right">{{ format_money((float) ($totalGross * ($user->productContract->vat_amount / 100))) }}</td>
+                </tr>
+            @endif
             <tr>
                 <th scope="row" class="text-right">Summe Gutschrift</th>
                 <td class="font-weight-bold text-right">{{ format_money(max(0, $totalGross)) }}</td>
