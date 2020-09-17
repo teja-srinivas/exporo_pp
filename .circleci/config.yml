@@ -138,6 +138,7 @@ workflows:
             branches:
               only:
                 - stage
+                - master
       - hold:
           type: approval
           requires:
