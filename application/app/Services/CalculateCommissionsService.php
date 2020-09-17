@@ -107,7 +107,7 @@ final class CalculateCommissionsService
     {
         $vatAmount = $contract->vat_amount;
 
-        if ($vatAmount <= 0) {
+        if ($vatAmount <= 0 || $contract->vat_included) {
             return [
                 'net' => $sum,
                 'gross' => $sum,
