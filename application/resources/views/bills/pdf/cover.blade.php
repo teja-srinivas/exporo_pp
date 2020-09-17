@@ -132,12 +132,11 @@
         @endif
             @if (($totalGross === $total) &&
                 $user->productContract &&
-                $user->productContract->vat_included &&
-                $user->productContract->vat_amount > 0
+                $user->productContract->vat_included
                 )
                 <tr>
-                    <th scope="row" class="text-right">inkl. {{ $user->productContract->vat_amount }}% MwSt.</th>
-                    <td class="text-right">{{ format_money((float) ($totalGross * ($user->productContract->vat_amount / 100))) }}</td>
+                    <th scope="row" class="text-right">inkl. {{ $user->productContract->vat_amount > 0 ? $user->productContract->vat_amount : 16 }}% MwSt.</th>
+                    <td class="text-right">{{ format_money((float) ($totalGross * ($user->productContract->vat_amount > 0 ? $user->productContract->vat_amount : 16 / 100))) }}</td>
                 </tr>
             @endif
             <tr>
