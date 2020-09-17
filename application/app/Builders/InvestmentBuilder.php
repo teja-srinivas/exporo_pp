@@ -60,7 +60,6 @@ class InvestmentBuilder extends Builder
             ->select(['investments.*'])
             ->validInvestor()
             ->projectGotApproved()
-            ->nonRefundable()
             ->uncancelled()
             ->doesntHave('commissions')
             ->whereNotNull('investors.user_id')

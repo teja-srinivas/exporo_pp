@@ -42,3 +42,19 @@ Passwort | secret
   - Projekte
   - Benutzer
   - Abrechnungen
+  
+## Deploy to Stage
+- Einfach den 'Stage' Branch pushen
+- in CircleCi wird dann eine Pipeline gestartet, die bei 'Hold' stoppt.
+    - https://app.circleci.com/pipelines/bitbucket/exporodev
+- Stage:
+    - https://stage.partnerprogramm.exporo.de/ 
+    
+## Deploy to Prod
+- Branch pushen
+- PR erstellen  
+    - https://bitbucket.org/exporodev/exporo_pp/pull-requests/new
+    - Ziel: Master
+    - Close Branch: anwählen
+- Es wird automatisch auf prod deployed, sobald der PR bestätigt wurde.  
+ 

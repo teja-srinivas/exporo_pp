@@ -61,6 +61,9 @@ final class CalculateCommissions extends Command
 
     private function calculateChunkedByInvestementsId(Builder $query, callable $calculate, bool $flatten = false): void
     {
+        //TODO Delete all pending comissions by Observer - this is ugly programming style
+        Commission::where('pending', true)->delete();
+
         // If the number of results is greater than <PER_CHUNK> the native 'chunk' method is not working.
         // Why ever: It´s using always the first <PER_CHUNK> datasets which results in an endless loop.
         // So we have to use 'chunkById' method and everything is fine.

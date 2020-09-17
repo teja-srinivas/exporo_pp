@@ -24,6 +24,7 @@ Route::name('api.')->middleware('auth:api')->group(static function () {
     )->names('commissions.bonuses');
 
     Route::apiResource('commissions', Api\CommissionController::class);
+    Route::get('pending', [Api\CommissionController::class, 'pending'])->name('pending');
     Route::delete('commissions', [Api\CommissionController::class, 'destroyMultiple']);
     Route::apiResource('contracts/templates', Api\ContractTemplateController::class)->names('contracts.templates');
     Route::apiResource('contracts/templates/{template}/bonuses', Api\ContractTemplateBonusController::class)

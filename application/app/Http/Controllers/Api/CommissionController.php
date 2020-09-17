@@ -41,22 +41,46 @@ class CommissionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @return AnonymousResourceCollection
-     * @throws AuthorizationException
      */
-    public function index(Request $request)
+    public function index(): AnonymousResourceCollection
     {
-        $query = Commission::query()->with([
-            'user:id,last_name,first_name',
-            'user.details' => static function (HasOne $query) {
-                return $query->select(['id', 'vat_included']);
-            },
-            'childUser:id,last_name,first_name',
-            'model',
-        ]);
+        return $this->getCommissionResource();
+    }
 
-        $results = $this->applyFilter($query, $request);
+    /**
+     * Display a listing of the resource for pending dataset.
+     *
+     * @return AnonymousResourceCollection
+     */
+    public function pending(): AnonymousResourceCollection
+    {
+        return $this->getCommissionResource(true);
+    }
+
+    private function getCommissionResource(bool $pending = false): AnonymousResourceCollection
+    {
+        $query = $pending
+            ? Commission::query()
+                ->where('pending', true)
+                ->with([
+                    'user:id,last_name,first_name',
+                    'user.details' => static function (HasOne $query) {
+                        return $query->select(['id', 'vat_included']);
+                    },
+                    'childUser:id,last_name,first_name',
+                    'model',
+                ])
+            : Commission::query()->with([
+                'user:id,last_name,first_name',
+                'user.details' => static function (HasOne $query) {
+                    return $query->select(['id', 'vat_included']);
+                },
+                'childUser:id,last_name,first_name',
+                'model',
+            ]);
+
+        $results = $this->applyFilter($query, request());
 
         // Run a custom pagination that also sums the "net"
         // and "gross" so we don't have to do 3 queries
@@ -77,6 +101,9 @@ class CommissionController extends Controller
             ],
         ]);
     }
+
+
+
 
     /**
      * Store a newly created resource in storage.
