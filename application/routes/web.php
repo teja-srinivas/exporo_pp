@@ -27,6 +27,9 @@ Route::middleware(['referred'])->group(static function () {
 
     Route::namespace('App\Http\Controllers')->group(static function () {
         Auth::routes(['verify' => true]);
+
+        Route::get('email/resend', 'Auth\VerificationController@resend')
+            ->name('verification.resend');
     });
 });
 
