@@ -31,14 +31,10 @@ class VerificationController extends Controller
      * Resend the email verification notification.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function resend(Request $request)
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect($this->redirectPath());
-        }
-
         $this->authorize('process', $request->user());
 
         $request->user()->sendEmailVerificationNotification();
