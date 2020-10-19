@@ -158,7 +158,8 @@
     Die vergütete Provision ist gem. § 4 Nr. 8a UStG ein steuerfreier Umsatz.
     Für den Fall, dass die seitens der {{ $company->name }} gezahlten Provisionen als
     umsatzsteuerpflichtig bewertet werden sollten, so gilt die oben abgerechnete
-    Provision als Bruttobetrag inkl. der zu zahlenden Umsatzsteuer.
+    Provision als Bruttobetrag inkl. der zu zahlenden Umsatzsteuer. Die Exporo AG zahlt
+    mit schuldbefreiender Wirkung für die Exporo Investment GmbH.
 </p>
 @endif
 
