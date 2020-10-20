@@ -17,11 +17,19 @@
     <tbody>
     @foreach($investments as $project)
         @php($details = $project[0])
-
         <tr class="bg-white">
-            <th scope="rowgroup" colspan="5">
-                <h5 class="m-0">{{ $details['projectName'] }}</h5>
-            </th>
+            @if ($details['projectIsPrivatePlacement'])
+                <th scope="rowgroup">
+                    <h5 class="m-0">{{ $details['projectName'] }}</h5>
+                </th>
+                <th scope="rowgroup" colspan="4" class="small text-muted align-middle">
+                    Laufzeitfaktor: {{ $details['projectFactor'] }} ({{ $details['projectRuntime'] }} Monate)
+                </th>
+            @else
+                <th scope="rowgroup" colspan="5">
+                    <h5 class="m-0">{{ $details['projectName'] }}</h5>
+                </th>
+            @endif
         </tr>
 
     @foreach($project as $investment)
@@ -34,6 +42,8 @@
             <td class="text-right text-nowrap">{{ $investment['investDate'] }}</td>
             @if($investment['fixed_amount'])
                 <td class="text-right text-nowrap">EUR Provision</td>
+            @elseif ($details['projectIsPrivatePlacement'])
+                <td class="text-right text-nowrap">{{ $investment['bonus'] * $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
             @else
                 <td class="text-right text-nowrap">{{ $investment['bonus'] * $details['projectMargin'] }}%</td>
             @endif

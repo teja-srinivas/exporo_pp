@@ -19,9 +19,18 @@
         @php($details = $project[0])
 
         <tr class="bg-white">
-            <th scope="rowgroup" colspan="5">
-                <h5 class="m-0">{{ $details['projectName'] }}</h5>
-            </th>
+            @if ($details['projectIsPrivatePlacement'])
+                <th scope="rowgroup">
+                    <h5 class="m-0">{{ $details['projectName'] }}</h5>
+                </th>
+                <th scope="rowgroup" colspan="4" class="small text-muted align-middle">
+                    Laufzeitfaktor: {{ $details['projectFactor'] }} ({{ $details['projectRuntime'] }} Monate)
+                </th>
+            @else
+                <th scope="rowgroup" colspan="5">
+                    <h5 class="m-0">{{ $details['projectName'] }}</h5>
+                </th>
+            @endif
         </tr>
 
         @foreach($project as $investment)
@@ -31,7 +40,11 @@
                 </td>
                 <td class="text-right text-nowrap">{{ format_money((float) $investment['investsum']) }}</td>
                 <td class="text-right text-nowrap">{{ $investment['investDate'] }}</td>
-                <td class="text-right text-nowrap">{{ $investment['bonus'] * $details['projectMargin'] }}%</td>
+                @if ($details['projectIsPrivatePlacement'])
+                    <td class="text-right text-nowrap">{{ $investment['bonus'] * $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
+                @else
+                    <td class="text-right text-nowrap">{{ $investment['bonus'] * $details['projectMargin'] }}%</td>
+                @endif
                 <td class="text-right text-nowrap">{{ format_money((float) $investment['net']) }}</td>
             </tr>
             @unless(empty($investment['note']))
