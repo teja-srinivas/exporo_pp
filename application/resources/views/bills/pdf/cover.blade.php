@@ -73,8 +73,7 @@
 
 <!-- Page Content -->
 <h4 class="mb-4">Provisionsgutschrift</h4>
-<h5 class="mb-5">Gemäß Partnervertrag mit der Exporo Investment GmbH vom {{ $user->productContract->accepted_at->format('d.m.Y') }}</h5>
-
+<h5 class="mb-5">Gemäß Partnervertrag mit der Exporo Investment GmbH vom {{ $user->partnerContract->accepted_at->format('d.m.Y') }}</h5>
 
 <p>
     @if($isCompany)
