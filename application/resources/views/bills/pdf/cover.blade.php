@@ -154,15 +154,15 @@
     @endif
 </div>
 
-@if(bccomp(abs($totalGross - $total), 0, 2) === 0)
 <p class="text-justify mb-4">
+    @if(bccomp(abs($totalGross - $total), 0, 2) === 0)
     Die vergütete Provision ist gem. § 4 Nr. 8a UStG ein steuerfreier Umsatz.
     Für den Fall, dass die seitens der {{ $company->name }} gezahlten Provisionen als
     umsatzsteuerpflichtig bewertet werden sollten, so gilt die oben abgerechnete
-    Provision als Bruttobetrag inkl. der zu zahlenden Umsatzsteuer. Die Exporo AG zahlt
-    mit schuldbefreiender Wirkung für die Exporo Investment GmbH.
+    Provision als Bruttobetrag inkl. der zu zahlenden Umsatzsteuer.
+    @endif
+    Die Exporo AG zahlt mit schuldbefreiender Wirkung für die Exporo Investment GmbH.
 </p>
-@endif
 
 <p class="text-justify mb-4">
     Die Abrechnung ist sofort nach Erhalt auf Richtigkeit hin zu überprüfen.
