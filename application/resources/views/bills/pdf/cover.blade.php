@@ -153,7 +153,7 @@
                 </tr>
             @endif
             <tr>
-                <th scope="row" class="text-right">Summe Gutschrift2</th>
+                <th scope="row" class="text-right">Summe Gutschrift</th>
                 <td class="font-weight-bold text-right">{{ format_money(max(0, $totalGross)) }}</td>
             </tr>
         </tfoot>
