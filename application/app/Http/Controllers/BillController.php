@@ -259,6 +259,8 @@ class BillController extends Controller
 
         return [
             'investments' => $investments->sortNatural('lastName')->groupBy('projectName')->sortKeys(),
+            'investmentsSumFirstInvestment' => $investments->where('isFirstInvestment', true)->sum('gross'),
+            'investmentsSumNoneFirstInvestment' => $investments->where('isFirstInvestment', false)->sum('gross'),
             'investmentSum' => $investments->sum('investsum'),
             'investmentNetSum' => $investments->sum('net'),
             'investmentGrossSum' => $investments->sum('gross'),
@@ -268,6 +270,8 @@ class BillController extends Controller
             'investorsGrossSum' => $investors->sum('gross'),
 
             'overheads' => $overhead->sortBy('lastName')->groupBy('projectName')->sortKeys(),
+            'overheadsSumFirstInvestment' => $overhead->where('isFirstInvestment', true)->sum('gross'),
+            'overheadsSumNoneFirstInvestment' => $overhead->where('isFirstInvestment', false)->sum('gross'),
             'overheadSum' => $overhead->sum('investsum'),
             'overheadNetSum' => $overhead->sum('net'),
             'overheadGrossSum' => $overhead->sum('gross'),
@@ -303,6 +307,7 @@ class BillController extends Controller
                 'lastName' => trim($investor->last_name),
                 'investsum' => $investment->amount,
                 'investDate' => $investment->created_at->format('d.m.Y'),
+                'isFirstInvestment' => $investment->is_first_investment,
                 'net' => $row->net,
                 'gross' => $row->gross,
                 'fixed_amount' => $row->fixed_amount,
@@ -367,6 +372,7 @@ class BillController extends Controller
                 'lastName' => trim($partner->last_name),
                 'investsum' => $investment->amount,
                 'investDate' => $investment->created_at->format('d.m.Y'),
+                'isFirstInvestment' => $investment->is_first_investment,
                 'net' => $row->net,
                 'gross' => $row->gross,
                 'bonus' => $row->cBonus,

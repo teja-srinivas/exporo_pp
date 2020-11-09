@@ -47,21 +47,12 @@
                     <td>HRB 134393</td>
                 </tr>
                 <tr>
-                    <td>Steuernummer:</td>
-                    <td>48/719/02491</td>
+                    <td>Ust. Identifikationsnummer:</td>
+                    <td>DE311848109</td>
                 </tr>
                 <tr>
-                    <td>Aufsichtsrat:</td>
-                    <td>Christian Saller (Vorsitzender)</td>
-                </tr>
-                <tr>
-                    <td class="align-top">Vorstand:</td>
-                    <td class="align-top">
-                        Simon Brunke (Vorsitzender)<br>
-                        Dr. Björn Maronde<br>
-                        Julian Oertzen<br>
-                        Carl-Friedrich von Stechow
-                    </td>
+                    <td>Geschäftsführung:</td>
+                    <td>Dr. Knut Riesmeier</td>
                 </tr>
             </table>
         </td>
@@ -77,7 +68,7 @@
                 </tr>
                 <tr>
                     <td>IBAN:</td>
-                    <td>DE37200505501238196024</td>
+                    <td>DE05 2005 0550 1238 2077 55</td>
                 </tr>
                 <tr>
                     <td>BIC:</td>
@@ -85,7 +76,7 @@
                 </tr>
                 <tr>
                     <td>Kto.-Nr.:&emsp;</td>
-                    <td>1238196024</td>
+                    <td>1238 2077 55</td>
                 </tr>
                 <tr>
                     <td>BLZ:</td>

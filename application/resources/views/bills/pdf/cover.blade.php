@@ -72,7 +72,7 @@
 </div>
 
 <!-- Page Content -->
-<h4 class="mb-4">Provisionsgutschrift</h4>
+<h4 class="mb-4">Provisionsgutschrift {{ optional($bill->released_at)->format('F Y') }}</h4>
 <h5 class="mb-5">Gemäß Partnervertrag mit der Exporo Investment GmbH vom {{ $user->partnerContract->accepted_at->format('d.m.Y') }}</h5>
 
 <p>
@@ -125,6 +125,15 @@
         </tbody>
 
         <tfoot>
+            <tr>
+                <th scope="row">Umsatz Neukunden</th>
+                <td class="text-right">{{ format_money((float) ($investmentsSumFirstInvestment + $overheadsSumFirstInvestment)) }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Umsatz Bestandskunden</th>
+                <td class="text-right">{{ format_money((float) ($investmentsSumNoneFirstInvestment + $overheadsSumNoneFirstInvestment)) }}</td>
+            </tr>
+
         @if(abs($totalGross - $total) > 0)
             <tr>
                 <th scope="row" class="text-right">zzgl. 16% MwSt.</th>
