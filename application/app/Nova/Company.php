@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 
-class Company extends Resource {
+class Company extends Resource
+{
     /**
      * The model the resource corresponds to.
      *
@@ -32,7 +33,8 @@ class Company extends Resource {
      * @param \Illuminate\Http\Request $request
      * @return array
      */
-    public function fields(Request $request) {
+    public function fields(Request $request)
+    {
         return [
             ID::make()->sortable(),
 
