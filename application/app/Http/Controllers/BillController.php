@@ -383,7 +383,7 @@ class BillController extends Controller
                 'projectRuntime' => $project->runtimeInMonths(),
                 'projectFactor' => $project->runtimeFactor(),
                 'projectIsPrivatePlacement' => $project->status
-                    ? false !== strpos(($project->status || ''), "(PP)")
+                    ? false !== strpos($project->status, "(PP)")
                     : false,
                 'note' => $row->note_public,
             ];
