@@ -381,6 +381,14 @@ class CommissionController extends Controller
             ->when($fields->filters('id'), static function (Builder $query) use ($fields) {
                 $query->where('commissions.model_id', $fields->get('id')->filter);
             })
+            ->when($fields->filters('legalSetup'), static function (Builder $query) use ($fields) {
+                $legalSetup = $fields->get('legalSetup')->filter;
+
+                $projectIds = Project::where('legal_setup', $legalSetup)
+                    ->select('id');
+
+                $query->whereIn('investments.project_id', $projectIds);
+            })
             ->withinRange(
                 $fields->get('rangeFrom', Commission::LAUNCH_DATE)->filter,
                 $fields->filters('rangeTo') ? $fields->get('rangeTo')->filter : null

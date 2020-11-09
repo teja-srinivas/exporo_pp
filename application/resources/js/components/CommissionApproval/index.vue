@@ -646,6 +646,7 @@ export default {
         id: '',
         model: '',
         type: '',
+        legalSetup: '',
         user: '',
         overhead: '',
         reviewed: false,
