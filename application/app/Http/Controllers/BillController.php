@@ -316,7 +316,9 @@ class BillController extends Controller
                 'projectMargin' => $project->margin,
                 'projectRuntime' => $project->runtimeInMonths(),
                 'projectFactor' => $project->runtimeFactor(),
-                'projectIsPrivatePlacement' => false !== strpos($project->status, "(PP)"),
+                'projectIsPrivatePlacement' => $project->status
+                    ? false !== strpos($project->status, "(PP)")
+                    : false,
                 'note' => $row->note_public,
             ];
         })->toBase();
@@ -380,7 +382,9 @@ class BillController extends Controller
                 'projectMargin' => $project->margin,
                 'projectRuntime' => $project->runtimeInMonths(),
                 'projectFactor' => $project->runtimeFactor(),
-                'projectIsPrivatePlacement' => false !== strpos($project->status, "(PP)"),
+                'projectIsPrivatePlacement' => $project->status
+                    ? false !== strpos(($project->status || ''), "(PP)")
+                    : false,
                 'note' => $row->note_public,
             ];
         });
