@@ -72,7 +72,7 @@
 </div>
 
 <!-- Page Content -->
-<h4 class="mb-4">Provisionsgutschrift {{ optional($bill->released_at)->format('F Y') }}</h4>
+<h4 class="mb-4">Provisionsgutschrift {{ optional($bill->released_at->subMonth(1))->format('F Y') }}</h4>
 <h5 class="mb-5">Gemäß Partnervertrag mit der Exporo Investment GmbH vom {{ $user->partnerContract->accepted_at->format('d.m.Y') }}</h5>
 
 <p>
@@ -170,7 +170,6 @@
     umsatzsteuerpflichtig bewertet werden sollten, so gilt die oben abgerechnete
     Provision als Bruttobetrag inkl. der zu zahlenden Umsatzsteuer.
     @endif
-    Die Exporo AG zahlt mit schuldbefreiender Wirkung für die Exporo Investment GmbH.
 </p>
 
 <p class="text-justify mb-4">
