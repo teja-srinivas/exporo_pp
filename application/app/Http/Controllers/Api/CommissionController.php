@@ -385,17 +385,17 @@ class CommissionController extends Controller
                 $legalSetup = $fields->get('legalSetup')->filter;
 
                 $legalSetupMap = [
-                  'bond' => [
-                      'bond',
-                      'bondLight',
-                      'priip',
-                  ],
-                  'investment' => [
-                      'subordiantedLoan',
-                      'investmentLaw2',
-                      'investmentLaw2a',
-                      'silentParticipation',
-                  ],
+                    'bond' => [
+                        'bond',
+                        'bondLight',
+                        'priip',
+                    ],
+                    'investment' => [
+                        'subordiantedLoan',
+                        'investmentLaw2',
+                        'investmentLaw2a',
+                        'silentParticipation',
+                    ],
                 ];
 
                 $projectIds = Project::whereIn('legal_setup', $legalSetupMap[$legalSetup])
