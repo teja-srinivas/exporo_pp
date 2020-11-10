@@ -69,13 +69,8 @@
                   class="form-control form-control-sm w-auto py-0 px-1 h-auto ml-1"
                 >
                   <option value="">Alle</option>
-                  <option value="silentParticipation">silentParticipation</option>
-                  <option value="investmentLaw2a">investmentLaw2a</option>
-                  <option value="investmentLaw2">investmentLaw2</option>
-                  <option value="subordinatedLoan">subordinatedLoan</option>
-                  <option value="bond">bond</option>
-                  <option value="bondLight">bondLight</option>
-                  <option value="priip">priip</option>
+                  <option value="bond">Bond</option>
+                  <option value="investment">Investment</option>
                 </select>
               </div>
             </div>

@@ -384,7 +384,21 @@ class CommissionController extends Controller
             ->when($fields->filters('legalSetup'), static function (Builder $query) use ($fields) {
                 $legalSetup = $fields->get('legalSetup')->filter;
 
-                $projectIds = Project::where('legal_setup', $legalSetup)
+                $legalSetupMap = [
+                  'bond' => [
+                      'bond',
+                      'bondLight',
+                      'priip',
+                  ],
+                  'investment' => [
+                      'subordiantedLoan',
+                      'investmentLaw2',
+                      'investmentLaw2a',
+                      'silentParticipation',
+                  ],
+                ];
+
+                $projectIds = Project::whereIn('legal_setup', $legalSetupMap[$legalSetup])
                     ->select('id');
 
                 $query->whereIn('investments.project_id', $projectIds);
