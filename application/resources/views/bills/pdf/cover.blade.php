@@ -72,7 +72,7 @@
 </div>
 
 <!-- Page Content -->
-<h4 class="mb-4">Provisionsgutschrift {{ optional($bill->released_at)->format('F Y') }}</h4>
+<h4 class="mb-4">Provisionsgutschrift {{ optional($bill->released_at->subMonth(1))->format('F Y') }}</h4>
 <h5 class="mb-5">Gemäß Partnervertrag mit der Exporo Investment GmbH vom {{ $user->partnerContract->accepted_at->format('d.m.Y') }}</h5>
 
 <p>
