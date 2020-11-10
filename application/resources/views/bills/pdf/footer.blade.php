@@ -44,7 +44,7 @@
                 </tr>
                 <tr>
                     <td>Handelsregister:&emsp;</td>
-                    <td>HRB 134393</td>
+                    <td>HRB 146341</td>
                 </tr>
                 <tr>
                     <td>Ust. Identifikationsnummer:</td>
