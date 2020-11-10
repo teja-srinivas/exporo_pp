@@ -170,7 +170,6 @@
     umsatzsteuerpflichtig bewertet werden sollten, so gilt die oben abgerechnete
     Provision als Bruttobetrag inkl. der zu zahlenden Umsatzsteuer.
     @endif
-    Die Exporo AG zahlt mit schuldbefreiender Wirkung für die Exporo Investment GmbH.
 </p>
 
 <p class="text-justify mb-4">
