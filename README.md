@@ -58,3 +58,8 @@ Passwort | secret
     - Close Branch: anwählen
 - Es wird automatisch auf prod deployed, sobald der PR bestätigt wurde.  
  
+## Code Analyse
+Code Style Check. Vor dem PR auszuführen.
+```
+php artisan code:analyse
+```

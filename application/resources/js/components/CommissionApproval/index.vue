@@ -34,6 +34,50 @@
         <!-- Header -->
         <thead>
           <tr>
+            <th colspan="5">
+              <div class="row d-flex flex-row justify-content-end">
+                <div class="col-md-2">Typ</div>
+                <div class="col-md-2">Overhead</div>
+                <div class="col-md-2">Legal Setup</div>
+              </div>
+              <div class="row d-flex flex-row justify-content-end">
+                <div class="col-md-2">
+                  <select
+                    v-model="filter.type"
+                    class="form-control form-control-sm w-auto py-0 px-1 h-auto"
+                  >
+                    <option value="">(Alle)</option>
+                    <option value="investor">Registrierung</option>
+                    <option value="investment">Projektinvestment</option>
+                    <option value="first-investment">Erstinvestment</option>
+                    <option value="further-investment">Folgeinvestment</option>
+                    <option value="correction">Sonderbuchung</option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <select
+                    v-model="filter.overhead"
+                    class="form-control form-control-sm w-auto py-0 px-1 h-auto ml-1"
+                  >
+                    <option value="">(Overhead)</option>
+                    <option value="true">Ja</option>
+                    <option value="false">Nein</option>
+                  </select>
+                </div>
+                <div class="col-md-2 mr-2">
+                  <select
+                    v-model="filter.legalSetup"
+                    class="form-control form-control-sm w-auto py-0 px-1 h-auto ml-1"
+                  >
+                    <option value="">Alle</option>
+                    <option value="bond">Bond</option>
+                    <option value="investment">Investment</option>
+                  </select>
+                </div>
+              </div>
+            </th>
+          </tr>
+          <tr>
             <th class="border-bottom-1 align-top">
               ID
               <input
@@ -97,33 +141,9 @@
               >
             </filter-button>
 
+
             <th class="border-bottom-1">
-              <div class="d-flex justify-content-between">
-                Typ
 
-                <div class="d-flex">
-                  <select
-                    v-model="filter.type"
-                    class="form-control form-control-sm w-auto py-0 px-1 h-auto"
-                  >
-                    <option value="">(Alle)</option>
-                    <option value="investor">Registrierung</option>
-                    <option value="investment">Projektinvestment</option>
-                    <option value="first-investment">Erstinvestment</option>
-                    <option value="further-investment">Folgeinvestment</option>
-                    <option value="correction">Sonderbuchung</option>
-                  </select>
-
-                  <select
-                    v-model="filter.overhead"
-                    class="form-control form-control-sm w-auto py-0 px-1 h-auto ml-1"
-                  >
-                    <option value="">(Overhead)</option>
-                    <option value="true">Ja</option>
-                    <option value="false">Nein</option>
-                  </select>
-                </div>
-              </div>
               <input
                 slot="below"
                 type="text"
@@ -621,6 +641,7 @@ export default {
         id: '',
         model: '',
         type: '',
+        legalSetup: '',
         user: '',
         overhead: '',
         reviewed: false,
