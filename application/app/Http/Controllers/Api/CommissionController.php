@@ -398,7 +398,7 @@ class CommissionController extends Controller
                     ],
                 ];
 
-                if ($legalSetup !== "null"){
+                if ($legalSetup !== "null") {
                     $projectIds = Project::whereIn('legal_setup', $legalSetupMap[$legalSetup])
                         ->select('id');
                 } else {
