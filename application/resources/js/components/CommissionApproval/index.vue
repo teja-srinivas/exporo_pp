@@ -72,6 +72,7 @@
                     <option value="">Alle</option>
                     <option value="bond">Bond</option>
                     <option value="investment">Investment</option>
+                    <option value="null">Nicht gesetzt</option>
                   </select>
                 </div>
               </div>

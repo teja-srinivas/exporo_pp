@@ -398,8 +398,13 @@ class CommissionController extends Controller
                     ],
                 ];
 
-                $projectIds = Project::whereIn('legal_setup', $legalSetupMap[$legalSetup])
-                    ->select('id');
+                if ($legalSetup !== "null"){
+                    $projectIds = Project::whereIn('legal_setup', $legalSetupMap[$legalSetup])
+                        ->select('id');
+                } else {
+                    $projectIds = Project::whereNull('legal_setup')
+                        ->select('id');
+                }
 
                 $query->whereIn('investments.project_id', $projectIds);
             })
