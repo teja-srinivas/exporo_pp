@@ -44,10 +44,8 @@
             <td class="text-right text-nowrap">{{ $investment['investDate'] }}</td>
             @if($investment['fixed_amount'])
                 <td class="text-right text-nowrap">EUR Provision</td>
-            @elseif ($details['projectIsPrivatePlacement'])
-                <td class="text-right text-nowrap">{{ $investment['bonus'] * $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
             @else
-                <td class="text-right text-nowrap">{{ $investment['bonus'] * $details['projectMargin'] }}%</td>
+                <td class="text-right text-nowrap">{{ $investment['bonus'] * $details['projectMargin'] }}% * {{ $details['projectFactor'] }}</td>
             @endif
             <td class="text-right text-nowrap">{{ format_money((float) $investment['net']) }}</td>
         </tr>
