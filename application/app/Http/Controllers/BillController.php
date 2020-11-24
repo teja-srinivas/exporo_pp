@@ -259,8 +259,8 @@ class BillController extends Controller
 
         return [
             'investments' => $investments->sortNatural('lastName')->groupBy('projectName')->sortKeys(),
-            'investmentsSumFirstInvestment' => $investments->where('isFirstInvestment', true)->sum('gross'),
-            'investmentsSumNoneFirstInvestment' => $investments->where('isFirstInvestment', false)->sum('gross'),
+            'investmentsSumFirstInvestment' => $investments->where('isFirstInvestment', true)->sum('net'),
+            'investmentsSumNoneFirstInvestment' => $investments->where('isFirstInvestment', false)->sum('net'),
             'investmentSum' => $investments->sum('investsum'),
             'investmentNetSum' => $investments->sum('net'),
             'investmentGrossSum' => $investments->sum('gross'),
@@ -270,8 +270,8 @@ class BillController extends Controller
             'investorsGrossSum' => $investors->sum('gross'),
 
             'overheads' => $overhead->sortBy('lastName')->groupBy('projectName')->sortKeys(),
-            'overheadsSumFirstInvestment' => $overhead->where('isFirstInvestment', true)->sum('gross'),
-            'overheadsSumNoneFirstInvestment' => $overhead->where('isFirstInvestment', false)->sum('gross'),
+            'overheadsSumFirstInvestment' => $overhead->where('isFirstInvestment', true)->sum('net'),
+            'overheadsSumNoneFirstInvestment' => $overhead->where('isFirstInvestment', false)->sum('net'),
             'overheadSum' => $overhead->sum('investsum'),
             'overheadNetSum' => $overhead->sum('net'),
             'overheadGrossSum' => $overhead->sum('gross'),
