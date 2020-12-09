@@ -61,5 +61,6 @@ Passwort | secret
 ## Code Analyse
 Code Style Check. Vor dem PR auszuführen.
 ```
-php artisan code:analyse
+cd application
+composer lint
 ```
