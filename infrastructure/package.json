@@ -10,7 +10,7 @@
     "aws-stage": "npx exporo-cloud aws-x --env stage"
   },
   "dependencies": {
-    "exporo-cloud": "git+ssh://git@bitbucket.org/exporodev/exporo_infrastructure.git#2.2.0-dev1"
+    "@exporo/infrastructure": "2.2.0-dev"
   },
   "author": "Exporo Partner Program Team team.partnerprogramm@exporo.com",
   "license": "UNLICENSED"
