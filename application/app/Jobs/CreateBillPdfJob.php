@@ -49,6 +49,7 @@ class CreateBillPdfJob implements ShouldQueue
 
     private function store(Filesystem $disk, string $result): void
     {
-        $disk->put("statements/{$this->bill->getKey()}", $result, 'private');
+        $fileSuffix = env('FILESYSTEM_CLOUD') === 'local' ? '.pdf' : '';
+        $disk->put("statements/{$this->bill->getKey()}{$fileSuffix}", $result, 'private');
     }
 }
