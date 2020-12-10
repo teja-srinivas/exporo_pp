@@ -162,7 +162,6 @@ class DashboardController extends Controller
 
         $baseQuery->groupBy('bills.created_at');
         $baseQuery->whereNotNull('bill_id');
-        $baseQuery->where('gross', '>=', 0);
 
         $commissionQuery = clone $baseQuery;
 

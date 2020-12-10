@@ -242,7 +242,7 @@ class UserController extends Controller
         $name = $user->details->display_name;
 
         flash_success("$name wurde gelöscht.");
-        
+
         return redirect()->route('users.index');
     }
 
