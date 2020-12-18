@@ -141,21 +141,30 @@
                     <tr>
                         <th scope="row" class="text-right">inkl. {{ $vatPercent }}% MwSt.</th>
                         <td class="text-right">
-                            {{ format_money((float) (($totalGross / (100 + $vatPercent)) * $vatPercent)) }}
+                            {{ format_money((float) (($total / (100 + $vatPercent)) * $vatPercent)) }}
                         </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-right">Summe Gutschrift</th>
+                        <td class="font-weight-bold text-right">{{ format_money(max(0, $total)) }}</td>
                     </tr>
                 @else
                     <tr>
                         <th scope="row" class="text-right">zzgl. {{ $vatPercent }}% MwSt.</th>
                         <td class="text-right">{{ format_money((float) ($totalGross - $total)) }}</td>
                     </tr>
+                    <tr>
+                        <th scope="row" class="text-right">Summe Gutschrift</th>
+                        <td class="font-weight-bold text-right">{{ format_money(max(0, $totalGross)) }}</td>
+                    </tr>
                 @endif
+            @else
+                <tr>
+                    <th scope="row" class="text-right">Summe Gutschrift</th>
+                    <td class="font-weight-bold text-right">{{ format_money(max(0, $totalGross)) }}</td>
+                </tr>
             @endif
 
-            <tr>
-                <th scope="row" class="text-right">Summe Gutschrift</th>
-                <td class="font-weight-bold text-right">{{ format_money(max(0, $totalGross)) }}</td>
-            </tr>
             </tfoot>
         </table>
     @else
