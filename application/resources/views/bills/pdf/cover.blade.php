@@ -134,19 +134,22 @@
                 <td class="text-right">{{ format_money((float) ($investmentsSumNoneFirstInvestment + $overheadsSumNoneFirstInvestment)) }}</td>
             </tr>
 
-            @if ($user->productContract && $user->productContract->vat_included)
-                @php($vatPercent = $user->productContract->vat_amount > 0 ? $user->productContract->vat_amount : 16)
-                <tr>
-                    <th scope="row" class="text-right">inkl. {{ $vatPercent }}% MwSt.</th>
-                    <td class="text-right">
-                        {{ format_money((float) (($totalGross / (100 + $vatPercent)) * $vatPercent)) }}
-                    </td>
-                </tr>
-            @else
-                <tr>
-                    <th scope="row" class="text-right">zzgl. 16% MwSt.</th>
-                    <td class="text-right">{{ format_money((float) ($totalGross - $total)) }}</td>
-                </tr>
+            @if ($user->productContract && $user->productContract->vat_amount > 0)
+                @php($vatPercent = $user->productContract->vat_amount)
+
+                @if ($user->productContract->vat_included)
+                    <tr>
+                        <th scope="row" class="text-right">inkl. {{ $vatPercent }}% MwSt.</th>
+                        <td class="text-right">
+                            {{ format_money((float) (($totalGross / (100 + $vatPercent)) * $vatPercent)) }}
+                        </td>
+                    </tr>
+                @else
+                    <tr>
+                        <th scope="row" class="text-right">zzgl. {{ $vatPercent }}% MwSt.</th>
+                        <td class="text-right">{{ format_money((float) ($totalGross - $total)) }}</td>
+                    </tr>
+                @endif
             @endif
 
             <tr>
