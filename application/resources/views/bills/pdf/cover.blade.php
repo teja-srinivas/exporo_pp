@@ -120,7 +120,7 @@
                 <tr>
                     <th scope="row">
                     {{ $title }}
-                    @if ($user->productContract->vat_included)
+                    @if ($user->productContract && $user->productContract->vat_included)
                             (netto)
                     @endif
                     </td>
@@ -136,7 +136,7 @@
             <tr>
                 <th scope="row">
                     Umsatz Neukunden
-                    @if ($user->productContract->vat_included)
+                    @if ($user->productContract && $user->productContract->vat_included)
                         (netto)
                     @endif
                 </th>
@@ -145,7 +145,7 @@
             <tr>
                 <th scope="row">
                     Umsatz Bestandskunden
-                    @if ($user->productContract->vat_included)
+                    @if ($user->productContract && $user->productContract->vat_included)
                         (netto)
                     @endif
                 </th>
