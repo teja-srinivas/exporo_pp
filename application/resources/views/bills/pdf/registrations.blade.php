@@ -6,7 +6,12 @@
         <tr>
             <th class="border-top-0">Anleger</th>
             <th class="border-top-0 text-right">Registrierungsdatum</th>
-            <th class="border-top-0 text-right">Provision</th>
+            <th class="border-top-0 text-right">
+                Provision
+                @if ($user->productContract && $user->productContract->vat_included)
+                    (netto)
+                @endif
+            </th>
         </tr>
         </thead>
         <tbody>

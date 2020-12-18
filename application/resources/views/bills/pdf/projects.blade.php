@@ -7,7 +7,12 @@
             <th class="border-top-0">Betrag</th>
             <th class="border-top-0">Datum</th>
             <th class="border-top-0">Formel</th>
-            <th class="border-top-0">Provision</th>
+            <th class="border-top-0">
+                Provision
+                @if ($user->productContract && $user->productContract->vat_included)
+                 (netto)
+                @endif
+            </th>
         </tr>
         <tr>
             <td colspan="5" class="py-2" style="border-width: 0 !important;"></td>

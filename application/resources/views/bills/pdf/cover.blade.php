@@ -118,7 +118,12 @@
             @foreach($sums as $title => $sum)
                 @continue($sum === 0)
                 <tr>
-                    <th scope="row">{{ $title }}</td>
+                    <th scope="row">
+                    {{ $title }}
+                    @if ($user->productContract && $user->productContract->vat_included)
+                            (netto)
+                    @endif
+                    </td>
                     <td class="text-right">{{ format_money((float) $sum) }}</td>
                 </tr>
             @endforeach
@@ -126,36 +131,70 @@
 
             <tfoot>
             <tr>
-                <th scope="row">Umsatz Neukunden</th>
+                <td colspan="2">&nbsp;</td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    Umsatz Neukunden
+                    @if ($user->productContract && $user->productContract->vat_included)
+                        (netto)
+                    @endif
+                </th>
                 <td class="text-right">{{ format_money((float) ($investmentsSumFirstInvestment + $overheadsSumFirstInvestment)) }}</td>
             </tr>
             <tr>
-                <th scope="row">Umsatz Bestandskunden</th>
+                <th scope="row">
+                    Umsatz Bestandskunden
+                    @if ($user->productContract && $user->productContract->vat_included)
+                        (netto)
+                    @endif
+                </th>
                 <td class="text-right">{{ format_money((float) ($investmentsSumNoneFirstInvestment + $overheadsSumNoneFirstInvestment)) }}</td>
             </tr>
 
-            @if(abs($totalGross - $total) > 0)
+            @if ($user->productContract && $user->productContract->vat_amount > 0)
+                @php($vatPercent = $user->productContract->vat_amount)
+
+                @if ($user->productContract->vat_included)
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Umsatz (brutto)</th>
+                        <td class="text-right">
+                            {{ format_money(max(0, $totalGross)) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-right">inkl. {{ $vatPercent }}% MwSt.</th>
+                        <td class="text-right">
+                            {{ format_money((float) (($totalGross / (100 + $vatPercent)) * $vatPercent)) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-right">Summe Gutschrift</th>
+                        <td class="font-weight-bold text-right">{{ format_money(max(0, $totalGross)) }}</td>
+                    </tr>
+                @else
+                    <tr>
+                        <th scope="row" class="text-right">zzgl. {{ $vatPercent }}% MwSt.</th>
+                        <td class="text-right">{{ format_money((float) ($totalGross - $total)) }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-right">Summe Gutschrift</th>
+                        <td class="font-weight-bold text-right">{{ format_money(max(0, $totalGross)) }}</td>
+                    </tr>
+                @endif
+            @else
                 <tr>
-                    <th scope="row" class="text-right">zzgl. 16% MwSt.</th>
-                    <td class="text-right">{{ format_money((float) ($totalGross - $total)) }}</td>
+                    <th scope="row" class="text-right">Summe Gutschrift</th>
+                    <td class="font-weight-bold text-right">{{ format_money(max(0, $totalGross)) }}</td>
                 </tr>
             @endif
-            @if (($totalGross === $total) &&
-                $user->productContract &&
-                $user->productContract->vat_included
-                )
-                @php($vatPercent = $user->productContract->vat_amount > 0 ? $user->productContract->vat_amount : 16)
-                <tr>
-                    <th scope="row" class="text-right">inkl. {{ $vatPercent }}% MwSt.</th>
-                    <td class="text-right">
-                        {{ format_money((float) (($totalGross / (100 + $vatPercent)) * $vatPercent)) }}
-                    </td>
-                </tr>
-            @endif
-            <tr>
-                <th scope="row" class="text-right">Summe Gutschrift</th>
-                <td class="font-weight-bold text-right">{{ format_money(max(0, $totalGross)) }}</td>
-            </tr>
+
             </tfoot>
         </table>
     @else
