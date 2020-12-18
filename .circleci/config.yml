@@ -107,7 +107,12 @@ jobs:
 
       - run:
           name: Build and push docker image
-          command: cd ./infrastructure && npm install && npm run docker
+          command: |
+            cd ./infrastructure
+            echo "@exporo:registry=https://npm.pkg.github.com/" >> ~/.npmrc
+            echo "//npm.pkg.github.com/:_authToken=$NPM_READ_TOKEN" >> ~/.npmrc
+            npm install
+            npm run docker
 
       - run:
           name: Update aws infrastructure - reload/restart services
@@ -127,7 +132,12 @@ jobs:
             aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile pp-admin
       - run:
           name: update aws infrastructure - reload/restart services
-          command: cd ./infrastructure && npm install && npm run aws-prod
+          command: |
+            cd ./infrastructure
+            echo "@exporo:registry=https://npm.pkg.github.com/" >> ~/.npmrc
+            echo "//npm.pkg.github.com/:_authToken=$NPM_READ_TOKEN" >> ~/.npmrc
+            npm install
+            npm run aws-prod
 
 workflows:
   version: 2

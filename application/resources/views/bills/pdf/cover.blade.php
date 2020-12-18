@@ -29,35 +29,35 @@
         <h3>{{ $company->name }}</h3>
 
         @unless(empty($company->phone_number))
-        <div class="my-3">
-            <strong>Telefon</strong><br>
-            {{ $company->parsePhoneNumber($company->phone_number) }}
-        </div>
+            <div class="my-3">
+                <strong>Telefon</strong><br>
+                {{ $company->parsePhoneNumber($company->phone_number) }}
+            </div>
         @endunless
 
         @unless(empty($company->fax_number))
-        <div class="my-3">
-            <strong>Fax</strong><br>
-            {{ $company->parsePhoneNumber($company->fax_number) }}
-        </div>
+            <div class="my-3">
+                <strong>Fax</strong><br>
+                {{ $company->parsePhoneNumber($company->fax_number) }}
+            </div>
         @endunless
 
         @unless(empty($company->email))
-        <div class="my-3">
-            <strong>E-Mail</strong><br>
-            <a href="mailto:{{ $company->email }}" target="_blank">
-                {{ $company->email }}
-            </a>
-        </div>
+            <div class="my-3">
+                <strong>E-Mail</strong><br>
+                <a href="mailto:{{ $company->email }}" target="_blank">
+                    {{ $company->email }}
+                </a>
+            </div>
         @endunless
 
         @unless(empty($company->website))
-        <div class="my-3">
-            <strong>Webseite</strong><br>
-            <a href="https://{{ $company->website }}" target="_blank">
-                {{ $company->website }}
-            </a>
-        </div>
+            <div class="my-3">
+                <strong>Webseite</strong><br>
+                <a href="https://{{ $company->website }}" target="_blank">
+                    {{ $company->website }}
+                </a>
+            </div>
         @endunless
     </div>
 </div>
@@ -113,18 +113,18 @@
     @php($totalGross = $investmentGrossSum + $overheadGrossSum + $investorsGrossSum + $customGrossSum)
 
     @if(count(array_filter($sums)) > 0)
-    <table class="table table-sm mx-auto w-50 table-foot-totals">
-        <tbody>
-        @foreach($sums as $title => $sum)
-            @continue($sum === 0)
-            <tr>
-                <th scope="row">{{ $title }}</td>
-                <td class="text-right">{{ format_money((float) $sum) }}</td>
-            </tr>
-        @endforeach
-        </tbody>
+        <table class="table table-sm mx-auto w-50 table-foot-totals">
+            <tbody>
+            @foreach($sums as $title => $sum)
+                @continue($sum === 0)
+                <tr>
+                    <th scope="row">{{ $title }}</td>
+                    <td class="text-right">{{ format_money((float) $sum) }}</td>
+                </tr>
+            @endforeach
+            </tbody>
 
-        <tfoot>
+            <tfoot>
             <tr>
                 <th scope="row">Umsatz Neukunden</th>
                 <td class="text-right">{{ format_money((float) ($investmentsSumFirstInvestment + $overheadsSumFirstInvestment)) }}</td>
@@ -156,8 +156,8 @@
                 <th scope="row" class="text-right">Summe Gutschrift</th>
                 <td class="font-weight-bold text-right">{{ format_money(max(0, $totalGross)) }}</td>
             </tr>
-        </tfoot>
-    </table>
+            </tfoot>
+        </table>
     @else
         <div class="text-center font-weight-bold">Für diesen Monat sind keine Provisionen angefallen.</div>
     @endif
@@ -165,10 +165,10 @@
 
 <p class="text-justify mb-4">
     @if(bccomp(abs($totalGross - $total), 0, 2) === 0)
-    Die vergütete Provision ist gem. § 4 Nr. 8a UStG ein steuerfreier Umsatz.
-    Für den Fall, dass die seitens der {{ $company->name }} gezahlten Provisionen als
-    umsatzsteuerpflichtig bewertet werden sollten, so gilt die oben abgerechnete
-    Provision als Bruttobetrag inkl. der zu zahlenden Umsatzsteuer.
+        Die vergütete Provision ist gem. § 4 Nr. 8a UStG ein steuerfreier Umsatz.
+        Für den Fall, dass die seitens der {{ $company->name }} gezahlten Provisionen als
+        umsatzsteuerpflichtig bewertet werden sollten, so gilt die oben abgerechnete
+        Provision als Bruttobetrag inkl. der zu zahlenden Umsatzsteuer.
     @endif
 </p>
 
@@ -177,8 +177,8 @@
     Sie gilt als anerkannt, sofern nicht innerhalb von 4 Wochen nach dem Erhalt,
     dieser schriftlich gegenüber der
     <i>{{ $company->name }}, {{ $company->street }}
-    {{ $company->street_no }},
-    {{ $company->postal_code }} {{ $company->city }}</i>
+        {{ $company->street_no }},
+        {{ $company->postal_code }} {{ $company->city }}</i>
     oder per Email an <a href="mailto:{{ $company->email }}">{{ $company->email }}</a>
     widersprochen wurde.
 </p>

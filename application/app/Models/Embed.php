@@ -33,7 +33,9 @@ class Embed extends Model
 
     public static $legalSetup = [
         'bond',
+        'bondLight',
         'investmentLaw2a',
+        'priip',
     ];
 
     public static $altImages = [
