@@ -100,12 +100,15 @@ class ProjectController extends Controller
     {
         $data = $this->validate($request, [
             'accept' => 'nullable|boolean',
-            'pdp_link' => new GermanUrlRule(),
+            'pdp_link' => [
+                'nullable',
+                new GermanUrlRule(),
+            ],
             'schema' => 'nullable|numeric|exists:schemas,id',
             'commissionType' => 'nullable|numeric|exists:commission_types,id',
         ]);
 
-        if (isset($data['pdp_link'])) {
+        if (array_key_exists('pdp_link', $data)) {
             $project->pdp_link = $data['pdp_link'];
             $project->save();
 

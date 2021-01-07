@@ -174,7 +174,7 @@
                 'default' => $project->pdp_link,
                 'autocomplete' => 'pdp_link',
                 'autofocus' => true,
-                'required' => true,
+                'required' => false,
                 'class' => 'w-75',
             ])
 
