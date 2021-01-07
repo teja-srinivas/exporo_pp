@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Schema;
 use App\Models\Project;
+use App\Rules\GermanUrlRule;
 use App\Traits\ProjectTrait;
 use Illuminate\Http\Request;
 use App\Models\CommissionType;
@@ -99,9 +100,20 @@ class ProjectController extends Controller
     {
         $data = $this->validate($request, [
             'accept' => 'nullable|boolean',
+            'pdp_link' => [
+                'nullable',
+                new GermanUrlRule(),
+            ],
             'schema' => 'nullable|numeric|exists:schemas,id',
             'commissionType' => 'nullable|numeric|exists:commission_types,id',
         ]);
+
+        if (array_key_exists('pdp_link', $data)) {
+            $project->pdp_link = $data['pdp_link'];
+            $project->save();
+
+            flash_success('Der PDP Link wurde erfolgreich gespeichert.');
+        }
 
         if (isset($data['accept'])) {
             $project->approved_at = now();

@@ -185,6 +185,7 @@ class EmbedController extends Controller
                 'funding_target' => $project->funding_target,
                 'funding_current_sum_invested' => min($investmentSum, $project->funding_target),
                 'placeholders' => Embed::$placeholders[$type],
+                'pdp_link' => $project->pdp_link,
             ];
         })->all();
     }
