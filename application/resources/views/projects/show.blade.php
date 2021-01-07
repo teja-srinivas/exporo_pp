@@ -158,4 +158,28 @@
         </form>
         @endslot
     @endcard
+
+    @card
+    @slot('title', 'Project Detail Page')
+    @slot('subtitle', 'Bitte gebe hier den Link zur PDP des Projektes ein')
+    @slot('footer')
+        <form action="{{ route('projects.update', $project) }}" method="POST"
+              class="d-flex justify-content-end form-inline">
+            @method('PUT')
+            @csrf
+
+            @include('components.form.input', [
+                'type' => 'pdp_link',
+                'name' => 'pdp_link',
+                'default' => $project->pdp_link,
+                'autocomplete' => 'pdp_link',
+                'autofocus' => true,
+                'required' => true,
+                'class' => 'w-75',
+            ])
+
+            <button class="btn btn-primary ml-2">PDP Link speichern</button>
+        </form>
+    @endslot
+    @endcard
 @endsection

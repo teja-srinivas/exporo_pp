@@ -36,6 +36,7 @@ use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $approved_at
+ * @property string|null $pdp_link
  *
  * @property-read Collection $investments
  * @property-read int $investments_count
@@ -72,7 +73,7 @@ class Project extends Model
     protected $fillable = [
         'id', 'name', 'created_at', 'updated_at', 'launched_at',
         'payback_min_at', 'payback_max_at', 'approved_at', 'approved_by', 'schema_id', 'capital_cost',
-        'interest_rate', 'runtime', 'commission_type',
+        'interest_rate', 'runtime', 'commission_type', 'pdp_link',
     ];
 
     protected $casts = [
