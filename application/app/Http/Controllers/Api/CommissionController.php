@@ -60,18 +60,9 @@ class CommissionController extends Controller
 
     private function getCommissionResource(bool $pending = false): AnonymousResourceCollection
     {
-        $query = $pending
-            ? Commission::query()
-                ->where('pending', true)
-                ->with([
-                    'user:id,last_name,first_name',
-                    'user.details' => static function (HasOne $query) {
-                        return $query->select(['id', 'vat_included']);
-                    },
-                    'childUser:id,last_name,first_name',
-                    'model',
-                ])
-            : Commission::query()->with([
+        $query = Commission::query()
+            ->where('pending', $pending)
+            ->with([
                 'user:id,last_name,first_name',
                 'user.details' => static function (HasOne $query) {
                     return $query->select(['id', 'vat_included']);
