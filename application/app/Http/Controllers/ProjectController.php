@@ -27,13 +27,29 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        $selectionIDs = Project::query()
+            ->where('in_iframe', true)
+            ->get()
+            ->map(static function (Project $project) {
+                if ((new self())->checkForError($project) !== null) {
+                    return false;
+                }
+
+                return [
+                    'id' => $project->id,
+                ];
+            })
+            ->filter()
+            ->pluck('id');
+
         return view('projects.index', [
             'projects' => Project::query()
                 ->with('commissionType', 'schema')
                 ->get()
-                ->map(static function (Project $project) {
+                ->map(static function (Project $project) use ($selectionIDs) {
                     return [
                         'id' => $project->id,
+                        'inSelection' => $selectionIDs->contains($project->id) ? 'Ja' : '',
                         'name' => $project->description,
                         'schema' => optional($project->schema)->name,
                         'type' => optional($project->commissionType)->name,
@@ -48,20 +64,7 @@ class ProjectController extends Controller
                         ],
                     ];
                 }),
-            'selection' => Project::query()
-                ->where('in_iframe', true)
-                ->get()
-                ->map(static function (Project $project) {
-                    if ((new self())->checkForError($project) !== null) {
-                        return false;
-                    }
-
-                    return [
-                        'id' => $project->id,
-                    ];
-                })
-                ->filter()
-                ->pluck('id'),
+            'selection' => $selectionIDs,
         ]);
     }
 

@@ -12,6 +12,11 @@
             'rows' => $projects->values(),
             'columns' => [
                 [
+                    'name' => 'inSelection',
+                    'label' => 'iFrame',
+                    'width' => '80',
+                ],
+                [
                     'name' => 'name',
                     'label' => 'Name',
                     'link' => 'links.self',
