@@ -58,7 +58,6 @@ class Project extends Resource
             Number::make('Financing Entity ID')->sortable(),
             Number::make('Immo Project ID')->sortable(),
             Text::make('Description'),
-            Text::make('Legal Setup')->sortable(),
             Text::make('Schema', 'schema.name')->sortable(),
             Text::make('Approved At', 'approved_at')->sortable(),
             Date::make('Funding Start', 'launched_at')->sortable(),

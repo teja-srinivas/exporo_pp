@@ -15,15 +15,16 @@
 
     @if (Route::current()->getName() === "login")
         <meta name="robots" content="noindex"/>
+        <title>Exporo Partnerprogramm: Login</title>
+    @else
+        <title>
+            {{ config('app.name') }}
+
+            {{-- Extract the page title from our (possibly) breadcrumbed title section --}}
+            @php($pageTitle = strip_tags($__env->yieldContent('title')))
+            @unless(empty($pageTitle)) - {{ $pageTitle }}@endunless
+        </title>
     @endif
-
-    <title>
-        {{ config('app.name') }}
-
-        {{-- Extract the page title from our (possibly) breadcrumbed title section --}}
-        @php($pageTitle = strip_tags($__env->yieldContent('title')))
-        @unless(empty($pageTitle)) - {{ $pageTitle }}@endunless
-    </title>
 
     <!-- Scripts -->
     <script src="{{ mix('js/manifest.js') }}" defer></script>
