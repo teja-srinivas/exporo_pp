@@ -9,8 +9,16 @@
     <meta name="api-token" content="{{ optional(auth()->user())->api_token ?? '' }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    @guest
+        <meta name="description" content="Werden Sie Teil des Exporo Partnerprogramms. Jetzt zum Partnerprogramm anmelden und bei erfolgreicher Vermittlung Provision verdienen."/>
+    @endguest
+
+    @if (Route::current()->getName() === "login")
+        <meta name="robots" content="noindex"/>
+    @endif
+
     <title>
-        {{ config('app.name')}}
+        {{ config('app.name') }}
 
         {{-- Extract the page title from our (possibly) breadcrumbed title section --}}
         @php($pageTitle = strip_tags($__env->yieldContent('title')))
