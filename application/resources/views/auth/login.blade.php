@@ -57,6 +57,9 @@
                             <a class="btn btn-link" href="{{ route('password.request') }}">
                                 {{ __('Forgot Your Password?') }}
                             </a>
+
+                            <a class="btn btn-link" href="https://cockpit.exporo.de/" title="Zum Exporo Investmentcockpit">Zu Ihrem Investmentcockpit</a>
+
                         </div>
                     </div>
                 </form>
