@@ -83,7 +83,7 @@ class BillsExport implements FromCollection, WithHeadings, WithMapping
             $bill->id,
             number_format($totalGross, 2, ',', ''),
             'S',
-            $totalGross > $totalNet ? 99 : '',
+            $totalGross > $totalNet ? 50 : '',
         ];
     }
 
