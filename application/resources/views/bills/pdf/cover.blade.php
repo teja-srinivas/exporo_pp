@@ -121,7 +121,7 @@
                     <th scope="row">
                     {{ $title }}
                     @if ($user->productContract && $user->productContract->vat_included)
-                            (netto)
+                            (Netto)
                     @endif
                     </td>
                     <td class="text-right">{{ format_money((float) $sum) }}</td>
@@ -137,7 +137,7 @@
                 <th scope="row">
                     Umsatz Neukunden
                     @if ($user->productContract && $user->productContract->vat_included)
-                        (netto)
+                        (Netto)
                     @endif
                 </th>
                 <td class="text-right">{{ format_money((float) ($investmentsSumFirstInvestment + $overheadsSumFirstInvestment)) }}</td>
@@ -146,7 +146,7 @@
                 <th scope="row">
                     Umsatz Bestandskunden
                     @if ($user->productContract && $user->productContract->vat_included)
-                        (netto)
+                        (Netto)
                     @endif
                 </th>
                 <td class="text-right">{{ format_money((float) ($investmentsSumNoneFirstInvestment + $overheadsSumNoneFirstInvestment)) }}</td>
