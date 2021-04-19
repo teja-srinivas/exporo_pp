@@ -10,7 +10,7 @@
             <th class="border-top-0">
                 Provision
                 @if ($user->productContract && $user->productContract->vat_included)
-                 (netto)
+                 (Netto)
                 @endif
             </th>
         </tr>
