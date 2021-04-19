@@ -78,12 +78,12 @@ class BillsExport implements FromCollection, WithHeadings, WithMapping
             self::sanitize($bill->user->details->bic),
             $bill->released_at->format('d.m.Y'),
             ($bill->user_id + 700000) * 100,
-            3102000,
+            3100401,
             'Provisionsgutschrift',
             $bill->id,
             number_format($totalGross, 2, ',', ''),
             'S',
-            $totalGross > $totalNet ? 50 : '',
+            $totalGross > $totalNet ? 54 : '',
         ];
     }
 
