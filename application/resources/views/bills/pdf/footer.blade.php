@@ -52,7 +52,7 @@
                 </tr>
                 <tr>
                     <td>Geschäftsführung:</td>
-                    <td>Dr. Knut Riesmeier</td>
+                    <td>Patrick Hartmann, Dr. Knut Riesmeier</td>
                 </tr>
             </table>
         </td>
