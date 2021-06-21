@@ -6,7 +6,7 @@
 <p>
     der Exporo Investment GmbH,<br>
     Am Sandtorkai 70, 20457 Hamburg, HRB Hamburg 146341,
-    vertreten durch ihren Prokuristen Patrick Hartmann.
+    vertreten durch ihren Geschäftsführer Patrick Hartmann.
 </p>
 <p style="text-align: right;">- im Folgenden „Exporo“ genannt -</p>
 <p style="text-align: center;">und</p>
