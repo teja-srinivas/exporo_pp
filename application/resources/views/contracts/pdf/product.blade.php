@@ -28,7 +28,7 @@
                     <tr>
                         <td style="text-align: left;">
                             Hierzu zählen alle Investmentangebote, die auf
-                            <a href="https://exporo.de/">https://exporo.de</a>
+                            <a href="https://www.exporo.de/">https://www.exporo.de</a>
                             für jeden einsehbar und somit abschließbar sind.
                             Aktuell wird grundsätzlich zwischen zwei unterschiedlichen Produkten unterschieden:
                             <ul>
@@ -54,7 +54,7 @@
         <div style="margin-left: 2rem;">
             <p><strong>Exporo Finanzierung: </strong></p>
             <p>
-                Exporo bietet über die Webseite <a href="https://exporo.de/">https://exporo.de</a> den Zugang und das
+                Exporo bietet über die Webseite <a href="https://www.exporo.de/">https://www.exporo.de</a> den Zugang und das
                 Netzwerk zu professionellen Immobilienprojekten, in welche Anleger über die
                 Plattform bereits mit geringen Investmentsummen (i. d. R. ab 1, 100 oder 500 EUR in
                 eine Vermögensanlage nach § 1 des Gesetzes über Vermögensanlagen oder in (tokenbasierten)
@@ -73,7 +73,7 @@
             </p>
             <p><strong>Exporo Bestand: </strong></p>
             <p>
-                Exporo bietet über die Webseite <a href="https://exporo.de/">https://exporo.de</a>,
+                Exporo bietet über die Webseite <a href="https://www.exporo.de/">https://www.exporo.de</a>,
                 <a href="https://www.propvest.de/">https://www.propvest.de/</a> bzw. einer anderen
                 von Exporo betriebenen Landingpage im Rahmen des Produktes "Exporo Bestand" bzw. perspektivisch
                 „Propvest“ Bestandsobjekte an, die in der Regel vermietet sind oder vermietet werden sollen. Ein Teil

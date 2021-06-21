@@ -25,7 +25,7 @@
 <p style="text-align: right;">- im Folgenden „Partner“ genannt –</p>
 <p><strong>Präambel</strong></p>
 <p>
-    Exporo betreibt unter anderem die Webseiten <a href="https://exporo.de">https://exporo.de</a> und <a href="https://www.propvest.de">https://www.propvest.de</a> (nachfolgend auch „Plattform“ genannt),
+    Exporo betreibt unter anderem die Webseiten <a href="https://www.exporo.de">https://www.exporo.de</a> und <a href="https://www.propvest.de">https://www.propvest.de</a> (nachfolgend auch „Plattform“ genannt),
     über die Anleger in Immobilien und Immobilienprojekte investieren sowie Unternehmen (nachfolgend auch Projektentwickler" genannt)
     Kapital für Immobilien und Immobilienprojekte einwerben können.
 </p>
@@ -54,7 +54,7 @@
     wie z.B. Banner, Produktdaten, Text-Links, E-Mails, Videos etc. mit integrierten Hoplinks, indem der Partner diese
     auf einer von ihm betriebenen Homepage oder Website oder einen eigenen Blog veröffentlich oder einer E-Mail an potentielle
     Anleger versendet ("Namhaftmachung"). Der Anleger kann sich über einen von dem Partner zur Verfügung gestellten Werbelink
-    oder Hoplink erstmals auf der Seite <a href="https://exporo.de">https://exporo.de</a>,
+    oder Hoplink erstmals auf der Seite <a href="https://www.exporo.de">https://www.exporo.de</a>,
     <a href="https://www.propvest.de">https://www.propvest.de</a> bzw. einer anderen von Exporo betriebenen Landingpage
     (inkl. Double Opt-in, nachfolgend „DOI“) als Nutzer registrieren.
 </p>
@@ -150,7 +150,7 @@
 </p>
 <p style="margin-left: 4rem;">
     Der Partner erhält weiter eine Provision, wenn ein potentieller Anleger sich über einen von dem
-    Partner zur Verfügung gestellten Werbelink oder Hoplink erstmals auf der Seite  <a href="https://exporo.de">https://exporo.de</a> bzw.
+    Partner zur Verfügung gestellten Werbelink oder Hoplink erstmals auf der Seite  <a href="https://www.exporo.de">https://www.exporo.de</a> bzw.
     einer anderen von Exporo betriebenen Landingpage (inkl. DoubleOpt-in) als Nutzer registriert.
     Die Höhe der Provision ergibt sich aus dem Anhang "Provisionsvereinbarungen".
 </p>
