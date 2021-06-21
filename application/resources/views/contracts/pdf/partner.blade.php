@@ -117,7 +117,7 @@
     <strong>i.	Vergütungsanspruch Erstinvestment</strong>
 </p>
 <p style="margin-left: 4rem;">
-    Der Partner erhält eine Provison für ein Erstinvestment eines namhaft gemachten Anlegers.
+    Der Partner erhält eine Provision für ein Erstinvestment eines namhaft gemachten Anlegers.
     Ein vergütungspflichtiges Erstinvestment liegt vor, wenn ein Anleger aufgrund der seitens
     des Partners erfolgten Namhaftmachung der Plattform (z.B. durch Verwendung eines Werbelinks
     oder Hoplinks) erstmalig und endgültig in ein Finanzprodukt gemäß Ziffer 2. des Anhangs
@@ -149,7 +149,7 @@
     <strong>iii. Vergütungsanspruch Registrierung</strong>
 </p>
 <p style="margin-left: 4rem;">
-    Der Partner erhält weiter eine Provison, wenn ein potentieller Anleger sich über einen von dem
+    Der Partner erhält weiter eine Provision, wenn ein potentieller Anleger sich über einen von dem
     Partner zur Verfügung gestellten Werbelink oder Hoplink erstmals auf der Seite  <a href="https://exporo.de">https://exporo.de</a> bzw.
     einer anderen von Exporo betriebenen Landingpage (inkl. DoubleOpt-in) als Nutzer registriert.
     Die Höhe der Provision ergibt sich aus dem Anhang "Provisionsvereinbarungen".
