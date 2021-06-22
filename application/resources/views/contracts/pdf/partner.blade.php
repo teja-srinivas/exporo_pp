@@ -150,7 +150,8 @@
 </p>
 <p style="margin-left: 4rem;">
     Der Partner erhält weiter eine Provision, wenn ein potentieller Anleger sich über einen von dem
-    Partner zur Verfügung gestellten Werbelink oder Hoplink erstmals auf der Seite  <a href="https://www.exporo.de">https://www.exporo.de</a> bzw.
+    Partner zur Verfügung gestellten Werbelink oder Hoplink erstmals auf der Seite  <a href="https://www.exporo.de">https://www.exporo.de</a>,
+    <a href="https://www.propvest.de">https://www.propvest.de</a> bzw.
     einer anderen von Exporo betriebenen Landingpage (inkl. DoubleOpt-in) als Nutzer registriert.
     Die Höhe der Provision ergibt sich aus dem Anhang "Provisionsvereinbarungen".
 </p>
