@@ -225,14 +225,12 @@ class UserController extends Controller
     {
         DB::transaction(static function () use ($user) {
             if ($user->productContract !== null) {
-                $user->productContract
-                    ->whereNull('terminated_at')
+                $user->productContract()
                     ->update(['terminated_at' => now()]);
             }
 
             if ($user->partnerContract !== null) {
-                $user->partnerContract
-                    ->whereNull('terminated_at')
+                $user->partnerContract()
                     ->update(['terminated_at' => now()]);
             }
 
