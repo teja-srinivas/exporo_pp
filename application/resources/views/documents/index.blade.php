@@ -19,15 +19,23 @@
         </thead>
         <tbody>
         @forelse($documents as $document)
-            <tr>
-                <td><a href="{{ route('documents.show', $document) }}">{{ $document->name }}</a></td>
-                <td>
-                    <a href="{{ route('users.show', $document->user) }}">
-                        {{ $document->user->getDisplayName() }}
-                    </a>
-                </td>
-                <td>{{ optional($document->created_at)->format('d.m.Y') }}</td>
-            </tr>
+            @if($document->user)
+                <tr>
+                    <td><a href="{{ route('documents.show', $document) }}">{{ $document->name }}</a></td>
+                    <td>
+                        <a href="{{ route('users.show', $document->user) }}">
+                            {{ $document->user->getDisplayName() }}
+                        </a>
+                    </td>
+                    <td>{{ optional($document->created_at)->format('d.m.Y') }}</td>
+                </tr>
+            @else
+                <tr>
+                    <td><a href="{{ route('documents.show', $document) }}">{{ $document->name }}</a></td>
+                    <td>User not found!</td>
+                    <td>{{ optional($document->created_at)->format('d.m.Y') }}</td>
+                </tr>
+            @endif
         @empty
             <tr class="text-center text-muted">
                 <td colspan="3">Noch keine Dokumente hochgeladen</td>
