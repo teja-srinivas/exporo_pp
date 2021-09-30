@@ -8,6 +8,11 @@
     Am Sandtorkai 70, 20457 Hamburg, HRB Hamburg 146341,
     vertreten durch ihren Geschäftsführer Patrick Hartmann.
 </p>
+<p>
+    der Exporo AG,<br>
+    Am Sandtorkai 70, 20457 Hamburg, HRB Hamburg 134393,
+    Vorstand: Simon Brunke (Vorsitzender) Dr. Björn Maronde, Herman Tange
+</p>
 <p style="text-align: right;">- im Folgenden „Exporo“ genannt -</p>
 <p style="text-align: center;">und</p>
 <p>
@@ -244,6 +249,19 @@
         oder rechtskräftig festgestellt sind.
     </span>
 </p>
+<p style="margin-left: 2rem;"><br /></p>
+<p style="margin-left: 2rem;">
+    <strong>d. Namhaftmachung der PROPVEST Produkte</strong>
+</p>
+<p style="margin-left: 4rem;">
+    <span>
+        Soweit der Partner auch die auf der PROPVEST Plattform von Exporo vertriebenen Produkte „PROPVEST Select“ und
+        „PROPVEST Immobilien-Sparplan“ gegenüber Kunden namhaft macht, ist beabsichtigt, zu einem späteren Zeitpunkt
+        auch eine Bestandsprovision (laufende Provision) in dem Anhang „Provisionsvereinbarungen“ der Tippgebervereinbarung
+        aufzunehmen. Es sind hierzu aber noch technische und organisatorische Maßnahmen umzusetzen. Exporo wird den Partner
+        informieren und die Provisionsbestimmungen entsprechend ergänzen, sobald eine Umsetzung erfolgen kann.
+    </span>
+</p>
 
 @if($contract->allow_overhead)
 <p style="margin-left: 2rem;"><br /></p>
@@ -301,6 +319,9 @@
     so gilt diese Abrechnung als ausdrücklich anerkannt. Exporo ist darüber hin- aus berechtigt, den Partner in regelmäßigen Abständen
     zum Anerkennen der erteilten Abrechnungen über die Vergütung aufzufordern.
 </p>
+<p style="margin-left: 2rem;">
+    c. Sämtliche Vergütungen, die Exporo gegenüber dem Partner zu erbringen hat, werden ausschließlich von der Exporo AG geleistet.
+</p>
 <h3><strong>4. Versteuerung der Einkünfte</strong></h3>
 <p style="margin-left: 2rem;">
     <span>
@@ -325,6 +346,15 @@
         sozialversicherungsrechtlichen Bestimmungen selbst verantwortlich.
     </span>
 </p>
+<p style="margin-left: 2rem;">
+    <span>
+        d. Soweit zu einem späteren Zeitpunkt Provision für den „PROPVEST Immobilien-Sparplan“ geleistet wird, fällt hierfür,
+        unabhängig davon, ob es sich dabei um Abschluss- oder Bestandsprovision handelt, Umsatzsteuer an (gelten die
+        Provisionssätze somit jeweils zuzüglich Ust.), da es sich bei dem Sparplan um eine digitale Vermögensverwaltung
+        handelt und diese Tätigkeit nach derzeitiger Rechtslage nicht von der Umsatzsteuer befreit ist.
+    </span>
+</p>
+
 
 <h3><strong>5. Laufzeit und Kündigungsfrist </strong></h3>
 <p style="margin-left: 2rem;">
