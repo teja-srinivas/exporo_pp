@@ -44,11 +44,15 @@
                 </tr>
                 <tr>
                     <td>Handelsregister:&emsp;</td>
-                    <td>HRB 146341</td>
+                    <td>HRB 134393</td>
                 </tr>
                 <tr>
-                    <td>Ust. Identifikationsnummer:</td>
-                    <td>DE311848109</td>
+                    <td>Steuernummer:</td>
+                    <td>48/719/02491</td>
+                </tr>
+                <tr>
+                    <td>Aufsichtsrat:</td>
+                    <td>Christian Saller (Vorsitzender)</td>
                 </tr>
                 <tr>
                     <td>Geschäftsführung:</td>
@@ -68,7 +72,7 @@
                 </tr>
                 <tr>
                     <td>IBAN:</td>
-                    <td>DE05 2005 0550 1238 2077 55</td>
+                    <td>DE37 2005 0550 1238 1960 24</td>
                 </tr>
                 <tr>
                     <td>BIC:</td>
@@ -76,7 +80,7 @@
                 </tr>
                 <tr>
                     <td>Kto.-Nr.:&emsp;</td>
-                    <td>1238 2077 55</td>
+                    <td>1238 1960 24</td>
                 </tr>
                 <tr>
                     <td>BLZ:</td>
