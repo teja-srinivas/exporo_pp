@@ -56,7 +56,7 @@
                 </tr>
                 <tr>
                     <td>Geschäftsführung:</td>
-                    <td>Patrick Hartmann, Dr. Knut Riesmeier</td>
+                    <td>Patrick Hartmann, Herman Tange</td>
                 </tr>
             </table>
         </td>
