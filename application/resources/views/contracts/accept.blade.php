@@ -15,8 +15,18 @@
                         'name' => 'legal_agb',
                     ])
                         Ich habe die
+                        <a href="{{ \App\Models\Agb::current(\App\Models\Agb::TYPE_AG)->getDownloadUrl() }}" target="_blank">
+                            AGB der Exporo AG
+                        </a>
+                        heruntergeladen und gelesen
+                    @endcomponent
+
+                    @component('components.form.checkbox', [
+                        'name' => 'legal_agb_ag',
+                    ])
+                        Ich habe die
                         <a href="{{ \App\Models\Agb::current(\App\Models\Agb::TYPE_GMBH)->getDownloadUrl() }}" target="_blank">
-                            AGB der Exporo Investment GmbH
+                            AGB der EPH Investment GmbH
                         </a>
                         heruntergeladen und gelesen
                     @endcomponent

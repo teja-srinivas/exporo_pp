@@ -57,11 +57,13 @@ class AcceptController extends Controller
             $request,
             [
                 'legal_agb' => ['required', 'accepted'],
+                'legal_agb_ag' => ['required', 'accepted'],
                 'legal_contract' => ['required', 'accepted'],
                 'signature' => ['required', 'string', 'min:4'],
             ],
             [
                 'legal_agb.required' => 'Bitte stimmen Sie den AGB zu, um fortfahren zu können',
+                'legal_agb_ag.required' => 'Bitte stimmen Sie den AGB der Exporo AG zu, um fortfahren zu können',
                 'legal_contract.required' => 'Bitte stimmen Sie dem Vertrag zu, um fortfahren zu können',
                 'signature.required' => 'Bitte geben Sie Ihre Unterschrift ein, um fortfahren zu können',
                 'signature.min' => 'Unterschrift muss mindestens 4 Zeichen lang sein.',

@@ -509,7 +509,7 @@
                     style="width: 50%"
                 >
             </div>
-            <p style="margin-top: 0.25rem">Exporo Investment GmbH</p>
+            <p style="margin-top: 0.25rem">Exporo AG</p>
         </td>
         <td style="width: 3rem"></td>
         <td style="width: 50%; vertical-align: bottom">
