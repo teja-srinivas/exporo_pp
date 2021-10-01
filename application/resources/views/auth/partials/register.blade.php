@@ -179,7 +179,7 @@
             <div class="form-group">
                 <p>
                     Mit der Anmeldung zum Exporo Partnerprogramm schließen Sie
-                    einen Partnervertrag mit der Exporo Investment GmbH.
+                    einen Partnervertrag mit der Exporo AG.
                 </p>
 
                 <p>Hiermit willige ich ein,</p>
@@ -194,10 +194,10 @@
                     <a href="https://exporo.de/einwilligungserklaerung-exporo-investment-gmbh" target="_blank">Einwilligung</a>
                     kann ich jederzeit widerrufen. Zusätzlich stimme ich
                     <span>den</span>
-                    <a href="{!! $agbs[\App\Models\Agb::TYPE_GMBH] !!}">AGB</a>
+                    <a href="{!! $agbs[\App\Models\Agb::TYPE_AG] !!}">AGB</a>
                     und der
                     <a href="https://exporo.de/datenschutz" target="_blank">Datenschutzerklärung</a>
-                    der Exporo Investment GmbH zu.
+                    der Exporo AG zu.
                 @endcomponent
 
                 @include('components.form.error', ['name' => 'legal_exporo_gmbh'])
