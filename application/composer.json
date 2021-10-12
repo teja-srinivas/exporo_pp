@@ -15,10 +15,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/felixgoldstein/laravel-vat.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/rosswilson252/laravel-auditing.git"
         }
     ],
     "require": {
@@ -31,7 +27,7 @@
         "docraptor/docraptor": "^1.3",
         "doctrine/dbal": "^2.9.2 < 2.10",
         "fideloper/proxy": "^4.0",
-        "funkjedi/composer-include-files": "^1.0",
+        "funkjedi/composer-include-files": "^1.1.0",
         "giggsey/libphonenumber-for-php": "^8.10",
         "guzzlehttp/guzzle": "^6.3",
         "ibericode/vat": "^2.0",
