@@ -14,9 +14,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\UserDetails as UserDetailsResource;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class UserRepository
 {
+    public function withoutPropvestPdf(): EloquentCollection
+    {
+        // TODO
+        return User::query()->where('email','like', 'd.jung@exporo.com')->get();
+    }
+
     public function forTableView(?Builder $query = null)
     {
         if ($query === null) {
