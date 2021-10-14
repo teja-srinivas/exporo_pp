@@ -4,7 +4,7 @@
 <h1 style="text-align: center"><strong>Tippgebervereinbarung</strong></h1>
 <p style="text-align: center;">zwischen</p>
 <p>
-    der Exporo Investment GmbH,<br>
+    der EPH Investment GmbH,<br>
     Am Sandtorkai 70, 20457 Hamburg, HRB Hamburg 146341,
     vertreten durch ihren Geschäftsführer Patrick Hartmann.
 </p>
