@@ -208,7 +208,7 @@
                     'required' => true,
                 ])
                     <span>Sie</span> sind bin mit der Weitergabe Ihrer personenbezogenen Daten von der
-                    Exporo Investment GmbH an die Exporo AG zum Zwecke der Verwaltung Ihrer
+                    EPH Investment GmbH an die Exporo AG zum Zwecke der Verwaltung Ihrer
                     personenbezogenen Daten und der Abrechnung Ihrer Vergütung einverstanden.
                 @endcomponent
 
