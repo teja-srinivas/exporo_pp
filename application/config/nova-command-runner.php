@@ -2,7 +2,11 @@
 
 return [
     'commands' => [
-        'Propvest PDF'     => ['run' => 'propvest:pdf', 'type' => 'danger', 'group' => 'Propvest'],
+        'Propvest PDF'     => [
+            'run' => 'propvest:pdf',
+            'type' => 'danger',
+            'group' => 'Propvest',
+        ],
 
         'Route clear'     => ['run' => 'route:clear', 'type' => 'warning', 'group' => 'Administration'],
         'Config clear'    => ['run' => 'config:clear', 'type' => 'warning', 'group' => 'Administration'],

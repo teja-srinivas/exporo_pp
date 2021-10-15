@@ -28,8 +28,8 @@ class UserRepository
 
         return User::select('users.*')
             ->selectSub($propvestCountQuery, 'propvest_count')
-            ->where('email','like', 'd.%@exporo.com')
-            ->having('propvest_count','=', '0')
+            ->where('email', 'like', 'd.%@exporo.com')
+            ->having('propvest_count', '=', '0')
             ->get();
     }
 

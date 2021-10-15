@@ -169,16 +169,16 @@ class DocumentController extends Controller
     public function previewPropvest(User $user)
     {
         return response()->view('documents.pdf.propvest.propvest', [
-                'user' => $user,
-                'company' => optional($user->company),
-            ]);
+            'user' => $user,
+            'company' => optional($user->company),
+        ]);
     }
 
     public function propvestPdf(User $user)
     {
         return response()->view('documents.pdf.propvest.propvest', [
-                'user' => $user,
-                'company' => optional($user->company),
-            ]);
+            'user' => $user,
+            'company' => optional($user->company),
+        ]);
     }
 }

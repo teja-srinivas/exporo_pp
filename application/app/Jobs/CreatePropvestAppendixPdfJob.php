@@ -3,9 +3,7 @@
 declare(strict_types=1);
 
 namespace App\Jobs;
-/*
- * Preview URL: http://localhost/propvest/preview/136930
- */
+
 use App\Models\Document;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
@@ -47,7 +45,10 @@ class CreatePropvestAppendixPdfJob implements ShouldQueue
 
         $filename = $this->store($filesystem->cloud(), $pdf);
 
-        $document = new Document(['name' => 'Nachtrag zur Tippgebervereinbarung', 'description' => 'Nachtrag zur Tippgebervereinbarung']);
+        $document = new Document([
+            'name' => 'Nachtrag zur Tippgebervereinbarung',
+            'description' => 'Nachtrag zur Tippgebervereinbarung',
+        ]);
         $document->user()->associate($this->user);
         $document->filename = $filename;
         $document->saveOrFail();
@@ -59,6 +60,7 @@ class CreatePropvestAppendixPdfJob implements ShouldQueue
         $fileSuffix = env('FILESYSTEM_CLOUD') === 'local' ? '.pdf' : '';
         $path = "documents/propvest_{$randomUuid}{$fileSuffix}";
         $disk->put($path, $result, 'private');
+
         return $path;
     }
 }
