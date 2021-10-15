@@ -58,7 +58,7 @@ class CreatePropvestAppendixPdfJob implements ShouldQueue
     {
         $randomUuid = Str::uuid();
         $fileSuffix = env('FILESYSTEM_CLOUD') === 'local' ? '.pdf' : '';
-        $path = "documents/propvest_{$randomUuid}{$fileSuffix}";
+        $path = "documents/propvest_{$randomUuid->toString()}{$fileSuffix}";
         $disk->put($path, $result, 'private');
 
         return $path;

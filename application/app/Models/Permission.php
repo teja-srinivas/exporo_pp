@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
@@ -29,9 +28,9 @@ class Permission extends \Spatie\Permission\Models\Permission
     }
 
     /**
-     * @return MorphToMany
+     * @return BelongsToMany
      */
-    public function users(): MorphToMany
+    public function users(): BelongsToMany
     {
         // Add timestamp support
         return parent::users()->withTimestamps();

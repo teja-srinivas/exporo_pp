@@ -13,7 +13,7 @@ class UserDetailsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Support\Collection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
