@@ -54,6 +54,8 @@ Route::middleware(['verified', 'accepted', 'filled'])->group(static function () 
             ->name('bills.export');
         Route::get('bills/preview/{user}', [C\BillController::class, 'preview'])
             ->name('bills.preview');
+        Route::get('propvest/preview/{user}', [C\DocumentController::class, 'previewPropvest'])
+            ->name('propvest.preview');
         Route::resource('agbs', C\AgbController::class);
         Route::resource('banner-sets', C\BannerSetController::class)
             ->parameter('banner-sets', 'set')
@@ -160,6 +162,10 @@ Route::middleware(['verified', 'accepted', 'filled'])->group(static function () 
 Route::get('bills/{bill}/pdf', [C\BillController::class, 'billPdf'])
     ->middleware('signed')
     ->name('bills.pdf');
+
+Route::get('propvest/{user}/pdf', [C\DocumentController::class, 'propvestPdf'])
+    ->middleware('signed')
+    ->name('propvest.pdf');
 
 Route::get('contracts/{contract}/pdf', [C\Contract\ContractPdfController::class, 'show'])
     ->middleware('signed')

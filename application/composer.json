@@ -33,6 +33,7 @@
         "fideloper/proxy": "^4.0",
         "funkjedi/composer-include-files": "^1.0",
         "giggsey/libphonenumber-for-php": "^8.10",
+        "guratr/nova-command-runner": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "ibericode/vat": "^2.0",
         "intervention/validation": "^1.2",
