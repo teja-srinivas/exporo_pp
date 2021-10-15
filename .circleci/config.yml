@@ -69,7 +69,8 @@ jobs:
             - ./application/vendor
 
       - show_php_info:
-          path: php -v
+          name: run php -v
+          command: php -v
 
       - run:
           name: run unit tests
