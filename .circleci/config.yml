@@ -70,7 +70,7 @@ jobs:
 
       - show_php_info:
           name: run php -v
-          path: php -v
+          command: php -v
 
       - run:
           name: run unit tests
