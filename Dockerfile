@@ -1,5 +1,5 @@
 FROM registry.gitlab.com/exporo/nginx-php:7.4
-# 7.4.3
+
 RUN apk -v --update --no-cache add openssh mysql-client zip curl tar && \
     sed -i s/#PermitRootLogin.*/PermitRootLogin\ without-password/ /etc/ssh/sshd_config
 
