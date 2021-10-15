@@ -106,8 +106,7 @@
         "fix:style": "phpcbf",
         "lint:style": "phpcs",
         "lint": [
-            "@lint:style",
-            "php artisan code:analyse"
+            "@lint:style"
         ]
     },
     "config": {

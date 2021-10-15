@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Permission\Traits\HasRoles as SpatieRoles;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * Extension to the spatie permission package
@@ -18,12 +18,12 @@ trait HasRoles
         permissions as parentPermissions;
     }
 
-    public function roles(): MorphToMany
+    public function roles(): BelongsToMany
     {
         return $this->parentRoles()->withTimestamps();
     }
 
-    public function permissions(): MorphToMany
+    public function permissions(): BelongsToMany
     {
         return $this->parentPermissions()->withTimestamps();
     }

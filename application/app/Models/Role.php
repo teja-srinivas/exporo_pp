@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Cog\Laravel\Optimus\Traits\OptimusEncodedRouteKey;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -36,7 +35,7 @@ class Role extends \Spatie\Permission\Models\Role
         return parent::permissions()->withTimestamps();
     }
 
-    public function users(): MorphToMany
+    public function users(): BelongsToMany
     {
         return parent::users()->withTimestamps();
     }
