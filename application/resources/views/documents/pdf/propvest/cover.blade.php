@@ -1,7 +1,7 @@
 <h1 style="text-align: center"><strong>Nachtrag zur Tippgebervereinbarung</strong></h1>
 <p style="text-align: center;">zwischen</p>
 <p>
-    der Exporo Investment GmbH,<br>
+    der EPH Investment GmbH,<br>
     Am Sandtorkai 70, 20457 Hamburg, HRB Hamburg 146341,
     vertreten durch ihren Geschäftsführer Patrick Hartmann.
 </p>
@@ -28,7 +28,7 @@
 
 <h3><strong>1. Eintritt der Exporo AG in die Tippgebervereinbarung</strong></h3>
 <p style="margin-left: 2rem;">
-    Die Parteien sind sich darüber einig, dass die Exporo AG als weiterer Vertragspartner neben der Exporo Investment GmbH in die Tippgebervereinbarung mit dem Partner eintritt.
+    Die Parteien sind sich darüber einig, dass die Exporo AG als weiterer Vertragspartner neben der EPH Investment GmbH in die Tippgebervereinbarung mit dem Partner eintritt.
 </p>
 
 <h3><strong>2. Zahlung der Vergütungen</strong></h3>
@@ -53,7 +53,7 @@
     <tr>
         <td>
             <div style="border-bottom: 1px solid black">
-                Hamburg, 20.10.2021
+                Hamburg, {{ date('d.m.Y')  }}
             </div>
             <p style="margin-top: 0.25rem">Ort, Datum</p>
         </td>
@@ -89,9 +89,7 @@
         <td style="width: 3rem"></td>
         <td style="width: 50%; vertical-align: bottom">
             <div style="border-bottom: 1px solid black">
-                @if($user->partnerContract->signature !== '')
-                    {{ $user->partnerContract->signature ?? '' }}
-                @endif
+                &nbsp;
             </div>
             <p style="margin-top: 0.25rem">Partner</p>
         </td>

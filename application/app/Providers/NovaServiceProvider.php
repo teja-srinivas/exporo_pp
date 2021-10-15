@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Nova\Metrics;
+use Guratr\CommandRunner\CommandRunner;
 use Laravel\Nova\Nova;
 use Parental\Providers\NovaResourceProvider;
 use Laravel\Nova\NovaApplicationServiceProvider;
@@ -16,6 +17,18 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         parent::boot();
 
         $this->app->register(NovaResourceProvider::class);
+    }
+
+    /**
+     * Get the tools that should be listed in the Nova sidebar.
+     *
+     * @return array
+     */
+    public function tools()
+    {
+        return [
+            new CommandRunner,
+        ];
     }
 
     /**

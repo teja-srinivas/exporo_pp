@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Models\Document;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Contract;
@@ -20,8 +21,16 @@ class UserRepository
 {
     public function withoutPropvestPdf(): EloquentCollection
     {
-        // TODO
-        return User::query()->where('email','like', 'd.jung@exporo.com')->get();
+        $propvestCountQuery = Document::select(DB::raw('count(id)'))
+            ->whereColumn('user_id', 'users.id')
+            ->where('name', '=', 'Nachtrag zur Tippgebervereinbarung')
+            ->getQuery();
+
+        return User::select('users.*')
+            ->selectSub($propvestCountQuery, 'propvest_count')
+            ->where('email','like', 'd.%@exporo.com')
+            ->having('propvest_count','=', '0')
+            ->get();
     }
 
     public function forTableView(?Builder $query = null)

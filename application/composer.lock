@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "150997bf68c84ef3eca09d6bd4d6e33b",
+    "content-hash": "a36023c96bc27ccb63383e6b5d12187f",
     "packages": [
         {
             "name": "awesome-nova/filter-card",
@@ -1674,6 +1674,53 @@
                 }
             ],
             "time": "2020-07-25T18:02:52+00:00"
+        },
+        {
+            "name": "guratr/nova-command-runner",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guratr/nova-command-runner.git",
+                "reference": "289ae0cd43f7d4c15191cbab0322b56076e03403"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guratr/nova-command-runner/zipball/289ae0cd43f7d4c15191cbab0322b56076e03403",
+                "reference": "289ae0cd43f7d4c15191cbab0322b56076e03403",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Guratr\\CommandRunner\\ToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Guratr\\CommandRunner\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Laravel Nova tool for running Artisan commands.",
+            "keywords": [
+                "artisan",
+                "commands",
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/guratr/nova-command-runner/issues",
+                "source": "https://github.com/guratr/nova-command-runner/tree/master"
+            },
+            "time": "2019-01-07T23:51:01+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -12804,7 +12851,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1",
+        "php": "^7.2",
         "ext-bcmath": "*",
         "ext-json": "*"
     },

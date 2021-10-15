@@ -6,7 +6,6 @@ namespace App\Jobs;
 /*
  * Preview URL: http://localhost/propvest/preview/136930
  */
-use App\Models\Bill;
 use App\Models\Document;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
@@ -27,7 +26,7 @@ class CreatePropvestAppendixPdfJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    /** @var Bill */
+    /** @var User */
     protected $user;
 
     public function __construct(User $user)
@@ -48,9 +47,9 @@ class CreatePropvestAppendixPdfJob implements ShouldQueue
 
         $filename = $this->store($filesystem->cloud(), $pdf);
 
-        $document = new Document(['name' => 'testname3', 'description' => 'testdic2']);
+        $document = new Document(['name' => 'Nachtrag zur Tippgebervereinbarung', 'description' => 'Nachtrag zur Tippgebervereinbarung']);
         $document->user()->associate($this->user);
-        $document->filename = $filename; //Storage::disk(Document::DISK)->put(Document::DIRECTORY, $request->file('file'));
+        $document->filename = $filename;
         $document->saveOrFail();
     }
 

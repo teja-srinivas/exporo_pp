@@ -28,10 +28,9 @@ class CreatePropvestAppendixPdfs extends Command
     {
         $users = $repository->withoutPropvestPdf();
 
-        $this->line("Creating PDFs for Propvest");
+        $this->line("Creating PDFs for Propvest for " . $users->count() . " Users");
 
         foreach ($users as $user) {
-            $this->line("User", $user->email);
             CreatePropvestAppendixPdfJob::dispatch($user)->onQueue('createPropvestAppendixPdf');
         }
     }
