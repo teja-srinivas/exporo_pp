@@ -68,7 +68,7 @@ jobs:
           paths:
             - ./application/vendor
 
-      - show_php_info:
+      - run:
           name: run php -v
           command: php -v
 
