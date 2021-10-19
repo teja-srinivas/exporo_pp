@@ -73,7 +73,7 @@
 
 <!-- Page Content -->
 <h4 class="mb-4">Provisionsgutschrift {{ __('time.monthname.' . $bill->released_at->subMonth(1)->formatLocalized('%m')) }} {{ $bill->released_at->subMonth(1)->formatLocalized('%Y') }}</h4>
-<h5 class="mb-5">Gemäß Partnervertrag mit der Exporo AG vom {{ $user->partnerContract->accepted_at->format('d.m.Y') }}</h5>
+<h5 class="mb-5">Gemäß Partnervertrag mit der Exporo AG und der EPH Investment GmbH vom {{ $user->partnerContract->accepted_at->format('d.m.Y') }}</h5>
 
 <p>
     @if($isCompany)
