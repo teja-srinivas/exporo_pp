@@ -2,10 +2,15 @@
 
 return [
     'commands' => [
-        'Propvest PDF'     => [
+        'Partnerverträge'     => [
+            'run' => 'contract:pdf',
+            'type' => 'danger',
+            'group' => 'PDF Generation',
+        ],
+        'Partnervertrag Nachtrag'     => [
             'run' => 'propvest:pdf',
             'type' => 'danger',
-            'group' => 'Propvest',
+            'group' => 'PDF Generation',
         ],
 
         'Route clear'     => ['run' => 'route:clear', 'type' => 'warning', 'group' => 'Administration'],
