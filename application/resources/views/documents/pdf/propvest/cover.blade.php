@@ -49,21 +49,21 @@
     Es gelten im Übrigen weiterhin sämtliche Regelungen aus der Tippgebervereinbarung, soweit in diesem Nachtrag nichts Abweichendes geregelt wurde.
 </p>
 
-<table style="min-width: 50vw; margin-top: 3rem">
+<table style="min-width: 50vw; margin-top: 3rem" cellspacing="15">
     <tr>
-        <td>
+        <td style="width:50%;">
             <div style="border-bottom: 1px solid black">
                 Hamburg, {{ date('d.m.Y')  }}
             </div>
             <p style="margin-top: 0.25rem">Ort, Datum</p>
         </td>
+        <td style="width:50%; padding-top: 3rem">&nbsp;</td>
+    </tr>
+    <tr>
         <td colspan="2" style="padding-top: 3rem"></td>
     </tr>
     <tr>
-        <td colspan="3" style="padding-top: 3rem"></td>
-    </tr>
-    <tr>
-        <td style=" vertical-align: bottom">
+        <td style="width:50%; vertical-align: bottom">
             <div style="border-bottom: 1px solid black">
                 <img
                     src="{{ url('/images/unterschrift_ag.png') }}"
@@ -73,10 +73,10 @@
             </div>
             <p style="margin-top: 0.25rem">Exporo AG</p>
         </td>
-        <td colspan="2"></td>
+        <td style="width:50%;">&nbsp;</td>
     </tr>
     <tr>
-        <td style=" vertical-align: bottom">
+        <td style="width:50%; vertical-align: bottom">
             <div style="border-bottom: 1px solid black">
                 <img
                     src="{{ url('/images/unterschrift_eph.png') }}"
@@ -86,7 +86,6 @@
             </div>
             <p style="margin-top: 0.25rem">EPH Investment GmbH</p>
         </td>
-        <td style="width: 3rem"></td>
         <td style="width: 50%; vertical-align: bottom">
             <div style="border-bottom: 1px solid black">
                 &nbsp;
