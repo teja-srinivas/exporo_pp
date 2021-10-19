@@ -6,7 +6,7 @@
 <p>
     der EPH Investment GmbH,<br>
     Am Sandtorkai 70, 20457 Hamburg, HRB Hamburg 146341,
-    vertreten durch ihren Geschäftsführer Patrick Hartmann.
+    vertreten durch ihre Geschäftsführer Patrick Hartmann, Herman Tange.
 </p>
 <p>
     der Exporo AG,<br>
