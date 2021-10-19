@@ -31,6 +31,7 @@ class AcceptController extends Controller
             'pdfPartner' => url()->signedRoute('contract-pdf.show', [$contract]),
             'pdfProduct' => url()->signedRoute('contract-pdf.show', [$productContract]),
             'user' => $user,
+            'contract' => $contract,
         ]);
     }
 

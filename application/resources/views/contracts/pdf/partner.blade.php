@@ -475,33 +475,32 @@
     </span>
 </p>
 
-<table style="min-width: 50vw; margin-top: 3rem">
+<table style="min-width: 50vw; margin-top: 3rem" cellspacing="15">
     <tr>
-        <td>
+        <td style="width:50%;">
             <div style="border-bottom: 1px solid black">
                 @if($contract->released_at !== null)
-                {{ $contract->user->company->city }},
-                {{ optional($contract->released_at)->format('d.m.Y') }}
+                    {{ $contract->user->company->city }},
+                    {{ optional($contract->released_at)->format('d.m.Y') }}
                 @endif
             </div>
             <p style="margin-top: 0.25rem">Ort, Datum</p>
         </td>
-        <td style="width: 3rem"></td>
-        <td style="width: 50%; vertical-align: bottom">
+        <td style="width:50%; padding-top: 3rem">
             <div style="border-bottom: 1px solid black">
                 @if($contract->accepted_at !== null)
-                {{ $contract->user->details->address_city }},
-                {{ optional($contract->accepted_at)->format('d.m.Y') }}
+                    {{ $contract->user->details->address_city }},
+                    {{ optional($contract->accepted_at)->format('d.m.Y') }}
                 @endif
             </div>
             <p style="margin-top: 0.25rem">Ort, Datum</p>
         </td>
     </tr>
     <tr>
-        <td colspan="3" style="padding-top: 3rem"></td>
+        <td colspan="2" style="padding-top: 3rem"></td>
     </tr>
     <tr>
-        <td style=" vertical-align: bottom">
+        <td style="width:50%; vertical-align: bottom">
             <div style="border-bottom: 1px solid black">
                 <img
                     src="{{ url('/images/unterschrift_ag.png') }}"
@@ -511,24 +510,23 @@
             </div>
             <p style="margin-top: 0.25rem">Exporo AG</p>
         </td>
-        <td colspan="2"></td>
+        <td style="width:50%;">&nbsp;</td>
     </tr>
     <tr>
-        <td style=" vertical-align: bottom">
+        <td style="width:50%; vertical-align: bottom">
             <div style="border-bottom: 1px solid black">
                 <img
-                    src="{{ url('/images/unterschrift_hartmann.png') }}"
-                    alt="Unterschrift EPH"
+                    src="{{ url('/images/unterschrift_eph.png') }}"
+                    alt="Unterschrift EPH Patrick Hartmann"
                     style="width: 50%"
                 >
             </div>
             <p style="margin-top: 0.25rem">EPH Investment GmbH</p>
         </td>
-        <td style="width: 3rem"></td>
         <td style="width: 50%; vertical-align: bottom">
             <div style="border-bottom: 1px solid black">
                 @if($contract->signature !== '')
-                {{ $contract->signature ?? '' }}
+                    {{ $contract->signature ?? '' }}
                 @endif
             </div>
             <p style="margin-top: 0.25rem">Partner</p>
