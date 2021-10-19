@@ -204,10 +204,11 @@
 
 <p class="text-justify mb-4">
     @if(bccomp(abs($totalGross - $total), 0, 2) === 0)
-        Die vergütete Provision ist gem. § 4 Nr. 8a UStG ein steuerfreier Umsatz.
-        Für den Fall, dass die seitens der {{ $company->name }} gezahlten Provisionen als
-        umsatzsteuerpflichtig bewertet werden sollten, so gilt die oben abgerechnete
-        Provision als Bruttobetrag inkl. der zu zahlenden Umsatzsteuer.
+        Die vergütete Provision ist nach unserer Einschätzung gem. § 4 Nr. 8a UStG ein
+        steuerfreier Umsatz. Für den Fall, dass die seitens der {{ $company->name }}
+        gezahlten Provisionen im Nachgang von einer Steuerbehörde als umsatzsteuerpflichtig
+        bewertet werden sollten, gilt die oben abgerechnete Provision als Bruttobetrag inkl.
+        der zu zahlenden Umsatzsteuer und ist diese sodann entsprechend nachzuzahlen.
     @endif
 </p>
 
