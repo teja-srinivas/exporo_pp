@@ -31,7 +31,7 @@ class CreatePropvestAppendixPdfs extends Command
         $this->line("Creating PDFs for Propvest for " . $users->count() . " Users");
 
         foreach ($users as $user) {
-            CreatePropvestAppendixPdfJob::dispatch($user)->onQueue('createPropvestAppendixPdf');
+            CreatePropvestAppendixPdfJob::dispatch($user)->onQueue('default');
         }
     }
 }

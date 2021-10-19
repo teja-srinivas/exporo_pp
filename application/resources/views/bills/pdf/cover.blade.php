@@ -160,7 +160,7 @@
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <th scope="row">Umsatz (brutto)</th>
+                        <th scope="row">Umsatz (Brutto)</th>
                         <td class="text-right">
                             {{ format_money(max(0, $totalGross)) }}
                         </td>

@@ -504,12 +504,25 @@
         <td style=" vertical-align: bottom">
             <div style="border-bottom: 1px solid black">
                 <img
-                    src="{{ url('/images/unterschrift-exporo.png') }}"
-                    alt="Unterschrift Exporo"
-                    style="width: 50%"
+                    src="{{ url('/images/unterschrift_ag.png') }}"
+                    alt="Unterschrift Exporo Simon Brunke & Patrick Hartmann"
+                    style="width: 90%"
                 >
             </div>
             <p style="margin-top: 0.25rem">Exporo AG</p>
+        </td>
+        <td colspan="2"></td>
+    </tr>
+    <tr>
+        <td style=" vertical-align: bottom">
+            <div style="border-bottom: 1px solid black">
+                <img
+                    src="{{ url('/images/unterschrift_hartmann.png') }}"
+                    alt="Unterschrift EPH"
+                    style="width: 50%"
+                >
+            </div>
+            <p style="margin-top: 0.25rem">EPH Investment GmbH</p>
         </td>
         <td style="width: 3rem"></td>
         <td style="width: 50%; vertical-align: bottom">
