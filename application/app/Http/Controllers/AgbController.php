@@ -35,6 +35,8 @@ class AgbController extends Controller
             ->selectRaw('agbs.*')
             ->get();
 
+        $canDelete = false;
+
         return response()->view('agbs.index', compact('list', 'canDelete'));
     }
 
@@ -75,7 +77,7 @@ class AgbController extends Controller
 
             User::query()
                 ->get()
-                ->each(static function (User $user) use ($agb) {
+                ->each(static function (User $user) use ($agb, $request) {
                     $activeAgb = $user->activeAgbByType($agb->type);
 
                     if ($activeAgb === null) {
@@ -88,8 +90,8 @@ class AgbController extends Controller
                         ->where('user_id', $user->id)
                         ->where('agb_id', $agb->id)
                         ->update([
-                            'created_at' => $activeAgb->pivot->created_at,
-                            'updated_at' => $activeAgb->pivot->created_at,
+                            'created_at' => $request['effective_from'],
+                            'updated_at' => $request['effective_from'],
                         ]);
                 });
 
