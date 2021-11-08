@@ -28,6 +28,12 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick
           coverage: none
           ini-values: max_execution_time=0
+      
+      - name: Login to Laravel Nova
+        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
+        env:
+          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
 
       - name: install dependencies with composer
         run: cd application && composer install --no-progress --no-interaction
