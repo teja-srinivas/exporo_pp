@@ -160,4 +160,25 @@ class DocumentController extends Controller
 
         return redirect()->route('documents.index');
     }
+
+    /**
+     * @param User $user
+     * @return Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function previewPropvest(User $user)
+    {
+        return response()->view('documents.pdf.propvest.propvest', [
+            'user' => $user,
+            'company' => optional($user->company),
+        ]);
+    }
+
+    public function propvestPdf(User $user)
+    {
+        return response()->view('documents.pdf.propvest.propvest', [
+            'user' => $user,
+            'company' => optional($user->company),
+        ]);
+    }
 }

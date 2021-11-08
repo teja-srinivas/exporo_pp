@@ -9,7 +9,8 @@
 @each $name, $url in (
   ekomi-seal: 'ekomi_seal.png',
   exporo-logo-blue: 'logo_exporo_blue.svg',
-  exporo-unterschrift: 'unterschrift-exporo.png',
+  exporo-unterschrift: 'unterschrift_ag.png',
+  eph-unterschrift: 'unterschrift_eph.png',
 ) {
   .image-#{$name} {
     background-image: url('../../images/#{$url}');

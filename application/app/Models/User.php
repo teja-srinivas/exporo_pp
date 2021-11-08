@@ -222,7 +222,7 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
     {
         return $this->belongsToMany(Agb::class)->withTimestamps();
     }
-    
+
     public function activeAgbByType($type)
     {
         return $this->agbs

@@ -94,7 +94,9 @@
     <rule ref="Symfony.Formatting.BlankLineBeforeReturn" />
     <rule ref="Symfony.Formatting.ReturnOrThrow" />
     <rule ref="Symfony.Errors.ExceptionMessage" />
-    <rule ref="Symfony.Files.AlphanumericFilename" />
+    <rule ref="Symfony.Files.AlphanumericFilename">
+        <exclude-pattern>nova-command-runner.php</exclude-pattern>
+    </rule>
 
     <!-- Some custom formatting preferences -->
     <rule ref="Generic.Arrays.ArrayIndent">

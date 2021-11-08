@@ -73,7 +73,7 @@
 
 <!-- Page Content -->
 <h4 class="mb-4">Provisionsgutschrift {{ __('time.monthname.' . $bill->released_at->subMonth(1)->formatLocalized('%m')) }} {{ $bill->released_at->subMonth(1)->formatLocalized('%Y') }}</h4>
-<h5 class="mb-5">Gemäß Partnervertrag mit der Exporo AG vom {{ $user->partnerContract->accepted_at->format('d.m.Y') }}</h5>
+<h5 class="mb-5">Gemäß Partnervertrag mit der Exporo AG und der EPH Investment GmbH vom {{ $user->partnerContract->accepted_at->format('d.m.Y') }}</h5>
 
 <p>
     @if($isCompany)
@@ -160,7 +160,7 @@
                         <td colspan="2">&nbsp;</td>
                     </tr>
                     <tr>
-                        <th scope="row">Umsatz (brutto)</th>
+                        <th scope="row">Umsatz (Brutto)</th>
                         <td class="text-right">
                             {{ format_money(max(0, $totalGross)) }}
                         </td>
@@ -204,10 +204,11 @@
 
 <p class="text-justify mb-4">
     @if(bccomp(abs($totalGross - $total), 0, 2) === 0)
-        Die vergütete Provision ist gem. § 4 Nr. 8a UStG ein steuerfreier Umsatz.
-        Für den Fall, dass die seitens der {{ $company->name }} gezahlten Provisionen als
-        umsatzsteuerpflichtig bewertet werden sollten, so gilt die oben abgerechnete
-        Provision als Bruttobetrag inkl. der zu zahlenden Umsatzsteuer.
+        Die vergütete Provision ist nach unserer Einschätzung gem. § 4 Nr. 8a UStG ein
+        steuerfreier Umsatz. Für den Fall, dass die seitens der {{ $company->name }}
+        gezahlten Provisionen im Nachgang von einer Steuerbehörde als umsatzsteuerpflichtig
+        bewertet werden sollten, gilt die oben abgerechnete Provision als Bruttobetrag inkl.
+        der zu zahlenden Umsatzsteuer und ist diese sodann entsprechend nachzuzahlen.
     @endif
 </p>
 

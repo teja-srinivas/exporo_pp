@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Models\Document;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Contract;
@@ -14,9 +15,23 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\UserDetails as UserDetailsResource;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class UserRepository
 {
+    public function withoutPropvestPdf(): EloquentCollection
+    {
+        $propvestCountQuery = Document::select(DB::raw('count(id)'))
+            ->whereColumn('user_id', 'users.id')
+            ->where('name', '=', 'Nachtrag zur Tippgebervereinbarung')
+            ->getQuery();
+
+        return User::select('users.*')
+            ->selectSub($propvestCountQuery, 'propvest_count')
+            ->having('propvest_count', '=', '0')
+            ->get();
+    }
+
     public function forTableView(?Builder $query = null)
     {
         if ($query === null) {
