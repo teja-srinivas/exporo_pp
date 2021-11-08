@@ -2,23 +2,13 @@ name: Lint
 
 on:
   push:
-  # @todo - define branches to run lint on
-    branches:
+    branches-ignore:
       - master
-      - stage
 
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_DATABASE: forge
-          MYSQL_USER: homestead
-          MYSQL_PASSWORD: secret
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -26,7 +16,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: 7.2
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick
           coverage: none
           ini-values: max_execution_time=0
