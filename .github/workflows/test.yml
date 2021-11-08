@@ -55,4 +55,4 @@ jobs:
           path: ~/phpunit
 
       # todo - what is this for?
-      - name: set nova auth parameter
+      # - name: set nova auth parameter
