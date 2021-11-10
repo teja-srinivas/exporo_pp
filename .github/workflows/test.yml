@@ -43,12 +43,16 @@ jobs:
           echo "@exporo:registry=https://npm.pkg.github.com/" >> ~/.npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_READ_TOKEN }}" >> ~/.npmrc
 
-      - name: Yarn install
+      - name: Setup Node
         uses: actions/setup-node@v2
-      - run: cd application && yarn install --frozen-lockfile
+        with:
+          node-version: '14'
+
+      - name: Yarn install
+        run: cd application && yarn install --frozen-lockfile
   
       - name: Build frontend assets
-        run: cd application && npm run production
+        run: cd application && yarn run production
       
       - name: Run Unit Tests
         run: cd application && DB_PORT=3306 DB_USERNAME=homestead DB_PASSWORD=secret ./vendor/bin/phpunit --log-junit ~/phpunit/junit.xml
