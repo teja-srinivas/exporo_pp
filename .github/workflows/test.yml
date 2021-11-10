@@ -58,15 +58,16 @@ jobs:
   
       - name: Build frontend assets
         run: cd application && yarn run production
-      
+
       - name: Run Unit Tests
-        run: cd application && DB_PORT=3306 DB_USERNAME=homestead DB_PASSWORD=secret ./vendor/bin/phpunit --log-junit ~/phpunit/junit.xml
+        run: |
+          mkdir -p ~/phpunit
+          phpdbg -d memory_limit=-1 -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report --log-junit ~/phpunit/tests-results.xml tests
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
 
       - name: Store Test Results
         uses: actions/upload-artifact@v2
         with:
           name: php-unit results
           path: ~/phpunit
-
-      # todo - what is this for?
-      # - name: set nova auth parameter
