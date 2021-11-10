@@ -19,7 +19,7 @@ jobs:
           MYSQL_PASSWORD: secret
           MYSQL_ROOT_PASSWORD: root
         ports:
-          - 3306
+          - 3307
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
@@ -63,9 +63,10 @@ jobs:
         run: |
           mkdir -p ~/phpunit
           cd application
-          DB_HOST=mysql phpdbg -d memory_limit=-1 -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report --log-junit ~/phpunit/tests-results.xml tests
+          phpdbg -d memory_limit=-1 -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report --log-junit ~/phpunit/tests-results.xml tests
         env:
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+          DB_PORT: ${{ job.services.mysql.ports[3307] }}
+          DB_HOST: mysql
 
       - name: Store Test Results
         uses: actions/upload-artifact@v2
