@@ -15,7 +15,6 @@ jobs:
         image: mysql:5.7
         env:
           MYSQL_DATABASE: forge
-          MYSQL_USER: homestead
           MYSQL_PASSWORD: secret
         ports:
           - 3306
