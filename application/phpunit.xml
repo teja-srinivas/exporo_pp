@@ -40,7 +40,7 @@
         <server name="MAIL_DRIVER" value="array"/>
 
         <!-- make these an env so we can overwrite them for the CI -->
-        <env name="DB_HOST" value="127.0.0.1"/>
-        <env name="DB_PORT" value="3307"/>
+        <env name="DB_HOST" value="mysql"/>
+        <env name="DB_PORT" value="3306"/>
     </php>
 </phpunit>
