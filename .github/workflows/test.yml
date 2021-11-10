@@ -63,7 +63,7 @@ jobs:
         run: |
           mkdir -p ~/phpunit
           cd application
-          phpdbg -d memory_limit=-1 -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report --log-junit ~/phpunit/tests-results.xml tests
+          DB_HOST=mysql phpdbg -d memory_limit=-1 -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report --log-junit ~/phpunit/tests-results.xml tests
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
 
