@@ -69,6 +69,7 @@ jobs:
           DB_HOST: mysql
           DB_USERNAME: homestead
           DB_PASSWORD: secret
+          DB_DATABASE: forge
 
       - name: Store Test Results
         uses: actions/upload-artifact@v2
