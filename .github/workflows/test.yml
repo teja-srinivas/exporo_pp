@@ -66,7 +66,7 @@ jobs:
           phpdbg -d memory_limit=-1 -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report --log-junit ~/phpunit/tests-results.xml tests
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
-          DB_HOST: ${{ job.services.mysql.host }}
+          DB_HOST: ${{ job.services.mysql.hostname }}
 
       - name: Store Test Results
         uses: actions/upload-artifact@v2
