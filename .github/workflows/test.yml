@@ -67,7 +67,7 @@ jobs:
           phpdbg -d memory_limit=-1 -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report --log-junit ~/phpunit/tests-results.xml tests
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
-          DB_HOST: mysql
+          DB_HOST: 127.0.0.1
           DB_USERNAME: homestead
           DB_PASSWORD: secret
           DB_DATABASE: forge
