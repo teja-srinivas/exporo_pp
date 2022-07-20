@@ -31,7 +31,8 @@ jobs:
         run: |
           cd application 
           composer config github-oauth.github.com $COMPOSER_TOKEN
-          composer install --no-progress --no-interaction
+          composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+#          composer install --no-progress --no-interaction  --no-scripts --no-progress --prefer-dist
 
         env:
           COMPOSER_TOKEN: ${{ secrets.TOKEN_GITHUB }}
