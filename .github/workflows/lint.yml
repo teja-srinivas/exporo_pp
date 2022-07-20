@@ -31,9 +31,9 @@ jobs:
       - name: install dependencies with composer
         run: |
           cd application 
-          composer update
+          composer config github-oauth.github.com $COMPOSER_TOKEN
           composer install --no-progress --no-interaction
-#          composer update
+
         env:
           COMPOSER_TOKEN: ${{ secrets.TOKEN_GITHUB }}
 
