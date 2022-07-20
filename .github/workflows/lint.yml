@@ -31,8 +31,9 @@ jobs:
       - name: install dependencies with composer
         run: |
           cd application 
-          composer install --no-progress --no-interaction
           composer update
+          composer install --no-progress --no-interaction
+#          composer update
         env:
           COMPOSER_TOKEN: ${{ secrets.TOKEN_GITHUB }}
 
