@@ -34,7 +34,10 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick
           coverage: none
           ini-values: max_execution_time=0
-      
+          
+      - name: "Setup CI Authentication"
+        run: |
+          composer config http-basic.nova.laravel.com ${{ secrets.NOVA_USERNAME }} ${{ secrets.NOVA_PASSWORD }}      
       - name: Login to Laravel Nova
         run: cd application && composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
         env:
