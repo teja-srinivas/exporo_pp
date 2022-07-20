@@ -31,6 +31,8 @@ jobs:
         run: |
           cd application 
           composer install --no-progress --no-interaction
-
+        env:
+          COMPOSER_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+          
       - name: Lint the Project
         run: cd application && composer lint
