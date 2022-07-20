@@ -32,6 +32,7 @@ jobs:
         run: |
           cd application 
           composer install --no-progress --no-interaction
+          composer update
         env:
           COMPOSER_TOKEN: ${{ secrets.TOKEN_GITHUB }}
 
