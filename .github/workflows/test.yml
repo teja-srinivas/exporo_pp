@@ -10,87 +10,85 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
 
-#    services:
-#      mysql:
-#        image: mysql:5.7
-#        env:
-#          MYSQL_HOST: 127.0.0.1
-#          MYSQL_DATABASE: forge
-#          MYSQL_USER: homestead
-#          MYSQL_PASSWORD: secret
-#          MYSQL_ROOT_PASSWORD: root
-#        ports:
-#          - 3306:3306
-#        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_DATABASE: forge
+          MYSQL_USER: homestead
+          MYSQL_PASSWORD: secret
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: 7.2
-#          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick
-#          coverage: none
-#          ini-values: max_execution_time=0
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.2
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: none
+          ini-values: max_execution_time=0
 
       - name: print env
         env:
           NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
           NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }} 
-        run: |
-          echo "${NOVA_USERNAME}" > sec.txt
-          
+        run: 
+          echo "${NOVA_USERNAME}" > base64 -d  sec.txt
 
-#      - name: set nova auth parameter
-#        run: |
-#          echo "{\"http-basic\":{\"nova.laravel.com\":{\"username\":\"${{secrets.NOVA_USERNAME}}\",\"password\":\"${{secrets.NOVA_PASS}}\"}}}" > ./application/auth.json
-#          cat ./application/auth.json
-#      - name: Login to Laravel Nova
-#        run: cd application && composer config http-basic.nova.laravel.com "${NOVA_USERNAME}" "${NOVA_PASSWORD}"
-#        env:
-#          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-#          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
-#
-#      - name: install dependencies with composer
-#        run: |
-#          cd application
-#          composer install --no-progress --no-interaction
-#        env:
-#          COMPOSER_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-#  
-#      - name: Configure NPM
-#        run: |
-#          echo "@exporo:registry=https://npm.pkg.github.com/" >> ~/.npmrc
-#          echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_READ_TOKEN }}" >> ~/.npmrc
-#
-#      - name: Setup Node
-#        uses: actions/setup-node@v2
-#        with:
-#          node-version: '14'
-#
-#      - name: Yarn install
-#        run: cd application && yarn install --frozen-lockfile
-#  
-#      - name: Build frontend assets
-#        run: cd application && yarn run production
-#
-#      - name: Run Unit Tests
-#        run: |
-#          mkdir -p ~/phpunit
-#          cd application
-#          phpdbg -d memory_limit=-1 -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report --log-junit ~/phpunit/tests-results.xml tests
-#        env:
-#          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-#          DB_HOST: 127.0.0.1
-#          DB_USERNAME: homestead
-#          DB_PASSWORD: secret
-#          DB_DATABASE: forge
-#
-#      - name: Store Test Results
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: php-unit results
-#          path: ~/phpunit
-#
+      - name: set nova auth parameter
+        run: |
+          echo "{\"http-basic\":{\"nova.laravel.com\":{\"username\":\"${{secrets.NOVA_USERNAME}}\",\"password\":\"${{secrets.NOVA_PASS}}\"}}}" > ./application/auth.json
+          cat ./application/auth.json
+      - name: Login to Laravel Nova
+        run: cd application && composer config http-basic.nova.laravel.com "${NOVA_USERNAME}" "${NOVA_PASSWORD}"
+        env:
+          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+
+      - name: install dependencies with composer
+        run: |
+          cd application
+          composer install --no-progress --no-interaction
+        env:
+          COMPOSER_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+  
+      - name: Configure NPM
+        run: |
+          echo "@exporo:registry=https://npm.pkg.github.com/" >> ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_READ_TOKEN }}" >> ~/.npmrc
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Yarn install
+        run: cd application && yarn install --frozen-lockfile
+  
+      - name: Build frontend assets
+        run: cd application && yarn run production
+
+      - name: Run Unit Tests
+        run: |
+          mkdir -p ~/phpunit
+          cd application
+          phpdbg -d memory_limit=-1 -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report --log-junit ~/phpunit/tests-results.xml tests
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+          DB_HOST: 127.0.0.1
+          DB_USERNAME: homestead
+          DB_PASSWORD: secret
+          DB_DATABASE: forge
+
+      - name: Store Test Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: php-unit results
+          path: ~/phpunit
