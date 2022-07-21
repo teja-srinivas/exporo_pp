@@ -20,22 +20,25 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick
           coverage: none
           ini-values: max_execution_time=0
-      
-      - name: Login to Laravel Nova
-        run: cd application && composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
-        env:
-          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+#      - name: printing 
+#        run : 
 
-      - name: install dependencies with composer
-        run: |
-          cd application 
-          composer config github-oauth.github.com $COMPOSER_TOKEN
-          composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+             
+#      - name: Login to Laravel Nova
+#        run: cd application && composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
+#        env:
+#          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+#          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+#
+#      - name: install dependencies with composer
+#        run: |
+#          cd application 
+#          composer config github-oauth.github.com $COMPOSER_TOKEN
+#          composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 #          composer install --no-progress --no-interaction  --no-scripts --no-progress --prefer-dist
-
-        env:
-          COMPOSER_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-
-      - name: Lint the Project
-        run: cd application && composer lint
+#
+#        env:
+#          COMPOSER_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+#
+#      - name: Lint the Project
+#        run: cd application && composer lint
