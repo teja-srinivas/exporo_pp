@@ -10,47 +10,48 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_DATABASE: forge
-          MYSQL_USER: homestead
-          MYSQL_PASSWORD: secret
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+#    services:
+#      mysql:
+#        image: mysql:5.7
+#        env:
+#          MYSQL_HOST: 127.0.0.1
+#          MYSQL_DATABASE: forge
+#          MYSQL_USER: homestead
+#          MYSQL_PASSWORD: secret
+#          MYSQL_ROOT_PASSWORD: root
+#        ports:
+#          - 3306:3306
+#        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.2
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick
-          coverage: none
-          ini-values: max_execution_time=0
+#      - name: Setup PHP
+#        uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: 7.2
+#          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick
+#          coverage: none
+#          ini-values: max_execution_time=0
 
-      - name: print env 
-        run: |
-          echo "${NOVA_USERNAME}" > ./sec.txt
-          cat ./sec.txt
+      - name: print env
         env:
           NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }} 
+        run: |
+          echo "${NOVA_USERNAME}" > sec.txt
+          
+
 #      - name: set nova auth parameter
 #        run: |
 #          echo "{\"http-basic\":{\"nova.laravel.com\":{\"username\":\"${{secrets.NOVA_USERNAME}}\",\"password\":\"${{secrets.NOVA_PASS}}\"}}}" > ./application/auth.json
 #          cat ./application/auth.json
-      - name: Login to Laravel Nova
-        run: cd application && composer config http-basic.nova.laravel.com "${NOVA_USERNAME}" "${NOVA_PASSWORD}"
-        env:
-          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+#      - name: Login to Laravel Nova
+#        run: cd application && composer config http-basic.nova.laravel.com "${NOVA_USERNAME}" "${NOVA_PASSWORD}"
+#        env:
+#          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+#          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
 #
 #      - name: install dependencies with composer
 #        run: |
