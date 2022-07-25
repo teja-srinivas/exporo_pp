@@ -15,10 +15,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/felixgoldstein/laravel-vat.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/rosswilson252/laravel-auditing.git"
         }
     ],
     "require": {
