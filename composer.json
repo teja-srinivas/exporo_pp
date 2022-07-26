@@ -58,7 +58,7 @@
         "johnkary/phpunit-speedtrap": "^3.1",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
-        "nunomaduro/larastan": "^0.4",
+        "nunomaduro/larastan": "^2.1.12",
         "phpunit/phpunit": "^8.0",
         "slevomat/coding-standard": "^5.0"
     },
