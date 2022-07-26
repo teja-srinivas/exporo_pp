@@ -48,17 +48,16 @@ jobs:
 
       - name: set nova auth parameter
         run: |
-          echo "{\"http-basic\":{\"nova.laravel.com\":{\"username\":\"${{secrets.NOVA_USERNAME}}\",\"password\":\"${{secrets.NOVA_PASSWORD}}\"}}}" > ./application/auth.json
-          cat ./application/auth.json
+          echo "{\"http-basic\":{\"nova.laravel.com\":{\"username\":\"${{secrets.NOVA_USERNAME}}\",\"password\":\"${{secrets.NOVA_PASSWORD}}\"}}}" > ./auth.json
+          cat ./auth.json
       - name: Login to Laravel Nova
-        run: cd application && composer config http-basic.nova.laravel.com "${{secrets.NOVA_USERNAME}}" "${{secrets.NOVA_PASSWORD}}"
+        run: composer config http-basic.nova.laravel.com "${{secrets.NOVA_USERNAME}}" "${{secrets.NOVA_PASSWORD}}"
         env:
           NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
           NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
 
       - name: install dependencies with composer
         run: |
-          cd application
           composer install --no-progress --no-interaction
         env:
           COMPOSER_TOKEN: ${{ secrets.TOKEN_GITHUB }}
@@ -74,15 +73,14 @@ jobs:
           node-version: '14'
 
       - name: Yarn install
-        run: cd application && yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile
   
       - name: Build frontend assets
-        run: cd application && yarn run production
+        run: yarn run production
 
       - name: Run Unit Tests
         run: |
           mkdir -p ~/phpunit
-          cd application
           phpdbg -d memory_limit=-1 -qrr vendor/bin/phpunit --coverage-html ~/phpunit/coverage-report --log-junit ~/phpunit/tests-results.xml tests
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
