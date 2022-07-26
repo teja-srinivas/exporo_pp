@@ -51,7 +51,7 @@ jobs:
           echo "{\"http-basic\":{\"nova.laravel.com\":{\"username\":\"${{secrets.NOVA_USERNAME}}\",\"password\":\"${{secrets.NOVA_PASSWORD}}\"}}}" > ./auth.json
           cat ./auth.json
       - name: Login to Laravel Nova
-        run: composer config http-basic.nova.laravel.com "${{secrets.NOVA_USERNAME}}" "${{secrets.NOVA_PASSWORD}}"
+        run: cd application && composer config http-basic.nova.laravel.com "${{secrets.NOVA_USERNAME}}" "${{secrets.NOVA_PASSWORD}}"
         env:
           NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
           NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
