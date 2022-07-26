@@ -60,7 +60,7 @@
         "nunomaduro/collision": "^3.0",
         "nunomaduro/larastan": "^2.1.12",
         "phpunit/phpunit": "^8.0",
-        "slevomat/coding-standard": "^5.0"
+        "slevomat/coding-standard": "^8.3.0"
     },
     "autoload": {
         "classmap": [
