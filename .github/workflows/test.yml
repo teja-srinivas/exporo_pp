@@ -58,7 +58,7 @@ jobs:
 
       - name: install dependencies with composer
         run: |
-          composer update mirrors
+          composer update
           composer install --no-progress --no-interaction
         env:
           COMPOSER_TOKEN: ${{ secrets.TOKEN_GITHUB }}
