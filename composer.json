@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^8.0",
         "ext-bcmath": "*",
         "ext-json": "*",
         "awesome-nova/filter-card": "^1.0",
