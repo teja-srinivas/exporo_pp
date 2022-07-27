@@ -36,7 +36,7 @@
         "intervention/validation": "^3.2.0",
         "itsgoingd/clockwork": "^5.1.6",
         "jenssegers/agent": "^2.6",
-        "laravel/framework": "^9.21.6",
+        "laravel/framework": "^8.0",
         "laravel/nova": "^4.12.0",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^3.0.2",
