@@ -47,7 +47,7 @@
         "pragmarx/nova-boolean-datetime-field": "^1.0",
         "predis/predis": "^2.0",
         "psy/psysh": "^0.11.7",
-        "s-ichikawa/laravel-sendgrid-driver": "^4.0.1",
+        "s-ichikawa/laravel-sendgrid-driver": "^3.0.4",
         "sentry/sentry-laravel": "^2.13.0",
         "spatie/laravel-permission": "^5.5.5"
     },
